@@ -3,6 +3,13 @@ on: [push, pull_request]
 jobs:
   verify:
     runs-on: ubuntu-latest
+    env:
+      # Yalnizca CI icin tek kullanimlik degerler; gercek gizli anahtar degildir.
+      ADMIN_PASSWORD: ci-only-disposable
+      LINK_SIGNING_KEY: ci-only-link-signing-key
+      AUDIO_ARCHIVE_MASTER_KEY: ci-only-archive-master-key
+      AMI_SECRET: ci-only-ami-secret
+      WHATSAPP_WEBHOOK_TOKEN: ci-only-webhook-token
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6
@@ -11,10 +18,16 @@ jobs:
           node-version: '22'
           cache: npm
           cache-dependency-path: frontend/package-lock.json
+      # backend.main modul duzeyinde torch iceri aktarir (gpu_health_circuit_breaker, sft_leyla).
+      # Kilit dosyasi CUDA (cu128) tekerlegini sabitler; CI'da yalnizca CPU torch yuklenir
+      # (--extra models tum ses modeli yiginini ve GB'larca CUDA kutuphanesini indirirdi).
+      # Surum kilit dosyasindakiyle ayni tutulur: torch==2.8.0.
       - run: uv sync --frozen --extra test
-      - run: uv run --extra test pytest -q --basetemp=data/pytest
-      - run: uv run --extra test alembic upgrade head
-      - run: uv run --extra test alembic check
+      - run: uv pip install "torch==2.8.0" --index-url https://download.pytorch.org/whl/cpu --extra-index-url https://pypi.org/simple
+      - run: uv run --no-sync pytest -q
+      - run: uv run --no-sync alembic upgrade head
+      - run: uv run --no-sync alembic check
+      - run: uv run --no-sync python scripts/check_ui_routes.py
       - run: npm ci
         working-directory: frontend
       - run: npm run build
@@ -23,10 +36,19 @@ jobs:
         working-directory: frontend
       - name: Start test server
         run: |
-          python -c "from pathlib import Path; Path('.env').write_text('ADMIN_PASSWORD=ci-only-disposable\n')"
-          uv run --extra test uvicorn backend.main:app --host 127.0.0.1 --port 8000 > /tmp/freya-server.log 2>&1 &
+          printf 'ADMIN_PASSWORD=%s\nLINK_SIGNING_KEY=%s\nAUDIO_ARCHIVE_MASTER_KEY=%s\nAMI_SECRET=%s\nWHATSAPP_WEBHOOK_TOKEN=%s\n' \
+            "$ADMIN_PASSWORD" "$LINK_SIGNING_KEY" "$AUDIO_ARCHIVE_MASTER_KEY" "$AMI_SECRET" "$WHATSAPP_WEBHOOK_TOKEN" > .env
+          uv run --no-sync uvicorn backend.main:app --host 127.0.0.1 --port 8000 > /tmp/freya-server.log 2>&1 &
+          for i in $(seq 1 60); do
+            if curl -fsS -o /dev/null http://127.0.0.1:8000/; then echo "Sunucu hazir"; exit 0; fi
+            sleep 2
+          done
+          echo "Sunucu 120 sn icinde hazir olmadi"; cat /tmp/freya-server.log; exit 1
       - run: npx playwright test tests/ui.spec.ts
         working-directory: frontend
+      - name: Sunucu gunlugu
+        if: failure()
+        run: cat /tmp/freya-server.log || true
       - uses: actions/upload-artifact@v4
         if: failure()
         with:

@@ -13,14 +13,21 @@ echo           FREYATTS OTOMOTIV SESLI ASISTAN (POC)
 echo =====================================================================
 echo.
 
-if "%1"=="--demo" (
+set "DEMO_MODE_ARG="
+set "DEV_MODE_ARG="
+for %%A in (%*) do (
+    if /i "%%~A"=="--demo" set "DEMO_MODE_ARG=1"
+    if /i "%%~A"=="--dev" set "DEV_MODE_ARG=1"
+)
+
+if defined DEMO_MODE_ARG (
     set DEMO_MODE=1
     echo [DEMO MODU] Ornek veriler gosterilir, gercek olcum degildir. Veri klasoru: data\demo
     echo.
 )
 
 if not exist ".venv\Scripts\python.exe" (
-    echo [HATA] Sanal ortam (.venv) bulunamadi!
+    echo [HATA] Sanal ortam ^(.venv^) bulunamadi!
     echo Lutfen once kurulumu tamamlayin.
     pause
     exit /b 1
@@ -37,17 +44,16 @@ if not exist "frontend\dist\index.html" (
     call npm run build --prefix frontend
 )
 
-if "%1"=="--dev" (
+if defined DEV_MODE_ARG (
     echo [*] [DEV MODU] Yonetici parolasi panoya kopyalaniyor...
     for /f "usebackq tokens=1,* delims==" %%a in (".env") do (
         if "%%a"=="ADMIN_PASSWORD" (
             <nul set /p="%%b" | clip
             echo [OK] Parola panoya kopyalandi! Giris ekraninda Ctrl+V yapabilirsiniz.
-            echo      Parola: %%b
         )
     )
 ) else (
-    echo [*] Guvenlik: Parola panoya otomatik kopyalanmadi. (Gelistirici modu icin: BASLAT.bat --dev)
+    echo [*] Guvenlik: Parola panoya otomatik kopyalanmadi. ^(Gelistirici modu icin: BASLAT.bat --dev^)
 )
 
 echo.

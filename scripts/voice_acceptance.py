@@ -4,14 +4,29 @@ import asyncio
 import os
 import subprocess
 import sys
+import tempfile
 import uuid
 from pathlib import Path
+
+KEEP_DATABASES = 3
+
+
+def prune_old_databases(folder: Path, keep: int = KEEP_DATABASES):
+    """Gecici klasorde yalnizca en yeni `keep` kabul veritabanini birakir."""
+    files = sorted(folder.glob("*.db"), key=lambda p: p.stat().st_mtime, reverse=True)
+    for old in files[keep:]:
+        for suffix in ("", "-wal", "-shm"):
+            try:
+                Path(str(old) + suffix).unlink()
+            except OSError:
+                pass
 
 
 async def main():
     root = Path(__file__).resolve().parents[1]
     os.chdir(root)
-    folder = root / "data" / "acceptance"
+    # Depoyu sisirmemek icin %TEMP% altinda tutulur; son 3 veritabani saklanir.
+    folder = Path(tempfile.gettempdir()) / "freya-acceptance"
     folder.mkdir(parents=True, exist_ok=True)
     database = folder / (str(uuid.uuid4()) + ".db")
     os.environ["DATABASE_URL"] = "sqlite:///" + database.as_posix()
@@ -43,6 +58,7 @@ async def main():
         server.should_exit = True
         await task
     print(f"Kabul testi veritabanı: {database}")
+    prune_old_databases(folder)
     if code:
         raise SystemExit(code)
 
