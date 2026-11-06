@@ -1,0 +1,50 @@
+{
+  "release": "M07 MOCK ADAPTER PASS / PRODUCTION HOLD / REAL AUDIO HOLD",
+  "verified_platform": "Linux Python 3.13",
+  "validation": {
+    "total_tests": 332,
+    "legacy_m01_m06_tests": 287,
+    "m07_new_tests": 45,
+    "all_pass": true,
+    "json_schemas_total": 25,
+    "m07_schemas": 5,
+    "legacy_python_modules_byte_identical": 52,
+    "golden_320_sha256": "7455fa7a59a5874165970d8980f7f7302c581d28532e2d0346a496aeda2eb17e",
+    "golden_cases": 320
+  },
+  "demo": {
+    "adapter_states": {
+      "stt": "ready",
+      "tts": "ready",
+      "llm": "ready",
+      "telephony": "ready"
+    },
+    "initial_synthetic_metadata_sent": true,
+    "stale_tts_result": "cancelled",
+    "flush_state_after_request": "INTERRUPTING",
+    "explicit_fake_ack_applied": true,
+    "final_state": "LISTENING",
+    "actual_pbx_ack_proven": false,
+    "audio_bytes_generated": 0,
+    "network_calls": 0
+  },
+  "not_measured": [
+    "real TTS",
+    "real STT",
+    "real LLM",
+    "real Asterisk",
+    "WAV",
+    "MOS",
+    "WER",
+    "CER",
+    "RTF",
+    "TTFA",
+    "Windows Python 3.11"
+  ],
+  "limitations": [
+    "RAM-only state/replay, no recovery",
+    "No real PBX ACK, fake confirmation only",
+    "No global concurrency/memory or per-tenant quotas",
+    "Legacy M04 sqlite ResourceWarnings may occur"
+  ]
+}

@@ -1,0 +1,284 @@
+{
+  "comparison_basis": "FreyaTTS_M11_Physical_Acceptance_v1.zip",
+  "archives": [
+    {
+      "name": "FreyaTTS_M01_Sistem_Cekirdegi_v1.zip",
+      "sha256": "f5f30ae33c216e4e084514155f7e22c166cf54e3df2d20c9215143840e42b582",
+      "files": 46,
+      "missing_source_paths_in_M11": [],
+      "changed_source_paths_in_M11": [
+        "src/automotive_voice/core/session_manager.py"
+      ]
+    },
+    {
+      "name": "FreyaTTS_M02_Conversation_State_Machine_v1.zip",
+      "sha256": "d432dae8be0598df34e7f019980c3dda566311268e8afc678e445af393053514",
+      "files": 60,
+      "missing_source_paths_in_M11": [],
+      "changed_source_paths_in_M11": []
+    },
+    {
+      "name": "FreyaTTS_M03_Automotive_Dialogue_Policy_v1.zip",
+      "sha256": "446aed83c03639af00c2deb75c15b42792c4d5cd9342d15ce02bd5628e56d231",
+      "files": 80,
+      "missing_source_paths_in_M11": [],
+      "changed_source_paths_in_M11": [
+        "src/automotive_voice/dialogue/coordinator.py"
+      ]
+    },
+    {
+      "name": "FreyaTTS_M04_Turkce_Normalizer_Lexicon_NLU_v1.zip",
+      "sha256": "1b82ccf7d9a84f1b27f39a3efa429b50f92011d0b1967f06872a28b66dee2662",
+      "files": 108,
+      "missing_source_paths_in_M11": [],
+      "changed_source_paths_in_M11": [
+        "src/automotive_voice/dialogue/coordinator.py",
+        "src/automotive_voice/nlp/nlu.py"
+      ]
+    },
+    {
+      "name": "FreyaTTS_M05_Prosody_Clause_Planner_v1.zip",
+      "sha256": "686df0615956e10fe666beac5ca310e137e613495ced7b03ae5cc1ea748e3bb3",
+      "files": 128,
+      "missing_source_paths_in_M11": [],
+      "changed_source_paths_in_M11": [
+        "src/automotive_voice/dialogue/coordinator.py",
+        "src/automotive_voice/nlp/nlu.py",
+        "src/automotive_voice/prosody/coordinator.py"
+      ]
+    },
+    {
+      "name": "FreyaTTS_M06_Audio_Queue_Transport_Codec_v1.zip",
+      "sha256": "59564d6672134ff390b7296d1def13be41d21fa5cf648dcadf702c321ad8d4d4",
+      "files": 152,
+      "missing_source_paths_in_M11": [],
+      "changed_source_paths_in_M11": [
+        "src/automotive_voice/dialogue/coordinator.py",
+        "src/automotive_voice/nlp/nlu.py",
+        "src/automotive_voice/prosody/coordinator.py"
+      ]
+    },
+    {
+      "name": "FreyaTTS_M07_Adapter_Lifecycle_Synthetic_Streaming_v1.zip",
+      "sha256": "7a11acdb98cecad4e660b2cd88510aaa16c29290e3240dcaec8e4d3ced0dfcb0",
+      "files": 177,
+      "missing_source_paths_in_M11": [],
+      "changed_source_paths_in_M11": [
+        "src/automotive_voice/dialogue/coordinator.py",
+        "src/automotive_voice/nlp/nlu.py",
+        "src/automotive_voice/prosody/coordinator.py"
+      ]
+    },
+    {
+      "name": "FreyaTTS_M08_Local_Operator_Console_v1.zip",
+      "sha256": "8efdd9cffaec32302a072402b2327f4c2ccb0a8322fbf0e22091e3647c65b107",
+      "files": 199,
+      "missing_source_paths_in_M11": [],
+      "changed_source_paths_in_M11": [
+        "src/automotive_voice/dialogue/coordinator.py",
+        "src/automotive_voice/nlp/nlu.py",
+        "src/automotive_voice/operator/review_store.py",
+        "src/automotive_voice/operator/runtime.py",
+        "src/automotive_voice/operator/server.py",
+        "src/automotive_voice/operator/static/app.css",
+        "src/automotive_voice/operator/static/app.js",
+        "src/automotive_voice/operator/static/index.html",
+        "src/automotive_voice/prosody/coordinator.py"
+      ]
+    },
+    {
+      "name": "FreyaTTS_M09_Synthetic_E2E_Integration_v1.zip",
+      "sha256": "7d8612ab95dd154ca0c8d37862c0e1eabdd6196fe109e71a813218a0e51bba6f",
+      "files": 214,
+      "missing_source_paths_in_M11": [],
+      "changed_source_paths_in_M11": [
+        "src/automotive_voice/e2e/runner.py",
+        "src/automotive_voice/operator/runtime.py",
+        "src/automotive_voice/operator/static/app.js",
+        "src/automotive_voice/operator/static/index.html",
+        "src/automotive_voice/prosody/coordinator.py"
+      ]
+    },
+    {
+      "name": "FreyaTTS_M10_Resilience_Real_Adapter_Readiness_v1.zip",
+      "sha256": "67e23c5350649e38574f0e9f455f475f1c6b5e98d04eb29d3745d9bd5654f4ec",
+      "files": 233,
+      "missing_source_paths_in_M11": [],
+      "changed_source_paths_in_M11": []
+    },
+    {
+      "name": "FreyaTTS_M11_Physical_Acceptance_v1.zip",
+      "sha256": "71957ae14d70c396545ece1a72e1d27fae1c4147a79558bab42d5c8b297f2a8f",
+      "files": 259,
+      "missing_source_paths_in_M11": [],
+      "changed_source_paths_in_M11": []
+    }
+  ],
+  "host_adaptations": [
+    {
+      "path": "automotive_voice/m01_demo.py",
+      "original_sha256": "b738a6d77d1b5d68f503532268e382811975416e714629f3d6c0deed43242ed3",
+      "current_sha256": "6044a9940073c82a6443d79b8c1d55f85639621d9383c87b134eb2e233282725"
+    },
+    {
+      "path": "automotive_voice/m02_demo.py",
+      "original_sha256": "002d216118518ec8703449f0188caa6d63b7068df56fe439963251709162bdef",
+      "current_sha256": "0e13ce16222002c8b6a294ff5810fd2bccc0458b180689f973572acb359ddcf6"
+    },
+    {
+      "path": "automotive_voice/m03_demo.py",
+      "original_sha256": "d8f2336bf50f1ed8cbbc289c5f5e5a1fef0be620e258f42c50d30c242432c7f7",
+      "current_sha256": "61c70af71dcaa6e827c41d003ac1fbff555e9f37ecce0d3521483a0cc6a881aa"
+    },
+    {
+      "path": "automotive_voice/m04_report.py",
+      "original_sha256": "24d7a6608a971ce7004c8f1de890fe492e9b1311d6bfb2ed547cf5773a204647",
+      "current_sha256": "3259aa16a04c652a379d1a6776e3d593223c867371b07405f84b67b44c9af2cc"
+    },
+    {
+      "path": "automotive_voice/m05_demo.py",
+      "original_sha256": "81683f7b575fe984aaf8727de0ae69f652bafe3860d3eba935f3c0ecc5839ae3",
+      "current_sha256": "d4a36c4a48b90a3050a0b71dc3429c789dea18be1ab5f7db94c60ce9dcd1cd2e"
+    },
+    {
+      "path": "automotive_voice/m05_report.py",
+      "original_sha256": "e2552dbffd9ca17c6ff2167889dfd47a6ed27b22727e61bf32c67d0fed825a35",
+      "current_sha256": "a115afd40c62f58bd67bceb77971b19e908bc4e867bd38e31cf770d762af9af5"
+    },
+    {
+      "path": "automotive_voice/m06_demo.py",
+      "original_sha256": "aaeb912c4c00c4748a4c08867ed7deda29cc33144427f61138430c3e9b87ee95",
+      "current_sha256": "dfe8fa002a4e9c585c76da7cedb79af40648a4510f2610899216afae0c1d3f31"
+    },
+    {
+      "path": "automotive_voice/m07_demo.py",
+      "original_sha256": "5e66ce4dff5c547ad5e87bebd86078e2d3d4a9852c31992d09712d513144279d",
+      "current_sha256": "1c1f4939252e92793f292fd9208d7dc188f1ff9e031db07fd75638a06ed10f4e"
+    },
+    {
+      "path": "automotive_voice/m09_demo.py",
+      "original_sha256": "607c0e1db1d62650ab4a678e755d54621be79caedf60afaea7dc509716830cba",
+      "current_sha256": "fafb3ae50d335b00a5a5213a7a4dcb81a2d8ef46a42f671b9b9c98798c2fda02"
+    },
+    {
+      "path": "automotive_voice/m10_demo.py",
+      "original_sha256": "9202148c410711eec8693490a74d00e21607e2b8869a90f0bc07cc99a43a1f81",
+      "current_sha256": "18936fc278e5b52e3d6c27fe47e149572d5c33e65541bedfb75f4e23aae556fb"
+    },
+    {
+      "path": "automotive_voice/m11/__main__.py",
+      "original_sha256": "ac64c5373cd8dac6cc30ed2866eb376f884ae6420c03d0df6ff0cd6a3784619b",
+      "current_sha256": "c719aeeaa1248870ebf52574adde23b438e8aa877699b12c61153b660875109d"
+    },
+    {
+      "path": "automotive_voice/mock_demo.py",
+      "original_sha256": "361421ad826ee18c111ecca823fd7c297b2699d9a75da13ca28cbf0c60915580",
+      "current_sha256": "c9851a7e86a7fe911f30d5b633f0ca9dd988902e8bca969c2cb6c7c1b743d648"
+    },
+    {
+      "path": "automotive_voice/nlp/a01yt_adapter.py",
+      "original_sha256": "5416e25752bc24559119c687cb0090b794ac45f6009dbf49f2542ef6695b098f",
+      "current_sha256": "ad16f2d49e56e527cf2fcb537cd766e7e7787c2a8dc79b1dd27f86fe05beae7a"
+    },
+    {
+      "path": "automotive_voice/operator/__main__.py",
+      "original_sha256": "f9a784495fc82bfb474a05124944470f4f01dda23c53825446dad7380dacfb15",
+      "current_sha256": "9d23360c3a6e0209482a21e2ced423c6c2fed8abd97fd643503c81a1713ff2c9"
+    },
+    {
+      "path": "automotive_voice/operator/server.py",
+      "original_sha256": "07e0e13824a25d8d9d45baf4d168ac126c4995de68852a2b7023cc1d4ee38aa2",
+      "current_sha256": "9c75f306c107ea5ce9868f88ddc442ffee256f60ccc7174c01c873b9c5392165"
+    },
+    {
+      "path": "tests/milestones/test_core.py",
+      "original_sha256": "e73ef2ecbdabb18ebc5f014bb15e004b1006c2f1524f7053d896d8ab466cf83f",
+      "current_sha256": "83df5bf1be3942443574536ef44e2ba8067147513862e6ac6d5c443f4aa8454a"
+    },
+    {
+      "path": "tests/milestones/test_m01.py",
+      "original_sha256": "260a8241df096769e5cef5069a4ee6fcae0f3f7ca78832cd05405e6bf559ce59",
+      "current_sha256": "bf5fe3291bee74b52e3239d24e439ba4b16211d8479721ab22300b462d1cea03"
+    },
+    {
+      "path": "tests/milestones/test_m02.py",
+      "original_sha256": "9e7969f760745b05b520fdf5d738442e3c549940ef388b6c8f9e826cd5ccf442",
+      "current_sha256": "3999599ccef34b3e576c23ac9511ef8c1ff39855eade79ef9aa6e4e38e8230b9"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "original_sha256": "57608a258d7f0ad545b62ca3cc9bf9062eb9b9a6b3eb8536743878d4bb5384f2",
+      "current_sha256": "0260e2c6072b56b96e745739dd5a54c99831becb736a591b4193eb088161c18b"
+    },
+    {
+      "path": "tests/milestones/test_m03_contracts.py",
+      "original_sha256": "9c9a50787736ae9627333e4ece5583d9a9a6e75fd701bd09b7de917f85a386c3",
+      "current_sha256": "e3036643b888ebb3062ff314faf36fd189061b45e7159516f1e3e519c7a97eda"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "original_sha256": "affecc20eb4b5a8309c6d66188128f909c937ca3064c853e19d4fea1fc641444",
+      "current_sha256": "611dfd0e1808db815116b9cd7ff4389a7885f6dc3c2294a3211f3e855414b269"
+    },
+    {
+      "path": "tests/milestones/test_m04_adapter.py",
+      "original_sha256": "925b599754db09b8e7e0cd07e5f66c10b97bb9717e2ce5118c32365b761dccc4",
+      "current_sha256": "875c94f7ae2f5dac37bb3eab449f128afc50cb660b59305d4526cb3fb61eab52"
+    },
+    {
+      "path": "tests/milestones/test_m04_contracts.py",
+      "original_sha256": "a90de61a9a3a919948edcd6b59678f65202afb2020819699b1204fd7932e2061",
+      "current_sha256": "849d43e7e6857c23e148fb0fe3618d10fe42ce8b7367b3382da732dbe6303243"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "original_sha256": "dddd0ed6ef87f0f18c8f4b2639d139a82c074b2e83b4f406ad85a0406bc60f48",
+      "current_sha256": "852583b94d675ea50ee95de9fcd923f4eff7b338bfaaba9478b41f1c55e28aa3"
+    },
+    {
+      "path": "tests/milestones/test_m05_contracts.py",
+      "original_sha256": "0a6e21fae92b40bb604d028ca079f9744380090deae7b49dde328879a726f5aa",
+      "current_sha256": "80cf7339ca83ada92cafac24c7810a8a2971846444666958494ae010210ce139"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "original_sha256": "6710f1ca4b8299d43687b50f80908fba6f7537dc9d87ec7bccdd48c429ee0a3f",
+      "current_sha256": "be316ee69b117a74f93e1336d20ceba7cc636cf2136d9579b238721bbf008b6e"
+    },
+    {
+      "path": "tests/milestones/test_m06_contracts.py",
+      "original_sha256": "b487b70fa4de7833036c5d4e87ec1a282dcbe736367cc454a2c7e69c18fc5a6a",
+      "current_sha256": "6f7fc8de512f25ca3c5a4bb4be3f8bbf7d3f26e65080692a2c22923d852ee094"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "original_sha256": "05a23a1e11f38c2ccc90f74568edd9282be6b09ebfe67ae36b2ad646fe71d329",
+      "current_sha256": "b629673da0b02b7fe59d6a3eebf123f6745e7e935b775f25712d878e6ed23d19"
+    },
+    {
+      "path": "tests/milestones/test_m07_contracts.py",
+      "original_sha256": "152b2d13e53c6917c950f8db2c7015c4202580b55ad110a41cbb99d35a8e2209",
+      "current_sha256": "b6db6a9ef3d5c9ccff8c749640dc33277cb68180d599bdb57b1ce927ab8688b7"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "original_sha256": "e7abfe3cbf077e2f9bceeaa178be10587db27662a5c017ade56f1a1fdeaacec5",
+      "current_sha256": "8fb8d9425c018c446c0b156951b294f334e5736b12679cbcf4762bc2b732f5ba"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "original_sha256": "339dcb9846bab8798e07d9c619c5e2103d0b330c4c1d9bb2c41246b6c114722e",
+      "current_sha256": "23b714689672e7a9846d186671bab7a084c28057fc5594897ba63f18f02b608b"
+    },
+    {
+      "path": "tests/milestones/test_m10.py",
+      "original_sha256": "6f222dc613bcb08a39b29c30fd23bc9c42965e07778512e8d1d9033970f65e2e",
+      "current_sha256": "de7fd0c36ba419d7bcd01dab140c48fcac3415fc4d7dcd925c50b07d27c2e1d9"
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "original_sha256": "2c0e3a18ea7e288a9a7c0f91413a42fa2c87ad894be018d46af1f045136c5e96",
+      "current_sha256": "1a6e9bd65a748f326fa5c7cbb5c061722af7f6d5625e000563758d7e4881d0b8"
+    }
+  ]
+}

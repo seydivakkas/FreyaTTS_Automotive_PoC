@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:freya-automotive:m07_stream_receipt:v1",
+  "title": "M07 Stream Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "accepted",
+    "reason",
+    "command_id"
+  ],
+  "properties": {
+    "accepted": {
+      "type": "boolean"
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "command_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_.:/-]{1,128}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  }
+}

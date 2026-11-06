@@ -1,0 +1,19 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"urn:freya-automotive:m05-tts-input:v1",
+  "title":"M05 private in-process text-only TTS input; NEVER put text in EventEnvelope or telemetry",
+  "type":"object", "additionalProperties":false,
+  "required":["session_id","turn_id","generation_id","clause_index","clause_count","text","text_sha256","break_kind","pause_after_ms","delivery_hint"],
+  "properties":{
+    "session_id":{"type":"string","pattern":"^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"},
+    "turn_id":{"type":"integer","minimum":0},
+    "generation_id":{"type":"integer","minimum":0},
+    "clause_index":{"type":"integer","minimum":0},
+    "clause_count":{"type":"integer","minimum":1},
+    "text":{"type":"string","minLength":1,"maxLength":5000},
+    "text_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+    "break_kind":{"enum":["sentence","pause","limit","final"]},
+    "pause_after_ms":{"type":"integer","minimum":0,"maximum":2000},
+    "delivery_hint":{"enum":["statement","question","continuation"]}
+  }
+}

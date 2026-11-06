@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://freya.example.invalid/contracts/normalization_result.schema.json",
+  "title": "M04 prepared TTS text with explicit review gate",
+  "type": "object", "additionalProperties": false,
+  "required": ["display_text","spoken_text","rules_applied","warnings","unsupported_chars","review_required"],
+  "properties": {
+    "display_text": {"type":"string","minLength":1},
+    "spoken_text": {"type":"string","minLength":1},
+    "rules_applied": {"type":"array","items":{"type":"string"}},
+    "warnings": {"type":"array","items":{"type":"string"}},
+    "unsupported_chars": {"type":"array","items":{"type":"string"}},
+    "review_required": {"type":"boolean"}
+  }
+}

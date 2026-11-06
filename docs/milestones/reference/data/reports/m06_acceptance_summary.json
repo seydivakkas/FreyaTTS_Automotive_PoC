@@ -1,0 +1,31 @@
+{
+  "release": "M06 MOCK CORE PASS / PRODUCTION HOLD",
+  "python_runtime": "3.13 Linux",
+  "tests": {
+    "total": 287,
+    "legacy_m01_m05": 237,
+    "new_m06": 50,
+    "passed": 287
+  },
+  "codebase": {
+    "previous_python_modules_byte_identical": 44,
+    "golden_sha256": "7455fa7a59a5874165970d8980f7f7302c581d28532e2d0346a496aeda2eb17e",
+    "golden_count": 320
+  },
+  "functional": {
+    "codec_metadata": true,
+    "real_encoding": false,
+    "transport_network": false,
+    "fake_ack": true,
+    "real_pbx_ack": false,
+    "wav_generated": 0,
+    "audio_quality_measured": false
+  },
+  "known_limitations": [
+    "RAM-only queue and replay state",
+    "No global session/bytes cap",
+    "No real transport atomic send guarantee",
+    "Old M04 SQLite ResourceWarning during suite",
+    "Windows Python 3.11 not executed"
+  ]
+}

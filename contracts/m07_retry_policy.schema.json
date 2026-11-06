@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:freya-automotive:m07_retry_policy:v1",
+  "title": "M07 Explicit Retry Policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "max_attempts",
+    "base_delay_ns",
+    "max_delay_ns"
+  ],
+  "properties": {
+    "max_attempts": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 16
+    },
+    "base_delay_ns": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "max_delay_ns": {
+      "type": "integer",
+      "minimum": 1
+    }
+  }
+}

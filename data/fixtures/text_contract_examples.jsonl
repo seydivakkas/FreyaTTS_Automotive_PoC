@@ -1,0 +1,5 @@
+{"id":"FREYA-DOC-001","raw":"Volkswagen Passat aracınız için sizi arıyorum.","source":"FreyaTTS_Teknik_Arastirma.pdf","purpose":"brand_context"}
+{"id":"FREYA-DOC-002","raw":"Aracınızın tahmini değeri bir milyon iki yüz elli bin Türk lirası.","source":"FreyaTTS_Teknik_Arastirma.pdf","purpose":"price_context"}
+{"id":"FREYA-DOC-003","raw":"Sizin için yarın saat on dört otuzda ekspertiz randevusu oluşturabiliriz.","source":"FreyaTTS_Teknik_Arastirma.pdf","purpose":"appointment_context"}
+{"id":"FREYA-TEXT-004","raw":"2023 model Nissan Qashqai için 14:30'da ekspertiz alabilir miyim?","source":"architecture_design","purpose":"time_and_brand"}
+{"id":"FREYA-TEXT-005","raw":"1.5 TSI motor ve 145.000 km olan aracın fiyatı 1.250.000 TL mi?","source":"architecture_design","purpose":"numeric_ambiguity"}

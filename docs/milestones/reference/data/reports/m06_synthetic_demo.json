@@ -1,0 +1,9 @@
+{
+  "accepted_mock_chunk": true,
+  "stale_chunk_reason": "flush_pending",
+  "flush_id": "471eb4aa-0cfb-564d-b94c-ab5b90305e6f",
+  "fake_ack_applied": true,
+  "end_state": "LISTENING",
+  "real_audio_generated": false,
+  "actual_pbx_flush_proven": false
+}

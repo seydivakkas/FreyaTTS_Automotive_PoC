@@ -1,0 +1,16 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"urn:freya-automotive:m05-clause-diagnostics:v1",
+  "title":"Safe M05 plan metadata, never raw user or response text",
+  "type":"object","additionalProperties":false,
+  "required":["session_id","turn_id","generation_id","status","clause_count","protected_span_count","warning_codes"],
+  "properties":{
+    "session_id":{"type":"string","pattern":"^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"},
+    "turn_id":{"type":"integer","minimum":0},
+    "generation_id":{"type":"integer","minimum":0},
+    "status":{"enum":["ready","review_required"]},
+    "clause_count":{"type":"integer","minimum":1},
+    "protected_span_count":{"type":"integer","minimum":0},
+    "warning_codes":{"type":"array","items":{"type":"string"}}
+  }
+}

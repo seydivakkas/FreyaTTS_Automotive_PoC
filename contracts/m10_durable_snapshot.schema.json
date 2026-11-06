@@ -1,0 +1,11 @@
+{
+ "$schema":"https://json-schema.org/draft/2020-12/schema",
+ "title":"M10 Durable Snapshot Diagnostic",
+ "type":"object", "additionalProperties":false,
+ "required":["sessions","pending_outbox","recovery_holds"],
+ "properties":{
+  "sessions":{"type":"integer","minimum":0},
+  "pending_outbox":{"type":"integer","minimum":0},
+  "recovery_holds":{"type":"integer","minimum":0}
+ }
+}

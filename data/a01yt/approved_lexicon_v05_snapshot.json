@@ -1,0 +1,7 @@
+{
+  "approved_rules": [],
+  "conflicts": [],
+  "generated_at": "2026-10-31T00:34:12+00:00",
+  "policy": "Only globally unambiguous, human-approved observations.",
+  "schema_version": 1
+}

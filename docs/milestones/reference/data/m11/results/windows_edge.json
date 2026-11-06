@@ -1,0 +1,32 @@
+{
+  "checks": [
+    "windows_11",
+    "python_3_11",
+    "cuda_gpu",
+    "local_freya_model",
+    "local_freya_checkout"
+  ],
+  "evidence": [
+    {
+      "bytes": 298,
+      "label": "local_file",
+      "path": "/mnt/data/FreyaTTS_M11_Physical_Acceptance_v1/data/m11/results/preflight_details.json",
+      "sha256": "033cc59f90ae56937a583101af31bf29e9e94a95b8634c649b95861421694a0a"
+    }
+  ],
+  "metrics": {
+    "cuda_available": false,
+    "ffmpeg_available": true,
+    "freya_checkout_present": false,
+    "model_files_present": false,
+    "official_model_id": "freyavoice/freya-tts",
+    "python": "3.13.5",
+    "system": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "torch_version": "2.10.0+cpu",
+    "windows": false
+  },
+  "name": "windows_edge",
+  "physical": false,
+  "run_at_utc": "2026-10-31T21:35:58+00:00",
+  "status": "HOLD"
+}

@@ -1,0 +1,12 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"urn:freya:m08:review-audit:v1",
+  "type":"object","additionalProperties":false,
+  "required":["id","annotation_id","decision","reviewer","reason_code","source_sha256","reviewed_at"],
+  "properties":{
+    "id":{"type":"string","format":"uuid"},"annotation_id":{"type":"string"},
+    "decision":{"enum":["approved","rejected"]},"reviewer":{"type":"string"},
+    "reason_code":{"type":"string"},"source_sha256":{"type":["string","null"]},
+    "reviewed_at":{"type":"string","format":"date-time"}
+  }
+}

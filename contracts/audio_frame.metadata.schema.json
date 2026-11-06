@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:freya-automotive:audio-frame-metadata:v1",
+  "title": "AudioFrameMetadata (binary payload is NOT in JSON)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["session_id", "stream_id", "generation_id", "seq", "sample_count", "timestamp_mono_ns", "audio_format"],
+  "properties": {
+    "session_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"},
+    "stream_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "generation_id": {"type": "integer", "minimum": 0},
+    "seq": {"type": "integer", "minimum": 0},
+    "sample_count": {"type": "integer", "minimum": 1},
+    "timestamp_mono_ns": {"type": "integer", "minimum": 0},
+    "audio_format": {
+      "oneOf": [
+        {"type": "object", "properties": {"encoding": {"const":"pcm_s16le"}, "sample_width_bits": {"const":16}, "sample_rate": {"enum":[8000,16000,48000]}, "channels": {"const":1}}, "required":["encoding","sample_width_bits","sample_rate","channels"], "additionalProperties": false},
+        {"type": "object", "properties": {"encoding": {"const":"float32"}, "sample_width_bits": {"const":32}, "sample_rate": {"enum":[8000,16000,48000]}, "channels": {"const":1}}, "required":["encoding","sample_width_bits","sample_rate","channels"], "additionalProperties": false},
+        {"type": "object", "properties": {"encoding": {"enum":["mulaw","alaw"]}, "sample_width_bits": {"const":8}, "sample_rate": {"const":8000}, "channels": {"const":1}}, "required":["encoding","sample_width_bits","sample_rate","channels"], "additionalProperties": false}
+      ]
+    }
+  }
+}

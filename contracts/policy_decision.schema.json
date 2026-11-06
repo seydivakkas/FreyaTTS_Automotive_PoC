@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://freya.example.invalid/contracts/policy_decision.schema.json",
+  "title": "M03 policy output: opaque ref + status; no customer text",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["response_ref", "booking_status", "action", "handoff_requested"],
+  "properties": {
+    "response_ref": {"type": ["string", "null"], "pattern": "^response:[a-f0-9]{32}$"},
+    "booking_status": {"enum": ["idle", "awaiting_confirmation", "confirming", "confirmed", "unavailable", "unknown", "declined", "handoff"]},
+    "action": {"type": "string", "pattern": "^[a-z_]{2,64}$"},
+    "handoff_requested": {"type": "boolean"}
+  }
+}

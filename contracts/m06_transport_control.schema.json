@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:freya-automotive:m06_transport_control:v1",
+  "title": "M06 Asterisk JSON dry-run command",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "command"
+  ],
+  "properties": {
+    "command": {
+      "enum": [
+        "FLUSH_MEDIA",
+        "HANGUP"
+      ]
+    },
+    "correlation_id": {
+      "type": "string",
+      "format": "uuid"
+    }
+  }
+}

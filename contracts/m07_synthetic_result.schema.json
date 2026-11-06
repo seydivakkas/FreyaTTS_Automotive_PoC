@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:freya-automotive:m07_synthetic_result:v1",
+  "title": "M07 Synthetic Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "command_id",
+    "kind",
+    "session_id",
+    "turn_id",
+    "generation_id",
+    "code",
+    "attempts",
+    "output_ref"
+  ],
+  "properties": {
+    "command_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.:/-]{1,128}$"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "stt",
+        "tts",
+        "llm",
+        "telephony"
+      ]
+    },
+    "session_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+    },
+    "turn_id": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9223372036854775807
+    },
+    "generation_id": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9223372036854775807
+    },
+    "code": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "transient_failure",
+        "permanent_failure",
+        "timed_out",
+        "stale_generation",
+        "cancelled",
+        "disconnected",
+        "retry_exhausted"
+      ]
+    },
+    "attempts": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 16
+    },
+    "output_ref": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_.:/-]{1,128}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  }
+}

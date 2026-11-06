@@ -1,0 +1,16 @@
+{
+  "adapter_states": {
+    "stt": "ready",
+    "tts": "ready",
+    "llm": "ready",
+    "telephony": "ready"
+  },
+  "initial_synthetic_metadata_sent": true,
+  "stale_tts_result": "cancelled",
+  "flush_state_after_request": "INTERRUPTING",
+  "explicit_fake_ack_applied": true,
+  "final_state": "LISTENING",
+  "actual_pbx_ack_proven": false,
+  "audio_bytes_generated": 0,
+  "network_calls": 0
+}

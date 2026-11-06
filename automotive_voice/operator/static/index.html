@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Freya | Operatör Konsolu</title>
+  <link rel="stylesheet" href="/app.css"/>
+  <script defer src="/app.js"></script>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar" aria-label="Ana menü">
+    <div class="brand"><span class="brandmark">f</span><div><strong>freya</strong><small>OPERATIONS</small></div></div>
+    <div class="env"><span class="dot"></span> YEREL · SENTETİK <span class="env-code">M10</span></div>
+    <div class="nav-label">ÇALIŞMA ALANI</div>
+    <nav id="menu" aria-label="Çalışma bölümleri">
+      <button class="nav-item active" data-view="overview"><span class="nav-symbol">▦</span> Genel bakış</button>
+      <button class="nav-item" data-view="sessions"><span class="nav-symbol">◉</span> Oturumlar</button>
+      <button class="nav-item" data-view="pronunciation"><span class="nav-symbol">≋</span> Telaffuz inceleme</button>
+      <button class="nav-item" data-view="scenarios"><span class="nav-symbol">▤</span> M09 Senaryolar</button>
+      <button class="nav-item" data-view="readiness"><span class="nav-symbol">◇</span> M10 Hazırlık</button>
+      <button class="nav-item" data-view="audit"><span class="nav-symbol">≡</span> Olay günlüğü</button>
+    </nav>
+    <div class="side-end">
+      <div class="side-panel"><span class="side-panel-title">Test ortamı</span><strong>Çevrimdışı mod</strong><p>Model, mikrofon, gerçek SIP ve müşteri kayıtları kapalı.</p></div>
+      <span class="version">M01–M08 çekirdeği · M09 sentetik entegrasyon</span>
+    </div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div class="crumb"><span>Freya / Console</span><span class="sep">/</span><span id="view-crumb">Genel bakış</span></div><div class="top-right"><span class="connection"><span class="mini-dot"></span> Localhost</span><span class="divider-v"></span><span>Mock environment</span></div></header>
+    <div class="content">
+      <section class="page" id="view-overview">
+        <div class="heading"><div><div class="eyebrow">OPERASYON MERKEZİ · M08</div><h1>Sistem genel bakışı</h1><p>Oturum, adaptör ve medya kontrolünü tek yerden takip edin.</p></div><button class="btn primary" id="create-overview">+ Yeni sentetik oturum</button></div>
+        <div class="notice"><div class="notice-icon">i</div><div><strong>Bu konsol yalnızca bir simülasyondur.</strong> Gerçek Freya sesi üretilmez, çağrı başlatılmaz ve PBX onayı alınmaz. Veriler geçici bellek ve yerel inceleme kayıtlarından gelir.</div></div>
+        <div class="metrics" id="metrics" aria-live="polite"><div class="stat skeleton">Veriler yükleniyor…</div></div>
+        <div class="two-cols">
+          <section class="panel"><div class="panel-head"><div><h2>Adaptör durumu</h2><p>Deterministik sahte servisler</p></div><span class="muted-pill">4 adaptör</span></div><div class="adapter-list" id="adapter-list"></div></section>
+          <section class="panel"><div class="panel-head"><div><h2>Son olaylar</h2><p>Oturum geçişleri ve efekt yönlendirme</p></div><button class="text-btn" data-goto="audit">Tümünü gör</button></div><div id="recent-events"></div></section>
+        </div>
+        <section class="panel"><div class="panel-head"><div><h2>Aktif oturumlar</h2><p>Konuşma durumu ve üretim kimlikleri</p></div><button class="text-btn" data-goto="sessions">Oturum paneli</button></div><div id="overview-sessions"></div></section>
+      </section>
+      <section class="page hidden" id="view-sessions">
+        <div class="heading"><div><div class="eyebrow">SENTETİK ÇAĞRI SİMÜLATÖRÜ</div><h1>Oturum yönetimi</h1><p>M02 durum makinesini gerçek sinyal sözleşmeleriyle çalıştırın.</p></div><button class="btn primary" id="create-sessions">+ Yeni oturum</button></div>
+        <div class="notice"><div class="notice-icon">!</div><div><strong>Deneysel kontrol alanı:</strong> Buradaki tüm sinyaller simülasyondur. “FAKE ACK” gerçek Asterisk tampon onayı değildir.</div></div>
+        <div class="session-layout"><section class="panel"><div class="panel-head"><h2>Oturumlar</h2><span class="muted-pill" id="session-count">0</span></div><div id="session-list"></div></section>
+          <section class="panel controller"><div class="panel-head"><div><h2>Kontrol masası</h2><p id="selected-session-description">Bir oturum seçin</p></div><span id="state-badge" class="state-chip">—</span></div>
+            <div id="session-detail"><div class="empty"><div class="empty-symbol">◉</div><strong>Henüz oturum seçilmedi</strong><p>Yeni bir sentetik oturum oluşturarak başlayın.</p></div></div>
+            <div class="control-title">SENTETİK OLAYLAR</div>
+            <div class="action-grid" id="action-controls">
+              <button class="btn outline" data-action="vad">VAD: Konuşma başladı</button>
+              <button class="btn outline" data-action="transcript">STT: Son transkript</button>
+              <button class="btn outline" data-action="llm">LLM: Yanıt hazır</button>
+              <button class="btn outline" data-action="playout">Oynatma tamamlandı</button>
+              <button class="btn outline accent" data-action="fake_ack">FAKE ACK · Tampon temizlendi</button>
+              <button class="btn outline" data-action="handoff">Temsilciye aktar</button>
+              <button class="btn outline" data-action="xoff">MEDIA_XOFF</button>
+              <button class="btn outline" data-action="xon">MEDIA_XON</button>
+              <button class="btn outline danger" data-action="hangup">Çağrıyı sonlandır</button>
+            </div>
+            <div class="control-footer"><span>Sanal zaman</span><div><button class="btn small" data-tick="20">+20 ms</button><button class="btn small" data-tick="100">+100 ms</button><button class="btn small" data-tick="1600">+1,6 sn</button></div></div>
+          </section></div>
+        <section class="panel"><div class="panel-head"><div><h2>Medya güvenliği</h2><p>Yerel kuyruk ve M06 FakeTransport</p></div><span class="muted-pill">Metadata only</span></div><div id="media-summary"></div></section>
+      </section>
+      <section class="page hidden" id="view-pronunciation">
+        <div class="heading"><div><div class="eyebrow">A01-YT · KANIT ODAKLI İNCELEME</div><h1>Telaffuz referansları</h1><p>Kaynakların durumunu ve insan onayına açık anotasyonları izleyin.</p></div><span class="top-tag">Salt-okunur kaynak</span></div>
+        <div class="notice"><div class="notice-icon">i</div><div><strong>Kaynak bağlantısı, ses kanıtı değildir.</strong> Onay yalnızca gerçek klip, SHA-256 eşleşmesi, yetkili kullanım kapsamı ve düzeltilmiş transkript ile verilebilir. İnceleme kararları ayrı SQLite dosyasına kaydedilir; üretim sözlüğü otomatik değişmez.</div></div>
+        <div class="two-cols"><section class="panel"><div class="panel-head"><div><h2>Kaynak envanteri</h2><p>A01-YT v0.5 kayıtları</p></div></div><div id="sources"></div></section>
+        <section class="panel"><div class="panel-head"><div><h2>İnceleme durumu</h2><p>Kanıt ve onay kapısı</p></div></div><div id="pronunciation-summary"></div></section></div>
+        <section class="panel"><div class="panel-head"><div><h2>320 golden metin kontrolü</h2><p>Önceki M04 sonuçları · yeni ses kalitesi ölçümü değildir</p></div><label class="golden-filter-label">Görüntüle <select id="golden-filter"><option value="review">İnceleme gerektirenler</option><option value="all">Tüm 320 vaka</option><option value="changed">Değişen metinler</option></select></label></div><div id="golden-stats"></div><div class="table-wrap"><table><thead><tr><th>ID</th><th>Kategori</th><th>Orijinal metin</th><th>Normalize edilmiş</th><th>Durum</th></tr></thead><tbody id="golden-rows"></tbody></table></div></section>
+        <section class="panel"><div class="panel-head"><div><h2>İnceleme kuyruğu</h2><p>İnsan onayına gönderilmiş telaffuz önerileri</p></div><span class="muted-pill" id="annotation-count">0 kayıt</span></div><div id="annotations"></div></section>
+      </section>
+      <section class="page hidden" id="view-scenarios">
+        <div class="heading"><div><div class="eyebrow">M09 · SENTETİK ENTEGRASYON</div><h1>Uçtan uca senaryo kontrolü</h1><p>M01–M08 modüllerinin gerçek sözleşmelerini sahte servislerle sınayın.</p></div><span class="top-tag">Ses yok · Ağ yok</span></div>
+        <div class="notice"><div class="notice-icon">i</div><div><strong>Sadece denetim ortamı.</strong> Senaryolar her çalıştırmada yeni, bağımsız bir oturum dünyası kurar. Oluşturulan onaylar gerçek randevu veya telefon işlemi değildir. Yerel raporlar yeniden başlatmada silinir.</div></div>
+        <section class="panel"><div class="panel-head"><div><h2>Senaryolar</h2><p>Deterministik testler · 16 iş ve hata senaryosu</p></div><span class="muted-pill" id="scenario-count">16</span></div><div class="scenario-grid" id="scenario-catalog"></div></section>
+        <section class="panel"><div class="panel-head"><div><h2>Sonuç ve doğrulamalar</h2><p>Karar kuralları, generation, flush ACK ve izolasyon</p></div></div><div id="scenario-reports"></div></section>
+      </section>
+      <section class="page hidden" id="view-readiness">
+        <div class="heading"><div><div class="eyebrow">M10 · DRY RUN</div><h1>Gerçek adaptörlere hazırlık</h1><p>Model ve telefon bağlantısı açmadan çevrimdışı sözleşme denetimi.</p></div><span class="top-tag">Bağlantılar kapalı</span></div>
+        <div class="notice"><div class="notice-icon">i</div><div><strong>Üretim etkinleştirmesi devre dışı.</strong> Bu kontrol GPU, mikrofon, ses dosyası, CRM, SIP veya ağ bağlantısı başlatmaz. Kalıcı outbox bu konsolda etkin değildir; M10 ayrı dry-run çekirdeğinde doğrulanır.</div></div>
+        <section class="panel"><div class="panel-head"><div><h2>Bağlantı sözleşmeleri</h2><p>Fiziksel bağlantı veya gerçek sağlık kontrolü değildir</p></div></div><div id="m10-readiness" class="adapter-list"></div></section>
+        <section class="panel"><div class="panel-head"><div><h2>Hazırlık sınırları</h2><p>Son fiziksel kabul aşamasına ertelenen işler</p></div></div><div style="padding:20px;color:#61798a;line-height:1.9;font-size:12px">GPU ve FreyaTTS yüklemesi · STT mikrofonu · PBX ve gerçek FLUSH ACK · codec/streaming ve ağ gecikmesi · YouTube ses kanıtı · Windows/Edge fiziksel kabul.</div></section>
+      </section>
+      <section class="page hidden" id="view-audit">
+        <div class="heading"><div><div class="eyebrow">GÖZLEMLENEBİLİRLİK</div><h1>Olay günlüğü</h1><p>Sinyal, efekt, durum reddi ve timeout kayıtlarının görünümü.</p></div><button class="btn outline" id="refresh-log">↻ Yenile</button></div>
+        <div class="notice"><div class="notice-icon">i</div><div><strong>Volatil günlük:</strong> Bu tablo uygulama belleğinde tutulur ve yeniden başlatmada temizlenir. Kalıcı olay kurtarma M08 kapsamı dışında.</div></div>
+        <section class="panel"><div class="panel-head"><div><h2>Olay akışı</h2><p>En yeni olaylar üstte; en fazla 160 kayıt</p></div><span class="muted-pill">PII içermeyen referanslar</span></div><div class="table-wrap"><table><thead><tr><th>Sanal zaman</th><th>Olay</th><th>Oturum</th><th>Karar</th><th>Açıklama</th></tr></thead><tbody id="audit-rows"></tbody></table></div></section>
+      </section>
+    </div>
+    <footer>Freya Automotive · Local development console <span>Gerçek servis bağlantısı yok · M10</span></footer>
+  </main>
+</div>
+<div id="toast" role="status" aria-live="polite" class="toast hidden"></div>
+</body>
+</html>

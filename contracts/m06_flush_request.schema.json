@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:freya-automotive:m06_flush_request:v1",
+  "title": "M06 FlushRequest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "session_id",
+    "turn_id",
+    "generation_id",
+    "flush_request_id"
+  ],
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+    },
+    "turn_id": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "generation_id": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "flush_request_id": {
+      "type": "string",
+      "format": "uuid"
+    }
+  }
+}

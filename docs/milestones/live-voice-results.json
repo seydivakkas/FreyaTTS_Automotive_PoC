@@ -1,0 +1,171 @@
+{
+  "kind": "real_local_adapters_with_synthetic_microphone",
+  "human_microphone": false,
+  "physical_acceptance": "HOLD",
+  "test_passed": true,
+  "database": "data/acceptance/4662621f-e302-486b-b130-2593645268ed.db",
+  "appointments": [
+    {
+      "id": "e9e4e4de-53e2-4186-a6a4-ec82226f2a5a",
+      "slot_id": "83b7c919-b014-403c-ba56-0d0281993dc5",
+      "vehicle_id": "96e611d3-2567-4e03-b6d7-8b2a5f1aa056",
+      "customer": "Ali Yılmaz",
+      "idempotency_key": "0415b6cd-ed29-482f-a501-10f23c08b2cf",
+      "confirmed": 1,
+      "status": "confirmed",
+      "created_at": "2026-10-31T23:38:14.587463+00:00"
+    }
+  ],
+  "turns": [
+    {
+      "role": "assistant",
+      "text": "Merhaba, ekspertiz randevusu için yardımcı olabilirim. Adınızı ve aracınızın marka modelini söyler misiniz?",
+      "metrics": "{}",
+      "created_at": "2026-10-31T23:36:42.236694+00:00"
+    },
+    {
+      "role": "metric",
+      "text": "",
+      "metrics": "{\"tts_ms\": 1842.9999999971187, \"rtf\": 1.3355072463747237, \"cold_synthesis\": false, \"first_audio_ms\": 1842.9999999971187}",
+      "created_at": "2026-10-31T23:36:44.075928+00:00"
+    },
+    {
+      "role": "metric",
+      "text": "",
+      "metrics": "{\"tts_ms\": 2016.0000000032596, \"rtf\": 0.6810810810821823, \"cold_synthesis\": false}",
+      "created_at": "2026-10-31T23:36:46.091498+00:00"
+    },
+    {
+      "role": "metric",
+      "text": "",
+      "metrics": "{\"tts_ms\": 2062.999999998283, \"rtf\": 0.5486702127655008, \"cold_synthesis\": false}",
+      "created_at": "2026-10-31T23:36:49.042359+00:00"
+    },
+    {
+      "role": "user",
+      "text": "Benim adam Ali Yılmaz",
+      "metrics": "{\"stt_ms\": 4563.000000001921, \"endpoint_ms\": 295.9999999984575}",
+      "created_at": "2026-10-31T23:36:59.640966+00:00"
+    },
+    {
+      "role": "metric",
+      "text": "",
+      "metrics": "{\"llm_first_token_ms\": 328.0000000013388, \"llm_total_ms\": 1703.0000000013388}",
+      "created_at": "2026-10-31T23:37:01.341012+00:00"
+    },
+    {
+      "role": "assistant",
+      "text": "Aracınızın marka ve modelini söyler misiniz?",
+      "metrics": "{}",
+      "created_at": "2026-10-31T23:37:01.345016+00:00"
+    },
+    {
+      "role": "metric",
+      "text": "",
+      "metrics": "{\"tts_ms\": 1983.9999999967404, \"rtf\": 0.6278481012647912, \"cold_synthesis\": false, \"first_audio_ms\": 8545.999999998457}",
+      "created_at": "2026-10-31T23:37:03.325923+00:00"
+    },
+    {
+      "role": "user",
+      "text": "Orijinal Renault Megane",
+      "metrics": "{\"stt_ms\": 4640.999999999622, \"endpoint_ms\": 296.9999999986612}",
+      "created_at": "2026-10-31T23:37:13.308510+00:00"
+    },
+    {
+      "role": "metric",
+      "text": "",
+      "metrics": "{\"llm_first_token_ms\": 500.0, \"llm_total_ms\": 2031.0000000026776}",
+      "created_at": "2026-10-31T23:37:15.369537+00:00"
+    },
+    {
+      "role": "assistant",
+      "text": "Kayıtlı fiyat bulunmuyor. 1. seçenek 04.11.2026 saat 02:36. Hangi seçeneği tercih edersiniz?",
+      "metrics": "{}",
+      "created_at": "2026-10-31T23:37:15.378552+00:00"
+    },
+    {
+      "role": "metric",
+      "text": "",
+      "metrics": "{\"tts_ms\": 2030.9999999990396, \"rtf\": 0.9231818181813816, \"cold_synthesis\": false, \"first_audio_ms\": 9046.999999998661}",
+      "created_at": "2026-10-31T23:37:17.428345+00:00"
+    },
+    {
+      "role": "metric",
+      "text": "",
+      "metrics": "{\"tts_ms\": 1938.0000000019209, \"rtf\": 2.8500000000028245, \"cold_synthesis\": false}",
+      "created_at": "2026-10-31T23:37:19.631496+00:00"
+    },
+    {
+      "role": "metric",
+      "text": "",
+      "metrics": "{\"tts_ms\": 1875.0, \"rtf\": 0.4734848484848485, \"cold_synthesis\": false}",
+      "created_at": "2026-10-31T23:37:21.231992+00:00"
+    },
+    {
+      "role": "metric",
+      "text": "",
+      "metrics": "{\"tts_ms\": 1905.9999999990396, \"rtf\": 0.8076271186436609, \"cold_synthesis\": false}",
+      "created_at": "2026-10-31T23:37:25.222077+00:00"
+    },
+    {
+      "role": "user",
+      "text": "Birinci seçenek",
+      "metrics": "{\"stt_ms\": 20764.999999999418, \"endpoint_ms\": 437.9999999982829}",
+      "created_at": "2026-10-31T23:37:50.555497+00:00"
+    },
+    {
+      "role": "metric",
+      "text": "",
+      "metrics": "{\"llm_first_token_ms\": 594.0000000009604, \"llm_total_ms\": 1844.0000000009604}",
+      "created_at": "2026-10-31T23:37:52.403786+00:00"
+    },
+    {
+      "role": "assistant",
+      "text": "Ali Yılmaz, 04.11.2026 saat 02:36 için ekspertiz randevusu oluşturulmasını onaylıyor musunuz? Onay için evet onaylıyorum diyebilirsiniz.",
+      "metrics": "{}",
+      "created_at": "2026-10-31T23:37:52.413394+00:00"
+    },
+    {
+      "role": "metric",
+      "text": "",
+      "metrics": "{\"tts_ms\": 1797.0000000022992, \"rtf\": 1.1373417721533539, \"cold_synthesis\": false, \"first_audio_ms\": 24875.0}",
+      "created_at": "2026-10-31T23:37:54.215633+00:00"
+    },
+    {
+      "role": "metric",
+      "text": "",
+      "metrics": "{\"tts_ms\": 1890.9999999996217, \"rtf\": 0.42209821428562977, \"cold_synthesis\": false}",
+      "created_at": "2026-10-31T23:37:56.105682+00:00"
+    },
+    {
+      "role": "metric",
+      "text": "",
+      "metrics": "{\"tts_ms\": 1967.9999999971187, \"rtf\": 0.5927710843364816, \"cold_synthesis\": false}",
+      "created_at": "2026-10-31T23:38:00.597285+00:00"
+    },
+    {
+      "role": "metric",
+      "text": "",
+      "metrics": "{\"tts_ms\": 1922.0000000022992, \"rtf\": 0.6582191780829793, \"cold_synthesis\": false}",
+      "created_at": "2026-10-31T23:38:03.925692+00:00"
+    },
+    {
+      "role": "user",
+      "text": "Evet, evet, onaylıyorum.",
+      "metrics": "{\"stt_ms\": 4452.999999997701, \"endpoint_ms\": 468.0000000007567}",
+      "created_at": "2026-10-31T23:38:14.576943+00:00"
+    },
+    {
+      "role": "metric",
+      "text": "",
+      "metrics": "{}",
+      "created_at": "2026-10-31T23:38:14.591953+00:00"
+    },
+    {
+      "role": "assistant",
+      "text": "Randevunuz oluşturuldu. İyi günler dilerim.",
+      "metrics": "{}",
+      "created_at": "2026-10-31T23:38:14.600460+00:00"
+    }
+  ]
+}

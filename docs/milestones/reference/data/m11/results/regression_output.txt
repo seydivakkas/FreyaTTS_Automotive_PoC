@@ -1,0 +1,61 @@
+
+/mnt/data/FreyaTTS_M11_Physical_Acceptance_v1/src/automotive_voice/core/events.py:52: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x7f6a33814d60>
+  if not isinstance(value, dict) or any(not isinstance(k, str) for k in value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/mnt/data/FreyaTTS_M11_Physical_Acceptance_v1/src/automotive_voice/core/events.py:52: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x7f6a33814b80>
+  if not isinstance(value, dict) or any(not isinstance(k, str) for k in value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/mnt/data/FreyaTTS_M11_Physical_Acceptance_v1/src/automotive_voice/core/events.py:52: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x7f6a33814a90>
+  if not isinstance(value, dict) or any(not isinstance(k, str) for k in value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/mnt/data/FreyaTTS_M11_Physical_Acceptance_v1/src/automotive_voice/core/events.py:52: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x7f6a338146d0>
+  if not isinstance(value, dict) or any(not isinstance(k, str) for k in value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/mnt/data/FreyaTTS_M11_Physical_Acceptance_v1/src/automotive_voice/core/events.py:52: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x7f6a32257970>
+  if not isinstance(value, dict) or any(not isinstance(k, str) for k in value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/mnt/data/FreyaTTS_M11_Physical_Acceptance_v1/src/automotive_voice/core/events.py:52: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x7f6a322571f0>
+  if not isinstance(value, dict) or any(not isinstance(k, str) for k in value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/mnt/data/FreyaTTS_M11_Physical_Acceptance_v1/src/automotive_voice/core/events.py:52: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x7f6a32257010>
+  if not isinstance(value, dict) or any(not isinstance(k, str) for k in value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/mnt/data/FreyaTTS_M11_Physical_Acceptance_v1/src/automotive_voice/core/events.py:52: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x7f6a32256200>
+  if not isinstance(value, dict) or any(not isinstance(k, str) for k in value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/mnt/data/FreyaTTS_M11_Physical_Acceptance_v1/src/automotive_voice/core/events.py:52: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x7f6a322563e0>
+  if not isinstance(value, dict) or any(not isinstance(k, str) for k in value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/mnt/data/FreyaTTS_M11_Physical_Acceptance_v1/src/automotive_voice/core/events.py:52: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x7f6a32256f20>
+  if not isinstance(value, dict) or any(not isinstance(k, str) for k in value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/mnt/data/FreyaTTS_M11_Physical_Acceptance_v1/src/automotive_voice/core/events.py:52: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x7f6a32256a70>
+  if not isinstance(value, dict) or any(not isinstance(k, str) for k in value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/mnt/data/FreyaTTS_M11_Physical_Acceptance_v1/src/automotive_voice/core/events.py:52: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x7f6a32255d50>
+  if not isinstance(value, dict) or any(not isinstance(k, str) for k in value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/mnt/data/FreyaTTS_M11_Physical_Acceptance_v1/src/automotive_voice/core/events.py:52: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x7f6a322573d0>
+  if not isinstance(value, dict) or any(not isinstance(k, str) for k in value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/mnt/data/FreyaTTS_M11_Physical_Acceptance_v1/src/automotive_voice/core/events.py:52: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x7f6a32256110>
+  if not isinstance(value, dict) or any(not isinstance(k, str) for k in value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/mnt/data/FreyaTTS_M11_Physical_Acceptance_v1/src/automotive_voice/core/events.py:52: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x7f6a32255f30>
+  if not isinstance(value, dict) or any(not isinstance(k, str) for k in value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/mnt/data/FreyaTTS_M11_Physical_Acceptance_v1/src/automotive_voice/core/events.py:52: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x7f6a32255a80>
+  if not isinstance(value, dict) or any(not isinstance(k, str) for k in value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/mnt/data/FreyaTTS_M11_Physical_Acceptance_v1/src/automotive_voice/core/events.py:52: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x7f6a32254a90>
+  if not isinstance(value, dict) or any(not isinstance(k, str) for k in value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/mnt/data/FreyaTTS_M11_Physical_Acceptance_v1/src/automotive_voice/core/events.py:52: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x7f6a322565c0>
+  if not isinstance(value, dict) or any(not isinstance(k, str) for k in value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+Executing <Task finished name='Task-1344' coro=<M10ScenarioTests.test_all_business_scenarios_with_durable_persistence_and_speech_presentation() done, defined at /mnt/data/FreyaTTS_M11_Physical_Acceptance_v1/tests/test_m10.py:192> result=None created at /usr/lib/python3.13/asyncio/runners.py:100> took 0.327 seconds
+----------------------------------------------------------------------
+Ran 460 tests in 1.483s
+
+OK
+/usr/lib/python3.13/asyncio/base_events.py:764: ResourceWarning: unclosed event loop <_UnixSelectorEventLoop running=False closed=False debug=False>

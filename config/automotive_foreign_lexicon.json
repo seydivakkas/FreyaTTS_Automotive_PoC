@@ -1,0 +1,102 @@
+{
+  "ecoboost": {
+    "canonical_stem": "ecoboost",
+    "spoken": "ekobust",
+    "phonetic_syllables": ["e", "ko", "bust"],
+    "stress_syllable_idx": 2,
+    "category": "engine",
+    "ends_with_consonant": true,
+    "last_vowel_backness": "back"
+  },
+  "bluetooth": {
+    "canonical_stem": "bluetooth",
+    "spoken": "blutut",
+    "phonetic_syllables": ["blu", "tut"],
+    "stress_syllable_idx": 0,
+    "category": "connectivity",
+    "ends_with_consonant": true,
+    "last_vowel_backness": "back"
+  },
+  "suv": {
+    "canonical_stem": "suv",
+    "spoken": "suv",
+    "phonetic_syllables": ["suv"],
+    "stress_syllable_idx": 0,
+    "category": "body_type",
+    "ends_with_consonant": true,
+    "last_vowel_backness": "back"
+  },
+  "dsg": {
+    "canonical_stem": "dsg",
+    "spoken": "desege",
+    "phonetic_syllables": ["de", "se", "ge"],
+    "stress_syllable_idx": 2,
+    "category": "transmission",
+    "ends_with_consonant": false,
+    "last_vowel_backness": "front"
+  },
+  "eat8": {
+    "canonical_stem": "eat8",
+    "spoken": "eatesekiz",
+    "phonetic_syllables": ["e", "a", "te", "se", "kiz"],
+    "stress_syllable_idx": 4,
+    "category": "transmission",
+    "ends_with_consonant": true,
+    "last_vowel_backness": "front"
+  },
+  "hybrid": {
+    "canonical_stem": "hybrid",
+    "spoken": "hibrit",
+    "phonetic_syllables": ["hib", "rit"],
+    "stress_syllable_idx": 1,
+    "category": "engine",
+    "ends_with_consonant": true,
+    "last_vowel_backness": "front"
+  },
+  "tsi": {
+    "canonical_stem": "tsi",
+    "spoken": "tesei",
+    "phonetic_syllables": ["te", "se", "i"],
+    "stress_syllable_idx": 2,
+    "category": "engine",
+    "ends_with_consonant": false,
+    "last_vowel_backness": "front"
+  },
+  "tdi": {
+    "canonical_stem": "tdi",
+    "spoken": "tedei",
+    "phonetic_syllables": ["te", "de", "i"],
+    "stress_syllable_idx": 2,
+    "category": "engine",
+    "ends_with_consonant": false,
+    "last_vowel_backness": "front"
+  },
+  "qashqai": {
+    "canonical_stem": "qashqai",
+    "spoken": "kaşkai",
+    "phonetic_syllables": ["kaş", "ka", "i"],
+    "stress_syllable_idx": 2,
+    "category": "model",
+    "ends_with_consonant": false,
+    "last_vowel_backness": "front"
+  },
+  "peugeot": {
+    "canonical_stem": "peugeot",
+    "spoken": "pejo",
+    "phonetic_syllables": ["pe", "jo"],
+    "stress_syllable_idx": 1,
+    "category": "brand",
+    "ends_with_consonant": false,
+    "last_vowel_backness": "back"
+  },
+  "citroen": {
+    "canonical_stem": "citroen",
+    "spoken": "sitroen",
+    "phonetic_syllables": ["sit", "ro", "en"],
+    "stress_syllable_idx": 2,
+    "category": "brand",
+    "ends_with_consonant": true,
+    "last_vowel_backness": "front"
+  }
+}
+

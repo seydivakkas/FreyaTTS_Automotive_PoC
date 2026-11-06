@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:freya-automotive:session-snapshot:v1",
+  "title": "SessionSnapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["session_id", "state", "turn_id", "generation_id", "last_sequence", "pending_events"],
+  "properties": {
+    "session_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"},
+    "state": {"enum": ["IDLE", "LISTENING", "THINKING", "SPEAKING", "INTERRUPTING", "HANDOFF", "FAILED", "ENDED"]},
+    "turn_id": {"type": "integer", "minimum": 0},
+    "generation_id": {"type": "integer", "minimum": 0},
+    "last_sequence": {"type": "integer", "minimum": -1},
+    "pending_events": {"type": "integer", "minimum": 0}
+  }
+}

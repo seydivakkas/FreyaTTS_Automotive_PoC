@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://freya.example.invalid/contracts/dialogue_input.schema.json",
+  "title": "M03 structured NLU output (never raw transcript)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "intent"
+  ],
+  "properties": {
+    "intent": {
+      "enum": [
+        "greeting",
+        "vehicle_lookup",
+        "price_lookup",
+        "request_inspection",
+        "confirm",
+        "recheck_booking",
+        "decline",
+        "handoff",
+        "unknown",
+        "create_crm_case"
+      ]
+    },
+    "vehicle_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[a-zA-Z0-9_-]{1,48}$"
+    },
+    "slot": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "start_at",
+            "location_id"
+          ],
+          "properties": {
+            "start_at": {
+              "type": "string",
+              "minLength": 20,
+              "maxLength": 40,
+              "description": "Offset-aware ISO 8601; additional runtime datetime validation"
+            },
+            "location_id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_-]{1,48}$"
+            }
+          }
+        }
+      ]
+    },
+    "case_kind": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "expertise_info",
+        "price_request",
+        "callback",
+        null
+      ]
+    }
+  }
+}

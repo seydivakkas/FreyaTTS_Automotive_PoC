@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:freya-automotive:m06_audio_chunk_metadata:v1",
+  "title": "M06 AudioChunkMetadata (no audio payload)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "session_id",
+    "turn_id",
+    "generation_id",
+    "stream_id",
+    "seq",
+    "sample_count",
+    "duration_ms",
+    "timestamp_mono_ns",
+    "clause_index",
+    "media_format"
+  ],
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+    },
+    "turn_id": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "generation_id": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "stream_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9._:-]+$"
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "sample_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "duration_ms": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2000
+    },
+    "timestamp_mono_ns": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "clause_index": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "media_format": {
+      "$ref": "m06_media_format.schema.json"
+    }
+  }
+}

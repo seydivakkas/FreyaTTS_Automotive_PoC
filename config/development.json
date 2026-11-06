@@ -1,0 +1,22 @@
+{
+  "app_mode": "mock_only",
+  "locale": "tr-TR",
+  "timezone": "Europe/Istanbul",
+  "audio_enabled": false,
+  "external_phone_enabled": false,
+  "real_crm_writes_enabled": false,
+  "voice_profile": {
+    "name": "Leyla",
+    "seed": 9,
+    "checkpoint": "PIN_AT_M11",
+    "steps": 32
+  },
+  "queue": {
+    "max_outbound_chunks": 32,
+    "timeout_ms": 2000
+  },
+  "policy": {
+    "require_explicit_booking_confirmation": true,
+    "allow_unverified_lexicon": false
+  }
+}

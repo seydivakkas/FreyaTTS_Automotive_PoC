@@ -1,0 +1,6 @@
+{"event":"MEDIA_START","channel_id":"<GERCEK_CALL_ID>","mono_ns":100000,"provenance":"template_not_real","mock":true,"codec":"ulaw","ptime_ms":20}
+{"event":"REPORT_QUEUE_DRAINED","channel_id":"<GERCEK_CALL_ID>","mono_ns":200000,"provenance":"template_not_real","mock":true}
+{"event":"FLUSH_MEDIA","channel_id":"<GERCEK_CALL_ID>","mono_ns":300000,"provenance":"template_not_real","mock":true}
+{"event":"MEASURED_INTERRUPTION","channel_id":"<GERCEK_CALL_ID>","mono_ns":400000,"provenance":"template_not_real","mock":true,"heard_old_audio_ms_after_speech_start":null}
+{"event":"QUEUE_DRAINED","channel_id":"<GERCEK_CALL_ID>","mono_ns":500000,"provenance":"template_not_real","mock":true}
+{"event":"HANGUP","channel_id":"<GERCEK_CALL_ID>","mono_ns":600000,"provenance":"template_not_real","mock":true}

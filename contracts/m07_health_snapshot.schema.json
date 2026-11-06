@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:freya-automotive:m07_health_snapshot:v1",
+  "title": "M07 Mock Health Snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "state",
+    "circuit",
+    "queued",
+    "in_flight",
+    "completed",
+    "last_error_code",
+    "observed_mono_ns",
+    "mock_only"
+  ],
+  "properties": {
+    "kind": {
+      "type": "string",
+      "enum": [
+        "stt",
+        "tts",
+        "llm",
+        "telephony"
+      ]
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "created",
+        "starting",
+        "ready",
+        "degraded",
+        "stopping",
+        "stopped",
+        "failed"
+      ]
+    },
+    "circuit": {
+      "type": "string",
+      "enum": [
+        "closed",
+        "open",
+        "half_open"
+      ]
+    },
+    "queued": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9223372036854775807
+    },
+    "in_flight": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9223372036854775807
+    },
+    "completed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9223372036854775807
+    },
+    "last_error_code": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "observed_mono_ns": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9223372036854775807
+    },
+    "mock_only": {
+      "const": true
+    }
+  }
+}

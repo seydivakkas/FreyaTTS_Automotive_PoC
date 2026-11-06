@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://freya.example.invalid/contracts/approved_lexicon_rule.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["canonical","spoken_tr","approved","source_ref","reviewer","evidence","aliases","suffix_map","context"],
+  "properties": {
+    "canonical": {"type":"string","minLength":1},
+    "spoken_tr": {"type":"string","minLength":1},
+    "approved": {"const":true},
+    "source_ref": {"type":"string","minLength":1},
+    "reviewer": {"type":"string","minLength":1},
+    "evidence": {"type":"array","minItems":1,"items":{"type":"object","required":["annotation_id","clip_id","source_url"]}},
+    "aliases": {"type":"array","items":{"type":"string"}},
+    "suffix_map": {"type":"object","additionalProperties":{"type":"string"}},
+    "context": {"type":"string"}
+  }
+}

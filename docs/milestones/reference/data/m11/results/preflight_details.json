@@ -1,0 +1,11 @@
+{
+  "cuda_available": false,
+  "ffmpeg_available": true,
+  "freya_checkout_present": false,
+  "model_files_present": false,
+  "official_model_id": "freyavoice/freya-tts",
+  "python": "3.13.5",
+  "system": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "torch_version": "2.10.0+cpu",
+  "windows": false
+}

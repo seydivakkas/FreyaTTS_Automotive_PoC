@@ -1,0 +1,321 @@
+﻿id,category,changed,review_required,unsupported_chars,warning_codes,applied_rules,original,prepared
+PDF01,belge_ornegi,0,0,,,,Volkswagen Passat aracınız için sizi arıyorum.,Volkswagen Passat aracınız için sizi arıyorum.
+PDF02,belge_ornegi,0,0,,,,Aracınızın tahmini değeri bir milyon iki yüz elli bin Türk lirası.,Aracınızın tahmini değeri bir milyon iki yüz elli bin Türk lirası.
+PDF03,belge_ornegi,0,0,,,,Sizin için yarın saat on dört otuzda ekspertiz randevusu oluşturabiliriz.,Sizin için yarın saat on dört otuzda ekspertiz randevusu oluşturabiliriz.
+M01,fiyat,1,0,,,currency,Aracınızın tahmini değeri 1.250.000 TL.,Aracınızın tahmini değeri bir milyon iki yüz elli bin Türk lirası.
+M02,fiyat,1,0,,,currency,Aracınız için 1250000 ₺ teklif ediliyor.,Aracınız için bir milyon iki yüz elli bin Türk lirası teklif ediliyor.
+M03,fiyat,1,0,,,currency,"Bakım ücreti 1.250,50 TL olarak görünüyor.",Bakım ücreti bin iki yüz elli Türk lirası ve elli kuruş olarak görünüyor.
+H01,saat,1,0,,,clock,Yarın saat 14:30'da ekspertiz yapabiliriz.,Yarın saat on dört otuzda ekspertiz yapabiliriz.
+H02,saat,1,0,,,clock,Randevunuz 09:00'da başlayacak.,Randevunuz dokuzda başlayacak.
+H03,saat,1,0,,,clock,Yarın 15:00'te müsaitiz.,Yarın on beşte müsaitiz.
+E01,motor,1,0,,,engine,1.5 TSI motorlu araç stokta.,bir nokta beş TSI motorlu araç stokta.
+E02,motor,1,0,,,engine,"1,6 TDI motora sahip araç incelenecek.",bir nokta altı TDI motora sahip araç incelenecek.
+V01,marka,0,1,,unexpanded_numeric_token,,Peugeot 308 için teklif hazırlıyorum.,Peugeot 308 için teklif hazırlıyorum.
+V02,model,1,1,q,unsupported_freya_characters,model_year,2023 model Nissan Qashqai hakkında bilgi vereyim.,iki bin yirmi üç model Nissan Qashqai hakkında bilgi vereyim.
+V03,marka,0,1,ëŠ,unexpanded_numeric_token;unsupported_freya_characters,,Citroën C3 ve Škoda Octavia seçenekleri var.,Citroën C3 ve Škoda Octavia seçenekleri var.
+V04,marka_ek,0,1,q,unsupported_freya_characters,,Qashqai'nin ekspertiz raporu hazır.,Qashqai'nin ekspertiz raporu hazır.
+K01,mesafe,1,0,,,distance,Araç 145.000 km yol yapmış.,Araç yüz kırk beş bin kilometre yol yapmış.
+T01,tarih,1,0,,,date_iso,Randevuyu 2026-11-03 tarihine alalım.,Randevuyu üç kasım iki bin yirmi altı tarihine alalım.
+T02,tarih,1,0,,,date_tr,Servis 03.11.2026 tarihinde açılıyor.,Servis üç kasım iki bin yirmi altı tarihinde açılıyor.
+C01,kontrol,1,0,,,,Aracınız için sizi tekrar arıyorum!,Aracınız için sizi tekrar arıyorum.
+C02,kontrol,0,0,,,,Bu fiyatı onaylıyor musunuz?,Bu fiyatı onaylıyor musunuz?
+XFI01,finance_integer,1,0,,,currency,Aracınızın ön değerleme bedeli 1.250.000 TL olarak görünüyor.,Aracınızın ön değerleme bedeli bir milyon iki yüz elli bin Türk lirası olarak görünüyor.
+XFI02,finance_integer,1,0,,,currency,Güncel teklifimiz 985.000 TL olarak görünüyor.,Güncel teklifimiz dokuz yüz seksen beş bin Türk lirası olarak görünüyor.
+XFI03,finance_integer,1,0,,,currency,İlan fiyatı 3.450.000 TL olarak görünüyor.,İlan fiyatı üç milyon dört yüz elli bin Türk lirası olarak görünüyor.
+XFI04,finance_integer,1,0,,,currency,Ekspertiz sonrası tahmini fiyat 750.000 TL olarak görünüyor.,Ekspertiz sonrası tahmini fiyat yedi yüz elli bin Türk lirası olarak görünüyor.
+XFI05,finance_integer,1,0,,,currency,İşlemin yaklaşık tutarı 1250000 TL olarak görünüyor.,İşlemin yaklaşık tutarı bir milyon iki yüz elli bin Türk lirası olarak görünüyor.
+XFI06,finance_integer,1,0,,,currency,Aracınızın ön değerleme bedeli 2.035.000 TRY olarak görünüyor.,Aracınızın ön değerleme bedeli iki milyon otuz beş bin Türk lirası olarak görünüyor.
+XFI07,finance_integer,1,0,,,currency,Güncel teklifimiz 850.500 ₺ olarak görünüyor.,Güncel teklifimiz sekiz yüz elli bin beş yüz Türk lirası olarak görünüyor.
+XFI08,finance_integer,1,0,,,currency,İlan fiyatı 475.000 TL olarak görünüyor.,İlan fiyatı dört yüz yetmiş beş bin Türk lirası olarak görünüyor.
+XFI09,finance_integer,1,0,,,currency,Ekspertiz sonrası tahmini fiyat 6.250.000 TL olarak görünüyor.,Ekspertiz sonrası tahmini fiyat altı milyon iki yüz elli bin Türk lirası olarak görünüyor.
+XFI10,finance_integer,1,0,,,currency,İşlemin yaklaşık tutarı 1.099.000 TL olarak görünüyor.,İşlemin yaklaşık tutarı bir milyon doksan dokuz bin Türk lirası olarak görünüyor.
+XFI11,finance_integer,1,0,,,currency,Aracınızın ön değerleme bedeli 450000 TL olarak görünüyor.,Aracınızın ön değerleme bedeli dört yüz elli bin Türk lirası olarak görünüyor.
+XFI12,finance_integer,1,0,,,currency,Güncel teklifimiz 925.000 TRY olarak görünüyor.,Güncel teklifimiz dokuz yüz yirmi beş bin Türk lirası olarak görünüyor.
+XFI13,finance_integer,1,0,,,currency,İlan fiyatı 2.750.000 TL olarak görünüyor.,İlan fiyatı iki milyon yedi yüz elli bin Türk lirası olarak görünüyor.
+XFI14,finance_integer,1,0,,,currency,Ekspertiz sonrası tahmini fiyat 100.000 ₺ olarak görünüyor.,Ekspertiz sonrası tahmini fiyat yüz bin Türk lirası olarak görünüyor.
+XFI15,finance_integer,1,0,,,currency,İşlemin yaklaşık tutarı 210.000 TL olarak görünüyor.,İşlemin yaklaşık tutarı iki yüz on bin Türk lirası olarak görünüyor.
+XFI16,finance_integer,1,0,,,currency,Aracınızın ön değerleme bedeli 1.000.000 TL olarak görünüyor.,Aracınızın ön değerleme bedeli bir milyon Türk lirası olarak görünüyor.
+XFI17,finance_integer,1,0,,,currency,Güncel teklifimiz 999.999 TL olarak görünüyor.,Güncel teklifimiz dokuz yüz doksan dokuz bin dokuz yüz doksan dokuz Türk lirası olarak görünüyor.
+XFI18,finance_integer,1,0,,,currency,İlan fiyatı 22.500 TRY olarak görünüyor.,İlan fiyatı yirmi iki bin beş yüz Türk lirası olarak görünüyor.
+XFI19,finance_integer,1,0,,,currency,Ekspertiz sonrası tahmini fiyat 12.000 TL olarak görünüyor.,Ekspertiz sonrası tahmini fiyat on iki bin Türk lirası olarak görünüyor.
+XFI20,finance_integer,1,0,,,currency,İşlemin yaklaşık tutarı 44.000 TL olarak görünüyor.,İşlemin yaklaşık tutarı kırk dört bin Türk lirası olarak görünüyor.
+XFI21,finance_integer,1,0,,,currency,Aracınızın ön değerleme bedeli 500.000 ₺ olarak görünüyor.,Aracınızın ön değerleme bedeli beş yüz bin Türk lirası olarak görünüyor.
+XFI22,finance_integer,1,0,,,currency,Güncel teklifimiz 1.800.000 TL olarak görünüyor.,Güncel teklifimiz bir milyon sekiz yüz bin Türk lirası olarak görünüyor.
+XFI23,finance_integer,1,0,,,currency,İlan fiyatı 9.875.000 TL olarak görünüyor.,İlan fiyatı dokuz milyon sekiz yüz yetmiş beş bin Türk lirası olarak görünüyor.
+XFI24,finance_integer,1,0,,,currency,Ekspertiz sonrası tahmini fiyat 1.245.500 TRY olarak görünüyor.,Ekspertiz sonrası tahmini fiyat bir milyon iki yüz kırk beş bin beş yüz Türk lirası olarak görünüyor.
+XFI25,finance_integer,1,0,,,currency,İşlemin yaklaşık tutarı 650000 TL olarak görünüyor.,İşlemin yaklaşık tutarı altı yüz elli bin Türk lirası olarak görünüyor.
+XFD01,finance_decimal,1,0,,,currency,"Ön kontrol bedeli 1.250,50 TL olarak listelendi.",Ön kontrol bedeli bin iki yüz elli Türk lirası ve elli kuruş olarak listelendi.
+XFD02,finance_decimal,1,0,,,currency,"Otopark ücreti 2.999,99 TL olarak listelendi.",Otopark ücreti iki bin dokuz yüz doksan dokuz Türk lirası ve doksan dokuz kuruş olarak listelendi.
+XFD03,finance_decimal,1,0,,,currency,"Bakım için hesaplanan tutar 850,75 TL olarak listelendi.",Bakım için hesaplanan tutar sekiz yüz elli Türk lirası ve yetmiş beş kuruş olarak listelendi.
+XFD04,finance_decimal,1,0,,,currency,"Ek işlem maliyeti 125,40 TL olarak listelendi.",Ek işlem maliyeti yüz yirmi beş Türk lirası ve kırk kuruş olarak listelendi.
+XFD05,finance_decimal,1,0,,,currency,"Parça fiyatı 100,01 TL olarak listelendi.",Parça fiyatı yüz Türk lirası ve bir kuruş olarak listelendi.
+XFD06,finance_decimal,1,0,,,currency,"Ön kontrol bedeli 19,90 TL olarak listelendi.",Ön kontrol bedeli on dokuz Türk lirası ve doksan kuruş olarak listelendi.
+XFD07,finance_decimal,1,0,,,currency,"Otopark ücreti 1.000,05 TL olarak listelendi.",Otopark ücreti bin Türk lirası ve beş kuruş olarak listelendi.
+XFD08,finance_decimal,1,0,,,currency,"Bakım için hesaplanan tutar 999,50 TL olarak listelendi.",Bakım için hesaplanan tutar dokuz yüz doksan dokuz Türk lirası ve elli kuruş olarak listelendi.
+XFD09,finance_decimal,1,0,,,currency,"Ek işlem maliyeti 2.500,25 ₺ olarak listelendi.",Ek işlem maliyeti iki bin beş yüz Türk lirası ve yirmi beş kuruş olarak listelendi.
+XFD10,finance_decimal,1,0,,,currency,"Parça fiyatı 17.250,10 TL olarak listelendi.",Parça fiyatı on yedi bin iki yüz elli Türk lirası ve on kuruş olarak listelendi.
+XFD11,finance_decimal,1,0,,,currency,"Ön kontrol bedeli 6.390,80 TL olarak listelendi.",Ön kontrol bedeli altı bin üç yüz doksan Türk lirası ve seksen kuruş olarak listelendi.
+XFD12,finance_decimal,1,0,,,currency,"Otopark ücreti 250,00 TL olarak listelendi.",Otopark ücreti iki yüz elli Türk lirası olarak listelendi.
+XFD13,finance_decimal,1,0,,,currency,"Bakım için hesaplanan tutar 8.500,45 TL olarak listelendi.",Bakım için hesaplanan tutar sekiz bin beş yüz Türk lirası ve kırk beş kuruş olarak listelendi.
+XFD14,finance_decimal,1,0,,,currency,"Ek işlem maliyeti 129,95 TL olarak listelendi.",Ek işlem maliyeti yüz yirmi dokuz Türk lirası ve doksan beş kuruş olarak listelendi.
+XFD15,finance_decimal,1,0,,,currency,"Parça fiyatı 65,05 TL olarak listelendi.",Parça fiyatı altmış beş Türk lirası ve beş kuruş olarak listelendi.
+XFD16,finance_decimal,1,0,,,currency,"Ön kontrol bedeli 1.499,00 TL olarak listelendi.",Ön kontrol bedeli bin dört yüz doksan dokuz Türk lirası olarak listelendi.
+XFD17,finance_decimal,1,0,,,currency,"Otopark ücreti 4.999,90 TL olarak listelendi.",Otopark ücreti dört bin dokuz yüz doksan dokuz Türk lirası ve doksan kuruş olarak listelendi.
+XFD18,finance_decimal,1,0,,,currency,"Bakım için hesaplanan tutar 7.250,65 ₺ olarak listelendi.",Bakım için hesaplanan tutar yedi bin iki yüz elli Türk lirası ve altmış beş kuruş olarak listelendi.
+XFD19,finance_decimal,1,0,,,currency,"Ek işlem maliyeti 45,75 TL olarak listelendi.",Ek işlem maliyeti kırk beş Türk lirası ve yetmiş beş kuruş olarak listelendi.
+XFD20,finance_decimal,1,0,,,currency,"Parça fiyatı 1.000,99 TL olarak listelendi.",Parça fiyatı bin Türk lirası ve doksan dokuz kuruş olarak listelendi.
+XFD21,finance_decimal,1,0,,,currency,"Ön kontrol bedeli 1.650,15 TL olarak listelendi.",Ön kontrol bedeli bin altı yüz elli Türk lirası ve on beş kuruş olarak listelendi.
+XFD22,finance_decimal,1,0,,,currency,"Otopark ücreti 700,35 TL olarak listelendi.",Otopark ücreti yedi yüz Türk lirası ve otuz beş kuruş olarak listelendi.
+XFD23,finance_decimal,1,0,,,currency,"Bakım için hesaplanan tutar 15,60 TL olarak listelendi.",Bakım için hesaplanan tutar on beş Türk lirası ve altmış kuruş olarak listelendi.
+XFD24,finance_decimal,1,0,,,currency,"Ek işlem maliyeti 12.450,85 TL olarak listelendi.",Ek işlem maliyeti on iki bin dört yüz elli Türk lirası ve seksen beş kuruş olarak listelendi.
+XFD25,finance_decimal,1,0,,,currency,"Parça fiyatı 250.999,95 TL olarak listelendi.",Parça fiyatı iki yüz elli bin dokuz yüz doksan dokuz Türk lirası ve doksan beş kuruş olarak listelendi.
+XCL01,clock,1,0,,,clock,Randevunuz yarın 14:30'da başlayacak.,Randevunuz yarın on dört otuzda başlayacak.
+XCL02,clock,1,0,,,clock,Ekspertiz görüşmesi yarın 09:00'da başlayacak.,Ekspertiz görüşmesi yarın dokuzda başlayacak.
+XCL03,clock,1,0,,,clock,Sizi yarın 15:00'te arayabilir miyiz?,Sizi yarın on beşte arayabilir miyiz?
+XCL04,clock,1,0,,,clock,Servis kabulü yarın 08:45'te başlayacak.,Servis kabulü yarın sekiz kırk beşte başlayacak.
+XCL05,clock,1,0,,,clock,Test sürüşü yarın 10:15'te başlayacak.,Test sürüşü yarın on on beşte başlayacak.
+XCL06,clock,1,0,,,clock,Randevunuz yarın 11:30'da başlayacak.,Randevunuz yarın on bir otuzda başlayacak.
+XCL07,clock,1,0,,,clock,Ekspertiz görüşmesi yarın 16:20'de başlayacak.,Ekspertiz görüşmesi yarın on altı yirmide başlayacak.
+XCL08,clock,1,0,,,clock,Sizi yarın 17:00'de arayabilir miyiz?,Sizi yarın on yedide arayabilir miyiz?
+XCL09,clock,1,0,,,clock,Servis kabulü yarın 13:05'te başlayacak.,Servis kabulü yarın on üç beşte başlayacak.
+XCL10,clock,1,0,,,clock,Test sürüşü yarın 18:55'te başlayacak.,Test sürüşü yarın on sekiz elli beşte başlayacak.
+XCL11,clock,1,0,,,clock,Randevunuz yarın 07:40'ta başlayacak.,Randevunuz yarın yedi kırkta başlayacak.
+XCL12,clock,1,0,,,clock,Ekspertiz görüşmesi yarın 19:10'da başlayacak.,Ekspertiz görüşmesi yarın on dokuz onda başlayacak.
+XCL13,clock,1,0,,,clock,Sizi yarın 12:00'de arayabilir miyiz?,Sizi yarın on ikide arayabilir miyiz?
+XCL14,clock,1,0,,,clock,Servis kabulü yarın 22:30'da başlayacak.,Servis kabulü yarın yirmi iki otuzda başlayacak.
+XCL15,clock,1,0,,,clock,Test sürüşü yarın 06:05'te başlayacak.,Test sürüşü yarın altı beşte başlayacak.
+XCL16,clock,1,0,,,clock,Randevunuz yarın 20:00'de başlayacak.,Randevunuz yarın yirmide başlayacak.
+XCL17,clock,1,0,,,clock,Ekspertiz görüşmesi yarın 21:15'te başlayacak.,Ekspertiz görüşmesi yarın yirmi bir on beşte başlayacak.
+XCL18,clock,1,0,,,clock,Sizi yarın 16:00'da arayabilir miyiz?,Sizi yarın on altıda arayabilir miyiz?
+XCL19,clock,1,0,,,clock,Servis kabulü yarın 14:45'te başlayacak.,Servis kabulü yarın on dört kırk beşte başlayacak.
+XCL20,clock,1,0,,,clock,Test sürüşü yarın 09:25'te başlayacak.,Test sürüşü yarın dokuz yirmi beşte başlayacak.
+XCL21,clock,1,0,,,clock,Randevunuz yarın 10:00'da başlayacak.,Randevunuz yarın onda başlayacak.
+XCL22,clock,1,0,,,clock,Ekspertiz görüşmesi yarın 08:30'da başlayacak.,Ekspertiz görüşmesi yarın sekiz otuzda başlayacak.
+XCL23,clock,1,0,,,clock,Sizi yarın 11:05'te arayabilir miyiz?,Sizi yarın on bir beşte arayabilir miyiz?
+XCL24,clock,1,0,,,clock,Servis kabulü yarın 13:50'de başlayacak.,Servis kabulü yarın on üç ellide başlayacak.
+XCL25,clock,1,0,,,clock,Test sürüşü yarın 15:35'te başlayacak.,Test sürüşü yarın on beş otuz beşte başlayacak.
+XCA01,calendar,1,0,,,date_iso,Randevu tarihi 2026-11-03 olarak görünüyor.,Randevu tarihi üç kasım iki bin yirmi altı olarak görünüyor.
+XCA02,calendar,1,0,,,date_tr,Servis kayıt tarihi 03.11.2026 olarak görünüyor.,Servis kayıt tarihi üç kasım iki bin yirmi altı olarak görünüyor.
+XCA03,calendar,1,0,,,date_iso,Teklifin düzenlendiği tarih 2026-12-18 olarak görünüyor.,Teklifin düzenlendiği tarih on sekiz aralık iki bin yirmi altı olarak görünüyor.
+XCA04,calendar,1,0,,,date_tr,Araç teslim planı 18.12.2026 olarak görünüyor.,Araç teslim planı on sekiz aralık iki bin yirmi altı olarak görünüyor.
+XCA05,calendar,1,0,,,date_iso,Değerleme görüşmesi 2027-01-05 olarak görünüyor.,Değerleme görüşmesi beş ocak iki bin yirmi yedi olarak görünüyor.
+XCA06,calendar,1,0,,,date_tr,Randevu tarihi 05.01.2027 olarak görünüyor.,Randevu tarihi beş ocak iki bin yirmi yedi olarak görünüyor.
+XCA07,calendar,1,0,,,date_iso,Servis kayıt tarihi 2027-02-28 olarak görünüyor.,Servis kayıt tarihi yirmi sekiz şubat iki bin yirmi yedi olarak görünüyor.
+XCA08,calendar,1,0,,,date_tr,Teklifin düzenlendiği tarih 28.02.2027 olarak görünüyor.,Teklifin düzenlendiği tarih yirmi sekiz şubat iki bin yirmi yedi olarak görünüyor.
+XCA09,calendar,1,0,,,date_iso,Araç teslim planı 2026-10-31 olarak görünüyor.,Araç teslim planı otuz bir ekim iki bin yirmi altı olarak görünüyor.
+XCA10,calendar,1,0,,,date_tr,Değerleme görüşmesi 31.10.2026 olarak görünüyor.,Değerleme görüşmesi otuz bir ekim iki bin yirmi altı olarak görünüyor.
+XCA11,calendar,1,0,,,date_iso,Randevu tarihi 2027-04-23 olarak görünüyor.,Randevu tarihi yirmi üç nisan iki bin yirmi yedi olarak görünüyor.
+XCA12,calendar,1,0,,,date_tr,Servis kayıt tarihi 23.04.2027 olarak görünüyor.,Servis kayıt tarihi yirmi üç nisan iki bin yirmi yedi olarak görünüyor.
+XCA13,calendar,1,0,,,date_iso,Teklifin düzenlendiği tarih 2026-09-17 olarak görünüyor.,Teklifin düzenlendiği tarih on yedi eylül iki bin yirmi altı olarak görünüyor.
+XCA14,calendar,1,0,,,date_tr,Araç teslim planı 17.09.2026 olarak görünüyor.,Araç teslim planı on yedi eylül iki bin yirmi altı olarak görünüyor.
+XCA15,calendar,1,0,,,date_iso,Değerleme görüşmesi 2028-02-29 olarak görünüyor.,Değerleme görüşmesi yirmi dokuz şubat iki bin yirmi sekiz olarak görünüyor.
+XCA16,calendar,1,0,,,date_tr,Randevu tarihi 29.02.2028 olarak görünüyor.,Randevu tarihi yirmi dokuz şubat iki bin yirmi sekiz olarak görünüyor.
+XCA17,calendar,1,0,,,date_iso,Servis kayıt tarihi 2026-06-15 olarak görünüyor.,Servis kayıt tarihi on beş haziran iki bin yirmi altı olarak görünüyor.
+XCA18,calendar,1,0,,,date_tr,Teklifin düzenlendiği tarih 15.06.2026 olarak görünüyor.,Teklifin düzenlendiği tarih on beş haziran iki bin yirmi altı olarak görünüyor.
+XCA19,calendar,1,0,,,date_iso,Araç teslim planı 2026-01-01 olarak görünüyor.,Araç teslim planı bir ocak iki bin yirmi altı olarak görünüyor.
+XCA20,calendar,1,0,,,date_tr,Değerleme görüşmesi 01.01.2026 olarak görünüyor.,Değerleme görüşmesi bir ocak iki bin yirmi altı olarak görünüyor.
+XCA21,calendar,1,0,,,date_iso,Randevu tarihi 2027-07-14 olarak görünüyor.,Randevu tarihi on dört temmuz iki bin yirmi yedi olarak görünüyor.
+XCA22,calendar,1,0,,,date_tr,Servis kayıt tarihi 14.07.2027 olarak görünüyor.,Servis kayıt tarihi on dört temmuz iki bin yirmi yedi olarak görünüyor.
+XCA23,calendar,1,0,,,date_iso,Teklifin düzenlendiği tarih 2026-08-30 olarak görünüyor.,Teklifin düzenlendiği tarih otuz ağustos iki bin yirmi altı olarak görünüyor.
+XCA24,calendar,1,0,,,date_tr,Araç teslim planı 30.08.2026 olarak görünüyor.,Araç teslim planı otuz ağustos iki bin yirmi altı olarak görünüyor.
+XCA25,calendar,1,0,,,date_iso,Değerleme görüşmesi 2027-05-19 olarak görünüyor.,Değerleme görüşmesi on dokuz mayıs iki bin yirmi yedi olarak görünüyor.
+XEN01,engine,1,0,,,engine,Bu araç 1.5 TSI motor seçeneğiyle listeleniyor.,Bu araç bir nokta beş TSI motor seçeneğiyle listeleniyor.
+XEN02,engine,1,0,,,engine,"İncelediğimiz otomobil 1,6 TDI motor seçeneğiyle listeleniyor.",İncelediğimiz otomobil bir nokta altı TDI motor seçeneğiyle listeleniyor.
+XEN03,engine,1,0,,,engine,Satıştaki model 2.0 TDI motor seçeneğiyle listeleniyor.,Satıştaki model iki nokta sıfır TDI motor seçeneğiyle listeleniyor.
+XEN04,engine,1,0,,,engine,Ekspertize alınacak araç 1.2 TCe motor seçeneğiyle listeleniyor.,Ekspertize alınacak araç bir nokta iki TCe motor seçeneğiyle listeleniyor.
+XEN05,engine,1,0,,,engine,Test sürüşü aracı 1.3 TCe motor seçeneğiyle listeleniyor.,Test sürüşü aracı bir nokta üç TCe motor seçeneğiyle listeleniyor.
+XEN06,engine,1,0,,,engine,Bu araç 1.5 dCi motor seçeneğiyle listeleniyor.,Bu araç bir nokta beş dCi motor seçeneğiyle listeleniyor.
+XEN07,engine,1,0,,,engine,İncelediğimiz otomobil 2.0 TFSI motor seçeneğiyle listeleniyor.,İncelediğimiz otomobil iki nokta sıfır TFSI motor seçeneğiyle listeleniyor.
+XEN08,engine,1,0,,,engine,Satıştaki model 1.4 TSI motor seçeneğiyle listeleniyor.,Satıştaki model bir nokta dört TSI motor seçeneğiyle listeleniyor.
+XEN09,engine,1,0,,,engine,Ekspertize alınacak araç 1.0 TSI motor seçeneğiyle listeleniyor.,Ekspertize alınacak araç bir nokta sıfır TSI motor seçeneğiyle listeleniyor.
+XEN10,engine,1,0,,,engine,Test sürüşü aracı 1.6 HDI motor seçeneğiyle listeleniyor.,Test sürüşü aracı bir nokta altı HDI motor seçeneğiyle listeleniyor.
+XEN11,engine,1,0,,,engine,"Bu araç 1,5 TSI motor seçeneğiyle listeleniyor.",Bu araç bir nokta beş TSI motor seçeneğiyle listeleniyor.
+XEN12,engine,1,0,,,engine,"İncelediğimiz otomobil 2,0 TDI motor seçeneğiyle listeleniyor.",İncelediğimiz otomobil iki nokta sıfır TDI motor seçeneğiyle listeleniyor.
+XEN13,engine,1,0,,,engine,Satıştaki model 1.6 CDI motor seçeneğiyle listeleniyor.,Satıştaki model bir nokta altı CDI motor seçeneğiyle listeleniyor.
+XEN14,engine,1,0,,,engine,Ekspertize alınacak araç 1.4 TDI motor seçeneğiyle listeleniyor.,Ekspertize alınacak araç bir nokta dört TDI motor seçeneğiyle listeleniyor.
+XEN15,engine,1,0,,,engine,Test sürüşü aracı 1.8 TSI motor seçeneğiyle listeleniyor.,Test sürüşü aracı bir nokta sekiz TSI motor seçeneğiyle listeleniyor.
+XEN16,engine,1,0,,,engine,Bu araç 2.5 TSI motor seçeneğiyle listeleniyor.,Bu araç iki nokta beş TSI motor seçeneğiyle listeleniyor.
+XEN17,engine,1,0,,,engine,İncelediğimiz otomobil 2.2 CDI motor seçeneğiyle listeleniyor.,İncelediğimiz otomobil iki nokta iki CDI motor seçeneğiyle listeleniyor.
+XEN18,engine,1,0,,,engine,Satıştaki model 1.9 TDI motor seçeneğiyle listeleniyor.,Satıştaki model bir nokta dokuz TDI motor seçeneğiyle listeleniyor.
+XEN19,engine,1,0,,,engine,Ekspertize alınacak araç 1.6 TCe motor seçeneğiyle listeleniyor.,Ekspertize alınacak araç bir nokta altı TCe motor seçeneğiyle listeleniyor.
+XEN20,engine,1,0,,,engine,Test sürüşü aracı 1.3 dCi motor seçeneğiyle listeleniyor.,Test sürüşü aracı bir nokta üç dCi motor seçeneğiyle listeleniyor.
+XEN21,engine,1,0,,,engine,Bu araç 1.2 TSI motor seçeneğiyle listeleniyor.,Bu araç bir nokta iki TSI motor seçeneğiyle listeleniyor.
+XEN22,engine,1,0,,,engine,İncelediğimiz otomobil 1.1 TSI motor seçeneğiyle listeleniyor.,İncelediğimiz otomobil bir nokta bir TSI motor seçeneğiyle listeleniyor.
+XEN23,engine,1,0,,,engine,Satıştaki model 1.6 TFSI motor seçeneğiyle listeleniyor.,Satıştaki model bir nokta altı TFSI motor seçeneğiyle listeleniyor.
+XEN24,engine,1,0,,,engine,Ekspertize alınacak araç 2.4 TDI motor seçeneğiyle listeleniyor.,Ekspertize alınacak araç iki nokta dört TDI motor seçeneğiyle listeleniyor.
+XEN25,engine,1,0,,,engine,Test sürüşü aracı 1.5 HDI motor seçeneğiyle listeleniyor.,Test sürüşü aracı bir nokta beş HDI motor seçeneğiyle listeleniyor.
+XMI01,mileage,1,0,,,distance,Araç 145.000 km olarak kaydedilmiş.,Araç yüz kırk beş bin kilometre olarak kaydedilmiş.
+XMI02,mileage,1,0,,,distance,İncelenen otomobil 35.000 km olarak kaydedilmiş.,İncelenen otomobil otuz beş bin kilometre olarak kaydedilmiş.
+XMI03,mileage,1,0,,,distance,Bu model 1.500 km olarak kaydedilmiş.,Bu model bin beş yüz kilometre olarak kaydedilmiş.
+XMI04,mileage,1,0,,,distance,Ön değerlendirme kaydı 223.400 km olarak kaydedilmiş.,Ön değerlendirme kaydı iki yüz yirmi üç bin dört yüz kilometre olarak kaydedilmiş.
+XMI05,mileage,1,0,,,distance,Satıştaki araç 950 km olarak kaydedilmiş.,Satıştaki araç dokuz yüz elli kilometre olarak kaydedilmiş.
+XMI06,mileage,1,0,,,distance,Araç 85.000 km olarak kaydedilmiş.,Araç seksen beş bin kilometre olarak kaydedilmiş.
+XMI07,mileage,1,0,,,distance,İncelenen otomobil 240.000 km olarak kaydedilmiş.,İncelenen otomobil iki yüz kırk bin kilometre olarak kaydedilmiş.
+XMI08,mileage,1,0,,,distance,Bu model 10.000 km olarak kaydedilmiş.,Bu model on bin kilometre olarak kaydedilmiş.
+XMI09,mileage,1,0,,,distance,Ön değerlendirme kaydı 300.000 km olarak kaydedilmiş.,Ön değerlendirme kaydı üç yüz bin kilometre olarak kaydedilmiş.
+XMI10,mileage,1,0,,,distance,Satıştaki araç 125000 km olarak kaydedilmiş.,Satıştaki araç yüz yirmi beş bin kilometre olarak kaydedilmiş.
+XMI11,mileage,1,0,,,distance,Araç 4.250 km olarak kaydedilmiş.,Araç dört bin iki yüz elli kilometre olarak kaydedilmiş.
+XMI12,mileage,1,0,,,distance,İncelenen otomobil 67.890 km olarak kaydedilmiş.,İncelenen otomobil altmış yedi bin sekiz yüz doksan kilometre olarak kaydedilmiş.
+XMI13,mileage,1,0,,,distance,Bu model 250.150 km olarak kaydedilmiş.,Bu model iki yüz elli bin yüz elli kilometre olarak kaydedilmiş.
+XMI14,mileage,1,0,,,distance,Ön değerlendirme kaydı 44.444 km olarak kaydedilmiş.,Ön değerlendirme kaydı kırk dört bin dört yüz kırk dört kilometre olarak kaydedilmiş.
+XMI15,mileage,1,0,,,distance,Satıştaki araç 55.500 km olarak kaydedilmiş.,Satıştaki araç elli beş bin beş yüz kilometre olarak kaydedilmiş.
+XMI16,mileage,1,0,,,distance,Araç 99.950 km olarak kaydedilmiş.,Araç doksan dokuz bin dokuz yüz elli kilometre olarak kaydedilmiş.
+XMI17,mileage,1,0,,,distance,İncelenen otomobil 120.000 km olarak kaydedilmiş.,İncelenen otomobil yüz yirmi bin kilometre olarak kaydedilmiş.
+XMI18,mileage,1,0,,,distance,Bu model 12.345 km olarak kaydedilmiş.,Bu model on iki bin üç yüz kırk beş kilometre olarak kaydedilmiş.
+XMI19,mileage,1,0,,,distance,Ön değerlendirme kaydı 175.000 km olarak kaydedilmiş.,Ön değerlendirme kaydı yüz yetmiş beş bin kilometre olarak kaydedilmiş.
+XMI20,mileage,1,0,,,distance,Satıştaki araç 280.000 km olarak kaydedilmiş.,Satıştaki araç iki yüz seksen bin kilometre olarak kaydedilmiş.
+XMI21,mileage,1,0,,,distance,Araç 130.300 km olarak kaydedilmiş.,Araç yüz otuz bin üç yüz kilometre olarak kaydedilmiş.
+XMI22,mileage,1,0,,,distance,İncelenen otomobil 18.250 km olarak kaydedilmiş.,İncelenen otomobil on sekiz bin iki yüz elli kilometre olarak kaydedilmiş.
+XMI23,mileage,1,0,,,distance,Bu model 199.999 km olarak kaydedilmiş.,Bu model yüz doksan dokuz bin dokuz yüz doksan dokuz kilometre olarak kaydedilmiş.
+XMI24,mileage,1,0,,,distance,Ön değerlendirme kaydı 222.000 km olarak kaydedilmiş.,Ön değerlendirme kaydı iki yüz yirmi iki bin kilometre olarak kaydedilmiş.
+XMI25,mileage,1,0,,,distance,Satıştaki araç 72.500 km olarak kaydedilmiş.,Satıştaki araç yetmiş iki bin beş yüz kilometre olarak kaydedilmiş.
+XVN01,vehicle_names,0,0,,,,Volkswagen Passat aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.,Volkswagen Passat aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.
+XVN02,vehicle_names,0,1,,unexpanded_numeric_token,,Peugeot 308 aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.,Peugeot 308 aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.
+XVN03,vehicle_names,0,1,q,unsupported_freya_characters,,Nissan Qashqai aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.,Nissan Qashqai aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.
+XVN04,vehicle_names,0,1,ë,unexpanded_numeric_token;unsupported_freya_characters,,Citroën C3 aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.,Citroën C3 aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.
+XVN05,vehicle_names,0,1,Š,unsupported_freya_characters,,Škoda Octavia aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.,Škoda Octavia aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.
+XVN06,vehicle_names,0,0,,,,Renault Clio aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.,Renault Clio aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.
+XVN07,vehicle_names,0,0,,,,Dacia Duster aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.,Dacia Duster aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.
+XVN08,vehicle_names,0,0,,,,Porsche Macan aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.,Porsche Macan aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.
+XVN09,vehicle_names,0,0,,,,Chevrolet Cruze aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.,Chevrolet Cruze aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.
+XVN10,vehicle_names,0,0,,,,Toyota Corolla aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.,Toyota Corolla aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.
+XVN11,vehicle_names,0,0,,,,Honda Civic aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.,Honda Civic aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.
+XVN12,vehicle_names,0,0,,,,Hyundai Tucson aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.,Hyundai Tucson aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.
+XVN13,vehicle_names,0,1,,unexpanded_numeric_token,,BMW X5 aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.,BMW X5 aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.
+XVN14,vehicle_names,0,1,,unexpanded_numeric_token,,Mercedes-Benz C 200 aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.,Mercedes-Benz C 200 aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.
+XVN15,vehicle_names,0,1,,unexpanded_numeric_token,,Audi A3 aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.,Audi A3 aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.
+XVN16,vehicle_names,0,0,,,,Opel Corsa aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.,Opel Corsa aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.
+XVN17,vehicle_names,0,0,,,,Ford Focus aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.,Ford Focus aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.
+XVN18,vehicle_names,0,0,,,,Fiat Egea aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.,Fiat Egea aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.
+XVN19,vehicle_names,0,0,,,,Tesla Model Y aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.,Tesla Model Y aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.
+XVN20,vehicle_names,0,1,,unexpanded_numeric_token,,Volvo XC40 aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.,Volvo XC40 aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.
+XVN21,vehicle_names,0,0,,,,SEAT Leon aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.,SEAT Leon aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.
+XVN22,vehicle_names,0,0,,,,Cupra Formentor aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.,Cupra Formentor aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.
+XVN23,vehicle_names,0,0,,,,Land Rover Defender aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.,Land Rover Defender aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.
+XVN24,vehicle_names,0,0,,,,Jeep Renegade aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.,Jeep Renegade aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.
+XVN25,vehicle_names,0,0,,,,MINI Cooper aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.,MINI Cooper aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.
+XFS01,foreign_suffix,0,1,q,unsupported_freya_characters,,Qashqai'nin ilgili servis kaydını inceliyorum.,Qashqai'nin ilgili servis kaydını inceliyorum.
+XFS02,foreign_suffix,0,1,q,unsupported_freya_characters,,Qashqai'ye ilgili servis kaydını inceliyorum.,Qashqai'ye ilgili servis kaydını inceliyorum.
+XFS03,foreign_suffix,0,1,q,unsupported_freya_characters,,Qashqai'den ilgili servis kaydını inceliyorum.,Qashqai'den ilgili servis kaydını inceliyorum.
+XFS04,foreign_suffix,0,1,q,unsupported_freya_characters,,Qashqai'de ilgili servis kaydını inceliyorum.,Qashqai'de ilgili servis kaydını inceliyorum.
+XFS05,foreign_suffix,0,0,,,,Peugeot'nun ilgili servis kaydını inceliyorum.,Peugeot'nun ilgili servis kaydını inceliyorum.
+XFS06,foreign_suffix,0,0,,,,Peugeot'ya ilgili servis kaydını inceliyorum.,Peugeot'ya ilgili servis kaydını inceliyorum.
+XFS07,foreign_suffix,0,0,,,,Peugeot'dan ilgili servis kaydını inceliyorum.,Peugeot'dan ilgili servis kaydını inceliyorum.
+XFS08,foreign_suffix,0,0,,,,Peugeot'da ilgili servis kaydını inceliyorum.,Peugeot'da ilgili servis kaydını inceliyorum.
+XFS09,foreign_suffix,0,0,,,,Renault'nun ilgili servis kaydını inceliyorum.,Renault'nun ilgili servis kaydını inceliyorum.
+XFS10,foreign_suffix,0,0,,,,Renault'ya ilgili servis kaydını inceliyorum.,Renault'ya ilgili servis kaydını inceliyorum.
+XFS11,foreign_suffix,0,1,ë,unsupported_freya_characters,,Citroën'den ilgili servis kaydını inceliyorum.,Citroën'den ilgili servis kaydını inceliyorum.
+XFS12,foreign_suffix,0,1,ë,unsupported_freya_characters,,Citroën'de ilgili servis kaydını inceliyorum.,Citroën'de ilgili servis kaydını inceliyorum.
+XFS13,foreign_suffix,0,1,Š,unsupported_freya_characters,,Škoda'ya ilgili servis kaydını inceliyorum.,Škoda'ya ilgili servis kaydını inceliyorum.
+XFS14,foreign_suffix,0,1,Š,unsupported_freya_characters,,Škoda'dan ilgili servis kaydını inceliyorum.,Škoda'dan ilgili servis kaydını inceliyorum.
+XFS15,foreign_suffix,0,0,,,,Volkswagen'de ilgili servis kaydını inceliyorum.,Volkswagen'de ilgili servis kaydını inceliyorum.
+XFS16,foreign_suffix,0,0,,,,Volkswagen'den ilgili servis kaydını inceliyorum.,Volkswagen'den ilgili servis kaydını inceliyorum.
+XFS17,foreign_suffix,0,0,,,,Dacia'ya ilgili servis kaydını inceliyorum.,Dacia'ya ilgili servis kaydını inceliyorum.
+XFS18,foreign_suffix,0,0,,,,Dacia'dan ilgili servis kaydını inceliyorum.,Dacia'dan ilgili servis kaydını inceliyorum.
+XFS19,foreign_suffix,0,0,,,,Porsche'den ilgili servis kaydını inceliyorum.,Porsche'den ilgili servis kaydını inceliyorum.
+XFS20,foreign_suffix,0,0,,,,Porsche'ye ilgili servis kaydını inceliyorum.,Porsche'ye ilgili servis kaydını inceliyorum.
+XFS21,foreign_suffix,0,0,,,,Chevrolet'ye ilgili servis kaydını inceliyorum.,Chevrolet'ye ilgili servis kaydını inceliyorum.
+XFS22,foreign_suffix,0,0,,,,Chevrolet'den ilgili servis kaydını inceliyorum.,Chevrolet'den ilgili servis kaydını inceliyorum.
+XFS23,foreign_suffix,0,1,q,unsupported_freya_characters,,Qashqai'nın ilgili servis kaydını inceliyorum.,Qashqai'nın ilgili servis kaydını inceliyorum.
+XFS24,foreign_suffix,0,0,,,,Peugeot'yu ilgili servis kaydını inceliyorum.,Peugeot'yu ilgili servis kaydını inceliyorum.
+XFS25,foreign_suffix,0,0,,,,Renault'yu ilgili servis kaydını inceliyorum.,Renault'yu ilgili servis kaydını inceliyorum.
+XSH01,short_dialogue,0,0,,,,Evet.,Evet.
+XSH02,short_dialogue,0,0,,,,Hayır.,Hayır.
+XSH03,short_dialogue,0,0,,,,Elbette.,Elbette.
+XSH04,short_dialogue,0,0,,,,Anladım.,Anladım.
+XSH05,short_dialogue,0,0,,,,Bir dakika.,Bir dakika.
+XSH06,short_dialogue,0,0,,,,Lütfen.,Lütfen.
+XSH07,short_dialogue,0,0,,,,Teşekkür ederim.,Teşekkür ederim.
+XSH08,short_dialogue,0,0,,,,Rica ederim.,Rica ederim.
+XSH09,short_dialogue,0,0,,,,Dinliyorum.,Dinliyorum.
+XSH10,short_dialogue,0,0,,,,Tabii.,Tabii.
+XSH11,short_dialogue,0,0,,,,Mümkün.,Mümkün.
+XSH12,short_dialogue,0,0,,,,Uygun.,Uygun.
+XSH13,short_dialogue,0,0,,,,Kontrol ediyorum.,Kontrol ediyorum.
+XSH14,short_dialogue,0,0,,,,Hemen bakıyorum.,Hemen bakıyorum.
+XSH15,short_dialogue,0,0,,,,Haklısınız.,Haklısınız.
+XSH16,short_dialogue,0,0,,,,Şimdi açıklayayım.,Şimdi açıklayayım.
+XSH17,short_dialogue,0,0,,,,Bir saniye.,Bir saniye.
+XSH18,short_dialogue,0,0,,,,Sizi duyuyorum.,Sizi duyuyorum.
+XSH19,short_dialogue,0,0,,,,Devam edebilirsiniz.,Devam edebilirsiniz.
+XSH20,short_dialogue,0,0,,,,Yardımcı olayım.,Yardımcı olayım.
+XSH21,short_dialogue,0,0,,,,Peki.,Peki.
+XSH22,short_dialogue,0,0,,,,Tamamdır.,Tamamdır.
+XSH23,short_dialogue,0,0,,,,Memnuniyetle.,Memnuniyetle.
+XSH24,short_dialogue,0,0,,,,Kontrol edelim.,Kontrol edelim.
+XSH25,short_dialogue,0,0,,,,Başka sorunuz var mı?,Başka sorunuz var mı?
+XQU01,questions,0,0,,,,Bu araç hâlâ satışta mı?,Bu araç hâlâ satışta mı?
+XQU02,questions,0,0,,,,Ekspertiz raporunu görebilir miyim?,Ekspertiz raporunu görebilir miyim?
+XQU03,questions,0,0,,,,Fiyat teklifini bugün alabilir miyim?,Fiyat teklifini bugün alabilir miyim?
+XQU04,questions,0,0,,,,Servis kaydı var mı?,Servis kaydı var mı?
+XQU05,questions,0,0,,,,Aracın hasar geçmişi nedir?,Aracın hasar geçmişi nedir?
+XQU06,questions,0,0,,,,Randevumu değiştirebilir miyim?,Randevumu değiştirebilir miyim?
+XQU07,questions,0,1,,unexpanded_numeric_token,,Peugeot 308 için uygun saatiniz var mı?,Peugeot 308 için uygun saatiniz var mı?
+XQU08,questions,0,0,,,,Volkswagen Passat için teklifiniz nedir?,Volkswagen Passat için teklifiniz nedir?
+XQU09,questions,0,0,,,,Fiyatı tekrar söyleyebilir misiniz?,Fiyatı tekrar söyleyebilir misiniz?
+XQU10,questions,0,0,,,,Muayene ne zaman bitiyor?,Muayene ne zaman bitiyor?
+XQU11,questions,0,0,,,,Araç hâlâ garantili mi?,Araç hâlâ garantili mi?
+XQU12,questions,0,0,,,,Test sürüşü mümkün mü?,Test sürüşü mümkün mü?
+XQU13,questions,0,0,,,,Ödeme yöntemleriniz nelerdir?,Ödeme yöntemleriniz nelerdir?
+XQU14,questions,0,0,,,,Bu fiyat vergiler dahil mi?,Bu fiyat vergiler dahil mi?
+XQU15,questions,0,0,,,,Aracı bugün teslim alabilir miyim?,Aracı bugün teslim alabilir miyim?
+XQU16,questions,0,0,,,,Kilometresi doğrulandı mı?,Kilometresi doğrulandı mı?
+XQU17,questions,0,0,,,,Beni daha sonra arayabilir misiniz?,Beni daha sonra arayabilir misiniz?
+XQU18,questions,0,0,,,,Bu görüşme kaydediliyor mu?,Bu görüşme kaydediliyor mu?
+XQU19,questions,0,0,,,,Bir insan temsilciyle görüşebilir miyim?,Bir insan temsilciyle görüşebilir miyim?
+XQU20,questions,0,0,,,,Bana neden ulaştığınızı açıklar mısınız?,Bana neden ulaştığınızı açıklar mısınız?
+XQU21,questions,0,0,,,,Randevu talebimi iptal edebilir miyim?,Randevu talebimi iptal edebilir miyim?
+XQU22,questions,0,0,,,,Aracın motor seçeneği hangisi?,Aracın motor seçeneği hangisi?
+XQU23,questions,0,0,,,,Aracın yakıt türü nedir?,Aracın yakıt türü nedir?
+XQU24,questions,0,0,,,,Teklifinizin geçerlilik süresi ne kadar?,Teklifinizin geçerlilik süresi ne kadar?
+XQU25,questions,0,0,,,,Ekspertiz sonucuna göre fiyat değişir mi?,Ekspertiz sonucuna göre fiyat değişir mi?
+XLC01,long_context,0,0,,,,"Bilginizi doğruladıktan sonra otomobilinizin güncel piyasa değerini açıklayabilirim, ancak bunun kesin satış fiyatı olmadığını lütfen unutmayın.","Bilginizi doğruladıktan sonra otomobilinizin güncel piyasa değerini açıklayabilirim, ancak bunun kesin satış fiyatı olmadığını lütfen unutmayın."
+XLC02,long_context,0,0,,,,"Volkswagen Passat için fiyat teklifini hazırlamadan önce aracın model yılını, kilometre bilgisini ve geçmiş hasar kayıtlarını teyit etmem gerekiyor.","Volkswagen Passat için fiyat teklifini hazırlamadan önce aracın model yılını, kilometre bilgisini ve geçmiş hasar kayıtlarını teyit etmem gerekiyor."
+XLC03,long_context,0,0,,,,"Müşteri temsilcimize yönlendirmeden önce şu bilgiyi paylaşmak isterim, araç için bugün verilen tahmini değer ekspertiz incelemesiyle değişebilir.","Müşteri temsilcimize yönlendirmeden önce şu bilgiyi paylaşmak isterim, araç için bugün verilen tahmini değer ekspertiz incelemesiyle değişebilir."
+XLC04,long_context,0,0,,,,"Randevunuzun uygunluğunu kontrol edeceğim; eğer belirttiğiniz saat doluysa, size yakın zamanlı başka seçenekler önerebilirim.","Randevunuzun uygunluğunu kontrol edeceğim; eğer belirttiğiniz saat doluysa, size yakın zamanlı başka seçenekler önerebilirim."
+XLC05,long_context,0,1,,unexpanded_numeric_token,,"Peugeot 308 aracınızın bakımı için servis kaydı oluşturabiliriz, ancak işlemin kapsamını araç muayenesinden sonra netleştirmemiz gerekiyor.","Peugeot 308 aracınızın bakımı için servis kaydı oluşturabiliriz, ancak işlemin kapsamını araç muayenesinden sonra netleştirmemiz gerekiyor."
+XLC06,long_context,0,1,q,unsupported_freya_characters,,"Nissan Qashqai hakkında konuşurken fiyat, donanım ve yakıt tüketimi gibi bilgileri birbirine karıştırmadan sırayla açıklamak istiyorum.","Nissan Qashqai hakkında konuşurken fiyat, donanım ve yakıt tüketimi gibi bilgileri birbirine karıştırmadan sırayla açıklamak istiyorum."
+XLC07,long_context,0,0,,,,"İlk olarak aracın servis geçmişini kontrol ediyoruz, ardından kilometre ve boya değişen bilgilerini karşılaştırarak fiyat teklifini hazırlıyoruz.","İlk olarak aracın servis geçmişini kontrol ediyoruz, ardından kilometre ve boya değişen bilgilerini karşılaştırarak fiyat teklifini hazırlıyoruz."
+XLC08,long_context,0,0,,,,Randevunuzu oluşturmadan önce kişisel bilgilerinizi teyit edeceğim; istemezseniz bu görüşmeyi sonlandırabilir veya bir temsilciye aktarabilirim.,Randevunuzu oluşturmadan önce kişisel bilgilerinizi teyit edeceğim; istemezseniz bu görüşmeyi sonlandırabilir veya bir temsilciye aktarabilirim.
+XLC09,long_context,0,0,,,,"Teklif almak için aracınızın plakasını şu an paylaşmanız gerekmiyor, ilk aşamada marka, model ve yılı öğrenmem yeterli.","Teklif almak için aracınızın plakasını şu an paylaşmanız gerekmiyor, ilk aşamada marka, model ve yılı öğrenmem yeterli."
+XLC10,long_context,0,0,,,,"Belirttiğiniz saatte müsaitlik görünmezse başka bir gün seçebilirsiniz, uygun gördüğünüz zaman aralığını birlikte belirleyebiliriz.","Belirttiğiniz saatte müsaitlik görünmezse başka bir gün seçebilirsiniz, uygun gördüğünüz zaman aralığını birlikte belirleyebiliriz."
+XLC11,long_context,0,0,,,,Aracın teknik özelliklerini açıklarken motor hacmi ile yakıt tüketimini aynı şeymiş gibi değerlendirmemek gerekir; bunlar farklı bilgilerdir.,Aracın teknik özelliklerini açıklarken motor hacmi ile yakıt tüketimini aynı şeymiş gibi değerlendirmemek gerekir; bunlar farklı bilgilerdir.
+XLC12,long_context,0,0,,,,"Kısa bir bilgi vermek isterim, bu görüşmedeki fiyatlar yalnızca ön değerlendirme amaçlıdır ve kesinleştirme için yetkili onayı gerekir.","Kısa bir bilgi vermek isterim, bu görüşmedeki fiyatlar yalnızca ön değerlendirme amaçlıdır ve kesinleştirme için yetkili onayı gerekir."
+XLC13,long_context,0,0,,,,"İsterseniz önce aracınızın ekspertiz gereksinimlerini belirleyebilir, daha sonra müsait randevu seçeneklerini tek tek değerlendirebiliriz.","İsterseniz önce aracınızın ekspertiz gereksinimlerini belirleyebilir, daha sonra müsait randevu seçeneklerini tek tek değerlendirebiliriz."
+XLC14,long_context,0,0,,,,"Test sürüşü talebi için önce aracı ve şubeyi seçiyoruz, daha sonra uygun tarih ve saati doğrulayıp talebinizi oluşturuyoruz.","Test sürüşü talebi için önce aracı ve şubeyi seçiyoruz, daha sonra uygun tarih ve saati doğrulayıp talebinizi oluşturuyoruz."
+XLC15,long_context,0,0,,,,"İkinci el araç alımında değerleme sonucu araç donanımına, bakım geçmişine, kilometreye ve ekspertiz bulgularına göre değişebilir.","İkinci el araç alımında değerleme sonucu araç donanımına, bakım geçmişine, kilometreye ve ekspertiz bulgularına göre değişebilir."
+XLC16,long_context,0,0,,,,"Sizi anlıyorum, fiyat teklifimiz beklediğinizden düşük olabilir; dilerseniz hangi bilgilerin değerlendirmeye alındığını açıklayabilirim.","Sizi anlıyorum, fiyat teklifimiz beklediğinizden düşük olabilir; dilerseniz hangi bilgilerin değerlendirmeye alındığını açıklayabilirim."
+XLC17,long_context,0,0,,,,"Size araçla ilgili eksik ya da doğrulanmamış bilgi vermek istemem, bu nedenle bazı ayrıntıları yetkili sistemden tekrar kontrol edeceğim.","Size araçla ilgili eksik ya da doğrulanmamış bilgi vermek istemem, bu nedenle bazı ayrıntıları yetkili sistemden tekrar kontrol edeceğim."
+XLC18,long_context,0,0,,,,"Aracınızın model yılı ve kilometre değeri netleştiğinde bir ön teklif sunabiliriz, ancak fiyatın sonradan değişebileceğini belirtmeliyim.","Aracınızın model yılı ve kilometre değeri netleştiğinde bir ön teklif sunabiliriz, ancak fiyatın sonradan değişebileceğini belirtmeliyim."
+XLC19,long_context,0,0,,,,"Bugün konuştuğumuz randevu saatini sizin adınıza kesinleştirmeden önce, seçtiğiniz şubenin uygunluk bilgisini güncel olarak kontrol etmeliyim.","Bugün konuştuğumuz randevu saatini sizin adınıza kesinleştirmeden önce, seçtiğiniz şubenin uygunluk bilgisini güncel olarak kontrol etmeliyim."
+XLC20,long_context,0,0,,,,"Önce aracınızın mevcut durumunu ve geçmiş işlemlerini açıklamanızı rica edeceğim, sonrasında sizi uygun ekspertiz hizmetine yönlendireceğim.","Önce aracınızın mevcut durumunu ve geçmiş işlemlerini açıklamanızı rica edeceğim, sonrasında sizi uygun ekspertiz hizmetine yönlendireceğim."
+XLC21,long_context,0,0,,,,"Satış sürecini üç adımda açıklayayım: ön değerleme, yerinde ekspertiz ve teklif onayı; her adım ayrı bir kontrol gerektirir.","Satış sürecini üç adımda açıklayayım: ön değerleme, yerinde ekspertiz ve teklif onayı; her adım ayrı bir kontrol gerektirir."
+XLC22,long_context,0,0,,,,"Şu anda sizin için işlem yapmıyorum, sadece seçenekleri açıklıyorum; randevu veya teklif oluşturmak için ayrıca onayınızı isteyeceğim.","Şu anda sizin için işlem yapmıyorum, sadece seçenekleri açıklıyorum; randevu veya teklif oluşturmak için ayrıca onayınızı isteyeceğim."
+XLC23,long_context,0,0,,,,"Yarın için düşündüğünüz saat uygun değilse başka seçenekler gösterebilirim, böylece size en uygun zamanı birlikte bulabiliriz.","Yarın için düşündüğünüz saat uygun değilse başka seçenekler gösterebilirim, böylece size en uygun zamanı birlikte bulabiliriz."
+XLC24,long_context,0,0,,,,"Peugeot aracınızın parça ve bakım durumunu kontrol etmeden kesin bir masraf söylemem doğru olmaz, yaklaşık aralığı ayrıca paylaşabilirim.","Peugeot aracınızın parça ve bakım durumunu kontrol etmeden kesin bir masraf söylemem doğru olmaz, yaklaşık aralığı ayrıca paylaşabilirim."
+XLC25,long_context,0,0,,,,"Son olarak tekrar belirtmek isterim, bu konuşma bir yapay zekâ asistanıyla gerçekleşmektedir ve talep ederseniz insan temsilciye aktarılabilirsiniz.","Son olarak tekrar belirtmek isterim, bu konuşma bir yapay zekâ asistanıyla gerçekleşmektedir ve talep ederseniz insan temsilciye aktarılabilirsiniz."
+XTT01,technical_terms,0,0,,,,ABS kontrolü yapıldı.,ABS kontrolü yapıldı.
+XTT02,technical_terms,0,0,,,,ESP sistemi etkin görünüyor.,ESP sistemi etkin görünüyor.
+XTT03,technical_terms,0,0,,,,ADAS kamera kalibrasyonu gerekiyor.,ADAS kamera kalibrasyonu gerekiyor.
+XTT04,technical_terms,0,0,,,,DSG şanzıman testi yapılacak.,DSG şanzıman testi yapılacak.
+XTT05,technical_terms,0,0,,,,CVT şanzıman hakkında bilgi veriyorum.,CVT şanzıman hakkında bilgi veriyorum.
+XTT06,technical_terms,0,0,,,,PHEV sisteminde batarya kontrolü yapılmalı.,PHEV sisteminde batarya kontrolü yapılmalı.
+XTT07,technical_terms,0,0,,,,BEV araçlar için şarj kaydı isteniyor.,BEV araçlar için şarj kaydı isteniyor.
+XTT08,technical_terms,0,0,,,,AWD çekiş sistemi kontrol edilecek.,AWD çekiş sistemi kontrol edilecek.
+XTT09,technical_terms,0,0,,,,SUV sınıfı araç değerlendiriliyor.,SUV sınıfı araç değerlendiriliyor.
+XTT10,technical_terms,0,0,,,,Euro NCAP değerlendirmesi soruldu.,Euro NCAP değerlendirmesi soruldu.
+XTT11,technical_terms,0,1,,unexpanded_numeric_token,,Akü 12 V olarak ölçüldü.,Akü 12 V olarak ölçüldü.
+XTT12,technical_terms,0,1,,unexpanded_numeric_token,,Batarya kapasitesi 75 kWh olarak bildirildi.,Batarya kapasitesi 75 kWh olarak bildirildi.
+XTT13,technical_terms,0,1,,unexpanded_numeric_token,,Motor gücü 110 kW olarak belirtildi.,Motor gücü 110 kW olarak belirtildi.
+XTT14,technical_terms,0,1,,unexpanded_numeric_token,,Motor gücü 150 HP olarak açıklandı.,Motor gücü 150 HP olarak açıklandı.
+XTT15,technical_terms,0,1,,unexpanded_numeric_token,,Araç 4x4 sürüş sistemine sahip.,Araç 4x4 sürüş sistemine sahip.
+XTT16,technical_terms,0,0,,,,OBD bağlantısını kontrol edebiliriz.,OBD bağlantısını kontrol edebiliriz.
+XTT17,technical_terms,0,0,,,,ECU yazılım güncellemesi talep edildi.,ECU yazılım güncellemesi talep edildi.
+XTT18,technical_terms,0,0,,,,TPMS uyarısı ekranda görünüyor.,TPMS uyarısı ekranda görünüyor.
+XTT19,technical_terms,0,0,,,,LED farların ayarı yapılacak.,LED farların ayarı yapılacak.
+XTT20,technical_terms,0,0,,,,Start Stop sistemi etkin.,Start Stop sistemi etkin.
+XTT21,technical_terms,0,0,,,,Hibrit araç için rejeneratif fren kontrolü istendi.,Hibrit araç için rejeneratif fren kontrolü istendi.
+XTT22,technical_terms,0,0,,,,Araçta ISOFIX bağlantısı bulunuyor.,Araçta ISOFIX bağlantısı bulunuyor.
+XTT23,technical_terms,0,0,,,,Şanzıman tipi e-CVT olarak listelendi.,Şanzıman tipi e-CVT olarak listelendi.
+XTT24,technical_terms,0,0,,,,Araçta DSG ve TSI terimleri geçiyor.,Araçta DSG ve TSI terimleri geçiyor.
+XTT25,technical_terms,0,0,,,,VIN kodunu telefonda heceleyerek doğrulamayalım.,VIN kodunu telefonda heceleyerek doğrulamayalım.

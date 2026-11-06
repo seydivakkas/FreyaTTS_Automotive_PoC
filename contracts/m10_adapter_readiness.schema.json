@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "M10 Offline Adapter Readiness",
+  "type": "object",
+  "required": ["mode", "external_connections", "audio_bytes", "production_ready", "adapters"],
+  "additionalProperties": false,
+  "properties": {
+    "mode": {"const": "M10_DRY_RUN"},
+    "external_connections": {"const": 0},
+    "audio_bytes": {"const": 0},
+    "production_ready": {"const": false},
+    "adapters": {"type": "array", "minItems": 4, "maxItems": 4,
+      "items": {"type": "object", "additionalProperties": false,
+        "required": ["adapter", "ready_for_activation", "dry_run_only", "findings"],
+        "properties": {
+          "adapter": {"enum": ["freya", "stt", "llm", "pbx"]},
+          "ready_for_activation": {"const": false},
+          "dry_run_only": {"const": true},
+          "findings": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    }
+  }
+}

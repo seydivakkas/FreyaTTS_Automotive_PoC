@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:freya-automotive:conversation-effect:v1",
+  "title": "M02 Effect command metadata (delivery is not implied)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["effect_id", "kind", "session_id", "turn_id", "generation_id", "related_event_id", "reference"],
+  "properties": {
+    "effect_id": {"type": "string", "format": "uuid"},
+    "kind": {"enum": ["request_llm", "start_tts", "queue_audio", "cancel_generation", "flush_media", "start_handoff", "terminate_call"]},
+    "session_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"},
+    "turn_id": {"type": "integer", "minimum": 0},
+    "generation_id": {"type": "integer", "minimum": 0},
+    "related_event_id": {"type": "string", "format": "uuid"},
+    "reference": {"type": ["string", "null"], "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:/-]{0,127}$"}
+  }
+}

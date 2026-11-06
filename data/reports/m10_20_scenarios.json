@@ -1,0 +1,136 @@
+{
+  "mode": "M10_DRY_RUN",
+  "passed": 20,
+  "total": 20,
+  "speech_review_blocked": 0,
+  "real_network_connections": 0,
+  "audio_bytes": 0,
+  "production_ready": false,
+  "recovery": {
+    "forced_terminal_count": 1,
+    "terminal_state": "FAILED",
+    "manual_reconciliation_required": true
+  },
+  "scenarios": [
+    {
+      "scenario": "price_verified",
+      "passed": true,
+      "speech_review_blocked": 0,
+      "durable_outbox": 4
+    },
+    {
+      "scenario": "price_expired",
+      "passed": true,
+      "speech_review_blocked": 0,
+      "durable_outbox": 4
+    },
+    {
+      "scenario": "booking_confirmed",
+      "passed": true,
+      "speech_review_blocked": 0,
+      "durable_outbox": 7
+    },
+    {
+      "scenario": "booking_declined",
+      "passed": true,
+      "speech_review_blocked": 0,
+      "durable_outbox": 7
+    },
+    {
+      "scenario": "booking_unknown",
+      "passed": true,
+      "speech_review_blocked": 0,
+      "durable_outbox": 4
+    },
+    {
+      "scenario": "duplicate_confirmation",
+      "passed": true,
+      "speech_review_blocked": 0,
+      "durable_outbox": 10
+    },
+    {
+      "scenario": "crm_case",
+      "passed": true,
+      "speech_review_blocked": 0,
+      "durable_outbox": 4
+    },
+    {
+      "scenario": "handoff",
+      "passed": true,
+      "speech_review_blocked": 0,
+      "durable_outbox": 3
+    },
+    {
+      "scenario": "barge_in_ack",
+      "passed": true,
+      "speech_review_blocked": 0,
+      "durable_outbox": 5
+    },
+    {
+      "scenario": "barge_in_timeout",
+      "passed": true,
+      "speech_review_blocked": 0,
+      "durable_outbox": 5
+    },
+    {
+      "scenario": "xoff_backpressure",
+      "passed": true,
+      "speech_review_blocked": 0,
+      "durable_outbox": 4
+    },
+    {
+      "scenario": "late_generation",
+      "passed": true,
+      "speech_review_blocked": 0,
+      "durable_outbox": 4
+    },
+    {
+      "scenario": "adapter_disconnect",
+      "passed": true,
+      "speech_review_blocked": 0,
+      "durable_outbox": 1
+    },
+    {
+      "scenario": "llm_retry",
+      "passed": true,
+      "speech_review_blocked": 0,
+      "durable_outbox": 3
+    },
+    {
+      "scenario": "booking_commit_unknown",
+      "passed": true,
+      "speech_review_blocked": 0,
+      "durable_outbox": 10
+    },
+    {
+      "scenario": "wrong_fake_ack",
+      "passed": true,
+      "speech_review_blocked": 0,
+      "durable_outbox": 5
+    },
+    {
+      "scenario": "hangup_cancels",
+      "passed": true,
+      "speech_review_blocked": 0,
+      "durable_outbox": 4
+    },
+    {
+      "scenario": "multi_session",
+      "passed": true,
+      "speech_review_blocked": 0,
+      "durable_outbox": 8
+    },
+    {
+      "scenario": "unauthorized",
+      "passed": true,
+      "speech_review_blocked": 0,
+      "durable_outbox": 4
+    },
+    {
+      "scenario": "ambiguous_time",
+      "passed": true,
+      "speech_review_blocked": 0,
+      "durable_outbox": 4
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "schema_version": "m11-acceptance-1",
+  "overall": "HOLD",
+  "production_ready": false,
+  "gates": [
+    {
+      "name": "windows_edge",
+      "status": "HOLD",
+      "checks": [
+        "windows_11",
+        "python_3_11",
+        "cuda_gpu",
+        "local_freya_model",
+        "local_freya_checkout"
+      ],
+      "metrics": {
+        "cuda_available": false,
+        "ffmpeg_available": true,
+        "freya_checkout_present": false,
+        "model_files_present": false,
+        "official_model_id": "freyavoice/freya-tts",
+        "python": "3.13.5",
+        "system": "Linux-6.18.57-x86_64-with-glibc2.41",
+        "torch_version": "2.10.0+cpu",
+        "windows": false
+      },
+      "evidence": [
+        {
+          "bytes": 298,
+          "label": "local_file",
+          "path": "/mnt/data/FreyaTTS_M11_Physical_Acceptance_v1/data/m11/results/preflight_details.json",
+          "sha256": "033cc59f90ae56937a583101af31bf29e9e94a95b8634c649b95861421694a0a"
+        }
+      ],
+      "run_at_utc": "2026-10-31T21:35:58+00:00",
+      "physical": false
+    },
+    {
+      "name": "freya_leyla",
+      "status": "HOLD",
+      "checks": [
+        "no_evidence_submitted"
+      ],
+      "metrics": {},
+      "evidence": [],
+      "run_at_utc": "2026-10-31T21:35:59+00:00",
+      "physical": false
+    },
+    {
+      "name": "stt_vad",
+      "status": "HOLD",
+      "checks": [
+        "no_evidence_submitted"
+      ],
+      "metrics": {},
+      "evidence": [],
+      "run_at_utc": "2026-10-31T21:35:59+00:00",
+      "physical": false
+    },
+    {
+      "name": "codec",
+      "status": "HOLD",
+      "checks": [
+        "no_evidence_submitted"
+      ],
+      "metrics": {},
+      "evidence": [],
+      "run_at_utc": "2026-10-31T21:35:59+00:00",
+      "physical": false
+    },
+    {
+      "name": "asterisk_pbx",
+      "status": "HOLD",
+      "checks": [
+        "no_evidence_submitted"
+      ],
+      "metrics": {},
+      "evidence": [],
+      "run_at_utc": "2026-10-31T21:35:59+00:00",
+      "physical": false
+    },
+    {
+      "name": "a01yt_references",
+      "status": "HOLD",
+      "checks": [
+        "no_evidence_submitted"
+      ],
+      "metrics": {},
+      "evidence": [],
+      "run_at_utc": "2026-10-31T21:35:59+00:00",
+      "physical": false
+    },
+    {
+      "name": "safety_privacy",
+      "status": "HOLD",
+      "checks": [
+        "no_evidence_submitted"
+      ],
+      "metrics": {},
+      "evidence": [],
+      "run_at_utc": "2026-10-31T21:35:59+00:00",
+      "physical": false
+    },
+    {
+      "name": "legacy_regression",
+      "status": "PASS",
+      "checks": [
+        "unittest_exit_0",
+        "golden_count_320"
+      ],
+      "metrics": {
+        "golden_count": 320,
+        "legacy_suite_exit": 0
+      },
+      "evidence": [
+        {
+          "bytes": 6415,
+          "label": "local_file",
+          "path": "/mnt/data/FreyaTTS_M11_Physical_Acceptance_v1/data/m11/results/regression_output.txt",
+          "sha256": "88ce32b533d896c6f74fcd5e6ee0472db672147f351d33e4df55fa85bca15890"
+        },
+        {
+          "bytes": 79575,
+          "label": "local_file",
+          "path": "/mnt/data/FreyaTTS_M11_Physical_Acceptance_v1/data/fixtures/legacy_320_cases.json",
+          "sha256": "7455fa7a59a5874165970d8980f7f7302c581d28532e2d0346a496aeda2eb17e"
+        }
+      ],
+      "run_at_utc": "2026-10-31T21:35:57+00:00",
+      "physical": false
+    }
+  ],
+  "created_utc": "2026-10-31T21:35:59+00:00"
+}

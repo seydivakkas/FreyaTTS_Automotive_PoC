@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:freya-automotive:m06_media_format:v1",
+  "title": "M06 MediaFormat metadata (runtime enforces codec-specific values)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "codec",
+    "sample_rate_hz",
+    "channels",
+    "rtp_clock_hz"
+  ],
+  "properties": {
+    "codec": {
+      "enum": [
+        "pcm_s16le",
+        "alaw",
+        "mulaw",
+        "g722"
+      ]
+    },
+    "sample_rate_hz": {
+      "type": "integer",
+      "enum": [
+        8000,
+        16000,
+        48000
+      ]
+    },
+    "channels": {
+      "const": 1
+    },
+    "rtp_clock_hz": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    }
+  }
+}

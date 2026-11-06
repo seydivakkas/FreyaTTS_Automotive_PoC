@@ -1,0 +1,28 @@
+{
+  "checks": [
+    "unittest_exit_0",
+    "golden_count_320"
+  ],
+  "evidence": [
+    {
+      "bytes": 6415,
+      "label": "local_file",
+      "path": "/mnt/data/FreyaTTS_M11_Physical_Acceptance_v1/data/m11/results/regression_output.txt",
+      "sha256": "88ce32b533d896c6f74fcd5e6ee0472db672147f351d33e4df55fa85bca15890"
+    },
+    {
+      "bytes": 79575,
+      "label": "local_file",
+      "path": "/mnt/data/FreyaTTS_M11_Physical_Acceptance_v1/data/fixtures/legacy_320_cases.json",
+      "sha256": "7455fa7a59a5874165970d8980f7f7302c581d28532e2d0346a496aeda2eb17e"
+    }
+  ],
+  "metrics": {
+    "golden_count": 320,
+    "legacy_suite_exit": 0
+  },
+  "name": "legacy_regression",
+  "physical": false,
+  "run_at_utc": "2026-10-31T21:35:57+00:00",
+  "status": "PASS"
+}

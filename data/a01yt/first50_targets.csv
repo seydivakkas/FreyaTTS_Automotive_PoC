@@ -1,0 +1,51 @@
+﻿target_id,group,canonical_target,candidate_sentence_not_transcript,evaluation_focus,source_id,start_sec,end_sec,observed_transcript,approved_pronunciation,review_status,notes
+YT50-001,marka,Volkswagen,Volkswagen Passat aracınız için sizi arıyorum.,yabancı marka / Türkçe konuşma,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-002,marka,Peugeot,Peugeot 3008 için teklif verebilir miyiz?,Fransızca marka / ses uyumu,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-003,marka,Citroën,Citroën C3 modelinin fiyatını öğrenmek istiyorum.,diakritik / telaffuz,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-004,marka,Škoda,Škoda Octavia için randevu oluşturabiliriz.,desteklenmeyen büyük Š,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-005,marka,Renault,Renault Clio aracı satılık mı?,sessiz harf ve Türkçe okunuş,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-006,marka,Hyundai,Hyundai Tucson modelini inceliyoruz.,çoklu konuşmacı değişkesi,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-007,marka,Dacia,Dacia Duster için ekspertiz gerekiyor.,sesletim varyantı,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-008,marka,Porsche,Porsche Cayenne araç hakkında bilgi alabilir miyim?,yabancı özel isim,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-009,marka,Chevrolet,Chevrolet araçların motor seçenekleri nelerdir?,yabancı özel isim,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-010,marka,Mercedes-Benz,Mercedes-Benz C200 ekspertize gelecek.,tireli özel isim,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-011,model,Qashqai,Nissan Qashqai aracınız hakkında konuşmak istiyorum.,q harfi; kelime sonu,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-012,model,Passat,Passat modeliniz için uygun bir saat var.,çift s/aksan,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-013,model,Tiguan,Tiguan araçların kampanyası var mı?,yabancı model,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-014,model,T-Roc,Volkswagen T-Roc modeli mevcut mu?,tireli model,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-015,model,3008,Peugeot 3008 modelinin fiyatı nedir?,sayısal model kodu,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-016,model,C3 Aircross,Citroën C3 Aircross araç inceliyoruz.,harf sayı kodu,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-017,model,e-POWER,Nissan e-POWER hibrit teknolojisini kullandım.,İngilizce büyük harf / hibrit,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-018,model,RAV4,Toyota RAV4 test sürüşüne uygun mu?,harf+sayısal kod,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-019,model,iX1,BMW iX1 modelinin bataryası ne kadar?,harf+sayısal kod,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-020,model,quattro,Audi quattro çekiş sistemine sahip mi?,q harfi / teknik isim,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-021,ek,Qashqai’nin,Qashqai’nin kaputunu kontrol edebiliriz.,kesme / ilgi eki,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-022,ek,Qashqai’ye,Qashqai’ye uygun bakım paketi sunuyoruz.,yönelme eki,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-023,ek,Peugeot’ya,Peugeot’ya özel indirim mevcut mu?,yönelme eki,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-024,ek,Peugeot’nun,Peugeot’nun garanti şartları nelerdir?,ilgi eki,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-025,ek,Citroën’den,Citroën’den yeni model geldi.,ayrılma eki,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-026,ek,Škoda’nın,Škoda’nın motor özellikleri nedir?,ilgi eki,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-027,ek,Volkswagen’in,Volkswagen’in servis bakım ücreti ne kadar?,ilgi eki,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-028,ek,Tiguan’a,Tiguan’a uygun lastikler hangileri?,yönelme eki,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-029,ek,Renault’da,Renault’da bakım randevusu var mı?,bulunma ekinin bağlamı,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-030,ek,Passat’ta,Passat’ta yağ kaçağı olabilir mi?,bulunma eki,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-031,teknik,1.5 TSI,Bu araçta 1.5 TSI motor kullanılıyor.,ondalık motor / kısaltma,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-032,teknik,1.2 PureTech,Peugeot 1.2 PureTech benzinli motora sahip.,ondalık motor / motor ailesi,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-033,teknik,e-CVT,Toyota hibrit e-CVT şanzıman kullanıyor.,kısaltma / tire,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-034,teknik,DSG,Aracın DSG şanzımanı kontrol edilecek.,Türkçe kısaltma okunuşu,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-035,teknik,TDI,TDI motorda turbo kontrolü yapıldı.,kısaltma,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-036,teknik,AdBlue,AdBlue seviyesi düşmüş olabilir.,yabancı marka/ürün ismi,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-037,teknik,Start-Stop,Start-Stop sistemi devre dışı kalmış.,tireli teknik ifade,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-038,teknik,ABS,ABS sisteminde uyarı var.,harf harf okunuş,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-039,teknik,ESP,ESP sisteminin kontrolü yapıldı.,harf harf okunuş,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-040,teknik,mild hybrid,Mild hybrid motor seçeneğini öneriyoruz.,İngilizce teknik terim,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-041,sayi,1.250.000 TL,Tahmini satış fiyatı 1.250.000 TL.,fiyat / binlik,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-042,sayi,1250000 ₺,Araç için 1250000 ₺ teklif ediliyor.,fiyat / para birimi,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-043,sayi,14:30’da,Yarın saat 14:30’da ekspertiz randevunuz var.,saat / ek,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-044,sayi,145.000 km,Araç 145.000 km yol yapmış.,kilometre / binlik,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-045,sayi,2023 model,2023 model otomatik vites araç arıyorum.,model yılı / sayının okunuşu,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-046,diyalog,onay sorusu,Randevu talebinizi oluşturmamı ister misiniz?,soru tonlaması,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-047,diyalog,kısa ret,"Hayır, teşekkür ederim.",kısa ifade / son ek,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-048,diyalog,müsaitlik,Yarın öğleden sonra sizin için uygun olur mu?,doğal duraksama,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-049,diyalog,fiyat açıklaması,Aracınızın tahmini piyasa değeri bir milyon iki yüz elli bin Türk lirasıdır.,uzun fiyat / ritim,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.
+YT50-050,diyalog,yeniden yönlendirme,"Elbette, önce aracınızın güncel kilometresini öğrenebilir miyim?",karşılıklı konuşma / vurgu,,,,,,awaiting_authorized_audio,Planlanan sorgu; gerçek videoda duyulduğu iddia edilmez.

@@ -1,0 +1,2862 @@
+[
+  {
+    "id": "PDF01",
+    "category": "belge_ornegi",
+    "text": "Volkswagen Passat aracınız için sizi arıyorum.",
+    "tier": "smoke",
+    "origin": "source_pdf",
+    "oracle": "review_pending"
+  },
+  {
+    "id": "PDF02",
+    "category": "belge_ornegi",
+    "text": "Aracınızın tahmini değeri bir milyon iki yüz elli bin Türk lirası.",
+    "tier": "smoke",
+    "origin": "source_pdf",
+    "oracle": "review_pending"
+  },
+  {
+    "id": "PDF03",
+    "category": "belge_ornegi",
+    "text": "Sizin için yarın saat on dört otuzda ekspertiz randevusu oluşturabiliriz.",
+    "tier": "smoke",
+    "origin": "source_pdf",
+    "oracle": "review_pending"
+  },
+  {
+    "id": "M01",
+    "category": "fiyat",
+    "text": "Aracınızın tahmini değeri 1.250.000 TL.",
+    "tier": "smoke",
+    "origin": "curated_v1",
+    "oracle": "review_pending"
+  },
+  {
+    "id": "M02",
+    "category": "fiyat",
+    "text": "Aracınız için 1250000 ₺ teklif ediliyor.",
+    "tier": "smoke",
+    "origin": "curated_v1",
+    "oracle": "review_pending"
+  },
+  {
+    "id": "M03",
+    "category": "fiyat",
+    "text": "Bakım ücreti 1.250,50 TL olarak görünüyor.",
+    "tier": "smoke",
+    "origin": "curated_v1",
+    "oracle": "review_pending"
+  },
+  {
+    "id": "H01",
+    "category": "saat",
+    "text": "Yarın saat 14:30'da ekspertiz yapabiliriz.",
+    "tier": "smoke",
+    "origin": "curated_v1",
+    "oracle": "review_pending"
+  },
+  {
+    "id": "H02",
+    "category": "saat",
+    "text": "Randevunuz 09:00'da başlayacak.",
+    "tier": "smoke",
+    "origin": "curated_v1",
+    "oracle": "review_pending"
+  },
+  {
+    "id": "H03",
+    "category": "saat",
+    "text": "Yarın 15:00'te müsaitiz.",
+    "tier": "smoke",
+    "origin": "curated_v1",
+    "oracle": "review_pending"
+  },
+  {
+    "id": "E01",
+    "category": "motor",
+    "text": "1.5 TSI motorlu araç stokta.",
+    "tier": "smoke",
+    "origin": "curated_v1",
+    "oracle": "review_pending"
+  },
+  {
+    "id": "E02",
+    "category": "motor",
+    "text": "1,6 TDI motora sahip araç incelenecek.",
+    "tier": "smoke",
+    "origin": "curated_v1",
+    "oracle": "review_pending"
+  },
+  {
+    "id": "V01",
+    "category": "marka",
+    "text": "Peugeot 308 için teklif hazırlıyorum.",
+    "tier": "smoke",
+    "origin": "curated_v1",
+    "oracle": "review_pending"
+  },
+  {
+    "id": "V02",
+    "category": "model",
+    "text": "2023 model Nissan Qashqai hakkında bilgi vereyim.",
+    "tier": "smoke",
+    "origin": "curated_v1",
+    "oracle": "review_pending"
+  },
+  {
+    "id": "V03",
+    "category": "marka",
+    "text": "Citroën C3 ve Škoda Octavia seçenekleri var.",
+    "tier": "smoke",
+    "origin": "curated_v1",
+    "oracle": "review_pending"
+  },
+  {
+    "id": "V04",
+    "category": "marka_ek",
+    "text": "Qashqai'nin ekspertiz raporu hazır.",
+    "tier": "smoke",
+    "origin": "curated_v1",
+    "oracle": "review_pending"
+  },
+  {
+    "id": "K01",
+    "category": "mesafe",
+    "text": "Araç 145.000 km yol yapmış.",
+    "tier": "smoke",
+    "origin": "curated_v1",
+    "oracle": "review_pending"
+  },
+  {
+    "id": "T01",
+    "category": "tarih",
+    "text": "Randevuyu 2026-11-03 tarihine alalım.",
+    "tier": "smoke",
+    "origin": "curated_v1",
+    "oracle": "review_pending"
+  },
+  {
+    "id": "T02",
+    "category": "tarih",
+    "text": "Servis 03.11.2026 tarihinde açılıyor.",
+    "tier": "smoke",
+    "origin": "curated_v1",
+    "oracle": "review_pending"
+  },
+  {
+    "id": "C01",
+    "category": "kontrol",
+    "text": "Aracınız için sizi tekrar arıyorum!",
+    "tier": "smoke",
+    "origin": "curated_v1",
+    "oracle": "review_pending"
+  },
+  {
+    "id": "C02",
+    "category": "kontrol",
+    "text": "Bu fiyatı onaylıyor musunuz?",
+    "tier": "smoke",
+    "origin": "curated_v1",
+    "oracle": "review_pending"
+  },
+  {
+    "id": "XFI01",
+    "category": "finance_integer",
+    "text": "Aracınızın ön değerleme bedeli 1.250.000 TL olarak görünüyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "integer_currency"
+  },
+  {
+    "id": "XFI02",
+    "category": "finance_integer",
+    "text": "Güncel teklifimiz 985.000 TL olarak görünüyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "integer_currency"
+  },
+  {
+    "id": "XFI03",
+    "category": "finance_integer",
+    "text": "İlan fiyatı 3.450.000 TL olarak görünüyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "integer_currency"
+  },
+  {
+    "id": "XFI04",
+    "category": "finance_integer",
+    "text": "Ekspertiz sonrası tahmini fiyat 750.000 TL olarak görünüyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "integer_currency"
+  },
+  {
+    "id": "XFI05",
+    "category": "finance_integer",
+    "text": "İşlemin yaklaşık tutarı 1250000 TL olarak görünüyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "integer_currency"
+  },
+  {
+    "id": "XFI06",
+    "category": "finance_integer",
+    "text": "Aracınızın ön değerleme bedeli 2.035.000 TRY olarak görünüyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "integer_currency"
+  },
+  {
+    "id": "XFI07",
+    "category": "finance_integer",
+    "text": "Güncel teklifimiz 850.500 ₺ olarak görünüyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "integer_currency"
+  },
+  {
+    "id": "XFI08",
+    "category": "finance_integer",
+    "text": "İlan fiyatı 475.000 TL olarak görünüyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "integer_currency"
+  },
+  {
+    "id": "XFI09",
+    "category": "finance_integer",
+    "text": "Ekspertiz sonrası tahmini fiyat 6.250.000 TL olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "integer_currency"
+  },
+  {
+    "id": "XFI10",
+    "category": "finance_integer",
+    "text": "İşlemin yaklaşık tutarı 1.099.000 TL olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "integer_currency"
+  },
+  {
+    "id": "XFI11",
+    "category": "finance_integer",
+    "text": "Aracınızın ön değerleme bedeli 450000 TL olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "integer_currency"
+  },
+  {
+    "id": "XFI12",
+    "category": "finance_integer",
+    "text": "Güncel teklifimiz 925.000 TRY olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "integer_currency"
+  },
+  {
+    "id": "XFI13",
+    "category": "finance_integer",
+    "text": "İlan fiyatı 2.750.000 TL olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "integer_currency"
+  },
+  {
+    "id": "XFI14",
+    "category": "finance_integer",
+    "text": "Ekspertiz sonrası tahmini fiyat 100.000 ₺ olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "integer_currency"
+  },
+  {
+    "id": "XFI15",
+    "category": "finance_integer",
+    "text": "İşlemin yaklaşık tutarı 210.000 TL olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "integer_currency"
+  },
+  {
+    "id": "XFI16",
+    "category": "finance_integer",
+    "text": "Aracınızın ön değerleme bedeli 1.000.000 TL olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "integer_currency"
+  },
+  {
+    "id": "XFI17",
+    "category": "finance_integer",
+    "text": "Güncel teklifimiz 999.999 TL olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "integer_currency"
+  },
+  {
+    "id": "XFI18",
+    "category": "finance_integer",
+    "text": "İlan fiyatı 22.500 TRY olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "integer_currency"
+  },
+  {
+    "id": "XFI19",
+    "category": "finance_integer",
+    "text": "Ekspertiz sonrası tahmini fiyat 12.000 TL olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "integer_currency"
+  },
+  {
+    "id": "XFI20",
+    "category": "finance_integer",
+    "text": "İşlemin yaklaşık tutarı 44.000 TL olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "integer_currency"
+  },
+  {
+    "id": "XFI21",
+    "category": "finance_integer",
+    "text": "Aracınızın ön değerleme bedeli 500.000 ₺ olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "integer_currency"
+  },
+  {
+    "id": "XFI22",
+    "category": "finance_integer",
+    "text": "Güncel teklifimiz 1.800.000 TL olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "integer_currency"
+  },
+  {
+    "id": "XFI23",
+    "category": "finance_integer",
+    "text": "İlan fiyatı 9.875.000 TL olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "integer_currency"
+  },
+  {
+    "id": "XFI24",
+    "category": "finance_integer",
+    "text": "Ekspertiz sonrası tahmini fiyat 1.245.500 TRY olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "integer_currency"
+  },
+  {
+    "id": "XFI25",
+    "category": "finance_integer",
+    "text": "İşlemin yaklaşık tutarı 650000 TL olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "integer_currency"
+  },
+  {
+    "id": "XFD01",
+    "category": "finance_decimal",
+    "text": "Ön kontrol bedeli 1.250,50 TL olarak listelendi.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "minor_unit"
+  },
+  {
+    "id": "XFD02",
+    "category": "finance_decimal",
+    "text": "Otopark ücreti 2.999,99 TL olarak listelendi.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "minor_unit"
+  },
+  {
+    "id": "XFD03",
+    "category": "finance_decimal",
+    "text": "Bakım için hesaplanan tutar 850,75 TL olarak listelendi.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "minor_unit"
+  },
+  {
+    "id": "XFD04",
+    "category": "finance_decimal",
+    "text": "Ek işlem maliyeti 125,40 TL olarak listelendi.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "minor_unit"
+  },
+  {
+    "id": "XFD05",
+    "category": "finance_decimal",
+    "text": "Parça fiyatı 100,01 TL olarak listelendi.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "minor_unit"
+  },
+  {
+    "id": "XFD06",
+    "category": "finance_decimal",
+    "text": "Ön kontrol bedeli 19,90 TL olarak listelendi.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "minor_unit"
+  },
+  {
+    "id": "XFD07",
+    "category": "finance_decimal",
+    "text": "Otopark ücreti 1.000,05 TL olarak listelendi.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "minor_unit"
+  },
+  {
+    "id": "XFD08",
+    "category": "finance_decimal",
+    "text": "Bakım için hesaplanan tutar 999,50 TL olarak listelendi.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "minor_unit"
+  },
+  {
+    "id": "XFD09",
+    "category": "finance_decimal",
+    "text": "Ek işlem maliyeti 2.500,25 ₺ olarak listelendi.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "minor_unit"
+  },
+  {
+    "id": "XFD10",
+    "category": "finance_decimal",
+    "text": "Parça fiyatı 17.250,10 TL olarak listelendi.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "minor_unit"
+  },
+  {
+    "id": "XFD11",
+    "category": "finance_decimal",
+    "text": "Ön kontrol bedeli 6.390,80 TL olarak listelendi.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "minor_unit"
+  },
+  {
+    "id": "XFD12",
+    "category": "finance_decimal",
+    "text": "Otopark ücreti 250,00 TL olarak listelendi.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "minor_unit"
+  },
+  {
+    "id": "XFD13",
+    "category": "finance_decimal",
+    "text": "Bakım için hesaplanan tutar 8.500,45 TL olarak listelendi.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "minor_unit"
+  },
+  {
+    "id": "XFD14",
+    "category": "finance_decimal",
+    "text": "Ek işlem maliyeti 129,95 TL olarak listelendi.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "minor_unit"
+  },
+  {
+    "id": "XFD15",
+    "category": "finance_decimal",
+    "text": "Parça fiyatı 65,05 TL olarak listelendi.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "minor_unit"
+  },
+  {
+    "id": "XFD16",
+    "category": "finance_decimal",
+    "text": "Ön kontrol bedeli 1.499,00 TL olarak listelendi.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "minor_unit"
+  },
+  {
+    "id": "XFD17",
+    "category": "finance_decimal",
+    "text": "Otopark ücreti 4.999,90 TL olarak listelendi.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "minor_unit"
+  },
+  {
+    "id": "XFD18",
+    "category": "finance_decimal",
+    "text": "Bakım için hesaplanan tutar 7.250,65 ₺ olarak listelendi.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "minor_unit"
+  },
+  {
+    "id": "XFD19",
+    "category": "finance_decimal",
+    "text": "Ek işlem maliyeti 45,75 TL olarak listelendi.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "minor_unit"
+  },
+  {
+    "id": "XFD20",
+    "category": "finance_decimal",
+    "text": "Parça fiyatı 1.000,99 TL olarak listelendi.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "minor_unit"
+  },
+  {
+    "id": "XFD21",
+    "category": "finance_decimal",
+    "text": "Ön kontrol bedeli 1.650,15 TL olarak listelendi.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "minor_unit"
+  },
+  {
+    "id": "XFD22",
+    "category": "finance_decimal",
+    "text": "Otopark ücreti 700,35 TL olarak listelendi.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "minor_unit"
+  },
+  {
+    "id": "XFD23",
+    "category": "finance_decimal",
+    "text": "Bakım için hesaplanan tutar 15,60 TL olarak listelendi.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "minor_unit"
+  },
+  {
+    "id": "XFD24",
+    "category": "finance_decimal",
+    "text": "Ek işlem maliyeti 12.450,85 TL olarak listelendi.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "minor_unit"
+  },
+  {
+    "id": "XFD25",
+    "category": "finance_decimal",
+    "text": "Parça fiyatı 250.999,95 TL olarak listelendi.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "minor_unit"
+  },
+  {
+    "id": "XCL01",
+    "category": "clock",
+    "text": "Randevunuz yarın 14:30'da başlayacak.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "clock_suffix"
+  },
+  {
+    "id": "XCL02",
+    "category": "clock",
+    "text": "Ekspertiz görüşmesi yarın 09:00'da başlayacak.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "clock_suffix"
+  },
+  {
+    "id": "XCL03",
+    "category": "clock",
+    "text": "Sizi yarın 15:00'te arayabilir miyiz?",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "clock_suffix"
+  },
+  {
+    "id": "XCL04",
+    "category": "clock",
+    "text": "Servis kabulü yarın 08:45'te başlayacak.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "clock_suffix"
+  },
+  {
+    "id": "XCL05",
+    "category": "clock",
+    "text": "Test sürüşü yarın 10:15'te başlayacak.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "clock_suffix"
+  },
+  {
+    "id": "XCL06",
+    "category": "clock",
+    "text": "Randevunuz yarın 11:30'da başlayacak.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "clock_suffix"
+  },
+  {
+    "id": "XCL07",
+    "category": "clock",
+    "text": "Ekspertiz görüşmesi yarın 16:20'de başlayacak.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "clock_suffix"
+  },
+  {
+    "id": "XCL08",
+    "category": "clock",
+    "text": "Sizi yarın 17:00'de arayabilir miyiz?",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "clock_suffix"
+  },
+  {
+    "id": "XCL09",
+    "category": "clock",
+    "text": "Servis kabulü yarın 13:05'te başlayacak.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "clock_suffix"
+  },
+  {
+    "id": "XCL10",
+    "category": "clock",
+    "text": "Test sürüşü yarın 18:55'te başlayacak.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "clock_suffix"
+  },
+  {
+    "id": "XCL11",
+    "category": "clock",
+    "text": "Randevunuz yarın 07:40'ta başlayacak.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "clock_suffix"
+  },
+  {
+    "id": "XCL12",
+    "category": "clock",
+    "text": "Ekspertiz görüşmesi yarın 19:10'da başlayacak.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "clock_suffix"
+  },
+  {
+    "id": "XCL13",
+    "category": "clock",
+    "text": "Sizi yarın 12:00'de arayabilir miyiz?",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "clock_suffix"
+  },
+  {
+    "id": "XCL14",
+    "category": "clock",
+    "text": "Servis kabulü yarın 22:30'da başlayacak.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "clock_suffix"
+  },
+  {
+    "id": "XCL15",
+    "category": "clock",
+    "text": "Test sürüşü yarın 06:05'te başlayacak.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "clock_suffix"
+  },
+  {
+    "id": "XCL16",
+    "category": "clock",
+    "text": "Randevunuz yarın 20:00'de başlayacak.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "clock_suffix"
+  },
+  {
+    "id": "XCL17",
+    "category": "clock",
+    "text": "Ekspertiz görüşmesi yarın 21:15'te başlayacak.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "clock_suffix"
+  },
+  {
+    "id": "XCL18",
+    "category": "clock",
+    "text": "Sizi yarın 16:00'da arayabilir miyiz?",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "clock_suffix"
+  },
+  {
+    "id": "XCL19",
+    "category": "clock",
+    "text": "Servis kabulü yarın 14:45'te başlayacak.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "clock_suffix"
+  },
+  {
+    "id": "XCL20",
+    "category": "clock",
+    "text": "Test sürüşü yarın 09:25'te başlayacak.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "clock_suffix"
+  },
+  {
+    "id": "XCL21",
+    "category": "clock",
+    "text": "Randevunuz yarın 10:00'da başlayacak.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "clock_suffix"
+  },
+  {
+    "id": "XCL22",
+    "category": "clock",
+    "text": "Ekspertiz görüşmesi yarın 08:30'da başlayacak.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "clock_suffix"
+  },
+  {
+    "id": "XCL23",
+    "category": "clock",
+    "text": "Sizi yarın 11:05'te arayabilir miyiz?",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "clock_suffix"
+  },
+  {
+    "id": "XCL24",
+    "category": "clock",
+    "text": "Servis kabulü yarın 13:50'de başlayacak.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "clock_suffix"
+  },
+  {
+    "id": "XCL25",
+    "category": "clock",
+    "text": "Test sürüşü yarın 15:35'te başlayacak.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "clock_suffix"
+  },
+  {
+    "id": "XCA01",
+    "category": "calendar",
+    "text": "Randevu tarihi 2026-11-03 olarak görünüyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "date_order"
+  },
+  {
+    "id": "XCA02",
+    "category": "calendar",
+    "text": "Servis kayıt tarihi 03.11.2026 olarak görünüyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "date_order"
+  },
+  {
+    "id": "XCA03",
+    "category": "calendar",
+    "text": "Teklifin düzenlendiği tarih 2026-12-18 olarak görünüyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "date_order"
+  },
+  {
+    "id": "XCA04",
+    "category": "calendar",
+    "text": "Araç teslim planı 18.12.2026 olarak görünüyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "date_order"
+  },
+  {
+    "id": "XCA05",
+    "category": "calendar",
+    "text": "Değerleme görüşmesi 2027-01-05 olarak görünüyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "date_order"
+  },
+  {
+    "id": "XCA06",
+    "category": "calendar",
+    "text": "Randevu tarihi 05.01.2027 olarak görünüyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "date_order"
+  },
+  {
+    "id": "XCA07",
+    "category": "calendar",
+    "text": "Servis kayıt tarihi 2027-02-28 olarak görünüyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "date_order"
+  },
+  {
+    "id": "XCA08",
+    "category": "calendar",
+    "text": "Teklifin düzenlendiği tarih 28.02.2027 olarak görünüyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "date_order"
+  },
+  {
+    "id": "XCA09",
+    "category": "calendar",
+    "text": "Araç teslim planı 2026-10-31 olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "date_order"
+  },
+  {
+    "id": "XCA10",
+    "category": "calendar",
+    "text": "Değerleme görüşmesi 31.10.2026 olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "date_order"
+  },
+  {
+    "id": "XCA11",
+    "category": "calendar",
+    "text": "Randevu tarihi 2027-04-23 olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "date_order"
+  },
+  {
+    "id": "XCA12",
+    "category": "calendar",
+    "text": "Servis kayıt tarihi 23.04.2027 olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "date_order"
+  },
+  {
+    "id": "XCA13",
+    "category": "calendar",
+    "text": "Teklifin düzenlendiği tarih 2026-09-17 olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "date_order"
+  },
+  {
+    "id": "XCA14",
+    "category": "calendar",
+    "text": "Araç teslim planı 17.09.2026 olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "date_order"
+  },
+  {
+    "id": "XCA15",
+    "category": "calendar",
+    "text": "Değerleme görüşmesi 2028-02-29 olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "date_order"
+  },
+  {
+    "id": "XCA16",
+    "category": "calendar",
+    "text": "Randevu tarihi 29.02.2028 olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "date_order"
+  },
+  {
+    "id": "XCA17",
+    "category": "calendar",
+    "text": "Servis kayıt tarihi 2026-06-15 olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "date_order"
+  },
+  {
+    "id": "XCA18",
+    "category": "calendar",
+    "text": "Teklifin düzenlendiği tarih 15.06.2026 olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "date_order"
+  },
+  {
+    "id": "XCA19",
+    "category": "calendar",
+    "text": "Araç teslim planı 2026-01-01 olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "date_order"
+  },
+  {
+    "id": "XCA20",
+    "category": "calendar",
+    "text": "Değerleme görüşmesi 01.01.2026 olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "date_order"
+  },
+  {
+    "id": "XCA21",
+    "category": "calendar",
+    "text": "Randevu tarihi 2027-07-14 olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "date_order"
+  },
+  {
+    "id": "XCA22",
+    "category": "calendar",
+    "text": "Servis kayıt tarihi 14.07.2027 olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "date_order"
+  },
+  {
+    "id": "XCA23",
+    "category": "calendar",
+    "text": "Teklifin düzenlendiği tarih 2026-08-30 olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "date_order"
+  },
+  {
+    "id": "XCA24",
+    "category": "calendar",
+    "text": "Araç teslim planı 30.08.2026 olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "date_order"
+  },
+  {
+    "id": "XCA25",
+    "category": "calendar",
+    "text": "Değerleme görüşmesi 2027-05-19 olarak görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "date_order"
+  },
+  {
+    "id": "XEN01",
+    "category": "engine",
+    "text": "Bu araç 1.5 TSI motor seçeneğiyle listeleniyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "decimal_engine"
+  },
+  {
+    "id": "XEN02",
+    "category": "engine",
+    "text": "İncelediğimiz otomobil 1,6 TDI motor seçeneğiyle listeleniyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "decimal_engine"
+  },
+  {
+    "id": "XEN03",
+    "category": "engine",
+    "text": "Satıştaki model 2.0 TDI motor seçeneğiyle listeleniyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "decimal_engine"
+  },
+  {
+    "id": "XEN04",
+    "category": "engine",
+    "text": "Ekspertize alınacak araç 1.2 TCe motor seçeneğiyle listeleniyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "decimal_engine"
+  },
+  {
+    "id": "XEN05",
+    "category": "engine",
+    "text": "Test sürüşü aracı 1.3 TCe motor seçeneğiyle listeleniyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "decimal_engine"
+  },
+  {
+    "id": "XEN06",
+    "category": "engine",
+    "text": "Bu araç 1.5 dCi motor seçeneğiyle listeleniyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "decimal_engine"
+  },
+  {
+    "id": "XEN07",
+    "category": "engine",
+    "text": "İncelediğimiz otomobil 2.0 TFSI motor seçeneğiyle listeleniyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "decimal_engine"
+  },
+  {
+    "id": "XEN08",
+    "category": "engine",
+    "text": "Satıştaki model 1.4 TSI motor seçeneğiyle listeleniyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "decimal_engine"
+  },
+  {
+    "id": "XEN09",
+    "category": "engine",
+    "text": "Ekspertize alınacak araç 1.0 TSI motor seçeneğiyle listeleniyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "decimal_engine"
+  },
+  {
+    "id": "XEN10",
+    "category": "engine",
+    "text": "Test sürüşü aracı 1.6 HDI motor seçeneğiyle listeleniyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "decimal_engine"
+  },
+  {
+    "id": "XEN11",
+    "category": "engine",
+    "text": "Bu araç 1,5 TSI motor seçeneğiyle listeleniyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "decimal_engine"
+  },
+  {
+    "id": "XEN12",
+    "category": "engine",
+    "text": "İncelediğimiz otomobil 2,0 TDI motor seçeneğiyle listeleniyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "decimal_engine"
+  },
+  {
+    "id": "XEN13",
+    "category": "engine",
+    "text": "Satıştaki model 1.6 CDI motor seçeneğiyle listeleniyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "decimal_engine"
+  },
+  {
+    "id": "XEN14",
+    "category": "engine",
+    "text": "Ekspertize alınacak araç 1.4 TDI motor seçeneğiyle listeleniyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "decimal_engine"
+  },
+  {
+    "id": "XEN15",
+    "category": "engine",
+    "text": "Test sürüşü aracı 1.8 TSI motor seçeneğiyle listeleniyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "decimal_engine"
+  },
+  {
+    "id": "XEN16",
+    "category": "engine",
+    "text": "Bu araç 2.5 TSI motor seçeneğiyle listeleniyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "decimal_engine"
+  },
+  {
+    "id": "XEN17",
+    "category": "engine",
+    "text": "İncelediğimiz otomobil 2.2 CDI motor seçeneğiyle listeleniyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "decimal_engine"
+  },
+  {
+    "id": "XEN18",
+    "category": "engine",
+    "text": "Satıştaki model 1.9 TDI motor seçeneğiyle listeleniyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "decimal_engine"
+  },
+  {
+    "id": "XEN19",
+    "category": "engine",
+    "text": "Ekspertize alınacak araç 1.6 TCe motor seçeneğiyle listeleniyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "decimal_engine"
+  },
+  {
+    "id": "XEN20",
+    "category": "engine",
+    "text": "Test sürüşü aracı 1.3 dCi motor seçeneğiyle listeleniyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "decimal_engine"
+  },
+  {
+    "id": "XEN21",
+    "category": "engine",
+    "text": "Bu araç 1.2 TSI motor seçeneğiyle listeleniyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "decimal_engine"
+  },
+  {
+    "id": "XEN22",
+    "category": "engine",
+    "text": "İncelediğimiz otomobil 1.1 TSI motor seçeneğiyle listeleniyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "decimal_engine"
+  },
+  {
+    "id": "XEN23",
+    "category": "engine",
+    "text": "Satıştaki model 1.6 TFSI motor seçeneğiyle listeleniyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "decimal_engine"
+  },
+  {
+    "id": "XEN24",
+    "category": "engine",
+    "text": "Ekspertize alınacak araç 2.4 TDI motor seçeneğiyle listeleniyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "decimal_engine"
+  },
+  {
+    "id": "XEN25",
+    "category": "engine",
+    "text": "Test sürüşü aracı 1.5 HDI motor seçeneğiyle listeleniyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "decimal_engine"
+  },
+  {
+    "id": "XMI01",
+    "category": "mileage",
+    "text": "Araç 145.000 km olarak kaydedilmiş.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "thousands_distance"
+  },
+  {
+    "id": "XMI02",
+    "category": "mileage",
+    "text": "İncelenen otomobil 35.000 km olarak kaydedilmiş.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "thousands_distance"
+  },
+  {
+    "id": "XMI03",
+    "category": "mileage",
+    "text": "Bu model 1.500 km olarak kaydedilmiş.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "thousands_distance"
+  },
+  {
+    "id": "XMI04",
+    "category": "mileage",
+    "text": "Ön değerlendirme kaydı 223.400 km olarak kaydedilmiş.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "thousands_distance"
+  },
+  {
+    "id": "XMI05",
+    "category": "mileage",
+    "text": "Satıştaki araç 950 km olarak kaydedilmiş.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "thousands_distance"
+  },
+  {
+    "id": "XMI06",
+    "category": "mileage",
+    "text": "Araç 85.000 km olarak kaydedilmiş.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "thousands_distance"
+  },
+  {
+    "id": "XMI07",
+    "category": "mileage",
+    "text": "İncelenen otomobil 240.000 km olarak kaydedilmiş.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "thousands_distance"
+  },
+  {
+    "id": "XMI08",
+    "category": "mileage",
+    "text": "Bu model 10.000 km olarak kaydedilmiş.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "thousands_distance"
+  },
+  {
+    "id": "XMI09",
+    "category": "mileage",
+    "text": "Ön değerlendirme kaydı 300.000 km olarak kaydedilmiş.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "thousands_distance"
+  },
+  {
+    "id": "XMI10",
+    "category": "mileage",
+    "text": "Satıştaki araç 125000 km olarak kaydedilmiş.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "thousands_distance"
+  },
+  {
+    "id": "XMI11",
+    "category": "mileage",
+    "text": "Araç 4.250 km olarak kaydedilmiş.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "thousands_distance"
+  },
+  {
+    "id": "XMI12",
+    "category": "mileage",
+    "text": "İncelenen otomobil 67.890 km olarak kaydedilmiş.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "thousands_distance"
+  },
+  {
+    "id": "XMI13",
+    "category": "mileage",
+    "text": "Bu model 250.150 km olarak kaydedilmiş.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "thousands_distance"
+  },
+  {
+    "id": "XMI14",
+    "category": "mileage",
+    "text": "Ön değerlendirme kaydı 44.444 km olarak kaydedilmiş.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "thousands_distance"
+  },
+  {
+    "id": "XMI15",
+    "category": "mileage",
+    "text": "Satıştaki araç 55.500 km olarak kaydedilmiş.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "thousands_distance"
+  },
+  {
+    "id": "XMI16",
+    "category": "mileage",
+    "text": "Araç 99.950 km olarak kaydedilmiş.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "thousands_distance"
+  },
+  {
+    "id": "XMI17",
+    "category": "mileage",
+    "text": "İncelenen otomobil 120.000 km olarak kaydedilmiş.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "thousands_distance"
+  },
+  {
+    "id": "XMI18",
+    "category": "mileage",
+    "text": "Bu model 12.345 km olarak kaydedilmiş.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "thousands_distance"
+  },
+  {
+    "id": "XMI19",
+    "category": "mileage",
+    "text": "Ön değerlendirme kaydı 175.000 km olarak kaydedilmiş.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "thousands_distance"
+  },
+  {
+    "id": "XMI20",
+    "category": "mileage",
+    "text": "Satıştaki araç 280.000 km olarak kaydedilmiş.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "thousands_distance"
+  },
+  {
+    "id": "XMI21",
+    "category": "mileage",
+    "text": "Araç 130.300 km olarak kaydedilmiş.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "thousands_distance"
+  },
+  {
+    "id": "XMI22",
+    "category": "mileage",
+    "text": "İncelenen otomobil 18.250 km olarak kaydedilmiş.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "thousands_distance"
+  },
+  {
+    "id": "XMI23",
+    "category": "mileage",
+    "text": "Bu model 199.999 km olarak kaydedilmiş.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "thousands_distance"
+  },
+  {
+    "id": "XMI24",
+    "category": "mileage",
+    "text": "Ön değerlendirme kaydı 222.000 km olarak kaydedilmiş.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "thousands_distance"
+  },
+  {
+    "id": "XMI25",
+    "category": "mileage",
+    "text": "Satıştaki araç 72.500 km olarak kaydedilmiş.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "thousands_distance"
+  },
+  {
+    "id": "XVN01",
+    "category": "vehicle_names",
+    "text": "Volkswagen Passat aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "brand_model"
+  },
+  {
+    "id": "XVN02",
+    "category": "vehicle_names",
+    "text": "Peugeot 308 aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "brand_model"
+  },
+  {
+    "id": "XVN03",
+    "category": "vehicle_names",
+    "text": "Nissan Qashqai aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "brand_model"
+  },
+  {
+    "id": "XVN04",
+    "category": "vehicle_names",
+    "text": "Citroën C3 aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "brand_model"
+  },
+  {
+    "id": "XVN05",
+    "category": "vehicle_names",
+    "text": "Škoda Octavia aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "brand_model"
+  },
+  {
+    "id": "XVN06",
+    "category": "vehicle_names",
+    "text": "Renault Clio aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "brand_model"
+  },
+  {
+    "id": "XVN07",
+    "category": "vehicle_names",
+    "text": "Dacia Duster aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "brand_model"
+  },
+  {
+    "id": "XVN08",
+    "category": "vehicle_names",
+    "text": "Porsche Macan aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "brand_model"
+  },
+  {
+    "id": "XVN09",
+    "category": "vehicle_names",
+    "text": "Chevrolet Cruze aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "brand_model"
+  },
+  {
+    "id": "XVN10",
+    "category": "vehicle_names",
+    "text": "Toyota Corolla aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "brand_model"
+  },
+  {
+    "id": "XVN11",
+    "category": "vehicle_names",
+    "text": "Honda Civic aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "brand_model"
+  },
+  {
+    "id": "XVN12",
+    "category": "vehicle_names",
+    "text": "Hyundai Tucson aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "brand_model"
+  },
+  {
+    "id": "XVN13",
+    "category": "vehicle_names",
+    "text": "BMW X5 aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "brand_model"
+  },
+  {
+    "id": "XVN14",
+    "category": "vehicle_names",
+    "text": "Mercedes-Benz C 200 aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "brand_model"
+  },
+  {
+    "id": "XVN15",
+    "category": "vehicle_names",
+    "text": "Audi A3 aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "brand_model"
+  },
+  {
+    "id": "XVN16",
+    "category": "vehicle_names",
+    "text": "Opel Corsa aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "brand_model"
+  },
+  {
+    "id": "XVN17",
+    "category": "vehicle_names",
+    "text": "Ford Focus aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "brand_model"
+  },
+  {
+    "id": "XVN18",
+    "category": "vehicle_names",
+    "text": "Fiat Egea aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "brand_model"
+  },
+  {
+    "id": "XVN19",
+    "category": "vehicle_names",
+    "text": "Tesla Model Y aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "brand_model"
+  },
+  {
+    "id": "XVN20",
+    "category": "vehicle_names",
+    "text": "Volvo XC40 aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "brand_model"
+  },
+  {
+    "id": "XVN21",
+    "category": "vehicle_names",
+    "text": "SEAT Leon aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "brand_model"
+  },
+  {
+    "id": "XVN22",
+    "category": "vehicle_names",
+    "text": "Cupra Formentor aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "brand_model"
+  },
+  {
+    "id": "XVN23",
+    "category": "vehicle_names",
+    "text": "Land Rover Defender aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "brand_model"
+  },
+  {
+    "id": "XVN24",
+    "category": "vehicle_names",
+    "text": "Jeep Renegade aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "brand_model"
+  },
+  {
+    "id": "XVN25",
+    "category": "vehicle_names",
+    "text": "MINI Cooper aracınızın satış ve ekspertiz seçeneklerini açıklayabilirim.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "brand_model"
+  },
+  {
+    "id": "XFS01",
+    "category": "foreign_suffix",
+    "text": "Qashqai'nin ilgili servis kaydını inceliyorum.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "morphology_manual_review"
+  },
+  {
+    "id": "XFS02",
+    "category": "foreign_suffix",
+    "text": "Qashqai'ye ilgili servis kaydını inceliyorum.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "morphology_manual_review"
+  },
+  {
+    "id": "XFS03",
+    "category": "foreign_suffix",
+    "text": "Qashqai'den ilgili servis kaydını inceliyorum.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "morphology_manual_review"
+  },
+  {
+    "id": "XFS04",
+    "category": "foreign_suffix",
+    "text": "Qashqai'de ilgili servis kaydını inceliyorum.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "morphology_manual_review"
+  },
+  {
+    "id": "XFS05",
+    "category": "foreign_suffix",
+    "text": "Peugeot'nun ilgili servis kaydını inceliyorum.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "morphology_manual_review"
+  },
+  {
+    "id": "XFS06",
+    "category": "foreign_suffix",
+    "text": "Peugeot'ya ilgili servis kaydını inceliyorum.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "morphology_manual_review"
+  },
+  {
+    "id": "XFS07",
+    "category": "foreign_suffix",
+    "text": "Peugeot'dan ilgili servis kaydını inceliyorum.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "morphology_manual_review"
+  },
+  {
+    "id": "XFS08",
+    "category": "foreign_suffix",
+    "text": "Peugeot'da ilgili servis kaydını inceliyorum.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "morphology_manual_review"
+  },
+  {
+    "id": "XFS09",
+    "category": "foreign_suffix",
+    "text": "Renault'nun ilgili servis kaydını inceliyorum.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "morphology_manual_review"
+  },
+  {
+    "id": "XFS10",
+    "category": "foreign_suffix",
+    "text": "Renault'ya ilgili servis kaydını inceliyorum.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "morphology_manual_review"
+  },
+  {
+    "id": "XFS11",
+    "category": "foreign_suffix",
+    "text": "Citroën'den ilgili servis kaydını inceliyorum.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "morphology_manual_review"
+  },
+  {
+    "id": "XFS12",
+    "category": "foreign_suffix",
+    "text": "Citroën'de ilgili servis kaydını inceliyorum.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "morphology_manual_review"
+  },
+  {
+    "id": "XFS13",
+    "category": "foreign_suffix",
+    "text": "Škoda'ya ilgili servis kaydını inceliyorum.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "morphology_manual_review"
+  },
+  {
+    "id": "XFS14",
+    "category": "foreign_suffix",
+    "text": "Škoda'dan ilgili servis kaydını inceliyorum.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "morphology_manual_review"
+  },
+  {
+    "id": "XFS15",
+    "category": "foreign_suffix",
+    "text": "Volkswagen'de ilgili servis kaydını inceliyorum.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "morphology_manual_review"
+  },
+  {
+    "id": "XFS16",
+    "category": "foreign_suffix",
+    "text": "Volkswagen'den ilgili servis kaydını inceliyorum.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "morphology_manual_review"
+  },
+  {
+    "id": "XFS17",
+    "category": "foreign_suffix",
+    "text": "Dacia'ya ilgili servis kaydını inceliyorum.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "morphology_manual_review"
+  },
+  {
+    "id": "XFS18",
+    "category": "foreign_suffix",
+    "text": "Dacia'dan ilgili servis kaydını inceliyorum.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "morphology_manual_review"
+  },
+  {
+    "id": "XFS19",
+    "category": "foreign_suffix",
+    "text": "Porsche'den ilgili servis kaydını inceliyorum.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "morphology_manual_review"
+  },
+  {
+    "id": "XFS20",
+    "category": "foreign_suffix",
+    "text": "Porsche'ye ilgili servis kaydını inceliyorum.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "morphology_manual_review"
+  },
+  {
+    "id": "XFS21",
+    "category": "foreign_suffix",
+    "text": "Chevrolet'ye ilgili servis kaydını inceliyorum.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "morphology_manual_review"
+  },
+  {
+    "id": "XFS22",
+    "category": "foreign_suffix",
+    "text": "Chevrolet'den ilgili servis kaydını inceliyorum.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "morphology_manual_review"
+  },
+  {
+    "id": "XFS23",
+    "category": "foreign_suffix",
+    "text": "Qashqai'nın ilgili servis kaydını inceliyorum.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "morphology_manual_review"
+  },
+  {
+    "id": "XFS24",
+    "category": "foreign_suffix",
+    "text": "Peugeot'yu ilgili servis kaydını inceliyorum.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "morphology_manual_review"
+  },
+  {
+    "id": "XFS25",
+    "category": "foreign_suffix",
+    "text": "Renault'yu ilgili servis kaydını inceliyorum.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "morphology_manual_review"
+  },
+  {
+    "id": "XSH01",
+    "category": "short_dialogue",
+    "text": "Evet.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "short_audio_control"
+  },
+  {
+    "id": "XSH02",
+    "category": "short_dialogue",
+    "text": "Hayır.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "short_audio_control"
+  },
+  {
+    "id": "XSH03",
+    "category": "short_dialogue",
+    "text": "Elbette.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "short_audio_control"
+  },
+  {
+    "id": "XSH04",
+    "category": "short_dialogue",
+    "text": "Anladım.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "short_audio_control"
+  },
+  {
+    "id": "XSH05",
+    "category": "short_dialogue",
+    "text": "Bir dakika.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "short_audio_control"
+  },
+  {
+    "id": "XSH06",
+    "category": "short_dialogue",
+    "text": "Lütfen.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "short_audio_control"
+  },
+  {
+    "id": "XSH07",
+    "category": "short_dialogue",
+    "text": "Teşekkür ederim.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "short_audio_control"
+  },
+  {
+    "id": "XSH08",
+    "category": "short_dialogue",
+    "text": "Rica ederim.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "short_audio_control"
+  },
+  {
+    "id": "XSH09",
+    "category": "short_dialogue",
+    "text": "Dinliyorum.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "short_audio_control"
+  },
+  {
+    "id": "XSH10",
+    "category": "short_dialogue",
+    "text": "Tabii.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "short_audio_control"
+  },
+  {
+    "id": "XSH11",
+    "category": "short_dialogue",
+    "text": "Mümkün.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "short_audio_control"
+  },
+  {
+    "id": "XSH12",
+    "category": "short_dialogue",
+    "text": "Uygun.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "short_audio_control"
+  },
+  {
+    "id": "XSH13",
+    "category": "short_dialogue",
+    "text": "Kontrol ediyorum.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "short_audio_control"
+  },
+  {
+    "id": "XSH14",
+    "category": "short_dialogue",
+    "text": "Hemen bakıyorum.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "short_audio_control"
+  },
+  {
+    "id": "XSH15",
+    "category": "short_dialogue",
+    "text": "Haklısınız.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "short_audio_control"
+  },
+  {
+    "id": "XSH16",
+    "category": "short_dialogue",
+    "text": "Şimdi açıklayayım.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "short_audio_control"
+  },
+  {
+    "id": "XSH17",
+    "category": "short_dialogue",
+    "text": "Bir saniye.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "short_audio_control"
+  },
+  {
+    "id": "XSH18",
+    "category": "short_dialogue",
+    "text": "Sizi duyuyorum.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "short_audio_control"
+  },
+  {
+    "id": "XSH19",
+    "category": "short_dialogue",
+    "text": "Devam edebilirsiniz.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "short_audio_control"
+  },
+  {
+    "id": "XSH20",
+    "category": "short_dialogue",
+    "text": "Yardımcı olayım.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "short_audio_control"
+  },
+  {
+    "id": "XSH21",
+    "category": "short_dialogue",
+    "text": "Peki.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "short_audio_control"
+  },
+  {
+    "id": "XSH22",
+    "category": "short_dialogue",
+    "text": "Tamamdır.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "short_audio_control"
+  },
+  {
+    "id": "XSH23",
+    "category": "short_dialogue",
+    "text": "Memnuniyetle.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "short_audio_control"
+  },
+  {
+    "id": "XSH24",
+    "category": "short_dialogue",
+    "text": "Kontrol edelim.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "short_audio_control"
+  },
+  {
+    "id": "XSH25",
+    "category": "short_dialogue",
+    "text": "Başka sorunuz var mı?",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "short_audio_control"
+  },
+  {
+    "id": "XQU01",
+    "category": "questions",
+    "text": "Bu araç hâlâ satışta mı?",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "question_prosody"
+  },
+  {
+    "id": "XQU02",
+    "category": "questions",
+    "text": "Ekspertiz raporunu görebilir miyim?",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "question_prosody"
+  },
+  {
+    "id": "XQU03",
+    "category": "questions",
+    "text": "Fiyat teklifini bugün alabilir miyim?",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "question_prosody"
+  },
+  {
+    "id": "XQU04",
+    "category": "questions",
+    "text": "Servis kaydı var mı?",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "question_prosody"
+  },
+  {
+    "id": "XQU05",
+    "category": "questions",
+    "text": "Aracın hasar geçmişi nedir?",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "question_prosody"
+  },
+  {
+    "id": "XQU06",
+    "category": "questions",
+    "text": "Randevumu değiştirebilir miyim?",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "question_prosody"
+  },
+  {
+    "id": "XQU07",
+    "category": "questions",
+    "text": "Peugeot 308 için uygun saatiniz var mı?",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "question_prosody"
+  },
+  {
+    "id": "XQU08",
+    "category": "questions",
+    "text": "Volkswagen Passat için teklifiniz nedir?",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "question_prosody"
+  },
+  {
+    "id": "XQU09",
+    "category": "questions",
+    "text": "Fiyatı tekrar söyleyebilir misiniz?",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "question_prosody"
+  },
+  {
+    "id": "XQU10",
+    "category": "questions",
+    "text": "Muayene ne zaman bitiyor?",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "question_prosody"
+  },
+  {
+    "id": "XQU11",
+    "category": "questions",
+    "text": "Araç hâlâ garantili mi?",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "question_prosody"
+  },
+  {
+    "id": "XQU12",
+    "category": "questions",
+    "text": "Test sürüşü mümkün mü?",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "question_prosody"
+  },
+  {
+    "id": "XQU13",
+    "category": "questions",
+    "text": "Ödeme yöntemleriniz nelerdir?",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "question_prosody"
+  },
+  {
+    "id": "XQU14",
+    "category": "questions",
+    "text": "Bu fiyat vergiler dahil mi?",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "question_prosody"
+  },
+  {
+    "id": "XQU15",
+    "category": "questions",
+    "text": "Aracı bugün teslim alabilir miyim?",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "question_prosody"
+  },
+  {
+    "id": "XQU16",
+    "category": "questions",
+    "text": "Kilometresi doğrulandı mı?",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "question_prosody"
+  },
+  {
+    "id": "XQU17",
+    "category": "questions",
+    "text": "Beni daha sonra arayabilir misiniz?",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "question_prosody"
+  },
+  {
+    "id": "XQU18",
+    "category": "questions",
+    "text": "Bu görüşme kaydediliyor mu?",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "question_prosody"
+  },
+  {
+    "id": "XQU19",
+    "category": "questions",
+    "text": "Bir insan temsilciyle görüşebilir miyim?",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "question_prosody"
+  },
+  {
+    "id": "XQU20",
+    "category": "questions",
+    "text": "Bana neden ulaştığınızı açıklar mısınız?",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "question_prosody"
+  },
+  {
+    "id": "XQU21",
+    "category": "questions",
+    "text": "Randevu talebimi iptal edebilir miyim?",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "question_prosody"
+  },
+  {
+    "id": "XQU22",
+    "category": "questions",
+    "text": "Aracın motor seçeneği hangisi?",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "question_prosody"
+  },
+  {
+    "id": "XQU23",
+    "category": "questions",
+    "text": "Aracın yakıt türü nedir?",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "question_prosody"
+  },
+  {
+    "id": "XQU24",
+    "category": "questions",
+    "text": "Teklifinizin geçerlilik süresi ne kadar?",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "question_prosody"
+  },
+  {
+    "id": "XQU25",
+    "category": "questions",
+    "text": "Ekspertiz sonucuna göre fiyat değişir mi?",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "question_prosody"
+  },
+  {
+    "id": "XLC01",
+    "category": "long_context",
+    "text": "Bilginizi doğruladıktan sonra otomobilinizin güncel piyasa değerini açıklayabilirim, ancak bunun kesin satış fiyatı olmadığını lütfen unutmayın.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "boundary_chunking"
+  },
+  {
+    "id": "XLC02",
+    "category": "long_context",
+    "text": "Volkswagen Passat için fiyat teklifini hazırlamadan önce aracın model yılını, kilometre bilgisini ve geçmiş hasar kayıtlarını teyit etmem gerekiyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "boundary_chunking"
+  },
+  {
+    "id": "XLC03",
+    "category": "long_context",
+    "text": "Müşteri temsilcimize yönlendirmeden önce şu bilgiyi paylaşmak isterim, araç için bugün verilen tahmini değer ekspertiz incelemesiyle değişebilir.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "boundary_chunking"
+  },
+  {
+    "id": "XLC04",
+    "category": "long_context",
+    "text": "Randevunuzun uygunluğunu kontrol edeceğim; eğer belirttiğiniz saat doluysa, size yakın zamanlı başka seçenekler önerebilirim.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "boundary_chunking"
+  },
+  {
+    "id": "XLC05",
+    "category": "long_context",
+    "text": "Peugeot 308 aracınızın bakımı için servis kaydı oluşturabiliriz, ancak işlemin kapsamını araç muayenesinden sonra netleştirmemiz gerekiyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "boundary_chunking"
+  },
+  {
+    "id": "XLC06",
+    "category": "long_context",
+    "text": "Nissan Qashqai hakkında konuşurken fiyat, donanım ve yakıt tüketimi gibi bilgileri birbirine karıştırmadan sırayla açıklamak istiyorum.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "boundary_chunking"
+  },
+  {
+    "id": "XLC07",
+    "category": "long_context",
+    "text": "İlk olarak aracın servis geçmişini kontrol ediyoruz, ardından kilometre ve boya değişen bilgilerini karşılaştırarak fiyat teklifini hazırlıyoruz.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "boundary_chunking"
+  },
+  {
+    "id": "XLC08",
+    "category": "long_context",
+    "text": "Randevunuzu oluşturmadan önce kişisel bilgilerinizi teyit edeceğim; istemezseniz bu görüşmeyi sonlandırabilir veya bir temsilciye aktarabilirim.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "boundary_chunking"
+  },
+  {
+    "id": "XLC09",
+    "category": "long_context",
+    "text": "Teklif almak için aracınızın plakasını şu an paylaşmanız gerekmiyor, ilk aşamada marka, model ve yılı öğrenmem yeterli.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "boundary_chunking"
+  },
+  {
+    "id": "XLC10",
+    "category": "long_context",
+    "text": "Belirttiğiniz saatte müsaitlik görünmezse başka bir gün seçebilirsiniz, uygun gördüğünüz zaman aralığını birlikte belirleyebiliriz.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "boundary_chunking"
+  },
+  {
+    "id": "XLC11",
+    "category": "long_context",
+    "text": "Aracın teknik özelliklerini açıklarken motor hacmi ile yakıt tüketimini aynı şeymiş gibi değerlendirmemek gerekir; bunlar farklı bilgilerdir.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "boundary_chunking"
+  },
+  {
+    "id": "XLC12",
+    "category": "long_context",
+    "text": "Kısa bir bilgi vermek isterim, bu görüşmedeki fiyatlar yalnızca ön değerlendirme amaçlıdır ve kesinleştirme için yetkili onayı gerekir.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "boundary_chunking"
+  },
+  {
+    "id": "XLC13",
+    "category": "long_context",
+    "text": "İsterseniz önce aracınızın ekspertiz gereksinimlerini belirleyebilir, daha sonra müsait randevu seçeneklerini tek tek değerlendirebiliriz.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "boundary_chunking"
+  },
+  {
+    "id": "XLC14",
+    "category": "long_context",
+    "text": "Test sürüşü talebi için önce aracı ve şubeyi seçiyoruz, daha sonra uygun tarih ve saati doğrulayıp talebinizi oluşturuyoruz.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "boundary_chunking"
+  },
+  {
+    "id": "XLC15",
+    "category": "long_context",
+    "text": "İkinci el araç alımında değerleme sonucu araç donanımına, bakım geçmişine, kilometreye ve ekspertiz bulgularına göre değişebilir.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "boundary_chunking"
+  },
+  {
+    "id": "XLC16",
+    "category": "long_context",
+    "text": "Sizi anlıyorum, fiyat teklifimiz beklediğinizden düşük olabilir; dilerseniz hangi bilgilerin değerlendirmeye alındığını açıklayabilirim.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "boundary_chunking"
+  },
+  {
+    "id": "XLC17",
+    "category": "long_context",
+    "text": "Size araçla ilgili eksik ya da doğrulanmamış bilgi vermek istemem, bu nedenle bazı ayrıntıları yetkili sistemden tekrar kontrol edeceğim.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "boundary_chunking"
+  },
+  {
+    "id": "XLC18",
+    "category": "long_context",
+    "text": "Aracınızın model yılı ve kilometre değeri netleştiğinde bir ön teklif sunabiliriz, ancak fiyatın sonradan değişebileceğini belirtmeliyim.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "boundary_chunking"
+  },
+  {
+    "id": "XLC19",
+    "category": "long_context",
+    "text": "Bugün konuştuğumuz randevu saatini sizin adınıza kesinleştirmeden önce, seçtiğiniz şubenin uygunluk bilgisini güncel olarak kontrol etmeliyim.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "boundary_chunking"
+  },
+  {
+    "id": "XLC20",
+    "category": "long_context",
+    "text": "Önce aracınızın mevcut durumunu ve geçmiş işlemlerini açıklamanızı rica edeceğim, sonrasında sizi uygun ekspertiz hizmetine yönlendireceğim.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "boundary_chunking"
+  },
+  {
+    "id": "XLC21",
+    "category": "long_context",
+    "text": "Satış sürecini üç adımda açıklayayım: ön değerleme, yerinde ekspertiz ve teklif onayı; her adım ayrı bir kontrol gerektirir.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "boundary_chunking"
+  },
+  {
+    "id": "XLC22",
+    "category": "long_context",
+    "text": "Şu anda sizin için işlem yapmıyorum, sadece seçenekleri açıklıyorum; randevu veya teklif oluşturmak için ayrıca onayınızı isteyeceğim.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "boundary_chunking"
+  },
+  {
+    "id": "XLC23",
+    "category": "long_context",
+    "text": "Yarın için düşündüğünüz saat uygun değilse başka seçenekler gösterebilirim, böylece size en uygun zamanı birlikte bulabiliriz.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "boundary_chunking"
+  },
+  {
+    "id": "XLC24",
+    "category": "long_context",
+    "text": "Peugeot aracınızın parça ve bakım durumunu kontrol etmeden kesin bir masraf söylemem doğru olmaz, yaklaşık aralığı ayrıca paylaşabilirim.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "boundary_chunking"
+  },
+  {
+    "id": "XLC25",
+    "category": "long_context",
+    "text": "Son olarak tekrar belirtmek isterim, bu konuşma bir yapay zekâ asistanıyla gerçekleşmektedir ve talep ederseniz insan temsilciye aktarılabilirsiniz.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "boundary_chunking"
+  },
+  {
+    "id": "XTT01",
+    "category": "technical_terms",
+    "text": "ABS kontrolü yapıldı.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "acronym_review"
+  },
+  {
+    "id": "XTT02",
+    "category": "technical_terms",
+    "text": "ESP sistemi etkin görünüyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "acronym_review"
+  },
+  {
+    "id": "XTT03",
+    "category": "technical_terms",
+    "text": "ADAS kamera kalibrasyonu gerekiyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "acronym_review"
+  },
+  {
+    "id": "XTT04",
+    "category": "technical_terms",
+    "text": "DSG şanzıman testi yapılacak.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "acronym_review"
+  },
+  {
+    "id": "XTT05",
+    "category": "technical_terms",
+    "text": "CVT şanzıman hakkında bilgi veriyorum.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "acronym_review"
+  },
+  {
+    "id": "XTT06",
+    "category": "technical_terms",
+    "text": "PHEV sisteminde batarya kontrolü yapılmalı.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "acronym_review"
+  },
+  {
+    "id": "XTT07",
+    "category": "technical_terms",
+    "text": "BEV araçlar için şarj kaydı isteniyor.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "acronym_review"
+  },
+  {
+    "id": "XTT08",
+    "category": "technical_terms",
+    "text": "AWD çekiş sistemi kontrol edilecek.",
+    "tier": "regression",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "acronym_review"
+  },
+  {
+    "id": "XTT09",
+    "category": "technical_terms",
+    "text": "SUV sınıfı araç değerlendiriliyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "acronym_review"
+  },
+  {
+    "id": "XTT10",
+    "category": "technical_terms",
+    "text": "Euro NCAP değerlendirmesi soruldu.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "acronym_review"
+  },
+  {
+    "id": "XTT11",
+    "category": "technical_terms",
+    "text": "Akü 12 V olarak ölçüldü.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "acronym_review"
+  },
+  {
+    "id": "XTT12",
+    "category": "technical_terms",
+    "text": "Batarya kapasitesi 75 kWh olarak bildirildi.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "acronym_review"
+  },
+  {
+    "id": "XTT13",
+    "category": "technical_terms",
+    "text": "Motor gücü 110 kW olarak belirtildi.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "acronym_review"
+  },
+  {
+    "id": "XTT14",
+    "category": "technical_terms",
+    "text": "Motor gücü 150 HP olarak açıklandı.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "acronym_review"
+  },
+  {
+    "id": "XTT15",
+    "category": "technical_terms",
+    "text": "Araç 4x4 sürüş sistemine sahip.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "acronym_review"
+  },
+  {
+    "id": "XTT16",
+    "category": "technical_terms",
+    "text": "OBD bağlantısını kontrol edebiliriz.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "acronym_review"
+  },
+  {
+    "id": "XTT17",
+    "category": "technical_terms",
+    "text": "ECU yazılım güncellemesi talep edildi.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "acronym_review"
+  },
+  {
+    "id": "XTT18",
+    "category": "technical_terms",
+    "text": "TPMS uyarısı ekranda görünüyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "acronym_review"
+  },
+  {
+    "id": "XTT19",
+    "category": "technical_terms",
+    "text": "LED farların ayarı yapılacak.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "acronym_review"
+  },
+  {
+    "id": "XTT20",
+    "category": "technical_terms",
+    "text": "Start Stop sistemi etkin.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "acronym_review"
+  },
+  {
+    "id": "XTT21",
+    "category": "technical_terms",
+    "text": "Hibrit araç için rejeneratif fren kontrolü istendi.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "acronym_review"
+  },
+  {
+    "id": "XTT22",
+    "category": "technical_terms",
+    "text": "Araçta ISOFIX bağlantısı bulunuyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "acronym_review"
+  },
+  {
+    "id": "XTT23",
+    "category": "technical_terms",
+    "text": "Şanzıman tipi e-CVT olarak listelendi.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "acronym_review"
+  },
+  {
+    "id": "XTT24",
+    "category": "technical_terms",
+    "text": "Araçta DSG ve TSI terimleri geçiyor.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "acronym_review"
+  },
+  {
+    "id": "XTT25",
+    "category": "technical_terms",
+    "text": "VIN kodunu telefonda heceleyerek doğrulamayalım.",
+    "tier": "stress",
+    "origin": "curated_synthetic",
+    "oracle": "review_pending",
+    "focus": "acronym_review"
+  }
+]

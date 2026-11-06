@@ -1,0 +1,14 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"urn:freya:m08:operator-action:v1",
+  "type":"object","required":["action"],"additionalProperties":false,
+  "properties":{
+    "action":{"enum":["open","vad","transcript","llm","playout","hangup","handoff","fake_ack","xoff","xon","tick","review"]},
+    "session_id":{"type":"string","maxLength":128,"pattern":"^[A-Za-z0-9][A-Za-z0-9_.:-]*$"},
+    "delta_ms":{"enum":[20,100,1600]},
+    "annotation_id":{"type":"string","maxLength":128},
+    "decision":{"enum":["approved","rejected"]},
+    "reviewer":{"type":"string","maxLength":48},
+    "reason_code":{"enum":["verified_evidence","incorrect_reading","insufficient_evidence","duplicate","other"]}
+  }
+}

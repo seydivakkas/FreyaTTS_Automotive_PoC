@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:freya:m08:operator-snapshot:v1",
+  "title": "M08 synthetic read-only operator snapshot",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["mode","simulation_time_ms","counts","sessions","adapters","timeline","sources","annotations","golden_summary","golden_cases","audio_bytes_generated","real_pbx_connected","production_ready"],
+  "properties": {
+    "mode": {"const":"OFFLINE MOCK ONLY"},
+    "simulation_time_ms": {"type":"integer","minimum":0},
+    "counts":{"type":"object","required":["sessions","active","waiting_flush","mock_tts_results"],"properties":{"sessions":{"type":"integer","minimum":0},"active":{"type":"integer","minimum":0},"waiting_flush":{"type":"integer","minimum":0},"mock_tts_results":{"type":"integer","minimum":0}}},
+    "sessions":{"type":"array","items":{"type":"object","required":["session_id","state","turn_id","generation_id","pending_flush_id"],"properties":{"session_id":{"type":"string"},"state":{"enum":["IDLE","LISTENING","THINKING","SPEAKING","INTERRUPTING","HANDOFF","ENDED","FAILED"]},"turn_id":{"type":"integer","minimum":0},"generation_id":{"type":"integer","minimum":0},"pending_flush_id":{"type":["string","null"]}}}},
+    "adapters":{"type":"array","minItems":4,"items":{"type":"object","required":["kind","state","circuit","mock_only"],"properties":{"kind":{"enum":["stt","tts","llm","telephony"]},"mock_only":{"const":true}}}},
+    "timeline":{"type":"array"},"sources":{"type":"array"},"annotations":{"type":"array"},"golden_summary":{"type":"object"},"golden_cases":{"type":"array","minItems":320,"maxItems":320},
+    "audio_bytes_generated":{"const":0},"real_pbx_connected":{"const":false},"production_ready":{"const":false}
+  }
+}

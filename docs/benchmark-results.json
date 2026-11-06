@@ -1,0 +1,86 @@
+{
+  "model_load_ms": 9484.000000004016,
+  "device": "cuda",
+  "measurements": [
+    {
+      "input": "Volkswagen Passat 1.5 TSI aracınız için sizi arıyorum.",
+      "normalized": "Folksvagen Passat bir nokta beş te se i aracınız için sizi arıyorum.",
+      "mode": "first",
+      "tts_ms": 1638.0913000029977,
+      "audio_seconds": 4.8,
+      "rtf": 0.3412690208339579,
+      "stt_ms": 1815.2565000054892,
+      "transcript": "Force Wagon Puzzle Puzzle 1.5 Tesey I aracınız için siz arıyorum."
+    },
+    {
+      "input": "Volkswagen Passat 1.5 TSI aracınız için sizi arıyorum.",
+      "normalized": "Folksvagen Passat bir nokta beş te se i aracınız için sizi arıyorum.",
+      "mode": "warm",
+      "tts_ms": 646.815100000822,
+      "audio_seconds": 4.8,
+      "rtf": 0.1347531458335046,
+      "stt_ms": 1794.4426000030944,
+      "transcript": "Force Wagon Puzzle Puzzle 3.5 Tesey I aracınız için siz arıyorum."
+    },
+    {
+      "input": "Aracınızın tahmini değeri 1.250.000 TL.",
+      "normalized": "Aracınızın tahmini değeri bir milyon iki yüz elli bin Türk lirası.",
+      "mode": "first",
+      "tts_ms": 614.4146000006003,
+      "audio_seconds": 4.36,
+      "rtf": 0.14092077981665144,
+      "stt_ms": 1711.9027000007918,
+      "transcript": "Aracınızın tahmini değeri 1 milyon 250 bin Türk lirası."
+    },
+    {
+      "input": "Aracınızın tahmini değeri 1.250.000 TL.",
+      "normalized": "Aracınızın tahmini değeri bir milyon iki yüz elli bin Türk lirası.",
+      "mode": "warm",
+      "tts_ms": 618.3470000032685,
+      "audio_seconds": 4.36,
+      "rtf": 0.14182270642276798,
+      "stt_ms": 1724.2937000046368,
+      "transcript": "Aracınızın tahmini değeri 1 milyon 250 bin Türk lirası."
+    },
+    {
+      "input": "Sizin için yarın saat 14:30'da ekspertiz randevusu oluşturabiliriz.",
+      "normalized": "Sizin için yarın saat on dört otuzda ekspertiz randevusu oluşturabiliriz.",
+      "mode": "first",
+      "tts_ms": 633.7469999998575,
+      "audio_seconds": 4.84,
+      "rtf": 0.1309394628098879,
+      "stt_ms": 1832.802900004026,
+      "transcript": "Sizin için yarın saat 14-30'da ekspertiz randevusu oluşturabiliriz."
+    },
+    {
+      "input": "Sizin için yarın saat 14:30'da ekspertiz randevusu oluşturabiliriz.",
+      "normalized": "Sizin için yarın saat on dört otuzda ekspertiz randevusu oluşturabiliriz.",
+      "mode": "warm",
+      "tts_ms": 666.2071999962791,
+      "audio_seconds": 4.84,
+      "rtf": 0.13764611570171056,
+      "stt_ms": 1797.6902000009432,
+      "transcript": "Sizin için yarın saat 14-30'da ekspertiz randevusu oluşturabiliriz."
+    },
+    {
+      "input": "2023 model Nissan Qashqai 1.5 e-Power aracınızın 145.000 km'deki ekspertiz fiyatı 1.450.000 TL'dir!",
+      "normalized": "iki bin yirmi üç model Nisan Kaşkai bir nokta beş i pavır aracınızın yüz kırk beş bin kilometredeki ekspertiz fiyatı bir milyon dört yüz elli bin Türk lirasıdır.",
+      "mode": "first",
+      "tts_ms": 1863.0477999977302,
+      "audio_seconds": 13.28,
+      "rtf": 0.1402897439757327,
+      "stt_ms": 2459.8941000003833,
+      "transcript": "2023 model Nissan Kaşgöl Nissan Kaşgöl 1.5 Power aracınızı, 100Ki Power aracınızı 145.000 km'deki Expertiz fiyatı 1.450.000 Türk dilatıdır."
+    },
+    {
+      "input": "2023 model Nissan Qashqai 1.5 e-Power aracınızın 145.000 km'deki ekspertiz fiyatı 1.450.000 TL'dir!",
+      "normalized": "iki bin yirmi üç model Nisan Kaşkai bir nokta beş i pavır aracınızın yüz kırk beş bin kilometredeki ekspertiz fiyatı bir milyon dört yüz elli bin Türk lirasıdır.",
+      "mode": "warm",
+      "tts_ms": 1923.2016000023577,
+      "audio_seconds": 13.28,
+      "rtf": 0.144819397590539,
+      "stt_ms": 2454.8426999972435,
+      "transcript": "2023 model Nissan Kaşgöl Nissan Kaşgöl 1.5 Power aracınızı, 100Ki Power aracınızı 145.000 km'deki Expertiz fiyatı 1.450.000 Türk dilatıdır."
+    }
+  ]
+}

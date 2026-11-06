@@ -1,0 +1,113 @@
+{
+  "schema_version": "m11-acceptance-1",
+  "overall": "HOLD",
+  "production_ready": false,
+  "gates": [
+    {
+      "name": "windows_edge",
+      "status": "HOLD",
+      "checks": [
+        "no_evidence_submitted"
+      ],
+      "metrics": {},
+      "evidence": [],
+      "run_at_utc": "2026-10-31T23:33:12+00:00",
+      "physical": false
+    },
+    {
+      "name": "freya_leyla",
+      "status": "HOLD",
+      "checks": [
+        "no_evidence_submitted"
+      ],
+      "metrics": {},
+      "evidence": [],
+      "run_at_utc": "2026-10-31T23:33:12+00:00",
+      "physical": false
+    },
+    {
+      "name": "stt_vad",
+      "status": "HOLD",
+      "checks": [
+        "no_evidence_submitted"
+      ],
+      "metrics": {},
+      "evidence": [],
+      "run_at_utc": "2026-10-31T23:33:12+00:00",
+      "physical": false
+    },
+    {
+      "name": "codec",
+      "status": "HOLD",
+      "checks": [
+        "no_evidence_submitted"
+      ],
+      "metrics": {},
+      "evidence": [],
+      "run_at_utc": "2026-10-31T23:33:12+00:00",
+      "physical": false
+    },
+    {
+      "name": "asterisk_pbx",
+      "status": "HOLD",
+      "checks": [
+        "no_evidence_submitted"
+      ],
+      "metrics": {},
+      "evidence": [],
+      "run_at_utc": "2026-10-31T23:33:12+00:00",
+      "physical": false
+    },
+    {
+      "name": "a01yt_references",
+      "status": "HOLD",
+      "checks": [
+        "no_evidence_submitted"
+      ],
+      "metrics": {},
+      "evidence": [],
+      "run_at_utc": "2026-10-31T23:33:12+00:00",
+      "physical": false
+    },
+    {
+      "name": "safety_privacy",
+      "status": "HOLD",
+      "checks": [
+        "no_evidence_submitted"
+      ],
+      "metrics": {},
+      "evidence": [],
+      "run_at_utc": "2026-10-31T23:33:12+00:00",
+      "physical": false
+    },
+    {
+      "name": "legacy_regression",
+      "status": "PASS",
+      "checks": [
+        "unittest_exit_0",
+        "golden_count_320"
+      ],
+      "metrics": {
+        "golden_count": 320,
+        "legacy_suite_exit": 0
+      },
+      "evidence": [
+        {
+          "bytes": 1220,
+          "label": "local_file",
+          "path": "C:\\Users\\seydieryilmaz\\Desktop\\FreyaTTS_Automotive_PoC\\data\\m11\\current\\regression_output.txt",
+          "sha256": "8cc6e5b64c07166be0f8d12b9048262a184785e864b44f66ba858536d3964f28"
+        },
+        {
+          "bytes": 79575,
+          "label": "local_file",
+          "path": "C:\\Users\\seydieryilmaz\\Desktop\\FreyaTTS_Automotive_PoC\\data\\fixtures\\legacy_320_cases.json",
+          "sha256": "7455fa7a59a5874165970d8980f7f7302c581d28532e2d0346a496aeda2eb17e"
+        }
+      ],
+      "run_at_utc": "2026-10-31T23:33:12+00:00",
+      "physical": false
+    }
+  ],
+  "created_utc": "2026-10-31T23:33:12+00:00"
+}

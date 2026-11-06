@@ -1,0 +1,13 @@
+{
+  "fixture_count": 320,
+  "fixture_sha256": "7455fa7a59a5874165970d8980f7f7302c581d28532e2d0346a496aeda2eb17e",
+  "ready_plans": 291,
+  "review_required_plans": 29,
+  "total_text_clauses": 356,
+  "eligible_mock_tts_inputs": 325,
+  "total_protected_spans": 202,
+  "active_approved_lexicon_rules": 0,
+  "real_tts_calls": 0,
+  "audio_files_generated": 0,
+  "claims_about_audio_quality": "none; text-only deterministic simulation"
+}

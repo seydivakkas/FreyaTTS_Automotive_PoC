@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://freya.example.invalid/contracts/access_context.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["authenticated", "crm_processing_allowed", "marketing_opt_in"],
+  "properties": {
+    "authenticated": {"type": "boolean"},
+    "crm_processing_allowed": {"type": "boolean"},
+    "marketing_opt_in": {"type": "boolean"}
+  }
+}

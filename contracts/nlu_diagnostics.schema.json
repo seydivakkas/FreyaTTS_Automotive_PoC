@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://freya.example.invalid/contracts/nlu_diagnostics.schema.json",
+  "title": "M04 non-PII NLU diagnostics — no transcript payloads",
+  "type": "object", "additionalProperties": false,
+  "required": ["intent","has_vehicle_id","has_slot","matched_rules","warning_codes","requires_clarification"],
+  "properties": {
+    "intent": {"type":"string","enum":["greeting","vehicle_lookup","create_crm_case","price_lookup","request_inspection","confirm","recheck_booking","decline","handoff","unknown"]},
+    "has_vehicle_id": {"type":"boolean"},
+    "has_slot": {"type":"boolean"},
+    "matched_rules": {"type":"array","items":{"type":"string"}},
+    "warning_codes": {"type":"array","items":{"type":"string"}},
+    "requires_clarification": {"type":"boolean"}
+  }
+}

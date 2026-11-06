@@ -1,0 +1,16 @@
+/usr/lib/python3.13/linecache.py:184: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x7f1cb4bacd60>
+  def lazycache(filename, module_globals):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/lib/python3.13/linecache.py:184: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x7f1cb4bacb80>
+  def lazycache(filename, module_globals):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/lib/python3.13/linecache.py:184: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x7f1cb4baca90>
+  def lazycache(filename, module_globals):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/lib/python3.13/linecache.py:184: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x7f1cb4bac6d0>
+  def lazycache(filename, module_globals):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+----------------------------------------------------------------------
+Ran 287 tests in 1.100s
+
+OK

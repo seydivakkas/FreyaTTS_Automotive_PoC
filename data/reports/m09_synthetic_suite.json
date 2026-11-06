@@ -1,0 +1,1948 @@
+{
+  "audio_bytes_generated": 0,
+  "failed": 0,
+  "passed": 20,
+  "production_ready": false,
+  "real_pbx_connected": false,
+  "results": [
+    {
+      "audio_bytes_generated": 0,
+      "checks": {
+        "no_booking": true,
+        "right_policy": true
+      },
+      "notes": [
+        "All audio/media is metadata only; M08 read-model is a report projection.",
+        "Volatile events do not survive process restarts; persistence HOLD."
+      ],
+      "passed": true,
+      "production_ready": false,
+      "real_crm_connected": false,
+      "real_model_called": false,
+      "real_pbx_connected": false,
+      "scenario": "price_verified",
+      "sessions": [
+        {
+          "audit_events": 4,
+          "booking_status": "idle",
+          "fake_transport_sent": 0,
+          "generation": 1,
+          "id": "m09-price-verified",
+          "pending_flush": false,
+          "state": "LISTENING",
+          "transport_paused": false,
+          "turn": 1
+        }
+      ],
+      "trace": [
+        {
+          "ms": 1,
+          "outcome": "applied",
+          "session": "m09-price-verified",
+          "state": "LISTENING",
+          "step": "session_opened"
+        },
+        {
+          "ms": 2,
+          "outcome": "applied",
+          "session": "m09-price-verified",
+          "state": "THINKING",
+          "step": "transcript_final"
+        },
+        {
+          "has_response": true,
+          "ms": 27,
+          "outcome": "price_verified",
+          "requires_clarification": false,
+          "session": "m09-price-verified",
+          "step": "policy"
+        },
+        {
+          "clauses": 0,
+          "ms": 27,
+          "outcome": "review_required",
+          "session": "m09-price-verified",
+          "step": "prosody",
+          "warning_codes": [
+            "unexpanded_numeric_token"
+          ]
+        },
+        {
+          "ms": 28,
+          "outcome": "applied",
+          "session": "m09-price-verified",
+          "state": "LISTENING",
+          "step": "playout_finished"
+        },
+        {
+          "ms": 28,
+          "outcome": "no_audio_verified",
+          "session": "m09-price-verified",
+          "step": "control_only_playout"
+        }
+      ]
+    },
+    {
+      "audio_bytes_generated": 0,
+      "checks": {
+        "no_booking": true,
+        "right_policy": true
+      },
+      "notes": [
+        "All audio/media is metadata only; M08 read-model is a report projection.",
+        "Volatile events do not survive process restarts; persistence HOLD."
+      ],
+      "passed": true,
+      "production_ready": false,
+      "real_crm_connected": false,
+      "real_model_called": false,
+      "real_pbx_connected": false,
+      "scenario": "price_expired",
+      "sessions": [
+        {
+          "audit_events": 4,
+          "booking_status": "idle",
+          "fake_transport_sent": 1,
+          "generation": 1,
+          "id": "m09-price-expired",
+          "pending_flush": false,
+          "state": "LISTENING",
+          "transport_paused": false,
+          "turn": 1
+        }
+      ],
+      "trace": [
+        {
+          "ms": 1,
+          "outcome": "applied",
+          "session": "m09-price-expired",
+          "state": "LISTENING",
+          "step": "session_opened"
+        },
+        {
+          "ms": 2,
+          "outcome": "applied",
+          "session": "m09-price-expired",
+          "state": "THINKING",
+          "step": "transcript_final"
+        },
+        {
+          "has_response": true,
+          "ms": 27,
+          "outcome": "price_unavailable",
+          "requires_clarification": false,
+          "session": "m09-price-expired",
+          "step": "policy"
+        },
+        {
+          "clauses": 1,
+          "ms": 27,
+          "outcome": "queued",
+          "session": "m09-price-expired",
+          "step": "prosody",
+          "warning_codes": []
+        },
+        {
+          "ms": 52,
+          "outcome": "mock_metadata_queued",
+          "session": "m09-price-expired",
+          "step": "fake_tts"
+        },
+        {
+          "ms": 52,
+          "outcome": "sent_mock_metadata",
+          "session": "m09-price-expired",
+          "step": "fake_transport"
+        },
+        {
+          "ms": 53,
+          "outcome": "applied",
+          "session": "m09-price-expired",
+          "state": "LISTENING",
+          "step": "playout_finished"
+        }
+      ]
+    },
+    {
+      "audio_bytes_generated": 0,
+      "checks": {
+        "booking_count": true,
+        "confirmation_step": true,
+        "no_early_booking": true,
+        "offer_gate": true
+      },
+      "notes": [
+        "All audio/media is metadata only; M08 read-model is a report projection.",
+        "Volatile events do not survive process restarts; persistence HOLD."
+      ],
+      "passed": true,
+      "production_ready": false,
+      "real_crm_connected": false,
+      "real_model_called": false,
+      "real_pbx_connected": false,
+      "scenario": "booking_confirmed",
+      "sessions": [
+        {
+          "audit_events": 7,
+          "booking_status": "confirmed",
+          "fake_transport_sent": 0,
+          "generation": 2,
+          "id": "m09-booking-confirmed",
+          "pending_flush": false,
+          "state": "LISTENING",
+          "transport_paused": false,
+          "turn": 2
+        }
+      ],
+      "trace": [
+        {
+          "ms": 1,
+          "outcome": "applied",
+          "session": "m09-booking-confirmed",
+          "state": "LISTENING",
+          "step": "session_opened"
+        },
+        {
+          "ms": 2,
+          "outcome": "applied",
+          "session": "m09-booking-confirmed",
+          "state": "THINKING",
+          "step": "transcript_final"
+        },
+        {
+          "has_response": true,
+          "ms": 27,
+          "outcome": "offer_confirmation",
+          "requires_clarification": false,
+          "session": "m09-booking-confirmed",
+          "step": "policy"
+        },
+        {
+          "clauses": 0,
+          "ms": 27,
+          "outcome": "review_required",
+          "session": "m09-booking-confirmed",
+          "step": "prosody",
+          "warning_codes": [
+            "invalid_time",
+            "unexpanded_numeric_token"
+          ]
+        },
+        {
+          "ms": 28,
+          "outcome": "applied",
+          "session": "m09-booking-confirmed",
+          "state": "LISTENING",
+          "step": "playout_finished"
+        },
+        {
+          "ms": 28,
+          "outcome": "no_audio_verified",
+          "session": "m09-booking-confirmed",
+          "step": "control_only_playout"
+        },
+        {
+          "ms": 29,
+          "outcome": "applied",
+          "session": "m09-booking-confirmed",
+          "state": "THINKING",
+          "step": "transcript_final"
+        },
+        {
+          "has_response": true,
+          "ms": 54,
+          "outcome": "booking_confirmed",
+          "requires_clarification": false,
+          "session": "m09-booking-confirmed",
+          "step": "policy"
+        },
+        {
+          "clauses": 0,
+          "ms": 54,
+          "outcome": "review_required",
+          "session": "m09-booking-confirmed",
+          "step": "prosody",
+          "warning_codes": [
+            "unexpanded_numeric_token"
+          ]
+        },
+        {
+          "ms": 55,
+          "outcome": "applied",
+          "session": "m09-booking-confirmed",
+          "state": "LISTENING",
+          "step": "playout_finished"
+        },
+        {
+          "ms": 55,
+          "outcome": "no_audio_verified",
+          "session": "m09-booking-confirmed",
+          "step": "control_only_playout"
+        }
+      ]
+    },
+    {
+      "audio_bytes_generated": 0,
+      "checks": {
+        "booking_count": true,
+        "confirmation_step": true,
+        "no_early_booking": true,
+        "offer_gate": true
+      },
+      "notes": [
+        "All audio/media is metadata only; M08 read-model is a report projection.",
+        "Volatile events do not survive process restarts; persistence HOLD."
+      ],
+      "passed": true,
+      "production_ready": false,
+      "real_crm_connected": false,
+      "real_model_called": false,
+      "real_pbx_connected": false,
+      "scenario": "booking_declined",
+      "sessions": [
+        {
+          "audit_events": 7,
+          "booking_status": "declined",
+          "fake_transport_sent": 1,
+          "generation": 2,
+          "id": "m09-booking-declined",
+          "pending_flush": false,
+          "state": "LISTENING",
+          "transport_paused": false,
+          "turn": 2
+        }
+      ],
+      "trace": [
+        {
+          "ms": 1,
+          "outcome": "applied",
+          "session": "m09-booking-declined",
+          "state": "LISTENING",
+          "step": "session_opened"
+        },
+        {
+          "ms": 2,
+          "outcome": "applied",
+          "session": "m09-booking-declined",
+          "state": "THINKING",
+          "step": "transcript_final"
+        },
+        {
+          "has_response": true,
+          "ms": 27,
+          "outcome": "offer_confirmation",
+          "requires_clarification": false,
+          "session": "m09-booking-declined",
+          "step": "policy"
+        },
+        {
+          "clauses": 0,
+          "ms": 27,
+          "outcome": "review_required",
+          "session": "m09-booking-declined",
+          "step": "prosody",
+          "warning_codes": [
+            "invalid_time",
+            "unexpanded_numeric_token"
+          ]
+        },
+        {
+          "ms": 28,
+          "outcome": "applied",
+          "session": "m09-booking-declined",
+          "state": "LISTENING",
+          "step": "playout_finished"
+        },
+        {
+          "ms": 28,
+          "outcome": "no_audio_verified",
+          "session": "m09-booking-declined",
+          "step": "control_only_playout"
+        },
+        {
+          "ms": 29,
+          "outcome": "applied",
+          "session": "m09-booking-declined",
+          "state": "THINKING",
+          "step": "transcript_final"
+        },
+        {
+          "has_response": true,
+          "ms": 54,
+          "outcome": "declined",
+          "requires_clarification": false,
+          "session": "m09-booking-declined",
+          "step": "policy"
+        },
+        {
+          "clauses": 1,
+          "ms": 54,
+          "outcome": "queued",
+          "session": "m09-booking-declined",
+          "step": "prosody",
+          "warning_codes": []
+        },
+        {
+          "ms": 79,
+          "outcome": "mock_metadata_queued",
+          "session": "m09-booking-declined",
+          "step": "fake_tts"
+        },
+        {
+          "ms": 79,
+          "outcome": "sent_mock_metadata",
+          "session": "m09-booking-declined",
+          "step": "fake_transport"
+        },
+        {
+          "ms": 80,
+          "outcome": "applied",
+          "session": "m09-booking-declined",
+          "state": "LISTENING",
+          "step": "playout_finished"
+        }
+      ]
+    },
+    {
+      "audio_bytes_generated": 0,
+      "checks": {
+        "no_early_booking": true,
+        "offer_gate": true,
+        "unknown_not_confirmed": true
+      },
+      "notes": [
+        "All audio/media is metadata only; M08 read-model is a report projection.",
+        "Volatile events do not survive process restarts; persistence HOLD."
+      ],
+      "passed": true,
+      "production_ready": false,
+      "real_crm_connected": false,
+      "real_model_called": false,
+      "real_pbx_connected": false,
+      "scenario": "booking_unknown",
+      "sessions": [
+        {
+          "audit_events": 4,
+          "booking_status": "unknown",
+          "fake_transport_sent": 2,
+          "generation": 1,
+          "id": "m09-booking-unknown",
+          "pending_flush": false,
+          "state": "LISTENING",
+          "transport_paused": false,
+          "turn": 1
+        }
+      ],
+      "trace": [
+        {
+          "ms": 1,
+          "outcome": "applied",
+          "session": "m09-booking-unknown",
+          "state": "LISTENING",
+          "step": "session_opened"
+        },
+        {
+          "ms": 2,
+          "outcome": "applied",
+          "session": "m09-booking-unknown",
+          "state": "THINKING",
+          "step": "transcript_final"
+        },
+        {
+          "has_response": true,
+          "ms": 27,
+          "outcome": "slot_unknown",
+          "requires_clarification": false,
+          "session": "m09-booking-unknown",
+          "step": "policy"
+        },
+        {
+          "clauses": 2,
+          "ms": 27,
+          "outcome": "queued",
+          "session": "m09-booking-unknown",
+          "step": "prosody",
+          "warning_codes": []
+        },
+        {
+          "ms": 52,
+          "outcome": "mock_metadata_queued",
+          "session": "m09-booking-unknown",
+          "step": "fake_tts"
+        },
+        {
+          "ms": 52,
+          "outcome": "sent_mock_metadata",
+          "session": "m09-booking-unknown",
+          "step": "fake_transport"
+        },
+        {
+          "ms": 77,
+          "outcome": "mock_metadata_queued",
+          "session": "m09-booking-unknown",
+          "step": "fake_tts"
+        },
+        {
+          "ms": 77,
+          "outcome": "sent_mock_metadata",
+          "session": "m09-booking-unknown",
+          "step": "fake_transport"
+        },
+        {
+          "ms": 78,
+          "outcome": "applied",
+          "session": "m09-booking-unknown",
+          "state": "LISTENING",
+          "step": "playout_finished"
+        }
+      ]
+    },
+    {
+      "audio_bytes_generated": 0,
+      "checks": {
+        "booking_count": true,
+        "confirmation_step": true,
+        "no_early_booking": true,
+        "offer_gate": true,
+        "repeat_not_second_booking": true
+      },
+      "notes": [
+        "All audio/media is metadata only; M08 read-model is a report projection.",
+        "Volatile events do not survive process restarts; persistence HOLD."
+      ],
+      "passed": true,
+      "production_ready": false,
+      "real_crm_connected": false,
+      "real_model_called": false,
+      "real_pbx_connected": false,
+      "scenario": "duplicate_confirmation",
+      "sessions": [
+        {
+          "audit_events": 10,
+          "booking_status": "confirmed",
+          "fake_transport_sent": 3,
+          "generation": 3,
+          "id": "m09-duplicate-confirmation",
+          "pending_flush": false,
+          "state": "LISTENING",
+          "transport_paused": false,
+          "turn": 3
+        }
+      ],
+      "trace": [
+        {
+          "ms": 1,
+          "outcome": "applied",
+          "session": "m09-duplicate-confirmation",
+          "state": "LISTENING",
+          "step": "session_opened"
+        },
+        {
+          "ms": 2,
+          "outcome": "applied",
+          "session": "m09-duplicate-confirmation",
+          "state": "THINKING",
+          "step": "transcript_final"
+        },
+        {
+          "has_response": true,
+          "ms": 27,
+          "outcome": "offer_confirmation",
+          "requires_clarification": false,
+          "session": "m09-duplicate-confirmation",
+          "step": "policy"
+        },
+        {
+          "clauses": 0,
+          "ms": 27,
+          "outcome": "review_required",
+          "session": "m09-duplicate-confirmation",
+          "step": "prosody",
+          "warning_codes": [
+            "invalid_time",
+            "unexpanded_numeric_token"
+          ]
+        },
+        {
+          "ms": 28,
+          "outcome": "applied",
+          "session": "m09-duplicate-confirmation",
+          "state": "LISTENING",
+          "step": "playout_finished"
+        },
+        {
+          "ms": 28,
+          "outcome": "no_audio_verified",
+          "session": "m09-duplicate-confirmation",
+          "step": "control_only_playout"
+        },
+        {
+          "ms": 29,
+          "outcome": "applied",
+          "session": "m09-duplicate-confirmation",
+          "state": "THINKING",
+          "step": "transcript_final"
+        },
+        {
+          "has_response": true,
+          "ms": 54,
+          "outcome": "booking_confirmed",
+          "requires_clarification": false,
+          "session": "m09-duplicate-confirmation",
+          "step": "policy"
+        },
+        {
+          "clauses": 0,
+          "ms": 54,
+          "outcome": "review_required",
+          "session": "m09-duplicate-confirmation",
+          "step": "prosody",
+          "warning_codes": [
+            "unexpanded_numeric_token"
+          ]
+        },
+        {
+          "ms": 55,
+          "outcome": "applied",
+          "session": "m09-duplicate-confirmation",
+          "state": "LISTENING",
+          "step": "playout_finished"
+        },
+        {
+          "ms": 55,
+          "outcome": "no_audio_verified",
+          "session": "m09-duplicate-confirmation",
+          "step": "control_only_playout"
+        },
+        {
+          "ms": 56,
+          "outcome": "applied",
+          "session": "m09-duplicate-confirmation",
+          "state": "THINKING",
+          "step": "transcript_final"
+        },
+        {
+          "has_response": true,
+          "ms": 81,
+          "outcome": "clarify",
+          "requires_clarification": true,
+          "session": "m09-duplicate-confirmation",
+          "step": "policy"
+        },
+        {
+          "clauses": 3,
+          "ms": 81,
+          "outcome": "queued",
+          "session": "m09-duplicate-confirmation",
+          "step": "prosody",
+          "warning_codes": []
+        },
+        {
+          "ms": 106,
+          "outcome": "mock_metadata_queued",
+          "session": "m09-duplicate-confirmation",
+          "step": "fake_tts"
+        },
+        {
+          "ms": 106,
+          "outcome": "sent_mock_metadata",
+          "session": "m09-duplicate-confirmation",
+          "step": "fake_transport"
+        },
+        {
+          "ms": 131,
+          "outcome": "mock_metadata_queued",
+          "session": "m09-duplicate-confirmation",
+          "step": "fake_tts"
+        },
+        {
+          "ms": 131,
+          "outcome": "sent_mock_metadata",
+          "session": "m09-duplicate-confirmation",
+          "step": "fake_transport"
+        },
+        {
+          "ms": 156,
+          "outcome": "mock_metadata_queued",
+          "session": "m09-duplicate-confirmation",
+          "step": "fake_tts"
+        },
+        {
+          "ms": 156,
+          "outcome": "sent_mock_metadata",
+          "session": "m09-duplicate-confirmation",
+          "step": "fake_transport"
+        },
+        {
+          "ms": 157,
+          "outcome": "applied",
+          "session": "m09-duplicate-confirmation",
+          "state": "LISTENING",
+          "step": "playout_finished"
+        }
+      ]
+    },
+    {
+      "audio_bytes_generated": 0,
+      "checks": {
+        "crm_created": true
+      },
+      "notes": [
+        "All audio/media is metadata only; M08 read-model is a report projection.",
+        "Volatile events do not survive process restarts; persistence HOLD."
+      ],
+      "passed": true,
+      "production_ready": false,
+      "real_crm_connected": false,
+      "real_model_called": false,
+      "real_pbx_connected": false,
+      "scenario": "crm_case",
+      "sessions": [
+        {
+          "audit_events": 4,
+          "booking_status": "idle",
+          "fake_transport_sent": 0,
+          "generation": 1,
+          "id": "m09-crm-case",
+          "pending_flush": false,
+          "state": "LISTENING",
+          "transport_paused": false,
+          "turn": 1
+        }
+      ],
+      "trace": [
+        {
+          "ms": 1,
+          "outcome": "applied",
+          "session": "m09-crm-case",
+          "state": "LISTENING",
+          "step": "session_opened"
+        },
+        {
+          "ms": 2,
+          "outcome": "applied",
+          "session": "m09-crm-case",
+          "state": "THINKING",
+          "step": "transcript_final"
+        },
+        {
+          "has_response": true,
+          "ms": 27,
+          "outcome": "crm_case_created",
+          "requires_clarification": false,
+          "session": "m09-crm-case",
+          "step": "policy"
+        },
+        {
+          "clauses": 0,
+          "ms": 27,
+          "outcome": "review_required",
+          "session": "m09-crm-case",
+          "step": "prosody",
+          "warning_codes": [
+            "unexpanded_numeric_token"
+          ]
+        },
+        {
+          "ms": 28,
+          "outcome": "applied",
+          "session": "m09-crm-case",
+          "state": "LISTENING",
+          "step": "playout_finished"
+        },
+        {
+          "ms": 28,
+          "outcome": "no_audio_verified",
+          "session": "m09-crm-case",
+          "step": "control_only_playout"
+        }
+      ]
+    },
+    {
+      "audio_bytes_generated": 0,
+      "checks": {
+        "handoff_policy": true,
+        "handoff_terminal": true
+      },
+      "notes": [
+        "All audio/media is metadata only; M08 read-model is a report projection.",
+        "Volatile events do not survive process restarts; persistence HOLD."
+      ],
+      "passed": true,
+      "production_ready": false,
+      "real_crm_connected": false,
+      "real_model_called": false,
+      "real_pbx_connected": false,
+      "scenario": "handoff",
+      "sessions": [
+        {
+          "audit_events": 3,
+          "booking_status": "handoff",
+          "fake_transport_sent": 0,
+          "generation": 1,
+          "id": "m09-handoff",
+          "pending_flush": false,
+          "state": "HANDOFF",
+          "transport_paused": false,
+          "turn": 1
+        }
+      ],
+      "trace": [
+        {
+          "ms": 1,
+          "outcome": "applied",
+          "session": "m09-handoff",
+          "state": "LISTENING",
+          "step": "session_opened"
+        },
+        {
+          "ms": 2,
+          "outcome": "applied",
+          "session": "m09-handoff",
+          "state": "THINKING",
+          "step": "transcript_final"
+        },
+        {
+          "has_response": false,
+          "ms": 27,
+          "outcome": "handoff",
+          "requires_clarification": false,
+          "session": "m09-handoff",
+          "step": "policy"
+        }
+      ]
+    },
+    {
+      "audio_bytes_generated": 0,
+      "checks": {
+        "ack_barrier": true,
+        "barge_in_applied": true,
+        "fake_ack_only": true
+      },
+      "notes": [
+        "All audio/media is metadata only; M08 read-model is a report projection.",
+        "Volatile events do not survive process restarts; persistence HOLD."
+      ],
+      "passed": true,
+      "production_ready": false,
+      "real_crm_connected": false,
+      "real_model_called": false,
+      "real_pbx_connected": false,
+      "scenario": "barge_in_ack",
+      "sessions": [
+        {
+          "audit_events": 5,
+          "booking_status": "idle",
+          "fake_transport_sent": 2,
+          "generation": 2,
+          "id": "m09-barge-in-ack",
+          "pending_flush": false,
+          "state": "LISTENING",
+          "transport_paused": false,
+          "turn": 1
+        }
+      ],
+      "trace": [
+        {
+          "ms": 1,
+          "outcome": "applied",
+          "session": "m09-barge-in-ack",
+          "state": "LISTENING",
+          "step": "session_opened"
+        },
+        {
+          "ms": 2,
+          "outcome": "applied",
+          "session": "m09-barge-in-ack",
+          "state": "THINKING",
+          "step": "transcript_final"
+        },
+        {
+          "has_response": true,
+          "ms": 27,
+          "outcome": "greeting",
+          "requires_clarification": false,
+          "session": "m09-barge-in-ack",
+          "step": "policy"
+        },
+        {
+          "clauses": 2,
+          "ms": 27,
+          "outcome": "queued",
+          "session": "m09-barge-in-ack",
+          "step": "prosody",
+          "warning_codes": []
+        },
+        {
+          "ms": 52,
+          "outcome": "mock_metadata_queued",
+          "session": "m09-barge-in-ack",
+          "step": "fake_tts"
+        },
+        {
+          "ms": 52,
+          "outcome": "sent_mock_metadata",
+          "session": "m09-barge-in-ack",
+          "step": "fake_transport"
+        },
+        {
+          "ms": 77,
+          "outcome": "mock_metadata_queued",
+          "session": "m09-barge-in-ack",
+          "step": "fake_tts"
+        },
+        {
+          "ms": 77,
+          "outcome": "sent_mock_metadata",
+          "session": "m09-barge-in-ack",
+          "step": "fake_transport"
+        },
+        {
+          "ms": 78,
+          "outcome": "applied",
+          "session": "m09-barge-in-ack",
+          "state": "INTERRUPTING",
+          "step": "vad_speech_started"
+        },
+        {
+          "ms": 79,
+          "outcome": "applied",
+          "real_pbx_proven": false,
+          "session": "m09-barge-in-ack",
+          "step": "FAKE_ACK"
+        }
+      ]
+    },
+    {
+      "audio_bytes_generated": 0,
+      "checks": {
+        "watchdog_fails_closed": true
+      },
+      "notes": [
+        "All audio/media is metadata only; M08 read-model is a report projection.",
+        "Volatile events do not survive process restarts; persistence HOLD."
+      ],
+      "passed": true,
+      "production_ready": false,
+      "real_crm_connected": false,
+      "real_model_called": false,
+      "real_pbx_connected": false,
+      "scenario": "barge_in_timeout",
+      "sessions": [
+        {
+          "audit_events": 5,
+          "booking_status": "idle",
+          "fake_transport_sent": 2,
+          "generation": 2,
+          "id": "m09-barge-in-timeout",
+          "pending_flush": false,
+          "state": "FAILED",
+          "transport_paused": true,
+          "turn": 1
+        }
+      ],
+      "trace": [
+        {
+          "ms": 1,
+          "outcome": "applied",
+          "session": "m09-barge-in-timeout",
+          "state": "LISTENING",
+          "step": "session_opened"
+        },
+        {
+          "ms": 2,
+          "outcome": "applied",
+          "session": "m09-barge-in-timeout",
+          "state": "THINKING",
+          "step": "transcript_final"
+        },
+        {
+          "has_response": true,
+          "ms": 27,
+          "outcome": "greeting",
+          "requires_clarification": false,
+          "session": "m09-barge-in-timeout",
+          "step": "policy"
+        },
+        {
+          "clauses": 2,
+          "ms": 27,
+          "outcome": "queued",
+          "session": "m09-barge-in-timeout",
+          "step": "prosody",
+          "warning_codes": []
+        },
+        {
+          "ms": 52,
+          "outcome": "mock_metadata_queued",
+          "session": "m09-barge-in-timeout",
+          "step": "fake_tts"
+        },
+        {
+          "ms": 52,
+          "outcome": "sent_mock_metadata",
+          "session": "m09-barge-in-timeout",
+          "step": "fake_transport"
+        },
+        {
+          "ms": 77,
+          "outcome": "mock_metadata_queued",
+          "session": "m09-barge-in-timeout",
+          "step": "fake_tts"
+        },
+        {
+          "ms": 77,
+          "outcome": "sent_mock_metadata",
+          "session": "m09-barge-in-timeout",
+          "step": "fake_transport"
+        },
+        {
+          "ms": 78,
+          "outcome": "applied",
+          "session": "m09-barge-in-timeout",
+          "state": "INTERRUPTING",
+          "step": "vad_speech_started"
+        },
+        {
+          "ms": 1678,
+          "outcome": "applied",
+          "session": "m09-barge-in-timeout",
+          "state": "FAILED",
+          "step": "flush_timeout"
+        }
+      ]
+    },
+    {
+      "audio_bytes_generated": 0,
+      "checks": {
+        "no_send_under_xoff": true,
+        "resume_without_loss": true
+      },
+      "notes": [
+        "All audio/media is metadata only; M08 read-model is a report projection.",
+        "Volatile events do not survive process restarts; persistence HOLD."
+      ],
+      "passed": true,
+      "production_ready": false,
+      "real_crm_connected": false,
+      "real_model_called": false,
+      "real_pbx_connected": false,
+      "scenario": "xoff_backpressure",
+      "sessions": [
+        {
+          "audit_events": 4,
+          "booking_status": "idle",
+          "fake_transport_sent": 1,
+          "generation": 1,
+          "id": "m09-xoff-backpressure",
+          "pending_flush": false,
+          "state": "LISTENING",
+          "transport_paused": false,
+          "turn": 1
+        }
+      ],
+      "trace": [
+        {
+          "ms": 1,
+          "outcome": "applied",
+          "session": "m09-xoff-backpressure",
+          "state": "LISTENING",
+          "step": "session_opened"
+        },
+        {
+          "ms": 2,
+          "outcome": "applied",
+          "session": "m09-xoff-backpressure",
+          "state": "THINKING",
+          "step": "transcript_final"
+        },
+        {
+          "has_response": true,
+          "ms": 27,
+          "outcome": "greeting",
+          "requires_clarification": false,
+          "session": "m09-xoff-backpressure",
+          "step": "policy"
+        },
+        {
+          "clauses": 2,
+          "ms": 27,
+          "outcome": "queued",
+          "session": "m09-xoff-backpressure",
+          "step": "prosody",
+          "warning_codes": []
+        },
+        {
+          "ms": 52,
+          "outcome": "mock_metadata_queued",
+          "session": "m09-xoff-backpressure",
+          "step": "fake_tts"
+        },
+        {
+          "ms": 52,
+          "outcome": "transport_backpressure",
+          "session": "m09-xoff-backpressure",
+          "step": "fake_transport"
+        },
+        {
+          "ms": 77,
+          "outcome": "mock_metadata_queued",
+          "session": "m09-xoff-backpressure",
+          "step": "fake_tts"
+        },
+        {
+          "ms": 77,
+          "outcome": "transport_backpressure",
+          "session": "m09-xoff-backpressure",
+          "step": "fake_transport"
+        },
+        {
+          "ms": 78,
+          "outcome": "applied",
+          "session": "m09-xoff-backpressure",
+          "state": "LISTENING",
+          "step": "playout_finished"
+        }
+      ]
+    },
+    {
+      "audio_bytes_generated": 0,
+      "checks": {
+        "old_generation_not_delivered": true,
+        "stale_chunk_rejected": true
+      },
+      "notes": [
+        "All audio/media is metadata only; M08 read-model is a report projection.",
+        "Volatile events do not survive process restarts; persistence HOLD."
+      ],
+      "passed": true,
+      "production_ready": false,
+      "real_crm_connected": false,
+      "real_model_called": false,
+      "real_pbx_connected": false,
+      "scenario": "late_generation",
+      "sessions": [
+        {
+          "audit_events": 4,
+          "booking_status": "idle",
+          "fake_transport_sent": 0,
+          "generation": 2,
+          "id": "m09-late-generation",
+          "pending_flush": true,
+          "state": "INTERRUPTING",
+          "transport_paused": true,
+          "turn": 1
+        }
+      ],
+      "trace": [
+        {
+          "ms": 1,
+          "outcome": "applied",
+          "session": "m09-late-generation",
+          "state": "LISTENING",
+          "step": "session_opened"
+        },
+        {
+          "ms": 2,
+          "outcome": "applied",
+          "session": "m09-late-generation",
+          "state": "THINKING",
+          "step": "transcript_final"
+        },
+        {
+          "has_response": true,
+          "ms": 27,
+          "outcome": "greeting",
+          "requires_clarification": false,
+          "session": "m09-late-generation",
+          "step": "policy"
+        },
+        {
+          "clauses": 2,
+          "ms": 27,
+          "outcome": "queued",
+          "session": "m09-late-generation",
+          "step": "prosody",
+          "warning_codes": []
+        },
+        {
+          "ms": 28,
+          "outcome": "applied",
+          "session": "m09-late-generation",
+          "state": "INTERRUPTING",
+          "step": "vad_speech_started"
+        }
+      ]
+    },
+    {
+      "audio_bytes_generated": 0,
+      "checks": {
+        "isolated_degradation": true,
+        "recovered": true
+      },
+      "notes": [
+        "All audio/media is metadata only; M08 read-model is a report projection.",
+        "Volatile events do not survive process restarts; persistence HOLD."
+      ],
+      "passed": true,
+      "production_ready": false,
+      "real_crm_connected": false,
+      "real_model_called": false,
+      "real_pbx_connected": false,
+      "scenario": "adapter_disconnect",
+      "sessions": [
+        {
+          "audit_events": 1,
+          "booking_status": "idle",
+          "fake_transport_sent": 0,
+          "generation": 0,
+          "id": "m09-adapter-disconnect",
+          "pending_flush": false,
+          "state": "LISTENING",
+          "transport_paused": false,
+          "turn": 0
+        }
+      ],
+      "trace": [
+        {
+          "ms": 1,
+          "outcome": "applied",
+          "session": "m09-adapter-disconnect",
+          "state": "LISTENING",
+          "step": "session_opened"
+        }
+      ]
+    },
+    {
+      "audio_bytes_generated": 0,
+      "checks": {
+        "business_after_retry": true,
+        "retry_one_recover": true
+      },
+      "notes": [
+        "All audio/media is metadata only; M08 read-model is a report projection.",
+        "Volatile events do not survive process restarts; persistence HOLD."
+      ],
+      "passed": true,
+      "production_ready": false,
+      "real_crm_connected": false,
+      "real_model_called": false,
+      "real_pbx_connected": false,
+      "scenario": "llm_retry",
+      "sessions": [
+        {
+          "audit_events": 3,
+          "booking_status": "idle",
+          "fake_transport_sent": 0,
+          "generation": 1,
+          "id": "m09-llm-retry",
+          "pending_flush": false,
+          "state": "SPEAKING",
+          "transport_paused": false,
+          "turn": 1
+        }
+      ],
+      "trace": [
+        {
+          "ms": 1,
+          "outcome": "applied",
+          "session": "m09-llm-retry",
+          "state": "LISTENING",
+          "step": "session_opened"
+        },
+        {
+          "ms": 2,
+          "outcome": "applied",
+          "session": "m09-llm-retry",
+          "state": "THINKING",
+          "step": "transcript_final"
+        },
+        {
+          "attempts": 2,
+          "ms": 152,
+          "outcome": "completed",
+          "session": "m09-llm-retry",
+          "step": "LLM retry"
+        }
+      ]
+    },
+    {
+      "audio_bytes_generated": 0,
+      "checks": {
+        "offer_and_unknown": true,
+        "recheck_no_duplicate": true
+      },
+      "notes": [
+        "All audio/media is metadata only; M08 read-model is a report projection.",
+        "Volatile events do not survive process restarts; persistence HOLD."
+      ],
+      "passed": true,
+      "production_ready": false,
+      "real_crm_connected": false,
+      "real_model_called": false,
+      "real_pbx_connected": false,
+      "scenario": "booking_commit_unknown",
+      "sessions": [
+        {
+          "audit_events": 10,
+          "booking_status": "unknown",
+          "fake_transport_sent": 4,
+          "generation": 3,
+          "id": "m09-booking-commit-unknown",
+          "pending_flush": false,
+          "state": "LISTENING",
+          "transport_paused": false,
+          "turn": 3
+        }
+      ],
+      "trace": [
+        {
+          "ms": 1,
+          "outcome": "applied",
+          "session": "m09-booking-commit-unknown",
+          "state": "LISTENING",
+          "step": "session_opened"
+        },
+        {
+          "ms": 2,
+          "outcome": "applied",
+          "session": "m09-booking-commit-unknown",
+          "state": "THINKING",
+          "step": "transcript_final"
+        },
+        {
+          "has_response": true,
+          "ms": 27,
+          "outcome": "offer_confirmation",
+          "requires_clarification": false,
+          "session": "m09-booking-commit-unknown",
+          "step": "policy"
+        },
+        {
+          "clauses": 0,
+          "ms": 27,
+          "outcome": "review_required",
+          "session": "m09-booking-commit-unknown",
+          "step": "prosody",
+          "warning_codes": [
+            "invalid_time",
+            "unexpanded_numeric_token"
+          ]
+        },
+        {
+          "ms": 28,
+          "outcome": "applied",
+          "session": "m09-booking-commit-unknown",
+          "state": "LISTENING",
+          "step": "playout_finished"
+        },
+        {
+          "ms": 28,
+          "outcome": "no_audio_verified",
+          "session": "m09-booking-commit-unknown",
+          "step": "control_only_playout"
+        },
+        {
+          "ms": 29,
+          "outcome": "applied",
+          "session": "m09-booking-commit-unknown",
+          "state": "THINKING",
+          "step": "transcript_final"
+        },
+        {
+          "has_response": true,
+          "ms": 54,
+          "outcome": "booking_unknown",
+          "requires_clarification": false,
+          "session": "m09-booking-commit-unknown",
+          "step": "policy"
+        },
+        {
+          "clauses": 2,
+          "ms": 54,
+          "outcome": "queued",
+          "session": "m09-booking-commit-unknown",
+          "step": "prosody",
+          "warning_codes": []
+        },
+        {
+          "ms": 79,
+          "outcome": "mock_metadata_queued",
+          "session": "m09-booking-commit-unknown",
+          "step": "fake_tts"
+        },
+        {
+          "ms": 79,
+          "outcome": "sent_mock_metadata",
+          "session": "m09-booking-commit-unknown",
+          "step": "fake_transport"
+        },
+        {
+          "ms": 104,
+          "outcome": "mock_metadata_queued",
+          "session": "m09-booking-commit-unknown",
+          "step": "fake_tts"
+        },
+        {
+          "ms": 104,
+          "outcome": "sent_mock_metadata",
+          "session": "m09-booking-commit-unknown",
+          "step": "fake_transport"
+        },
+        {
+          "ms": 105,
+          "outcome": "applied",
+          "session": "m09-booking-commit-unknown",
+          "state": "LISTENING",
+          "step": "playout_finished"
+        },
+        {
+          "ms": 106,
+          "outcome": "applied",
+          "session": "m09-booking-commit-unknown",
+          "state": "THINKING",
+          "step": "transcript_final"
+        },
+        {
+          "has_response": true,
+          "ms": 131,
+          "outcome": "recheck_unknown",
+          "requires_clarification": false,
+          "session": "m09-booking-commit-unknown",
+          "step": "policy"
+        },
+        {
+          "clauses": 2,
+          "ms": 131,
+          "outcome": "queued",
+          "session": "m09-booking-commit-unknown",
+          "step": "prosody",
+          "warning_codes": []
+        },
+        {
+          "ms": 156,
+          "outcome": "mock_metadata_queued",
+          "session": "m09-booking-commit-unknown",
+          "step": "fake_tts"
+        },
+        {
+          "ms": 156,
+          "outcome": "sent_mock_metadata",
+          "session": "m09-booking-commit-unknown",
+          "step": "fake_transport"
+        },
+        {
+          "ms": 181,
+          "outcome": "mock_metadata_queued",
+          "session": "m09-booking-commit-unknown",
+          "step": "fake_tts"
+        },
+        {
+          "ms": 181,
+          "outcome": "sent_mock_metadata",
+          "session": "m09-booking-commit-unknown",
+          "step": "fake_transport"
+        },
+        {
+          "ms": 182,
+          "outcome": "applied",
+          "session": "m09-booking-commit-unknown",
+          "state": "LISTENING",
+          "step": "playout_finished"
+        }
+      ]
+    },
+    {
+      "audio_bytes_generated": 0,
+      "checks": {
+        "explicit_fake_ack_only": true,
+        "wrong_ack_rejected": true
+      },
+      "notes": [
+        "All audio/media is metadata only; M08 read-model is a report projection.",
+        "Volatile events do not survive process restarts; persistence HOLD."
+      ],
+      "passed": true,
+      "production_ready": false,
+      "real_crm_connected": false,
+      "real_model_called": false,
+      "real_pbx_connected": false,
+      "scenario": "wrong_fake_ack",
+      "sessions": [
+        {
+          "audit_events": 5,
+          "booking_status": "idle",
+          "fake_transport_sent": 2,
+          "generation": 2,
+          "id": "m09-wrong-fake-ack",
+          "pending_flush": false,
+          "state": "LISTENING",
+          "transport_paused": false,
+          "turn": 1
+        }
+      ],
+      "trace": [
+        {
+          "ms": 1,
+          "outcome": "applied",
+          "session": "m09-wrong-fake-ack",
+          "state": "LISTENING",
+          "step": "session_opened"
+        },
+        {
+          "ms": 2,
+          "outcome": "applied",
+          "session": "m09-wrong-fake-ack",
+          "state": "THINKING",
+          "step": "transcript_final"
+        },
+        {
+          "has_response": true,
+          "ms": 27,
+          "outcome": "greeting",
+          "requires_clarification": false,
+          "session": "m09-wrong-fake-ack",
+          "step": "policy"
+        },
+        {
+          "clauses": 2,
+          "ms": 27,
+          "outcome": "queued",
+          "session": "m09-wrong-fake-ack",
+          "step": "prosody",
+          "warning_codes": []
+        },
+        {
+          "ms": 52,
+          "outcome": "mock_metadata_queued",
+          "session": "m09-wrong-fake-ack",
+          "step": "fake_tts"
+        },
+        {
+          "ms": 52,
+          "outcome": "sent_mock_metadata",
+          "session": "m09-wrong-fake-ack",
+          "step": "fake_transport"
+        },
+        {
+          "ms": 77,
+          "outcome": "mock_metadata_queued",
+          "session": "m09-wrong-fake-ack",
+          "step": "fake_tts"
+        },
+        {
+          "ms": 77,
+          "outcome": "sent_mock_metadata",
+          "session": "m09-wrong-fake-ack",
+          "step": "fake_transport"
+        },
+        {
+          "ms": 78,
+          "outcome": "applied",
+          "session": "m09-wrong-fake-ack",
+          "state": "INTERRUPTING",
+          "step": "vad_speech_started"
+        },
+        {
+          "ms": 79,
+          "outcome": "applied",
+          "real_pbx_proven": false,
+          "session": "m09-wrong-fake-ack",
+          "step": "FAKE_ACK"
+        }
+      ]
+    },
+    {
+      "audio_bytes_generated": 0,
+      "checks": {
+        "hangup_terminal": true,
+        "no_late_tts": true
+      },
+      "notes": [
+        "All audio/media is metadata only; M08 read-model is a report projection.",
+        "Volatile events do not survive process restarts; persistence HOLD."
+      ],
+      "passed": true,
+      "production_ready": false,
+      "real_crm_connected": false,
+      "real_model_called": false,
+      "real_pbx_connected": false,
+      "scenario": "hangup_cancels",
+      "sessions": [
+        {
+          "audit_events": 4,
+          "booking_status": "idle",
+          "fake_transport_sent": 0,
+          "generation": 1,
+          "id": "m09-hangup-cancels",
+          "pending_flush": false,
+          "state": "ENDED",
+          "transport_paused": true,
+          "turn": 1
+        }
+      ],
+      "trace": [
+        {
+          "ms": 1,
+          "outcome": "applied",
+          "session": "m09-hangup-cancels",
+          "state": "LISTENING",
+          "step": "session_opened"
+        },
+        {
+          "ms": 2,
+          "outcome": "applied",
+          "session": "m09-hangup-cancels",
+          "state": "THINKING",
+          "step": "transcript_final"
+        },
+        {
+          "has_response": true,
+          "ms": 27,
+          "outcome": "greeting",
+          "requires_clarification": false,
+          "session": "m09-hangup-cancels",
+          "step": "policy"
+        },
+        {
+          "clauses": 2,
+          "ms": 27,
+          "outcome": "queued",
+          "session": "m09-hangup-cancels",
+          "step": "prosody",
+          "warning_codes": []
+        },
+        {
+          "ms": 28,
+          "outcome": "applied",
+          "session": "m09-hangup-cancels",
+          "state": "ENDED",
+          "step": "hangup"
+        }
+      ]
+    },
+    {
+      "audio_bytes_generated": 0,
+      "checks": {
+        "independent_turns": true,
+        "no_cross_booking": true,
+        "separate_policy": true
+      },
+      "notes": [
+        "All audio/media is metadata only; M08 read-model is a report projection.",
+        "Volatile events do not survive process restarts; persistence HOLD."
+      ],
+      "passed": true,
+      "production_ready": false,
+      "real_crm_connected": false,
+      "real_model_called": false,
+      "real_pbx_connected": false,
+      "scenario": "multi_session",
+      "sessions": [
+        {
+          "audit_events": 4,
+          "booking_status": "idle",
+          "fake_transport_sent": 0,
+          "generation": 1,
+          "id": "m09-multi-session",
+          "pending_flush": false,
+          "state": "LISTENING",
+          "transport_paused": false,
+          "turn": 1
+        },
+        {
+          "audit_events": 4,
+          "booking_status": "awaiting_confirmation",
+          "fake_transport_sent": 0,
+          "generation": 1,
+          "id": "m09-secondary",
+          "pending_flush": false,
+          "state": "LISTENING",
+          "transport_paused": false,
+          "turn": 1
+        }
+      ],
+      "trace": [
+        {
+          "ms": 1,
+          "outcome": "applied",
+          "session": "m09-multi-session",
+          "state": "LISTENING",
+          "step": "session_opened"
+        },
+        {
+          "ms": 2,
+          "outcome": "applied",
+          "session": "m09-secondary",
+          "state": "LISTENING",
+          "step": "session_opened"
+        },
+        {
+          "ms": 3,
+          "outcome": "applied",
+          "session": "m09-multi-session",
+          "state": "THINKING",
+          "step": "transcript_final"
+        },
+        {
+          "has_response": true,
+          "ms": 28,
+          "outcome": "price_verified",
+          "requires_clarification": false,
+          "session": "m09-multi-session",
+          "step": "policy"
+        },
+        {
+          "clauses": 0,
+          "ms": 28,
+          "outcome": "review_required",
+          "session": "m09-multi-session",
+          "step": "prosody",
+          "warning_codes": [
+            "unexpanded_numeric_token"
+          ]
+        },
+        {
+          "ms": 29,
+          "outcome": "applied",
+          "session": "m09-multi-session",
+          "state": "LISTENING",
+          "step": "playout_finished"
+        },
+        {
+          "ms": 29,
+          "outcome": "no_audio_verified",
+          "session": "m09-multi-session",
+          "step": "control_only_playout"
+        },
+        {
+          "ms": 30,
+          "outcome": "applied",
+          "session": "m09-secondary",
+          "state": "THINKING",
+          "step": "transcript_final"
+        },
+        {
+          "has_response": true,
+          "ms": 55,
+          "outcome": "offer_confirmation",
+          "requires_clarification": false,
+          "session": "m09-secondary",
+          "step": "policy"
+        },
+        {
+          "clauses": 0,
+          "ms": 55,
+          "outcome": "review_required",
+          "session": "m09-secondary",
+          "step": "prosody",
+          "warning_codes": [
+            "invalid_time",
+            "unexpanded_numeric_token"
+          ]
+        },
+        {
+          "ms": 56,
+          "outcome": "applied",
+          "session": "m09-secondary",
+          "state": "LISTENING",
+          "step": "playout_finished"
+        },
+        {
+          "ms": 56,
+          "outcome": "no_audio_verified",
+          "session": "m09-secondary",
+          "step": "control_only_playout"
+        }
+      ]
+    },
+    {
+      "audio_bytes_generated": 0,
+      "checks": {
+        "no_booking": true,
+        "right_policy": true
+      },
+      "notes": [
+        "All audio/media is metadata only; M08 read-model is a report projection.",
+        "Volatile events do not survive process restarts; persistence HOLD."
+      ],
+      "passed": true,
+      "production_ready": false,
+      "real_crm_connected": false,
+      "real_model_called": false,
+      "real_pbx_connected": false,
+      "scenario": "unauthorized",
+      "sessions": [
+        {
+          "audit_events": 4,
+          "booking_status": "idle",
+          "fake_transport_sent": 1,
+          "generation": 1,
+          "id": "m09-unauthorized",
+          "pending_flush": false,
+          "state": "LISTENING",
+          "transport_paused": false,
+          "turn": 1
+        }
+      ],
+      "trace": [
+        {
+          "ms": 1,
+          "outcome": "applied",
+          "session": "m09-unauthorized",
+          "state": "LISTENING",
+          "step": "session_opened"
+        },
+        {
+          "ms": 2,
+          "outcome": "applied",
+          "session": "m09-unauthorized",
+          "state": "THINKING",
+          "step": "transcript_final"
+        },
+        {
+          "has_response": true,
+          "ms": 27,
+          "outcome": "identity_required",
+          "requires_clarification": false,
+          "session": "m09-unauthorized",
+          "step": "policy"
+        },
+        {
+          "clauses": 1,
+          "ms": 27,
+          "outcome": "queued",
+          "session": "m09-unauthorized",
+          "step": "prosody",
+          "warning_codes": []
+        },
+        {
+          "ms": 52,
+          "outcome": "mock_metadata_queued",
+          "session": "m09-unauthorized",
+          "step": "fake_tts"
+        },
+        {
+          "ms": 52,
+          "outcome": "sent_mock_metadata",
+          "session": "m09-unauthorized",
+          "step": "fake_transport"
+        },
+        {
+          "ms": 53,
+          "outcome": "applied",
+          "session": "m09-unauthorized",
+          "state": "LISTENING",
+          "step": "playout_finished"
+        }
+      ]
+    },
+    {
+      "audio_bytes_generated": 0,
+      "checks": {
+        "ambiguity_flagged": true,
+        "no_booking": true
+      },
+      "notes": [
+        "All audio/media is metadata only; M08 read-model is a report projection.",
+        "Volatile events do not survive process restarts; persistence HOLD."
+      ],
+      "passed": true,
+      "production_ready": false,
+      "real_crm_connected": false,
+      "real_model_called": false,
+      "real_pbx_connected": false,
+      "scenario": "ambiguous_time",
+      "sessions": [
+        {
+          "audit_events": 4,
+          "booking_status": "idle",
+          "fake_transport_sent": 3,
+          "generation": 1,
+          "id": "m09-ambiguous-time",
+          "pending_flush": false,
+          "state": "LISTENING",
+          "transport_paused": false,
+          "turn": 1
+        }
+      ],
+      "trace": [
+        {
+          "ms": 1,
+          "outcome": "applied",
+          "session": "m09-ambiguous-time",
+          "state": "LISTENING",
+          "step": "session_opened"
+        },
+        {
+          "ms": 2,
+          "outcome": "applied",
+          "session": "m09-ambiguous-time",
+          "state": "THINKING",
+          "step": "transcript_final"
+        },
+        {
+          "has_response": true,
+          "ms": 27,
+          "outcome": "need_slot",
+          "requires_clarification": true,
+          "session": "m09-ambiguous-time",
+          "step": "policy"
+        },
+        {
+          "clauses": 3,
+          "ms": 27,
+          "outcome": "queued",
+          "session": "m09-ambiguous-time",
+          "step": "prosody",
+          "warning_codes": []
+        },
+        {
+          "ms": 52,
+          "outcome": "mock_metadata_queued",
+          "session": "m09-ambiguous-time",
+          "step": "fake_tts"
+        },
+        {
+          "ms": 52,
+          "outcome": "sent_mock_metadata",
+          "session": "m09-ambiguous-time",
+          "step": "fake_transport"
+        },
+        {
+          "ms": 77,
+          "outcome": "mock_metadata_queued",
+          "session": "m09-ambiguous-time",
+          "step": "fake_tts"
+        },
+        {
+          "ms": 77,
+          "outcome": "sent_mock_metadata",
+          "session": "m09-ambiguous-time",
+          "step": "fake_transport"
+        },
+        {
+          "ms": 102,
+          "outcome": "mock_metadata_queued",
+          "session": "m09-ambiguous-time",
+          "step": "fake_tts"
+        },
+        {
+          "ms": 102,
+          "outcome": "sent_mock_metadata",
+          "session": "m09-ambiguous-time",
+          "step": "fake_transport"
+        },
+        {
+          "ms": 103,
+          "outcome": "applied",
+          "session": "m09-ambiguous-time",
+          "state": "LISTENING",
+          "step": "playout_finished"
+        }
+      ]
+    }
+  ],
+  "scenario_count": 20,
+  "suite": "M09 deterministic synthetic E2E"
+}

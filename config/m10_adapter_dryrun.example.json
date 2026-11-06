@@ -1,0 +1,12 @@
+{
+  "mode": "M10_DRY_RUN",
+  "network_enabled": false,
+  "audio_enabled": false,
+  "note": "Informational example; never connect in M10.",
+  "adapters": {
+    "freya": {"implementation": "freyatts-local", "enabled": false, "model_path": "C:\\Models\\FreyaTTS"},
+    "stt": {"implementation": "whisper-local", "enabled": false, "model_path": "C:\\Models\\Whisper"},
+    "llm": {"implementation": "ollama-local", "enabled": false, "endpoint": "http://127.0.0.1:11434"},
+    "pbx": {"implementation": "asterisk-websocket", "enabled": false, "endpoint": "ws://127.0.0.1:8088", "codec": "slin16", "sample_rate_hz": 16000}
+  }
+}

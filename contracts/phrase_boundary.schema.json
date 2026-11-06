@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:freya-automotive:m05-phrase-boundary:v1",
+  "title": "M05 protected Unicode character span in normalized spoken text",
+  "type": "object", "additionalProperties": false,
+  "required": ["start","end","kind","evidence"],
+  "properties": {
+    "start": {"type":"integer","minimum":0},
+    "end": {"type":"integer","minimum":1},
+    "kind": {"enum":["money","date","time","engine","model","distance","model_year","approved_lexicon"]},
+    "evidence": {"type":"string","maxLength":96}
+  }
+}

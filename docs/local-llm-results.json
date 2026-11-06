@@ -1,0 +1,30 @@
+{
+  "results": [
+    {
+      "user": "Adım Ada Yılmaz. Aracım Volkswagen Passat.",
+      "assistant": "Kayıtlı fiyat bulunmuyor. 1. seçenek 02.11.2026 saat 12:53. Hangi seçeneği tercih edersiniz?",
+      "metrics": {
+        "llm_first_token_ms": 65656.00000000268,
+        "llm_total_ms": 69750.0
+      }
+    },
+    {
+      "user": "Birinci seçenek.",
+      "assistant": "Ada Yılmaz, 02.11.2026 saat 12:53 için ekspertiz randevusu oluşturulmasını onaylıyor musunuz? Onay için evet onaylıyorum diyebilirsiniz.",
+      "metrics": {
+        "llm_first_token_ms": 328.0000000013388,
+        "llm_total_ms": 1608.9999999967404
+      }
+    },
+    {
+      "user": "Evet, onaylıyorum.",
+      "assistant": "Randevunuz oluşturuldu. İyi günler dilerim.",
+      "metrics": {
+        "llm_first_token_ms": 328.0000000013388,
+        "llm_total_ms": 1608.9999999967404
+      }
+    }
+  ],
+  "appointments": 1,
+  "completed": true
+}

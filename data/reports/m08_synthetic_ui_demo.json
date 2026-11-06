@@ -1,0 +1,36 @@
+{
+  "synthetic_only": true,
+  "source_count": 3,
+  "annotation_count": 0,
+  "golden_cases": 320,
+  "states_before_ack": [
+    {
+      "action": "transcript",
+      "decision": "applied",
+      "reason": "turn",
+      "state": "THINKING"
+    },
+    {
+      "action": "llm",
+      "decision": "applied",
+      "reason": "speak",
+      "state": "SPEAKING"
+    },
+    {
+      "action": "vad",
+      "decision": "applied",
+      "reason": "interrupt",
+      "state": "INTERRUPTING"
+    }
+  ],
+  "waiting_state": "INTERRUPTING",
+  "ack_result": {
+    "decision": "applied",
+    "reason": "ack",
+    "real_pbx_proven": false,
+    "state": "LISTENING"
+  },
+  "final_state": "LISTENING",
+  "real_audio_bytes": 0,
+  "real_pbx_connected": false
+}

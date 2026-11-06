@@ -1,0 +1,14 @@
+{
+  "input_count": 320,
+  "input_sha256": "7455fa7a59a5874165970d8980f7f7302c581d28532e2d0346a496aeda2eb17e",
+  "changed_texts": 163,
+  "review_required": 29,
+  "unsupported_char_cases": 16,
+  "a01yt_sources": 3,
+  "a01yt_segments": 0,
+  "a01yt_approved_annotations": 0,
+  "active_lexicon_rules": 0,
+  "voice_quality_measured": false,
+  "audio_generated": false,
+  "interpretation": "Text transformations are NOT evidence of pronunciation or speech quality improvement."
+}
