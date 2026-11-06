@@ -1,18 +1,25 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, lazy, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import "./style.css";
-import { MilestonePanel } from "./MilestonePanel";
-import { LexiconPanel } from "./LexiconPanel";
-import { NotificationPanel } from "./NotificationPanel";
-import { OutboundPanel } from "./OutboundPanel";
-import { InspectionPanel } from "./InspectionPanel";
-import { AnalyticsPanel } from "./AnalyticsPanel";
-import { DiagnosticPanel } from "./DiagnosticPanel";
-import { TechnicianDictationPanel } from "./TechnicianDictationPanel";
-import { QueueLiftPanel } from "./QueueLiftPanel";
-import { ABTestingPanel } from "./ABTestingPanel";
-import { OperatorPanel } from "./OperatorPanel";
-import { CarDenoiserPanel } from "./CarDenoiserPanel";
+import { basicAuthHeader, dash, formatMetrics } from "./ui";
+
+const lazyPanel = <K extends string>(load: () => Promise<Record<K, React.ComponentType<any>>>, name: K) =>
+  lazy(() => load().then((m) => ({ default: m[name] })));
+const MilestonePanel = lazyPanel(() => import("./MilestonePanel"), "MilestonePanel");
+const LexiconPanel = lazyPanel(() => import("./LexiconPanel"), "LexiconPanel");
+const NotificationPanel = lazyPanel(() => import("./NotificationPanel"), "NotificationPanel");
+const OutboundPanel = lazyPanel(() => import("./OutboundPanel"), "OutboundPanel");
+const InspectionPanel = lazyPanel(() => import("./InspectionPanel"), "InspectionPanel");
+const AnalyticsPanel = lazyPanel(() => import("./AnalyticsPanel"), "AnalyticsPanel");
+const DiagnosticPanel = lazyPanel(() => import("./DiagnosticPanel"), "DiagnosticPanel");
+const TechnicianDictationPanel = lazyPanel(
+  () => import("./TechnicianDictationPanel"),
+  "TechnicianDictationPanel",
+);
+const QueueLiftPanel = lazyPanel(() => import("./QueueLiftPanel"), "QueueLiftPanel");
+const ABTestingPanel = lazyPanel(() => import("./ABTestingPanel"), "ABTestingPanel");
+const OperatorPanel = lazyPanel(() => import("./OperatorPanel"), "OperatorPanel");
+const CarDenoiserPanel = lazyPanel(() => import("./CarDenoiserPanel"), "CarDenoiserPanel");
 type Row = Record<string, any>;
 function App() {
   const [password, setPassword] = useState(""),
@@ -34,7 +41,8 @@ function App() {
       "Volkswagen Passat 1.5 TSI aracınızın tahmini değeri 1.250.000 TL.",
     ),
     [normalized, setNormalized] = useState(""),
-    [audioUrl, setAudioUrl] = useState("");
+    [audioUrl, setAudioUrl] = useState(""),
+    [metrics, setMetrics] = useState<Row | null>(null);
   const playback = useRef<AudioContext | null>(null);
   const sock = useRef<WebSocket | null>(null),
     ctx = useRef<AudioContext | null>(null),
@@ -42,25 +50,23 @@ function App() {
     node = useRef<AudioWorkletNode | null>(null),
     queue = useRef<AudioBufferSourceNode[]>([]),
     next = useRef(0),
-    paused = useRef(false);
-  const headers = () => ({
-    Authorization: "Basic " + btoa("admin:" + password),
-    "Content-Type": "application/json",
-  });
-  async function api(path: string, method = "GET", body?: unknown) {
+    paused = useRef(false),
+    closing = useRef(false),
+    failed = useRef(false),
+    wasConnected = useRef(false);
+  // Tek kimlik başlığı: JSON, FormData ve ikili (ses/PDF) yanıtlar aynı yardımcıyı kullanır.
+  // Panellere "rawApi" olarak verilir; ok olmayan yanıtta Türkçe hata fırlatır, Response döner.
+  async function rawApi(path: string, method = "GET", body?: unknown): Promise<Response> {
     const isFormData = typeof FormData !== "undefined" && body instanceof FormData;
-    const h: Record<string, string> = {
-      Authorization: "Basic " + btoa("admin:" + password),
-    };
-    if (!isFormData) {
-      h["Content-Type"] = "application/json";
-    }
+    const h: Record<string, string> = { Authorization: basicAuthHeader(password) };
+    if (body !== undefined && !isFormData) h["Content-Type"] = "application/json";
     const r = await fetch("/api/" + path, {
       method,
       headers: h,
-      body: body === undefined ? undefined : (isFormData ? (body as FormData) : JSON.stringify(body)),
+      body: body === undefined ? undefined : isFormData ? (body as FormData) : JSON.stringify(body),
     });
     if (!r.ok) {
+      if (r.status === 401) throw Error("Parola hatalı veya oturum yetkisi yok.");
       let detail;
       try {
         detail = (await r.json()).detail;
@@ -69,7 +75,10 @@ function App() {
       }
       throw Error(typeof detail === "string" ? detail : JSON.stringify(detail));
     }
-    return r.json();
+    return r;
+  }
+  async function api(path: string, method = "GET", body?: unknown) {
+    return (await rawApi(path, method, body)).json();
   }
   async function action(fn: () => Promise<void>) {
     setError("");
@@ -77,10 +86,26 @@ function App() {
     try {
       await fn();
     } catch (e) {
-      setError(String(e));
+      setError(e instanceof Error ? e.message : String(e));
     } finally {
       setBusy(false);
     }
+  }
+  // Ana veriyi (randevu, araç, sağlık...) kullanan sekmeler; diğer paneller kendi verisini çeker.
+  const MAIN_DATA_TABS = ["Görüşme", "Araçlar ve fiyatlar", "Randevular", "Geçmiş", "Sistem"];
+  function fail(msg: string) {
+    failed.current = true;
+    setError(msg);
+  }
+  function micError(e: unknown) {
+    const n = (e as any)?.name;
+    if (n === "NotAllowedError" || n === "SecurityError")
+      return "Mikrofon izni verilmedi. Tarayıcı adres çubuğundan mikrofona izin verip tekrar deneyin.";
+    if (n === "NotFoundError" || n === "OverconstrainedError")
+      return "Mikrofon bulunamadı. Bir mikrofon bağlayıp tekrar deneyin.";
+    if (n === "NotReadableError")
+      return "Mikrofon başka bir uygulama tarafından kullanılıyor olabilir.";
+    return null;
   }
   async function refresh() {
     const [h, v, s, a, c, q] = await Promise.all(
@@ -103,6 +128,26 @@ function App() {
   useEffect(() => {
     if (logged) action(refresh);
   }, [logged]);
+  function logout() {
+    stop();
+    if (audioUrl) URL.revokeObjectURL(audioUrl);
+    setPassword("");
+    setLogged(false);
+    setTab("Görüşme");
+    setError("");
+    setHealth({});
+    setQuotes([]);
+    setVehicles([]);
+    setSlots([]);
+    setAppointments([]);
+    setCalls([]);
+    setTurns([]);
+    setMessages([]);
+    setMetrics(null);
+    setNormalized("");
+    setAudioUrl("");
+    setStatus("Hazır");
+  }
   function flush() {
     for (const s of queue.current) {
       try {
@@ -113,6 +158,7 @@ function App() {
     next.current = 0;
   }
   function stop() {
+    closing.current = true;
     sock.current?.close();
     sock.current = null;
     node.current?.disconnect();
@@ -123,10 +169,14 @@ function App() {
     playback.current?.close();
     playback.current = null;
     setConnected(false);
-    setStatus("Görüşme sonlandı");
+    setStatus(failed.current ? "Hata" : "Görüşme sonlandı");
   }
   useEffect(() => () => stop(), []);
   async function start() {
+    failed.current = false;
+    closing.current = false;
+    wasConnected.current = false;
+    setMetrics(null);
     const ac = new AudioContext();
     const out = new AudioContext();
     ctx.current = ac;
@@ -135,15 +185,26 @@ function App() {
     setStatus("Bağlanıyor");
     try {
       await unlocked;
-      const ticket = await api("session-ticket", "POST");
-      stream.current = await navigator.mediaDevices.getUserMedia({
-        audio: {
-          echoCancellation: true,
-          noiseSuppression: true,
-          autoGainControl: true,
-        },
-      });
+      try {
+        stream.current = await navigator.mediaDevices.getUserMedia({
+          audio: {
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true,
+          },
+        });
+      } catch (e) {
+        const m = micError(e);
+        if (m) {
+          fail(m);
+          stop();
+          return;
+        }
+        throw e;
+      }
       await ac.audioWorklet.addModule("/capture.js");
+      // Bilet yalnızca 30 sn geçerli: mikrofon izni ve worklet yüklemesinden SONRA alınır.
+      const ticket = await api("session-ticket", "POST");
       const ws = new WebSocket(
         `${location.protocol === "https:" ? "wss" : "ws"}://${location.host}/ws/voice?ticket=${encodeURIComponent(ticket.ticket)}`,
       );
@@ -169,6 +230,7 @@ function App() {
           if (ws.readyState === 1 && ws.bufferedAmount < 128000)
             ws.send(e.data);
         };
+        wasConnected.current = true;
         setConnected(true);
         setStatus("Bağlandı");
       };
@@ -179,8 +241,15 @@ function App() {
             stop();
             return;
           }
-          if (m.type === "transcript") setMessages((x) => [...x, m]);
-          if (m.type === "error") setError(m.message);
+          if (m.type === "transcript") {
+            if (m.role === "user") setMetrics(null);
+            setMessages((x) => [...x, m]);
+          }
+          if (m.type === "metrics") {
+            const { type: _t, ...rest } = m;
+            setMetrics((prev) => ({ ...(prev || {}), ...rest }));
+          }
+          if (m.type === "error") fail(m.message);
           if (m.type === "status")
             setStatus(
               (
@@ -218,16 +287,27 @@ function App() {
           };
         }
       };
-      ws.onerror = () =>
-        setError(
-          "Ses bağlantısı kurulamadı; model ve sunucu durumunu kontrol edin.",
-        );
-      ws.onclose = () => stop();
+      ws.onerror = () => {
+        if (!wasConnected.current)
+          fail("Ses bağlantısı kurulamadı; model ve sunucu durumunu kontrol edin.");
+      };
+      ws.onclose = () => {
+        if (!closing.current && !failed.current)
+          fail(
+            wasConnected.current
+              ? "Ses bağlantısı beklenmedik şekilde kapandı."
+              : "Hat meşgul olabilir veya bağlantı reddedildi. Birkaç saniye sonra tekrar deneyin.",
+          );
+        stop();
+      };
     } catch (e) {
+      failed.current = true;
       stop();
       throw e;
     }
   }
+  const pillClass = (status?: string, okValues: string[] = ["READY"]) =>
+    "pill " + (!status ? "" : okValues.includes(status) ? "ok" : "bad");
   const date = (s: string) =>
     new Date(s).toLocaleString("tr-TR", { timeZone: "Europe/Istanbul" });
   if (!logged)
@@ -298,9 +378,11 @@ function App() {
             <button
               key={t}
               className={tab === t ? "selected" : ""}
+              aria-current={tab === t ? "page" : undefined}
               onClick={() => {
                 setTab(t);
-                action(refresh);
+                setError("");
+                if (MAIN_DATA_TABS.includes(t)) action(refresh);
               }}
             >
               {t}
@@ -308,7 +390,7 @@ function App() {
           ))}
         </nav>
         <div className="local">
-          ● Tamamen yerel<small>Tek aktif görüşme · İstanbul</small>
+          ● Modeller yerel<small>Tek aktif görüşme · İstanbul</small>
         </div>
       </aside>
       <main>
@@ -317,13 +399,18 @@ function App() {
             <p className="eyebrow">EKSPERTİZ OPERASYONU</p>
             <h1>{tab}</h1>
           </div>
-          <button
-            className="secondary"
-            onClick={() => action(refresh)}
-            disabled={busy}
-          >
-            Yenile ↻
-          </button>
+          <div className="inline" style={{ flex: "0 0 auto" }}>
+            <button
+              className="secondary"
+              onClick={() => action(refresh)}
+              disabled={busy}
+            >
+              Yenile ↻
+            </button>
+            <button className="secondary" onClick={logout}>
+              Çıkış
+            </button>
+          </div>
         </header>
         {health.demo_mode && (
           <div role="status" className="demo-banner">
@@ -342,9 +429,11 @@ function App() {
               <article>
                 <small>Ses motoru</small>
                 <strong>
-                  {health.tts?.status === "READY"
-                    ? "Hazır"
-                    : "Model bekleniyor"}
+                  {!health.tts?.status
+                    ? "Bilinmiyor"
+                    : health.tts.status === "READY"
+                      ? "Hazır"
+                      : "Model bekleniyor"}
                 </strong>
               </article>
               <article>
@@ -377,6 +466,16 @@ function App() {
                 Mikrofon izni gerekir. Ham ses kaydı varsayılan olarak
                 kapalıdır.
               </small>
+              {(connected || metrics) && (
+                <div className="metrics" aria-label="Son tur gecikmeleri">
+                  <b>Son tur gecikmeleri</b>
+                  <span>İlk ses: {dash(metrics?.first_audio_ms, " ms", 0)}</span>
+                  <span>STT: {dash(metrics?.stt_ms, " ms", 0)}</span>
+                  <span>LLM: {dash(metrics?.llm_total_ms, " ms", 0)}</span>
+                  <span>TTS: {dash(metrics?.tts_ms, " ms", 0)}</span>
+                  <span>RTF: {dash(metrics?.rtf, "", 2)}</span>
+                </div>
+              )}
               {connected && (
                 <div style={{ marginTop: "16px", padding: "12px", background: "#1e293b", borderRadius: "8px", maxWidth: "260px", margin: "16px auto 0" }}>
                   <div style={{ fontSize: "12px", color: "#94a3b8", marginBottom: "8px", fontWeight: "bold" }}>📞 DTMF Tuş Takımı (Sıfır Gecikme)</div>
@@ -612,8 +711,8 @@ function App() {
               <h2>Transkript ve ölçümler</h2>
               {turns.map((t) => (
                 <p className="bubble" key={t.id}>
-                  <b>{t.role}</b>
-                  {t.text || t.metrics}
+                  <b>{t.role === "metric" ? "ölçüm" : t.role}</b>
+                  {t.text || formatMetrics(t.metrics) || "—"}
                 </p>
               ))}
             </section>
@@ -646,12 +745,7 @@ function App() {
                 className="secondary"
                 onClick={() =>
                   action(async () => {
-                    const r = await fetch("/api/synthesize", {
-                      method: "POST",
-                      headers: headers(),
-                      body: JSON.stringify({ text }),
-                    });
-                    if (!r.ok) throw Error((await r.json()).detail);
+                    const r = await rawApi("synthesize", "POST", { text });
                     if (audioUrl) URL.revokeObjectURL(audioUrl);
                     setAudioUrl(URL.createObjectURL(await r.blob()));
                   })
@@ -664,49 +758,45 @@ function App() {
             {audioUrl && <audio controls src={audioUrl} />}
           </section>
         )}
-        {tab === "Operatör (6002)" && <OperatorPanel api={api} onError={setError} />}
-        {tab === "Araç İçi DSP & Gürültü" && <CarDenoiserPanel api={api} />}
-        {tab === "Sıra & Lift Durumu" && <QueueLiftPanel api={api} />}
-        {tab === "A/B Test & İnce Ayar" && <ABTestingPanel api={api} action={action} />}
-        {tab === "Analitik & KPI" && <AnalyticsPanel api={api} />}
-        {tab === "Ekspertiz Raporları" && <InspectionPanel api={api} />}
-        {tab === "Teknisyen Dikte" && <TechnicianDictationPanel api={api} />}
-        {tab === "Araç Teşhis & OBD-II" && <DiagnosticPanel api={api} />}
-        {tab === "Sözlük" && <LexiconPanel api={api} />}
-        {tab === "Bildirimler" && <NotificationPanel api={api} />}
-        {tab === "Giden Çağrılar" && <OutboundPanel api={api} />}
-        {tab === "M01–M11" && <MilestonePanel api={api} />}
+        <Suspense fallback={<p className="muted">Panel yükleniyor…</p>}>
+          {tab === "Operatör (6002)" && <OperatorPanel api={api} onError={setError} />}
+          {tab === "Araç İçi DSP & Gürültü" && <CarDenoiserPanel api={api} rawApi={rawApi} />}
+          {tab === "Sıra & Lift Durumu" && <QueueLiftPanel api={api} />}
+          {tab === "A/B Test & İnce Ayar" && (
+            <ABTestingPanel api={api} rawApi={rawApi} action={action} />
+          )}
+          {tab === "Analitik & KPI" && <AnalyticsPanel api={api} />}
+          {tab === "Ekspertiz Raporları" && <InspectionPanel api={api} />}
+          {tab === "Teknisyen Dikte" && <TechnicianDictationPanel api={api} />}
+          {tab === "Araç Teşhis & OBD-II" && <DiagnosticPanel api={api} />}
+          {tab === "Sözlük" && <LexiconPanel api={api} />}
+          {tab === "Bildirimler" && <NotificationPanel api={api} rawApi={rawApi} />}
+          {tab === "Giden Çağrılar" && <OutboundPanel api={api} />}
+          {tab === "M01–M11" && <MilestonePanel api={api} />}
+        </Suspense>
         {tab === "Sistem" && (
           <section>
             <h2>Yerel bileşenler</h2>
             <div className="row">
               <b>FREYATTS CUDA (TTS)</b>
-              <span className={"pill " + (health.tts?.status === "READY" ? "ok" : "")}>
-                {health.tts?.status || "BLOCKED"}
-              </span>
+              <span className={pillClass(health.tts?.status)}>{health.tts?.status || "Bilinmiyor"}</span>
             </div>
             <div className="row">
               <b>FASTER-WHISPER STT</b>
-              <span className={"pill " + (health.stt?.status === "READY" ? "ok" : "")}>
-                {health.stt?.status || "BLOCKED"}
-              </span>
+              <span className={pillClass(health.stt?.status)}>{health.stt?.status || "Bilinmiyor"}</span>
             </div>
             <div className="row">
               <b>SILERO VAD</b>
-              <span className={"pill " + (health.vad?.status === "READY" ? "ok" : "")}>
-                {health.vad?.status || "BLOCKED"}
-              </span>
+              <span className={pillClass(health.vad?.status)}>{health.vad?.status || "Bilinmiyor"}</span>
             </div>
             <div className="row">
               <b>OLLAMA (Qwen2.5)</b>
-              <span className={"pill " + (health.ollama?.status === "READY" ? "ok" : "")}>
-                {health.ollama?.status || "BLOCKED"}
-              </span>
+              <span className={pillClass(health.ollama?.status)}>{health.ollama?.status || "Bilinmiyor"}</span>
             </div>
             <div className="row">
               <b>GPU CIRCUIT BREAKER</b>
-              <span className="pill ok">
-                {health.circuit_breaker?.status || "CLOSED (Normal)"}
+              <span className={pillClass(health.circuit_breaker?.status, ["CLOSED"])}>
+                {health.circuit_breaker?.status || "Bilinmiyor"}
               </span>
             </div>
             <p className="muted">

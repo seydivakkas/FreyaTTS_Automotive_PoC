@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
+import { formatMetrics, useEscape } from "./ui";
 
 // Ölçüm yoksa API null döner; ekranda 0 yerine "—" gösterilir.
 type Measured = number | null;
@@ -119,6 +120,9 @@ export function AnalyticsPanel({ api }: Props) {
     }
   }
 
+  useEscape(() => setResolvingId(null), !!resolvingId);
+  useEscape(() => setInspectConvId(null), !!inspectConvId);
+
   async function refresh() {
     const [overviewRes, followUpsRes] = await Promise.all([
       api("analytics/overview"),
@@ -159,9 +163,8 @@ export function AnalyticsPanel({ api }: Props) {
     setInspectConvId(id);
     setLoadingTurns(true);
     try {
-      const allTurns = await api("turns");
-      const filtered = allTurns.filter((t: TurnItem) => t.conversation_id === id);
-      setInspectTurns(filtered);
+      const turns = await api("conversations/" + id);
+      setInspectTurns(Array.isArray(turns) ? turns : []);
     } catch (e: any) {
       setError("Tur detayları yüklenemedi: " + (e?.message || String(e)));
     } finally {
@@ -241,13 +244,13 @@ export function AnalyticsPanel({ api }: Props) {
         <>
           {/* Executive Summary Cards */}
           <div
-            className="stats"
-            style={{ gridTemplateColumns: "repeat(4, 1fr)", marginBottom: "1.5rem" }}
+            className="stats kpi-grid-4"
+            style={{ marginBottom: "1.5rem" }}
           >
             <div className="card" style={{ borderLeft: "4px solid #16a34a" }}>
               <small>🎯 DÖNÜŞÜM ORANI (CONVERSION)</small>
               <h2 style={{ color: "#4ade80", margin: "6px 0" }}>
-                %{data.summary.conversion_rate_pct}
+                {data.summary.total_conversations ? `%${data.summary.conversion_rate_pct}` : "—"}
               </h2>
               <small>
                 {data.summary.confirmed_appointments} Randevu /{" "}
@@ -295,14 +298,7 @@ export function AnalyticsPanel({ api }: Props) {
           {/* LATENCY & MODEL PERFORMANCE KPIS */}
           <section style={{ marginBottom: "1.5rem" }}>
             <h2>⚡ Ses, STT & LLM Yanıt Süreleri (Latency KPIs)</h2>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(3, 1fr)",
-                gap: "1rem",
-                marginTop: "1rem",
-              }}
-            >
+            <div className="kpi-grid-3" style={{ gap: "1rem", marginTop: "1rem" }}>
               {/* First Audio MS */}
               <div
                 style={{
@@ -319,7 +315,7 @@ export function AnalyticsPanel({ api }: Props) {
                   {fmt(data.latency_kpis.first_audio_ms.p50, " ms")}{" "}
                   <span style={{ fontSize: "0.85rem", color: "#94a3b8" }}>(p50 Medyan)</span>
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem", fontSize: "0.82rem", marginTop: "0.6rem" }}>
+                <div className="grid-2" style={{ gap: "0.5rem", fontSize: "0.82rem", marginTop: "0.6rem" }}>
                   <div>Ortalama: <b>{fmt(data.latency_kpis.first_audio_ms.avg, " ms")}</b></div>
                   <div>95. Yüzdelik (p95): <b style={{ color: "#facc15" }}>{fmt(data.latency_kpis.first_audio_ms.p95, " ms")}</b></div>
                   <div>Min: <b>{fmt(data.latency_kpis.first_audio_ms.min, " ms")}</b></div>
@@ -343,7 +339,7 @@ export function AnalyticsPanel({ api }: Props) {
                   {fmt(data.latency_kpis.llm_ms.p50_total, " ms")}{" "}
                   <span style={{ fontSize: "0.85rem", color: "#94a3b8" }}>(Toplam p50)</span>
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem", fontSize: "0.82rem", marginTop: "0.6rem" }}>
+                <div className="grid-2" style={{ gap: "0.5rem", fontSize: "0.82rem", marginTop: "0.6rem" }}>
                   <div>İlk Token (TTFT p50): <b>{fmt(data.latency_kpis.llm_ms.p50_first_token, " ms")}</b></div>
                   <div>İlk Token p95: <b style={{ color: "#facc15" }}>{fmt(data.latency_kpis.llm_ms.p95_first_token, " ms")}</b></div>
                   <div>Toplam p95: <b style={{ color: "#f87171" }}>{fmt(data.latency_kpis.llm_ms.p95_total, " ms")}</b></div>
@@ -367,7 +363,7 @@ export function AnalyticsPanel({ api }: Props) {
                   {fmt(data.latency_kpis.stt_ms.p50, " ms")}{" "}
                   <span style={{ fontSize: "0.85rem", color: "#94a3b8" }}>(STT p50)</span>
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem", fontSize: "0.82rem", marginTop: "0.6rem" }}>
+                <div className="grid-2" style={{ gap: "0.5rem", fontSize: "0.82rem", marginTop: "0.6rem" }}>
                   <div>STT p95: <b>{fmt(data.latency_kpis.stt_ms.p95, " ms")}</b></div>
                   <div>TTS Ortalama: <b>{fmt(data.latency_kpis.tts_ms.avg, " ms")}</b></div>
                   <div>TTS RTF Faktörü: <b>{fmt(data.latency_kpis.tts_ms.avg_rtf, "x")}</b></div>
@@ -378,7 +374,7 @@ export function AnalyticsPanel({ api }: Props) {
           </section>
 
           {/* VISUAL CHARTS (SVG) */}
-          <div className="two" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
+          <div className="two" style={{ gap: "1.5rem" }}>
             {/* Chart 1: 14-Day Appointment & Conversation Trend */}
             <section>
               <h2>📈 14 Günlük Randevu & Görüşme Trendi</h2>
@@ -537,6 +533,12 @@ export function AnalyticsPanel({ api }: Props) {
         </>
       )}
 
+      {activeTab === "dashboard" && !data && (
+        <p className="muted">
+          {loading ? "Veriler yükleniyor…" : "KPI verisi yok veya alınamadı. Yenilemeyi deneyin."}
+        </p>
+      )}
+
       {/* TAB 2: FOLLOW-UP CONVERSATION RESOLUTION WORKFLOW */}
       {activeTab === "follow_ups" && (
         <section>
@@ -576,7 +578,7 @@ export function AnalyticsPanel({ api }: Props) {
             </div>
           </div>
 
-          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <div className="table-wrap"><table style={{ width: "100%", borderCollapse: "collapse" }}>
             <thead>
               <tr style={{ textAlign: "left", borderBottom: "1px solid #475569" }}>
                 <th style={{ padding: "0.6rem" }}>Kanal & ID</th>
@@ -693,13 +695,16 @@ export function AnalyticsPanel({ api }: Props) {
                 </tr>
               )}
             </tbody>
-          </table>
+          </table></div>
         </section>
       )}
 
       {/* RESOLUTION MODAL */}
       {resolvingId && (
         <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Görüşmeyi sonuçlandır"
           style={{
             position: "fixed",
             top: 0,
@@ -719,6 +724,7 @@ export function AnalyticsPanel({ api }: Props) {
               borderRadius: "8px",
               padding: "1.5rem",
               width: "500px",
+              maxWidth: "92vw",
               border: "1px solid #475569",
             }}
           >
@@ -730,6 +736,7 @@ export function AnalyticsPanel({ api }: Props) {
             </p>
             <form onSubmit={handleResolve}>
               <textarea
+                aria-label="Çözüm notu"
                 placeholder="Örn: Müşteri arandı, yarın saat 14:00 maslak şubesine randevu oluşturuldu."
                 value={resolveNotes}
                 onChange={(e) => setResolveNotes(e.target.value)}
@@ -762,6 +769,9 @@ export function AnalyticsPanel({ api }: Props) {
       {/* DIALOGUE TRANSCRIPT INSPECT MODAL */}
       {inspectConvId && (
         <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Görüşme turları ve transkript"
           style={{
             position: "fixed",
             top: 0,
@@ -781,6 +791,7 @@ export function AnalyticsPanel({ api }: Props) {
               borderRadius: "8px",
               padding: "1.5rem",
               width: "650px",
+              maxWidth: "92vw",
               maxHeight: "80vh",
               overflowY: "auto",
               border: "1px solid #475569",
@@ -797,6 +808,7 @@ export function AnalyticsPanel({ api }: Props) {
               <h3 style={{ margin: 0 }}>🔍 Görüşme Turları & Transkript</h3>
               <button
                 onClick={() => setInspectConvId(null)}
+                aria-label="Kapat"
                 style={{ background: "transparent", border: "none", fontSize: "1.2rem", cursor: "pointer" }}
               >
                 ✕
@@ -824,9 +836,9 @@ export function AnalyticsPanel({ api }: Props) {
                       <span>{t.created_at?.slice(11, 19)}</span>
                     </div>
                     <div style={{ marginTop: "4px", fontSize: "0.88rem" }}>{t.text}</div>
-                    {t.metrics && t.metrics !== "{}" && (
+                    {formatMetrics(t.metrics) && (
                       <small style={{ color: "#64748b", marginTop: "4px" }}>
-                        Metrik: {t.metrics}
+                        {formatMetrics(t.metrics)}
                       </small>
                     )}
                   </div>

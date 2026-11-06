@@ -1,6 +1,6 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
+import { ApiFn, RawApiFn, dash, useEscape } from "./ui";
 
-type ApiFn = (path: string, method?: string, body?: unknown) => Promise<any>;
 type ActionFn = (fn: () => Promise<void>) => void;
 
 interface Variant {
@@ -68,7 +68,8 @@ interface TemplatesData {
   tts_seed_presets: Array<{ seed: number; name: string; description: string; tone: string }>;
 }
 
-export function ABTestingPanel({ api, action }: { api: ApiFn; action: ActionFn }) {
+export function ABTestingPanel({ api, rawApi, action }: { api: ApiFn; rawApi: RawApiFn; action: ActionFn }) {
+  const [panelError, setPanelError] = useState("");
   const [experiments, setExperiments] = useState<ExperimentItem[]>([]);
   const [selectedExpId, setSelectedExpId] = useState<string>("");
   const [report, setReport] = useState<ExperimentReport | null>(null);
@@ -95,8 +96,11 @@ export function ABTestingPanel({ api, action }: { api: ApiFn; action: ActionFn }
   const [varGreeting, setVarGreeting] = useState("friendly");
   const [varName, setVarName] = useState("Varyant B (Samimi)");
 
+  useEscape(() => setShowNewModal(false), showNewModal);
+
   async function loadData() {
     setLoading(true);
+    setPanelError("");
     try {
       const [exps, tpls] = await Promise.all([
         api("ab/experiments"),
@@ -108,7 +112,7 @@ export function ABTestingPanel({ api, action }: { api: ApiFn; action: ActionFn }
         setSelectedExpId(exps[0].id);
       }
     } catch (e) {
-      console.error(e);
+      setPanelError("Deney listesi yüklenemedi: " + String(e));
     } finally {
       setLoading(false);
     }
@@ -120,7 +124,7 @@ export function ABTestingPanel({ api, action }: { api: ApiFn; action: ActionFn }
       const rep = await api(`ab/experiments/${expId}/report`);
       setReport(rep);
     } catch (e) {
-      console.error("Report loading error:", e);
+      setPanelError("Deney raporu yüklenemedi: " + String(e));
     }
   }
 
@@ -189,27 +193,14 @@ export function ABTestingPanel({ api, action }: { api: ApiFn; action: ActionFn }
   async function handleAudioPreview(seedValue?: number) {
     const s = seedValue !== undefined ? seedValue : testSeed;
     setSynthLoading(true);
+    setPanelError("");
     try {
-      const token = localStorage.getItem("admin_password") || "";
-      const resp = await fetch("/api/ab/preview-synth", {
-        method: "POST",
-        headers: {
-          Authorization: "Basic " + btoa("admin:" + token),
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          text: testText,
-          seed: s,
-        }),
-      });
-      if (!resp.ok) {
-        throw new Error("Sentez hatası: " + resp.statusText);
-      }
+      const resp = await rawApi("ab/preview-synth", "POST", { text: testText, seed: s });
       const blob = await resp.blob();
-      const url = URL.createObjectURL(blob);
-      setSynthAudioUrl(url);
+      if (synthAudioUrl) URL.revokeObjectURL(synthAudioUrl);
+      setSynthAudioUrl(URL.createObjectURL(blob));
     } catch (err: any) {
-      alert("Ses sentezi önizleme hatası: " + (err.message || err));
+      setPanelError("Ses sentezi önizleme hatası: " + (err.message || err));
     } finally {
       setSynthLoading(false);
     }
@@ -222,9 +213,6 @@ export function ABTestingPanel({ api, action }: { api: ApiFn; action: ActionFn }
         <div>
           <h2 style={{ margin: "0 0 6px 0", display: "flex", alignItems: "center", gap: "8px" }}>
             <span>🔬 A/B Test ve İnce Ayar Altyapısı</span>
-            <span style={{ fontSize: "12px", background: "#3b82f6", color: "#fff", padding: "2px 8px", borderRadius: "12px" }}>
-              Özellik 15
-            </span>
           </h2>
           <p style={{ margin: 0, color: "#94a3b8", fontSize: "14px" }}>
             Farklı LLM prompt şablonları, FreyaTTS ses tohumları (seed) ve karşılama metinlerini canlı müşteri görüşmelerinde test edin.
@@ -250,6 +238,12 @@ export function ABTestingPanel({ api, action }: { api: ApiFn; action: ActionFn }
           </button>
         </div>
       </div>
+
+      {panelError && (
+        <div role="alert" className="error" style={{ marginBottom: "16px" }}>
+          {panelError}
+        </div>
+      )}
 
       {/* ALT SEKME GEÇİŞLERİ */}
       <div style={{ display: "flex", gap: "8px", borderBottom: "1px solid #334155", marginBottom: "20px" }}>
@@ -303,8 +297,9 @@ export function ABTestingPanel({ api, action }: { api: ApiFn; action: ActionFn }
           {/* DENEY SEÇİM ÇUBUĞU */}
           <div style={{ background: "#1e293b", padding: "14px 18px", borderRadius: "8px", marginBottom: "20px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-              <label style={{ fontWeight: "bold", fontSize: "14px", color: "#f8fafc" }}>Aktif Deney:</label>
+              <label htmlFor="ab-exp-select" style={{ fontWeight: "bold", fontSize: "14px", color: "#f8fafc" }}>Aktif Deney:</label>
               <select
+                id="ab-exp-select"
                 value={selectedExpId}
                 onChange={(e) => setSelectedExpId(e.target.value)}
                 style={{ padding: "6px 12px", background: "#0f172a", color: "#f8fafc", border: "1px solid #475569", borderRadius: "6px", minWidth: "260px" }}
@@ -381,10 +376,12 @@ export function ABTestingPanel({ api, action }: { api: ApiFn; action: ActionFn }
                     🏆 Mevcut En Başarılı Varyant
                   </div>
                   <div style={{ fontSize: "20px", fontWeight: "bold", color: "#f8fafc", marginTop: "4px" }}>
-                    {report.best_performing_variant}
+                    {report.total_experiment_sessions ? report.best_performing_variant : "—"}
                   </div>
                   <div style={{ fontSize: "13px", color: "#94a3b8", marginTop: "2px" }}>
-                    Toplam {report.total_experiment_sessions} görüşmeden {report.total_converted_sessions} tanesi randevuya dönüştü (Genel: %{report.overall_conversion_pct}).
+                    {report.total_experiment_sessions
+                      ? `Toplam ${report.total_experiment_sessions} görüşmeden ${report.total_converted_sessions} tanesi randevuya dönüştü (Genel: %${report.overall_conversion_pct}).`
+                      : "Henüz bu deneyde görüşme yok; sonuçlar ölçüm geldikçe görünür."}
                   </div>
                 </div>
 
@@ -439,14 +436,14 @@ export function ABTestingPanel({ api, action }: { api: ApiFn; action: ActionFn }
                     </div>
 
                     {/* Temel Metrikler */}
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "14px" }}>
+                    <div className="grid-2" style={{ display: "grid",  gap: "10px", marginBottom: "14px" }}>
                       <div style={{ background: "#0f172a", padding: "10px", borderRadius: "6px", textAlign: "center" }}>
                         <div style={{ fontSize: "12px", color: "#94a3b8" }}>Dönüşüm Oranı</div>
                         <div style={{ fontSize: "24px", fontWeight: "bold", color: "#38bdf8", margin: "4px 0" }}>
-                          %{v.conversion_rate_pct}
+                          {v.total_sessions ? `%${v.conversion_rate_pct}` : "—"}
                         </div>
                         <div style={{ fontSize: "11px", color: "#64748b" }}>
-                          %95 GA: [{v.ci_95?.[0]}% - {v.ci_95?.[1]}%]
+                          %95 GA: {v.total_sessions && v.ci_95 ? `[${v.ci_95[0]}% - ${v.ci_95[1]}%]` : "—"}
                         </div>
                       </div>
 
@@ -463,9 +460,9 @@ export function ABTestingPanel({ api, action }: { api: ApiFn; action: ActionFn }
 
                     {/* Gecikme ve Süre Detayları */}
                     <div style={{ fontSize: "12px", color: "#94a3b8", display: "flex", justifyContent: "space-between", borderTop: "1px solid #334155", paddingTop: "10px" }}>
-                      <span>⏱ Ort. Süre: <strong>{v.avg_duration_sec} sn</strong></span>
-                      <span>⚡ İlk Ses: <strong>{v.avg_first_audio_ms} ms</strong></span>
-                      <span>🔄 Tur: <strong>{v.avg_turns}</strong></span>
+                      <span>⏱ Ort. Süre: <strong>{v.total_sessions ? dash(v.avg_duration_sec, " sn") : "—"}</strong></span>
+                      <span>⚡ İlk Ses: <strong>{v.total_sessions ? dash(v.avg_first_audio_ms, " ms") : "—"}</strong></span>
+                      <span>🔄 Tur: <strong>{v.total_sessions ? dash(v.avg_turns) : "—"}</strong></span>
                     </div>
                   </div>
                 ))}
@@ -477,7 +474,7 @@ export function ABTestingPanel({ api, action }: { api: ApiFn; action: ActionFn }
                   <h3 style={{ margin: "0 0 14px 0", fontSize: "16px", color: "#f8fafc" }}>
                     📐 İki Oranlı Z-Testi ve İstatistiksel Çıkarım
                   </h3>
-                  <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
+                  <div className="table-wrap"><table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
                     <thead>
                       <tr style={{ borderBottom: "1px solid #334155", color: "#94a3b8", textAlign: "left" }}>
                         <th style={{ padding: "8px" }}>Varyant</th>
@@ -516,7 +513,7 @@ export function ABTestingPanel({ api, action }: { api: ApiFn; action: ActionFn }
                         </tr>
                       ))}
                     </tbody>
-                  </table>
+                  </table></div>
                 </div>
               )}
             </>
@@ -533,10 +530,11 @@ export function ABTestingPanel({ api, action }: { api: ApiFn; action: ActionFn }
           </p>
 
           <div style={{ marginBottom: "16px" }}>
-            <label style={{ display: "block", fontSize: "13px", fontWeight: "bold", color: "#cbd5e1", marginBottom: "6px" }}>
+            <label htmlFor="ab-test-text" style={{ display: "block", fontSize: "13px", fontWeight: "bold", color: "#cbd5e1", marginBottom: "6px" }}>
               Test Edilecek Cümle:
             </label>
             <textarea
+              id="ab-test-text"
               rows={3}
               value={testText}
               onChange={(e) => setTestText(e.target.value)}
@@ -591,7 +589,7 @@ export function ABTestingPanel({ api, action }: { api: ApiFn; action: ActionFn }
 
       {/* 3. SEKME: ŞABLON & KATALOG REHBERİ */}
       {activeSubTab === "templates" && templates && (
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
+        <div className="grid-2" style={{ gap: "20px" }}>
           <div style={{ background: "#1e293b", padding: "18px", borderRadius: "8px" }}>
             <h3 style={{ margin: "0 0 14px 0", color: "#38bdf8" }}>💬 LLM Prompt Şablonları</h3>
             {templates.prompt_templates.map((p) => (
@@ -621,6 +619,9 @@ export function ABTestingPanel({ api, action }: { api: ApiFn; action: ActionFn }
       {/* YENİ DENEY OLUŞTURMA MODALI */}
       {showNewModal && (
         <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Yeni A/B deneyi"
           style={{
             position: "fixed",
             top: 0,
@@ -668,7 +669,7 @@ export function ABTestingPanel({ api, action }: { api: ApiFn; action: ActionFn }
               {/* KONTROL GRUBU AYARLARI */}
               <div style={{ background: "#0f172a", padding: "14px", borderRadius: "8px", marginBottom: "14px", border: "1px solid #334155" }}>
                 <h4 style={{ margin: "0 0 10px 0", color: "#94a3b8", fontSize: "14px" }}>🅰️ Kontrol Grubu (Standart - %50 Trafik)</h4>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+                <div className="grid-2" style={{ gap: "10px" }}>
                   <div>
                     <label style={{ fontSize: "12px", color: "#cbd5e1" }}>Prompt Şablonu:</label>
                     <select
@@ -710,7 +711,7 @@ export function ABTestingPanel({ api, action }: { api: ApiFn; action: ActionFn }
                     style={{ width: "100%", padding: "6px", background: "#1e293b", color: "#fff", border: "1px solid #475569", borderRadius: "4px" }}
                   />
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+                <div className="grid-2" style={{ gap: "10px" }}>
                   <div>
                     <label style={{ fontSize: "12px", color: "#cbd5e1" }}>Prompt Şablonu:</label>
                     <select

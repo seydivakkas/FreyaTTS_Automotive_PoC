@@ -61,6 +61,7 @@ export function QueueLiftPanel({ api }: Props) {
   const [capacity, setCapacity] = useState<CapacityStatus | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [loadError, setLoadError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
   // Check-in Form States
@@ -97,8 +98,9 @@ export function QueueLiftPanel({ api }: Props) {
       setQueue(qList || []);
       setCapacity(cap);
       setPackages(pkgs || []);
+      setLoadError("");
     } catch (e: any) {
-      console.warn("Lift ve sıra verileri yüklenirken hata:", e);
+      setLoadError("Lift ve sıra verileri alınamadı: " + (e?.message || String(e)));
     }
   }
 
@@ -330,7 +332,11 @@ export function QueueLiftPanel({ api }: Props) {
             <div style={{ backgroundColor: "#4C1D95", padding: "10px", borderRadius: "8px", textAlign: "center" }}>
               <div style={{ fontSize: "11px", color: "#DDD6FE" }}>TAHMİNİ BEKLEME</div>
               <div style={{ fontSize: "20px", fontWeight: "bold", color: "#FFFFFF" }}>
-                {capacity.estimated_wait_minutes > 0 ? `~${capacity.estimated_wait_minutes} dk` : "0 dk"}
+                {capacity.estimated_wait_minutes >= 999 || capacity.total_lifts - capacity.maintenance_lifts <= 0
+                  ? "Lift yok"
+                  : capacity.estimated_wait_minutes > 0
+                    ? `~${capacity.estimated_wait_minutes} dk`
+                    : "0 dk"}
               </div>
             </div>
           </div>
@@ -362,6 +368,12 @@ export function QueueLiftPanel({ api }: Props) {
           </div>
         )}
       </section>
+
+      {loadError && (
+        <div role="alert" className="error" style={{ padding: "12px 16px", borderRadius: "8px" }}>
+          ⚠️ {loadError}
+        </div>
+      )}
 
       {error && (
         <div role="alert" className="error" style={{ padding: "12px 16px", borderRadius: "8px" }}>
@@ -625,7 +637,7 @@ export function QueueLiftPanel({ api }: Props) {
       </section>
 
       {/* 2. CANLI SIRA KUYRUĞU (Queue Check-in & List) */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr", gap: "18px", alignItems: "flex-start" }}>
+      <div className="grid-1-2" style={{ gap: "18px", alignItems: "flex-start" }}>
         {/* Sol Kolon: Sıraya Yeni Araç Alma (Check-in) */}
         <section style={{ backgroundColor: "#FFFFFF", padding: "16px", borderRadius: "8px", border: "1px solid #E2E8F0" }}>
           <h3 style={{ margin: "0 0 12px 0", fontSize: "15px", color: "#1E293B" }}>
@@ -707,7 +719,7 @@ export function QueueLiftPanel({ api }: Props) {
             </span>
           </div>
 
-          <div style={{ overflowX: "auto" }}>
+          <div className="table-wrap">
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
               <thead>
                 <tr style={{ backgroundColor: "#F8FAFC", borderBottom: "2px solid #E2E8F0", textAlign: "left" }}>

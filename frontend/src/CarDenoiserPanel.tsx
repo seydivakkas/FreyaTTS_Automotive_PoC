@@ -5,6 +5,7 @@
  */
 
 import { useState, useEffect } from "react";
+import { RawApiFn, dash } from "./ui";
 
 type DSPConfig = {
   enabled: boolean;
@@ -33,9 +34,10 @@ type DSPStats = {
 
 type Props = {
   api: (path: string, method?: string, body?: unknown) => Promise<any>;
+  rawApi: RawApiFn;
 };
 
-export function CarDenoiserPanel({ api }: Props) {
+export function CarDenoiserPanel({ api, rawApi }: Props) {
   const [config, setConfig] = useState<DSPConfig>({
     enabled: true,
     hpf_cutoff: 120.0,
@@ -143,21 +145,12 @@ export function CarDenoiserPanel({ api }: Props) {
       formData.append("suppression_db", String(config.suppression_db));
       formData.append("target_dbfs", String(config.target_dbfs));
 
-      const token = localStorage.getItem("token") || "";
-      const resp = await fetch("/api/dsp/denoise-preview", {
-        method: "POST",
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
-        body: formData,
-      });
-
-      if (!resp.ok) {
-        const errJson = await resp.json().catch(() => ({}));
-        throw new Error(errJson.detail || "Gürültü kesme önizleme işlemi başarısız.");
-      }
-
+      const resp = await rawApi("dsp/denoise-preview", "POST", formData);
       const res = await resp.json();
       setPreviewResult(res);
-      setSuccess("Ses 120 Hz HPF + -18 dB Spektral Denoise + Soft AGC ile temizlendi.");
+      setSuccess(
+        `Ses ${config.hpf_cutoff} Hz HPF + -${config.suppression_db} dB spektral gürültü bastırma + ${config.target_dbfs} dBFS hedefli AGC ile işlendi.`,
+      );
     } catch (e: any) {
       setError("DSP işleme hatası: " + (e?.message || String(e)));
     } finally {
@@ -243,7 +236,7 @@ export function CarDenoiserPanel({ api }: Props) {
       )}
 
       {/* Ana Grid: Ayarlar ve Canlı Test Laboratuvarı */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", marginTop: "24px" }}>
+      <div className="grid-2" style={{ gap: "20px", marginTop: "24px" }}>
         {/* Sol Kolon: DSP Parametreleri */}
         <section style={{ margin: 0 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
@@ -372,7 +365,7 @@ export function CarDenoiserPanel({ api }: Props) {
               }}
             >
               <div style={{ fontSize: "13px", fontWeight: 600, marginBottom: "6px" }}>
-                1. Seçenek: Otomatik Seyir Halinde Araç Simülasyonu
+                1. Seçenek: Simülasyon — Sentetik Seyir Halinde Araç Sesi
               </div>
               <p className="muted" style={{ fontSize: "12px", margin: "0 0 10px" }}>
                 60 Hz/90 Hz motor devri titreşimi + asfalt yol tıslaması ve araya giren kısık sürücü konuşması oluşturur.
@@ -384,7 +377,7 @@ export function CarDenoiserPanel({ api }: Props) {
                 disabled={processingPreview}
                 style={{ fontSize: "12px" }}
               >
-                {processingPreview ? "İşleniyor..." : "🏎️ Sentetik Araç Uğultusu Üret ve Temizle ➔"}
+                {processingPreview ? "İşleniyor..." : "🏎️ Simülasyon: Sentetik Araç Uğultusu Üret ve Temizle ➔"}
               </button>
             </div>
 
@@ -430,36 +423,29 @@ export function CarDenoiserPanel({ api }: Props) {
                   />
                 )}
 
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(2, 1fr)",
-                    gap: "8px",
-                    fontSize: "12px",
-                  }}
-                >
+                <div className="grid-2" style={{ gap: "8px", fontSize: "12px" }}>
                   <div style={{ background: "#1f2937", padding: "8px", borderRadius: "6px" }}>
                     <span style={{ color: "#94a3b8" }}>Giriş Global RMS:</span>
                     <strong style={{ display: "block", color: "#fca5a5" }}>
-                      {previewResult.stats.input_global_rms_dbfs} dBFS
+                      {dash(previewResult.stats.input_global_rms_dbfs, " dBFS")}
                     </strong>
                   </div>
                   <div style={{ background: "#1f2937", padding: "8px", borderRadius: "6px" }}>
                     <span style={{ color: "#94a3b8" }}>Çıkış Seviyesi (AGC):</span>
                     <strong style={{ display: "block", color: "#86efac" }}>
-                      {previewResult.stats.output_global_rms_dbfs} dBFS
+                      {dash(previewResult.stats.output_global_rms_dbfs, " dBFS")}
                     </strong>
                   </div>
                   <div style={{ background: "#1f2937", padding: "8px", borderRadius: "6px" }}>
                     <span style={{ color: "#94a3b8" }}>Ort. Gürültü Bastırma:</span>
                     <strong style={{ display: "block", color: "#38bdf8" }}>
-                      -{previewResult.stats.avg_noise_suppression_db} dB
+                      {dash(previewResult.stats.avg_noise_suppression_db, " dB")}
                     </strong>
                   </div>
                   <div style={{ background: "#1f2937", padding: "8px", borderRadius: "6px" }}>
                     <span style={{ color: "#94a3b8" }}>SNR İyileşmesi:</span>
                     <strong style={{ display: "block", color: "#c084fc" }}>
-                      +{previewResult.stats.snr_improvement_db} dB
+                      {dash(previewResult.stats.snr_improvement_db, " dB")}
                     </strong>
                   </div>
                 </div>
@@ -474,8 +460,8 @@ export function CarDenoiserPanel({ api }: Props) {
                     color: "#bbf7d0",
                   }}
                 >
-                  🛡️ <b>Sahte Barge-in Koruması:</b> Sub-bass motor uğultusu 120 Hz HPF ile kesildi,
-                  VAD'a sadece temiz konuşma iletilecek.
+                  🛡️ <b>Sahte Barge-in Koruması:</b> Sub-bass motor uğultusu {previewResult.stats.hpf_cutoff_hz ?? config.hpf_cutoff} Hz HPF ile kesildi;
+                  bu önizleme tek bir ses dosyası içindir, canlı görüşmede ölçülmüş bir sonuç değildir.
                 </div>
               </div>
             )}

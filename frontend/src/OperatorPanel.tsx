@@ -21,6 +21,7 @@ YAZARIN AÇIK YAZILI İZNİ OLMAKSIZIN HİÇBİR KULLANIM HAKKI TANINMAZ.
 */
 
 import React, { useState, useEffect, useRef } from "react";
+import { dash, useEscape } from "./ui";
 
 interface OperatorTransfer {
   id: string;
@@ -69,37 +70,42 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
   const [selectedTransfer, setSelectedTransfer] = useState<OperatorTransfer | null>(null);
 
   // Test aktarımı formu alanları
-  const [formCustomer, setFormCustomer] = useState("Ahmet Yılmaz");
-  const [formPlate, setFormPlate] = useState("34 ABC 123");
-  const [formSummary, setFormSummary] = useState("14:30 randevu teyidi / kaporta boya ekspertiz sorusu");
-  const [formExten, setFormExten] = useState("6002");
+  const [formCustomer, setFormCustomer] = useState("");
+  const [formPlate, setFormPlate] = useState("");
+  const [formSummary, setFormSummary] = useState("");
+  const [formExten, setFormExten] = useState("");
   const [actionBusy, setActionBusy] = useState(false);
 
-  // Canlı Devralma & Fısıltı (RT-10) State
+  // Canlı devralma ve fısıltı durumu
   const [liveSessions, setLiveSessions] = useState<OperatorSessionView[]>([]);
-  const [operatorId, setOperatorId] = useState("op_seydi");
+  const [operatorId, setOperatorId] = useState("");
   const [takeoverReason, setTakeoverReason] = useState("customer_complaint");
   const [whisperMessage, setWhisperMessage] = useState("");
-  const [simCallerId, setSimCallerId] = useState("05441112233");
+  const [simCallerId, setSimCallerId] = useState("");
 
   // Kalite Kapısı 5 & Telemetri State
   const [qaReport, setQaReport] = useState<any>(null);
   const [qaLoading, setQaLoading] = useState(false);
   const [m11Status, setM11Status] = useState<any>(null);
-  const [telemetryTurnId, setTelemetryTurnId] = useState("turn_api_01");
+  const [telemetryTurnId, setTelemetryTurnId] = useState("");
   const [telemetryData, setTelemetryData] = useState<any>(null);
 
+  const [pollError, setPollError] = useState("");
   const pollIntervalRef = useRef<any>(null);
 
-  const loadTransfers = async () => {
+  useEscape(() => setSelectedTransfer(null), !!selectedTransfer);
+
+  // silent=true: 3 sn'lik otomatik yenilemede "Yenileniyor" yanıp sönmesini önler.
+  const loadTransfers = async (silent = false) => {
     try {
-      setLoading(true);
+      if (!silent) setLoading(true);
       const data: OperatorTransfer[] = await api("transfers?limit=50");
       setTransfers(data || []);
+      setPollError("");
     } catch (err: any) {
-      // Sessiz hata
+      setPollError(`Aktarım listesi alınamadı: ${err?.message || err}`);
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   };
 
@@ -107,8 +113,9 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
     try {
       const data = await api("operator/live-sessions");
       setLiveSessions(data.sessions || []);
+      setPollError("");
     } catch (err: any) {
-      // Sessiz hata
+      setPollError(`Canlı çağrı listesi alınamadı: ${err?.message || err}`);
     }
   };
 
@@ -121,7 +128,7 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
     if (autoRefresh) {
       pollIntervalRef.current = setInterval(() => {
         if (activeTab === "sip_transfers") {
-          loadTransfers();
+          loadTransfers(true);
         } else if (activeTab === "live_takeover") {
           loadLiveSessions();
         }
@@ -176,17 +183,16 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
     }
   };
 
-  // RT-10 Handlers
+  // Canlı devralma işlemleri
   const handleRegisterSimCall = async () => {
     try {
       setActionBusy(true);
-      const sessId = `call_${Date.now()}`;
+      // sim_ öneki: bu çağrı simülasyondur; MOS/RTF değerleri uydurulmaz, listede "—" gösterilir.
+      const sessId = `sim_${Date.now()}`;
       await api("operator/register-call", "POST", {
         session_id: sessId,
-        caller_id: simCallerId,
+        caller_id: simCallerId.trim(),
         initial_turn_id: `turn_${Date.now()}`,
-        mos_score: 4.38,
-        rtf: 0.16,
       });
       await loadLiveSessions();
     } catch (err: any) {
@@ -197,6 +203,10 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
   };
 
   const handleTakeover = async (sessionId: string) => {
+    if (!operatorId.trim()) {
+      onError("Çağrıyı devralmak için operatör kodunu girin.");
+      return;
+    }
     try {
       setActionBusy(true);
       await api("operator/takeover", "POST", {
@@ -292,7 +302,7 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "10px", marginBottom: "14px" }}>
           <div>
             <h2 style={{ margin: 0, fontSize: "18px", color: "#f8fafc", display: "flex", alignItems: "center", gap: "8px" }}>
-              🎧 Çağrı Merkezi Operatör & Kalite Konsolu (Ajan 7)
+              🎧 Çağrı Merkezi Operatör & Kalite Konsolu
               <span
                 style={{
                   fontSize: "12px",
@@ -307,7 +317,7 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
               </span>
             </h2>
             <p style={{ margin: "4px 0 0 0", color: "#94a3b8", fontSize: "13px" }}>
-              Warm Transfer (10s Fısıltı), RT-10 Canlı Devralma (Takeover), RT-09 Sahte Sıfır Yasağı & Kalite Kapısı 5
+              Sıcak aktarım (fısıltı), canlı devralma, tur telemetrisi ve Kalite Kapısı 5
             </p>
           </div>
           <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
@@ -334,8 +344,14 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
           </div>
         </div>
 
+        {pollError && (
+          <div role="alert" className="error" style={{ marginBottom: "12px" }}>
+            {pollError}
+          </div>
+        )}
+
         {/* Sekme Butonları */}
-        <div style={{ display: "flex", gap: "8px", borderTop: "1px solid #1e293b", paddingTop: "12px" }}>
+        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", borderTop: "1px solid #1e293b", paddingTop: "12px" }}>
           <button
             type="button"
             className={activeTab === "sip_transfers" ? "primary" : "secondary"}
@@ -353,7 +369,7 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
             }}
             style={{ padding: "8px 16px", fontSize: "13px", fontWeight: "bold" }}
           >
-            ⚡ Canlı Müdahale & Fısıltı (RT-10 Takeover)
+            ⚡ Canlı Müdahale & Fısıltı
           </button>
           <button
             type="button"
@@ -361,7 +377,7 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
             onClick={() => setActiveTab("quality_gate")}
             style={{ padding: "8px 16px", fontSize: "13px", fontWeight: "bold" }}
           >
-            🎯 Kalite Kapısı 5 & Telemetri (HLS-08 / RT-09)
+            🎯 Kalite Kapısı 5 & Telemetri
           </button>
         </div>
       </section>
@@ -447,7 +463,7 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
                     }}
                   >
                     <div style={{ fontSize: "11px", color: "#38bdf8", fontWeight: "bold", marginBottom: "4px" }}>
-                      🗣️ 10 Saniyelik Operatör Fısıltısı (Dahiliye Okunan Sesli Özet):
+                      🗣️ Operatör Fısıltısı (Dahiliye Okunan Sesli Özet):
                     </div>
                     <div style={{ fontSize: "13px", color: "#e2e8f0", fontStyle: "italic" }}>
                       "{activeIncoming.whisper_text}"
@@ -513,7 +529,7 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
                   </button>
 
                   <div style={{ fontSize: "11px", color: "#cbd5e1", textAlign: "center" }}>
-                    15 sn içinde yanıt verilmezse otomatik olarak Leyla AI'ya döner.
+                    Zaman aşımında (yapılandırılmış süre dolunca) çağrı otomatik olarak yapay zekâya döner.
                   </div>
                 </div>
               </div>
@@ -523,12 +539,26 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
           {/* Test Simülasyon Formu */}
           <section style={{ background: "#0f172a", border: "1px solid #1e293b", borderRadius: "8px", padding: "16px" }}>
             <h3 style={{ margin: "0 0 12px 0", fontSize: "15px", color: "#f8fafc" }}>
-              🧪 Test Amaçlı Canlı Aktarım Başlat (Simülatör)
+              🧪 Simülasyon: Test Amaçlı Aktarım Başlat
+              <button
+                type="button"
+                className="secondary"
+                style={{ marginLeft: "12px", padding: "3px 10px", fontSize: "11px" }}
+                onClick={() => {
+                  setFormCustomer("Ahmet Yılmaz");
+                  setFormPlate("34 ABC 123");
+                  setFormSummary("14:30 randevu teyidi / kaporta boya ekspertiz sorusu");
+                  setFormExten("6002");
+                }}
+              >
+                Örnek doldur
+              </button>
             </h3>
             <form onSubmit={handleCreateTestTransfer} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "10px", alignItems: "flex-end" }}>
               <div>
-                <label style={{ display: "block", fontSize: "11px", color: "#94a3b8", marginBottom: "4px" }}>Müşteri Adı</label>
+                <label style={{ display: "block", fontSize: "11px", color: "#94a3b8", marginBottom: "4px" }} htmlFor="op-f-cust">Müşteri Adı</label>
                 <input
+                  id="op-f-cust"
                   type="text"
                   value={formCustomer}
                   onChange={(e) => setFormCustomer(e.target.value)}
@@ -537,8 +567,9 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
                 />
               </div>
               <div>
-                <label style={{ display: "block", fontSize: "11px", color: "#94a3b8", marginBottom: "4px" }}>Araç Plakası</label>
+                <label style={{ display: "block", fontSize: "11px", color: "#94a3b8", marginBottom: "4px" }} htmlFor="op-f-plate">Araç Plakası</label>
                 <input
+                  id="op-f-plate"
                   type="text"
                   value={formPlate}
                   onChange={(e) => setFormPlate(e.target.value)}
@@ -547,8 +578,9 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
                 />
               </div>
               <div>
-                <label style={{ display: "block", fontSize: "11px", color: "#94a3b8", marginBottom: "4px" }}>Dahili Uzantı</label>
+                <label style={{ display: "block", fontSize: "11px", color: "#94a3b8", marginBottom: "4px" }} htmlFor="op-f-ext">Dahili Uzantı</label>
                 <input
+                  id="op-f-ext"
                   type="text"
                   value={formExten}
                   onChange={(e) => setFormExten(e.target.value)}
@@ -556,9 +588,10 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
                   style={{ width: "100%", padding: "8px", background: "#1e293b", border: "1px solid #334155", borderRadius: "6px", color: "#f8fafc" }}
                 />
               </div>
-              <div style={{ gridColumn: "span 2" }}>
-                <label style={{ display: "block", fontSize: "11px", color: "#94a3b8", marginBottom: "4px" }}>Konu / Özet</label>
+              <div style={{ gridColumn: "1 / -1" }}>
+                <label style={{ display: "block", fontSize: "11px", color: "#94a3b8", marginBottom: "4px" }} htmlFor="op-f-sum">Konu / Özet</label>
                 <input
+                  id="op-f-sum"
                   type="text"
                   value={formSummary}
                   onChange={(e) => setFormSummary(e.target.value)}
@@ -581,7 +614,7 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
                     cursor: "pointer",
                   }}
                 >
-                  {actionBusy ? "Başlatılıyor..." : "Aktarımı Başlat 🚀"}
+                  {actionBusy ? "Başlatılıyor..." : "Simüle Aktarımı Başlat 🚀"}
                 </button>
               </div>
             </form>
@@ -593,7 +626,7 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
               <h3 style={{ margin: 0, fontSize: "15px", color: "#f8fafc" }}>
                 📋 Aktarım Geçmişi ({filteredTransfers.length})
               </h3>
-              <div style={{ display: "flex", gap: "6px" }}>
+              <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
                 {[
                   { id: "all", label: "Tümü" },
                   { id: "active", label: "Bekleyenler" },
@@ -613,7 +646,7 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
               </div>
             </div>
 
-            <div style={{ overflowX: "auto" }}>
+            <div className="table-wrap">
               <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
                 <thead>
                   <tr style={{ borderBottom: "1px solid #334155", color: "#94a3b8", textAlign: "left" }}>
@@ -642,7 +675,7 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
                       if (t.status === "initiated" || t.status === "whispering") {
                         badgeBg = "#ca8a04";
                         badgeColor = "#fef08a";
-                        statusLabel = "Fısıldanıyor (10s)";
+                        statusLabel = "Fısıldanıyor";
                       } else if (t.status === "accepted") {
                         badgeBg = "#15803d";
                         badgeColor = "#bbf7d0";
@@ -731,8 +764,10 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px" }}>
               <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
                 <div>
-                  <label style={{ fontSize: "11px", color: "#94a3b8", display: "block" }}>Operatör Kodunuz</label>
+                  <label htmlFor="op-id" style={{ fontSize: "11px", color: "#94a3b8", display: "block" }}>Operatör Kodunuz</label>
                   <input
+                    id="op-id"
+                    placeholder="örn. op_1"
                     type="text"
                     value={operatorId}
                     onChange={(e) => setOperatorId(e.target.value)}
@@ -740,8 +775,9 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
                   />
                 </div>
                 <div>
-                  <label style={{ fontSize: "11px", color: "#94a3b8", display: "block" }}>Müdahale Gerekçesi</label>
+                  <label htmlFor="op-reason" style={{ fontSize: "11px", color: "#94a3b8", display: "block" }}>Müdahale Gerekçesi</label>
                   <select
+                    id="op-reason"
                     value={takeoverReason}
                     onChange={(e) => setTakeoverReason(e.target.value)}
                     style={{ padding: "6px 10px", background: "#1e293b", border: "1px solid #334155", borderRadius: "6px", color: "#f8fafc", fontSize: "13px" }}
@@ -755,8 +791,10 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
               </div>
               <div style={{ display: "flex", gap: "10px", alignItems: "flex-end" }}>
                 <div>
-                  <label style={{ fontSize: "11px", color: "#94a3b8", display: "block" }}>Simüle Arayan No</label>
+                  <label htmlFor="op-sim-caller" style={{ fontSize: "11px", color: "#94a3b8", display: "block" }}>Simüle Arayan No</label>
                   <input
+                    id="op-sim-caller"
+                    placeholder="örn. 05XXXXXXXXX"
                     type="text"
                     value={simCallerId}
                     onChange={(e) => setSimCallerId(e.target.value)}
@@ -767,10 +805,10 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
                   type="button"
                   className="secondary"
                   onClick={handleRegisterSimCall}
-                  disabled={actionBusy}
+                  disabled={actionBusy || !simCallerId.trim()}
                   style={{ padding: "6px 14px", fontSize: "13px" }}
                 >
-                  + Yeni Simüle Çağrı Başlat
+                  + Simülasyon: Yeni Çağrı Başlat
                 </button>
               </div>
             </div>
@@ -787,12 +825,13 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
 
             {liveSessions.length === 0 ? (
               <div style={{ padding: "30px", textAlign: "center", color: "#64748b" }}>
-                Şu anda hatta aktif görüşme bulunmuyor. Yukarıdaki "+ Yeni Simüle Çağrı Başlat" butonuyla test çağrısı açabilirsiniz.
+                Şu anda hatta aktif görüşme bulunmuyor. Yukarıdaki "+ Simülasyon: Yeni Çağrı Başlat" butonuyla test çağrısı açabilirsiniz.
               </div>
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                 {liveSessions.map((s) => {
                   const isTakenOver = s.state === "taken_over";
+                  const isSim = s.session_id.startsWith("sim_");
                   return (
                     <div
                       key={s.session_id}
@@ -810,6 +849,7 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
                               📱 {s.caller_id}
                             </span>
                             <span style={{ fontSize: "11px", color: "#94a3b8" }}>({s.session_id})</span>
+                            {isSim && <span className="pill">Simülasyon</span>}
                             <span
                               style={{
                                 padding: "2px 8px",
@@ -823,11 +863,11 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
                               {isTakenOver ? `🔴 OPERATÖRDE (${s.operator_id})` : "🟢 YAPAY ZEKA (Leyla) YÖNETİYOR"}
                             </span>
                           </div>
-                          <div style={{ display: "flex", gap: "16px", marginTop: "6px", fontSize: "12px", color: "#cbd5e1" }}>
+                          <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", marginTop: "6px", fontSize: "12px", color: "#cbd5e1" }}>
                             <span>Turn: <b style={{ color: "#38bdf8" }}>{s.current_turn_id || "-"}</b></span>
-                            <span>MOS: <b style={{ color: "#4ade80" }}>{s.mos_score}</b></span>
-                            <span>RTF: <b style={{ color: "#facc15" }}>{s.rtf}</b></span>
-                            <span>Paket Kaybı: <b>%{s.packet_loss_pct}</b></span>
+                            <span>MOS: <b style={{ color: "#4ade80" }}>{isSim ? "—" : dash(s.mos_score)}</b></span>
+                            <span>RTF: <b style={{ color: "#facc15" }}>{isSim ? "—" : dash(s.rtf)}</b></span>
+                            <span>Paket Kaybı: <b>{isSim ? "—" : dash(s.packet_loss_pct, "%")}</b></span>
                           </div>
                         </div>
 
@@ -837,7 +877,7 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
                             <button
                               type="button"
                               onClick={() => handleTakeover(s.session_id)}
-                              disabled={actionBusy}
+                              disabled={actionBusy || !operatorId.trim()}
                               style={{
                                 background: "#dc2626",
                                 color: "#ffffff",
@@ -877,6 +917,7 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
                       <div style={{ marginTop: "12px", borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: "10px", display: "flex", gap: "8px" }}>
                         <input
                           type="text"
+                          aria-label="Fısıltı notu"
                           placeholder="Yapay zekaya gizli koçluk notu fısılda (Müşteri duymaz)..."
                           value={whisperMessage}
                           onChange={(e) => setWhisperMessage(e.target.value)}
@@ -926,7 +967,7 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "10px" }}>
               <div>
                 <h3 style={{ margin: 0, fontSize: "16px", color: "#f8fafc" }}>
-                  🎯 HLS-08: Kalite Kapısı 5
+                  🎯 Kalite Kapısı 5
                 </h3>
                 <p style={{ margin: "4px 0 0 0", color: "#94a3b8", fontSize: "12px" }}>
                   Varyant B, varsa scripts/acoustic_benchmark.py ile alınan gerçek ses ölçümünü gösterir (TTS sesi telefon hattından STT ile geri tanınır). Bu düğme yeni ses üretmez.
@@ -997,7 +1038,7 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
                 )}
 
                 {/* Karşılaştırmalı Varyant Tablosu */}
-                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "12px", marginTop: "10px" }}>
+                <div className="table-wrap"><table style={{ width: "100%", borderCollapse: "collapse", fontSize: "12px", marginTop: "10px" }}>
                   <thead>
                     <tr style={{ borderBottom: "1px solid #334155", color: "#94a3b8", textAlign: "left" }}>
                       <th style={{ padding: "8px" }}>Varyant Adı</th>
@@ -1042,7 +1083,7 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
                       );
                     })}
                   </tbody>
-                </table>
+                </table></div>
               </div>
             )}
           </section>
@@ -1068,11 +1109,23 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
                       color: "#ffffff",
                     }}
                   >
-                    {m11Status.overall_status} (Simülasyonda Kilitli)
+                    {m11Status.overall_status}
                   </span>
                   <span style={{ color: "#94a3b8" }}>Ortam: {m11Status.environment}</span>
                 </div>
-                <div style={{ marginTop: "6px", color: "#e2e8f0" }}>{m11Status.guidance}</div>
+                {m11Status.reason && (
+                  <div style={{ marginTop: "6px", color: "#e2e8f0" }}>{m11Status.reason}</div>
+                )}
+                {Array.isArray(m11Status.required_for_pass) && m11Status.required_for_pass.length > 0 && (
+                  <div style={{ marginTop: "6px", color: "#cbd5e1" }}>
+                    <b>Geçiş için gerekenler:</b>
+                    <ul style={{ margin: "4px 0 0 18px", padding: 0 }}>
+                      {m11Status.required_for_pass.map((r: string) => (
+                        <li key={r}>{r}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             ) : (
               <button
@@ -1086,15 +1139,16 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
             )}
           </section>
 
-          {/* RT-09 Sahte Sıfır Yasağı & OpenTelemetry Trace Span İnceleyici */}
+          {/* Tur telemetrisi / trace span inceleyici */}
           <section style={{ background: "#0f172a", border: "1px solid #1e293b", borderRadius: "8px", padding: "16px" }}>
             <h3 style={{ margin: "0 0 8px 0", fontSize: "15px", color: "#f8fafc" }}>
-              🔍 RT-09: Turn-Level & Generation-Level OpenTelemetry Dağıtık Telemetri
+              🔍 Tur telemetrisi
             </h3>
             <div style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "12px" }}>
               <input
                 type="text"
-                placeholder="Turn ID (Örn: turn_telemetry_test_api)"
+                aria-label="Tur kimliği"
+                placeholder="Tur kimliği (turn id)"
                 value={telemetryTurnId}
                 onChange={(e) => setTelemetryTurnId(e.target.value)}
                 style={{
@@ -1111,7 +1165,7 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
                 type="button"
                 className="primary"
                 onClick={handleFetchTelemetry}
-                disabled={actionBusy}
+                disabled={actionBusy || !telemetryTurnId.trim()}
                 style={{ padding: "6px 14px", fontSize: "13px" }}
               >
                 Span Sorgula
@@ -1121,7 +1175,7 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
             {telemetryData && (
               <div style={{ background: "#1e293b", padding: "12px", borderRadius: "6px" }}>
                 <div style={{ fontSize: "12px", color: "#4ade80", fontWeight: "bold", marginBottom: "6px" }}>
-                  ✅ Sahte Sıfır Yasağı Teyit Edildi: Ölçülmemiş alanlar null olarak serialize edildi.
+                  Ölçülmemiş alanlar null olarak gösterilir (0 yazılmaz).
                 </div>
                 <pre
                   style={{
@@ -1145,6 +1199,9 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
       {/* SIP BAŞLIKLARI VE DETAY MODALI */}
       {selectedTransfer && (
         <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Aktarım detayları"
           style={{
             position: "fixed",
             top: 0,
@@ -1181,6 +1238,7 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
                 type="button"
                 className="secondary"
                 onClick={() => setSelectedTransfer(null)}
+                aria-label="Kapat"
                 style={{ padding: "4px 8px" }}
               >
                 ✕

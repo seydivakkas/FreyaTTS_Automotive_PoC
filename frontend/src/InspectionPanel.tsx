@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
+import { ApiFn, useEscape } from "./ui";
 
 export type InspectionReportItem = {
   id: string;
@@ -41,10 +42,11 @@ type PhotoItem = {
 };
 
 type Props = {
-  api: (path: string, method?: string, body?: unknown) => Promise<any>;
+  api: ApiFn;
 };
 
-const DEFAULT_FINDINGS = {
+// Yalnızca "Örnek doldur" düğmesiyle kullanılan örnek bulgular; form boş başlar.
+const SAMPLE_FINDINGS = {
   paint_body: {
     kaput: "Orijinal",
     tavan: "Orijinal",
@@ -92,6 +94,17 @@ const DEFAULT_FINDINGS = {
   },
 };
 
+function safeJson(raw: string): string {
+  try {
+    return JSON.stringify(JSON.parse(raw || "{}"), null, 2);
+  } catch {
+    return raw || "{}";
+  }
+}
+
+const blankFindings = (): typeof SAMPLE_FINDINGS =>
+  JSON.parse(JSON.stringify(SAMPLE_FINDINGS, (_k, v) => (typeof v === "string" ? "" : v)));
+
 export function InspectionPanel({ api }: Props) {
   const [reports, setReports] = useState<InspectionReportItem[]>([]);
   const [vehicles, setVehicles] = useState<VehicleItem[]>([]);
@@ -107,20 +120,38 @@ export function InspectionPanel({ api }: Props) {
   // Form states
   const [vehicleId, setVehicleId] = useState("");
   const [appointmentId, setAppointmentId] = useState("");
-  const [technicianName, setTechnicianName] = useState("Murat Usta");
-  const [mileage, setMileage] = useState(65000);
-  const [score, setScore] = useState(92);
-  const [summary, setSummary] = useState(
-    "Motor ve şanzıman performansı mükemmel seviyede. Kaporta ve şaside işlem tespit edilmemiştir."
-  );
+  const [technicianName, setTechnicianName] = useState("");
+  const [mileage, setMileage] = useState<number | "">("");
+  const [score, setScore] = useState<number | "">("");
+  const [summary, setSummary] = useState("");
   const [formCategory, setFormCategory] = useState<
     "paint" | "engine" | "chassis" | "tires" | "interior"
   >("paint");
-  const [findings, setFindings] = useState(DEFAULT_FINDINGS);
+  const [findings, setFindings] = useState(blankFindings());
   const [photos, setPhotos] = useState<PhotoItem[]>([]);
   const [uploadCaption, setUploadCaption] = useState("");
   const [uploadCategory, setUploadCategory] = useState("Kaporta");
   const [uploading, setUploading] = useState(false);
+
+  useEscape(() => setViewReport(null), !!viewReport);
+
+  async function openPdf(id: string) {
+    setError("");
+    try {
+      const { url } = await api("inspections/" + id + "/signed-link");
+      window.open(url, "_blank", "noopener");
+    } catch (e: any) {
+      setError("PDF bağlantısı alınamadı: " + (e?.message || String(e)));
+    }
+  }
+
+  function fillSample() {
+    setTechnicianName("Örnek Teknisyen");
+    setMileage(65000);
+    setScore(92);
+    setSummary("ÖRNEK: Motor ve şanzıman performansı iyi seviyede. Kaporta ve şaside işlem tespit edilmemiştir.");
+    setFindings(JSON.parse(JSON.stringify(SAMPLE_FINDINGS)));
+  }
 
   // Search & Filter
   const [search, setSearch] = useState("");
@@ -202,24 +233,40 @@ export function InspectionPanel({ api }: Props) {
       return;
     }
 
+    if (score === "" || mileage === "" || summary.trim().length < 5 || !technicianName.trim()) {
+      setError("Kilometre, ekspertiz puanı, teknisyen adı ve değerlendirme (en az 5 karakter) açıkça girilmelidir.");
+      return;
+    }
+
     await act(async () => {
+      // Boş bırakılan bulgular gönderilmez; "Orijinal" gibi varsayılan değerler uydurulmaz.
+      const filledFindings = Object.fromEntries(
+        Object.entries(findings)
+          .map(([cat, obj]) => [
+            cat,
+            Object.fromEntries(Object.entries(obj).filter(([, v]) => String(v).trim() !== "")),
+          ])
+          .filter(([, o]) => Object.keys(o as object).length > 0)
+      );
       const payload = {
-        summary,
+        summary: summary.trim(),
         mileage_km: Number(mileage),
         score: Number(score),
         appointment_id: appointmentId || null,
-        technician_name: technicianName,
-        findings,
+        technician_name: technicianName.trim(),
+        findings: filledFindings,
         photos,
       };
 
       await api(`vehicles/${vehicleId}/inspections`, "POST", payload);
       setSuccess("Ekspertiz raporu başarıyla kaydedildi ve PDF üretildi.");
       setShowForm(false);
-      // Reset form
-      setSummary(
-        "Motor ve şanzıman performansı mükemmel seviyede. Kaporta ve şaside işlem tespit edilmemiştir."
-      );
+      // Formu temizle
+      setSummary("");
+      setScore("");
+      setMileage("");
+      setTechnicianName("");
+      setFindings(blankFindings());
       setPhotos([]);
       await refresh();
     });
@@ -236,7 +283,8 @@ export function InspectionPanel({ api }: Props) {
     });
   }
 
-  function getScoreBadge(s: number) {
+  function getScoreBadge(s: number | "") {
+    if (s === "") return <span className="pill">Puan girilmedi</span>;
     if (s >= 90) return <span className="pill green">Kusursuz (A+) - {s}</span>;
     if (s >= 75) return <span className="pill blue">İyi (B) - {s}</span>;
     if (s >= 50) return <span className="pill yellow">Orta (C) - {s}</span>;
@@ -250,7 +298,7 @@ export function InspectionPanel({ api }: Props) {
       {success && <div className="alert-box success">{success}</div>}
 
       {/* Header & Metrics */}
-      <div className="stats" style={{ gridTemplateColumns: "repeat(4, 1fr)" }}>
+      <div className="stats kpi-grid-4" style={{  }}>
         <div className="card">
           <small>TOPLAM RAPOR</small>
           <h2>{reports.length}</h2>
@@ -263,11 +311,10 @@ export function InspectionPanel({ api }: Props) {
           <small>ORTALAMA PUAN</small>
           <h2>
             {reports.length > 0
-              ? Math.round(
+              ? `${Math.round(
                   reports.reduce((acc, r) => acc + r.score, 0) / reports.length
-                )
-              : 0}
-            /100
+                )}/100`
+              : "—"}
           </h2>
         </div>
         <div className="card">
@@ -313,21 +360,35 @@ export function InspectionPanel({ api }: Props) {
             border: "1px solid #334155",
           }}
         >
-          <h2 style={{ marginTop: 0 }}>📋 Yeni Ekspertiz Raporu Şablonu</h2>
+          <h2 style={{ marginTop: 0 }}>
+            📋 Yeni Ekspertiz Raporu{" "}
+            <button
+              type="button"
+              className="secondary"
+              onClick={fillSample}
+              style={{ marginLeft: "12px", padding: "4px 10px", fontSize: "12px" }}
+            >
+              Örnek doldur
+            </button>
+          </h2>
+          <p className="muted" style={{ margin: "0 0 12px", fontSize: "12px" }}>
+            Form boş başlar; puan, kilometre ve değerlendirmeyi siz girmelisiniz. Boş bırakılan bulgular rapora yazılmaz.
+          </p>
           <form onSubmit={handleCreateReport}>
-            <div
+            <div className="grid-3"
               style={{
                 display: "grid",
-                gridTemplateColumns: "1fr 1fr 1fr",
+                
                 gap: "1rem",
                 marginBottom: "1rem",
               }}
             >
               <div>
-                <label>
+                <label htmlFor="insp-vehicle">
                   <b>Ekspertiz Yapılan Araç *</b>
                 </label>
                 <select
+                  id="insp-vehicle"
                   value={vehicleId}
                   onChange={(e) => setVehicleId(e.target.value)}
                   required
@@ -343,10 +404,11 @@ export function InspectionPanel({ api }: Props) {
               </div>
 
               <div>
-                <label>
+                <label htmlFor="insp-appt">
                   <b>İlişkili Randevu (Opsiyonel)</b>
                 </label>
                 <select
+                  id="insp-appt"
                   value={appointmentId}
                   onChange={(e) => setAppointmentId(e.target.value)}
                   style={{ width: "100%", padding: "0.5rem", marginTop: "0.3rem" }}
@@ -363,10 +425,11 @@ export function InspectionPanel({ api }: Props) {
               </div>
 
               <div>
-                <label>
-                  <b>Teknisyen Adı</b>
+                <label htmlFor="insp-tech">
+                  <b>Teknisyen Adı *</b>
                 </label>
                 <input
+                  id="insp-tech"
                   type="text"
                   value={technicianName}
                   onChange={(e) => setTechnicianName(e.target.value)}
@@ -376,37 +439,41 @@ export function InspectionPanel({ api }: Props) {
               </div>
             </div>
 
-            <div
+            <div className="grid-2"
               style={{
                 display: "grid",
-                gridTemplateColumns: "1fr 1fr",
+                
                 gap: "1rem",
                 marginBottom: "1rem",
               }}
             >
               <div>
-                <label>
-                  <b>Kilometre (km)</b>
+                <label htmlFor="insp-km">
+                  <b>Kilometre (km) *</b>
                 </label>
                 <input
+                  id="insp-km"
                   type="number"
                   min="0"
+                  required
                   value={mileage}
-                  onChange={(e) => setMileage(Number(e.target.value))}
+                  onChange={(e) => setMileage(e.target.value === "" ? "" : Number(e.target.value))}
                   style={{ width: "100%", padding: "0.5rem", marginTop: "0.3rem" }}
                 />
               </div>
               <div>
-                <label>
-                  <b>Genel Ekspertiz Puanı (0-100): {score}</b>
+                <label htmlFor="insp-score">
+                  <b>Genel Ekspertiz Puanı (0-100) *</b>
                 </label>
                 <div style={{ display: "flex", alignItems: "center", gap: "0.8rem" }}>
                   <input
-                    type="range"
+                    id="insp-score"
+                    type="number"
                     min="0"
                     max="100"
+                    required
                     value={score}
-                    onChange={(e) => setScore(Number(e.target.value))}
+                    onChange={(e) => setScore(e.target.value === "" ? "" : Number(e.target.value))}
                     style={{ flex: 1 }}
                   />
                   {getScoreBadge(score)}
@@ -415,10 +482,12 @@ export function InspectionPanel({ api }: Props) {
             </div>
 
             <div style={{ marginBottom: "1rem" }}>
-              <label>
-                <b>Genel Değerlendirme & Uzman Kanaati</b>
+              <label htmlFor="insp-summary">
+                <b>Genel Değerlendirme & Uzman Kanaati *</b>
               </label>
               <textarea
+                id="insp-summary"
+                minLength={5}
                 value={summary}
                 onChange={(e) => setSummary(e.target.value)}
                 rows={2}
@@ -458,10 +527,10 @@ export function InspectionPanel({ api }: Props) {
 
               {/* Category 1: Paint & Body */}
               {formCategory === "paint" && (
-                <div
+                <div className="grid-3"
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "repeat(3, 1fr)",
+                    
                     gap: "0.8rem",
                     paddingTop: "1rem",
                   }}
@@ -482,7 +551,7 @@ export function InspectionPanel({ api }: Props) {
                     <div key={key}>
                       <small>{label}</small>
                       <select
-                        value={(findings.paint_body as any)[key] || "Orijinal"}
+                        value={(findings.paint_body as any)[key] || ""}
                         onChange={(e) =>
                           setFindings({
                             ...findings,
@@ -494,6 +563,7 @@ export function InspectionPanel({ api }: Props) {
                         }
                         style={{ width: "100%", padding: "0.35rem" }}
                       >
+                        <option value="">Seçilmedi</option>
                         <option value="Orijinal">Orijinal</option>
                         <option value="Lokal Boyalı">Lokal Boyalı</option>
                         <option value="Boyalı">Boyalı</option>
@@ -501,7 +571,7 @@ export function InspectionPanel({ api }: Props) {
                       </select>
                     </div>
                   ))}
-                  <div style={{ gridColumn: "span 3" }}>
+                  <div style={{ gridColumn: "1 / -1" }}>
                     <small>Kaporta Notları / Mikron Değerleri</small>
                     <input
                       type="text"
@@ -523,10 +593,10 @@ export function InspectionPanel({ api }: Props) {
 
               {/* Category 2: Engine */}
               {formCategory === "engine" && (
-                <div
+                <div className="grid-2"
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "1fr 1fr",
+                    
                     gap: "0.8rem",
                     paddingTop: "1rem",
                   }}
@@ -604,10 +674,10 @@ export function InspectionPanel({ api }: Props) {
 
               {/* Category 3: Chassis */}
               {formCategory === "chassis" && (
-                <div
+                <div className="grid-2"
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "1fr 1fr",
+                    
                     gap: "0.8rem",
                     paddingTop: "1rem",
                   }}
@@ -685,10 +755,10 @@ export function InspectionPanel({ api }: Props) {
 
               {/* Category 4: Tires */}
               {formCategory === "tires" && (
-                <div
+                <div className="grid-3"
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "repeat(3, 1fr)",
+                    
                     gap: "0.8rem",
                     paddingTop: "1rem",
                   }}
@@ -749,10 +819,10 @@ export function InspectionPanel({ api }: Props) {
 
               {/* Category 5: Interior & Electronics */}
               {formCategory === "interior" && (
-                <div
+                <div className="grid-2"
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "1fr 1fr",
+                    
                     gap: "0.8rem",
                     paddingTop: "1rem",
                   }}
@@ -950,7 +1020,7 @@ export function InspectionPanel({ api }: Props) {
       {/* INSPECTIONS TABLE */}
       <section>
         <h2>📄 Ekspertiz Raporları ve Dijital Teslim Takibi</h2>
-        <table style={{ width: "100%", marginTop: "0.8rem" }}>
+        <div className="table-wrap"><table style={{ width: "100%", marginTop: "0.8rem" }}>
           <thead>
             <tr>
               <th>Plaka & Araç</th>
@@ -974,7 +1044,7 @@ export function InspectionPanel({ api }: Props) {
                 </td>
                 <td>{r.inspected_at?.slice(0, 16).replace("T", " ")}</td>
                 <td>{r.technician_name}</td>
-                <td>{r.mileage_km.toLocaleString()} km</td>
+                <td>{r.mileage_km ? r.mileage_km.toLocaleString("tr-TR") + " km" : "—"}</td>
                 <td>{getScoreBadge(r.score)}</td>
                 <td>
                   {r.delivered_at ? (
@@ -988,23 +1058,19 @@ export function InspectionPanel({ api }: Props) {
                 </td>
                 <td>
                   <div style={{ display: "flex", gap: "0.4rem" }}>
-                    <a
-                      href={`/api/inspections/${r.id}/pdf`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="button"
+                    <button
+                      type="button"
+                      onClick={() => openPdf(r.id)}
                       style={{
                         padding: "0.3rem 0.6rem",
                         fontSize: "0.78rem",
                         background: "#0284c7",
                         color: "white",
                         borderRadius: "4px",
-                        textDecoration: "none",
-                        display: "inline-block",
                       }}
                     >
                       📥 PDF İndir
-                    </a>
+                    </button>
                     <button
                       onClick={() => handleSendLink(r.id)}
                       disabled={loading}
@@ -1044,12 +1110,15 @@ export function InspectionPanel({ api }: Props) {
               </tr>
             )}
           </tbody>
-        </table>
+        </table></div>
       </section>
 
       {/* REPORT DETAIL MODAL */}
       {viewReport && (
         <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Ekspertiz rapor detayı"
           style={{
             position: "fixed",
             top: 0,
@@ -1069,6 +1138,7 @@ export function InspectionPanel({ api }: Props) {
               borderRadius: "8px",
               padding: "1.5rem",
               width: "700px",
+              maxWidth: "92vw",
               maxHeight: "85vh",
               overflowY: "auto",
               border: "1px solid #475569",
@@ -1086,6 +1156,7 @@ export function InspectionPanel({ api }: Props) {
               </h3>
               <button
                 onClick={() => setViewReport(null)}
+                aria-label="Kapat"
                 style={{ background: "transparent", border: "none", fontSize: "1.2rem" }}
               >
                 ✕
@@ -1115,7 +1186,7 @@ export function InspectionPanel({ api }: Props) {
                   overflowX: "auto",
                 }}
               >
-                {JSON.stringify(JSON.parse(viewReport.findings_json || "{}"), null, 2)}
+                {safeJson(viewReport.findings_json)}
               </pre>
             </div>
 
@@ -1127,15 +1198,14 @@ export function InspectionPanel({ api }: Props) {
                 marginTop: "1rem",
               }}
             >
-              <a
-                href={`/api/inspections/${viewReport.id}/pdf`}
-                target="_blank"
-                rel="noreferrer"
-                className="button selected"
-                style={{ padding: "0.4rem 0.9rem", textDecoration: "none" }}
+              <button
+                type="button"
+                className="selected"
+                onClick={() => openPdf(viewReport.id)}
+                style={{ padding: "0.4rem 0.9rem" }}
               >
                 📥 PDF Raporunu Görüntüle
-              </a>
+              </button>
               <button
                 onClick={() => setViewReport(null)}
                 style={{ padding: "0.4rem 0.9rem" }}

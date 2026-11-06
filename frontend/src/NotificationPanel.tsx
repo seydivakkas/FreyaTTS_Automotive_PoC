@@ -5,6 +5,7 @@
  */
 
 import { useEffect, useState, useMemo } from "react";
+import { RawApiFn } from "./ui";
 
 export type NotificationItem = {
   id: string;
@@ -39,9 +40,10 @@ export type WhatsAppInboundItem = {
 
 type Props = {
   api: (path: string, method?: string, body?: unknown) => Promise<any>;
+  rawApi: RawApiFn;
 };
 
-export function NotificationPanel({ api }: Props) {
+export function NotificationPanel({ api, rawApi }: Props) {
   const [activeTab, setActiveTab] = useState<"inbound" | "outbox">("inbound");
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const [inboundMessages, setInboundMessages] = useState<WhatsAppInboundItem[]>([]);
@@ -50,8 +52,8 @@ export function NotificationPanel({ api }: Props) {
   const [success, setSuccess] = useState("");
 
   // Inbound Simulator Form
-  const [simPhone, setSimPhone] = useState("+905551234567");
-  const [simText, setSimText] = useState("Saati 16:00 yapalım lütfen");
+  const [simPhone, setSimPhone] = useState("");
+  const [simText, setSimText] = useState("");
   const [simVoiceFile, setSimVoiceFile] = useState<File | null>(null);
   const [simulating, setSimulating] = useState(false);
 
@@ -82,7 +84,7 @@ export function NotificationPanel({ api }: Props) {
       setNotifications(Array.isArray(outboxList) ? outboxList : []);
       setInboundMessages(Array.isArray(inboundList) ? inboundList : []);
     } catch (err: any) {
-      console.error("Yükleme hatası:", err);
+      setError("Bildirim verisi yüklenemedi: " + (err?.message || String(err)));
     }
   }
 
@@ -147,19 +149,7 @@ export function NotificationPanel({ api }: Props) {
       formData.append("phone", simPhone);
       formData.append("audio_file", simVoiceFile);
 
-      // Using raw fetch for FormData
-      const token = localStorage.getItem("token") || "";
-      const resp = await fetch("/api/whatsapp/inbound-voice", {
-        method: "POST",
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
-        body: formData,
-      });
-
-      if (!resp.ok) {
-        const errJson = await resp.json().catch(() => ({}));
-        throw new Error(errJson.detail || "Sesli not işlenemedi.");
-      }
-
+      const resp = await rawApi("whatsapp/inbound-voice", "POST", formData);
       const res = await resp.json();
       setSuccess(
         `Ses Faster-Whisper ile çözümlendi: "${res.transcript}" ➔ Niyet='${res.intent}'.`
@@ -345,11 +335,11 @@ export function NotificationPanel({ api }: Props) {
                   fontWeight: 600,
                 }}
               >
-                Canlı Webhook Aktif
+                Simülasyon
               </span>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr", gap: "16px" }}>
+            <div className="grid-1-2" style={{ gap: "16px" }}>
               <div>
                 <label style={{ fontSize: "12px", color: "#cbd5e1" }}>
                   Müşteri Telefon Numarası
@@ -361,6 +351,17 @@ export function NotificationPanel({ api }: Props) {
                     style={{ marginTop: "6px" }}
                   />
                 </label>
+                <button
+                  type="button"
+                  className="secondary"
+                  style={{ fontSize: "11px", padding: "6px 10px", marginTop: "8px" }}
+                  onClick={() => {
+                    setSimPhone("+905551234567");
+                    setSimText("Saati 16:00 yapalım lütfen");
+                  }}
+                >
+                  Örnek doldur
+                </button>
 
                 {/* Hızlı Senaryo Butonları */}
                 <div style={{ marginTop: "12px" }}>
@@ -471,7 +472,7 @@ export function NotificationPanel({ api }: Props) {
             </div>
 
             <div style={{ overflowX: "auto" }}>
-              <table className="lexicon-table">
+              <div className="table-wrap"><table className="lexicon-table">
                 <thead>
                   <tr>
                     <th>Gönderen</th>
@@ -575,7 +576,7 @@ export function NotificationPanel({ api }: Props) {
                     </tr>
                   )}
                 </tbody>
-              </table>
+              </table></div>
             </div>
           </div>
         </section>
@@ -662,7 +663,7 @@ export function NotificationPanel({ api }: Props) {
 
           {/* Outbox Tablosu */}
           <div style={{ overflowX: "auto" }}>
-            <table className="lexicon-table">
+            <div className="table-wrap"><table className="lexicon-table">
               <thead>
                 <tr>
                   <th>Kanal</th>
@@ -791,7 +792,7 @@ export function NotificationPanel({ api }: Props) {
                   </tr>
                 )}
               </tbody>
-            </table>
+            </table></div>
           </div>
         </section>
       )}

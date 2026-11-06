@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 
+import { ApiFn } from "./ui";
+
 type Props = {
-  api: (path: string, method?: string, body?: unknown) => Promise<any>;
+  api: ApiFn;
 };
 
 type EntityItem = {
@@ -58,8 +60,8 @@ export function TechnicianDictationPanel({ api }: Props) {
   const [inspections, setInspections] = useState<InspectionItem[]>([]);
   const [selectedVehicleId, setSelectedVehicleId] = useState("");
   const [selectedReportId, setSelectedReportId] = useState("");
-  const [technicianName, setTechnicianName] = useState("Murat Usta");
-  const [dictationText, setDictationText] = useState(SAMPLE_DICTATIONS[0]);
+  const [technicianName, setTechnicianName] = useState("");
+  const [dictationText, setDictationText] = useState("");
   const [isListening, setIsListening] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState("");
@@ -184,8 +186,8 @@ export function TechnicianDictationPanel({ api }: Props) {
     try {
       const body: any = {
         text: dictationText,
-        technician_name: technicianName,
       };
+      if (technicianName.trim()) body.technician_name = technicianName.trim();
       if (selectedReportId) {
         body.report_id = selectedReportId;
       } else if (selectedVehicleId) {
@@ -224,7 +226,7 @@ export function TechnicianDictationPanel({ api }: Props) {
       } else if (selectedVehicleId) {
         formData.append("vehicle_id", selectedVehicleId);
       }
-      formData.append("technician_name", technicianName);
+      if (technicianName.trim()) formData.append("technician_name", technicianName.trim());
 
       const res = await api("technician/dictate-audio", "POST", formData);
       if (res.transcribed_text) {
@@ -308,6 +310,11 @@ export function TechnicianDictationPanel({ api }: Props) {
         </div>
       </section>
 
+      <p className="muted" style={{ margin: 0, fontSize: "12px" }}>
+        Not: &quot;Mikrofonla Canlı Dikte&quot; tarayıcının kendi konuşma tanıma servisini kullanır; ses cihazınızdan çıkıp
+        tarayıcı sağlayıcısının sunucularına gönderilebilir. &quot;Ses Dosyası Yükle&quot; ise sesi yalnızca yerel sunucuya gönderir.
+      </p>
+
       {error && (
         <div role="alert" className="error" style={{ padding: "12px 16px", borderRadius: "8px" }}>
           ⚠️ {error}
@@ -327,10 +334,11 @@ export function TechnicianDictationPanel({ api }: Props) {
         </h3>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "14px" }}>
           <div>
-            <label style={{ fontSize: "13px", fontWeight: "bold", display: "block", marginBottom: "4px" }}>
+            <label htmlFor="td-vehicle" style={{ fontSize: "13px", fontWeight: "bold", display: "block", marginBottom: "4px" }}>
               Araç (Yeni Rapor Açılacaksa):
             </label>
             <select
+              id="td-vehicle"
               value={selectedVehicleId}
               onChange={(e) => {
                 setSelectedVehicleId(e.target.value);
@@ -348,10 +356,11 @@ export function TechnicianDictationPanel({ api }: Props) {
           </div>
 
           <div>
-            <label style={{ fontSize: "13px", fontWeight: "bold", display: "block", marginBottom: "4px" }}>
+            <label htmlFor="td-report" style={{ fontSize: "13px", fontWeight: "bold", display: "block", marginBottom: "4px" }}>
               Mevcut Rapora Ekle (Opsiyonel):
             </label>
             <select
+              id="td-report"
               value={selectedReportId}
               onChange={(e) => setSelectedReportId(e.target.value)}
               style={{ width: "100%", padding: "8px", borderRadius: "6px", border: "1px solid #CBD5E1" }}
@@ -366,10 +375,11 @@ export function TechnicianDictationPanel({ api }: Props) {
           </div>
 
           <div>
-            <label style={{ fontSize: "13px", fontWeight: "bold", display: "block", marginBottom: "4px" }}>
+            <label htmlFor="td-tech" style={{ fontSize: "13px", fontWeight: "bold", display: "block", marginBottom: "4px" }}>
               Teknisyen / Usta Adı:
             </label>
             <input
+              id="td-tech"
               type="text"
               value={technicianName}
               onChange={(e) => setTechnicianName(e.target.value)}
@@ -386,7 +396,7 @@ export function TechnicianDictationPanel({ api }: Props) {
             📝 Dikte Metni {isListening && <span style={{ color: "#DC2626", fontWeight: "bold" }}>● Dinleniyor...</span>}
           </h3>
           <div style={{ fontSize: "12px", color: "#64748B" }}>
-            Hızlı Şablonlar:
+            Örnek doldur:
             {SAMPLE_DICTATIONS.map((_, idx) => (
               <button
                 key={idx}
@@ -403,6 +413,7 @@ export function TechnicianDictationPanel({ api }: Props) {
 
         <textarea
           rows={4}
+          aria-label="Dikte metni"
           value={dictationText}
           onChange={(e) => setDictationText(e.target.value)}
           placeholder="Örnek: Sol ön çamurluk boyalı 180 mikron, sağ arka kapı değişen, motor dyno yüzde 92, şasi ve podyeler işlemsiz orijinal, airbagler aktif..."
@@ -463,22 +474,27 @@ export function TechnicianDictationPanel({ api }: Props) {
 
             {parsedData.report && (
               <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-                <a
-                  href={`/api/inspections/${parsedData.report.id}/pdf`}
-                  target="_blank"
-                  rel="noreferrer"
+                <button
+                  type="button"
+                  onClick={async () => {
+                    try {
+                      const { url } = await api("inspections/" + parsedData.report.id + "/signed-link");
+                      window.open(url, "_blank", "noopener");
+                    } catch (e: any) {
+                      setError("PDF bağlantısı alınamadı: " + (e?.message || String(e)));
+                    }
+                  }}
                   style={{
                     backgroundColor: "#0284C7",
                     color: "white",
                     padding: "8px 14px",
                     borderRadius: "6px",
-                    textDecoration: "none",
                     fontWeight: "bold",
                     fontSize: "13px",
                   }}
                 >
                   📄 PDF Raporu Görüntüle
-                </a>
+                </button>
               </div>
             )}
           </div>

@@ -28,8 +28,10 @@ type VehicleItem = {
   vin?: string;
 };
 
+import { ApiFn } from "./ui";
+
 type Props = {
-  api: (path: string, method?: string, body?: unknown) => Promise<any>;
+  api: ApiFn;
 };
 
 export function DiagnosticPanel({ api }: Props) {
@@ -48,11 +50,11 @@ export function DiagnosticPanel({ api }: Props) {
   // Ingestion form state
   const [showIngestForm, setShowIngestForm] = useState(false);
   const [selectedVehicleId, setSelectedVehicleId] = useState("");
-  const [currentKm, setCurrentKm] = useState(68500);
-  const [selectedDtc, setSelectedDtc] = useState("P0301");
+  const [currentKm, setCurrentKm] = useState<number | "">("");
+  const [selectedDtc, setSelectedDtc] = useState("");
   const [customDtc, setCustomDtc] = useState("");
-  const [ownerName, setOwnerName] = useState("Cemil Aslan");
-  const [ownerPhone, setOwnerPhone] = useState("05321114455");
+  const [ownerName, setOwnerName] = useState("");
+  const [ownerPhone, setOwnerPhone] = useState("");
   const [source, setSource] = useState("obd_dongle");
 
   async function act(fn: () => Promise<void>) {
@@ -106,6 +108,14 @@ export function DiagnosticPanel({ api }: Props) {
     });
   }, [diagnostics, filterResolved, filterSeverity, search]);
 
+  function fillSample() {
+    setCurrentKm(68500);
+    setSelectedDtc("P0301");
+    setCustomDtc("");
+    setOwnerName("Örnek Müşteri");
+    setOwnerPhone("05320000000");
+  }
+
   // Handle telemetry ingestion
   async function handleIngest(e: React.FormEvent) {
     e.preventDefault();
@@ -116,14 +126,18 @@ export function DiagnosticPanel({ api }: Props) {
 
     const dtcToSubmit = (customDtc || selectedDtc).trim().toUpperCase();
     const dtcList = dtcToSubmit ? [dtcToSubmit] : [];
+    if (currentKm === "") {
+      setError("Güncel kilometreyi girin.");
+      return;
+    }
 
     await act(async () => {
       const payload = {
         current_km: Number(currentKm),
         dtc_codes: dtcList,
         source,
-        owner_name: ownerName,
-        owner_phone: ownerPhone,
+        owner_name: ownerName.trim(),
+        owner_phone: ownerPhone.trim(),
       };
 
       await api(`vehicles/${selectedVehicleId}/diagnostics`, "POST", payload);
@@ -180,7 +194,9 @@ export function DiagnosticPanel({ api }: Props) {
       return <span className="pill red">Bakım Gecikti ({nextKm.toLocaleString()} km)</span>;
     if (maint === "due_soon")
       return <span className="pill yellow">Bakım Yaklaştı ({nextKm.toLocaleString()} km)</span>;
-    return <span className="pill green">Normal ({nextKm.toLocaleString()} km)</span>;
+    if (maint === "normal")
+      return <span className="pill green">Normal ({nextKm.toLocaleString()} km)</span>;
+    return <span className="pill">Bilinmiyor</span>;
   }
 
   return (
@@ -190,7 +206,7 @@ export function DiagnosticPanel({ api }: Props) {
       {success && <div className="alert-box success">{success}</div>}
 
       {/* Metrics Cards */}
-      <div className="stats" style={{ gridTemplateColumns: "repeat(4, 1fr)" }}>
+      <div className="stats kpi-grid-4" style={{  }}>
         <div className="card" style={{ borderLeft: "4px solid #ef4444" }}>
           <small>KRİTİK MOTOR / ARIZA UYARISI</small>
           <h2 style={{ color: "#f87171", margin: "6px 0" }}>
@@ -270,7 +286,7 @@ export function DiagnosticPanel({ api }: Props) {
           onClick={() => setShowIngestForm(!showIngestForm)}
           style={{ padding: "0.55rem 1.2rem" }}
         >
-          {showIngestForm ? "✕ Formu Gizle" : "🔌 OBD Telemetri Simüle Et"}
+          {showIngestForm ? "✕ Formu Gizle" : "🔌 Simülasyon: OBD Telemetri Girişi"}
         </button>
       </div>
 
@@ -285,16 +301,26 @@ export function DiagnosticPanel({ api }: Props) {
             border: "1px solid #334155",
           }}
         >
-          <h2 style={{ marginTop: 0 }}>🔌 OBD-II Telemetri & DTC Arıza Girişi</h2>
+          <h2 style={{ marginTop: 0 }}>
+            🔌 Simülasyon: OBD-II Telemetri & DTC Arıza Girişi{" "}
+            <button
+              type="button"
+              className="secondary"
+              onClick={fillSample}
+              style={{ marginLeft: "12px", padding: "4px 10px", fontSize: "12px" }}
+            >
+              Örnek doldur
+            </button>
+          </h2>
           <p style={{ fontSize: "0.85rem", color: "#94a3b8" }}>
             OBD dongle veya araç API'sinden gelen anlık arıza kodunu ve kilometre bilgisini işler.
           </p>
 
           <form onSubmit={handleIngest}>
-            <div
+            <div className="grid-3"
               style={{
                 display: "grid",
-                gridTemplateColumns: "1fr 1fr 1fr",
+                
                 gap: "1rem",
                 marginBottom: "1rem",
               }}
@@ -326,7 +352,7 @@ export function DiagnosticPanel({ api }: Props) {
                   type="number"
                   min="0"
                   value={currentKm}
-                  onChange={(e) => setCurrentKm(Number(e.target.value))}
+                  onChange={(e) => setCurrentKm(e.target.value === "" ? "" : Number(e.target.value))}
                   required
                   style={{ width: "100%", padding: "0.5rem", marginTop: "0.3rem" }}
                 />
@@ -348,10 +374,10 @@ export function DiagnosticPanel({ api }: Props) {
               </div>
             </div>
 
-            <div
+            <div className="grid-2"
               style={{
                 display: "grid",
-                gridTemplateColumns: "1fr 1fr",
+                
                 gap: "1rem",
                 marginBottom: "1rem",
               }}
@@ -368,6 +394,7 @@ export function DiagnosticPanel({ api }: Props) {
                   }}
                   style={{ width: "100%", padding: "0.5rem", marginTop: "0.3rem" }}
                 >
+                  <option value="">-- Kod seçin veya aşağıya yazın --</option>
                   {Object.entries(registry).map(([code, item]) => (
                     <option key={code} value={code}>
                       {code} — {item.desc} ({item.sev.toUpperCase()})
@@ -390,10 +417,10 @@ export function DiagnosticPanel({ api }: Props) {
               </div>
             </div>
 
-            <div
+            <div className="grid-2"
               style={{
                 display: "grid",
-                gridTemplateColumns: "1fr 1fr",
+                
                 gap: "1rem",
                 marginBottom: "1rem",
               }}
@@ -448,7 +475,7 @@ export function DiagnosticPanel({ api }: Props) {
       {/* DIAGNOSTICS & MAINTENANCE TABLE */}
       <section>
         <h2>🚨 Araç Teşhis Bulguları & Proaktif Bildirim Takibi</h2>
-        <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "0.8rem" }}>
+        <div className="table-wrap"><table style={{ width: "100%", borderCollapse: "collapse", marginTop: "0.8rem" }}>
           <thead>
             <tr style={{ textAlign: "left", borderBottom: "1px solid #475569" }}>
               <th style={{ padding: "0.6rem" }}>Plaka & Araç</th>
@@ -571,7 +598,7 @@ export function DiagnosticPanel({ api }: Props) {
               </tr>
             )}
           </tbody>
-        </table>
+        </table></div>
       </section>
     </div>
   );

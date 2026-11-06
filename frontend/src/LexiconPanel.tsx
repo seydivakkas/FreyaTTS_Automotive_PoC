@@ -393,7 +393,7 @@ export function LexiconPanel({ api }: Props) {
 
         {/* Tablo */}
         <div style={{ overflowX: "auto" }}>
-          <table className="lexicon-table">
+          <div className="table-wrap"><table className="lexicon-table">
             <thead>
               <tr>
                 <th>Terim</th>
@@ -450,7 +450,7 @@ export function LexiconPanel({ api }: Props) {
                 </tr>
               )}
             </tbody>
-          </table>
+          </table></div>
         </div>
       </section>
     </>

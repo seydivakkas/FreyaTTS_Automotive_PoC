@@ -341,7 +341,7 @@ export function OutboundPanel({ api }: Props) {
 
         {/* Tablo */}
         <div style={{ overflowX: "auto" }}>
-          <table className="lexicon-table">
+          <div className="table-wrap"><table className="lexicon-table">
             <thead>
               <tr>
                 <th>Müşteri</th>
@@ -467,7 +467,7 @@ export function OutboundPanel({ api }: Props) {
                 </tr>
               )}
             </tbody>
-          </table>
+          </table></div>
         </div>
       </section>
     </>
