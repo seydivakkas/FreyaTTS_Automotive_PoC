@@ -23,7 +23,7 @@ def client(tmp_path, monkeypatch):
     )
     Base.metadata.create_all(engine)
     SessionLocal = sessionmaker(engine, expire_on_commit=False)
-    monkeypatch.setattr(main, "Session", SessionLocal)
+    monkeypatch.setattr("backend.db.Session", SessionLocal)
     monkeypatch.setattr("backend.dialogue.Session", SessionLocal)
     monkeypatch.setattr(main.settings, "admin_password", "test-password")
 

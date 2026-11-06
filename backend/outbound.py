@@ -73,6 +73,7 @@ async def initiate_outbound_call(
     variables = {
         "APPOINTMENT_ID": str(app.id),
         "CALL_ID": str(call_record.id),
+        "OUTBOUND_UUID": str(call_record.id),
         "CALL_TYPE": call_type,
         "CUSTOMER": app.customer,
     }

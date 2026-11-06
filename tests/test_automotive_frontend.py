@@ -36,7 +36,6 @@ from backend.automotive_frontend import (
     load_freya_vocab,
     COMFORT_NOISE_RMS,
 )
-import src.automotive_frontend as facade
 
 
 @pytest.fixture
@@ -44,17 +43,6 @@ def test_client():
     client = TestClient(app)
     client.auth = ("admin", settings.admin_password)
     return client
-
-
-def test_facade_exports():
-    """src/automotive_frontend.py cephesinin tüm bileşenleri doğru dışa aktardığını doğrular."""
-    assert hasattr(facade, "AutomotiveTextNormalizer")
-    assert hasattr(facade, "AutomotiveDSPChain")
-    assert hasattr(facade, "AutomotiveFrontend")
-    assert hasattr(facade, "automotive_frontend")
-    assert hasattr(facade, "load_freya_vocab")
-    assert hasattr(facade, "COMFORT_NOISE_DBFS")
-    assert hasattr(facade, "TURKISH_CONJUNCTIONS")
 
 
 def test_automotive_brand_normalization_and_suffixes():

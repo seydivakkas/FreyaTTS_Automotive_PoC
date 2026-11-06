@@ -32,12 +32,6 @@ from backend.unified_server import (
     DEFAULT_CHAN_WS_PORT,
     DEFAULT_HTTP_PORT,
 )
-from src.main_unified_server import (
-    UnifiedServer as SrcUnifiedServer,
-    unified_server as src_unified_server,
-    DEFAULT_AUDIOSOCKET_PORT as SRC_AUDIOSOCKET_PORT,
-    DEFAULT_CHAN_WS_PORT as SRC_CHAN_WS_PORT,
-)
 from backend.main import app
 
 
@@ -133,12 +127,10 @@ async def test_graceful_shutdown_cleans_sessions():
     assert dummy.closed is True
 
 
-def test_src_facade_exports():
-    """src.main_unified_server yolunun tüm bileşenleri doğru dışa aktardığını test eder."""
-    assert SrcUnifiedServer is UnifiedServer
-    assert src_unified_server is unified_server
-    assert SRC_AUDIOSOCKET_PORT == 9092
-    assert SRC_CHAN_WS_PORT == 8088
+def test_default_ports():
+    """Birleşik sunucunun varsayılan AudioSocket ve ChanWebSocket portlarını doğrular."""
+    assert DEFAULT_AUDIOSOCKET_PORT == 9092
+    assert DEFAULT_CHAN_WS_PORT == 8088
 
 
 def test_unified_system_status_rest_endpoint():

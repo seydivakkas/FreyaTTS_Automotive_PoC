@@ -479,7 +479,7 @@ def test_outbound_cancel_and_dialogue_cancel_use_reversal(env):
 
 
 def test_cancel_api_reverses_corporate_charge(env, monkeypatch):
-    monkeypatch.setattr(main, "Session", env)
+    monkeypatch.setattr("backend.db.Session", env)
     monkeypatch.setattr(main.settings, "admin_password", "test-password")
     with env() as db:
         acc_id, app = _corporate_appointment(db, "corp-3")

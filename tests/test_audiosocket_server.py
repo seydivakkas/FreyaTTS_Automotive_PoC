@@ -43,14 +43,8 @@ from backend.audiosocket_server import (
     AUDIOSOCKET_ERROR,
     FRAME_SIZE_BYTES,
     LOOKBACK_FRAMES_COUNT,
-    SAMPLE_RATE,
-)
-from src.audiosocket_orchestrator import (
-    AudioSocketOrchestrator as SrcAudioSocketOrchestrator,
-    AudioPacer as SrcAudioPacer,
-    LookbackBuffer as SrcLookbackBuffer,
-    TwoStageBargeInController as SrcTwoStageBargeInController,
     BACKCHANNEL_WORDS,
+    SAMPLE_RATE,
 )
 from backend.main import app
 from backend.session import active
@@ -293,12 +287,11 @@ async def test_audiosocket_orchestrator_ip_and_concurrency_rejection():
         assert writer_closed_2 is True
 
 
-def test_src_facade_exports():
-    """src.audiosocket_orchestrator yolunun tüm ana bileşenleri doğru dışa aktardığını doğrular."""
-    orch = SrcAudioSocketOrchestrator()
-    pacer = SrcAudioPacer()
-    buf = SrcLookbackBuffer()
-    bargein = SrcTwoStageBargeInController()
+def test_default_components_and_backchannel_words():
+    """Varsayılan orkestratör/pacer/tampon değerlerini ve backchannel sözcüklerini doğrular."""
+    orch = AudioSocketOrchestrator()
+    pacer = AudioPacer()
+    buf = LookbackBuffer()
 
     assert orch.port == 9092
     assert pacer.frame_bytes == 320

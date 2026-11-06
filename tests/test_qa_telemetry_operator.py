@@ -43,24 +43,6 @@ from backend.qa_telemetry_operator import (
     operator_panel,
     realtime_turn_collector,
 )
-import src.qa_telemetry_operator as src_qa
-
-
-def test_facade_exports():
-    """src.qa_telemetry_operator cephesinin tüm sınıfları ve örnekleri eksiksiz dışa aktardığını doğrular."""
-    assert src_qa.RealtimeTurnMetrics is RealtimeTurnMetrics
-    assert src_qa.RealtimeTurnMetricsCollector is RealtimeTurnMetricsCollector
-    assert src_qa.OperatorRealtimePanel is OperatorRealtimePanel
-    assert src_qa.OperatorCallState is OperatorCallState
-    assert src_qa.OperatorSessionView is OperatorSessionView
-    assert src_qa.VariantType is VariantType
-    assert src_qa.CodecType is CodecType
-    assert src_qa.ABCTripleVariantEvaluator is ABCTripleVariantEvaluator
-    assert src_qa.M11HardwareAcceptanceGate is M11HardwareAcceptanceGate
-    assert src_qa.realtime_turn_collector is realtime_turn_collector
-    assert src_qa.operator_panel is operator_panel
-    assert src_qa.abc_evaluator is abc_evaluator
-    assert src_qa.m11_gate is m11_gate
 
 
 def test_realtime_metrics_fake_zero_prohibition():

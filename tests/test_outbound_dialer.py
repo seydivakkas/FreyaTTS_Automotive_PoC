@@ -38,7 +38,6 @@ from backend.outbound_dialer import (
     generate_call_file_content,
     write_atomic_call_file,
 )
-import src.outbound_campaign_dialer as facade
 
 
 @pytest.fixture
@@ -69,18 +68,6 @@ def sample_appointment():
         db.commit()
         app_id = app_rec.id
     return app_id
-
-
-def test_facade_exports():
-    """src/outbound_campaign_dialer.py cephesinin tüm bileşenleri doğru dışa aktardığını doğrular."""
-    assert hasattr(facade, "OutboundCampaignDialer")
-    assert hasattr(facade, "campaign_dialer")
-    assert hasattr(facade, "AMDResult")
-    assert hasattr(facade, "detect_turkish_amd")
-    assert hasattr(facade, "detect_voicemail_beep")
-    assert hasattr(facade, "generate_call_file_content")
-    assert hasattr(facade, "write_atomic_call_file")
-    assert facade.DEFAULT_OUTGOING_DIR is not None
 
 
 def test_generate_call_file_content():

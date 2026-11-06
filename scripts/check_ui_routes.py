@@ -110,6 +110,16 @@ def normalize(path: str):
             for s in re.sub(r"\{[^}]*\}", "{}", path).split("/") if s != ""]
 
 
+def flat_routes(routes):
+    """include_router ile eklenen rotaları (yeni FastAPI'de tembel _IncludedRouter) düzleştirir."""
+    for route in routes:
+        original = getattr(route, "original_router", None)
+        if original is not None:
+            yield from flat_routes(original.routes)
+        else:
+            yield route
+
+
 def backend_routes():
     tmp = tempfile.mkdtemp(prefix="freya-routes-")
     os.environ["DATABASE_URL"] = "sqlite:///" + Path(tmp, "routes.db").as_posix()
@@ -119,7 +129,7 @@ def backend_routes():
     from backend.main import app
 
     routes = []
-    for route in app.routes:
+    for route in flat_routes(app.routes):
         path = getattr(route, "path", "")
         methods = getattr(route, "methods", None) or set()
         if path.startswith("/api/"):

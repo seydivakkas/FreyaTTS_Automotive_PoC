@@ -36,7 +36,6 @@ def analytics_setup(tmp_path, monkeypatch):
     )
     Base.metadata.create_all(engine)
     sm = sessionmaker(engine, expire_on_commit=False)
-    monkeypatch.setattr(main, "Session", sm)
     monkeypatch.setattr("backend.db.Session", sm)
     monkeypatch.setattr("backend.analytics.Turn", Turn)
     monkeypatch.setattr("backend.analytics.Conversation", Conversation)

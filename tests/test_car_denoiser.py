@@ -38,10 +38,6 @@ from backend.car_denoiser import (
     InboundCarDenoiser,
     process_audio_stream,
 )
-from src.inbound_car_denoiser import (
-    InboundCarDenoiser as SrcInboundCarDenoiser,
-    CarNoiseFilter as SrcCarNoiseFilter,
-)
 from backend.db import Base
 from backend.main import app
 import backend.session as session_module
@@ -206,10 +202,10 @@ def test_process_bytes_slin16():
     assert isinstance(cleaned_bytes, bytes)
 
 
-def test_src_facade_exports():
-    """src.inbound_car_denoiser yolundan sınıfların sorunsuz yüklendiğini doğrular."""
-    d = SrcInboundCarDenoiser(sample_rate=8000)
-    f = SrcCarNoiseFilter(cutoff_hz=120.0)
+def test_denoiser_and_filter_constructor_params():
+    """Denoiser ve filtre kurucu parametrelerinin özniteliklere yansıdığını doğrular."""
+    d = InboundCarDenoiser(sample_rate=8000)
+    f = CarNoiseFilter(cutoff_hz=120.0)
     assert d.sample_rate == 8000
     assert f.cutoff_hz == 120.0
 

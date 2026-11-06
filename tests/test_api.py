@@ -3,6 +3,7 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from backend import db as db_module
 from backend.db import Base
 from backend import main
 
@@ -14,7 +15,7 @@ def client(tmp_path, monkeypatch):
         connect_args={"check_same_thread": False},
     )
     Base.metadata.create_all(engine)
-    monkeypatch.setattr(main, "Session", sessionmaker(engine, expire_on_commit=False))
+    monkeypatch.setattr("backend.db.Session", sessionmaker(engine, expire_on_commit=False))
     monkeypatch.setattr(main.settings, "admin_password", "test-password")
     c = TestClient(main.app)
     yield c
@@ -225,7 +226,7 @@ def test_conversation_export(client):
     from backend.db import Conversation, Turn
 
     cid = str(uuid4())
-    with main.Session() as db:
+    with db_module.Session() as db:
         c = Conversation(id=cid, channel="web", status="completed")
         t1 = Turn(
             conversation_id=cid,

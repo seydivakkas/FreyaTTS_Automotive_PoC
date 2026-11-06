@@ -29,7 +29,7 @@ def client(tmp_path, monkeypatch):
         connect_args={"check_same_thread": False},
     )
     Base.metadata.create_all(engine)
-    monkeypatch.setattr(main, "Session", sessionmaker(engine, expire_on_commit=False))
+    monkeypatch.setattr("backend.db.Session", sessionmaker(engine, expire_on_commit=False))
     monkeypatch.setattr(main.settings, "admin_password", "test-password")
 
     provider = MockNotificationProvider()

@@ -40,7 +40,6 @@ from backend.sft_leyla import (
     FreyaCrossAttentionLoRAManager,
     lora_manager,
 )
-import src.sft_automotive_leyla as facade
 
 
 @pytest.fixture
@@ -48,20 +47,6 @@ def test_client():
     client = TestClient(app)
     client.auth = ("admin", settings.admin_password)
     return client
-
-
-def test_facade_exports():
-    """src/sft_automotive_leyla.py cephesinin tüm bileşenleri doğru dışa aktardığını doğrular."""
-    assert hasattr(facade, "LeylaSFTConfig")
-    assert hasattr(facade, "freeze_for_conservative_sft")
-    assert hasattr(facade, "IdentityDriftGuard")
-    assert hasattr(facade, "AutomotiveCorpusBuilder")
-    assert hasattr(facade, "ConservativeSFTTrainer")
-    assert hasattr(facade, "sft_manager")
-    assert hasattr(facade, "FreyaCrossAttentionLoRAConfig")
-    assert hasattr(facade, "FreyaCrossAttentionLoRAManager")
-    assert hasattr(facade, "lora_manager")
-    assert facade.DEFAULT_MANIFEST_PATH is not None
 
 
 def test_leyla_sft_config_defaults():

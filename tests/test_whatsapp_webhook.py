@@ -70,7 +70,6 @@ def wa_env(tmp_path, monkeypatch):
     monkeypatch.setattr("backend.db.engine", test_engine)
     monkeypatch.setattr("backend.db.Session", TestSession)
     monkeypatch.setattr("backend.whatsapp_webhook.Session", TestSession)
-    monkeypatch.setattr("backend.main.Session", TestSession)
     monkeypatch.setattr("backend.main.settings.admin_password", "secret")
 
     provider = MockNotificationProvider()

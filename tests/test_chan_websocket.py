@@ -44,12 +44,6 @@ from backend.websocket_adapter import (
     SAMPLE_RATE,
     FRAME_SIZE_BYTES,
 )
-from src.chan_websocket_adapter import (
-    ChanWebSocketAdapter as SrcChanWebSocketAdapter,
-    ChanWebSocketSession as SrcChanWebSocketSession,
-    chan_ws_adapter as src_chan_ws_adapter,
-    COMMAND_FLUSH_MEDIA as SRC_FLUSH,
-)
 from backend.main import app
 from backend.session import active
 
@@ -229,12 +223,12 @@ async def test_standalone_server_lifecycle():
     assert adapter.server is None
 
 
-def test_src_facade_exports():
-    """src.chan_websocket_adapter yolunun tüm ana bileşenleri doğru dışa aktardığını doğrular."""
-    adapter = SrcChanWebSocketAdapter()
+def test_default_adapter_port_and_flush_command():
+    """Varsayılan adaptör portunu ve FLUSH_MEDIA komut sabitini doğrular."""
+    adapter = ChanWebSocketAdapter()
     assert adapter.port == 8088
-    assert SRC_FLUSH == "FLUSH_MEDIA"
-    assert src_chan_ws_adapter is not None
+    assert COMMAND_FLUSH_MEDIA == "FLUSH_MEDIA"
+    assert chan_ws_adapter is not None
 
 
 def test_chan_websocket_rest_endpoints():

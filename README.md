@@ -55,5 +55,5 @@ Geliştirme: backend’i başlatıp `frontend` altında `npm run dev` çalışt�
 
 Mimari ve protokol: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Doğrulama kanıtları ve kalan sınırlar: [docs/VERIFICATION.md](docs/VERIFICATION.md).
 
-Eski `automotive_freya_poc.py`, `run_poc.bat`, mevcut örnek WAV dosyaları ve eski test çıktısı karşılaştırma için korunmuştur. Eski çıktı dosyası yeni uygulamanın doğrulama raporu değildir.
+Eski `automotive_freya_poc.py`, `run_poc.bat`, örnek WAV dosyaları ve eski test çıktısı karşılaştırma için `archive/` klasöründe korunmuştur. Eski çıktı dosyası yeni uygulamanın doğrulama raporu değildir.
 

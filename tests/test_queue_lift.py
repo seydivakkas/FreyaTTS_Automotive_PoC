@@ -47,7 +47,6 @@ def queue_lift_setup(tmp_path, monkeypatch):
     )
     Base.metadata.create_all(engine)
     sm = sessionmaker(engine, expire_on_commit=False)
-    monkeypatch.setattr(main, "Session", sm)
     monkeypatch.setattr("backend.db.Session", sm)
     monkeypatch.setattr(main.settings, "admin_password", "test-pass")
 

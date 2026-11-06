@@ -33,11 +33,6 @@ from backend.batched_ode import (
     ConcurrentCallController,
     check_voicedness,
 )
-from src.batched_ode_engine import (
-    BatchedODEEngine as SrcBatchedODEEngine,
-    ConcurrentCallController as SrcConcurrentCallController,
-    LEYLA_SEED as SRC_LEYLA_SEED,
-)
 from backend.main import app
 from backend.models import models
 from backend.config import settings
@@ -168,13 +163,13 @@ async def test_whisper_collapse_prevention():
     assert engine.whisper_collapses_prevented >= 1
 
 
-def test_src_facade_exports():
-    """src.batched_ode_engine yolunun doğru sınıfları dışa aktardığını doğrular."""
-    engine = SrcBatchedODEEngine(batch_size=8)
-    ctrl = SrcConcurrentCallController(max_concurrent=50)
+def test_default_engine_and_controller_params():
+    """Motor batch boyutu, eşzamanlılık kapasitesi ve Leyla tohum değerini doğrular."""
+    engine = BatchedODEEngine(batch_size=8)
+    ctrl = ConcurrentCallController(max_concurrent=50)
     assert engine.batch_size == 8
     assert ctrl.capacity == 50
-    assert SRC_LEYLA_SEED == 9
+    assert LEYLA_SEED == 9
 
 
 def test_batched_ode_rest_api_endpoints():

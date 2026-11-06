@@ -527,7 +527,12 @@ class ABCTripleVariantEvaluator:
         return {"wer": wer, "cer": cer, "word_errors": w_dist, "char_errors": c_dist}
 
     def compute_itu_mos(self, codec: CodecType, rtf: float, packet_loss_pct: float = 0.0) -> float:
-        """ITU-T G.107 standardına göre codec ve performansa dayalı MOS skoru."""
+        """Codec ve RTF'ye dayalı SEZGİSEL MOS tahmini (ölçüm DEĞİLDİR).
+
+        Sabit taban R değerleri ve ceza katsayıları varsayımdır; gerçek bir ITU-T G.107
+        E-model hesabı ya da dinleme testi sonucu değildir. Canlı yolda hiçbir yerden
+        çağrılmaz; yalnızca testlerde kullanılır. Kalite kanıtı olarak sunulmamalıdır.
+        """
         base_r = {
             CodecType.PCM_48K: 94.0,
             CodecType.G722: 92.0,
