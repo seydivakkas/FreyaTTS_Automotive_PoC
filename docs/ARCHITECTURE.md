@@ -56,7 +56,7 @@ AudioSocket 0x10: 8 kHz, 16 bit mono, little-endian; başlık uzunluğu big-endi
 
 ## Sınırlar
 
-Tek aktif görüşme desteklenir. Müşterinin açık onayı olmadan kayıt yapılmaz. Randevu yalnızca sunulan seçenek numarasından seçilir; serbest takvim tarihi pazarlığı ilk sürümde yoktur. Mevcut veritabanına kaydedilmemiş araç için işlem yapılmaz. Takip kaydı oluşturulur, dış bir çalışana bildirim gönderilmez. Dış CRM yoktur. Giden çağrı ve operatör aktarımı sahte AMI istemcisiyle çalışır (`backend/ami.py` `MockAMIClient`); gerçek arama/aktarım yapılmaz. Bildirim sağlayıcısı da sahtedir; gerçek SMS/WhatsApp gönderilmez.
+Eşzamanlı görüşme ölçülmedi; testler tek görüşmeyle yapıldı. Müşterinin açık onayı olmadan kayıt yapılmaz. Randevu yalnızca sunulan seçenek numarasından seçilir; serbest takvim tarihi pazarlığı ilk sürümde yoktur. Mevcut veritabanına kaydedilmemiş araç için işlem yapılmaz. Takip kaydı oluşturulur, dış bir çalışana bildirim gönderilmez. Dış CRM yoktur. Giden çağrı ve operatör aktarımı sahte AMI istemcisiyle çalışır (`backend/ami.py` `MockAMIClient`); gerçek arama/aktarım yapılmaz. Bildirim sağlayıcısı da sahtedir; gerçek SMS/WhatsApp gönderilmez.
 
 Yan cümle içinde token seviyesinde TTS yoktur. LLM akışı şemalı alan çıkarımı içindir; JSON tamamlanıp doğrulandıktan sonra backend yanıt üretir. Gecikme azaltımı için doğrulanmamış işlem sonucunu erken seslendirme yapılmaz.
 
