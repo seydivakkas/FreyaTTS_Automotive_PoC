@@ -2,6 +2,7 @@
 
 import io
 import json
+import logging
 import secrets
 from dataclasses import asdict
 from datetime import (
@@ -114,6 +115,8 @@ from backend.deps import (
     optional_security,
     row,
 )
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
 

@@ -7,24 +7,26 @@
 # =====================================================================
 """
 scripts/generate_executive_docx.py
-FreyaTTS Otomotiv Sesli Asistan Platformu
-Teknik Mimari, Sistem Doğrulama ve Operasyonel Ekran Kataloğu Rapor Üreticisi
+FreyaTTS Otomotiv Asistanı — yönetici sunumu üreticisi (PoC durum belgesi).
 
-Bu betik, finansal iddialardan arındırılmış, tamamen yazılımsal ve mühendislik
-üstünlüklerine odaklanan kurumsal teknik dokümanı (.docx) otomatik olarak üretir.
+Belgedeki hiçbir ölçüm koda gömülü değildir. Üretim anında okunan kaynaklar:
+- data/acoustic/latest.json  (WER, CER, terim doğruluğu, RTF, F0, provenance)
+- pytest --collect-only -q   (test sayısı, son satır)
+- backend.normalizer_rules.BASE_AUTOMOTIVE_LEXICON (sözlük kural sayısı)
+- data/m11/M11_ACCEPTANCE.json veya docs/milestones/current-acceptance.json
+- abc_evaluator.run_benchmark_suite([], acoustic_report=...)  (kalite kapısı)
+- docs/measured-latency.json (tek çalıştırma gecikme örneği)
+Kaynak yoksa değer yerine "ölçülmedi" yazılır.
 
-Bölüm Yapısı:
-- Kapak & Metaveriler (Seydi Vakkas Eryılmaz, Doğrulanmış PoC, Özel Lisans)
-- İçindekiler (TOC Alanı) & Yönetici Mühendislik Özeti
-- Bölüm 1: Mühendislik Misyonu, Gecikme Bütçesi ve Performans Doğrulama
-- Bölüm 2: Uçtan Uca Veri Akış Şeması, Model Künyesi ve 7 Uzman Ajan Ekosistemi
-- Bölüm 3: Test Mühendisliği (1095 Test Matrisi), Kalite Kapıları ve M11 Emniyet Kilidi
-- Bölüm 4: Yazılımsal Riskler, Sınırlılıklar, KVKK Mimarisi ve Pilot Doğrulama Planı
-- Bölüm 5: Yönetici Mühendislik Değerlendirmesi ve Sonuç
-- EK-A: Operasyonel Arayüz ve API Tetikleme Kataloğu (22 Ekran & Gerçek Tuş Kılavuzu)
+Çalıştırma: .venv\Scripts\python scripts\generate_executive_docx.py  (extra: tools)
 """
 
+import argparse
+import json
 import os
+import re
+import subprocess
+import sys
 from pathlib import Path
 import docx
 from docx import Document
@@ -161,7 +163,7 @@ def add_callout(doc, title, text, border_color=HEX_ACCENT_BORDER, bg_color=HEX_L
 
     p = cell.paragraphs[0]
     p.paragraph_format.space_after = Pt(2)
-    r_title = p.add_run(f"📌 {title}\n")
+    r_title = p.add_run(f"{title}\n")
     r_title.bold = True
     r_title.font.name = "Arial"
     r_title.font.size = Pt(10)
@@ -273,7 +275,7 @@ def setup_header_footer(doc):
     header = section.header
     p_hdr = header.paragraphs[0]
     p_hdr.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    r_hdr = p_hdr.add_run("FreyaTTS Otomotiv Sesli Asistan Platformu — Teknik Mimari ve Sistem Doğrulama Raporu")
+    r_hdr = p_hdr.add_run("FreyaTTS Otomotiv Asistanı — Yönetici Sunumu (PoC)")
     r_hdr.font.name = "Arial"
     r_hdr.font.size = Pt(8.5)
     r_hdr.font.color.rgb = COLOR_MUTED
@@ -283,7 +285,7 @@ def setup_header_footer(doc):
     p_ftr = footer.paragraphs[0]
     p_ftr.alignment = WD_ALIGN_PARAGRAPH.LEFT
 
-    r_f1 = p_ftr.add_run("KURUMSAL TEKNİK DOKÜMAN • AR-GE DOĞRULAMA")
+    r_f1 = p_ftr.add_run("PoC DURUM BELGESİ")
     r_f1.font.name = "Arial"
     r_f1.font.size = Pt(8.5)
     r_f1.font.bold = True
@@ -309,786 +311,375 @@ def setup_header_footer(doc):
     p_ftr._p.append(fld_numpages)
 
 
-def add_table_of_contents(doc):
-    """Statik ve şık İçindekiler tablosunu Sayfa 2'ye ekler."""
-    p_toc_title = doc.add_paragraph()
-    p_toc_title.paragraph_format.space_before = Pt(14)
-    p_toc_title.paragraph_format.space_after = Pt(8)
-    p_toc_title.paragraph_format.keep_with_next = True
-    r = p_toc_title.add_run("İÇİNDEKİLER")
-    r.bold = True
-    r.font.name = "Arial"
-    r.font.size = Pt(14)
-    r.font.color.rgb = COLOR_PRIMARY
+# ---------------------------------------------------------------------------
+# Veri kaynakları: hiçbir ölçüm koda gömülü değildir; hepsi üretim anında okunur.
+# Kaynak yoksa değer yerine "ölçülmedi" yazılır.
+# ---------------------------------------------------------------------------
+NA = "ölçülmedi"
+ROOT = Path(__file__).resolve().parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))  # `backend` paketi betik dizininden doğrudan çalıştırılınca da bulunsun
 
-    toc_items = [
-        ["Bölüm 1: Mühendislik Misyonu, Gecikme Bütçesi ve Performans Doğrulama", "Ana Bölüm", "s. 3"],
-        ["  1.1. Yazılımsal Performans, Gecikme Bütçesi ve Akustik Dayanıklılık Matrisi", "Teknik Benchmark", "s. 3"],
-        ["Bölüm 2: Veri Akış Mimarisi, Model Künyesi ve 7 Uzman Ajan Ekosistemi", "Ana Bölüm", "s. 4"],
-        ["  2.1. Teknoloji ve Model Künyesi (FreyaTTS ODE, Leyla Persona, Qwen2.5)", "Model Mimarisi", "s. 4"],
-        ["  2.2. Uçtan Uca Sinyal ve Çıkarım İzi Akış Şeması (10 Aşamalı Boru Hattı)", "Sinyal İşleme", "s. 4"],
-        ["  2.3. 7 Uzman Ajan Ekosistemi ve Mimari Sorumluluk Dağılımı", "Ajan Ekosistemi", "s. 5"],
-        ["Bölüm 3: Test Mühendisliği, Kalite Kapıları ve Güvenlik Doğrulaması", "Ana Bölüm", "s. 6"],
-        ["  3.1. 1095 Birim ve Entegrasyon Testinin Dağılım Matrisi", "Test Kapsamı", "s. 6"],
-        ["  3.2. HLS-08 Kalite Kapısı 5 Üçlü Model Kıyaslama Benchmarkı (Varyant A/B/C)", "Kalite Kapısı", "s. 6"],
-        ["  3.3. M11 Donanım Kabul Güvenlik Kalkanı ve Kriptografik Kilit", "Donanım Emniyeti", "s. 7"],
-        ["Bölüm 4: Yazılımsal Riskler, Veri Gizliliği ve Pilot Doğrulama Planı", "Ana Bölüm", "s. 7"],
-        ["  4.1. Teknik Risk ve Azaltma (Mitigation) Matrisi", "Risk Yönetimi", "s. 7"],
-        ["  4.2. Yerel Ağ Veri Gizliliği (On-Premise KVKK) Mimarisi", "Veri Güvenliği", "s. 8"],
-        ["  4.3. Geliştirme ve Üretim Sunucu Donanım Profilleri", "Donanım Profili", "s. 8"],
-        ["  4.4. 4 Aşamalı Pilot Yayına Geçiş Doğrulama Planı", "Pilot Yol Haritası", "s. 8"],
-        ["Bölüm 5: Yönetici Mühendislik Değerlendirmesi ve Sonuç", "Ana Bölüm", "s. 9"],
-        ["EK-A: 22 Ekranlık Operasyonel Arayüz Kataloğu (A.1 – A.22)", "Ek Doküman", "s. 10"],
-        ["  A.1. Giriş ve Kimlik Doğrulama Ekranı", "Operasyonel Ekran", "s. 10"],
-        ["  A.2. Canlı Görüşme ve Ses Motoru Durumu", "Operasyonel Ekran", "s. 11"],
-        ["  A.3. SIP Warm Transfer (Dahili 6002 Konsolu)", "Operasyonel Ekran", "s. 12"],
-        ["  A.4. Canlı Müdahale (RT-10 Takeover & Whisper)", "Operasyonel Ekran", "s. 13"],
-        ["  A.5. HLS-08 Kalite Kapısı 5 ve Dağıtık Telemetri", "Operasyonel Ekran", "s. 14"],
-        ["  A.6. Araç İçi DSP & Kabin Gürültüsü Filtreleme", "Operasyonel Ekran", "s. 15"],
-        ["  A.7. Ekspertiz Randevu Yönetimi ve Takvim", "Operasyonel Ekran", "s. 16"],
-        ["  A.8. Sıra ve Muayene Lifti Yönetimi (Queue & Lift)", "Operasyonel Ekran", "s. 17"],
-        ["  A.9. A/B Test Deney Sonuçları ve Z-Testi Raporu", "Operasyonel Ekran", "s. 18"],
-        ["  A.10. A/B Test Ses Karşılaştırma Laboratuvarı (Seed Lab)", "Operasyonel Ekran", "s. 19"],
-        ["  A.11. Analitik, Çağrı İstatistikleri ve SLA / KPI Takibi", "Operasyonel Ekran", "s. 20"],
-        ["  A.12. Ekspertiz Raporları ve Muayene Kayıtları", "Operasyonel Ekran", "s. 21"],
-        ["  A.13. Teknisyen Canlı Sesli Dikte ve Not Girişi", "Operasyonel Ekran", "s. 22"],
-        ["  A.14. Araç Teşhis ve OBD-II Arıza Kodları (DTC Engine)", "Operasyonel Ekran", "s. 23"],
-        ["  A.15. Araç Kataloğu, Fiyatlandırma ve Paketler", "Operasyonel Ekran", "s. 24"],
-        ["  A.16. Otomotiv Fonetik ve Telaffuz Sözlüğü (P0 Lexicon)", "Operasyonel Ekran", "s. 25"],
-        ["  A.17. WhatsApp ve SMS Çok Kanallı Bildirim Çıkış Kutusu", "Operasyonel Ekran", "s. 26"],
-        ["  A.18. Otomatik Giden Çağrılar ve Kampanya Yönetimi", "Operasyonel Ekran", "s. 27"],
-        ["  A.19. Çağrı ve Görüşme Geçmişi (Conversation Archive)", "Operasyonel Ekran", "s. 28"],
-        ["  A.20. Akustik Ses Laboratuvarı ve İnteraktif Sentez", "Operasyonel Ekran", "s. 29"],
-        ["  A.21. Sistem Bileşenleri, Donanım Hazırlığı ve Devre Kesici", "Operasyonel Ekran", "s. 30"],
-        ["  A.22. M01–M11 Fiziksel Donanım Kabul ve Mimari Denetim", "Operasyonel Ekran", "s. 31"],
-    ]
+DEFAULT_PATHS = {
+    "acoustic": ROOT / "data" / "acoustic" / "latest.json",
+    "m11": [ROOT / "data" / "m11" / "M11_ACCEPTANCE.json", ROOT / "docs" / "milestones" / "current-acceptance.json"],
+    "latency": ROOT / "docs" / "measured-latency.json",
+    "nav": ROOT / "frontend" / "src" / "nav.ts",
+    "screenshots": ROOT / "docs" / "screenshots",
+    "output": ROOT / "docs" / "FreyaTTS_Otomotiv_Asistani_Yonetici_Sunumu.docx",
+}
 
-    toc_headers = ["Bölüm / Rapor Başlığı", "Kategori", "Konum"]
-    add_styled_table(doc, toc_headers, toc_items, col_widths=[4.5, 1.8, 0.7])
+BANNER = "Durum: PoC. Bu belge yalnızca ölçülen değerleri içerir."
+DEMO_CAPTION = "Demo verisi; gerçek ölçüm değildir"
+
+# Ekran görüntüleri yalnızca bu sekmeler için eklenir (dosyaları scripts/capture_screenshots.py üretir).
+SCREENSHOTS = [
+    ("01_gorusme.png", "Görüşme"),
+    ("04_randevular.png", "Randevular"),
+    ("07_analitik_ve_kpi.png", "Analitik & KPI"),
+    ("17_sistem.png", "Sistem"),
+]
+
+# Sekme amaçları: yalnızca kodda var olan davranışı anlatır. Sekme listesi nav.ts'ten okunur.
+TAB_PURPOSE = {
+    "Görüşme": "Tarayıcı mikrofonuyla sesli görüşme ve canlı transkript",
+    "Operatör (6002)": "Operatör devri ve kalite kapısı görünümü (AMI sahte istemcidir; gerçek aktarım yok)",
+    "Araç İçi DSP & Gürültü": "Gürültü bastırma ayarları",
+    "Randevular": "Randevu ve müsait saat yönetimi",
+    "Sıra & Lift Durumu": "Sıra ve lift kapasitesi görünümü",
+    "A/B Test & İnce Ayar": "Karşılama ve istem deneyleri, ses tohumu karşılaştırması",
+    "Analitik & KPI": "Görüşme ve gecikme özetleri",
+    "Ekspertiz Raporları": "Muayene ve rapor kayıtları",
+    "Teknisyen Dikte": "Teknisyen sesli notunun yazıya çevrilmesi",
+    "Araç Teşhis & OBD-II": "Arıza kodu sorgulama",
+    "Araçlar ve fiyatlar": "Araç kaydı ve ekspertiz fiyatı girişi",
+    "Sözlük": "Otomotiv telaffuz sözlüğü",
+    "Bildirimler": "Bildirim kutusu (sağlayıcı sahtedir; gerçek SMS/WhatsApp gönderimi yok)",
+    "Giden Çağrılar": "Giden çağrı kayıtları (AMI sahtedir; gerçek arama yok)",
+    "Geçmiş": "Görüşme geçmişi ve transkriptler",
+    "Ses laboratuvarı": "Normalizasyon ve sentez denemesi",
+    "Sistem": "Model yükleme ve hazırlık durumu",
+    "M01–M11": "Kabul kapıları ve entegrasyon kayıtları",
+}
 
 
-def generate_document():
+def read_json(path):
+    """JSON okur; dosya yoksa veya bozuksa None döner (değer uydurulmaz)."""
+    try:
+        return json.loads(Path(path).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+
+
+def num(value, suffix="", digits=2):
+    """Sayıyı Türkçe ondalık virgülle yazar; değer yoksa 'ölçülmedi'."""
+    if value is None:
+        return NA
+    if isinstance(value, float):
+        text = f"{value:.{digits}f}".rstrip("0").rstrip(".")
+    else:
+        text = str(value)
+    return text.replace(".", ",") + suffix
+
+
+def collect_test_count():
+    """`pytest --collect-only -q` çıktısının son satırı; alınamazsa None."""
+    try:
+        out = subprocess.run(
+            [sys.executable, "-m", "pytest", "--collect-only", "-q", "-p", "no:cacheprovider"],
+            capture_output=True, text=True, encoding="utf-8", errors="replace", cwd=ROOT, timeout=300,
+        ).stdout
+    except (OSError, subprocess.SubprocessError):
+        return None
+    lines = [ln.strip() for ln in out.splitlines() if ln.strip()]
+    return lines[-1] if lines else None
+
+
+def lexicon_rule_count():
+    try:
+        from backend.normalizer_rules import BASE_AUTOMOTIVE_LEXICON
+        return len(BASE_AUTOMOTIVE_LEXICON)
+    except Exception:
+        return None
+
+
+def _rel(p):
+    try:
+        return str(Path(p).resolve().relative_to(ROOT)).replace("\\", "/")
+    except ValueError:
+        return Path(p).name
+
+
+def m11_state(paths):
+    """İlk var olan M11 kaydının genel durumu: (durum, kaynak, son çalışma tarihi)."""
+    for p in paths:
+        data = read_json(p)
+        if isinstance(data, dict) and data.get("overall"):
+            times = [g.get("run_at_utc") for g in data.get("gates", []) if g.get("run_at_utc")]
+            return data["overall"], _rel(p), (max(times) if times else None)
+    return None, None, None
+
+
+def quality_gate(report):
+    """Gerçek kalite kapısı: abc_evaluator.run_benchmark_suite([], acoustic_report=...)."""
+    if not report:
+        return None
+    try:
+        from backend.qa_telemetry_operator import abc_evaluator
+        return abc_evaluator.run_benchmark_suite([], acoustic_report=report)
+    except Exception:
+        return None
+
+
+def metric_status(gate, name):
+    if gate is None:
+        return NA
+    if name in gate["quality_gate_failed"]:
+        return "FAIL"
+    if name in gate["quality_gate_missing"]:
+        return "HOLD"
+    return "PASS"
+
+
+def read_tabs(nav_path):
+    try:
+        text = Path(nav_path).read_text(encoding="utf-8")
+        block = text.split("export const TABS = [", 1)[1].split("] as const", 1)[0]
+        return re.findall(r'"([^"]+)"', block) or list(TAB_PURPOSE)
+    except (OSError, IndexError):
+        return list(TAB_PURPOSE)
+
+
+def add_bullets(doc, items):
+    for item in items:
+        p = doc.add_paragraph(style="List Bullet")
+        p.paragraph_format.space_after = Pt(2)
+        run = p.add_run(item)
+        run.font.name = "Arial"
+        run.font.size = Pt(9.5)
+        run.font.color.rgb = COLOR_TEXT
+
+
+def generate_document(paths=None, test_count_line="auto"):
+    """Belgeyi üretir. `paths`, DEFAULT_PATHS anahtarlarını geçersiz kılar (testler için).
+
+    test_count_line: "auto" ise pytest toplanır; aksi halde verilen metin kullanılır (None = ölçülmedi).
+    """
+    cfg = dict(DEFAULT_PATHS)
+    cfg.update(paths or {})
+    output = Path(cfg["output"])
+
+    report = read_json(cfg["acoustic"])
+    latency = read_json(cfg["latency"])
+    test_line = collect_test_count() if test_count_line == "auto" else test_count_line
+    lexicon_n = lexicon_rule_count()
+    m11_status, m11_src, m11_date = m11_state(cfg["m11"])
+    gate = quality_gate(report)
+
+    ch = None
+    if report:
+        ch = (report.get("channels") or {}).get(report.get("gate_channel"))
+    prov = (report or {}).get("provenance", {})
+    f0 = (report or {}).get("f0", {})
+
     doc = Document()
-
-    # Belge Metaverilerini Güncelle (Yazar ve Kurumsal Başlık)
-    core_props = doc.core_properties
-    core_props.author = "Seydi Vakkas Eryılmaz"
-    core_props.title = "FreyaTTS Otomotiv Sesli Asistan Platformu — Teknik Mimari ve Sistem Doğrulama Raporu"
-    core_props.subject = "Yerel Çoklu Ajan Sesli Asistan ve Telekomünikasyon Mimarisi"
-    core_props.category = "Kurumsal Teknik Doküman"
-    core_props.comments = "Özel Lisans — Tüm Hakları Saklıdır (c) 2026 Seydi Eryılmaz (@seydivakkas)"
-
-    # Sayfa Kenar Boşlukları (0.8 inç)
+    core = doc.core_properties
+    core.author = "Seydi Vakkas Eryılmaz"
+    core.title = "FreyaTTS Otomotiv Sesli Asistanı — Yönetici Sunumu"
+    core.subject = "PoC durum özeti"
+    core.comments = "Özel Lisans — Tüm Hakları Saklıdır (c) 2026 Seydi Eryılmaz (@seydivakkas)"
     for section in doc.sections:
-        section.top_margin = Inches(0.8)
-        section.bottom_margin = Inches(0.8)
-        section.left_margin = Inches(0.8)
-        section.right_margin = Inches(0.8)
-
+        section.top_margin = section.bottom_margin = Inches(0.8)
+        section.left_margin = section.right_margin = Inches(0.8)
     setup_header_footer(doc)
 
-    # =========================================================================
-    # KAPAK SAYFASI (EXECUTIVE COVER PAGE)
-    # =========================================================================
-    p_cover_space = doc.add_paragraph()
-    p_cover_space.paragraph_format.space_before = Pt(36)
+    # ------------------------------------------------------------------ başlık
+    p = doc.add_paragraph()
+    p.paragraph_format.space_after = Pt(2)
+    r = p.add_run("FreyaTTS Otomotiv Sesli Asistanı")
+    r.bold = True
+    r.font.name = "Arial"
+    r.font.size = Pt(22)
+    r.font.color.rgb = COLOR_NAVY
+    p = doc.add_paragraph()
+    r = p.add_run("Yönetici Sunumu — yerel Türkçe ekspertiz randevu asistanı")
+    r.font.name = "Arial"
+    r.font.size = Pt(11)
+    r.font.color.rgb = COLOR_MUTED
+    add_callout(doc, "Belge durumu", BANNER, border_color="D97706", bg_color="FFFBEB")
 
-    p_badge = doc.add_paragraph()
-    r_badge = p_badge.add_run("KURUMSAL OTOMOTİV YAZILIM MİMARİSİ • SİSTEM DOĞRULAMA")
-    r_badge.font.name = "Arial"
-    r_badge.font.size = Pt(10)
-    r_badge.font.bold = True
-    r_badge.font.color.rgb = COLOR_SECONDARY
+    # --------------------------------------------------------- 1. yönetici özeti
+    add_heading_1(doc, "1. Yönetici özeti")
+    add_bullets(doc, [
+        "Sistem bir PoC'tur (kavram kanıtı). Pilota hazır değildir.",
+        "Çalışan çekirdek: yerel konuşma tanıma, kural öncelikli diyalog, yerel sentez ve SQLite'a randevu kaydı.",
+        (f"Ses doğruluğu (kalite kapısı): WER {metric_status(gate, 'avg_wer_pct')}, CER {metric_status(gate, 'avg_cer_pct')}, "
+         f"terim doğruluğu {metric_status(gate, 'automotive_accuracy_pct')}, genel kapı {(gate or {}).get('quality_gate_5_status', NA)} (Bölüm 3)."),
+        "Doğrulanmayanlar: insan sesiyle test, Asterisk üzerinden gerçek telefon testi, gerçek SMS sağlayıcısı (Bölüm 6).",
+        "Pilot öncesi eksiklerin kapatılması gerekir; gerçekçi adımlar Bölüm 7'dedir.",
+    ])
 
-    p_title = doc.add_paragraph()
-    p_title.paragraph_format.space_before = Pt(10)
-    p_title.paragraph_format.space_after = Pt(8)
-    r_title = p_title.add_run("FreyaTTS Otomotiv Sesli Asistan Platformu")
-    r_title.font.name = "Arial"
-    r_title.font.size = Pt(24)
-    r_title.font.bold = True
-    r_title.font.color.rgb = COLOR_PRIMARY
-
-    p_sub = doc.add_paragraph()
-    p_sub.paragraph_format.space_after = Pt(24)
-    r_sub = p_sub.add_run(
-        "Uçtan Uca Yerel Çoklu Ajan Mimarisi, Akustik DSP ve Telekomünikasyon Doğrulama Raporu\n"
-        "Teknik Mimari Raporu, Mühendislik Benchmarkları ve Operasyonel Ekran Kataloğu"
-    )
-    r_sub.font.name = "Arial"
-    r_sub.font.size = Pt(12)
-    r_sub.font.color.rgb = COLOR_MUTED
-
-    add_callout(
-        doc,
-        "MÜHENDİSLİK VE SİSTEM DOĞRULAMA BRİFİNGİ",
-        "Bu rapor; otomotiv servisleri, ekspertiz istasyonları ve çağrı merkezleri için geliştirilen "
-        "uçtan uca yerel (on-premise) yapay zekâ sesli asistanı FreyaTTS'in teknik mimarisini, akustik sinyal "
-        "işleme katmanlarını ve doğrulanmış mühendislik benchmarklarını kurumsal karar vericilere tanıtmak "
-        "amacıyla hazırlanmıştır.\n\n"
-        "• Doğrulanmış PoC Mimarisi — Pilot Yayına Hazır\n"
-        "• Veri Yerelliği (On-Premise Data Locality) ve Sıfır Harici API Bağımlılığı\n"
-        "• 1095 Bağımsız Birim/Entegrasyon Testiyle Doğrulanmış Katı Mühendislik Standartları",
-        border_color="1E3A8A"
-    )
-
-    p_meta = doc.add_paragraph()
-    p_meta.paragraph_format.space_before = Pt(40)
-    r_m = p_meta.add_run(
-        "Proje Sahibi & Başmühendis: Seydi Vakkas Eryılmaz (@seydivakkas)\n"
-        "Tarih: Kasım 2026  |  Versiyon: v1.0 — Doğrulanmış PoC & Pilot Aday Mimarisi\n"
-        "Lisans Statüsü: Özel Lisans — Tüm Hakları Saklıdır\n"
-        "Doğrulama Ortamı: Windows 11 x64 / NVIDIA RTX 4070 (8 GB VRAM) / Asterisk 20+ PBX Entegre"
-    )
-    r_m.font.name = "Arial"
-    r_m.font.size = Pt(9.5)
-    r_m.font.color.rgb = COLOR_TEXT
-
-    doc.add_page_break()
-
-    # =========================================================================
-    # İÇİNDEKİLER VE YÖNETİCİ ÖZETİ
-    # =========================================================================
-    add_table_of_contents(doc)
-
-    add_heading_2(doc, "Yönetici Mühendislik Özeti")
-    add_body_p(
-        doc,
-        "FreyaTTS Otomotiv Sesli Asistanı; harici bulut servislerine olan veri bağımlılığını tamamen ortadan kaldıran, "
-        "tek bir tüketici sınıfı iş istasyonunda (NVIDIA RTX 4070, 8 GB VRAM) gerçek zamanlı konuşma tanıma (STT), "
-        "büyük dil modeli çıkarımı (LLM), nöral ses sentezi (TTS) ve telefon santrali (SIP/Asterisk PBX) köprüsünü "
-        "çakışmasız koşturan çok katmanlı bir mühendislik çözümüdür. Sistem; geleneksel IVR menülerinin neden olduğu "
-        "gecikmeleri ve araç içi yüksek kabin gürültüsünde ses algılama başarısızlıklarını deterministik DSP "
-        "ve durum makineleriyle aşmaktadır.",
-        "Özet İfade: "
-    )
-
-    doc.add_page_break()
-
-    # =========================================================================
-    # BÖLÜM 1: MÜHENDİSLİK MİSYONU, GECİKME BÜTÇESİ VE PERFORMANS DOĞRULAMA
-    # =========================================================================
-    add_heading_1(doc, "1. Mühendislik Misyonu, Gecikme Bütçesi ve Performans Doğrulama")
-    add_body_p(
-        doc,
-        "Otomotiv servis ve ekspertiz süreçlerinde telefon üzerinden yapılan sesli iletişim; araç kabin gürültüsü, "
-        "yol uğultusu, yabancı marka ve kısaltmaların telaffuz karmaşıklığı ve telefon hatlarının dar bant (8 kHz) "
-        "kısıtları nedeniyle standart bulut tabanlı konuşma sistemleri için zorlu bir akustik ortam teşkil eder. "
-        "FreyaTTS, bu zorlukları 5 temel mühendislik ekseninde optimize etmiştir:",
-        "Sistemik Yaklaşım: "
-    )
-
-    perf_headers = [
-        "Teknik Metrik",
-        "Geleneksel Mimari Darboğazı",
-        "FreyaTTS Yazılım Çözümü",
-        "Ölçüm Yöntemi & Durum (SLA Hedefi / Benchmark)"
+    # ---------------------------------------------------------- 2. neler çalışıyor
+    add_heading_1(doc, "2. Neler çalışıyor (doğrulanmış)")
+    works = [
+        ["Tarayıcı mikrofonuyla uçtan uca randevu akışı", "Gerçek modellerle sanal mikrofon testi; müşteri sesi sentetik TTS sesidir"],
+        ["Kural öncelikli diyalog: katalog ve ad kuralı yeterliyse LLM atlanır", "backend/dialogue.py; LLM yalnızca kuralların okuyamadığı söz için çağrılır"],
+        ["Açılışta TTS ön ısıtma (karşılama ve sabit cümleler)", "backend/models.py; ilk ses ölçümü Bölüm 3.2'dedir"],
+        ["Sese dayalı geri tanıma ölçümü (TTS, telefon bandı, STT)", "scripts/acoustic_benchmark.py; sonuç data/acoustic/latest.json"],
+        ["Kalite kapısı: eşik aşımı FAIL, ölçülmeyen kriter HOLD", "backend/qa_telemetry_operator.py; PASS yalnızca tüm kriterler ölçülüp geçerse"],
+        ["Otomatik testler", f"{test_line or NA} (toplanan test sayısı; pytest --collect-only -q son satırı)"],
     ]
-    perf_data = [
-        [
-            "İlk Ses Yanıt Hızı\n(TTFA - Latency Budget)",
-            "Bulut API gidiş-dönüş ve LLM tam tamamlama gecikmesi (3000 - 5000 ms)",
-            "Katman 2 İlk Cümlecik Kilidi (4-7 kelime) + Pipelined Overlap ODE çıkarımı + Selamlama için <30 ms Latent Cache",
-            "Ölçülen: p50 785 ms, p95 1127 ms\n(SLA Hedefi: < 1200 ms) — BAŞARILI"
-        ],
-        [
-            "Tam Çift Yönlü İletişim\n(Full-Duplex Barge-In)",
-            "Yarım çift yönlü (half-duplex) iletişim; müşteri araya girdiğinde robot konuşmaya devam eder",
-            "Beş Kesim (5-Cut) deterministik kesme mekanizması + [KESİLDİ - MÜŞTERİ DUYMADI] etiketiyle LLM bağlam budama (Context Pruning)",
-            "Ölçülen: p50 kesinti gecikmesi 125 ms, 4 test koşumu kesintisinde sıfır bellek sızıntısı"
-        ],
-        [
-            "Akustik Gürültü Bastırma\n(Car Denoiser DSP)",
-            "Motor ve yol uğultusu (SNR < 10 dB) Silero VAD'yi kilitler, sahte barge-in tetikler",
-            "8 kHz SLIN16 hatta 4. Derece Butterworth 120 Hz HPF (24 dB/oct) + Sine Spektral Çıkarma (-18 dB taban) + Soft AGC (-16 dBFS)",
-            "Ölçülen: SNR 6 dB araç kabin uğultusunda VAD doğruluğu %98.5, sahte kesinti oranı %0.2"
-        ],
-        [
-            "Sıfır Markdown ve\nAtomik Fonetik Açılım",
-            "LLM çıktılarındaki parantez/yıldız işaretleri ve bölünen rakamlar robotik bozulma üretir",
-            "Sıfır Markdown Kalkanı + Atomik Chunker + 64 çekirdek kurallı P0 Otomotiv Sözlüğü ('1.5 TSI' -> 'bir nokta beş ti es ay')",
-            "Ölçülen: Otomotiv sözlüğü WER %23.33, marka/model doğru telaffuz oranı %99.5"
-        ],
-        [
-            "8 GB VRAM Bellek\nOrkestrasyonu",
-            "TTS, STT ve 7B LLM aynı anda çalıştığında CUDA Out-Of-Memory (OOM) çökmesi",
-            "Tek RTX 4070 (8 GB) üzerinde FreyaTTS CUDA + LoRA, Faster-Whisper CPU, Qwen2.5 sınırlı katman Ollama GPU, GPU Circuit Breaker",
-            "Ölçülen: Tepe VRAM 6.4 GB / 8.0 GB (%80 tepe kullanım), 0 OOM çökmesi"
-        ],
+    add_styled_table(doc, ["Özellik", "Nasıl doğrulandı / kaynak"], works, col_widths=[3.1, 3.8])
+
+    # -------------------------------------------------------------- 3. ölçümler
+    add_heading_1(doc, "3. Ölçümler")
+    add_heading_2(doc, "3.1 Ses doğruluğu ve kalite kapısı")
+    if report and ch and gate:
+        crit = gate["quality_gate_criteria"]
+        rows = [
+            ["Kelime hata oranı (WER)", num(ch.get("avg_wer_pct"), " %"), f"en çok {num(crit['max_wer_pct'], ' %')}", metric_status(gate, "avg_wer_pct")],
+            ["Karakter hata oranı (CER)", num(ch.get("avg_cer_pct"), " %"), f"en çok {num(crit['max_cer_pct'], ' %')}", metric_status(gate, "avg_cer_pct")],
+            ["Otomotiv terim doğruluğu", num(ch.get("automotive_accuracy_pct"), " %"), f"en az {num(crit['min_automotive_accuracy_pct'], ' %')}", metric_status(gate, "automotive_accuracy_pct")],
+            ["Konuşmacı benzerliği (ABX)", NA, f"en az {num(crit['min_abx_similarity'])}", metric_status(gate, "speaker_embedding_abx")],
+            ["F0 sapması (tabana göre)", num(f0.get("max_drift_from_baseline_hz"), " Hz"), f"en çok {num(crit['max_f0_drift_hz'], ' Hz')}", metric_status(gate, "max_f0_drift_hz")],
+            ["Genel kalite kapısı", "-", "-", gate["quality_gate_5_status"]],
+        ]
+        add_styled_table(doc, ["Ölçüt", "Ölçülen", "Eşik", "Durum"], rows, col_widths=[2.4, 1.3, 1.9, 1.3])
+        stt = f"{prov.get('stt_model', NA)} / {prov.get('stt_device', NA)} / {prov.get('stt_compute_type', NA)}"
+        add_body_p(doc, (
+            f"Örnek sayısı: {num(report.get('sample_count'))}; kanal: {report.get('gate_channel', NA)}; "
+            f"ölçüm zamanı: {report.get('measured_at', NA)}. "
+            f"Sentez ortalama RTF: {num((report.get('tts') or {}).get('rtf_avg'))}; "
+            f"F0 medyanı: {num(f0.get('median_hz'), ' Hz')}. "
+            f"STT: {stt}; LoRA adaptörü: {prov.get('lora_adapter') or 'yok'}."
+        ), "Ölçüm bağlamı: ")
+        add_body_p(doc, (
+            "WER, CER ve terim doğruluğu TTS ile STT'nin birleşik sonucudur; hata yalnızca bir modele atfedilemez. "
+            "ABX ve MOS ölçülmemiştir; "
+            + ("F0 taban kaydı alınmamıştır. " if f0.get("baseline_measured_at") is None else "F0 taban kaydı vardır. ")
+            + "Ölçülmeyen kriter varken kapı PASS veremez."
+        ), "Yorum: ")
+    else:
+        add_body_p(doc, f"Akustik rapor okunamadı: {NA}.")
+
+    add_heading_2(doc, "3.2 Gecikme (tek çalıştırma örneği)")
+    if latency:
+        rows = [[r.get("step", NA), r.get("value", NA), r.get("note") or "-"] for r in latency.get("rows", [])]
+        add_styled_table(doc, ["Adım", "Süre", "Not"], rows, col_widths=[2.6, 1.3, 3.0])
+        v = latency.get("vram") or {}
+        add_body_p(doc, (
+            f"Tepe VRAM {num(v.get('peak_mib'))} / {num(v.get('total_mib'))} MiB; bunun yaklaşık "
+            f"{num(v.get('desktop_apps_mib'))} MiB'ı masaüstü uygulamalarıdır ({v.get('note', NA)})."
+        ), "Bellek: ")
+        add_body_p(doc, (
+            f"{latency.get('label', NA)}. Ölçüm tarihi {latency.get('measured_on', NA)}; "
+            f"donanım: {latency.get('hardware', NA)}. {latency.get('method', '')}"
+        ), "Etiket: ")
+    else:
+        add_body_p(doc, f"Gecikme ölçümleri: {NA}.")
+
+    add_heading_2(doc, "3.3 Diğer sayımlar")
+    add_styled_table(doc, ["Konu", "Değer", "Kaynak"], [
+        ["Toplanan test", test_line or NA, "pytest --collect-only -q"],
+        ["Sözlük kural sayısı", num(lexicon_n), "backend.normalizer_rules.BASE_AUTOMOTIVE_LEXICON"],
+        ["M11 fiziksel kabul", (m11_status or NA) + (f" ({m11_date})" if m11_date else ""), m11_src or "M11 kayıt dosyası bulunamadı"],
+    ], col_widths=[2.0, 2.4, 2.5])
+
+    add_heading_2(doc, "Veri kaynağı")
+    add_bullets(doc, [
+        f"Akustik: {_rel(cfg['acoustic'])} ({'okundu' if report else NA}).",
+        f"Gecikme: {_rel(cfg['latency'])} ({'okundu' if latency else NA}).",
+        "Kalite kapısı: abc_evaluator.run_benchmark_suite([], acoustic_report=...) çıktısı.",
+        f"Test sayısı: pytest --collect-only -q son satırı ({'okundu' if test_line else NA}).",
+        f"Sözlük: BASE_AUTOMOTIVE_LEXICON ({'okundu' if lexicon_n is not None else NA}).",
+        f"M11: {m11_src or NA}.",
+    ])
+
+    # ---------------------------------------------------------------- 4. mimari
+    add_heading_1(doc, "4. Mimari")
+    lora = prov.get("lora_adapter")
+    arch = [
+        ["Sentez (TTS)", f"FreyaTTS, {str(prov.get('tts_device', 'GPU')).upper()}"],
+        ["Konuşma tanıma (STT)", f"faster-whisper {prov.get('stt_model', NA)}, {str(prov.get('stt_device', NA)).upper()}, {prov.get('stt_compute_type', NA)}"],
+        ["Dil modeli", "Ollama üzerinde qwen2.5:7b (şemalı alan çıkarımı)"],
+        ["Ses etkinliği", "Silero VAD"],
+        ["Veri", "SQLite (WAL), Alembic migration"],
+        ["Telefon girişi", "Asterisk AudioSocket (8 kHz PCM16); gerçek PBX ile doğrulanmadı"],
+        ["Arayüz", "React yönetim paneli, FastAPI arka uç"],
+        ["Ses adaptörü (LoRA)", f"{lora}" if lora else "Eğitilmiş adaptör yok"],
     ]
-    add_styled_table(doc, perf_headers, perf_data, col_widths=[1.5, 1.6, 2.0, 1.4])
+    add_styled_table(doc, ["Bileşen", "Gerçek durum"], arch, col_widths=[2.0, 4.9])
+    add_body_p(doc, (
+        "Görüşme sırasında harici STT/LLM hizmeti kullanılmaz. Backend randevu durum makinesini yürütür; "
+        "LLM'in veritabanına doğrudan erişimi yoktur. Canlı yola bağlı olmayan kod experimental/ ve archive/ altındadır "
+        "ve üretim davranışının kanıtı sayılmaz."
+    ))
 
-    add_callout(
-        doc,
-        "KATMAN 2 ÇALIŞMA ZAMANI GÜVENLİK PROTOKOLÜ (RUNTIME GUARDS)",
-        "1. İlk Cümlecik Kilidi: Model yanıt verirken ilk cümleyi 4-7 kelimede sınırlar ('Size hemen yardımcı olayım.'). İlk ses paketi 1.2 sn altında hatta ulaşır.\n"
-        "2. Sıfır Markdown Kalkanı: Telefona aktarılan ses sinyalinde parantez, yıldız, URL veya liste karakterleri regex ve atomik süzgeçlerle tamamen engellenir.\n"
-        "3. Dinamik Bağlam Budama: Müşteri araya girdiği anda ses çıkışı anında kesilir; müşterinin duymadığı metinler modelin diyalog geçmişinden temizlenir.",
-        border_color="16A34A"
-    )
+    # ----------------------------------------------------------- 5. doğrulama
+    add_heading_1(doc, "5. Ne, nasıl doğrulandı")
+    ver = (latency or {}).get("acceptance_runs") or {}
+    main_run = ver.get("main_sentence") or {}
+    short_run = ver.get("short_vehicle_sentence") or {}
+    add_bullets(doc, [
+        f"Birim ve entegrasyon testleri: {test_line or NA}.",
+        "Akustik karşılaştırma: sentetik ses telefon bandına çevrilip STT ile geri tanındı (Bölüm 3.1).",
+        "Gerçek model tarayıcı testi: müşteri olarak sentetik TTS sesi kullanıldı; insan sesi değildir.",
+        (f"Araç adımı kararsız: ana kabul testi son {num(main_run.get('total'))} çalıştırmanın {num(main_run.get('passed'))} tanesinde geçti; "
+         f"kısaltılmış araç cümlesi {num(short_run.get('total'))} çalıştırmanın {num(short_run.get('passed'))} tanesinde geçti."),
+        "Telefon protokolü: birim testleri; gerçek PBX, ağ jitter'ı veya uçtan uca ses kalitesi kanıtı değildir.",
+    ])
 
-    doc.add_page_break()
-
-    # =========================================================================
-    # BÖLÜM 2: UÇTAN UCA VERİ AKIŞ ŞEMASI, MODEL KÜNYESİ VE 7 UZMAN AJAN
-    # =========================================================================
-    add_heading_1(doc, "2. Uçtan Uca Sinyal Akışı, Model Künyesi ve 7 Uzman Ajan Ekosistemi")
-    add_body_p(
-        doc,
-        "FreyaTTS, monolitik bir yapay zekâ modeli yerine her biri telekomünikasyon, ses işleme ve "
-        "diyalog yönetiminin farklı bir katmanında çalışan 7 uzman otonom yazılım ajanının senkronize "
-        "orkestrasyonu ile hizmet vermektedir.",
-        "Mimari Prensip: "
-    )
-
-    add_heading_2(doc, "2.1. Teknoloji ve Model Künyesi (Model Specifications)")
-    model_headers = ["Bileşen / Katman", "Seçilen Teknoloji / Model", "Çalışma Ortamı & Donanım", "Mühendislik Rolü"]
-    model_data = [
-        ["Platform & Akustik Motor", "FreyaTTS (ODE + LoRA)", "NVIDIA CUDA (RTX 4070 8 GB)", "Pipelined Overlap ODE çıkarımı ile düşük gecikmeli konuşma üretimi"],
-        ["Ses Profili (Persona)", "Leyla (Türkçe Kadın Sesi)", "24 kHz PCM / 8 kHz SLIN16", "Seed #9 (Standart), #42 (Sıcak), #77 (Dinamik), #123 (Resmi) tohumları"],
-        ["Büyük Dil Modeli (LLM)", "Qwen2.5:7b-Instruct", "Yerel Ollama (Katman Sınırlı GPU)", "Deterministik JSON şeması, araç ve randevu doğrulama motoru"],
-        ["Konuşma Tanıma (STT)", "Faster-Whisper Large-v3-Turbo", "CPU Çok İzlekli (Multi-threaded)", "Düşük CPU yüküyle Türkçe arayan sesini metne dönüştürme"],
-        ["Ses Aktivite Algılama", "Silero VAD v5", "CPU / TorchScript", "512 örnekleme pencereli hassas insan sesi ve barge-in algılama"],
-        ["Telefoni & PBX Köprüsü", "Asterisk 20+ PBX", "Linux / Docker / TCP_NODELAY", "SIP Trunk, RTP akışı, G.711 A-Law ve X-Freya özel başlık yönetimi"],
-        ["Veri Katmanı & ORM", "SQLite / SQLAlchemy / Alembic", "Yerel SSD Depolama", "ACID uyumlu ilişkisel veritabanı, sıfır harici ağ trafiği"],
+    # --------------------------------------------------------------- 6. riskler
+    add_heading_1(doc, "6. Açık riskler ve eksikler")
+    risks = [
+        ["İnsan sesiyle test yok", "Doğal konuşma, aksan ve gürültüde davranış bilinmiyor"],
+        ["Asterisk / gerçek telefon testi yok", f"M11 durumu: {m11_status or NA}; kanıt gönderilmemiş kapılar HOLD"],
+        ["Gerçek SMS sağlayıcısı yok", "Bildirim sağlayıcısı sahte; gerçek mesaj gitmez"],
+        ["AMI sahte", "Gerçek çağrı aktarımı ve giden arama yapılamaz"],
+        ["Terim doğruluğu eşiğin çok altında", f"{num((ch or {}).get('automotive_accuracy_pct'), ' %')} ölçüldü; eşik %95 (marka ve motor kısaltmaları)"],
+        ["ABX ve F0 tabanı ölçülmedi", "Ses kimliği ve doğallık için dinleme kabulü yok"],
+        ["LoRA adaptörü yok", "Ses uyarlaması yapılmadı"],
+        ["LLM turlarında ilk ses hedefin üstünde", "Hedef 1,2 s; LLM gerektiren turlar yaklaşık 6 s (Bölüm 3.2)"],
+        ["KVKK maddeleri hukuki incelemede", "Saklama süresi yalnızca ses kayıtlarını kapsar; transkript ve diğer kişisel veri kapsam dışıdır"],
+        ["Eşzamanlı görüşme ölçülmedi", "Yapılandırma üst sınırı 50 görüşmedir; VRAM ve gecikme yalnızca tek görüşmeyle sınandı"],
     ]
-    add_styled_table(doc, model_headers, model_data, col_widths=[1.5, 1.7, 1.6, 1.7])
+    add_styled_table(doc, ["Risk / eksik", "Ayrıntı"], risks, col_widths=[2.6, 4.3])
 
-    add_heading_2(doc, "2.2. Uçtan Uca Sinyal ve Veri Akış Pipeline'ı (Signal Pipeline)")
-    add_body_p(
-        doc,
-        "Telefon hattından gelen bir ses dalgasının yanıtlanıp geri iletilmesine kadar geçen veri akış zinciri "
-        "aşağıdaki deterministik sıra ile işletilmektedir:",
-        "İşlem Sırası: "
-    )
+    # --------------------------------------------------------- 7. sonraki adımlar
+    add_heading_1(doc, "7. Gerçekçi sonraki adımlar")
+    add_bullets(doc, [
+        "İnsan sesiyle kontrollü dinleme ve kabul testi; ABX/F0 tabanının kaydı.",
+        "Marka ve motor terimleri için sözlük ve telaffuz iyileştirmesi; akustik ölçümün tekrarı.",
+        "Gerçek Asterisk ve SIP hattıyla M11 kanıtlarının toplanması.",
+        "Gerçek SMS/WhatsApp sağlayıcısı seçimi ve entegrasyonu.",
+        "LLM gerektiren turlarda gecikme azaltımı; araç adımı kararlılığı.",
+        "KVKK hukuki inceleme ve saklama kapsamının transkriptlere genişletilmesi.",
+    ])
 
-    add_callout(
-        doc,
-        "UÇTAN UCA SES VE VERİ BORU HATTI (PIPELINE TRACE)",
-        "1. SIP Trunk / Asterisk PBX ➔ Gelen çağrı 8 kHz SLIN16 / G.711 A-Law formatında kabul edilir.\n"
-        "2. Ajan 5 (Telephony_Asterisk_Agent) ➔ TCP_NODELAY ve MARK_MEDIA soket optimizasyonuyla akışı alır.\n"
-        "3. Ajan 2 (Prosody_HLS_Agent) ➔ 120 Hz Butterworth HPF + Spektral Çıkarma (-18 dB) ile kabin gürültüsünü temizler.\n"
-        "4. Silero VAD & Ajan 4 (Session_BargeIn_Agent) ➔ Konuşma başlangıcını saptar, 5-Kesim ile aktif çalmayı anında durdurur.\n"
-        "5. Faster-Whisper STT ➔ Temizlenmiş ses segmentini metne çevirir (p50: 240 ms).\n"
-        "6. Qwen2.5 LLM ➔ Deterministik veritabanı kilidi altında randevu ve teşhis JSON çıkarımını yapar (p50 TTFT: 310 ms).\n"
-        "7. Ajan 1 (Linguistic_Lexicon_Agent) ➔ 64 kural P0 sözlük ile fonetik açılımı ve Atomik Chunker bölütlemesini uygular.\n"
-        "8. Ajan 3 & 6 (Freya_Inference_Agent & LoRA) ➔ Pipelined ODE ve DiT LoRA ile ses dalgasını sentezler (RTF: 0.38x).\n"
-        "9. Ajan 2 (WSOLA Prosodi) ➔ Doğal konuşma hızını robotikleşmeden 0.94x-1.02x bandında korur.\n"
-        "10. Asterisk RTP Çıkışı ➔ Ses telefon şebekesine iletilir (Tüm süreç Ajan 7 OpenTelemetry ile mikro-ölçekte izlenir).",
-        border_color="0284C7"
-    )
+    # --------------------------------------------------------------- EK-A
+    add_heading_1(doc, "EK-A. Yönetim paneli sekmeleri")
+    tabs = read_tabs(cfg["nav"])
+    add_styled_table(doc, ["Sekme", "Amaç"], [[t, TAB_PURPOSE.get(t, NA)] for t in tabs], col_widths=[2.2, 4.7])
+    shots_dir = Path(cfg["screenshots"]) if cfg.get("screenshots") else None
+    if shots_dir:
+        for fname, title in SCREENSHOTS:
+            path = shots_dir / fname
+            if path.exists():
+                add_screenshot_card(doc, str(path), f"{title}. {DEMO_CAPTION}")
 
-    add_heading_2(doc, "2.3. 7 Uzman Ajan Ekosistemi")
-    agent_headers = ["Ajan Kodu", "Ajan Adı", "Çalıştığı Katman", "Mühendislik Sorumluluğu"]
-    agent_data = [
-        ["Ajan 1", "Linguistic_Lexicon_Agent", "Metin Ön İşleme & Fonetik", "Otomotiv terimlerinin (TSI, TDI, DSG, CVT vb.) normalizasyonu ve bölünmez Atomik Chunker yönetimi."],
-        ["Ajan 2", "Prosody_HLS_Agent", "Akustik DSP & Prosodi", "WSOLA perde koruyucu zaman esnetme ve araç kabini gürültü filtreleme (Butterworth HPF + Spektral)."],
-        ["Ajan 3", "Freya_Inference_Agent", "Nöral Akustik Sentez", "Pipelined Overlap ODE çıkarımı ve ilk selamlama için önbelleklenmiş (<30 ms) Latent Cache yönetimi."],
-        ["Ajan 4", "Session_BargeIn_Agent", "Diyalog Durum Makinesi", "Beş Kesim (5-Cut) deterministik araya girme mekanizması ve duymayan içerik için bellek budama."],
-        ["Ajan 5", "Telephony_Asterisk_Agent", "Telekomünikasyon Ağı", "Asterisk PBX AMI/FastAGI köprüsü, TCP_NODELAY soket yönetimi ve SIP X-Freya başlıklarının eşlenmesi."],
-        ["Ajan 6", "Model_LoRA_Agent", "PEFT Model Adaptasyonu", "DiT Cross-Attention LoRA adaptörleri ile RTX 4070 VRAM sınırında sektörel kelime dağarcığı eğitimi."],
-        ["Ajan 7", "QA_Telemetry_UI_Agent", "Kalite & Denetim Kapısı", "RT-09 Sahte Sıfır Yasağı telemetrisi, RT-10 Canlı Devralma ve HLS-08 Kalite Kapısı 5 denetimi."],
-    ]
-    add_styled_table(doc, agent_headers, agent_data, col_widths=[1.0, 1.8, 1.5, 2.2])
-
-    doc.add_page_break()
-
-    # =========================================================================
-    # BÖLÜM 3: TEST MÜHENDİSLİĞİ, KALİTE KAPILARI VE M11 EMNİYET KİLİDİ
-    # =========================================================================
-    add_heading_1(doc, "3. Test Mühendisliği (1095 Test Matrisi), Kalite Kapıları ve M11 Kilidi")
-    add_body_p(
-        doc,
-        "Platformun kararlılığı, rastlantısal testler yerine test odaklı geliştirme (TDD) metodolojisiyle "
-        "inşa edilen 1095 bağımsız birim, entegrasyon ve protokol testinden oluşan kapsamlı bir test süiti ile "
-        "güvence altına alınmıştır.",
-        "Test Stratejisi: "
-    )
-
-    add_heading_2(doc, "3.1. 1095 Birim ve Entegrasyon Testinin Yazılım Katmanlarına Dağılımı")
-    test_headers = ["Yazılım Katmanı & Test Alanı", "Test Sayısı", "Doğrulanan Kritik Mühendislik Kriteri", "Durum"]
-    test_data = [
-        ["Fonetik Normalizer & Ek Kuralları", "184 Test", "TSI, e-Power, DSG açılımları, kesme işareti ek uyumları ve büyük/küçük harf duyarsızlığı", "%100 PASS"],
-        ["5-Kesim Barge-In Durum Makinesi", "142 Test", "Konuşma yarıda kesildiğinde ses tamponlarının anında boşaltılması ve bellek budama", "%100 PASS"],
-        ["DSP Filtre Kararlılığı & AGC", "116 Test", "Butterworth 120 Hz HPF frekans cevabı, spektral çıkarma tabanı ve clipping önleme", "%100 PASS"],
-        ["RT-09 Sahte Sıfır Yasağı Şeması", "128 Test", "Telemetri API'larında ölçülmemiş gecikmelerin yapay 0.0 ms yerine kesinlikle null dönmesi", "%100 PASS"],
-        ["FastAPI & WebSocket Protokolleri", "215 Test", "16 kHz ikili PCM akış sözleşmeleri, HTTP Basic Auth güvenliği ve REST uç nokta bütünlüğü", "%100 PASS"],
-        ["GPU Circuit Breaker Geçişleri", "98 Test", "CLOSED -> OPEN -> HALF-OPEN durum geçişleri, VRAM eşik aşımı ve yük dengeleme", "%100 PASS"],
-        ["Asterisk SIP Trunk & A/B İstatistik", "212 Test", "AMI/AGI çağrı yönlendirme, Warm Transfer SIP başlıkları ve iki oranlı Z-Testi / p-değeri", "%100 PASS"],
-    ]
-    add_styled_table(doc, test_headers, test_data, col_widths=[1.8, 1.0, 2.8, 0.9])
-
-    add_heading_2(doc, "3.2. HLS-08 Kalite Kapısı 5: Üçlü Model Karşılaştırma Sonuçları")
-    add_body_p(
-        doc,
-        "Kalite Kapısı 5; model güncellemelerinin konuşma kalitesini geriye götürmesini (regresyon) engellemek "
-        "üzere oluşturulmuş otomatik bir denetim süitidir. Değerlendirme iki aşamalı olarak koşturulur:\n"
-        "• Hızlı Doğrulama: 3 altın test cümlesi ve 6 telefon codec simülasyonu üzerinde anlık döküm.\n"
-        "• Tam Regresyon Süiti: 320 otomotiv altın cümlesi üzerinde Levenshtein WER/CER ve ITU-T P.800 MOS analizi.",
-        "Denetim Yöntemi: "
-    )
-
-    qg_headers = ["Kalite Metriği / Ölçüm", "Varyant A (Ham Model)", "Varyant B (P0 Sözlük)", "Varyant C (P0 + LoRA)", "Kabul Eşiği"]
-    qg_data = [
-        ["Otomotiv Terim Doğruluğu", "%40.0 (Robotik telaffuz)", "%98.5 (Doğru açılım)", "%99.5 (Tam fonetik akıcılık)", "≥ %95.0"],
-        ["Levenshtein WER (Kelime Hata)", "%62.39 (Yüksek hata)", "%28.40 (Düşük hata)", "%23.33 (En yüksek doğruluk)", "≤ %25.0"],
-        ["Levenshtein CER (Karakter Hata)", "%47.42", "%21.15", "%17.01", "≤ %20.0"],
-        ["ITU-T P.800 MOS Ses Skoru", "3.12 / 5.00 (Zayıf)", "4.18 / 5.00 (İyi)", "4.31 / 5.00 (Çok İyi)", "≥ 4.00"],
-        ["ABX Kör Dinleme Tercih Oranı", "0.06 (Tercih edilmedi)", "0.82 (Güçlü tercih)", "0.94 (Ezici tercih)", "≥ 0.75"],
-        ["Perde (F₀) Sapması", "3.4 Hz (Düzensiz)", "1.1 Hz (Kararlı)", "< 0.8 Hz (Kusursuz ton)", "≤ 1.5 Hz"],
-    ]
-    add_styled_table(doc, qg_headers, qg_data, col_widths=[1.8, 1.2, 1.2, 1.3, 1.0])
-
-    add_heading_2(doc, "3.3. M11 Donanım Kabul Güvenlik Kalkanı")
-    add_body_p(
-        doc,
-        "Yazılımın fiziki telefon şebekesine kontrolsüz geçişini engellemek için mimaride 'M11 Emniyet Kilidi' "
-        "bulunmaktadır. Sistem; fiziksel bir Asterisk PBX cihazından alınmış pcap trace logu doğrulanmadıkça "
-        "canlı geçiş durumunu kriptografik olarak 'HOLD (Simülasyonda Kilitli)' modunda tutar. "
-        "Kaynak kodların SHA-256 bütünlük özeti bu kilitle denetlenir; böylece test kanıtı olmayan hiçbir "
-        "yapı sahada canlı arama kabul edemez.",
-        "Kriptografik Güvence: "
-    )
-
-    doc.add_page_break()
-
-    # =========================================================================
-    # BÖLÜM 4: YAZILIMSAL RİSKLER, KVKK MİMARİSİ VE PİLOT PLANI
-    # =========================================================================
-    add_heading_1(doc, "4. Yazılımsal Riskler, Sınırlılıklar, KVKK Mimarisi ve Pilot Planı")
-    add_body_p(
-        doc,
-        "Kurumsal yazılım mühendisliği, sistemin güçlü yönleri kadar potansiyel sınırlarını ve risk azaltma "
-        "(mitigation) stratejilerini de şeffaflıkla ortaya koymayı gerektirir.",
-        "Mühendislik Sorumluluğu: "
-    )
-
-    add_heading_2(doc, "4.1. Teknik Risk ve Azaltma (Mitigation) Matrisi")
-    risk_headers = ["Teknik Risk / Sınırlılık", "Olası Sistemik Etkisi", "Yazılımsal Azaltma Stratejisi (Mitigation)"]
-    risk_data = [
-        [
-            "LLM Halüsinasyonu\n(Uydurma Fiyat/Randevu)",
-            "Müşteriye geçersiz randevu saati verilmesi veya yanlış fiyat söylenmesi",
-            "Deterministik Veritabanı Kilidi: Modelin veritabanı dışından bilgi türetmesi sistem istemiyle kesin olarak yasaklanmıştır. Yalnızca kayıtlı servis paketleri seslendirilir."
-        ],
-        [
-            "VRAM Doygunluğu ve\nTermal Darboğaz",
-            "Arka arkaya yoğun çıkarımda GPU'nun aşırı ısınması veya CUDA OOM riski",
-            "GPU Circuit Breaker (CLOSED/OPEN): Bellek %85'i aştığında devre kesici açılır; çağrılar anında SIP Warm Transfer veya RT-10 Canlı Devralma ile insan operatöre aktarılır."
-        ],
-        [
-            "Aşırı Düşük SNR (<5 dB)\nve Çoklu Konuşmacı",
-            "Kabin içinde aynı anda radyo çalması veya çocuk sesi olması durumunda VAD şaşırması",
-            "Silero VAD dinamik enerji eşik profili uygulanır; model emin olamadığı cümlelerde 'Net anlayamadım, tekrar eder misiniz?' nezaket fallback mekanizmasını çalıştırır."
-        ],
-    ]
-    add_styled_table(doc, risk_headers, risk_data, col_widths=[1.5, 2.0, 3.0])
-
-    add_heading_2(doc, "4.2. KVKK ve Veri Güvenliği Mimarisi")
-    add_body_p(
-        doc,
-        "FreyaTTS, kurumsal veri gizliliğini soyut beyanlarla değil, mimari tasarımıyla garanti altına alır:\n"
-        "1. Yerel Ağ İzolasyonu (On-Premise): Çıkarım motoru tamamen yerel GPU ve CPU üzerinde çalışır; internete tek bir ses veya metin paketi iletilmez.\n"
-        "2. Sıfır Harici API Çağrısı: OpenAI, Google veya Azure gibi üçüncü parti bulut sağlayıcılarına hiçbir telemetri veya müşteri verisi gönderilmez.\n"
-        "3. Ham Ses Saklama Kalkanı: Tarayıcı ve telefon hattı üzerindeki ham ses kayıtları varsayılan olarak diske yazılmaz; yalnızca kullanıcı izinli metin özetleri saklanır.\n\n"
-        "Pilot Öncesi İdari Kontrol Listesi: Kurumsal canlı yayına geçiş öncesinde şirketin hukuk birimi tarafından "
-        "Çağrı Karşılama Aydınlatma Metni'nin seslendirilmesi ve Veri Saklama/İmha Politikasının onaylanması önerilmektedir.",
-        "Veri Yerelliği: "
-    )
-
-    add_heading_2(doc, "4.3. Donanım Profilleri Karşılaştırması")
-    hw_headers = ["Donanım Bileşeni", "Geliştirme & PoC Doğrulama Ortamı", "Önerilen Pilot / Üretim Sunucu Ortamı"]
-    hw_data = [
-        ["İşlemci (CPU)", "Intel Core i7/i9 (14. Nesil, 8+ Çekirdek)", "AMD EPYC veya Intel Xeon (16+ Çekirdek Server CPU)"],
-        ["Ekran Kartı (GPU)", "NVIDIA GeForce RTX 4070 (8 GB GDDR6X)", "NVIDIA RTX 4080 (16 GB) veya L4 / A10 Tensor Core GPU"],
-        ["Sistem Belleği (RAM)", "32 GB DDR5 5600 MHz", "64 GB DDR5 ECC Kayıtlı Bellek"],
-        ["Depolama (Disk)", "1 TB NVMe M.2 SSD (7000 MB/s Okuma)", "2 TB Kurumsal Seviye PCIe Gen4 NVMe (RAID-1 Aynalı)"],
-        ["Telekomünikasyon", "Yerel Asterisk PBX / Sanal SIP Trunk", "Fiziksel Asterisk 20+ PBX Sunucusu / E1/PRI PRI Ağ Geçidi"],
-    ]
-    add_styled_table(doc, hw_headers, hw_data, col_widths=[1.5, 2.5, 2.5])
-
-    add_heading_2(doc, "4.4. 4 Aşamalı Teknik Pilot Doğrulama Planı")
-    add_body_p(
-        doc,
-        "Platformun kontrollü şekilde gerçek müşteri çağrılarıyla buluşturulması için belirlenen teknik takvim:",
-        "Uygulama Yol Haritası: "
-    )
-
-    plan_headers = ["Aşama No", "Pilot Aşaması", "Uygulanacak Test & Doğrulama", "Başarı Kriteri"]
-    plan_data = [
-        ["Aşama 1", "Fiziksel SIP Trunk Entegrasyonu", "Asterisk santral ile gerçek telefon numarası üzerinden SIP handshake ve pcap dökümü alınması", "M11 Güvenlik Kilidinin HOLD'dan PASS'e geçmesi"],
-        ["Aşama 2", "Eşzamanlı Hat Yük Testi", "10 eşzamanlı kanal üzerinden sentetik test aramalarıyla VRAM ve CPU tepe kullanımının ölçülmesi", "Tepe VRAM < 7.2 GB, 0 OOM çökmesi, sıfır paket kaybı"],
-        ["Aşama 3", "Gerçek Kabin Gürültüsü Doğrulaması", "Farklı hızlarda (60 km/s, 120 km/s) seyreden araç içi Bluetooth görüşmelerinde WER ölçümü", "Otomotiv terim WER < %25.0, TTFA < 1200 ms"],
-        ["Aşama 4", "Operatör Acil Devralma Tatbikatı", "Dahili 6002 masasında canlı çağrıya RT-10 Takeover ve SIP Warm Transfer fısıltı tatbikatı", "Devralma süresi < 200 ms, hatta sıfır ses kesintisi"],
-    ]
-    add_styled_table(doc, plan_headers, plan_data, col_widths=[0.8, 1.8, 2.7, 1.2])
-
-    doc.add_page_break()
-
-    # =========================================================================
-    # BÖLÜM 5: YÖNETİCİ MÜHENDİSLİK DEĞERLENDİRMESİ VE SONUÇ
-    # =========================================================================
-    add_heading_1(doc, "5. Yönetici Mühendislik Değerlendirmesi ve Sonuç")
-    add_body_p(
-        doc,
-        "FreyaTTS Otomotiv Sesli Asistan Platformu; çağrı yanıtlama gecikmesini 1.2 saniyenin altında tutan, "
-        "kullanıcı araya girdiğinde anında susarak tam çift yönlü diyalog kurabilen, kabin içi gürültüyü "
-        "donanım dostu DSP filtreleriyle temizleyen ve ekspertiz muayenelerini sesli dikteyle dijitalleştiren "
-        "ileri seviye bir yapay zekâ mühendisliği çalışmasıdır.",
-        "Mühendislik Kararı: "
-    )
-    add_body_p(
-        doc,
-        "Projenin Kavram Kanıtlama (PoC) fazı; 1095 testin 1095'inin de yeşil olmasıyla, 22 operasyonel ekranın "
-        "hatasız derlenmesiyle ve tek komutla ayağa kalkan yerel servis orkestrasyonuyla başarıyla tamamlanmıştır. "
-        "Sistem, yukarıda özetlenen 4 aşamalı pilot doğrulama planı çerçevesinde canlı telefon hatlarına bağlanmaya "
-        "ve pilot test yayınına alınmaya hazırdır.",
-        "Sonuç: "
-    )
-
-    p_sign = doc.add_paragraph()
-    p_sign.paragraph_format.space_before = Pt(36)
-    p_sign.paragraph_format.keep_with_next = True
-    r_s = p_sign.add_run(
-        "Raporu Hazırlayan: Seydi Vakkas Eryılmaz\n"
-        "Unvan: Kıdemli Yapay Zekâ & Sistem Mimarı (@seydivakkas)\n"
-        "Tarih: 03 Kasım 2026\n"
-        "İmza: ____________________________"
-    )
-    r_s.font.name = "Arial"
-    r_s.font.size = Pt(10)
-    r_s.font.bold = True
-    r_s.font.color.rgb = COLOR_PRIMARY
-
-    doc.add_page_break()
-
-    # =========================================================================
-    # EK-A: OPERASYONEL ARAYÜZ VE API TETİKLEME KATALOĞU (22 EKRAN)
-    # =========================================================================
-    add_heading_1(doc, "EK-A: Operasyonel Arayüz ve API Tetikleme Kataloğu (22 Ekran)")
-    add_body_p(
-        doc,
-        "Bu ek bölümde, platformun React tabanlı web konsolundaki her bir sayfa; ekran görüntüsü, "
-        "sayfanın amacı, arayüzdeki gerçek kontrol tuşları ve bunların tetiklediği arka uç API uç noktaları "
-        "ile adım adım belgelenmiştir.",
-        "Katalog Amacı: "
-    )
-
-    screens = [
-        {
-            "id": "00_giris_ekrani",
-            "title": "A.1. Yönetici Güvenli Giriş Ekranı (Authentication)",
-            "img": "docs/screenshots/00_giris_ekrani.png",
-            "desc": "Sistemin yönetim konsoluna yetkisiz erişimleri engelleyen, SHA-256 tabanlı güvenli oturum açma arayüzüdür.",
-            "controls": [
-                ["Yönetici Parolası Girişi", "Şifreli Giriş Alanı", "Sisteme giriş için parola doğrulaması yapar.", "HTTP Basic Auth"],
-                ["Panele Giriş Butonu", "Form Gönderim Butonu", "Kimlik bilgilerini doğrular ve ana konsola yönlendirir.", "GET /api/readiness"],
-            ],
-            "biz_value": "Müşteri verilerine, arama geçmişine ve fiyatlandırma kurallarına yetkisiz erişimi engeller."
-        },
-        {
-            "id": "01_gorusme",
-            "title": "A.2. Canlı Sesli Görüşme ve Asistan Konsolu (Görüşme Sekmesi)",
-            "img": "docs/screenshots/01_gorusme.png",
-            "desc": "Kullanıcıların mikrofon üzerinden asistanla canlı sesli diyalog başlattığı, aktif sayaçların ve ses motoru durumunun izlendiği ana ekrandır.",
-            "controls": [
-                ["Ses Motoru Durum Kartı", "Durum Rozeti", "FreyaTTS motorunun hazır olup olmadığını anlık gösterir (Hazır / Model Bekleniyor).", "GET /api/readiness"],
-                ["Aktif Randevu Sayacı", "Metrik Kartı", "Sistemde bugün onaylanmış randevu sayısını görüntüler.", "GET /api/appointments"],
-                ["Kayıtlı Araç Sayacı", "Metrik Kartı", "Veritabanındaki toplam tanımlı araç sayısını listeler.", "GET /api/vehicles"],
-                ["Mikrofonla Görüşme Başlat / Bitir", "Eylem Butonu", "Tarayıcı mikrofonunu açarak 16 kHz WebSocket ses akışını başlatır/sonlandırır.", "WS /ws/voice"],
-                ["Canlı Konuşma Akışı (Orb & Pill)", "Görsel Animasyon", "Asistanın konuşma durumunu ve ses aktivitesini görselleştirir.", "WebSocket Voice State"],
-            ],
-            "biz_value": "Operatörün ve yöneticinin tek tıkla ses kalitesini ve diyalog akışını canlı ortamda test etmesini sağlar."
-        },
-        {
-            "id": "02_operator_6002",
-            "title": "A.3. Operatör Konsolu — SIP Warm Transfer (Dahili 6002)",
-            "img": "docs/screenshots/02_operator_6002.png",
-            "desc": "Yapay zekâdan insan operatöre yapılan sıcak aktarımları (Warm Transfer) yönetir; gelen arayanın plakası, müşteri adı ve fısıltı özeti kartta listelenir.",
-            "controls": [
-                ["Çağrıyı Al / Köprüle", "Kabul Butonu (Yeşil)", "Arayan müşteriyi operatörün dahili SIP telefonuna anında bağlar.", "POST /api/transfers/{id}/accept"],
-                ["Meşgul / AI'ya İade", "Ret Butonu (Kırmızı)", "Operatör meşgulse çağrıyı reddeder, AI müşteriye bilgi verip devam eder.", "POST /api/transfers/{id}/decline"],
-                ["Canlı Takip (3 sn)", "Onay Kutusu", "Aktarım kuyruğunu 3 saniyede bir otomatik sorgulayıp yeniler.", "Auto Poll Interval"],
-                ["Filtre Seçici (Tümü / Bekleyen / Kabul)", "Filtre Butonu", "Aktarım kayıtlarını çağrı durumuna göre filtreler.", "Status Filter"],
-            ],
-            "biz_value": "Müşterinin derdini ikinci kez anlatmasını önler; operatör çağrıyı aldığında tüm bağlam ekranda hazırdır."
-        },
-        {
-            "id": "02_operator_6002_takeover",
-            "title": "A.4. Operatör Konsolu — Canlı Müdahale ve Koçluk (RT-10 Takeover)",
-            "img": "docs/screenshots/02_operator_6002_takeover.png",
-            "desc": "Canlı devam eden yapay zekâ görüşmelerini izleyen ve operatörün tek tıkla çağrıyı devralıp gizli not fısıldamasını sağlayan acil müdahale modülüdür.",
-            "controls": [
-                ["Operatör Kodunuz", "Metin Kutusu", "Müdahaleyi gerçekleştiren operatörün dahili numarasını belirler (6002).", "Operator ID Input"],
-                ["Müdahale Gerekçesi", "Seçim Listesi", "Müşteri Şikâyeti, Karmaşık Fiyat, GPU Devre Kesici vb. gerekçe seçimi.", "Takeover Reason Dropdown"],
-                ["+ Yeni Simüle Çağrı Başlat", "Test Butonu", "Canlı müdahale mekanizmasını test etmek için sahte bir çağrı açar.", "POST /api/operator/register-call"],
-                ["⚡ Çağrıyı Devral (Takeover)", "Acil Eylem Butonu", "Yapay zekâyı susturur, müşteriyi anında operatör hattına bağlar.", "POST /api/operator/takeover"],
-                ["🔁 Görüşmeyi AI'ya Geri Ver (Release)", "İade Butonu", "Görüşmeyi tekrar yapay zekâ akışına teslim eder.", "POST /api/operator/release"],
-                ["Fısılda (Whisper)", "Gizli Koçluk Butonu", "Yalnızca yapay zekânın duyacağı, müşteriye gitmeyen gizli koçluk notu gönderir.", "POST /api/operator/whisper"],
-            ],
-            "biz_value": "Kriz anında veya karmaşık kurumsal pazarlıklarda insan uzmanın saniyeler içinde çağrıya müdahale etmesini sağlar."
-        },
-        {
-            "id": "02_operator_6002_quality_gate",
-            "title": "A.5. Operatör Konsolu — HLS-08 Kalite Kapısı 5 ve Dağıtık Telemetri",
-            "img": "docs/screenshots/02_operator_6002_quality_gate.png",
-            "desc": "A/B/C üçlü varyant (Ham vs P0 Sözlük vs LoRA) ses kalitesini, WER/CER hata oranlarını ve Perde (F₀) Sapmasını denetleyen kalite kapısı ekranıdır.",
-            "controls": [
-                ["Kalite Kapısı 5 Süitini Çalıştır", "Benchmark Butonu", "Altın test cümleleri üzerinde modelleri koşturup kalite skorunu üretir.", "POST /api/qa/evaluate-variants"],
-                ["M11 Durumunu Sorgula", "Durum Rozeti (HOLD / PASS)", "Fiziksel Asterisk PBX trace kanıtını ve kilit durumunu sorgular.", "GET /api/qa/m11-status"],
-                ["Span Telemetri Sorgula", "İzleme Butonu", "Belirli bir turn ID'sine ait OpenTelemetry mikro-gecikme JSON verisini çeker.", "GET /api/qa/telemetry/{turn_id}"],
-            ],
-            "biz_value": "Yazılım güncellemelerinde konuşma ve telaffuz kalitesinin matematiksel eşiklerin altına düşmesini engeller."
-        },
-        {
-            "id": "03_arac_ici_dsp_ve_gurultu",
-            "title": "A.6. Araç İçi DSP & Kabin Gürültüsü Filtreleme (Car Denoiser)",
-            "img": "docs/screenshots/03_arac_ici_dsp_ve_gurultu.png",
-            "desc": "Araç hareket halindeyken oluşan motor, rüzgâr ve yol uğultusunu temizleyen 4. Derece Butterworth HPF ve spektral çıkarma kontrol panosudur.",
-            "controls": [
-                ["120 Hz HPF Motor & Yol Uğultusu Kesici", "Filtre Kaydırıcısı", "Düşük frekanslı motor ve yol gürültüsünü kesme frekansını ayarlar.", "Ajan 2 Butterworth HPF"],
-                ["Spektral Gürültü Bastırma Tabanı (-18 dB)", "Filtre Kaydırıcısı", "Gürültü profiline göre arka plan bastırma derinliğini belirler.", "Ajan 2 Spectral Subtraction"],
-                ["Bluetooth Soft AGC (-16 dBFS)", "Kazanç Kontrolü", "Telefon hattındaki aşırı kısık veya yüksek sesleri normalize eder.", "Ajan 2 Soft AGC"],
-                ["Sentetik Araç Uğultusu Üret ve Temizle", "Test Butonu", "Kabin gürültüsü sentetik olarak üreterek filtre kararlılığını test eder.", "DSP Test Signal Generator"],
-                ["Gerçek Ses Dosyası Yükleme", "Dosya Seçici", "Gerçek sürüş ortamında kaydedilmiş WAV dosyasını test için sisteme yükler.", "WAV File Upload Test"],
-            ],
-            "biz_value": "Seyir halindeki araçlardan arayan müşterilerin sesinin %98.5 doğrulukla anlaşılmasını sağlar."
-        },
-        {
-            "id": "04_randevular",
-            "title": "A.7. Ekspertiz Randevu Yönetimi ve Takvim",
-            "img": "docs/screenshots/04_randevular.png",
-            "desc": "Yapay zekânın telefon görüşmelerinde oluşturduğu ekspertiz randevularının listelendiği, filtrelendiği ve yönetildiği operasyonel takvimdir.",
-            "controls": [
-                ["İstanbul Tarihi ve Saati Seçici", "Takvim Seçici", "Yeni randevu oluşturulacak tarih ve saat aralığını belirler.", "Slot DateTime Picker"],
-                ["Randevu Saati Ekle", "Ekleme Butonu", "Seçilen tarih ve saate yeni servis randevusu tanımlar.", "POST /api/appointments"],
-                ["İptal Et", "İptal Butonu", "Seçilen randevuyu iptal eder ve slotu tekrar boşaltır.", "POST /api/appointments/{id}/cancel"],
-                ["Randevu Takvimi Durum Rozeti (Müsait)", "Durum Rozeti", "Belirtilen gün ve saat diliminde istasyonun randevu kabul durumunu gösterir.", "Calendar Slot Status"],
-            ],
-            "biz_value": "Servis istasyonunun kapasite kullanımını dengeler, çifte randevu verilmesini önler."
-        },
-        {
-            "id": "05_sira_ve_lift_durumu",
-            "title": "A.8. Sıra ve Muayene Lifti Yönetimi (Queue & Lift)",
-            "img": "docs/screenshots/05_sira_ve_lift_durumu.png",
-            "desc": "Fiziksel muayene istasyonundaki araç liftlerinin (Lift 1, Lift 2 vb.) doluluk durumunu, sahaya gelen araç sırasını yöneten ekrandır.",
-            "controls": [
-                ["⚡ Sıradakini Al", "Sıra Eylem Butonu", "Bekleme kuyruğundaki ilk aracı anons eder ve boş lifte yönlendirir.", "POST /api/lifts/{id}/call-next"],
-                ["Plaka Ata", "Giriş Kutusu", "Lifte alınan aracın plaka kaydını atar.", "POST /api/lifts/{id}/assign"],
-                ["Bakıma Al / Tamamla", "Durum Butonu", "Liftin durumunu 'Boş', 'İşlemde', 'Bakımda' olarak günceller.", "POST /api/lifts/{id}/status"],
-                ["+ Yeni Lift Tanımla", "Ekleme Butonu", "İstasyona yeni bir muayene lifti tanımlar.", "POST /api/lifts"],
-                ["Sahaya Gelen Aracı Sıraya Al (Check-in)", "Kayıt Butonu", "İstasyona fiziki giriş yapan aracı dijital kuyruğa kaydeder.", "POST /api/queue"],
-            ],
-            "biz_value": "İstasyon sahasındaki fiziksel araç trafiğini dijitalleştirir, lift bekleme sürelerini minimize eder."
-        },
-        {
-            "id": "06_ab_test_ve_ince_ayar",
-            "title": "A.9. A/B Test Deney Sonuçları ve İstatistiksel Rapor",
-            "img": "docs/screenshots/06_ab_test_ve_ince_ayar.png",
-            "desc": "Farklı karşılama cümleleri ve prompt şablonlarının canlı müşteri görüşmelerindeki dönüşüm oranını iki oranlı Z-Testiyle ölçen ekrandır.",
-            "controls": [
-                ["🔄 Yenile", "Yenileme Butonu", "A/B test deney verilerini ve dönüşüm raporunu yeniden sorgular.", "GET /api/ab/experiments/{id}/report"],
-                ["+ Yeni A/B Deneyi Başlat", "Deney Butonu", "Yeni prompt şablonları ve ağırlıklarla deney başlatır.", "POST /api/ab/experiments"],
-                ["Deney Sonuçları & Rapor Sekmesi", "Görünüm Sekmesi", "Z-Skoru, p-değeri ve varyant karşılaştırma tablosunu açar.", "Active SubTab: results"],
-                ["Ses Karşılaştırma Laboratuvarı Sekmesi", "Görünüm Sekmesi", "Farklı TTS ses tohumlarını test etme atölyesini açar.", "Active SubTab: audio_lab"],
-            ],
-            "biz_value": "Diyalog optimizasyonunu tahminlere değil, kanıtlanmış istatistiksel anlamlılık (Z-Skoru, p < 0.05) verilerine dayandırır."
-        },
-        {
-            "id": "06_ab_test_ve_ince_ayar_ses_lab",
-            "title": "A.10. A/B Test — Ses Karşılaştırma Laboratuvarı (TTS Seed Lab)",
-            "img": "docs/screenshots/06_ab_test_ve_ince_ayar_ses_lab.png",
-            "desc": "Leyla sesinin farklı karakter ve tonlama tohumlarını (Seed 9, 42, 77, 123) örnek cümlelerle sentezleyip dinleme atölyesidir.",
-            "controls": [
-                ["Seed 9 — Standart Kurumsal Kartı", "Tohum Seçimi", "Dengeli, profesyonel ve resmi diyalog tonu tohumu.", "Seed #9 Selector"],
-                ["Seed 42 — Sıcak & Samimi Kartı", "Tohum Seçimi", "Müşteri ilişkileri odaklı, sempatik konuşma tohumu.", "Seed #42 Selector"],
-                ["Seed 77 — Dinamik & Enerjik Kartı", "Tohum Seçimi", "Hızlı, canlı ve genç ifade tonu tohumu.", "Seed #77 Selector"],
-                ["Seed 123 — Resmi & Mesafeli Kartı", "Tohum Seçimi", "Kurumsal filo ve resmi protokol diyalog tohumu.", "Seed #123 Selector"],
-                ["Seed ile Sentezle", "Çıkarım Butonu", "Seçilen tohumla test cümlesini anında sentezler ve oynatır.", "POST /api/ab/preview-synth"],
-            ],
-            "biz_value": "Canlı yayına alınacak asistan sesinin kurumsal kimliğe en uygun duygu nüansıyla seçilmesini sağlar."
-        },
-        {
-            "id": "07_analitik_ve_kpi",
-            "title": "A.11. Analitik, Çağrı İstatistikleri ve SLA / KPI Takibi",
-            "img": "docs/screenshots/07_analitik_ve_kpi.png",
-            "desc": "RT-09 Sahte Sıfır Yasağı gereğince doğrulanmış telemetri metriklerini (TTFA p50: 782 ms, p95: 1142 ms; TTFT: 314 ms; STT: 241 ms; RTF: 0.38x; 97 Görüşme) sunan yönetici panosudur.",
-            "controls": [
-                ["KPI & Performans Göstergeleri Sekmesi", "Görünüm Sekmesi", "Gecikme süreleri (TTFA, TTFT, STT), MOS skorları ve RTF grafiklerini görüntüler.", "Active SubTab: kpis"],
-                ["Takip Gerektiren Görüşmeler Sekmesi", "Görünüm Sekmesi", "Operatör incelemesi ve geri arama bekleyen görüşmeleri listeler.", "Active SubTab: follow_ups"],
-                ["Verileri Güncelle Butonu", "Yenileme Butonu", "Analitik telemetri ve çağrı verilerini anlık olarak yeniden sorgular.", "GET /api/analytics/overview"],
-            ],
-            "biz_value": "Telekomünikasyon altyapısının hız ve kararlılık metriklerini şeffaf mühendislik göstergeleriyle belgeler."
-        },
-        {
-            "id": "08_ekspertiz_raporlari",
-            "title": "A.12. Ekspertiz Raporları ve Muayene Kayıtları",
-            "img": "docs/screenshots/08_ekspertiz_raporlari.png",
-            "desc": "Tamamlanan araç muayenelerinin kaporta boya durumu, motor mekanik puanı, fren test verileri ve OBD-II arıza kayıtlarını içeren ekrandır.",
-            "controls": [
-                ["+ Yeni Ekspertiz Raporu Oluştur", "Ekleme Butonu", "Yeni araç ekspertiz muayenesi başlatır ve form ekranını açar.", "POST /api/inspections"],
-                ["📄 PDF İndir", "Belge Butonu", "TSE onaylı resmi ekspertiz raporu PDF çıktısını anında indirir.", "GET /api/inspections/{id}/pdf"],
-                ["💬 SMS/WA İlet", "İletim Butonu", "Hazırlanan ekspertiz raporu dijital linkini araç sahibine SMS/WhatsApp ile gönderir.", "POST /api/inspections/{id}/send-link"],
-                ["🔍 Detay", "İnceleme Butonu", "Kaporta boya, mekanik puanı, fren testi ve OBD-II arıza dökümünü açar.", "Inspection Details Modal"],
-            ],
-            "biz_value": "Ekspertiz muayene dökümünün anında dijitalleşmesini ve arşivlenmesini sağlar."
-        },
-        {
-            "id": "09_teknisyen_dikte",
-            "title": "A.13. Teknisyen Sesli Dikte ve Muayene Not Girişi",
-            "img": "docs/screenshots/09_teknisyen_dikte.png",
-            "desc": "Ustanın araç altındayken klavye kullanmadan konuşarak kaporta, motor ve fren muayene notlarını metne döktüğü ve CRM'e aktardığı ekrandır.",
-            "controls": [
-                ["Mikrofonla Canlı Dikte", "Kayıt Butonu", "Teknisyenin konuşmasını otomotiv terimleriyle anında metne döker.", "POST /api/technician/dictate-audio"],
-                ["Ses Dosyası Yükle", "Dosya Butonu", "Önceden kaydedilmiş ses kaydını analiz için sisteme yükler.", "Audio Upload"],
-                ["Hedef Araç / Teknisyen Seçimi", "Seçim Listesi", "Notun işleneceği araç plakasını ve teknisyen adını belirler.", "Vehicle & Tech Selector"],
-                ["Hızlı Şablonlar (Örnek 1-4)", "Şablon Butonları", "Sık kullanılan muayene cümlelerini tek tıkla forma yükler.", "Quick Template Fill"],
-                ["Yalnızca Ayrıştır ve İncele", "Ayrıştırma Butonu", "Metindeki parça, durum ve puan bilgilerini JSON alanlarına ayırır.", "POST /api/technician/dictate-text"],
-                ["Rapora ve CRM'e Aktar", "Kayıt Butonu", "Ayrıştırılan muayene notlarını resmi ekspertiz raporuna kaydeder.", "Inspection Commit"],
-            ],
-            "biz_value": "Teknisyenin muayene formunu doldurma süresini 15 dakikadan 3 dakikaya indirir; klavye hatalarını önler."
-        },
-        {
-            "id": "10_arac_teshis_ve_obd-ii",
-            "title": "A.14. Araç Teşhis ve OBD-II Arıza Kodları (DTC Engine)",
-            "img": "docs/screenshots/10_arac_teshis_ve_obd-ii.png",
-            "desc": "OBD-II soketinden okunan arıza kodlarını (P0300, P0420, P0171 vb.) tarayan ve Türkçe teknik açıklamalarını listeleyen modüldür.",
-            "controls": [
-                ["Durum Filtresi (Aktif / Çözülmemiş)", "Durum Seçici", "Aktif arıza kayıtları ile çözümlenmiş arızalar arasında filtreleme yapar.", "Filter: is_resolved"],
-                ["Şiddet Filtresi (Tüm Şiddetler)", "Seviye Seçici", "Kritik (P0300) ve Uyarı (P0420, P0171) seviyesindeki arıza kodlarını süzer.", "Filter: severity"],
-                ["🧪 OBD Telemetri Simüle Et", "Simülasyon Butonu", "CAN-Bus üzerinden yeni bir OBD-II arıza kodunun merkeze akmasını simüle eder.", "POST /api/diagnostics/simulate"],
-                ["📞 Sesli Ara", "Arama Butonu", "Kritik arıza tespiti için müşteriye yapay zekâlı otomatik sesli arama başlatır.", "POST /api/diagnostics/{id}/call"],
-                ["💬 SMS Gönder", "Mesaj Butonu", "Arıza detayını ve servis randevu davetini sürücüye kısa mesajla iletir.", "POST /api/diagnostics/{id}/sms"],
-                ["✓ Kapat", "Aksiyon Butonu", "Serviste onarımı tamamlanan arıza kaydını kapatır ve arşivler.", "POST /api/diagnostics/{id}/resolve"],
-            ],
-            "biz_value": "Arıza kodlarının teknik anlamını sürücünün anlayacağı dilde açıklayarak doğru servis aksiyonu alınmasını sağlar."
-        },
-        {
-            "id": "11_araclar_ve_fiyatlar",
-            "title": "A.15. Araç Kataloğu, Fiyatlandırma ve Hizmet Paketleri",
-            "img": "docs/screenshots/11_araclar_ve_fiyatlar.png",
-            "desc": "Veritabanındaki araç modellerinin, ekspertiz paket fiyatlarının ve kurumsal müşteri iskonto kurallarının yönetildiği ekrandır.",
-            "controls": [
-                ["Marka ve Model / Plaka Kaydet", "Form Girişi", "Veritabanına yeni araç marka, model ve plaka tanımı ekler.", "POST /api/vehicles"],
-                ["Fiyatı Kaydet", "Fiyat Giriş Kutusu", "Araç bazlı ekspertiz veya servis paket fiyatını günceller.", "POST /api/quotes"],
-                ["Araç Listesi ve Arama", "Arama Çubuğu", "Kayıtlı araçları marka, model ve plakaya göre listeler.", "GET /api/vehicles"],
-            ],
-            "biz_value": "Yapay zekânın müşteriye telefonda fiyat söylerken daima güncel veritabanından veri okumasını güvenceye alır."
-        },
-        {
-            "id": "12_sozluk",
-            "title": "A.16. Otomotiv Fonetik ve Telaffuz Sözlüğü (P0 Lexicon)",
-            "img": "docs/screenshots/12_sozluk.png",
-            "desc": "Yabancı otomotiv markalarını ve kısaltmalarını Türkçe fonetik kurallarına göre düzenleyen 64 çekirdek kural yönetim modülüdür.",
-            "controls": [
-                ["Sözlüğe Ekle", "Ekleme Butonu", "Yeni otomotiv kısaltması veya yabancı marka için fonetik telaffuz kuralı kaydeder.", "POST /api/lexicon"],
-                ["Normalizasyonu Test Et", "Test Butonu", "Girilen cümlenin P0 sözlük kurallarıyla nasıl dönüştürüldüğünü anlık gösterir.", "POST /api/normalize"],
-                ["Varsayılan Sözlüğe Sıfırla ↺", "Sıfırlama Butonu", "Sözlüğü doğrulanmış 64 çekirdek otomotiv kuralı fabrika ayarlarına döndürür.", "POST /api/lexicon/reset"],
-            ],
-            "biz_value": "Yapay zekânın otomotiv markalarını yanlış okumasını engelleyerek kurumsal telaffuz kalitesi sağlar."
-        },
-        {
-            "id": "13_bildirimler",
-            "title": "A.17. WhatsApp ve SMS Çok Kanallı Bildirim Çıkış Kutusu (Outbox)",
-            "img": "docs/screenshots/13_bildirimler.png",
-            "desc": "Telefon görüşmesi sonrasında müşteriye gönderilen randevu onay SMS'leri ve WhatsApp mesajlarının durumunu izleyen merkezdir.",
-            "controls": [
-                ["Hızlı Test Cümleleri", "Şablon Seçimi", "Sıkça sorulan randevu ve servis sorularını simülatöre otomatik doldurur.", "Quick Scenario Fill"],
-                ["Yazılı Mesajı Simüle Et →", "İletim Butonu", "WhatsApp üzerinden gelen müşteri mesajını simüle ederek yapay zekâ yanıtını test eder.", "POST /api/whatsapp/simulate-incoming"],
-                ["WhatsApp Sesli Not Simülatörü Dosya Seçici", "Ses Yükleme", "Müşterinin WhatsApp'tan attığı sesli notu STT ve LLM motoruna iletir.", "POST /api/whatsapp/simulate-voice"],
-                ["Outbox Bildirim Kuyruğu Sekmesi", "Görünüm Sekmesi", "Giden randevu teyit ve SMS/WhatsApp bildirimlerinin iletim loglarını açar.", "Active SubTab: outbox"],
-            ],
-            "biz_value": "Randevu alan müşteriye anında yazılı teyit ve konum linki iletilmesini güvenceye alır."
-        },
-        {
-            "id": "14_giden_cagrilar",
-            "title": "A.18. Otomatik Giden Çağrılar ve Kampanya Yönetimi (Outbound)",
-            "img": "docs/screenshots/14_giden_cagrilar.png",
-            "desc": "Periyodik bakım hatırlatma, muayene yaklaşma ve ekspertiz takip aramalarını Asterisk üzerinden otomatik başlatan ekrandır.",
-            "controls": [
-                ["Teyit (Confirmed) Aksiyon Butonu", "Çağrı Eylemi", "Görüşme sonrasında randevu teyidini sisteme 'Teyit Edildi' olarak işler.", "POST /api/outbound/calls/{id}/complete"],
-                ["İptal (Cancelled) Aksiyon Butonu", "Çağrı Eylemi", "Müşterinin randevu gelemeyeceğini bildirmesi durumunda çağrıyı iptal kaydeder.", "POST /api/outbound/calls/{id}/cancel"],
-                ["Durdur (Stop) Aksiyon Butonu", "Süreç Durdurma", "Devam eden otomatik arama veya santral çalma sürecini anında sonlandırır.", "POST /api/outbound/calls/{id}/abort"],
-                ["Çağrı Durumu / Sonucu Filtreleri", "Açılır Filtreler", "Çağrıları 'Tüm Sonuçlar', 'Teyit Edildi', 'Randevu İptal', 'Ulaşılamadı' kriterlerine göre süzer.", "Filter: status & outcome"],
-                ["Yeni Teyit / Hatırlatma Araması Başlat (Originate)", "Başlatma Butonu", "Seçilen randevu için Asterisk PBX üzerinden müşteriye otomatik dış arama başlatır.", "POST /api/outbound/call"],
-            ],
-            "biz_value": "Bakım zamanı gelen araç sahiplerine insan araması gerekmeksizin otomatik hatırlatma yapılmasını sağlar."
-        },
-        {
-            "id": "15_gecmis",
-            "title": "A.19. Çağrı ve Görüşme Geçmişi (Conversation Archive)",
-            "img": "docs/screenshots/15_gecmis.png",
-            "desc": "Sistem üzerinden gerçekleştirilen tüm geçmiş sesli aramaların diyalog dökümlerini, sürelerini ve kanallarını listeleyen ekrandır.",
-            "controls": [
-                ["Görüşme Seçim Kartları", "Seçim Listesi", "Geçmiş görüşmeler listesinden incelenmek istenen oturumu seçer ve transkripti yükler.", "GET /api/conversations/{id}"],
-                ["Sil Butonu", "Kayıt Silme", "Seçilen geçmiş görüşme kaydını ve transkript turlarını veritabanından kalıcı olarak siler.", "DELETE /api/conversations/{id}"],
-                ["Transkript ve Ölçümler Paneli", "Diyalog Görünümü", "Kullanıcı ve asistan konuşma turlarını, TTFA/STT/LLM mikro-ölçümleriyle birlikte görüntüler.", "Turn Metric Transcript Box"],
-            ],
-            "biz_value": "Geçmiş diyalogların denetlenmesini, kalite kontrolünü ve hukuki kayıt şeffaflığını sağlar."
-        },
-        {
-            "id": "16_ses_laboratuvari",
-            "title": "A.20. Akustik Ses Laboratuvarı ve İnteraktif Sentez",
-            "img": "docs/screenshots/16_ses_laboratuvari.png",
-            "desc": "FreyaTTS akustik motorunu bağımsız metinlerle test etmek, ODE adımlarını ve hız çarpanını anlık gözlemlemek için tasarlanmış geliştirici arayüzüdür.",
-            "controls": [
-                ["Kaynak Metin Giriş Alanı", "Metin Kutusu", "Fonetik telaffuzu test edilecek teknik Türkçe cümlenin yazıldığı giriş alanı.", "Textarea Input"],
-                ["Normalizasyonu İncele", "Dönüşüm Butonu", "Metni Ajan 1 P0 normalizer motorundan geçirerek telaffuz çıktısını ekrana basar.", "POST /api/normalize"],
-                ["Sesi Üret", "Sentez Butonu", "Pipelined Overlap ODE motoruyla metni anlık olarak Leyla sesine dönüştürür ve çalar.", "POST /api/synthesize"],
-            ],
-            "biz_value": "Yeni eklenen telaffuz kurallarının ve akustik modellerin laboratuvar ortamında hızla dinlenmesini sağlar."
-        },
-        {
-            "id": "17_sistem",
-            "title": "A.21. Sistem Bileşenleri, Donanım Hazırlığı ve Devre Kesici",
-            "img": "docs/screenshots/17_sistem.png",
-            "desc": "TTS, STT, VAD ve Ollama servislerinin hazırlık durumunu (READY) ve GPU Circuit Breaker (CLOSED) korumasını izleyen sistem ekranıdır.",
-            "controls": [
-                ["Yerel Bileşen Durum Rozetleri", "Hazırlık Rozeti", "FreyaTTS CUDA, Faster-Whisper, Silero VAD ve Ollama hazırlığını gösterir.", "GET /api/readiness"],
-                ["GPU Circuit Breaker Rozeti", "Güvenlik Rozeti", "GPU aşırı yük korumasının 'CLOSED (Normal)' olduğunu doğrular.", "GET /api/gpu-health/circuit-status"],
-                ["Modelleri Yükle Butonu", "Yükleme Butonu", "Bellekte olmayan modellerin GPU/CPU'ya yüklenmesini tetikler.", "POST /api/models/load"],
-            ],
-            "biz_value": "Sunucu sağlığını izler, aşırı yük anında GPU devre kesicisiyle sistem kilitlenmelerini engeller."
-        },
-        {
-            "id": "18_m01-m11",
-            "title": "A.22. M01–M11 Fiziksel Donanım Kabul ve Mimari Denetim",
-            "img": "docs/screenshots/18_m01-m11.png",
-            "desc": "Projenin tüm fazlarını (M01-M11) bağımsız testlerle denetleyen ve fiziksel PBX donanım kabul kapısını (HOLD/PASS) yöneten sertifikasyon sayfasıdır.",
-            "controls": [
-                ["Fiziksel Kabul Denetim Rozeti", "Güvenlik Alanı", "Fiziksel Asterisk PBX pcap trace kanıtını denetler (Durum: HOLD / PASS).", "GET /api/milestones/overview"],
-                ["Sözleşmeyi İncele", "İnceleme Butonu", "M01-M11 donanım kabul kriterleri şartnamesini ve teknik taahhütleri görüntüler.", "Review Milestone Contract"],
-                ["İnceleyen (operator_01) Alanı", "Denetçi Bilgisi", "Donanım kabul testini gerçekleştiren operatör veya mühendisin kimlik doğrulamasını gösterir.", "Auditor Identity Badge"],
-                ["İçe Aktarma Sağlaması (SHA-256)", "Kriptografik Kontrol", "Yazılım modüllerinin bütünlük özetini doğrular.", "Manifest Integrity Guard"],
-            ],
-            "biz_value": "Sistemin canlı santrale geçişinin bağımsız fiziksel donanım test kanıtlarına bağlanmasını garanti eder."
-        },
-    ]
-
-    for s in screens:
-        add_heading_2(doc, s["title"])
-        add_screenshot_card(doc, s["img"], s["title"])
-        add_body_p(doc, s["desc"], "Ekran Amacı: ")
-        add_heading_3(doc, "Ekrandaki Gerçek Tuşlar ve Kontroller Tablosu")
-        add_styled_table(
-            doc,
-            ["Kontrol / Tuş Adı", "Kontrol Türü", "Yaptığı İşlem / Açıklama", "Arka Uç / API Tetiklemesi"],
-            s["controls"],
-            col_widths=[1.6, 1.2, 2.2, 1.5]
-        )
-        add_callout(doc, "MÜHENDİSLİK VE OPERASYONEL DEĞERİ", s["biz_value"], border_color="16A34A")
-        doc.add_paragraph().paragraph_format.space_after = Pt(8)
-
-    # Belgeyi Kaydet (Hem v3 hem de ana dosya adına kaydet)
-    out_path_v3 = Path("docs/FreyaTTS_Otomotiv_Asistani_Yonetici_Sunumu_3.docx")
-    out_path = Path("docs/FreyaTTS_Otomotiv_Asistani_Yonetici_Sunumu.docx")
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    doc.save(str(out_path_v3))
-    doc.save(str(out_path))
-    print(f"\n[SUCCESS] Yenilenen Yönetici Sunum Dokümanı (v3) Başarıyla Oluşturuldu:")
-    print(f"  -> {out_path_v3.resolve()}")
-    print(f"  -> {out_path.resolve()}")
+    output.parent.mkdir(parents=True, exist_ok=True)
+    doc.save(str(output))
+    return output
 
 
 if __name__ == "__main__":
-    generate_document()
+    ap = argparse.ArgumentParser(description="Yönetici sunumunu ölçüm dosyalarından üretir.")
+    ap.add_argument("--output", type=Path)
+    ap.add_argument("--acoustic", type=Path)
+    ap.add_argument("--latency", type=Path)
+    ap.add_argument("--no-screenshots", action="store_true")
+    a = ap.parse_args()
+    ov = {k: v for k, v in {"output": a.output, "acoustic": a.acoustic, "latency": a.latency}.items() if v}
+    if a.no_screenshots:
+        ov["screenshots"] = None
+    print(generate_document(ov))

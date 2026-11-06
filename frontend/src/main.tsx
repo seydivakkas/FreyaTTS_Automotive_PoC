@@ -133,7 +133,7 @@ function App() {
           ))}
         </nav>
         <div className="local">
-          ● Modeller yerel<small>Tek aktif görüşme · İstanbul</small>
+          ● Modeller yerel<small>İstanbul</small>
         </div>
       </aside>
       <main>

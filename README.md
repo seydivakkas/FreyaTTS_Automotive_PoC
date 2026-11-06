@@ -14,7 +14,21 @@ Windows PowerShell, Git, Node.js 22+, `uv`, Ollama ve NVIDIA sürücüsü gereki
 .\scripts\start.ps1
 ```
 
+`BASLAT.bat` (veya `scripts\start.ps1`) sunucuyu başlatır. `BASLAT.bat --dev` yönetici parolasını panoya kopyalar (varsayılan olarak kopyalanmaz); `BASLAT.bat --demo` örnek veriyle açar (aşağıda).
+
 Panel: http://127.0.0.1:8000 — kullanıcı `admin`; oluşturulan parola `.env` içindeki `ADMIN_PASSWORD` değeridir. Parola konsola yazdırılmaz. API belgeleri: http://127.0.0.1:8000/docs. Panelde **Sistem → Modelleri yükle** ile çalışan sunucuya ses modellerini yükleyin. Hazırlama betiği önbelleği doldurur; kendi süreci kapanınca modelleri bellekte tutmaz.
+
+### Gizli anahtarlar (`.env`)
+
+Kodda varsayılan gizli değer yoktur; boş bırakılan anahtarın özelliği kapalı kalır. `scripts\setup.ps1` yeni `.env` oluştururken rastgele üretir; kaynak: `.env.example`, `backend/config.py`.
+
+| Anahtar | Kullanım |
+|---|---|
+| `ADMIN_PASSWORD` | REST için HTTP Basic (`admin`). Boşsa korumalı uç noktalar 503 verir. |
+| `AMI_SECRET` | Asterisk AMI (giden çağrı, aktarım). |
+| `WHATSAPP_WEBHOOK_TOKEN` | Gelen webhook; istek `X-Webhook-Token` başlığıyla gelmeli, gövde işlenmeden önce doğrulanır. |
+| `AUDIO_ARCHIVE_MASTER_KEY` | Ses arşivi HMAC mührü; boşsa arşiv oluşturma/doğrulama reddedilir. |
+| `LINK_SIGNING_KEY` | İmzalı müşteri bağlantıları (rapor PDF); boşsa imzalı erişim kapalıdır. |
 
 Kurulum FreyaTTS kaynaklarını proje içindeki `vendor/FreyaTTS` dizinine alır ve `146d36c1cb6660646be57d31339db4eed9315de3` sürümünü kullanır. Masaüstündeki başka bir FreyaTTS klasörüne ihtiyaç yoktur. Python bağımlılıklarının otoritesi `uv.lock`, arayüzün otoritesi `frontend/package-lock.json` dosyasıdır. `requirements.txt` dış araçlar için kilitten dışa aktarılmıştır; CUDA indisiyle kurulum için `uv` önerilir.
 
@@ -38,7 +52,7 @@ Asterisk Linux’ta çalışmalıdır. `asterisk/extensions.conf` içindeki 700 
 ## Doğrulama
 
 ```powershell
-.venv\Scripts\python -m pytest -q --basetemp=data/pytest
+.venv\Scripts\python -m pytest -q
 .venv\Scripts\python -m scripts.smoke_dialogue
 .venv\Scripts\python -m scripts.benchmark
 .venv\Scripts\python -m scripts.voice_acceptance
@@ -54,6 +68,19 @@ npx playwright test
 Geliştirme: backend’i başlatıp `frontend` altında `npm run dev` çalıştırın. Arayüz değişikliklerinden sonra tek portlu sunum için `npm run build` gerekir. Yedek almadan migration downgrade çalıştırmayın; sürüm düşürme tabloları siler.
 
 Mimari ve protokol: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Doğrulama kanıtları ve kalan sınırlar: [docs/VERIFICATION.md](docs/VERIFICATION.md).
+
+Dizinler: `experimental/` canlı çağrı yoluna bağlı olmayan modülleri ve testlerini içerir (bkz. `experimental/README.md`); üretim davranışının kanıtı sayılmaz. `archive/` eski PoC dosyalarıdır. Ekran görüntüleri `scripts/capture_screenshots.py` ile demo sunucusundan alınır (Python `playwright` projenin bağımlılığı değildir; ayrıca kurulmalıdır); görüntüler demo verisidir.
+
+## Bilinen sınırlar
+
+Kaynaklar: `docs/VERIFICATION.md`, `data/acoustic/latest.json`, `docs/measured-latency.json`.
+
+- PoC'tur; pilota hazır değildir. İnsan sesiyle ve gerçek Asterisk/telefon hattıyla test yapılmadı (M11 `HOLD`).
+- AMI ve bildirim sağlayıcısı sahte istemcidir: gerçek aktarım, giden arama ve SMS/WhatsApp gönderimi yoktur.
+- Otomotiv terim doğruluğu kapı eşiğinin çok altındadır; ABX ve F0 tabanı ölçülmedi; LoRA adaptörü yoktur.
+- LLM gerektiren turlarda ilk ses 1,2 s hedefinin üstündedir (tek çalıştırma örneği, SLA değildir).
+- KVKK maddeleri hukuki incelemede; `RETENTION_DAYS` yalnızca ses kayıtlarını (`recordings/*.wav`) temizler.
+- Eşzamanlı görüşme ölçülmedi; testler tek görüşmeyle yapıldı (`max_concurrent_calls` üst sınırı 50).
 
 Eski `automotive_freya_poc.py`, `run_poc.bat`, örnek WAV dosyaları ve eski test çıktısı karşılaştırma için `archive/` klasöründe korunmuştur. Eski çıktı dosyası yeni uygulamanın doğrulama raporu değildir.
 

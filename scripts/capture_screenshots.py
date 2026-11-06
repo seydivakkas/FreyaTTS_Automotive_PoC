@@ -80,7 +80,20 @@ def wait_for_content(page):
     reset_scroll(page)
 
 
+def demo_banner_visible(page):
+    """DEMO bandı görünür mü? Demo verisi bandsız kaydedilmez."""
+    return page.locator(".demo-banner").count() > 0 and page.locator(".demo-banner").first.is_visible()
+
+
+def shot(page, path, missing):
+    """Ekran görüntüsünü alır; DEMO bandı yoksa uyarı kaydı tutar."""
+    if not demo_banner_visible(page):
+        missing.append(Path(path).name)
+    page.screenshot(path=str(path))
+
+
 def capture_all():
+    missing = []
     out_dir = Path("docs/screenshots")
     out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -96,7 +109,7 @@ def capture_all():
         page.goto("http://127.0.0.1:8000", wait_until="networkidle")
         page.wait_for_timeout(1000)
         reset_scroll(page)
-        page.screenshot(path=str(out_dir / "00_giris_ekrani.png"))
+        shot(page, out_dir / "00_giris_ekrani.png", missing)
         print("[+] 00_giris_ekrani.png kaydedildi.")
 
         # Giriş yap
@@ -142,7 +155,7 @@ def capture_all():
                         wait_for_content(page)
 
                 # Screenshot al
-                page.screenshot(path=str(out_dir / f"{filename}.png"))
+                shot(page, out_dir / f"{filename}.png", missing)
                 print(f"[+] {filename}.png kaydedildi.")
 
                 # 3.2 Operatör Paneli alt sekmeleri (Takeover & Kalite Kapısı)
@@ -152,7 +165,7 @@ def capture_all():
                     if takeover_btn.count() > 0:
                         takeover_btn.first.click()
                         wait_for_content(page)
-                        page.screenshot(path=str(out_dir / f"{filename}_takeover.png"))
+                        shot(page, out_dir / f"{filename}_takeover.png", missing)
                         print(f"    [+] {filename}_takeover.png kaydedildi.")
 
                     # Kalite Kapısı sekmesi
@@ -170,7 +183,7 @@ def capture_all():
                             except Exception:
                                 pass
                         page.set_viewport_size({"width": 1600, "height": 1200})
-                        page.screenshot(path=str(out_dir / f"{filename}_quality_gate.png"))
+                        shot(page, out_dir / f"{filename}_quality_gate.png", missing)
                         print(f"    [+] {filename}_quality_gate.png kaydedildi.")
 
                     # Operatör ana sekmesine geri dön
@@ -183,7 +196,7 @@ def capture_all():
                     if ses_lab_sub.count() > 0:
                         ses_lab_sub.first.click()
                         wait_for_content(page)
-                        page.screenshot(path=str(out_dir / f"{filename}_ses_lab.png"))
+                        shot(page, out_dir / f"{filename}_ses_lab.png", missing)
                         print(f"    [+] {filename}_ses_lab.png kaydedildi.")
 
                     # A/B test ana sekmesine geri dön
@@ -194,7 +207,10 @@ def capture_all():
                 print(f"[!] Hata ({tab_title}): {e}")
 
         browser.close()
-        print("\n[OK] Tüm 22 ekran görüntüsü başarıyla güncellendi.")
+        if missing:
+            print(f"[!] DEMO bandı görünmeyen görüntüler (belgeye koymayın): {missing}")
+            sys.exit(1)
+        print("[OK] Tüm ekran görüntülerinde DEMO bandı görünüyor.")
 
 
 if __name__ == "__main__":
