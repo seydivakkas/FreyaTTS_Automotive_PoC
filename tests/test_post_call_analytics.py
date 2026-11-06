@@ -243,8 +243,8 @@ def test_analytics_api_endpoints(client, auth_headers):
     assert "average_csat" in stats
     assert "top_intents" in stats
 
-    # 4. GET /api/call-analytics (via resource listing)
-    r4 = client.get("/api/call-analytics", headers=auth_headers)
+    # 4. GET /api/analytics/calls (genel liste ucu hassas tablo için kapatıldı)
+    r4 = client.get("/api/analytics/calls", headers=auth_headers)
     assert r4.status_code == 200
     res_list = r4.json()
     assert len(res_list) >= 1

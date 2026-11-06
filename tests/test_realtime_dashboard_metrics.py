@@ -141,8 +141,8 @@ def test_get_live_dashboard_summary(test_collector: RealtimeDashboardMetricsColl
 
 
 def test_rest_api_metrics_endpoints(client: TestClient, auth_headers: dict):
-    # 1. Prometheus /metrics endpoint (public or authenticated)
-    prom_resp = client.get("/metrics")
+    # 1. Prometheus /metrics endpoint (kimlik doğrulama gerekir)
+    prom_resp = client.get("/metrics", headers=auth_headers)
     assert prom_resp.status_code == 200
     assert "text/plain" in prom_resp.headers["content-type"]
     assert "freya_active_calls" in prom_resp.text

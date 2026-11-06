@@ -178,14 +178,23 @@ def test_retention_audit_and_purge(test_engine: AudioArchiveComplianceEngine):
         audit_future = test_engine.audit_retention_compliance(db=db, target_date=future_date)
         assert audit_future["expired_count"] >= 1
 
+        # Gelecek tarihle tasfiye yasal saklamayı atlatamaz: süre dolmadan kayıt tasfiye edilmez
+        purge_future = test_engine.purge_expired_archives(db=db, dry_run=True, target_date=future_date)
+        assert res.archive_id not in purge_future["purged_archive_ids"]
+
+        # Kaydın saklama süresi gerçekten dolmuş olsun
+        rec = db.get(AudioArchive, res.archive_id)
+        rec.expires_at = (datetime.now(timezone.utc) - timedelta(days=1)).isoformat()
+        db.commit()
+
         # Dry run purge
-        purge_dry = test_engine.purge_expired_archives(db=db, dry_run=True, target_date=future_date)
+        purge_dry = test_engine.purge_expired_archives(db=db, dry_run=True)
         assert purge_dry["dry_run"] is True
         assert purge_dry["purged_count"] >= 1
         assert Path(res.file_path).exists()  # Not deleted in dry run
 
         # Real purge
-        purge_real = test_engine.purge_expired_archives(db=db, dry_run=False, target_date=future_date)
+        purge_real = test_engine.purge_expired_archives(db=db, dry_run=False)
         assert purge_real["dry_run"] is False
         assert purge_real["purged_count"] >= 1
         assert not Path(res.file_path).exists()  # Deleted from disk
@@ -246,8 +255,7 @@ def test_rest_api_archive_endpoints(client: TestClient, auth_headers: dict):
     assert purge_resp.status_code == 200
     assert purge_resp.json()["dry_run"] is True
 
-    # 6. Resource listing check
+    # 6. Hassas tablo genel liste ucundan kaldırıldı
     list_resp = client.get("/api/audio-archives", headers=auth_headers)
-    assert list_resp.status_code == 200
-    assert any(item["id"] == arch_id for item in list_resp.json())
+    assert list_resp.status_code == 404
 

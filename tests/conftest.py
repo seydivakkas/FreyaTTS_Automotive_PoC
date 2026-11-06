@@ -18,6 +18,11 @@ TEST_DB = TEST_ROOT / "assistant.db"
 os.environ["DATABASE_URL"] = "sqlite:///" + TEST_DB.as_posix()
 os.environ["DATA_DIR"] = str(TEST_ROOT)
 os.environ["DEMO_MODE"] = "0"
+# Yalnızca test amaçlı gizli değerler (kodda varsayılan gizli anahtar yoktur).
+os.environ["WHATSAPP_WEBHOOK_TOKEN"] = "test-webhook-token"
+os.environ["AMI_SECRET"] = "test-ami-secret"
+os.environ["AUDIO_ARCHIVE_MASTER_KEY"] = "test-archive-master-key"
+os.environ["LINK_SIGNING_KEY"] = "test-link-signing-key"
 
 from backend.config import settings  # noqa: E402
 from backend.db import Base, engine  # noqa: E402

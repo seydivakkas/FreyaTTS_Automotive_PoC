@@ -12,6 +12,15 @@ if (!(Test-Path '.env')) {
   $rng.Dispose()
   $password=[Convert]::ToBase64String($bytes)
   $content=(Get-Content '.env.example' -Raw).Replace('change-this-before-use',$password)
+  # Diğer gizli anahtarlar da aynı RNG ile üretilir; ekrana yazdırılmaz.
+  foreach ($name in 'AMI_SECRET','WHATSAPP_WEBHOOK_TOKEN','AUDIO_ARCHIVE_MASTER_KEY','LINK_SIGNING_KEY') {
+    $keyBytes=New-Object byte[] 32
+    $keyRng=[System.Security.Cryptography.RandomNumberGenerator]::Create()
+    $keyRng.GetBytes($keyBytes)
+    $keyRng.Dispose()
+    $value=[Convert]::ToBase64String($keyBytes)
+    $content=[regex]::Replace($content,"(?m)^$name=.*$",{ param($m) "$name=$value" })
+  }
   [System.IO.File]::WriteAllText((Join-Path $PWD '.env'),$content,(New-Object System.Text.UTF8Encoding $false))
   Write-Host "Yerel admin parolası .env dosyasında oluşturuldu."
 }

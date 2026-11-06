@@ -349,6 +349,7 @@ def test_whatsapp_rest_api_endpoints(wa_env):
             "Body": "Onaylıyorum geliyorum",
             "MessageSid": "SM12345678",
         },
+        headers={"X-Webhook-Token": settings.whatsapp_webhook_token},
     )
     assert hook_res.status_code == 200
     hook_data = hook_res.json()

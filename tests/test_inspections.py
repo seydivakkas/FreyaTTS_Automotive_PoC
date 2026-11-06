@@ -119,7 +119,7 @@ def test_create_inspection_with_findings_and_pdf(test_setup):
         assert saved_findings["paint_body"]["sag_on_camurluk"] == "Lokal Boyalı"
 
     # Verify PDF download endpoint
-    pdf_res = client.get(f"/api/inspections/{report_id}/pdf")
+    pdf_res = client.get(f"/api/inspections/{report_id}/pdf", auth=auth)
     assert pdf_res.status_code == 200
     assert pdf_res.headers["content-type"] == "application/pdf"
     assert pdf_res.content.startswith(b"%PDF-1.")

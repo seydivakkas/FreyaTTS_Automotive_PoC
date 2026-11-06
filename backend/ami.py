@@ -236,6 +236,9 @@ class AsteriskAMIClient:
     async def _execute_action(
         self, action_dict: dict[str, Any], timeout: float = 10.0
     ) -> dict[str, str]:
+        # Boş secret ile bağlantı kurulmaz (varsayılan parola yok).
+        if not self.secret:
+            raise PermissionError("AMI secret ayarlanmamış (AMI_SECRET)")
         reader, writer = await asyncio.wait_for(
             asyncio.open_connection(self.host, self.port), timeout=timeout
         )

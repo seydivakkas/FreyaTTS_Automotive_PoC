@@ -47,7 +47,10 @@ logger = logging.getLogger("audio_archive_compliance")
 DEFAULT_ARCHIVE_DIR = settings.data_dir / "audio_archives"
 DEFAULT_RETENTION_YEARS = 2
 DEFAULT_RETENTION_DAYS = 730
-DEFAULT_MASTER_KEY = "freya-audiocompliance-master-secret-2026"
+
+
+class ArchiveKeyMissingError(RuntimeError):
+    """Arşiv HMAC anahtarı (AUDIO_ARCHIVE_MASTER_KEY) ayarlı değil; işlem güvenli şekilde reddedilir."""
 
 
 class ArchiveCodec(str, Enum):
@@ -105,8 +108,10 @@ def compute_sha256(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
-def compute_hmac_sha256(data_hash: str, key: str = DEFAULT_MASTER_KEY) -> str:
+def compute_hmac_sha256(data_hash: str, key: str) -> str:
     """SHA-256 özetini kurumsal anahtar ile mühürleyerek tahrifat denetim imzası üretir."""
+    if not key:
+        raise ArchiveKeyMissingError("AUDIO_ARCHIVE_MASTER_KEY ayarlanmamış")
     return hmac.new(key.encode("utf-8"), data_hash.encode("utf-8"), hashlib.sha256).hexdigest()
 
 
@@ -166,13 +171,21 @@ class AudioArchiveComplianceEngine:
     def __init__(
         self,
         archive_dir: Optional[Union[str, Path]] = None,
-        master_key: str = DEFAULT_MASTER_KEY,
+        master_key: Optional[str] = None,
         default_codec: str = "opus",
     ):
         self.archive_dir = Path(archive_dir) if archive_dir else DEFAULT_ARCHIVE_DIR
         self.archive_dir.mkdir(parents=True, exist_ok=True)
-        self.master_key = master_key
+        self._master_key = master_key
         self.default_codec = default_codec
+
+    @property
+    def master_key(self) -> str:
+        """Açıkça verilen anahtar, yoksa ayardaki anahtar; ikisi de boşsa hata verir."""
+        key = self._master_key if self._master_key is not None else settings.audio_archive_master_key
+        if not key:
+            raise ArchiveKeyMissingError("AUDIO_ARCHIVE_MASTER_KEY ayarlanmamış")
+        return key
 
     def compress_audio(
         self,
@@ -233,6 +246,7 @@ class AudioArchiveComplianceEngine:
         Bir çağrının sesini sıkıştırır, SHA-256 ve HMAC mührünü oluşturur,
         fiziksel diske ve SQLite veritabanına yasal saklama uyumlu olarak kaydeder.
         """
+        master_key = self.master_key  # Anahtar yoksa dosya yazılmadan önce hata verir.
         active_codec = codec or self.default_codec
         now_dt = datetime.now(timezone.utc)
         created_at_str = now_dt.isoformat()
@@ -280,7 +294,7 @@ class AudioArchiveComplianceEngine:
 
         # 4. Kriptografik Özet ve HMAC Mührü
         archive_sha256 = compute_sha256(compressed_bytes)
-        hmac_sig = compute_hmac_sha256(archive_sha256, self.master_key)
+        hmac_sig = compute_hmac_sha256(archive_sha256, master_key)
 
         # 5. Dosyayı Yıl-Ay alt dizinine kaydet (Partitioning)
         month_dir = self.archive_dir / now_dt.strftime("%Y-%m")
@@ -362,6 +376,7 @@ class AudioArchiveComplianceEngine:
         Fiziksel dosyanın SHA-256 ve HMAC mührünü yeniden hesaplayarak tahrifat denetimi yapar.
         Eğer dosya baytları değiştirilmişse veya imza uyuşmuyorsa 'tampered' uyarısı verir.
         """
+        master_key = self.master_key  # Anahtar yoksa doğrulama asla başarılı dönmez.
         checked_at = datetime.now(timezone.utc).isoformat()
         target_path: Optional[Path] = None
         exp_sha = expected_sha256
@@ -394,20 +409,24 @@ class AudioArchiveComplianceEngine:
         # Dosyayı oku ve SHA-256 hesapla
         file_bytes = target_path.read_bytes()
         actual_sha = compute_sha256(file_bytes)
-        calculated_hmac = compute_hmac_sha256(actual_sha, self.master_key)
+        calculated_hmac = compute_hmac_sha256(actual_sha, master_key)
 
-        sha_matches = (actual_sha == exp_sha) if exp_sha else True
-        hmac_matches = (calculated_hmac == exp_hmac) if exp_hmac else True
+        # Beklenen özet veya imza yoksa doğrulama başarılı sayılmaz (fail closed).
+        sha_matches = bool(exp_sha) and hmac.compare_digest(actual_sha, exp_sha)
+        hmac_matches = bool(exp_hmac) and hmac.compare_digest(calculated_hmac, exp_hmac)
         is_valid = sha_matches and hmac_matches
 
-        status = "verified" if is_valid else "tampered"
-        details = (
-            "Kriptografik bütünlük doğrulandı (SHA-256 ve HMAC geçerli)."
-            if is_valid
-            else f"Tahrifat tespit edildi! Beklenen SHA: {exp_sha}, Mevcut: {actual_sha}"
-        )
+        if is_valid:
+            status = "verified"
+            details = "Kriptografik bütünlük doğrulandı (SHA-256 ve HMAC geçerli)."
+        elif not exp_sha or not exp_hmac:
+            status = "unverifiable"
+            details = "Beklenen SHA-256 veya HMAC kaydı yok; bütünlük doğrulanamadı."
+        else:
+            status = "tampered"
+            details = f"Tahrifat tespit edildi! Beklenen SHA: {exp_sha}, Mevcut: {actual_sha}"
 
-        if db_record is not None and db is not None:
+        if db_record is not None and db is not None and status != "unverifiable":
             db_record.status = status
             db.commit()
 
@@ -505,7 +524,13 @@ class AudioArchiveComplianceEngine:
         dry_run=False ise fiziksel dosyayı diskten siler ve veritabanı kaydını
         'purged' statüsüne geçirerek kriptografik tombstone (SHA-256 izi) bırakır.
         """
-        now_dt = target_date or datetime.now(timezone.utc)
+        real_now = datetime.now(timezone.utc)
+        now_dt = target_date or real_now
+        if now_dt.tzinfo is None:
+            now_dt = now_dt.replace(tzinfo=timezone.utc)
+        # Gelecek tarih yasal saklama süresini atlatabilir; gerçek zamana indirilir.
+        if now_dt > real_now:
+            now_dt = real_now
         now_iso = now_dt.isoformat()
 
         stmt = select(AudioArchive).where(
@@ -515,23 +540,26 @@ class AudioArchiveComplianceEngine:
         candidates = list(db.scalars(stmt).all())
 
         purged_ids: List[str] = []
+        failed_ids: List[str] = []
         freed_bytes = 0
 
         for r in candidates:
-            freed_bytes += r.compressed_size_bytes
-            purged_ids.append(r.id)
-
             if not dry_run:
-                # Fiziksel dosyayı sil
+                # Fiziksel dosyayı sil; yalnızca silindiyse veya zaten yoksa purged işaretle
                 try:
                     p = Path(r.file_path)
                     if p.exists():
                         p.unlink()
                 except Exception as e:
                     logger.warning("Tasfiye edilecek dosya silinemedi: %s (%s)", r.file_path, e)
+                    failed_ids.append(r.id)
+                    continue
 
                 # Durumu güncelle (kriptografik iz kalır)
                 r.status = "purged"
+
+            freed_bytes += r.compressed_size_bytes
+            purged_ids.append(r.id)
 
         if not dry_run and candidates:
             db.commit()
@@ -540,6 +568,7 @@ class AudioArchiveComplianceEngine:
             "dry_run": dry_run,
             "purged_count": len(purged_ids),
             "purged_archive_ids": purged_ids,
+            "failed_archive_ids": failed_ids,
             "freed_megabytes": round(freed_bytes / (1024 * 1024), 3),
             "executed_at": now_iso,
         }

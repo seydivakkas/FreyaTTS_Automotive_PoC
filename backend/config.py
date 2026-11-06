@@ -28,7 +28,7 @@ class Settings(BaseSettings):
     ami_host: str = "127.0.0.1"
     ami_port: int = 5038
     ami_username: str = "freya"
-    ami_secret: str = "freya_secret"
+    ami_secret: str = ""
     ami_channel_prefix: str = "PJSIP"
     ami_trunk: str = "trunk"
     ami_context: str = "automotive-outbound"
@@ -42,7 +42,11 @@ class Settings(BaseSettings):
     branch_latitude: float = 41.1118
     branch_longitude: float = 29.0225
     branch_maps_url: str = "https://maps.google.com/?q=41.1118,29.0225"
-    whatsapp_webhook_token: str = "freya_webhook_secret_2026"
+    whatsapp_webhook_token: str = ""
+    # Ses arşivi HMAC mühür anahtarı; boşsa arşiv oluşturma ve doğrulama reddedilir.
+    audio_archive_master_key: str = ""
+    # İmzalı müşteri bağlantıları (rapor PDF) için HMAC anahtarı; boşsa imzalı erişim kapalıdır.
+    link_signing_key: str = ""
     car_denoiser_enabled: bool = True
     car_denoiser_hpf_cutoff: float = 120.0
     car_denoiser_suppression_db: float = 18.0

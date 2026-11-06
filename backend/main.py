@@ -24,6 +24,7 @@ from fastapi import (
     File,
     Form,
     Request,
+    Query,
 )
 from fastapi.responses import FileResponse
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
@@ -32,6 +33,14 @@ from pydantic import BaseModel, Field, AwareDatetime
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from backend.config import settings
+from backend.security_utils import (
+    MAX_AUDIO_BYTES,
+    MAX_IMAGE_BYTES,
+    b64_max_chars,
+    read_upload_capped,
+    signed_pdf_path,
+    verify_signed_link,
+)
 from backend.db import (
     Session,
     Vehicle,
@@ -102,6 +111,7 @@ from backend.pause_breath_cleaner import (
     telephony_audio_cache,
 )
 from backend.audio_archive_compliance import (
+    ArchiveKeyMissingError,
     ArchiveCodec,
     ArchiveResult,
     AudioArchiveComplianceEngine,
@@ -228,6 +238,7 @@ from backend.diagnostics import (
     trigger_proactive_diagnostic_call,
     trigger_proactive_diagnostic_sms,
     resolve_diagnostic,
+    PhoneMissingError,
 )
 from backend.technician_dictation import (
     parse_technician_dictation,
@@ -277,6 +288,9 @@ from backend.qa_telemetry_operator import (
 from backend import milestones
 
 security = HTTPBasic()
+optional_security = HTTPBasic(auto_error=False)
+# Base64 ses alanları için üst sınır (25 MB ham ses).
+AUDIO_B64_MAX = b64_max_chars(MAX_AUDIO_BYTES)
 tickets = {}
 
 
@@ -343,7 +357,7 @@ class TextIn(BaseModel):
 
 
 class DSPProcessIn(BaseModel):
-    audio_base64: str = Field(min_length=1)
+    audio_base64: str = Field(min_length=1, max_length=AUDIO_B64_MAX)
     apply_de_esser: bool = Field(default=True)
     inject_comfort_noise: bool = Field(default=True)
 
@@ -519,7 +533,7 @@ class CampaignDialIn(BaseModel):
 
 
 class AMDAnalyzeIn(BaseModel):
-    audio_base64: str = Field(min_length=1)
+    audio_base64: str = Field(min_length=1, max_length=AUDIO_B64_MAX)
     sample_rate: int = Field(default=8000, ge=8000, le=48000)
 
 
@@ -698,7 +712,7 @@ class TechnicianStatusIn(BaseModel):
 class TurnEvaluateIn(BaseModel):
     text: str = Field(default="", max_length=1000)
     silence_duration_ms: float = Field(default=300.0, ge=0.0, le=10000.0)
-    audio_base64: str | None = None
+    audio_base64: str | None = Field(default=None, max_length=AUDIO_B64_MAX)
     sample_rate: int = Field(default=16000, ge=8000, le=48000)
 
 
@@ -708,7 +722,7 @@ class TurnAnalyzeTextIn(BaseModel):
 
 class EmotionAnalyzeIn(BaseModel):
     transcript: str = Field(default="", max_length=2000)
-    audio_base64: str | None = None
+    audio_base64: str | None = Field(default=None, max_length=AUDIO_B64_MAX)
     audio_duration_sec: float | None = None
     sample_rate: int = Field(default=16000, ge=8000, le=48000)
 
@@ -720,7 +734,7 @@ class EmotionAdaptIn(BaseModel):
 
 
 class PauseCleanIn(BaseModel):
-    audio_base64: str = Field(min_length=4)
+    audio_base64: str = Field(min_length=4, max_length=AUDIO_B64_MAX)
     sample_rate: int = Field(default=8000, ge=8000, le=48000)
     fade_ms: float = Field(default=12.0, ge=1.0, le=50.0)
 
@@ -730,7 +744,7 @@ class AudioCacheLookupIn(BaseModel):
 
 
 class ArchiveCallIn(BaseModel):
-    audio_base64: str = Field(min_length=4)
+    audio_base64: str = Field(min_length=4, max_length=AUDIO_B64_MAX)
     sample_rate: int = Field(default=8000, ge=8000, le=48000)
     conversation_id: str | None = None
     call_session_id: str = ""
@@ -1550,6 +1564,8 @@ async def call_diagnostic_owner(id: str, body: ProactiveActionIn):
                 db, diagnostic_id=id, phone=body.phone
             )
             return row(call_obj)
+        except PhoneMissingError as e:
+            raise HTTPException(422, str(e))
         except ValueError as e:
             raise HTTPException(404, str(e))
 
@@ -1566,6 +1582,8 @@ def sms_diagnostic_owner(id: str, body: ProactiveActionIn):
                 "notification": row(notif),
                 "dispatched_count": len(dispatched),
             }
+        except PhoneMissingError as e:
+            raise HTTPException(422, str(e))
         except ValueError as e:
             raise HTTPException(404, str(e))
 
@@ -1825,7 +1843,7 @@ async def denoise_audio_preview(
     upload = file or audio_file
     if not upload:
         raise HTTPException(400, "Ses dosyası yüklenmelidir")
-    content = await upload.read()
+    content = await read_upload_capped(upload, MAX_AUDIO_BYTES)
     if not content:
         raise HTTPException(400, "Ses dosyası boş")
 
@@ -2183,7 +2201,7 @@ async def whatsapp_inbound_voice_endpoint(
     if not sender:
         raise HTTPException(422, "from_phone veya phone alanı zorunludur")
 
-    content = await upload.read()
+    content = await read_upload_capped(upload, MAX_AUDIO_BYTES)
     if not content:
         raise HTTPException(400, "Ses dosyası boş")
 
@@ -2214,7 +2232,16 @@ async def whatsapp_webhook_endpoint(request: Request):
     """
     Twilio / WhatsApp Cloud API webhook alıcısı.
     Form-urlencoded (Twilio) veya JSON (WhatsApp Cloud) kabul eder.
+    Paylaşılan gizli anahtar (X-Webhook-Token) gövde işlenmeden önce doğrulanır.
     """
+    if not settings.whatsapp_webhook_token:
+        raise HTTPException(503, "WHATSAPP_WEBHOOK_TOKEN ayarlanmalı")
+    supplied = request.headers.get("x-webhook-token", "")
+    if not secrets.compare_digest(
+        supplied.encode(), settings.whatsapp_webhook_token.encode()
+    ):
+        raise HTTPException(401, "Geçersiz webhook anahtarı")
+
     content_type = request.headers.get("content-type", "")
     from_phone = ""
     text_content = ""
@@ -2275,7 +2302,7 @@ async def whatsapp_inbound_image_endpoint(
     if not sender:
         raise HTTPException(422, "from_phone veya phone alanı zorunludur")
 
-    content = await upload.read()
+    content = await read_upload_capped(upload, MAX_IMAGE_BYTES)
     if not content:
         raise HTTPException(400, "Görsel içeriği boş")
 
@@ -2332,7 +2359,7 @@ async def ruhsat_decode_image_endpoint(
 ):
     if not file:
         raise HTTPException(400, "Ruhsat görsel dosyası gereklidir")
-    content = await file.read()
+    content = await read_upload_capped(file, MAX_IMAGE_BYTES)
     if not content:
         raise HTTPException(400, "Dosya içeriği boş")
 
@@ -2478,7 +2505,7 @@ async def kvkk_redact_audio_endpoint(
     ranges_json: str = Form("[]"),
     mode: str = Form("beep"),
 ):
-    content = await file.read()
+    content = await read_upload_capped(file, MAX_AUDIO_BYTES)
     if not content:
         raise HTTPException(400, "Ses dosyası boş")
 
@@ -2843,17 +2870,20 @@ def archive_call_endpoint(payload: ArchiveCallIn):
         raise HTTPException(status_code=400, detail="Empty audio payload")
 
     with Session() as db:
-        res = audio_archive_engine.archive_call_session(
-            audio=raw_pcm,
-            sample_rate=payload.sample_rate,
-            conversation_id=payload.conversation_id,
-            call_session_id=payload.call_session_id,
-            caller_phone=payload.caller_phone,
-            codec=payload.codec,
-            is_redacted=payload.is_redacted,
-            retention_years=payload.retention_years,
-            db=db,
-        )
+        try:
+            res = audio_archive_engine.archive_call_session(
+                audio=raw_pcm,
+                sample_rate=payload.sample_rate,
+                conversation_id=payload.conversation_id,
+                call_session_id=payload.call_session_id,
+                caller_phone=payload.caller_phone,
+                codec=payload.codec,
+                is_redacted=payload.is_redacted,
+                retention_years=payload.retention_years,
+                db=db,
+            )
+        except ArchiveKeyMissingError as e:
+            raise HTTPException(status_code=503, detail=str(e))
         return res.to_dict()
 
 
@@ -2871,6 +2901,11 @@ def retention_purge_endpoint(payload: ArchivePurgeIn):
             target_dt = datetime.fromisoformat(payload.target_date)
         except Exception as e:
             raise HTTPException(status_code=400, detail=f"Invalid target_date format: {e}")
+        if target_dt.tzinfo is None:
+            target_dt = target_dt.replace(tzinfo=timezone.utc)
+        # Gelecek tarih yasal saklama süresini atlatır; reddedilir.
+        if target_dt > datetime.now(timezone.utc):
+            raise HTTPException(status_code=400, detail="target_date gelecekte olamaz")
 
     with Session() as db:
         return audio_archive_engine.purge_expired_archives(
@@ -2883,7 +2918,10 @@ def retention_purge_endpoint(payload: ArchivePurgeIn):
 @app.get("/api/archive/{archive_id}/verify", dependencies=[Depends(auth)])
 def verify_archive_endpoint(archive_id: str):
     with Session() as db:
-        res = audio_archive_engine.verify_archive_integrity(archive_id=archive_id, db=db)
+        try:
+            res = audio_archive_engine.verify_archive_integrity(archive_id=archive_id, db=db)
+        except ArchiveKeyMissingError as e:
+            raise HTTPException(status_code=503, detail=str(e))
         if res.status == "missing":
             raise HTTPException(status_code=404, detail="Archive not found on disk or DB")
         return res.to_dict()
@@ -3025,7 +3063,7 @@ def configure_sip_trunk_endpoint(payload: TrunkConfigIn):
     return {"status": "ok", "trunk": new_trunk.to_dict()}
 
 
-@app.get("/metrics")
+@app.get("/metrics", dependencies=[Depends(auth)])
 def prometheus_metrics_endpoint():
     """Prometheus text exposition formatı (version 0.0.4) ile anlık sistem telemetrisi."""
     content = dashboard_metrics_collector.generate_prometheus_metrics_text()
@@ -3086,7 +3124,7 @@ def configure_sla_endpoint(payload: SLAConfigureIn):
 
 
 @app.get("/api/{resource}", dependencies=[Depends(auth)])
-def listing(resource: str):
+def listing(resource: str, limit: int = Query(200, ge=1, le=1000), offset: int = Query(0, ge=0)):
     table = {
         "vehicles": Vehicle,
         "quotes": Quote,
@@ -3105,19 +3143,17 @@ def listing(resource: str):
         "ab-assignments": ABAssignment,
         "operator-transfers": OperatorTransfer,
         "transfers": OperatorTransfer,
-        "whatsapp-messages": WhatsAppMessage,
-        "call-analytics": CallAnalytics,
-        "ruhsat-scans": RuhsatScan,
         "vehicle-valuations": VehicleValuation,
         "inspection-bays": InspectionBay,
         "technicians": Technician,
         "bay-schedules": BaySchedule,
-        "audio-archives": AudioArchive,
     }.get(resource)
     if not table:
         raise HTTPException(404)
     with Session() as db:
-        return [row(x) for x in db.scalars(select(table)).all()]
+        # Çıktı sırası sabit olsun diye birincil anahtara göre sayfalanır.
+        stmt = select(table).order_by(table.id).limit(limit).offset(offset)
+        return [row(x) for x in db.scalars(stmt).all()]
 
 
 @app.post("/api/corporate-accounts", dependencies=[Depends(auth)])
@@ -3325,7 +3361,20 @@ def add_vehicle_inspection(id: str, body: InspectionReportIn):
 
 
 @app.get("/api/inspections/{id}/pdf")
-def get_inspection_pdf(id: str):
+def get_inspection_pdf(
+    id: str,
+    exp: str | None = None,
+    sig: str | None = None,
+    credentials: HTTPBasicCredentials | None = Depends(optional_security),
+):
+    # Basic auth VEYA geçerli (süresi dolmamış) imzalı bağlantı gerekir.
+    if not verify_signed_link(id, exp, sig):
+        if credentials is None:
+            raise HTTPException(
+                401, "Kimlik doğrulama veya imzalı bağlantı gerekli",
+                headers={"WWW-Authenticate": "Basic"},
+            )
+        auth(credentials)
     with Session() as db:
         report = db.get(InspectionReport, id)
         if not report:
@@ -3357,6 +3406,14 @@ def get_inspection_pdf(id: str):
         )
 
 
+@app.get("/api/inspections/{id}/signed-link", dependencies=[Depends(auth)])
+def get_inspection_signed_link(id: str):
+    with Session() as db:
+        if not db.get(InspectionReport, id):
+            raise HTTPException(404, "Ekspertiz raporu bulunamadı")
+    return {"url": signed_pdf_path(id)}
+
+
 @app.post("/api/inspections/{id}/send-link", dependencies=[Depends(auth)])
 def send_inspection_link(id: str):
     with Session() as db:
@@ -3385,7 +3442,7 @@ def send_inspection_link(id: str):
         return {
             "status": "delivered",
             "delivered_at": report.delivered_at,
-            "url": f"/api/inspections/{report.id}/pdf",
+            "url": signed_pdf_path(report.id),
             "notifications_queued": len(queued),
             "notifications_dispatched": len(dispatched),
         }
@@ -3410,9 +3467,8 @@ async def upload_inspection_photo(
     fname = f"{secrets.token_hex(8)}{ext}"
     out_file = photos_dir / fname
 
-    content = await file.read()
-    if len(content) > 15 * 1024 * 1024:
-        raise HTTPException(400, "Dosya boyutu 15MB sınırını aşamaz")
+    # Sınır, dosyanın tamamı belleğe alınmadan parça parça denetlenir (413).
+    content = await read_upload_capped(file, MAX_IMAGE_BYTES)
 
     out_file.write_bytes(content)
     return {
@@ -3486,7 +3542,7 @@ async def technician_dictate_audio(
     vehicle_id: str | None = Form(None),
     technician_name: str | None = Form("Uzman Teknisyen"),
 ):
-    content = await file.read()
+    content = await read_upload_capped(file, MAX_AUDIO_BYTES)
     if not content:
         raise HTTPException(400, "Ses dosyası boş")
 

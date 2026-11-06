@@ -236,6 +236,10 @@ def ingest_vehicle_telemetry(
     return created_diagnostics
 
 
+class PhoneMissingError(ValueError):
+    """Teşhis için aranacak/mesaj atılacak gerçek bir telefon numarası yok."""
+
+
 async def trigger_proactive_diagnostic_call(
     db,
     *,
@@ -250,7 +254,9 @@ async def trigger_proactive_diagnostic_call(
     if not diag:
         raise ValueError("Teşhis kaydı bulunamadı")
 
-    target_phone = phone or diag.owner_phone or "05550001122"
+    target_phone = phone or diag.owner_phone
+    if not target_phone:
+        raise PhoneMissingError("Telefon yok: teşhis kaydında ve istekte telefon numarası bulunmuyor")
     vehicle = db.get(Vehicle, diag.vehicle_id)
     veh_desc = (
         vehicle.description
@@ -303,7 +309,9 @@ def trigger_proactive_diagnostic_sms(
     if not diag:
         raise ValueError("Teşhis kaydı bulunamadı")
 
-    target_phone = phone or diag.owner_phone or "05550001122"
+    target_phone = phone or diag.owner_phone
+    if not target_phone:
+        raise PhoneMissingError("Telefon yok: teşhis kaydında ve istekte telefon numarası bulunmuyor")
     vehicle = db.get(Vehicle, diag.vehicle_id)
     veh_desc = (
         vehicle.description

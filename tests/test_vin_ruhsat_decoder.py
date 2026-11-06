@@ -203,10 +203,9 @@ def test_ruhsat_api_endpoints(client, auth_headers):
     scans_list = r5.json()
     assert len(scans_list) >= 1
 
-    # 6. GET /api/ruhsat-scans (generic resource listing)
+    # 6. Hassas tablo genel liste ucundan kaldırıldı
     r6 = client.get("/api/ruhsat-scans", headers=auth_headers)
-    assert r6.status_code == 200
-    assert len(r6.json()) >= 1
+    assert r6.status_code == 404
 
 
 def test_whatsapp_inbound_image(client, auth_headers):

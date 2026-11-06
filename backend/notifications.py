@@ -12,6 +12,7 @@ from datetime import datetime
 from typing import Protocol, Optional, List
 from sqlalchemy import select
 from backend.config import settings
+from backend.security_utils import signed_pdf_path
 from backend.db import (
     NotificationOutbox,
     Appointment,
@@ -171,7 +172,8 @@ def queue_inspection_delivery_notifications(
             .order_by(Appointment.created_at.desc())
         ).first()
 
-    report_url = custom_url or f"/api/inspections/{report.id}/pdf"
+    # Müşteriye giden bağlantı imzalı ve süreli olmalıdır.
+    report_url = custom_url or signed_pdf_path(report.id)
     score = getattr(report, "score", 100)
     plate = getattr(vehicle, "plate", "") or "Aracınız"
     veh_desc = getattr(vehicle, "description", "") or f"{getattr(vehicle, 'brand', '')} {getattr(vehicle, 'model', '')}"
@@ -185,7 +187,8 @@ def queue_inspection_delivery_notifications(
         return notifications
 
     # 1. Müşteri SMS
-    cust_phone = "05550001122"
+    # Gerçek telefon yoksa SMS kuyruğa alınmaz (sahte numara kullanılmaz).
+    cust_phone = ""
     cust_name = "Müşterimiz"
     if appointment:
         cust_name = appointment.customer or "Müşterimiz"
@@ -201,7 +204,9 @@ def queue_inspection_delivery_notifications(
     existing_cust = db.scalars(
         select(NotificationOutbox).where(NotificationOutbox.idempotency_key == cust_key)
     ).first()
-    if not existing_cust:
+    if not cust_phone:
+        logger.warning("Müşteri telefonu yok, SMS kuyruğa alınmadı: report_id=%s", report.id)
+    elif not existing_cust:
         cust_notif = NotificationOutbox(
             appointment_id=app_id,
             recipient_type="customer",
@@ -218,8 +223,8 @@ def queue_inspection_delivery_notifications(
     account = None
     if appointment and appointment.corporate_account_id:
         account = db.get(CorporateAccount, appointment.corporate_account_id)
-    if account:
-        corp_phone = account.phone or "05550002233"
+    if account and account.phone:
+        corp_phone = account.phone
         corp_msg = (
             f"Sayın {account.name}, {plate} plakalı {veh_desc} aracın ekspertiz raporu tamamlandı "
             f"(Puan: {score}/100). Dijital rapor PDF: {report_url}"
