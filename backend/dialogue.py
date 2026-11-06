@@ -64,6 +64,58 @@ _OPTION_ALLOWED_WORDS = {
 }
 
 
+# LLM'e yalnızca son 2 mesaj gider; uzun asistan metinleri kısaltılır (history kendi sınırını korur).
+LLM_HISTORY_MESSAGES = 2
+LLM_ASSISTANT_MAX_CHARS = 120
+
+# Kural tabanlı çıkarımda "okunmuş" sayılan dolgu sözcükleri; geriye başka sözcük kalırsa LLM'e gidilir.
+_FILLER_WORDS = {
+    "benim", "aracım", "aracımın", "arabam", "arabamın", "araç", "araba", "marka", "model", "modeli",
+    "markası", "bir", "ve", "ile", "için", "lütfen", "merhaba", "selam", "iyi", "günler", "tamam",
+    "randevu", "ekspertiz", "istiyorum", "alacağım", "olan", "şu", "bu", "evet", "peki", "de", "da",
+}
+# Ad kuralında isim sözcüğü olamayacak yaygın sözcükler ("Adım atıyorum" gibi cümleler elenir).
+_NAME_STOPWORDS = {
+    "atıyorum", "atacağım", "atmak", "atıyoruz", "yok", "ne", "nedir", "bu", "şu", "o", "çok", "bir",
+    "ve", "ile", "için", "değil", "kısa", "uzun", "ilk", "son", "yeni", "eski", "geliyor", "olarak",
+    "ekspertiz", "randevu", "araç", "aracım", "arabam", "evet", "hayır", "tamam", "lütfen", "soyadım",
+}
+_NAME_WORD = r"[A-Za-zÇĞİÖŞÜçğıöşüÂÎÛâîû]+"
+_NAME_RE = re.compile(
+    rf"^(?:[Bb]enim\s+)?(?:[Aa]dım|[İi]smim)\s+({_NAME_WORD}(?:\s+{_NAME_WORD}){{1,2}})$"
+)
+
+
+def _tr_lower(s: str) -> str:
+    return s.replace("İ", "i").replace("I", "ı").lower()
+
+
+def _tr_title(word: str) -> str:
+    if word[:1].isupper():
+        return word
+    first = {"i": "İ", "ı": "I"}.get(word[:1], word[:1].upper())
+    return first + _tr_lower(word[1:])
+
+
+def parse_name_sentence(sentence: str) -> str | None:
+    """"Adım Ada Yılmaz" / "Benim ismim Ada Yılmaz" kalıbı; yalnızca ad+soyad (2-3 sözcük).
+
+    Sınırlar: tek sözcük ("Adım Ada"), sonunda başka söz olan cümle ve yaygın sözcükler
+    (_NAME_STOPWORDS) eşleşmez; bu durumlar LLM'e kalır.
+    """
+    m = _NAME_RE.match(sentence.strip())
+    if not m:
+        return None
+    words = m.group(1).split()
+    if any(_tr_lower(w) in _NAME_STOPWORDS for w in words):
+        return None
+    return " ".join(_tr_title(w) for w in words)
+
+
+def _squash(s: str) -> str:
+    return re.sub(r"\W+", " ", s).strip()
+
+
 def parse_selected_option(text: str) -> int | None:
     """Yalnızca açık ve tek anlamlı seçim ifadesini numaraya çevirir, gerisi LLM'e kalır."""
     lowered = text.replace("İ", "i").replace("I", "ı").lower()
@@ -146,7 +198,11 @@ class Dialogue:
         return ans
 
     def build_prompt(self) -> str:
-        prompt = get_prompt_template_text(self.prompt_template)
+        """Şablon başına sabit sistem istemi (LLM ön ek önbelleği için dinamik durum içermez)."""
+        return get_prompt_template_text(self.prompt_template)
+
+    def build_state_message(self) -> str | None:
+        """Dinamik durum (müşteri, kurumsal hesap, sunulan seçenekler); son kullanıcı mesajından önce gider."""
         additions = []
         if self.customer:
             additions.append(f"Bilinen müşteri adı: {self.customer}.")
@@ -157,9 +213,21 @@ class Dialogue:
                 f"{i + 1}. seçenek {label}." for i, (_, label) in enumerate(self.options)
             )
             additions.append(f"Müşteriye sunulmuş mevcut seçenekler: {opts_text}")
-        if additions:
-            prompt += " " + " ".join(additions)
-        return prompt
+        return "Durum: " + " ".join(additions) if additions else None
+
+    def _llm_messages(self, text: str) -> list[dict[str, str]]:
+        """LLM mesajları: sabit sistem istemi, son 2 mesaj, durum, kullanıcı metni (en sonda)."""
+        messages = [{"role": "system", "content": self.build_prompt()}]
+        for m in self.history[-LLM_HISTORY_MESSAGES:]:
+            content = m["content"]
+            if m["role"] == "assistant" and len(content) > LLM_ASSISTANT_MAX_CHARS:
+                content = content[:LLM_ASSISTANT_MAX_CHARS]  # uzun seçenek metinleri yeniden gönderilmez
+            messages.append({"role": m["role"], "content": content})
+        state = self.build_state_message()
+        if state:
+            messages.append({"role": "system", "content": state})
+        messages.append({"role": "user", "content": text})
+        return messages
 
     def format_options(self, db):
         history_prefix = getattr(self, "inspection_history_note", "") or ""
@@ -622,10 +690,13 @@ class Dialogue:
                 with Session() as db:
                     return self._choose_option(db, text, option)
 
-        prompt = self.build_prompt()
-        messages = [{"role": "system", "content": prompt}]
-        messages.extend(self.history[-self.max_history_turns :])
-        messages.append({"role": "user", "content": text})
+        # Katalog + ad kuralı yeterliyse LLM atlanır; okunamayan söz varsa LLM'e gidilir.
+        if self.mode == "inbound":
+            ruled = self._rule_extract(text)
+            if ruled is not None:
+                return self._apply_extract(ruled[0], text, ruled[1])
+
+        messages = self._llm_messages(text)
 
         chunks = []
 
@@ -666,6 +737,88 @@ class Dialogue:
             self.record_turn("user", text)
             self.record_turn("assistant", ans)
             return ans
+        return self._apply_extract(info, text)
+
+    def _rule_extract(self, text: str) -> tuple[Extract, str | None] | None:
+        """Kural tabanlı çıkarım: katalogdaki tek araç, "Adım X Y" adı, kurumsal hesap adı.
+
+        Okunan kısımlar çıkarıldıktan sonra anlamlı söz kalmıyorsa ve en az bir alan doluysa
+        (Extract, araç_id) döner; aksi halde None (LLM kullanılır).
+        """
+        sentences = [x.strip() for x in re.split(r"[.!?,;]+", text) if x.strip()]
+        if not sentences:
+            return None
+        customer = parse_name_sentence(sentences[0])
+        rest = " ".join(sentences[1:]) if customer else " ".join(sentences)
+        vehicle = corporate = None
+        try:
+            with Session() as db:
+                if customer:
+                    # Ad cümlesinde katalog araç sözcüğü varsa ("Adım Ali Kaya Passat") belirsizdir: LLM.
+                    catalog_words = {
+                        w
+                        for v in db.scalars(select(Vehicle.description)).all()
+                        for w in _tr_lower(_squash(normalize(v)["normalized"])).split()
+                    }
+                    if any(_tr_lower(w) in catalog_words for w in customer.split()):
+                        return None
+                rest_norm = _squash(normalize(rest)["normalized"]) if rest.strip() else ""
+                if rest_norm:
+                    matches = self._match_vehicles(db, rest_norm, whole_words=True)
+                    if len(matches) > 1:
+                        return None  # belirsiz eşleşme: LLM'e bırak
+                    vehicle = matches[0] if matches else None
+                    accounts = db.scalars(
+                        select(CorporateAccount).where(CorporateAccount.active.is_(True))
+                    ).all()
+                else:
+                    accounts = []
+                leftover = f" {_tr_lower(rest_norm)} "
+                for acc in accounts:
+                    name = _tr_lower(_squash(normalize(acc.name)["normalized"]))
+                    if name and f" {name} " in leftover:
+                        corporate = acc.name
+                        leftover = leftover.replace(f" {name} ", " ", 1)
+                        break
+                if vehicle is not None:
+                    cand = _tr_lower(_squash(normalize(vehicle.description)["normalized"]))
+                    leftover = leftover.replace(f" {cand} ", " ", 1)
+        except Exception:
+            return None  # kural yolu hata verirse LLM yolu aynen çalışır
+        if any(w not in _FILLER_WORDS for w in leftover.split()):
+            return None  # kuralların okuyamadığı söz var
+        if not (customer or corporate or vehicle):
+            return None
+        info = Extract(
+            customer=customer,
+            corporate_name=corporate,
+            vehicle_description=vehicle.description if vehicle else None,
+        )
+        return info, (vehicle.id if vehicle else None)
+
+    def _match_vehicles(self, db, needle: str, whole_words: bool = False) -> list:
+        """Eşleşen araçlar. Varsayılan: karşılıklı alt dize; whole_words: aday metinde tam sözcük olarak geçer."""
+        if whole_words:
+            needle = _tr_lower(_squash(needle))
+        matches = []
+        for vehicle in db.scalars(select(Vehicle)).all():
+            candidate = normalize(vehicle.description)["normalized"]
+            if whole_words:
+                candidate = _tr_lower(_squash(candidate))
+            else:
+                candidate = candidate.casefold().strip(" .")
+            # Boş dize her şeyin içinde "geçer"; boş aday/ifade eşleşme sayılmaz.
+            if not needle or not candidate:
+                continue
+            if whole_words:
+                if f" {candidate} " in f" {needle} ":
+                    matches.append(vehicle)
+            elif needle in candidate or candidate in needle:
+                matches.append(vehicle)
+        return matches
+
+    def _apply_extract(self, info: Extract, text: str, vehicle_id: str | None = None) -> str:
+        """LLM veya kural çıktısı Extract'ı diyalog durumuna uygular; iki yol aynı akışı izler."""
         self.retries = 0
         if info.customer:
             self.customer = info.customer[:120]
@@ -698,25 +851,17 @@ class Dialogue:
                 return ans
 
             if info.vehicle_description:
-                needle = (
-                    normalize(info.vehicle_description)["normalized"]
-                    .casefold()
-                    .strip(" .")
-                )
-                matches = []
-                for vehicle in db.scalars(select(Vehicle)).all():
-                    candidate = (
-                        normalize(vehicle.description)["normalized"]
+                if vehicle_id:
+                    matched_ids = [vehicle_id]  # katalogda tam sözcük eşleşmesiyle çözülmüş
+                else:
+                    needle = (
+                        normalize(info.vehicle_description)["normalized"]
                         .casefold()
                         .strip(" .")
                     )
-                    # Boş dize her şeyin içinde "geçer"; boş aday/ifade eşleşme sayılmaz.
-                    if not needle or not candidate:
-                        continue
-                    if needle in candidate or candidate in needle:
-                        matches.append(vehicle)
-                if len(matches) == 1:
-                    matched_id = matches[0].id
+                    matched_ids = [v.id for v in self._match_vehicles(db, needle)]
+                if len(matched_ids) == 1:
+                    matched_id = matched_ids[0]
                     if self.vehicle != matched_id:
                         self.vehicle = matched_id
                         self.slot = None

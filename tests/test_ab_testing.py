@@ -270,7 +270,8 @@ def test_dialogue_prompt_template_variants():
     d_fr.customer = "Ahmet Bey"
     prompt_fr = d_fr.build_prompt()
     assert "nezaketle ve titizlikle analiz et" in prompt_fr
-    assert "Bilinen müşteri adı: Ahmet Bey" in prompt_fr
+    assert "Bilinen müşteri adı: Ahmet Bey" in d_fr.build_state_message()
+    assert "Ahmet" not in prompt_fr  # sistem istemi sabit kalır
 
     # Concise prompt
     d_conc = Dialogue(conversation_id="conv-conc", prompt_template="concise")

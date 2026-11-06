@@ -139,6 +139,12 @@ class Appointment(Base):
     )
     created_at: Mapped[str] = mapped_column(default=now)
 
+    __table_args__ = (
+        Index("ix_appointments_vehicle_id", "vehicle_id"),
+        Index("ix_appointments_status", "status"),
+        Index("ix_appointments_created_at", "created_at"),
+    )
+
 
 class InspectionLift(Base):
     __tablename__ = "inspection_lifts"
@@ -234,6 +240,8 @@ class CorporateLedger(Base):
     description: Mapped[str] = mapped_column(default="", server_default="")
     created_at: Mapped[str] = mapped_column(default=now)
 
+    __table_args__ = (Index("ix_corporate_ledger_account_id", "account_id"),)
+
 
 class Conversation(Base):
     __tablename__ = "conversations"
@@ -260,6 +268,8 @@ class Turn(Base):
     text: Mapped[str] = mapped_column(Text)
     metrics: Mapped[str] = mapped_column(Text, default="{}")
     created_at: Mapped[str] = mapped_column(default=now)
+
+    __table_args__ = (Index("ix_turns_conversation_id", "conversation_id"),)
 
 
 class ABExperiment(Base):

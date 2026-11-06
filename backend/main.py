@@ -2460,6 +2460,7 @@ def ruhsat_apply_crm_endpoint(body: RuhsatApplyIn):
                     scan.appointment_id = body.appointment_id
 
         db.commit()
+        models.invalidate_hotwords()
         return {
             "status": "applied",
             "vehicle_id": vehicle.id,
@@ -3300,6 +3301,7 @@ def vehicle(body: VehicleIn):
         x = Vehicle(**body.model_dump())
         db.add(x)
         db.commit()
+        models.invalidate_hotwords()
         return row(x)
 
 
@@ -3319,6 +3321,7 @@ def update_vehicle(id: str, body: VehicleUpdateIn):
             except ValueError as e:
                 raise HTTPException(422, str(e))
         db.commit()
+        models.invalidate_hotwords()
         return row(v)
 
 
@@ -3338,6 +3341,7 @@ def delete_vehicle(id: str):
             db.delete(quote)
         db.delete(v)
         db.commit()
+        models.invalidate_hotwords()
         return {"deleted": True, "id": id}
 
 
