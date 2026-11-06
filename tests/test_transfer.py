@@ -243,7 +243,7 @@ def test_check_transfer_timeouts():
 
 
 @pytest.mark.asyncio
-async def test_dialogue_dtmf_0_operator_trigger():
+async def test_dialogue_dtmf_0_operator_trigger(real_ami):
     d = Dialogue("conv-test-dtmf-0")
     with Session() as db:
         ans = await d.handle_dtmf("0", db)
@@ -254,7 +254,7 @@ async def test_dialogue_dtmf_0_operator_trigger():
 
 
 @pytest.mark.asyncio
-async def test_dialogue_speech_operator_trigger():
+async def test_dialogue_speech_operator_trigger(real_ami):
     d = Dialogue("conv-test-speech-op")
     ans = await d.answer("beni bir operatöre bağlar mısınız?")
     assert d.done is True
@@ -311,7 +311,7 @@ def test_transfer_rest_api_endpoints():
 
 
 @pytest.mark.asyncio
-async def test_voice_session_operator_transfer_flow(monkeypatch):
+async def test_voice_session_operator_transfer_flow(monkeypatch, real_ami):
     import numpy as np
     from sqlalchemy import create_engine
     from sqlalchemy.orm import sessionmaker
@@ -333,7 +333,7 @@ async def test_voice_session_operator_transfer_flow(monkeypatch):
 
     monkeypatch.setattr(session_mod.models, "synth", mock_synth)
 
-    mock_ami = MockAMIClient()
+    mock_ami = real_ami
     monkeypatch.setattr("backend.transfer.get_ami_client", lambda: mock_ami)
 
     events = []

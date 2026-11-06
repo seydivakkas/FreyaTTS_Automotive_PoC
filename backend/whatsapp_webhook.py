@@ -41,6 +41,7 @@ from backend.db import (
     Slot,
     Vehicle,
     WhatsAppMessage,
+    cancel_appointment,
     now,
 )
 from backend.notifications import (
@@ -306,9 +307,7 @@ def process_inbound_text(
                 f"Görüşmek üzere iyi günler dileriz."
             )
         elif intent == "cancel":
-            appointment.status = "cancelled"
-            appointment.slot_id = None
-            db.commit()
+            cancel_appointment(db, appointment)
             reply_msg = (
                 f"Sayın {cust_label}, ekspertiz randevunuz talebiniz üzerine iptal edilmiştir. "
                 f"Dilediğiniz zaman tekrar randevu oluşturabilirsiniz. İyi günler dileriz."

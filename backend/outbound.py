@@ -11,8 +11,8 @@ import logging
 from typing import Optional
 from sqlalchemy import select
 from backend.config import settings
-from backend.db import OutboundCall, Appointment, Slot, Vehicle, now, uid
-from backend.ami import get_ami_client
+from backend.db import OutboundCall, Appointment, Slot, Vehicle, cancel_appointment, now, uid
+from backend.ami import get_ami_client, is_real_ami
 
 logger = logging.getLogger("automotive_voice.outbound")
 
@@ -88,7 +88,8 @@ async def initiate_outbound_call(
             timeout_ms=30000,
         )
         call_record.action_id = res.get("action_id", "")
-        call_record.status = "in-progress"
+        # Mock AMI gerçek arama başlatmaz; "in-progress" denirse operatör yanılır.
+        call_record.status = "in-progress" if is_real_ami() else "simulated"
         call_record.last_error = None
     except Exception as e:
         logger.error("AMI Originate basarisiz: %s", e)
@@ -99,6 +100,20 @@ async def initiate_outbound_call(
 
     db.commit()
     return call_record
+
+
+def get_outbound_session_context(db, call_uuid: str) -> dict | None:
+    """AudioSocket UUID'si bir OutboundCall.id ile eşleşiyorsa oturum bağlamını döner.
+
+    Eşleşme için Asterisk giden diyaloğu AudioSocket'i `${OUTBOUND_UUID}` ile açmalıdır
+    (backend `OUTBOUND_UUID` değişkenini AMI/call-file ile zaten gönderir). Gelen çağrıların
+    rastgele UUID'si hiçbir kayda uymaz ve None döner.
+    """
+    call = db.get(OutboundCall, str(call_uuid))
+    if not call:
+        return None
+    mode = "outbound_diagnostic" if call.call_type == "diagnostic_alert" else "outbound_reminder"
+    return {"mode": mode, "appointment_id": call.appointment_id, "call_id": call.id}
 
 
 def complete_outbound_call(
@@ -127,8 +142,8 @@ def complete_outbound_call(
     app = db.get(Appointment, call.appointment_id)
     if app:
         if outcome == "cancelled":
-            app.status = "cancelled"
-            app.slot_id = None
+            # Kurumsal ücret varsa iade de burada (tek paylaşımlı işlev) yapılır.
+            cancel_appointment(db, app, commit=False)
             logger.info("Randevu (%s) giden arama teyidinde iptal edildi.", app.id)
         elif outcome == "confirmed":
             app.status = "confirmed"
@@ -158,6 +173,7 @@ def get_outbound_stats(db) -> dict:
     return {
         "total": len(calls),
         "in_progress": len([c for c in calls if c.status == "in-progress"]),
+        "simulated": len([c for c in calls if c.status == "simulated"]),
         "confirmed": len([c for c in calls if c.outcome == "confirmed"]),
         "cancelled": len([c for c in calls if c.outcome == "cancelled"]),
         "unreachable": len([c for c in calls if c.outcome == "unreachable"]),

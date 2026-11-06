@@ -277,7 +277,9 @@ export function InspectionPanel({ api }: Props) {
     await act(async () => {
       const res = await api(`inspections/${reportId}/send-link`, "POST");
       setSuccess(
-        `Dijital rapor linki SMS ve WhatsApp üzerinden iletildi (${res.notifications_queued} bildirim).`
+        res.status === "delivered"
+          ? `Dijital rapor linki SMS ve WhatsApp üzerinden iletildi (${res.notifications_queued} bildirim).`
+          : "Bildirim sağlayıcısı yok: rapor linki gönderilmedi (simüle edildi)."
       );
       await refresh();
     });

@@ -371,6 +371,10 @@ class ChanWebSocketAdapter:
 
         try:
             # VoiceSession'ı başlat (8 kHz slin16 Asterisk formatı)
+            # BİLİNEN EKSİK: Giden aramalarda mode/appointment_id/call_id taşınamıyor. chan_websocket
+            # bağlantısında OutboundCall'ı belirleyen bir kimlik (sorgu parametresi veya CALL_START
+            # değişkeni) tanımlı değil; Asterisk tarafında böyle bir sözleşme kurulmadan eşleme
+            # uydurulmaz. Şimdilik bu kanaldaki oturumlar "inbound" davranır.
             v_session = VoiceSession(
                 channel="asterisk_ws",
                 emit=session.handle_session_event,

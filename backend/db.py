@@ -815,6 +815,39 @@ def book(
     return obj
 
 
+def cancel_appointment(db, appointment, *, commit=True):
+    """Randevuyu iptal eder, saati boşaltır ve kurumsal ücreti bir kez iade eder.
+
+    Tüm iptal yolları (API, sesli diyalog, giden arama, WhatsApp) bunu kullanır.
+    İade, defterde bu randevuya ait 'reversal' satırı varsa tekrarlanmaz (idempotent).
+    """
+    appointment.status = "cancelled"
+    appointment.slot_id = None
+    billed = appointment.billed_amount_kurus or 0
+    if appointment.corporate_account_id and billed > 0:
+        already = (
+            db.query(CorporateLedger)
+            .filter_by(appointment_id=appointment.id, entry_type="reversal")
+            .first()
+        )
+        account = db.get(CorporateAccount, appointment.corporate_account_id)
+        if account and not already:
+            account.balance_kurus -= billed
+            db.add(
+                CorporateLedger(
+                    account_id=account.id,
+                    appointment_id=appointment.id,
+                    entry_type="reversal",
+                    amount_kurus=-billed,
+                    balance_after_kurus=account.balance_kurus,
+                    description=f"{appointment.customer} - Randevu iptali iadesi",
+                )
+            )
+    if commit:
+        db.commit()
+    return appointment
+
+
 def record_payment(
     db,
     *,

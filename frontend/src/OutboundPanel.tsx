@@ -6,7 +6,7 @@ export type OutboundCallItem = {
   phone: string;
   customer: string;
   call_type: "reminder" | "confirmation";
-  status: "queued" | "originating" | "in-progress" | "completed" | "failed" | "cancelled";
+  status: "queued" | "originating" | "in-progress" | "simulated" | "completed" | "failed" | "cancelled";
   outcome: "pending" | "confirmed" | "cancelled" | "unreachable";
   action_id: string;
   attempts: number;
@@ -204,11 +204,19 @@ export function OutboundPanel({ api }: Props) {
             <b>ASTERISK MANAGER INTERFACE (AMI)</b>
             <small>
               Sunucu: {amiStatus.ami_host}:{amiStatus.ami_port} · Bağlantı:{" "}
-              {amiStatus.connected ? "Hazır (Connected)" : "Çevrimdışı (Offline)"}
+              {amiStatus.simulated
+                ? "Simülasyon (gerçek AMI yok)"
+                : amiStatus.connected
+                  ? "Hazır (Connected)"
+                  : "Çevrimdışı (Offline)"}
             </small>
           </div>
           <span className={"pill " + (amiStatus.connected ? "ok" : "")}>
-            {amiStatus.connected ? "● AMI AKTİF" : "○ BAĞLANTI YOK"}
+            {amiStatus.simulated
+              ? "○ SİMÜLASYON"
+              : amiStatus.connected
+                ? "● AMI AKTİF"
+                : "○ BAĞLANTI YOK"}
           </span>
         </div>
       )}
@@ -381,7 +389,7 @@ export function OutboundPanel({ api }: Props) {
                               : "#bfdbfe",
                       }}
                     >
-                      {item.status}
+                      {item.status === "simulated" ? "simüle (arama yapılmadı)" : item.status}
                     </span>
                   </td>
                   <td>

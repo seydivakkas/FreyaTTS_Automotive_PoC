@@ -50,6 +50,7 @@ from backend.db import (
     Conversation,
     Turn,
     book,
+    cancel_appointment,
     CorporateAccount,
     CorporateLedger,
     record_payment,
@@ -255,7 +256,7 @@ from backend.outbound_dialer import (
     detect_turkish_amd,
     AMDResult,
 )
-from backend.ami import get_ami_client
+from backend.ami import get_ami_client, is_real_ami
 from backend.vin import validate_vin
 from backend.acoustic_evaluation import load_latest_report
 from backend.models import models
@@ -329,11 +330,27 @@ async def lifespan(app):
         except Exception:
             pass
 
+    def purge_old_recordings():
+        """Eski kayıtları siler; tek dosyadaki OSError diğerlerini durdurmaz."""
+        limit = time.time() - settings.retention_days * 86400
+        try:
+            files = list((settings.data_dir / "recordings").glob("*.wav"))
+        except OSError:
+            return
+        for p in files:
+            try:
+                if p.stat().st_mtime < limit:
+                    p.unlink()
+            except OSError:
+                continue
+
     async def cleanup():
         while True:
-            for p in (settings.data_dir / "recordings").glob("*.wav"):
-                if p.stat().st_mtime < time.time() - settings.retention_days * 86400:
-                    p.unlink()
+            try:
+                # Engelleyen dosya sistemi işlemleri olay döngüsünü tutmasın.
+                await asyncio.to_thread(purge_old_recordings)
+            except Exception:
+                pass
             await asyncio.sleep(3600)
 
     task = asyncio.create_task(cleanup())
@@ -845,8 +862,8 @@ class OperatorRegisterCallIn(BaseModel):
     session_id: str
     caller_id: str
     initial_turn_id: str | None = None
-    mos_score: float = 4.3
-    rtf: float = 0.18
+    mos_score: float | None = None
+    rtf: float | None = None
 
 
 class QAEvaluateVariantsIn(BaseModel):
@@ -903,7 +920,7 @@ async def readiness():
         "circuit_breaker": {"state": breaker_state, "status": breaker_labels[breaker_state]},
         "loading": models.loading,
         "error": models.error,
-        "busy": active.locked(),
+        "busy": active.active_count > 0,
         "model_load_ms": models.load_ms,
         "synth_count": models.synth_count,
     }
@@ -911,7 +928,8 @@ async def readiness():
 
 @app.post("/api/models/load", dependencies=[Depends(auth)])
 async def load():
-    if active.locked():
+    # "Aktif görüşme" = en az bir oturum var (locked() yalnızca kapasite dolunca True olur).
+    if active.active_count > 0:
         raise HTTPException(409, "Aktif görüşme var")
     try:
         await models.load()
@@ -1176,7 +1194,8 @@ def qa_m11_status(has_physical_pbx_trace: bool = False, has_hardware_trunk: bool
 
 @app.post("/api/synthesize", dependencies=[Depends(auth)])
 async def synth(body: TextIn):
-    if active.locked():
+    # "Aktif görüşme" = en az bir oturum var (locked() yalnızca kapasite dolunca True olur).
+    if active.active_count > 0:
         raise HTTPException(409, "Aktif görüşme var")
     try:
         w = await models.synth(body.text)
@@ -1333,13 +1352,16 @@ def complete_call(id: str, body: CallOutcomeIn):
 @app.get("/api/outbound/ami-status", dependencies=[Depends(auth)])
 async def get_ami_status():
     ami = get_ami_client()
-    is_up = await ami.ping()
+    real = is_real_ami()
+    # Mock istemci ping'e "başarılı" der; gerçek bağlantı olmadığı için connected=False döner.
+    is_up = (await ami.ping()) if real else False
     with Session() as db:
         stats = get_outbound_stats(db)
     return {
         "ami_host": settings.ami_host,
         "ami_port": settings.ami_port,
         "connected": is_up,
+        "simulated": not real,
         "stats": stats,
     }
 
@@ -1779,7 +1801,8 @@ def get_ab_experiment_report_endpoint(id: str):
 
 @app.post("/api/ab/preview-synth", dependencies=[Depends(auth)])
 async def ab_preview_synth(body: ABPreviewSynthIn):
-    if active.locked():
+    # "Aktif görüşme" = en az bir oturum var (locked() yalnızca kapasite dolunca True olur).
+    if active.active_count > 0:
         raise HTTPException(409, "Aktif görüşme var")
     try:
         w = await models.synth(body.text, seed=body.seed)
@@ -1972,6 +1995,7 @@ async def run_batched_ode_benchmark(body: BatchedBenchmarkIn):
             micro_window_ms=settings.batched_ode_micro_window_ms,
             steps=settings.batched_ode_steps,
             enabled=True,
+            allow_sine_fallback=True,  # model yokken yalnızca kıyaslama; ses çalınmaz
         )
 
     bench_start = time.monotonic()
@@ -3435,12 +3459,29 @@ def send_inspection_link(id: str):
             vehicle=vehicle,
             appointment=appointment,
         )
-        report.delivered_at = datetime.now(timezone.utc).isoformat()
         db.commit()
 
         dispatched = dispatch_pending_notifications(db)
+        # Teslim durumu yalnızca bu rapora ait bildirimlerin gerçek sonucundan çıkar.
+        mine = db.scalars(
+            select(NotificationOutbox).where(
+                NotificationOutbox.idempotency_key.in_(
+                    (f"notif-insp-cust-{id}", f"notif-insp-corp-{id}")
+                )
+            )
+        ).all()
+        statuses = {n.status for n in mine}
+        if "sent" in statuses:
+            delivery = "delivered"
+            report.delivered_at = datetime.now(timezone.utc).isoformat()
+            db.commit()
+        elif "simulated" in statuses:
+            # Bildirim sağlayıcısı yok (mock): mesaj gönderilmedi, "delivered" denmez.
+            delivery = "simulated"
+        else:
+            delivery = "queued"
         return {
-            "status": "delivered",
+            "status": delivery,
             "delivered_at": report.delivered_at,
             "url": signed_pdf_path(report.id),
             "notifications_queued": len(queued),
@@ -3685,9 +3726,7 @@ def cancel(id: UUID):
         x = db.get(Appointment, id)
         if not x:
             raise HTTPException(404)
-        x.status = "cancelled"
-        x.slot_id = None
-        db.commit()
+        cancel_appointment(db, x)
         return row(x)
 
 
@@ -3708,7 +3747,8 @@ def detail(id: UUID):
 @app.delete("/api/conversations/{id}", dependencies=[Depends(auth)])
 def delete(id: UUID):
     id = str(id)
-    if active.locked():
+    # "Aktif görüşme" = en az bir oturum var (locked() yalnızca kapasite dolunca True olur).
+    if active.active_count > 0:
         raise HTTPException(409, "Aktif görüşme sırasında silinemez")
     with Session() as db:
         x = db.get(Conversation, id)
@@ -3806,8 +3846,14 @@ def ticket():
 @app.websocket("/ws/voice")
 async def voice(ws: WebSocket):
     token = ws.query_params.get("ticket", "")
-    if tickets.pop(token, 0) < time.monotonic() or active.locked():
-        await ws.close(code=1008)
+    # Kabul edilmeden kapatılırsa tarayıcı kod/neden göremez (1006); bu yüzden önce kabul edilir.
+    if tickets.pop(token, 0) < time.monotonic():
+        await ws.accept()
+        await ws.close(code=1008, reason="ticket_expired")
+        return
+    if active.locked():
+        await ws.accept()
+        await ws.close(code=1013, reason="line_busy")
         return
     await active.acquire()
     session = None
@@ -3845,7 +3891,8 @@ async def voice(ws: WebSocket):
                     if payload.get("type") == "dtmf":
                         digit = str(payload.get("digit", "")).strip()
                         if digit:
-                            asyncio.create_task(session.handle_dtmf(digit))
+                            # Referans tutulur, hata loglanır, oturum içinde sıralanır.
+                            session.schedule_dtmf(digit)
                 except Exception:
                     pass
             data = message.get("bytes")

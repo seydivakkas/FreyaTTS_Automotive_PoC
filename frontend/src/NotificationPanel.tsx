@@ -14,7 +14,7 @@ export type NotificationItem = {
   recipient: string;
   channel: "sms" | "whatsapp";
   message: string;
-  status: "pending" | "sent" | "failed";
+  status: "pending" | "sent" | "simulated" | "failed";
   idempotency_key: string;
   attempts: number;
   last_error: string | null;
@@ -745,9 +745,11 @@ export function NotificationPanel({ api, rawApi }: Props) {
                       >
                         {item.status === "sent"
                           ? "İletildi"
-                          : item.status === "failed"
-                            ? "Başarısız"
-                            : "Bekliyor"}
+                          : item.status === "simulated"
+                            ? "gönderilmedi (sağlayıcı yok)"
+                            : item.status === "failed"
+                              ? "Başarısız"
+                              : "Bekliyor"}
                       </span>
                       {item.attempts > 1 && (
                         <small style={{ marginTop: "2px" }}>

@@ -441,12 +441,25 @@ class AudioSocketOrchestrator:
                 self.total_audio_frames_out += 1
 
             # 5. VoiceSession Başlatma (8 kHz telefon formatı)
+            # Giden aramada AudioSocket UUID'si OutboundCall.id ise (dialplan
+            # AudioSocket(${OUTBOUND_UUID},...) kullanmalı) mod/randevu/çağrı bağlamı taşınır.
+            # Gelen çağrının rastgele UUID'si eşleşmez; bağlam boş kalır ve mod "inbound" olur.
+            outbound_ctx: dict[str, Any] = {}
+            try:
+                from backend.db import Session as DbSession
+                from backend.outbound import get_outbound_session_context
+
+                with DbSession() as db:
+                    outbound_ctx = get_outbound_session_context(db, call_uuid_str) or {}
+            except Exception:
+                logger.exception("Giden arama bağlamı okunamadı: %s", call_uuid_str)
             session = VoiceSession(
                 channel="asterisk",
                 emit=emit_event,
                 send_audio=send_audio_frame,
                 output_rate=SAMPLE_RATE,
                 caller_channel=f"AudioSocket/{call_uuid_str}",
+                **outbound_ctx,
             )
             greeting_task = asyncio.create_task(session.start())
 

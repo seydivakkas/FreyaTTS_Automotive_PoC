@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     demo_mode: bool = False
     ollama_url: str = "http://127.0.0.1:11434"
     ollama_model: str = "qwen2.5:7b"
+    llm_timeout_sec: int = 20
     ollama_gpu_layers: int = 8
     freya_path: str = "vendor/FreyaTTS"
     tts_device: str = "cuda"

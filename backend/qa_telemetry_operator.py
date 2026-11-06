@@ -309,9 +309,10 @@ class OperatorSessionView:
     takeover_reason: Optional[str]
     started_at_iso: str
     current_turn_id: Optional[str]
-    mos_score: float
+    # Ölçülmemişse None: sahte varsayılan (4.3 / 0.18) gösterilmez.
+    mos_score: Optional[float]
     packet_loss_pct: float
-    rtf: float
+    rtf: Optional[float]
     whisper_notes: List[str] = field(default_factory=list)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -348,8 +349,8 @@ class OperatorRealtimePanel:
         session_id: str,
         caller_id: str,
         initial_turn_id: Optional[str] = None,
-        mos_score: float = 4.3,
-        rtf: float = 0.18,
+        mos_score: Optional[float] = None,
+        rtf: Optional[float] = None,
     ) -> OperatorSessionView:
         """Yeni aktif çağrıyı operatör paneline kaydeder."""
         session = OperatorSessionView(

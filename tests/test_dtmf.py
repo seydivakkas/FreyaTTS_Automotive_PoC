@@ -103,7 +103,7 @@ def test_dtmf_audio_notch_suppression():
 
 
 @pytest.mark.asyncio
-async def test_dialogue_dtmf_awaiting_confirmation(dtmf_setup):
+async def test_dialogue_dtmf_awaiting_confirmation(dtmf_setup, real_ami):
     client, SessionLocal, tmp_path = dtmf_setup
 
     now_utc = datetime.now(timezone.utc)

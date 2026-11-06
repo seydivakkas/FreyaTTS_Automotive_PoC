@@ -171,7 +171,11 @@ async def initiate_operator_transfer(
         db.refresh(transfer)
     except Exception as e:
         logger.warning("AMI üzerinden operatör fısıltısı başlatılamadı: %s", e)
-        # AMI yoksa bile (ör. mock/test modu) transfer kaydı initiated/whispering kalabilir
+        # Hata yutulmaz: kayıt "failed" olur; çağıran müşteriye doğruyu söyleyebilir.
+        transfer.status = "failed"
+        transfer.completed_at = datetime.now(timezone.utc).isoformat()
+        db.commit()
+        db.refresh(transfer)
 
     return transfer
 

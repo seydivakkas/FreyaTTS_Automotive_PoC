@@ -55,6 +55,8 @@ class MockNotificationProvider:
             raise RuntimeError(self.fail_reason)
         receipt = {
             "provider": "mock",
+            # Gerçek bir iletim yapılmadı; outbox bu kaydı "sent" değil "simulated" işaretler.
+            "simulated": True,
             "channel": channel,
             "recipient": recipient,
             "message": message,
@@ -75,6 +77,11 @@ _active_provider: NotificationProvider = MockNotificationProvider()
 def get_notification_provider() -> NotificationProvider:
     global _active_provider
     return _active_provider
+
+
+def can_send_real_notifications() -> bool:
+    """Etkin sağlayıcı MockNotificationProvider değilse gerçek SMS/WhatsApp gönderilebilir."""
+    return not isinstance(get_notification_provider(), MockNotificationProvider)
 
 
 def set_notification_provider(provider: NotificationProvider) -> None:
@@ -269,13 +276,18 @@ def dispatch_pending_notifications(db, limit: int = 50) -> list[NotificationOutb
     for item in pending:
         item.attempts += 1
         try:
-            provider.send(
+            receipt = provider.send(
                 channel=item.channel,
                 recipient=item.recipient,
                 message=item.message,
             )
-            item.status = "sent"
-            item.sent_at = now()
+            if isinstance(receipt, dict) and receipt.get("simulated"):
+                # Sağlayıcı yok (mock): mesaj müşteriye ulaşmadı, "sent" denmez.
+                item.status = "simulated"
+                item.sent_at = None
+            else:
+                item.status = "sent"
+                item.sent_at = now()
             item.last_error = None
         except Exception as e:
             item.last_error = str(e)

@@ -95,6 +95,7 @@ async def test_batched_ode_micro_batching():
         micro_window_ms=12.0,
         steps=32,
         enabled=True,
+        allow_sine_fallback=True,
     )
 
     texts = [
@@ -128,7 +129,7 @@ async def test_batched_ode_micro_batching():
 @pytest.mark.asyncio
 async def test_independent_seeds_preserve_f0():
     """Yığındaki her çağrının izole seed ile bağımsız F0 ses kararlılığına sahip olduğunu doğrular."""
-    engine = BatchedODEEngine(batch_size=4, micro_window_ms=10.0, enabled=True)
+    engine = BatchedODEEngine(batch_size=4, micro_window_ms=10.0, enabled=True, allow_sine_fallback=True)
 
     # Aynı metin iki farklı seed ile sentezlendiğinde
     w_seed9 = await engine.synthesize_clause("Test cümlesi", seed=9)
@@ -243,7 +244,7 @@ async def test_models_synth_integration_with_batched_ode():
     """Models.synth çağrısının BatchedODEEngine üzerinden çalıştığını doğrular."""
     from backend.batched_ode import BatchedODEEngine
 
-    engine = BatchedODEEngine(batch_size=4, micro_window_ms=5.0, enabled=True)
+    engine = BatchedODEEngine(batch_size=4, micro_window_ms=5.0, enabled=True, allow_sine_fallback=True)
     orig_engine = getattr(models, "batched_ode_engine", None)
     try:
         models.batched_ode_engine = engine
@@ -256,3 +257,78 @@ async def test_models_synth_integration_with_batched_ode():
     finally:
         models.batched_ode_engine = orig_engine
 
+
+
+@pytest.mark.asyncio
+async def test_sinus_yedek_bayrak_olmadan_hata_verir():
+    """Gerçek model yokken sinüs sesi konuşma diye üretilmez."""
+    engine = BatchedODEEngine(batch_size=2, micro_window_ms=5.0, enabled=True)
+    with pytest.raises(RuntimeError, match="yapay sinüs"):
+        await engine.enqueue_clause("Merhaba", seed=9)
+
+
+@pytest.mark.asyncio
+async def test_yedek_fonksiyon_seed_anahtar_sozcukle_verilir():
+    """Satıcı _synth_one(text, steps=32, seed=None) imzasında seed 'steps'e kaymamalı."""
+    gorulen = {}
+
+    def tek(text, steps=32, seed=None):
+        gorulen["steps"] = steps
+        gorulen["seed"] = seed
+        t = np.linspace(0, 0.2, int(SAMPLE_RATE * 0.2), endpoint=False)
+        return (0.3 * np.sin(2 * np.pi * 220 * t)).astype(np.float32)
+
+    engine = BatchedODEEngine(batch_size=1, micro_window_ms=5.0, synth_fallback_fn=tek)
+    await engine.enqueue_clause("Seed testi", seed=77)
+    assert gorulen == {"steps": 32, "seed": 77}
+
+
+@pytest.mark.asyncio
+async def test_bozuk_oge_yigindaki_digerlerini_dusurmez():
+    """Yığın hata verirse öğeler tek tek yeniden denenir; yalnızca bozuk olan hata alır."""
+
+    def tek(text, seed=None):
+        if "BOZUK" in text:
+            raise ValueError("Model sözlüğünde olmayan karakterler: {'#'}")
+        t = np.linspace(0, 0.2, int(SAMPLE_RATE * 0.2), endpoint=False)
+        return (0.3 * np.sin(2 * np.pi * 220 * t)).astype(np.float32)
+
+    engine = BatchedODEEngine(batch_size=3, micro_window_ms=5.0, synth_fallback_fn=tek)
+    sonuc = await asyncio.gather(
+        engine.enqueue_clause("iyi bir", seed=9),
+        engine.enqueue_clause("BOZUK cümle", seed=9),
+        engine.enqueue_clause("iyi iki", seed=9),
+        return_exceptions=True,
+    )
+    assert isinstance(sonuc[0], np.ndarray)
+    assert isinstance(sonuc[1], ValueError)
+    assert isinstance(sonuc[2], np.ndarray)
+
+
+@pytest.mark.asyncio
+async def test_models_synth_batched_yol_devre_kesiciden_gecer():
+    """Yığınlı yol TTS devre kesicisini (success/failure/allow) kullanır."""
+    from backend.models import Models
+
+    m = Models()
+
+    class Motor:
+        enabled = True
+        hata = None
+
+        async def synthesize_clause(self, text, seed=None):
+            if self.hata:
+                raise self.hata
+            return np.ones(10, np.float32)
+
+    m.batched_ode_engine = Motor()
+    await m.synth("a")
+    assert m.synth_count == 1 and m.breakers["tts"].failures == 0
+
+    m.batched_ode_engine.hata = RuntimeError("gpu")
+    for _ in range(3):
+        with pytest.raises(RuntimeError, match="gpu"):
+            await m.synth("a")
+    # Eşik aşıldı: devre açık, motor çağrılmadan reddedilir.
+    with pytest.raises(RuntimeError, match="beklemede"):
+        await m.synth("a")

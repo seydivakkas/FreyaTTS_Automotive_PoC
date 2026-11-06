@@ -1,9 +1,11 @@
 import asyncio
 import json
+import logging
 import time
 import wave
 from pathlib import Path
 import numpy as np
+from sqlalchemy import select
 from backend.audio import (
     Endpoint,
     resample,
@@ -18,6 +20,8 @@ from backend.config import settings
 from backend.milestones import LiveControl
 from automotive_voice.audio.contracts import MediaFormat, Codec
 from backend.batched_ode import ConcurrentCallController
+
+logger = logging.getLogger("automotive_voice.session")
 
 active = ConcurrentCallController(max_concurrent=settings.max_concurrent_calls)
 
@@ -99,6 +103,9 @@ class VoiceSession:
         self.input_buffer = b""
         self.resampler = None
         self.watchdog = None
+        # DTMF görevleri: referans tutulur (GC'ye karşı), hataları loglanır, oturum başına sıralanır.
+        self._dtmf_lock = asyncio.Lock()
+        self._dtmf_tasks: set[asyncio.Task] = set()
         if settings.record_audio:
             recordings_dir = settings.data_dir / "recordings"
             recordings_dir.mkdir(parents=True, exist_ok=True)
@@ -152,17 +159,20 @@ class VoiceSession:
                 )
         elif self.mode == "outbound_diagnostic":
             with Session() as db:
-                from backend.db import Vehicle, VehicleDiagnostic
+                from backend.db import Appointment, Vehicle, VehicleDiagnostic
 
                 diag = None
                 if getattr(self, "diagnostic_id", None):
                     diag = db.get(VehicleDiagnostic, self.diagnostic_id)
                 elif self.appointment_id:
-                    diag = db.scalars(
-                        select(VehicleDiagnostic).order_by(
-                            VehicleDiagnostic.created_at.desc()
-                        )
-                    ).first()
+                    # Başka müşterinin arıza kodu okunmasın: yalnızca randevunun aracına ait kayıt.
+                    app = db.get(Appointment, self.appointment_id)
+                    if app and app.vehicle_id:
+                        diag = db.scalars(
+                            select(VehicleDiagnostic)
+                            .where(VehicleDiagnostic.vehicle_id == app.vehicle_id)
+                            .order_by(VehicleDiagnostic.created_at.desc())
+                        ).first()
 
                 veh = (
                     db.get(Vehicle, diag.vehicle_id)
@@ -241,7 +251,7 @@ class VoiceSession:
         if hasattr(self, "goertzel_detector") and self.goertzel_detector is not None:
             detected_digits, feed_samples = self.goertzel_detector.process_samples(samples)
             for d in detected_digits:
-                asyncio.create_task(self.handle_dtmf(d))
+                self.schedule_dtmf(d)
 
         if self.recording:
             self.recording.writeframes(pcm(feed_samples))
@@ -294,11 +304,12 @@ class VoiceSession:
                 {"type": "playback", "action": "flush", "turn_id": self.generation}
             )
             await self.control.move("thinking")
+            stt_ms = (time.monotonic() - start) * 1000
             self.save(
                 "user",
                 text,
                 {
-                    "stt_ms": (time.monotonic() - start) * 1000,
+                    "stt_ms": stt_ms,
                     "endpoint_ms": (start - speech_end) * 1000 if speech_end else None,
                 },
             )
@@ -306,13 +317,20 @@ class VoiceSession:
             models.last_llm_metrics = {}
             answer = await self.dialogue.answer(text)
             self.save("metric", "", models.last_llm_metrics)
+            # Arayüzün gecikme şeridi bu alanları bekler (tur başına tek metrics olayı).
+            turn_metrics = {"stt_ms": stt_ms}
+            for key in ("llm_first_token_ms", "llm_total_ms"):
+                value = (models.last_llm_metrics or {}).get(key)
+                if value is not None:
+                    turn_metrics[key] = value
+            await self.emit({"type": "metrics", **turn_metrics})
             await self.reply(answer, speech_end or start)
             if getattr(self.dialogue, "transfer_requested", False):
-                await self.trigger_operator_transfer()
+                ok = await self.trigger_operator_transfer()
                 await self.emit(
                     {
                         "type": "completed",
-                        "reason": "transferred",
+                        "reason": "transferred" if ok else "follow_up",
                     }
                 )
             elif self.dialogue.done:
@@ -336,7 +354,25 @@ class VoiceSession:
             )
             await self.emit({"type": "error", "message": str(e)})
 
+    def schedule_dtmf(self, digit: str) -> asyncio.Task:
+        """DTMF işlemini arka planda başlatır; referansı tutar ve hatayı loglar."""
+        task = asyncio.create_task(self.handle_dtmf(digit))
+        self._dtmf_tasks.add(task)
+
+        def done(t: asyncio.Task):
+            self._dtmf_tasks.discard(t)
+            if not t.cancelled() and t.exception() is not None:
+                logger.error("DTMF işlenemedi", exc_info=t.exception())
+
+        task.add_done_callback(done)
+        return task
+
     async def handle_dtmf(self, digit: str):
+        # Aynı oturumda tuşlar sırayla işlenir (üst üste binen yanıtları önler).
+        async with self._dtmf_lock:
+            await self._handle_dtmf_locked(digit)
+
+    async def _handle_dtmf_locked(self, digit: str):
         if self.closed:
             return
         d = str(digit).strip().upper()
@@ -367,11 +403,11 @@ class VoiceSession:
 
         await self.reply(reply_text)
         if getattr(self.dialogue, "transfer_requested", False):
-            await self.trigger_operator_transfer()
+            ok = await self.trigger_operator_transfer()
             await self.emit(
                 {
                     "type": "completed",
-                    "reason": "transferred",
+                    "reason": "transferred" if ok else "follow_up",
                 }
             )
         elif self.dialogue.done:
@@ -406,6 +442,11 @@ class VoiceSession:
             )
             self.dialogue.transfer_id = transfer.id
 
+        if transfer.status == "failed":
+            # AMI aktarımı başlatamadı: müşteriye "aktarıyorum" demiş olsak da gerçeği söyle.
+            await self.reply(
+                "Operatöre bağlanamadım; talebinizi kaydettim, sizi arayacağız."
+            )
         await self.emit(
             {
                 "type": "operator_transfer",
@@ -418,6 +459,7 @@ class VoiceSession:
                 "summary": transfer.summary,
             }
         )
+        return transfer.status != "failed"
 
     async def reply(self, text, start=None):
         turn = self.generation
@@ -530,6 +572,10 @@ class VoiceSession:
     async def close(self):
         self.closed = True
         self.generation += 1
+        for t in list(self._dtmf_tasks):
+            t.cancel()
+        if self._dtmf_tasks:
+            await asyncio.gather(*self._dtmf_tasks, return_exceptions=True)
         if self.watchdog:
             self.watchdog.cancel()
             await asyncio.gather(self.watchdog, return_exceptions=True)

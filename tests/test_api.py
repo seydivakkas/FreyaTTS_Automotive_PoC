@@ -72,18 +72,37 @@ def test_rendezvous_routes(client):
 def test_ws_ticket_and_invalid_format(client):
     from starlette.websockets import WebSocketDisconnect
 
-    with pytest.raises(WebSocketDisconnect):
-        with client.websocket_connect("/ws/voice?ticket=invalid"):
-            pass
+    # Kod/neden tarayıcıya ulaşsın diye bağlantı önce kabul edilir, sonra kapatılır.
+    with client.websocket_connect("/ws/voice?ticket=invalid") as bad:
+        with pytest.raises(WebSocketDisconnect) as closed:
+            bad.receive_text()
+    assert closed.value.code == 1008
+    assert closed.value.reason == "ticket_expired"
     token = client.post("/api/session-ticket", auth=("admin", "test-password")).json()[
         "ticket"
     ]
     with client.websocket_connect("/ws/voice?ticket=" + token) as ws:
         ws.send_json({"sample_rate": 123, "encoding": "pcm_s16le", "channels": 1})
         assert ws.receive_json()["type"] == "error"
-    with pytest.raises(WebSocketDisconnect):
-        with client.websocket_connect("/ws/voice?ticket=" + token):
-            pass
+    with client.websocket_connect("/ws/voice?ticket=" + token) as reused:
+        with pytest.raises(WebSocketDisconnect) as closed:
+            reused.receive_text()
+    assert closed.value.code == 1008
+
+
+def test_ws_busy_line_has_distinct_close_code(client, monkeypatch):
+    """Meşgul hat (1013/line_busy) ile süresi dolan bilet (1008) ayırt edilir."""
+    from starlette.websockets import WebSocketDisconnect
+
+    token = client.post("/api/session-ticket", auth=("admin", "test-password")).json()[
+        "ticket"
+    ]
+    monkeypatch.setattr(main.active, "locked", lambda: True)
+    with client.websocket_connect("/ws/voice?ticket=" + token) as busy:
+        with pytest.raises(WebSocketDisconnect) as closed:
+            busy.receive_text()
+    assert closed.value.code == 1013
+    assert closed.value.reason == "line_busy"
 
 
 def test_teardown_failure_releases_single_call_capacity(client, monkeypatch):

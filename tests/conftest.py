@@ -50,3 +50,16 @@ Base.metadata.create_all(engine)
 def pytest_unconfigure(config):
     engine.dispose()
     shutil.rmtree(TEST_ROOT, ignore_errors=True)
+
+
+@pytest.fixture
+def real_ami():
+    """Gerçek Asterisk'e bağlıymış gibi davranan sahte AMI (MockAMIClient varsayılanı 'gerçek değil')."""
+    from backend.ami import MockAMIClient, get_ami_client, set_ami_client
+
+    previous = get_ami_client()
+    fake = MockAMIClient()
+    fake.is_real = True
+    set_ami_client(fake)
+    yield fake
+    set_ami_client(previous)

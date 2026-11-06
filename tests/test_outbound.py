@@ -28,6 +28,7 @@ def client(tmp_path, monkeypatch):
     monkeypatch.setattr(main.settings, "admin_password", "test-password")
 
     mock_ami = MockAMIClient()
+    mock_ami.is_real = True  # bu testler gerçek AMI davranışını (in-progress) denetler
     set_ami_client(mock_ami)
 
     c = TestClient(main.app)

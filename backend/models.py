@@ -113,7 +113,21 @@ class Models:
 
     async def synth(self, text, seed: int | None = None):
         if self.batched_ode_engine and self.batched_ode_engine.enabled:
-            return await self.batched_ode_engine.synthesize_clause(text, seed=seed)
+            # Yığınlı yol da aynı TTS devre kesicisinden geçer (_guarded_synth ile aynı kurallar).
+            breaker = self.breakers["tts"]
+            if not breaker.allow(time.monotonic_ns()):
+                raise RuntimeError("TTS geçici hata sonrasında beklemede")
+            try:
+                result = await self.batched_ode_engine.synthesize_clause(text, seed=seed)
+            except (ValueError, asyncio.CancelledError):
+                breaker.abandon_probe()
+                raise
+            except Exception:
+                breaker.failure(time.monotonic_ns())
+                raise
+            breaker.success()
+            self.synth_count += 1
+            return result
         if not self.tts:
             raise RuntimeError("TTS hazır değil; modelleri yükleyin")
         if self.pending >= 2:

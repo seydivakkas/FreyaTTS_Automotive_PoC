@@ -78,6 +78,10 @@ class AMIClientProtocol(Protocol):
 class MockAMIClient:
     """Birim testler ve Asterisk baglantisi olmayan yerel calisma icin mock AMI client."""
 
+    # Gerçek bir Asterisk'e bağlı değildir; çağrı/aktarım "yapıldı" diye raporlanmamalıdır.
+    # Testler gerçek gibi davranan bir sahte istemci gerektiriyorsa bunu True yapabilir.
+    is_real = False
+
     def __init__(self):
         self.calls: list[dict] = []
         self.redirects: list[dict] = []
@@ -451,4 +455,9 @@ def get_ami_client() -> AMIClientProtocol:
 def set_ami_client(client: AMIClientProtocol) -> None:
     global _active_ami
     _active_ami = client
+
+
+def is_real_ami() -> bool:
+    """Etkin AMI istemcisi gerçek Asterisk'e bağlıysa True; MockAMIClient için False."""
+    return bool(getattr(get_ami_client(), "is_real", True))
 

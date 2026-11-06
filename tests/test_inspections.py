@@ -213,8 +213,9 @@ def test_digital_delivery_send_link(test_setup):
     send_res = client.post(f"/api/inspections/{report_id}/send-link", auth=auth)
     assert send_res.status_code == 200, send_res.text
     data = send_res.json()
-    assert data["status"] == "delivered"
-    assert data["delivered_at"] is not None
+    # Mock sağlayıcı: mesaj gönderilmedi, "delivered" denmemeli.
+    assert data["status"] == "simulated"
+    assert data["delivered_at"] is None
     assert f"/api/inspections/{report_id}/pdf" in data["url"]
     assert data["notifications_queued"] == 2  # Customer SMS + Dealership WhatsApp
 

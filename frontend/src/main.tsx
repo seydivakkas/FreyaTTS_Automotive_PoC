@@ -291,12 +291,17 @@ function App() {
         if (!wasConnected.current)
           fail("Ses bağlantısı kurulamadı; model ve sunucu durumunu kontrol edin.");
       };
-      ws.onclose = () => {
+      ws.onclose = (ev) => {
         if (!closing.current && !failed.current)
           fail(
-            wasConnected.current
-              ? "Ses bağlantısı beklenmedik şekilde kapandı."
-              : "Hat meşgul olabilir veya bağlantı reddedildi. Birkaç saniye sonra tekrar deneyin.",
+            // Sunucu kod/neden gönderir: 1013 line_busy = hat meşgul, 1008 = bilet süresi doldu.
+            ev.reason === "line_busy" || ev.code === 1013
+              ? "Hat şu anda meşgul. Birkaç saniye sonra tekrar deneyin."
+              : ev.reason === "ticket_expired" || ev.code === 1008
+                ? "Oturum bileti geçersiz veya süresi doldu. Aramayı yeniden başlatın."
+                : wasConnected.current
+                  ? "Ses bağlantısı beklenmedik şekilde kapandı."
+                  : "Bağlantı reddedildi. Birkaç saniye sonra tekrar deneyin.",
           );
         stop();
       };

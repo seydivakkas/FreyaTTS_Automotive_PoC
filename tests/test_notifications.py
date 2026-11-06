@@ -78,7 +78,8 @@ def test_customer_appointment_notification(client):
         assert "Volkswagen Passat" in n.message
         assert "14:30" in n.message
         assert app.id[:8].upper() in n.message
-        assert n.status in ("pending", "sent")
+        # Mock sağlayıcı gerçek iletim yapmaz: "sent" değil "simulated".
+        assert n.status in ("pending", "simulated")
 
 
 def test_corporate_dealership_notification(client):
@@ -178,8 +179,8 @@ def test_notification_delivery_and_retry(client):
 
         # Now provider recovered, retry
         retried = retry_notification(db, n.id)
-        assert retried.status == "sent"
-        assert retried.sent_at is not None
+        assert retried.status == "simulated"
+        assert retried.sent_at is None
         assert retried.last_error is None
 
 
@@ -234,4 +235,4 @@ def test_notifications_api_endpoints(client):
     # 5. Retry endpoint
     retry_res = c.post(f"/api/notifications/{my_notif['id']}/retry", auth=auth)
     assert retry_res.status_code == 200
-    assert retry_res.json()["status"] == "sent"
+    assert retry_res.json()["status"] == "simulated"

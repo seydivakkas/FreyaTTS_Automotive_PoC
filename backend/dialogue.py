@@ -1,4 +1,7 @@
+import asyncio
+import logging
 import re
+import time
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from pydantic import BaseModel, ConfigDict, ValidationError
@@ -11,14 +14,31 @@ from backend.db import (
     Appointment,
     book,
     CorporateAccount,
+    Conversation,
     InspectionReport,
+    cancel_appointment,
 )
+from backend.config import settings
+from backend.ami import is_real_ami
+from backend.notifications import can_send_real_notifications
 from backend.models import models
 from backend.text import normalize
 from backend.ab_testing import get_prompt_template_text
 from backend.dtmf import format_stt_fallback_message
 from automotive_voice.dialogue.booking_state import BookingStateMachine
 from automotive_voice.dialogue.models import BookingStatus
+
+
+logger = logging.getLogger("automotive_voice.dialogue")
+
+# Giden aramada olumsuz yanıt kalıpları; onay kalıplarından ÖNCE denetlenir.
+_NEGATIVE_RE = re.compile(
+    r"\b(hayır|iptal|gelemiyorum|gelemeyeceğim|gelemem|gelmiyorum|gelmeyeceğim|vazgeçtim|istemiyorum)\b"
+    r"|\b(uygun|müsait|gelecek\w*|gelebil\w*)\s+değil\w*\b"
+)
+_POSITIVE_RE = re.compile(
+    r"\b(evet|geliyorum|oradayım|onaylıyorum|onay|tamam|uygun|kesinlikle)\b"
+)
 
 
 class Extract(BaseModel):
@@ -92,6 +112,9 @@ class Dialogue:
         self.retries = 0
         self.transfer_requested = False
         self.transfer_id = None
+        # Telefon numarası bilinmiyorsa (sesli görüşmede genelde bilinmez) SMS vaadi verilmez.
+        self.customer_phone = ""
+        self.outbound_persisted: bool | None = None
         self.history: list[dict[str, str]] = []
         self.max_history_turns = max_history_turns
 
@@ -217,6 +240,84 @@ class Dialogue:
             return "Canlı operatör aktarım talebi"
         return " / ".join(parts)
 
+    def _sms_note(self, text: str) -> str:
+        """SMS/WhatsApp cümlesini yalnızca gerçek sağlayıcı varsa VE telefon biliniyorsa ekler."""
+        if can_send_real_notifications() and self.customer_phone:
+            return " " + text
+        return ""
+
+    def _begin_transfer(self, db=None) -> str | None:
+        """Operatör aktarımını başlatır. AMI gerçek değilse aktarım yapılmaz.
+
+        Gerçekse None döner (çağıran standart "aktarıyorum" metnini kullanır).
+        Mock ise geri arama kaydı açılır ve müşteriye doğru metin döner.
+        """
+        self.done = True
+        if is_real_ami():
+            self.transfer_requested = True
+            return None
+        self.transfer_requested = False
+        self._record_callback_request(db)
+        return "Şu anda operatöre bağlayamıyorum; talebinizi kaydettim, sizi arayacağız."
+
+    def _record_callback_request(self, db=None) -> None:
+        """Aktarım yapılamadığında görüşmeyi 'follow_up' işaretleyip operatör notu ekler."""
+        try:
+            if db is None:
+                with Session() as own:
+                    self._record_callback_request(own)
+                return
+            conv = db.get(Conversation, self.id)
+            if conv:
+                conv.status = "follow_up"
+                stamp = datetime.now(ZoneInfo("UTC")).isoformat()
+                note = (
+                    f"[{stamp}] Operatör aktarımı yapılamadı (AMI bağlı değil); "
+                    f"müşteri geri aranacak. {self.get_transfer_summary(db)}"
+                )
+                conv.operator_notes = f"{conv.operator_notes or ''}\n{note}".strip()
+                db.commit()
+        except Exception:
+            logger.exception("Geri arama kaydı oluşturulamadı: %s", self.id)
+
+    def _persist_outbound(self, db, outcome: str) -> bool:
+        """Giden arama sonucunu kaydeder. Başarısızlık yutulmaz: loglanır ve False döner."""
+        try:
+            if self.call_id:
+                from backend.outbound import complete_outbound_call
+
+                complete_outbound_call(db, call_id=self.call_id, outcome=outcome)
+                return True
+            if self.appointment_id:
+                app = db.get(Appointment, self.appointment_id)
+                if app is None:
+                    return False
+                if outcome == "cancelled":
+                    cancel_appointment(db, app)
+                elif outcome == "confirmed":
+                    app.status = "confirmed"
+                    db.commit()
+                return True
+            # call_id ve appointment_id yok: kaydedilecek yer yok.
+            logger.warning("Giden arama sonucu kaydedilemedi (call_id/appointment_id yok): %s", self.id)
+            return False
+        except Exception:
+            logger.exception("Giden arama sonucu kaydedilemedi: %s", self.call_id or self.appointment_id)
+            try:
+                db.rollback()
+            except Exception:
+                pass
+            return False
+
+    def _persist_reply(self, db, outcome: str, ok_text: str, fail_text: str) -> str:
+        """Sonuç kaydı başarısızsa müşteriye başarı bildirmek yerine dürüst metin döner."""
+        if db is None:
+            with Session() as own:
+                return self._persist_reply(own, outcome, ok_text, fail_text)
+        ok = self._persist_outbound(db, outcome)
+        self.outbound_persisted = ok
+        return ok_text if ok else fail_text
+
     def unclear(self):
         self.retries += 1
         if self.retries >= 3:
@@ -231,9 +332,12 @@ class Dialogue:
 
         # Operatöre aktarım tuşlaması (0) her durumda önceliklidir
         if d == "0":
-            self.done = True
-            self.transfer_requested = True
-            ans = "0'ı tuşladınız. Sizi yetkili ekspertiz danışmanımıza aktarıyorum, lütfen hattan ayrılmayın."
+            unavailable = self._begin_transfer(db)
+            ans = (
+                "0'ı tuşladınız. " + unavailable
+                if unavailable
+                else "0'ı tuşladınız. Sizi yetkili ekspertiz danışmanımıza aktarıyorum, lütfen hattan ayrılmayın."
+            )
             self.record_turn("user", f"[DTMF: {d}]")
             self.record_turn("assistant", ans)
             return ans
@@ -243,32 +347,24 @@ class Dialogue:
             if d == "1":
                 self.outbound_outcome = "confirmed"
                 self.done = True
-                ans = "1'i tuşladınız. Randevunuz teyit edildi, teşekkür ederiz. Belirtilen saatte görüşmek üzere iyi günler dileriz."
-                if self.call_id:
-                    try:
-                        from backend.outbound import complete_outbound_call
-                        complete_outbound_call(db, call_id=self.call_id, outcome="confirmed")
-                    except Exception:
-                        pass
+                ans = self._persist_reply(
+                    db,
+                    "confirmed",
+                    "1'i tuşladınız. Randevunuz teyit edildi, teşekkür ederiz. Belirtilen saatte görüşmek üzere iyi günler dileriz.",
+                    "1'i tuşladınız. Teyidinizi aldım ancak sisteme kaydedemedim; operatörümüz sizi ayrıca arayacak. İyi günler dileriz.",
+                )
                 self.record_turn("user", f"[DTMF: {d}]")
                 self.record_turn("assistant", ans)
                 return ans
             elif d == "2":
                 self.outbound_outcome = "cancelled"
                 self.done = True
-                ans = "2'yi tuşladınız. Randevunuz talebiniz üzerine iptal edilmiştir. İyi günler dileriz."
-                if self.call_id:
-                    try:
-                        from backend.outbound import complete_outbound_call
-                        complete_outbound_call(db, call_id=self.call_id, outcome="cancelled")
-                    except Exception:
-                        pass
-                elif self.appointment_id:
-                    app = db.get(Appointment, self.appointment_id)
-                    if app:
-                        app.status = "cancelled"
-                        app.slot_id = None
-                        db.commit()
+                ans = self._persist_reply(
+                    db,
+                    "cancelled",
+                    "2'yi tuşladınız. Randevunuz talebiniz üzerine iptal edilmiştir. İyi günler dileriz.",
+                    "2'yi tuşladınız. İptal talebinizi aldım ancak sisteme işleyemedim; operatörümüz sizinle ilgilenecek. İyi günler dileriz.",
+                )
                 self.record_turn("user", f"[DTMF: {d}]")
                 self.record_turn("assistant", ans)
                 return ans
@@ -303,6 +399,7 @@ class Dialogue:
                         idempotency_key=self.id,
                         confirmed=True,
                         corporate_account_id=self.corporate_account_id,
+                        customer_phone=self.customer_phone,
                         package_type=getattr(self, "package_type", "standart_ekspertiz"),
                     )
                 except Exception:
@@ -323,9 +420,9 @@ class Dialogue:
                 self.done = True
                 self.retries = 0
                 if self.corporate_account_name:
-                    ans = f"1'i tuşladınız. Randevunuz {self.corporate_account_name} kurumsal cari hesabınıza işlenerek onaylandı. SMS ve WhatsApp ile detayları iletiyorum. İyi günler dilerim."
+                    ans = f"1'i tuşladınız. Randevunuz {self.corporate_account_name} kurumsal cari hesabınıza işlenerek onaylandı.{self._sms_note('SMS ve WhatsApp ile detayları iletiyorum.')} İyi günler dilerim."
                 else:
-                    ans = "1'i tuşladınız. Randevunuz onaylandı ve oluşturuldu. Onay ve randevu detaylarını SMS olarak telefonunuza iletiyorum. İyi günler dilerim."
+                    ans = f"1'i tuşladınız. Randevunuz onaylandı ve oluşturuldu.{self._sms_note('Onay ve randevu detaylarını SMS olarak telefonunuza iletiyorum.')} İyi günler dilerim."
                 self.record_turn("user", f"[DTMF: {d}]")
                 self.record_turn("assistant", ans)
                 return ans
@@ -382,9 +479,7 @@ class Dialogue:
             )
             and any(w in clean for w in ("bağla", "aktar", "görüş", "istiyorum", "konuş", "aktarır", "verir", "ulaş"))
         ) or re.search(r"\b(operatöre\s+bağla|yetkiliye\s+bağla|uzmana\s+bağla|danışmana\s+bağla|canlı\s+destek)\b", clean):
-            self.done = True
-            self.transfer_requested = True
-            ans = "Sizi yetkili ekspertiz danışmanımıza aktarıyorum. Lütfen hattan ayrılmayın."
+            ans = self._begin_transfer() or "Sizi yetkili ekspertiz danışmanımıza aktarıyorum. Lütfen hattan ayrılmayın."
             self.record_turn("user", text)
             self.record_turn("assistant", ans)
             return ans
@@ -392,50 +487,28 @@ class Dialogue:
         if self.mode == "outbound_reminder":
             norm = text.strip().lower()
             clean = re.sub(r"[.,!?;:]", " ", norm)
-            if re.search(
-                r"\b(evet|geliyorum|oradayım|onaylıyorum|onay|tamam|uygun|kesinlikle)\b",
-                clean,
-            ):
-                self.outbound_outcome = "confirmed"
+            # Olumsuz yanıt önce denetlenir: "evet gelemiyorum" / "saat uygun değil" iptaldir.
+            if _NEGATIVE_RE.search(clean):
+                self.outbound_outcome = "cancelled"
                 self.done = True
-                ans = "Harika, randevunuz teyit edildi. Belirtilen saatte görüşmek üzere iyi günler dileriz."
-                if self.call_id:
-                    with Session() as db:
-                        from backend.outbound import complete_outbound_call
-
-                        try:
-                            complete_outbound_call(
-                                db, call_id=self.call_id, outcome="confirmed"
-                            )
-                        except Exception:
-                            pass
+                ans = self._persist_reply(
+                    None,
+                    "cancelled",
+                    "Randevunuz talebiniz üzerine iptal edilmiştir. Dilediğiniz zaman tekrar randevu oluşturabilirsiniz. İyi günler dileriz.",
+                    "İptal talebinizi aldım ancak sisteme işleyemedim; operatörümüz sizinle ilgilenecek. İyi günler dileriz.",
+                )
                 self.record_turn("user", text)
                 self.record_turn("assistant", ans)
                 return ans
-            elif re.search(
-                r"\b(hayır|iptal|gelemiyorum|gelemeyeceğim|vazgeçtim|istemiyorum|gelemem)\b",
-                clean,
-            ):
-                self.outbound_outcome = "cancelled"
+            elif _POSITIVE_RE.search(clean):
+                self.outbound_outcome = "confirmed"
                 self.done = True
-                ans = "Randevunuz talebiniz üzerine iptal edilmiştir. Dilediğiniz zaman tekrar randevu oluşturabilirsiniz. İyi günler dileriz."
-                if self.call_id:
-                    with Session() as db:
-                        from backend.outbound import complete_outbound_call
-
-                        try:
-                            complete_outbound_call(
-                                db, call_id=self.call_id, outcome="cancelled"
-                            )
-                        except Exception:
-                            pass
-                elif self.appointment_id:
-                    with Session() as db:
-                        app = db.get(Appointment, self.appointment_id)
-                        if app:
-                            app.status = "cancelled"
-                            app.slot_id = None
-                            db.commit()
+                ans = self._persist_reply(
+                    None,
+                    "confirmed",
+                    "Harika, randevunuz teyit edildi. Belirtilen saatte görüşmek üzere iyi günler dileriz.",
+                    "Teyidinizi aldım ancak sisteme kaydedemedim; operatörümüz sizi ayrıca arayacak. İyi günler dileriz.",
+                )
                 self.record_turn("user", text)
                 self.record_turn("assistant", ans)
                 return ans
@@ -444,17 +517,12 @@ class Dialogue:
                 if self.retries >= 2:
                     self.done = True
                     self.outbound_outcome = "unreachable"
-                    ans = "Cevabınızı tam netleştiremedim. Teyit durumunuzu operatörümüze iletiyorum. İyi günler dileriz."
-                    if self.call_id:
-                        with Session() as db:
-                            from backend.outbound import complete_outbound_call
-
-                            try:
-                                complete_outbound_call(
-                                    db, call_id=self.call_id, outcome="unreachable"
-                                )
-                            except Exception:
-                                pass
+                    ans = self._persist_reply(
+                        None,
+                        "unreachable",
+                        "Cevabınızı tam netleştiremedim. Teyit durumunuzu operatörümüze iletiyorum. İyi günler dileriz.",
+                        "Cevabınızı tam netleştiremedim. Operatörümüz sizi tekrar arayacak. İyi günler dileriz.",
+                    )
                 else:
                     ans = "Randevunuza katılıp katılamayacağınızı teyit etmek için evet ya da hayır şeklinde belirtebilir misiniz?"
                 self.record_turn("user", text)
@@ -512,6 +580,7 @@ class Dialogue:
                             idempotency_key=self.id,
                             confirmed=True,
                             corporate_account_id=self.corporate_account_id,
+                            customer_phone=self.customer_phone,
                             package_type=getattr(self, "package_type", "standart_ekspertiz"),
                         )
                     except Exception:
@@ -531,9 +600,9 @@ class Dialogue:
                 self.done = True
                 self.retries = 0
                 if self.corporate_account_name:
-                    ans = f"Randevunuz {self.corporate_account_name} kurumsal cari hesabınıza işlenerek oluşturuldu. Onay ve randevu detaylarını SMS ve WhatsApp ile iletiyorum. İyi günler dilerim."
+                    ans = f"Randevunuz {self.corporate_account_name} kurumsal cari hesabınıza işlenerek oluşturuldu.{self._sms_note('Onay ve randevu detaylarını SMS ve WhatsApp ile iletiyorum.')} İyi günler dilerim."
                 else:
-                    ans = "Randevunuz oluşturuldu. Onay ve randevu detaylarını SMS olarak telefonunuza iletiyorum. İyi günler dilerim."
+                    ans = f"Randevunuz oluşturuldu.{self._sms_note('Onay ve randevu detaylarını SMS olarak telefonunuza iletiyorum.')} İyi günler dilerim."
                 self.record_turn("user", text)
                 self.record_turn("assistant", ans)
                 return ans
@@ -559,8 +628,24 @@ class Dialogue:
         messages.append({"role": "user", "content": text})
 
         chunks = []
-        async for chunk in models.chat(messages):
-            chunks.append(chunk)
+
+        async def collect():
+            async for chunk in models.chat(messages):
+                chunks.append(chunk)
+
+        try:
+            await asyncio.wait_for(collect(), timeout=settings.llm_timeout_sec)
+        except asyncio.TimeoutError:
+            # models.chat bir async generator: wait_for iptali onu kapatır; yarım çıktı atılır.
+            logger.warning("LLM %s sn içinde yanıt vermedi", settings.llm_timeout_sec)
+            try:
+                models.breakers["llm"].failure(time.monotonic_ns())
+            except Exception:
+                pass
+            ans = self.unclear()
+            self.record_turn("user", text)
+            self.record_turn("assistant", ans)
+            return ans
         try:
             info = Extract.model_validate_json("".join(chunks))
         except ValidationError:
@@ -625,6 +710,9 @@ class Dialogue:
                         .casefold()
                         .strip(" .")
                     )
+                    # Boş dize her şeyin içinde "geçer"; boş aday/ifade eşleşme sayılmaz.
+                    if not needle or not candidate:
+                        continue
                     if needle in candidate or candidate in needle:
                         matches.append(vehicle)
                 if len(matches) == 1:

@@ -184,7 +184,8 @@ class BatchedODEEngine:
         steps: int = 32,
         device: str = "cuda",
         enabled: bool = True,
-        synth_fallback_fn: Optional[Callable[[str, int], np.ndarray]] = None,
+        synth_fallback_fn: Optional[Callable[..., np.ndarray]] = None,
+        allow_sine_fallback: bool = False,
     ):
         self.tts_model = tts_model
         self.vae = vae
@@ -195,6 +196,9 @@ class BatchedODEEngine:
         self.device = device
         self.enabled = bool(enabled)
         self.synth_fallback_fn = synth_fallback_fn
+        # Sinüs dalgası yalnızca açıkça istenen test/benchmark modunda üretilir;
+        # gerçek modelle çalışırken sahte sesin konuşma gibi çalınması engellenir.
+        self.allow_sine_fallback = bool(allow_sine_fallback)
 
         self._queue: list[BatchItem] = []
         self._collector_task: Optional[asyncio.Task] = None
@@ -302,23 +306,34 @@ class BatchedODEEngine:
         try:
             solve_start = time.monotonic()
             results = await asyncio.to_thread(self._solve_ode_batch, batch)
-            solve_duration = time.monotonic() - solve_start
-
-            self.total_batches_processed += 1
-            self.total_clauses_synthesized += len(batch)
-            self.total_solve_time_seconds += solve_duration
-
-            total_audio_sec = sum(len(w) / SAMPLE_RATE for w in results)
-            self.total_audio_seconds_generated += total_audio_sec
-
+            self._record_batch(results, time.monotonic() - solve_start)
             # Sonuçları ilgili çağrıların future nesnelerine teslim et
             for item, wave in zip(batch, results):
                 if not item.future.done():
                     item.future.set_result(wave)
-        except Exception as e:
+        except Exception as batch_error:
+            # Tek bozuk öğe aynı yığındaki diğer çağrıları düşürmesin: öğeleri tek tek yeniden dene.
+            if len(batch) == 1:
+                if not batch[0].future.done():
+                    batch[0].future.set_exception(batch_error)
+                return
             for item in batch:
-                if not item.future.done():
-                    item.future.set_exception(e)
+                try:
+                    solve_start = time.monotonic()
+                    single = await asyncio.to_thread(self._solve_ode_batch, [item])
+                    self._record_batch(single, time.monotonic() - solve_start)
+                    if not item.future.done():
+                        item.future.set_result(single[0])
+                except Exception as item_error:
+                    if not item.future.done():
+                        item.future.set_exception(item_error)
+
+    def _record_batch(self, results: list[np.ndarray], solve_duration: float) -> None:
+        """Başarılı çözümün telemetri sayaçlarını günceller."""
+        self.total_batches_processed += 1
+        self.total_clauses_synthesized += len(results)
+        self.total_solve_time_seconds += solve_duration
+        self.total_audio_seconds_generated += sum(len(w) / SAMPLE_RATE for w in results)
 
     def _solve_ode_batch(self, batch: list[BatchItem]) -> list[np.ndarray]:
         """
@@ -341,7 +356,12 @@ class BatchedODEEngine:
         results = []
         for item in batch:
             if self.synth_fallback_fn is not None:
-                w = self.synth_fallback_fn(item.text, item.seed)
+                # Satıcı imzası _synth_one(text, steps=32, seed=None): seed anahtar sözcükle verilmeli.
+                w = self.synth_fallback_fn(item.text, seed=item.seed)
+            elif not self.allow_sine_fallback:
+                raise RuntimeError(
+                    "Gerçek TTS sentezi kullanılamıyor; yapay sinüs sesi üretilmez"
+                )
             else:
                 # Deterministik sentetik ses simülasyonu
                 char_count = max(len(item.text), 4)
@@ -362,7 +382,7 @@ class BatchedODEEngine:
                 # Fısıltı çökmesi tespit edildi -> Seed perturbasyonu ile yeniden sentezle
                 self.whisper_collapses_prevented += 1
                 if self.synth_fallback_fn is not None:
-                    w = self.synth_fallback_fn(item.text, item.seed + 1)
+                    w = self.synth_fallback_fn(item.text, seed=item.seed + 1)
 
             w_clean = apply_fade_and_comfort_noise(w)
             results.append(w_clean)
@@ -378,8 +398,13 @@ class BatchedODEEngine:
         texts = [b.text for b in batch]
         seeds = [b.seed for b in batch]
 
+        # Sözlükte olmayan karakter sessizce 1'e çevrilmez (models._synth ile aynı hata).
+        for t in texts:
+            missing = set(t) - set(self.char_to_id)
+            if missing:
+                raise ValueError(f"Model sözlüğünde olmayan karakterler: {missing}")
         ids_list = [
-            torch.tensor([self.char_to_id.get(ch, 1) for ch in t], device=device)
+            torch.tensor([self.char_to_id[ch] for ch in t], device=device)
             for t in texts
         ]
         max_chars = max(len(item) for item in ids_list)
