@@ -272,3 +272,16 @@ def test_list_and_get_inspections(test_setup):
     detail = get_res.json()
     assert detail["id"] == rep_id
     assert detail["vehicle"]["plate"] == "06 ANK 06"
+
+
+def test_inspection_score_is_required(test_setup):
+    """Puan zorunlu: sessizce 100 (kusursuz) uydurulmaz."""
+    client = test_setup[0]
+    auth = ("admin", "test-pass")
+    v = client.post("/api/vehicles", json={"description": "Test Araç", "plate": "34 SCR 01"}, auth=auth).json()
+    res = client.post(
+        f"/api/vehicles/{v['id']}/inspections",
+        json={"summary": "Puansız rapor denemesi", "mileage_km": 1000},
+        auth=auth,
+    )
+    assert res.status_code == 422

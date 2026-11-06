@@ -9,7 +9,7 @@ import io
 import json
 import os
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 from backend.config import settings
 
@@ -61,7 +61,13 @@ def _init_fonts() -> tuple[str, str]:
 _init_fonts()
 
 
-def _get_score_badge(score: int) -> tuple[str, colors.Color]:
+# Teknisyen belirtmediyse rapor "Orijinal/normal" demez
+NOT_STATED = "Belirtilmedi"
+
+
+def _get_score_badge(score: Optional[int]) -> tuple[str, colors.Color]:
+    if score is None:
+        return "PUAN YOK", colors.HexColor("#64748B")
     if score >= 90:
         return "KUSURSUZ (A+)", colors.HexColor("#16A34A")
     if score >= 75:
@@ -196,7 +202,8 @@ def generate_inspection_pdf(
     story.append(HRFlowable(width="100%", thickness=1.5, color=colors.HexColor("#0284C7"), spaceAfter=8))
 
     # 2. Vehicle Info Card & Score
-    score = getattr(report, "score", 100)
+    score = getattr(report, "score", None)  # puan yoksa uydurulmaz
+    score_text = f"{score}/100" if score is not None else "—"
     badge_label, badge_color = _get_score_badge(score)
 
     plate = getattr(vehicle, "plate", "-") or "-"
@@ -214,7 +221,7 @@ def generate_inspection_pdf(
             Paragraph(str(plate), body_style),
             Paragraph("<b>Araç Tanımı:</b>", bold_style),
             Paragraph(str(desc), body_style),
-            Paragraph(f"<b>Puan: {score}/100</b>", badge_style),
+            Paragraph(f"<b>Puan: {score_text}</b>", badge_style),
         ],
         [
             Paragraph("<b>Şasi (VIN):</b>", bold_style),
@@ -290,39 +297,39 @@ def generate_inspection_pdf(
         ],
         [
             Paragraph("Ön Kaput", table_cell),
-            Paragraph(str(paint_data.get("kaput", "Orijinal")), table_cell),
+            Paragraph(str(paint_data.get("kaput", NOT_STATED)), table_cell),
             Paragraph("Sağ Ön Çamurluk", table_cell),
-            Paragraph(str(paint_data.get("sag_on_camurluk", "Orijinal")), table_cell),
+            Paragraph(str(paint_data.get("sag_on_camurluk", NOT_STATED)), table_cell),
         ],
         [
             Paragraph("Tavan", table_cell),
-            Paragraph(str(paint_data.get("tavan", "Orijinal")), table_cell),
+            Paragraph(str(paint_data.get("tavan", NOT_STATED)), table_cell),
             Paragraph("Sol Ön Çamurluk", table_cell),
-            Paragraph(str(paint_data.get("sol_on_camurluk", "Orijinal")), table_cell),
+            Paragraph(str(paint_data.get("sol_on_camurluk", NOT_STATED)), table_cell),
         ],
         [
             Paragraph("Bagaj Kapağı", table_cell),
-            Paragraph(str(paint_data.get("bagaj", "Orijinal")), table_cell),
+            Paragraph(str(paint_data.get("bagaj", NOT_STATED)), table_cell),
             Paragraph("Sağ Ön Kapı", table_cell),
-            Paragraph(str(paint_data.get("sag_on_kapi", "Orijinal")), table_cell),
+            Paragraph(str(paint_data.get("sag_on_kapi", NOT_STATED)), table_cell),
         ],
         [
             Paragraph("Sol Ön Kapı", table_cell),
-            Paragraph(str(paint_data.get("sol_on_kapi", "Orijinal")), table_cell),
+            Paragraph(str(paint_data.get("sol_on_kapi", NOT_STATED)), table_cell),
             Paragraph("Sağ Arka Kapı", table_cell),
-            Paragraph(str(paint_data.get("sag_arka_kapi", "Orijinal")), table_cell),
+            Paragraph(str(paint_data.get("sag_arka_kapi", NOT_STATED)), table_cell),
         ],
         [
             Paragraph("Sol Arka Kapı", table_cell),
-            Paragraph(str(paint_data.get("sol_arka_kapi", "Orijinal")), table_cell),
+            Paragraph(str(paint_data.get("sol_arka_kapi", NOT_STATED)), table_cell),
             Paragraph("Sağ Arka Çamurluk", table_cell),
-            Paragraph(str(paint_data.get("sag_arka_camurluk", "Orijinal")), table_cell),
+            Paragraph(str(paint_data.get("sag_arka_camurluk", NOT_STATED)), table_cell),
         ],
         [
             Paragraph("Sol Arka Çamurluk", table_cell),
-            Paragraph(str(paint_data.get("sol_arka_camurluk", "Orijinal")), table_cell),
+            Paragraph(str(paint_data.get("sol_arka_camurluk", NOT_STATED)), table_cell),
             Paragraph("Kaporta Notu", table_cell_bold),
-            Paragraph(str(paint_data.get("notlar", "Standart mikron değerlerinde")), table_cell),
+            Paragraph(str(paint_data.get("notlar", NOT_STATED)), table_cell),
         ],
     ]
     t_paint = Table(paint_rows, colWidths=[40 * mm, 50 * mm, 40 * mm, 50 * mm])
@@ -352,21 +359,21 @@ def generate_inspection_pdf(
         ],
         [
             Paragraph("Dyno Motor Gücü", table_cell),
-            Paragraph(str(engine_data.get("motor_performansi_yuzde", "95%")), table_cell),
+            Paragraph(str(engine_data.get("motor_performansi_yuzde", NOT_STATED)), table_cell),
             Paragraph("Turbo Kompresör", table_cell),
-            Paragraph(str(engine_data.get("turbo_durumu", "Basınç ve çalışma normal")), table_cell),
+            Paragraph(str(engine_data.get("turbo_durumu", NOT_STATED)), table_cell),
         ],
         [
             Paragraph("Şanzıman / Vites", table_cell),
-            Paragraph(str(engine_data.get("sanziman_vites", "Kusursuz / Vuruntu yok")), table_cell),
+            Paragraph(str(engine_data.get("sanziman_vites", NOT_STATED)), table_cell),
             Paragraph("Enjektör / Yakıt", table_cell),
-            Paragraph(str(engine_data.get("enjektor_yakit", "Püskürtme normal")), table_cell),
+            Paragraph(str(engine_data.get("enjektor_yakit", NOT_STATED)), table_cell),
         ],
         [
             Paragraph("Yağ / Sıvı Kaçağı", table_cell),
-            Paragraph(str(engine_data.get("yag_sivi_kacaklari", "Kaçak görülmedi")), table_cell),
+            Paragraph(str(engine_data.get("yag_sivi_kacaklari", NOT_STATED)), table_cell),
             Paragraph("Egzoz / Emisyon", table_cell),
-            Paragraph(str(engine_data.get("egzoz_emisyon", "Duman ve partikül normal")), table_cell),
+            Paragraph(str(engine_data.get("egzoz_emisyon", NOT_STATED)), table_cell),
         ],
     ]
     t_engine = Table(engine_rows, colWidths=[40 * mm, 50 * mm, 40 * mm, 50 * mm])
@@ -396,15 +403,15 @@ def generate_inspection_pdf(
         ],
         [
             Paragraph("Ön / Arka Podyeler", table_cell),
-            Paragraph(str(chassis_data.get("on_podyeler", "İşlemsiz / Orijinal")), table_cell),
+            Paragraph(str(chassis_data.get("on_podyeler", NOT_STATED)), table_cell),
             Paragraph("Kuleler & Travers", table_cell),
-            Paragraph(str(chassis_data.get("on_arka_travers", "Deformasyon yok")), table_cell),
+            Paragraph(str(chassis_data.get("on_arka_travers", NOT_STATED)), table_cell),
         ],
         [
             Paragraph("Marşpiyeller & Taban", table_cell),
-            Paragraph(str(chassis_data.get("marspiyeller", "Kaynak / Darbe yok")), table_cell),
+            Paragraph(str(chassis_data.get("marspiyeller", NOT_STATED)), table_cell),
             Paragraph("Fren Disk & Balata", table_cell),
-            Paragraph(str(chassis_data.get("fren_disk_balata", "İyi durumda (%80)")), table_cell),
+            Paragraph(str(chassis_data.get("fren_disk_balata", NOT_STATED)), table_cell),
         ],
     ]
     t_chassis = Table(chassis_rows, colWidths=[40 * mm, 50 * mm, 40 * mm, 50 * mm])
@@ -440,7 +447,7 @@ def generate_inspection_pdf(
                 table_cell,
             ),
             Paragraph("Airbag Kontrolü", table_cell),
-            Paragraph(str(interior_data.get("airbag_guvenlik", "Orijinal ve aktif")), table_cell),
+            Paragraph(str(interior_data.get("airbag_guvenlik", NOT_STATED)), table_cell),
         ],
         [
             Paragraph("DOT & Jant Balansı", table_cell),
@@ -449,13 +456,13 @@ def generate_inspection_pdf(
                 table_cell,
             ),
             Paragraph("OBD Beyin Taraması", table_cell),
-            Paragraph(str(interior_data.get("obd_ariza_taramasi", "Aktif DTC arıza kodu yok")), table_cell),
+            Paragraph(str(interior_data.get("obd_ariza_taramasi", NOT_STATED)), table_cell),
         ],
         [
             Paragraph("Stepne & Avadanlık", table_cell),
-            Paragraph(str(tires_data.get("stepne", "Mevcut ve sağlam")), table_cell),
+            Paragraph(str(tires_data.get("stepne", NOT_STATED)), table_cell),
             Paragraph("Klima & İç Kondisyon", table_cell),
-            Paragraph(str(interior_data.get("klima_isitma", "Gaz ve soğutma tam kapasite")), table_cell),
+            Paragraph(str(interior_data.get("klima_isitma", NOT_STATED)), table_cell),
         ],
     ]
     t_comb = Table(combined_rows, colWidths=[40 * mm, 50 * mm, 40 * mm, 50 * mm])

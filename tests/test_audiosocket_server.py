@@ -345,3 +345,12 @@ def test_audiosocket_rest_endpoints():
         assert cm_data["decision"] == "commit"
         assert cm_data["is_backchannel"] is False
         assert cm_data["action"] == "flush_and_cancel_queue"
+
+
+def test_pacer_totals_are_null_not_zero():
+    """Pacer toplamları ölçülmüyor (oturum kendi pacing'ini yapıyor): 0 değil None raporlanır."""
+    from backend.audiosocket_server import AudioSocketOrchestrator
+
+    m = AudioSocketOrchestrator().get_metrics()
+    assert m["total_reclampe_count"] is None
+    assert m["total_burst_prevented_seconds"] is None

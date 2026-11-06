@@ -32,16 +32,48 @@ def client():
 
 @pytest.fixture
 def test_manager() -> SIPTrunkFailoverManager:
+    # Test için ENJEKTE edilen trunklar (üretim kodunda operatör/RTT uydurması yoktur)
+    now = "2026-01-01T00:00:00+00:00"
+    injected = [
+        SIPTrunk(trunk_id="turk_telekom_trunk", name="Test Trunk A", host="sip.turktelekom.com.tr",
+                 priority=1, weight=60, max_channels=30, status=TrunkStatus.HEALTHY,
+                 rtt_ms=22.0, rtt_ema_ms=22.0, last_healthy_at=now),
+        SIPTrunk(trunk_id="turkcell_superonline_trunk", name="Test Trunk B", host="sip.superonline.net",
+                 priority=1, weight=30, max_channels=30, status=TrunkStatus.HEALTHY,
+                 rtt_ms=18.0, rtt_ema_ms=18.0, last_healthy_at=now),
+        SIPTrunk(trunk_id="vodafone_net_trunk", name="Test Trunk C", host="sip.vodafone.com.tr",
+                 priority=2, weight=10, max_channels=20, status=TrunkStatus.HEALTHY,
+                 rtt_ms=32.0, rtt_ema_ms=32.0, last_healthy_at=now),
+    ]
     mgr = SIPTrunkFailoverManager(
         degraded_rtt_threshold_ms=150.0,
         down_rtt_threshold_ms=500.0,
         failure_threshold=2,
         recovery_success_target=2,
+        trunks=injected,
     )
     return mgr
 
 
-def test_default_trunks_loaded(test_manager: SIPTrunkFailoverManager):
+def test_default_trunk_is_configured_but_unverified(monkeypatch):
+    # Üretim varsayılanı: yalnızca settings.ami_trunk, durum unknown, RTT null (uydurma operatör yok)
+    monkeypatch.setattr(settings, "ami_trunk", "trunk-test")
+    mgr = SIPTrunkFailoverManager()
+    trunks = mgr.list_trunks()
+    assert len(trunks) == 1
+    t = trunks[0]
+    assert t["trunk_id"] == "trunk-test"
+    assert t["status"] == TrunkStatus.UNKNOWN.value
+    assert t["rtt_ms"] is None
+    assert t["last_healthy_at"] == ""
+    assert "doğrulanmadı" in t["note"]
+    # Host yok: yoklama yapılamaz, durum/RTT değişmez
+    res = mgr.ping_trunk("trunk-test")
+    assert res.success is False and res.rtt_ms is None
+    assert mgr.get_trunk("trunk-test").status == TrunkStatus.UNKNOWN
+
+
+def test_injected_trunks_loaded(test_manager: SIPTrunkFailoverManager):
     trunks = test_manager.list_trunks()
     assert len(trunks) == 3
 
@@ -106,6 +138,10 @@ def test_automatic_subsecond_failover_to_priority2(test_manager: SIPTrunkFailove
     test_manager.simulate_trunk_outage("turk_telekom_trunk", outage=True)
     test_manager.simulate_trunk_outage("turkcell_superonline_trunk", outage=True)
 
+    # Simülasyon açıkça etiketlenir
+    assert test_manager.get_trunk("turk_telekom_trunk").simulated is True
+    assert "SIMULATED" in test_manager.get_trunk("turk_telekom_trunk").last_error
+
     # Next call selection must instantly fail over to Priority 2 (Vodafone)
     sel = test_manager.select_best_trunk(destination_phone="05429876543")
     assert sel.trunk_id == "vodafone_net_trunk"
@@ -148,7 +184,7 @@ def test_ping_trunk_state_machine(test_manager: SIPTrunkFailoverManager):
     assert tt.status == TrunkStatus.DEGRADED
 
     # 2. Failure probes trigger DOWN
-    test_manager.mock_probe_func = lambda t: (False, 999.0, 408, "Timeout")
+    test_manager.mock_probe_func = lambda t: (False, None, 408, "Timeout")
     test_manager.ping_trunk("turk_telekom_trunk")
     assert tt.consecutive_failures == 1
     test_manager.ping_trunk("turk_telekom_trunk")
@@ -178,14 +214,26 @@ def test_rest_api_sip_trunk_endpoints(client: TestClient, auth_headers: dict):
     list_resp = client.get("/api/sip-trunks", headers=auth_headers)
     assert list_resp.status_code == 200
     trunks = list_resp.json()
-    assert len(trunks) >= 3
+    # Varsayılan: yalnızca yapılandırılmış trunk, doğrulanmamış (uydurma operatör yok)
+    assert any(t["trunk_id"] == settings.ami_trunk and t["status"] == "unknown" and t["rtt_ms"] is None
+               for t in trunks)
 
-    # 2. Ping endpoint
-    ping_resp = client.get("/api/sip-trunks/turk_telekom_trunk/ping", headers=auth_headers)
+    # Test için ek trunklar (gerçek konfigürasyon uç noktası ile)
+    for tid, prio in (("turk_telekom_trunk", 1), ("vodafone_net_trunk", 2)):
+        r = client.post(
+            "/api/sip-trunks/configure",
+            headers=auth_headers,
+            json={"trunk_id": tid, "name": tid, "host": "sip.example.invalid", "port": 5060, "transport": "UDP",
+                  "priority": prio, "weight": 10, "max_channels": 10},
+        )
+        assert r.status_code == 200
+
+    # 2. Ping endpoint (varsayılan trunk'ın host'u yok: yoklama yapılamaz, RTT null; ağa çıkılmaz)
+    ping_resp = client.get(f"/api/sip-trunks/{settings.ami_trunk}/ping", headers=auth_headers)
     assert ping_resp.status_code == 200
     ping_data = ping_resp.json()
-    assert ping_data["trunk_id"] == "turk_telekom_trunk"
-    assert "rtt_ms" in ping_data
+    assert ping_data["trunk_id"] == settings.ami_trunk
+    assert ping_data["rtt_ms"] is None
 
     # 3. Select endpoint
     sel_resp = client.post(
@@ -206,6 +254,7 @@ def test_rest_api_sip_trunk_endpoints(client: TestClient, auth_headers: dict):
     )
     assert outage_resp.status_code == 200
     assert outage_resp.json()["trunk"]["status"] == TrunkStatus.DOWN.value
+    assert outage_resp.json()["trunk"]["simulated"] is True
 
     # Reset outage
     client.post(

@@ -157,34 +157,43 @@ class IdentityDriftGuard:
 
     def evaluate_drift(
         self,
-        current_latents: torch.Tensor,
+        current_latents: Optional[torch.Tensor] = None,
         current_f0: Optional[float] = None,
     ) -> Dict[str, Any]:
-        """Sapma metriklerini hesaplar ve kimlik kararlılığını onaylar."""
-        with torch.no_grad():
-            curr_mean = current_latents.detach().mean(dim=(0, 1), keepdim=True)
-            if self.reference_latent_anchor is not None:
+        """Sapma metriklerini hesaplar; ölçülemeyen değer None'dır (uydurma varsayılan yok).
+
+        is_healthy: bir eşik aşıldıysa False; yalnızca F0 ve latent ikisi de ölçülüp
+        eşik içindeyse True; aksi halde None (bilinmiyor).
+        """
+        latent_drift: Optional[float] = None
+        if current_latents is not None and self.reference_latent_anchor is not None:
+            with torch.no_grad():
+                curr_mean = current_latents.detach().mean(dim=(0, 1), keepdim=True)
                 sim = F.cosine_similarity(self.reference_latent_anchor, curr_mean, dim=-1).item()
                 latent_drift = max(0.0, 1.0 - float(sim))
-            else:
-                latent_drift = 0.02  # Başlangıç referansı yoksa güvenli varsayılan
 
-        # F0 sapması
-        f0_val = current_f0 if current_f0 is not None else (self.f0_target_hz + (random.random() - 0.5) * 1.5)
-        f0_drift = abs(f0_val - self.f0_target_hz)
+        # F0 sapması: gerçek F0 ölçümü verilmediyse None
+        f0_val = current_f0
+        f0_drift = abs(f0_val - self.f0_target_hz) if f0_val is not None else None
 
-        is_healthy = (f0_drift <= self.f0_max_drift_hz) and (latent_drift <= self.latent_drift_threshold)
         violation = ""
-        if f0_drift > self.f0_max_drift_hz:
+        if f0_drift is not None and f0_drift > self.f0_max_drift_hz:
             violation = f"F0 sapması aşıldı ({f0_drift:.2f} Hz > {self.f0_max_drift_hz:.2f} Hz)"
-        elif latent_drift > self.latent_drift_threshold:
+        elif latent_drift is not None and latent_drift > self.latent_drift_threshold:
             violation = f"Latent akustik drift aşıldı ({latent_drift:.4f} > {self.latent_drift_threshold:.4f})"
+
+        if violation:
+            is_healthy: Optional[bool] = False
+        elif f0_drift is not None and latent_drift is not None:
+            is_healthy = True
+        else:
+            is_healthy = None
 
         return {
             "is_healthy": is_healthy,
-            "f0_hz": round(f0_val, 2),
-            "f0_drift_hz": round(f0_drift, 3),
-            "latent_drift": round(latent_drift, 4),
+            "f0_hz": round(f0_val, 2) if f0_val is not None else None,
+            "f0_drift_hz": round(f0_drift, 3) if f0_drift is not None else None,
+            "latent_drift": round(latent_drift, 4) if latent_drift is not None else None,
             "violation": violation,
         }
 
@@ -419,9 +428,11 @@ class ConservativeSFTTrainer:
         self.current_step += 1
 
         # 2. Ses kimliği drift kontrolü
-        # Leyla ses tonu F0 = 220.0 Hz çevresinde 2.3 Hz içinde salınmalı
-        drift_f0_sample = 220.0 + math.sin(self.current_step / 10.0) * 0.8 + (random.random() - 0.5) * 0.4
-        drift_metrics = self.drift_guard.evaluate_drift(latents, current_f0=drift_f0_sample)
+        # Eğitim adımında gerçek ses/F0 yok: F0 sapması ölçülmez (None). Latent sapması
+        # yalnızca çağıran GERÇEK latent verdiyse hesaplanır (sentetik latent ölçüm sayılmaz).
+        drift_metrics = self.drift_guard.evaluate_drift(
+            latents if batch_latents is not None else None, current_f0=None
+        )
 
         record = {
             "step": self.current_step,
@@ -437,7 +448,7 @@ class ConservativeSFTTrainer:
         self.history.append(record)
 
         # Drift eşiği aşıldıysa erken durdurma
-        if not drift_metrics["is_healthy"]:
+        if drift_metrics["is_healthy"] is False:
             self.status = "drift_stopped"
             logger.warning(f"SFT Erken Durdurma Tetiklendi! Sebep: {drift_metrics['violation']}")
         elif self.current_step >= self.config.max_steps:
@@ -469,9 +480,9 @@ class ConservativeSFTTrainer:
             "steps_executed": len(executed),
             "current_step": self.current_step,
             "status": self.status,
-            "final_loss": executed[-1]["total_loss"] if executed else 0.0,
+            "final_loss": executed[-1]["total_loss"] if executed else None,
             "checkpoint_path": str(checkpoint_path) if checkpoint_path else None,
-            "is_healthy": executed[-1]["is_healthy"] if executed else True,
+            "is_healthy": executed[-1]["is_healthy"] if executed else None,
         }
 
     def save_checkpoint(self, path: Optional[Path | str] = None) -> Path:
@@ -493,23 +504,43 @@ class ConservativeSFTTrainer:
             logger.info(f"SFT kontrol noktası kaydedildi: {target}")
         return target
 
-    def verify_leyla_identity(self) -> Dict[str, Any]:
-        """Leyla ses tonunun 2.3 Hz F0 kararlılığını ve drift durumunu doğrular."""
-        if self.drift_guard.reference_latent_anchor is not None:
-            test_latents = self.drift_guard.reference_latent_anchor.expand(2, 60, -1) + torch.randn(2, 60, 64) * 0.02
+    def verify_leyla_identity(
+        self,
+        audio: Optional[Any] = None,
+        sample_rate: Optional[int] = None,
+    ) -> Dict[str, Any]:
+        """Leyla F0 kararlılığını GERÇEK ses üzerinden doğrular.
+
+        Ses verilmezse (veya F0 ölçülemezse) ölçüm yapılmaz: measured=False, sapma ve
+        is_healthy None, status "NOT_MEASURED". Uydurma F0 kullanılmaz.
+        """
+        measured_f0: Optional[float] = None
+        if audio is not None and sample_rate:
+            try:
+                from backend.acoustic_evaluation import measure_f0
+
+                measured_f0 = measure_f0(audio, int(sample_rate))
+            except Exception as e:  # librosa yok / bozuk ses
+                logger.warning("F0 ölçülemedi: %s", e)
+        eval_res = self.drift_guard.evaluate_drift(None, current_f0=measured_f0)
+        # Latent ölçümü yok → is_healthy yalnızca F0 ihlalinde False, aksi halde None;
+        # kimlik doğrulaması için ölçülen F0 yeterli sayılır
+        f0_drift = eval_res["f0_drift_hz"]
+        if measured_f0 is None:
+            status, healthy = "NOT_MEASURED", None
         else:
-            test_latents = torch.randn(2, 60, 64)
-        # Test f0: 220.0 Hz Leyla standardı
-        eval_res = self.drift_guard.evaluate_drift(test_latents, current_f0=220.5)
+            healthy = f0_drift <= self.config.f0_max_drift_hz
+            status = "PASS" if healthy else "FAIL"
         return {
-            "status": "PASS" if eval_res["is_healthy"] else "FAIL",
+            "status": status,
+            "measured": measured_f0 is not None,
             "leyla_seed": 9,
             "f0_target_hz": self.config.f0_target_hz,
             "measured_f0_hz": eval_res["f0_hz"],
-            "f0_drift_hz": eval_res["f0_drift_hz"],
+            "f0_drift_hz": f0_drift,
             "max_allowed_f0_drift_hz": self.config.f0_max_drift_hz,
-            "latent_drift": eval_res["latent_drift"],
-            "is_healthy": eval_res["is_healthy"],
+            "latent_drift": None,
+            "is_healthy": healthy,
         }
 
     def get_status(self) -> Dict[str, Any]:

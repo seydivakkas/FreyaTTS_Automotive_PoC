@@ -322,7 +322,8 @@ class TelephonyAudioCachePool:
     ) -> int:
         """
         En sık kullanılan 25 kurumsal otomotiv cümlesini önbelleğe yükler.
-        synthesize_func None ise temiz yapay ses sinyali ile ısıtma simüle edilir.
+        Gerçek bir sentezleyici verilmezse HİÇBİR şey yüklenmez (yapay/sinüs ses üretilmez);
+        önbellek dürüstçe boş kalır.
         """
         loaded = 0
         sr = self.sample_rate
@@ -343,14 +344,14 @@ class TelephonyAudioCachePool:
             if key in self._cache:
                 continue
 
-            if synth is not None:
-                try:
-                    pcm_float = synth(phrase, self.seed)
-                except Exception as e:
-                    logger.warning("Cümle sentezlenemedi, yapay sinyalle ısıtılıyor: %s (%s)", phrase, e)
-                    pcm_float = self._generate_synthetic_speech_wave(phrase, sr)
-            else:
-                pcm_float = self._generate_synthetic_speech_wave(phrase, sr)
+            if synth is None:
+                # Sentezleyici yok: sahte içerik koymak yerine atla
+                continue
+            try:
+                pcm_float = synth(phrase, self.seed)
+            except Exception as e:
+                logger.warning("Cümle sentezlenemedi, önbelleğe alınmadı: %s (%s)", phrase, e)
+                continue
 
             # float32 -> int16 slin16 PCM baytları
             int16_arr = np.clip(pcm_float * 32767.0, -32768.0, 32767.0).astype(np.int16)
@@ -374,26 +375,6 @@ class TelephonyAudioCachePool:
 
         logger.info("TelephonyAudioCachePool: %d kurumsal cümle RAM'e yüklendi.", loaded)
         return loaded
-
-    def _generate_synthetic_speech_wave(self, text: str, sample_rate: int = 8000) -> np.ndarray:
-        """Test ve soğuk açılış için stabil yapay Leyla tonu üretir."""
-        dur = max(0.6, len(text) * 0.055)
-        t = np.linspace(0, dur, int(sample_rate * dur), endpoint=False)
-        # 210 Hz temel frekans (Leyla kadın sesi armonikleri)
-        f0 = 210.0
-        wave = (
-            0.35 * np.sin(2 * np.pi * f0 * t)
-            + 0.18 * np.sin(2 * np.pi * (2 * f0) * t)
-            + 0.08 * np.sin(2 * np.pi * (3 * f0) * t)
-        ).astype(np.float32)
-
-        # 15 ms başlangıç/bitiş yumuşatma
-        fade_len = int(0.015 * sample_rate)
-        if fade_len > 0 and len(wave) > 2 * fade_len:
-            wave[:fade_len] *= np.linspace(0, 1, fade_len)
-            wave[-fade_len:] *= np.linspace(1, 0, fade_len)
-
-        return wave
 
     def get(self, text: str) -> Optional[bytes]:
         """Metin önbellekte varsa 8 kHz slin16 baytlarını döndürür (0 ms gecikme)."""
@@ -445,7 +426,7 @@ class TelephonyAudioCachePool:
             hit_rate = (
                 round((self.hit_count / self.total_lookups) * 100, 2)
                 if self.total_lookups > 0
-                else 0.0
+                else None  # hiç sorgu yok: isabet oranı ölçülmedi
             )
             entries_summary = [
                 {
@@ -467,6 +448,7 @@ class TelephonyAudioCachePool:
             "miss_count": self.miss_count,
             "hit_rate_percent": hit_rate,
             "seed": self.seed,
+            "warmed": len(entries_summary) > 0,
             "entries": entries_summary,
         }
 
@@ -483,5 +465,4 @@ class TelephonyAudioCachePool:
 pause_breath_cleaner = PauseBreathCleaner()
 telephony_audio_cache = TelephonyAudioCachePool()
 
-# Başlangıçta 25 cümleyi RAM'e ısıt
-telephony_audio_cache.warm_cache_with_phrases()
+# Import anında ısıtma YOK: gerçek TTS sentezleyici verilmeden önbellek boş kalır (sahte ses konmaz).

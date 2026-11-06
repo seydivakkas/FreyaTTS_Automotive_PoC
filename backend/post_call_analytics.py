@@ -554,15 +554,19 @@ def get_analytics_summary_stats(db: Session) -> Dict[str, Any]:
     if total_calls == 0:
         return {
             "total_analyzed_calls": 0,
-            "average_csat": 0.0,
-            "average_lead_score": 0.0,
+            # Gerçek CSAT anketi yok: null. Anahtar kelime tahmini ayrı alanda, tahmin olarak etiketli.
+            "average_csat": None,
+            "average_estimated_sentiment_score": None,
+            "csat_is_estimate": True,
+            "average_lead_score": None,
             "lead_tier_distribution": {"HOT": 0, "WARM": 0, "COLD": 0},
             "sentiment_distribution": {"positive": 0, "neutral": 0, "negative": 0},
             "top_intents": [],
             "top_objections": [],
         }
 
-    avg_csat = db.scalar(select(func.avg(CallAnalytics.csat_score))) or 0.0
+    # csat_score sütunu aslında anahtar kelime tabanlı DUYGU TAHMİNİDİR (müşteri anketi değil)
+    avg_estimated = db.scalar(select(func.avg(CallAnalytics.csat_score)))
     avg_lead = db.scalar(select(func.avg(CallAnalytics.lead_score))) or 0.0
 
     # Tier Dağılımı
@@ -615,7 +619,10 @@ def get_analytics_summary_stats(db: Session) -> Dict[str, Any]:
 
     return {
         "total_analyzed_calls": total_calls,
-        "average_csat": round(float(avg_csat), 2),
+        # Gerçek CSAT ölçümü yok → null; tahmin KPI'ya sokulmaz
+        "average_csat": None,
+        "average_estimated_sentiment_score": round(float(avg_estimated), 2) if avg_estimated is not None else None,
+        "csat_is_estimate": True,
         "average_lead_score": round(float(avg_lead), 1),
         "lead_tier_distribution": {
             "HOT": hot_count,

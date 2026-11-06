@@ -319,3 +319,34 @@ def test_api_lifts_and_queue(queue_lift_setup):
     )
     assert r_maint.status_code == 200
     assert r_maint.json()["status"] == "maintenance"
+
+
+def test_capacity_wait_is_null_when_no_active_lifts(queue_lift_setup):
+    """Aktif lift yokken bekleme 999 değil None; hiç gerçek veri yoksa 18 dk gibi sabit değer de yok."""
+    client, SessionLocal, tmp_path = queue_lift_setup
+    with SessionLocal() as db:
+        seed_default_lifts(db)
+        for l in db.scalars(select(InspectionLift)).all():
+            l.status = "maintenance"
+        db.commit()
+        cap = get_lift_capacity_status(db)
+        assert cap["estimated_wait_minutes"] is None
+        assert cap["earliest_available_time"] is None
+
+
+def test_capacity_wait_computed_from_real_durations(queue_lift_setup):
+    """Bekleme süresi gerçek lift/kuyruk sürelerinden hesaplanır (2 araç kuyruğunda sabit 18 yok)."""
+    client, SessionLocal, tmp_path = queue_lift_setup
+    with SessionLocal() as db:
+        seed_default_lifts(db)
+        lifts = db.scalars(select(InspectionLift).order_by(InspectionLift.lift_number)).all()
+        assign_lift(db, lift_id=lifts[0].id, plate="34 AAA 01", package_type="standart_ekspertiz")
+        assign_lift(db, lift_id=lifts[1].id, plate="34 AAA 02", package_type="standart_ekspertiz")
+        # Kuyruğa 2 araç: süreleri DB'deki duration_minutes'tan gelir
+        for n, mins in ((1, 30), (2, 30)):
+            db.add(InspectionQueue(queue_number=n, plate=f"06 Q{n}", customer="X", duration_minutes=mins, status="waiting"))
+        db.commit()
+        cap = get_lift_capacity_status(db)
+        assert cap["queue_waiting_count"] == 2
+        assert cap["estimated_wait_minutes"] is not None
+        assert cap["estimated_wait_minutes"] != 18

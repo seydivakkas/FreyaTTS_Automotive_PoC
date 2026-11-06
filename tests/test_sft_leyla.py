@@ -123,6 +123,11 @@ def test_identity_drift_guard():
     ref_latents = torch.randn(2, 40, 64)
     guard.set_reference_anchor(ref_latents)
 
+    # 0. Ölçüm verilmezse uydurma değer yok: hepsi None
+    res_none = guard.evaluate_drift(None, current_f0=None)
+    assert res_none["f0_hz"] is None and res_none["f0_drift_hz"] is None
+    assert res_none["latent_drift"] is None and res_none["is_healthy"] is None
+
     # 1. Sağlıklı durum: F0 = 221.1 Hz (Drift 1.1 Hz <= 2.3 Hz)
     res_healthy = guard.evaluate_drift(ref_latents, current_f0=221.1)
     assert res_healthy["is_healthy"] is True
@@ -175,32 +180,45 @@ def test_conservative_sft_trainer_steps(tmp_path: Path):
 
     last_record = trainer.history[-1]
     assert "total_loss" in last_record
-    assert "f0_drift_hz" in last_record
+    # Eğitim adımında gerçek ses yok: F0 sapması ve sağlık null (uydurma F0 yok)
+    assert last_record["f0_drift_hz"] is None
+    assert last_record["is_healthy"] is None
     assert last_record["learning_rate"] == 2e-6
 
 
 def test_early_stopping_on_drift():
-    """Aşırı F0 veya latent sapmasında eğitimin erken durdurulması."""
+    """Gerçek latent verildiğinde aşırı latent sapmasında eğitimin erken durdurulması."""
     trainer = ConservativeSFTTrainer()
     trainer.initialize_model()
 
-    # Yapay olarak F0 hedefinden büyük bir sapma simüle et
-    trainer.drift_guard.f0_target_hz = 300.0  # Leyla hedefi 220 Hz olduğu için ~80 Hz drift oluşur
-    trainer.drift_guard.f0_max_drift_hz = 0.01
-    trainer.train_step()
+    # Çapanın tersi (kosinüs benzerliği -1) latent: gerçek latent sapması eşiği aşar
+    anchor = trainer.drift_guard.reference_latent_anchor
+    trainer.train_step(batch_latents=-anchor.expand(trainer.config.batch_size, 80, -1))
 
     assert trainer.status == "drift_stopped"
 
 
 def test_verify_leyla_identity():
-    """Leyla ses kimliği kararlılığı (2.3 Hz F0) doğrulama fonksiyonu."""
+    """Leyla ses kimliği doğrulaması: ses yoksa ölçüm yapılmaz (uydurma PASS yok)."""
     trainer = ConservativeSFTTrainer()
     check = trainer.verify_leyla_identity()
 
-    assert check["status"] == "PASS"
+    assert check["status"] == "NOT_MEASURED"
+    assert check["measured"] is False
+    assert check["measured_f0_hz"] is None and check["f0_drift_hz"] is None
     assert check["leyla_seed"] == 9
     assert check["f0_target_hz"] == 220.0
-    assert check["is_healthy"] is True
+    assert check["is_healthy"] is None
+
+    # Gerçek ses (220 Hz sinüs) verilirse ölçülür ve karar verilir
+    import numpy as np
+    sr = 16000
+    t = np.arange(sr) / sr
+    tone = (0.5 * np.sin(2 * np.pi * 220.0 * t)).astype(np.float32)
+    ok = trainer.verify_leyla_identity(audio=tone, sample_rate=sr)
+    assert ok["measured"] is True
+    assert ok["status"] == "PASS"
+    assert abs(ok["measured_f0_hz"] - 220.0) < 2.3
 
 
 def test_rest_api_sft_endpoints(test_client, tmp_path: Path):
@@ -242,7 +260,8 @@ def test_rest_api_sft_endpoints(test_client, tmp_path: Path):
     # 5. /api/sft/verify-identity
     resp_id = test_client.get("/api/sft/verify-identity")
     assert resp_id.status_code == 200
-    assert resp_id.json()["status"] == "PASS"
+    assert resp_id.json()["status"] == "NOT_MEASURED"
+    assert resp_id.json()["measured"] is False
 
 
 # ============================================================================

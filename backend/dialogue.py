@@ -167,7 +167,7 @@ class Dialogue:
         try:
             from backend.queue_lift import get_lift_capacity_status
             cap = get_lift_capacity_status(db)
-            if cap.get("all_lifts_busy") and cap.get("busy_lifts", 0) > 0:
+            if cap.get("all_lifts_busy") and cap.get("busy_lifts", 0) > 0 and cap.get("earliest_available_time"):
                 capacity_prefix = f"Şu an {cap['busy_lifts']} liftimiz dolu, en erken saat {cap['earliest_available_time']}'te alabiliyoruz. "
         except Exception:
             capacity_prefix = ""

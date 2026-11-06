@@ -40,6 +40,11 @@ from backend.config import settings
 from backend.db import OutboundCall, Appointment, Slot, Vehicle, now, uid
 from backend.ami import get_ami_client
 
+
+def _ami_is_real(ami) -> bool:
+    """backend.ami.is_real_ami() ile aynı kural, ama verilen istemci üzerinde: Mock AMI gerçek arama başlatmaz."""
+    return bool(getattr(ami, "is_real", True))
+
 logger = logging.getLogger("outbound_dialer")
 
 # Varsayılan Dizinler
@@ -335,6 +340,7 @@ class OutboundCampaignDialer:
 
         # Metrikler
         self.total_originated_ami = 0
+        self.total_simulated_ami = 0  # Mock AMI ile "başlatılan" (gerçekte aranmayan) denemeler
         self.total_originated_callfile = 0
         self.total_amd_human = 0
         self.total_amd_machine = 0
@@ -407,8 +413,13 @@ class OutboundCampaignDialer:
                 timeout_ms=30000,
             )
             call_record.action_id = res.get("action_id", "")
-            call_record.status = "in-progress"
-            self.total_originated_ami += 1
+            # Mock AMI gerçek arama başlatmaz; "in-progress" denirse operatör yanılır.
+            if _ami_is_real(ami):
+                call_record.status = "in-progress"
+                self.total_originated_ami += 1
+            else:
+                call_record.status = "simulated"
+                self.total_simulated_ami += 1
         except Exception as e:
             logger.error(f"AMI Originate hatası: {e}")
             call_record.status = "failed"
@@ -615,8 +626,12 @@ class OutboundCampaignDialer:
                     timeout_ms=30000,
                 )
                 call.action_id = res.get("action_id", "")
-                call.status = "in-progress"
-                self.total_retries_executed += 1
+                if _ami_is_real(ami):
+                    call.status = "in-progress"
+                    self.total_retries_executed += 1
+                else:
+                    call.status = "simulated"
+                    self.total_simulated_ami += 1
                 retried.append(call)
             except Exception as e:
                 logger.error(f"Auto-retry arama hatası ({call.id}): {e}")
@@ -632,6 +647,7 @@ class OutboundCampaignDialer:
         """Kampanya ve AMD metriklerini döndürür."""
         return {
             "total_originated_ami": self.total_originated_ami,
+            "total_simulated_ami": self.total_simulated_ami,
             "total_originated_callfile": self.total_originated_callfile,
             "total_amd_human": self.total_amd_human,
             "total_amd_machine": self.total_amd_machine,

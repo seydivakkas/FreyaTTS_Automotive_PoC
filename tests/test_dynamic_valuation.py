@@ -149,6 +149,10 @@ def test_calculate_dynamic_valuation():
     # Sesli asistan konuşma metni
     assert "34 ABC 789" in val.summary_pitch
     assert "takas desteğiyle" in val.summary_pitch
+    # Dayanak etiketi: sabit 2020 tablosu, canlı piyasa verisi değil
+    assert val.estimate_basis == "sabit 2020 tablosu, piyasa verisi değil"
+    assert "kaba hesap" in val.summary_pitch
+    assert "tahmini piyasa değeri" not in val.summary_pitch
 
 
 # 6. Doğal Dil ve Sesli Sorgu Ayrıştırma Testi
@@ -256,3 +260,13 @@ def test_valuation_api_endpoints(client, auth_headers):
     assert r5.status_code == 200
     assert len(r5.json()) >= 1
 
+
+
+def test_parse_spoken_missing_fields_not_defaulted(client, auth_headers):
+    """Söylenmeyen marka/model/yıl/km uydurulmaz; değerleme hesaplanmaz, eksikler döner."""
+    parsed = parse_spoken_valuation_query("aracımın değerini öğrenmek istiyorum")
+    assert parsed["brand"] is None and parsed["model_year"] is None and parsed["mileage_km"] is None
+    assert set(parsed["missing_fields"]) == {"brand", "model", "model_year", "mileage_km"}
+    r = client.post("/api/valuation/parse-spoken", json={"query_text": "Passat 85 binde"}, headers=auth_headers)
+    assert r.status_code == 422
+    assert r.json()["detail"]["missing_fields"] == ["model_year"]

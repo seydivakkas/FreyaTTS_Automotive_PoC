@@ -99,7 +99,12 @@ def test_splice_clauses_empty_and_single(test_cleaner: PauseBreathCleaner):
 
 def test_telephony_audio_cache_pool():
     pool = TelephonyAudioCachePool(sample_rate=8000)
-    pool.warm_cache_with_phrases()
+    # Sentezleyici yokken sahte (sinüs) içerik konmaz: önbellek dürüstçe boş kalır
+    assert pool.warm_cache_with_phrases() == 0
+    assert len(pool.cache) == 0
+    assert pool.get_metrics()["hit_rate_percent"] is None
+    # Gerçek sentezleyici (test için basit sabit dalga) verilirse 25 cümle yüklenir
+    pool.warm_cache_with_phrases(lambda text, seed: np.full(1600, 0.1, dtype=np.float32))
     assert len(pool.cache) >= 25
 
     # Check top 25 automotive phrases
@@ -176,9 +181,11 @@ def test_api_audio_cache_endpoints(client: TestClient, auth_headers: dict):
     assert p_resp.status_code == 200
     phrases = p_resp.json()
     assert len(phrases) == 25
-    assert phrases[0]["cached"] is True
+    # Import anında ısıtma yok: global önbellek boş
+    assert phrases[0]["cached"] is False
 
-    # 3. Lookup endpoint (found)
+    # 3. Lookup endpoint (önbellek boş → bulunamaz; önce put ile gerçek içerik ekle)
+    telephony_audio_cache.put(TOP_25_AUTOMOTIVE_PHRASES[0], b"\x01\x00" * 800)
     l_resp = client.post(
         "/api/audio-cache/lookup",
         headers=auth_headers,
@@ -201,4 +208,7 @@ def test_api_audio_cache_endpoints(client: TestClient, auth_headers: dict):
     # 5. Warmup endpoint
     w_resp = client.post("/api/audio-cache/warmup", headers=auth_headers)
     assert w_resp.status_code == 200
-    assert w_resp.json()["status"] == "ok"
+    # Sentezleyici bağlı olmadığı için sahte ses konmaz
+    assert w_resp.json()["status"] == "not_warmed"
+    assert w_resp.json()["simulated"] is False
+    telephony_audio_cache.clear()

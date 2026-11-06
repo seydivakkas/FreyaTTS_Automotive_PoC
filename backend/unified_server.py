@@ -81,6 +81,19 @@ class UnifiedServer:
         self.cleanup_task: asyncio.Task | None = None
         self._shutdown_event: asyncio.Event | None = None
 
+        # main.py lifespan, dinleyicileri doğrudan asyncio.start_server ile açar (orkestratör
+        # değil); gerçek dinleme durumu buraya bildirilir.
+        self._lifespan_listeners: dict[str, bool] = {}
+        self._lifespan_started_at: float | None = None
+
+    def set_lifespan_listener(self, name: str, running: bool) -> None:
+        """Lifespan'in açtığı gerçek dinleyicinin ("audiosocket_tcp", "chan_websocket") durumunu kaydeder."""
+        self._lifespan_listeners[name] = running
+        if running and self._lifespan_started_at is None:
+            self._lifespan_started_at = time.monotonic()
+        if not any(self._lifespan_listeners.values()):
+            self._lifespan_started_at = None
+
     async def start(self) -> dict[str, Any]:
         """
         Tüm sunucu bileşenlerini başlatır:
@@ -218,12 +231,15 @@ class UnifiedServer:
 
     def get_health_status(self) -> dict[str, Any]:
         """Tüm servis ve protokollerin durumunu konsolide JSON olarak döndürür."""
-        uptime = round(time.monotonic() - self.start_time, 2) if self.start_time else 0.0
+        listening = {n: v for n, v in self._lifespan_listeners.items() if v}
+        started = self.start_time or self._lifespan_started_at
+        # Çalışma süresi: hiç başlamadıysa bilinmiyor (None), 0 uydurulmaz
+        uptime = round(time.monotonic() - started, 2) if started else None
 
         status = "alive"
         if self.is_shutting_down:
             status = "shutting_down"
-        elif not self.is_running:
+        elif not self.is_running and not listening:
             status = "stopped"
 
         engine_active = getattr(models, "batched_ode_engine", None) is not None
@@ -233,14 +249,14 @@ class UnifiedServer:
             "uptime_seconds": uptime,
             "services": {
                 "audiosocket_tcp": {
-                    "running": audiosocket_orchestrator.is_running,
+                    "running": audiosocket_orchestrator.is_running or bool(listening.get("audiosocket_tcp")),
                     "host": self.audiosocket_host,
                     "port": self.audiosocket_port,
                     "active_sessions": len(audiosocket_orchestrator.active_sessions),
                     "total_connections": audiosocket_orchestrator.total_connections,
                 },
                 "chan_websocket": {
-                    "running": chan_ws_adapter.is_running,
+                    "running": chan_ws_adapter.is_running or bool(listening.get("chan_websocket")),
                     "host": self.chan_ws_host,
                     "port": self.chan_ws_port,
                     "active_sessions": len(chan_ws_adapter.active_sessions),

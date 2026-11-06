@@ -281,3 +281,37 @@ def test_dictate_audio_api(dictation_setup, monkeypatch):
     assert res_json["report"]["vehicle_id"] == vehicle_id
     assert Path(res_json["report"]["pdf_path"]).exists()
 
+
+
+def test_empty_dictation_is_not_a_clean_report():
+    """Boş/ayrıştırılamayan dikte 100 puanlı 'temiz' rapor üretmez; puan None, parçalar boş."""
+    res = parse_technician_dictation("   ")
+    assert res["calculated_score"] is None
+    assert res["findings"]["paint_body"] == {}
+    res2 = parse_technician_dictation("bugün hava çok güzel")
+    assert res2["calculated_score"] is None
+
+
+def test_mentioned_only_component_is_not_asserted_ok():
+    """Bileşen yalnızca anılırsa 'kusursuz/normal' uydurulmaz."""
+    res = parse_technician_dictation("Fren kontrol edildi.")
+    assert res["findings"]["chassis_frame"]["fren_disk_balata"].startswith("Belirtilmedi")
+
+
+def test_report_pdf_unstated_parts_render_not_stated():
+    """PDF'te teknisyenin belirtmediği parça 'Orijinal' değil 'Belirtilmedi'; puan None → '—'."""
+    from types import SimpleNamespace
+    from backend.report_generator import NOT_STATED, _get_score_badge
+
+    assert NOT_STATED == "Belirtilmedi"
+    assert _get_score_badge(None)[0] == "PUAN YOK"
+    from backend.report_generator import generate_inspection_pdf
+    import tempfile, os
+    rep = SimpleNamespace(
+        id="r1", score=None, mileage_km=1, summary="x", technician_name="t",
+        findings_json="{}", photos_json="[]", inspected_at="2026-01-01T00:00:00+00:00",
+    )
+    veh = SimpleNamespace(plate="34 ABC 123", description="Test", vin="")
+    out = os.path.join(tempfile.mkdtemp(), "r.pdf")
+    generate_inspection_pdf(rep, veh, output_path=out)
+    assert os.path.getsize(out) > 0

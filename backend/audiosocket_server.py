@@ -349,8 +349,10 @@ class AudioSocketOrchestrator:
         self.total_dtmf_received = 0
         self.total_audio_frames_in = 0
         self.total_audio_frames_out = 0
-        self.total_reclampe_count = 0
-        self.total_burst_prevented_sec = 0.0
+        # Pacer istatistikleri: VoiceSession kendi pacing'ini yapar, bu sınıftaki pacer
+        # kullanılmaz; ölçülmediği için None (0 DEĞİL) raporlanır.
+        self.total_reclampe_count: int | None = None
+        self.total_burst_prevented_sec: float | None = None
         self.total_barge_in_stage1 = 0
         self.total_barge_in_stage2_rollback = 0
         self.total_barge_in_stage2_commit = 0
@@ -505,12 +507,13 @@ class AudioSocketOrchestrator:
                 if owned:
                     active.release()
 
-                # İstatistikleri birleştir
-                self.total_reclampe_count += pacer.reclampe_count
-                self.total_burst_prevented_sec += pacer.burst_prevented_seconds
-                self.total_barge_in_stage1 += bargein.total_stage1_pauses
-                self.total_barge_in_stage2_rollback += bargein.total_stage2_rollbacks
-                self.total_barge_in_stage2_commit += bargein.total_stage2_commits
+                # Barge-in istatistikleri: gerçekten kullanılan oturumun denetleyicisinden toplanır
+                # (yerel `bargein` nesnesi hiç beslenmediği için eskiden toplamlar hep 0 çıkıyordu)
+                live_bargein = getattr(session, "bargein_controller", None) if session else None
+                if live_bargein is not None:
+                    self.total_barge_in_stage1 += live_bargein.total_stage1_pauses
+                    self.total_barge_in_stage2_rollback += live_bargein.total_stage2_rollbacks
+                    self.total_barge_in_stage2_commit += live_bargein.total_stage2_commits
 
                 if call_uuid_str in self.active_sessions:
                     del self.active_sessions[call_uuid_str]
@@ -534,7 +537,9 @@ class AudioSocketOrchestrator:
             "total_audio_frames_in": self.total_audio_frames_in,
             "total_audio_frames_out": self.total_audio_frames_out,
             "total_reclampe_count": self.total_reclampe_count,
-            "total_burst_prevented_seconds": round(self.total_burst_prevented_sec, 3),
+            "total_burst_prevented_seconds": (
+                round(self.total_burst_prevented_sec, 3) if self.total_burst_prevented_sec is not None else None
+            ),
             "total_barge_in_stage1": self.total_barge_in_stage1,
             "total_barge_in_stage2_rollback": self.total_barge_in_stage2_rollback,
             "total_barge_in_stage2_commit": self.total_barge_in_stage2_commit,

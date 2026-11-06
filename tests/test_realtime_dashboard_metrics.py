@@ -74,6 +74,9 @@ def test_record_call_and_percentiles(test_collector: RealtimeDashboardMetricsCol
     assert test_collector.active_calls == 0
     assert test_collector.total_calls_completed == 1
 
+    # Ölçüm yokken yüzdelikler null (0 değil)
+    assert test_collector.get_latency_percentiles()["p95"] is None
+
     # Record TTS inference latencies
     test_collector.record_tts_inference(duration_audio_sec=2.0, inference_time_sec=0.15)
     test_collector.record_tts_inference(duration_audio_sec=3.0, inference_time_sec=0.22)
@@ -85,10 +88,21 @@ def test_record_call_and_percentiles(test_collector: RealtimeDashboardMetricsCol
 
 
 def test_evaluate_sla_status(test_collector: RealtimeDashboardMetricsCollector):
-    # 1. Default state should be HEALTHY or WARNING
+    # 1. Hiç ölçüm yokken: "veri yok" (geçti DEĞİL); MOS her zaman veri yok
     report = test_collector.evaluate_sla_status()
     assert report.total_checks == 7
-    assert report.compliance_score_pct >= 70.0
+    mos_check = next(c for c in report.checks if c.metric_name == "sip_mos_score")
+    assert mos_check.status == "veri yok" and mos_check.actual_value is None
+    ans_check = next(c for c in report.checks if c.metric_name == "call_answer_rate")
+    assert ans_check.status == "veri yok"  # çağrı yokken %100 uydurulmaz
+    assert all(c.status != "PASS" for c in report.checks if c.actual_value is None)
+
+    # Gerçek ölçümler girilince değerlendirme başlar
+    test_collector.record_tts_inference(duration_audio_sec=2.0, inference_time_sec=0.15)
+    test_collector.record_call_start()
+    test_collector.record_call_end(success=True)
+    report = test_collector.evaluate_sla_status()
+    assert report.compliance_score_pct is not None and report.compliance_score_pct >= 70.0
     assert report.overall_status in (SLAComplianceLevel.HEALTHY.value, SLAComplianceLevel.WARNING.value)
 
     # 2. Strict latency threshold to force a BREACH
@@ -111,18 +125,27 @@ def test_generate_prometheus_metrics_text(test_collector: RealtimeDashboardMetri
     assert "freya_active_calls " in text
 
     assert "freya_calls_total{direction=\"inbound\"}" in text
-    assert "freya_audiosocket_packet_loss_ratio " in text
-    assert "freya_audiosocket_jitter_ms " in text
-    assert "freya_sip_mos_score " in text
+    # Verisi olmayan metrikler hiç yazılmaz (0 basılmaz); MOS için gerçek ölçüm yok
+    assert "freya_sip_mos_score" not in text
+    assert "freya_audiosocket_packet_loss_ratio" not in text
+    assert "freya_audiosocket_jitter_ms" not in text
+    assert "freya_tts_rtf" not in text
+    assert "freya_tts_inference_latency_ms" not in text
+    assert "freya_customer_csat_average" not in text
+    assert "freya_queue_wait_time_seconds" not in text
+    assert "freya_lead_conversion_rate_percent" not in text
+    assert "freya_gpu_circuit_breaker_state " in text
+
+    # Gerçek ölçüm girilince örnekler görünür
+    test_collector.record_tts_inference(duration_audio_sec=2.0, inference_time_sec=0.15)
+    test_collector.record_call_end(success=True, packet_loss_pct=0.1, jitter_ms=1.8, csat_score=4.5)
+    text = test_collector.generate_prometheus_metrics_text()
     assert "freya_tts_rtf " in text
     assert "freya_tts_inference_latency_ms{quantile=\"0.95\"}" in text
-    assert "freya_gpu_vram_occupancy_ratio " in text
-    assert "freya_gpu_temperature_celsius " in text
-    assert "freya_gpu_circuit_breaker_state " in text
-    assert "freya_audio_cache_hit_rate_percent " in text
+    assert "freya_audiosocket_packet_loss_ratio " in text
+    assert "freya_audiosocket_jitter_ms " in text
     assert "freya_customer_csat_average " in text
-    assert "freya_sip_trunk_status{" in text
-    assert "freya_sip_trunk_rtt_ms{" in text
+    assert "freya_sip_mos_score" not in text
 
 
 def test_get_live_dashboard_summary(test_collector: RealtimeDashboardMetricsCollector):
@@ -137,7 +160,14 @@ def test_get_live_dashboard_summary(test_collector: RealtimeDashboardMetricsColl
     assert "crm_kpis" in summary
 
     assert summary["sla"]["total_checks"] == 7
-    assert summary["crm_kpis"]["csat_average"] > 0.0
+    # Ölçüm yokken uydurma değer yok: hepsi null
+    assert summary["crm_kpis"]["csat_average"] is None
+    assert summary["crm_kpis"]["conversion_rate_percent"] is None
+    assert summary["telephony"]["estimated_mos"] is None
+    assert summary["telephony"]["packet_loss_percent"] is None
+    assert summary["tts_performance"]["rtf"] is None
+    assert summary["tts_performance"]["p95_latency_ms"] is None
+    assert summary["sla"]["overall_status"] in ("veri yok", "HEALTHY", "WARNING", "BREACHED")
 
 
 def test_rest_api_metrics_endpoints(client: TestClient, auth_headers: dict):
@@ -146,7 +176,7 @@ def test_rest_api_metrics_endpoints(client: TestClient, auth_headers: dict):
     assert prom_resp.status_code == 200
     assert "text/plain" in prom_resp.headers["content-type"]
     assert "freya_active_calls" in prom_resp.text
-    assert "freya_sip_mos_score" in prom_resp.text
+    assert "freya_sip_mos_score" not in prom_resp.text  # gerçek MOS ölçümü yok
 
     # 2. SLA status endpoint
     sla_resp = client.get("/api/sla/status", headers=auth_headers)

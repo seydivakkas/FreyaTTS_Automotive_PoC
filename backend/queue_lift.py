@@ -6,7 +6,7 @@ Telif Hakkı (c) 2026 Seydi Eryılmaz (@seydivakkas) - Tüm Hakları Saklıdır.
 from __future__ import annotations
 
 from datetime import datetime, timezone, timedelta
-from typing import Any
+from typing import Any, Optional
 from zoneinfo import ZoneInfo
 from sqlalchemy import select, func, and_
 from sqlalchemy.orm import Session
@@ -333,9 +333,13 @@ def get_lift_capacity_status(db: Session) -> dict[str, Any]:
     # Calculate estimated wait minutes
     now_utc = datetime.now(timezone.utc)
     remaining_minutes_list = []
+    unknown_remaining = False  # kalan süresi hesaplanamayan meşgul lift var mı
 
     for l in lifts:
-        if l.status == "busy" and l.started_at:
+        if l.status == "busy":
+            if not l.started_at:
+                unknown_remaining = True
+                continue
             try:
                 st = datetime.fromisoformat(l.started_at)
                 if st.tzinfo is None:
@@ -344,7 +348,7 @@ def get_lift_capacity_status(db: Session) -> dict[str, Any]:
                 rem = max(1.0, float(l.estimated_duration_min) - elapsed)
                 remaining_minutes_list.append(rem)
             except Exception:
-                remaining_minutes_list.append(15.0)
+                unknown_remaining = True  # uydurma 15 dk yok: bilinmiyor
 
     # Queue waiting durations
     waiting_minutes_sum = db.scalar(
@@ -353,9 +357,12 @@ def get_lift_capacity_status(db: Session) -> dict[str, Any]:
         )
     ) or 0
 
+    # Hesaplanamayan değerler None'dır (999 / "--:--" gibi sahte sayı veya yer tutucu yok)
+    estimated_wait: Optional[int]
+    earliest_time: Optional[str]
     if active <= 0:
-        estimated_wait = 999
-        earliest_time = "--:--"
+        estimated_wait = None
+        earliest_time = None
         spoken_msg = "Şu anda tüm liftlerimiz bakımda olduğu için araç alamıyoruz."
     elif not all_busy and waiting_count == 0:
         estimated_wait = 0
@@ -363,13 +370,20 @@ def get_lift_capacity_status(db: Session) -> dict[str, Any]:
         spoken_msg = f"Şu an {idle} liftimiz boştur, aracınızı hemen muayeneye alabiliyoruz."
     else:
         # Sum of earliest finish on active lifts + queue backlog divided by active lifts
-        total_backlog = sum(remaining_minutes_list) + waiting_minutes_sum
-        estimated_wait = 18 if waiting_count == 2 else max(5, int(total_backlog / active))
+        # Gerçek lift kalan süreleri + kuyruktaki araçların süreleri; eksik veri varsa None
+        if unknown_remaining:
+            estimated_wait = None
+        else:
+            total_backlog = sum(remaining_minutes_list) + waiting_minutes_sum
+            estimated_wait = int(round(total_backlog / active))
 
-        # Earliest available completion time
-        earliest_free_min = min(remaining_minutes_list) if remaining_minutes_list else 15.0
-        earliest_dt = now_utc + timedelta(minutes=earliest_free_min)
-        earliest_time = earliest_dt.astimezone(ZoneInfo("Europe/Istanbul")).strftime("%H:%M")
+        # Earliest available completion time (kalan süre bilinmiyorsa None)
+        if unknown_remaining or not remaining_minutes_list:
+            earliest_time = None
+        else:
+            earliest_free_min = min(remaining_minutes_list)
+            earliest_dt = now_utc + timedelta(minutes=earliest_free_min)
+            earliest_time = earliest_dt.astimezone(ZoneInfo("Europe/Istanbul")).strftime("%H:%M")
 
         # If appointments exist, check earliest available appointment slot
         earliest_slot = db.scalars(
@@ -394,7 +408,10 @@ def get_lift_capacity_status(db: Session) -> dict[str, Any]:
             except Exception:
                 pass
 
-        spoken_msg = f"Şu an {busy} liftimiz dolu, en erken saat {earliest_time}'te alabiliyoruz."
+        if earliest_time is not None:
+            spoken_msg = f"Şu an {busy} liftimiz dolu, en erken saat {earliest_time}'te alabiliyoruz."
+        else:
+            spoken_msg = f"Şu an {busy} liftimiz dolu; bekleme süresini şu anda hesaplayamıyorum."
 
     return {
         "total_lifts": total,

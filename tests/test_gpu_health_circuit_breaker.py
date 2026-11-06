@@ -47,8 +47,10 @@ def test_telemetry_probe(test_breaker: GpuHealthCircuitBreaker):
     snap = test_breaker.sample_telemetry()
     assert snap.gpu_name != ""
     assert snap.circuit_state == CircuitState.CLOSED.value
-    assert snap.vram_total_mb >= 0.0
-    assert snap.gpu_temperature_c > 0.0
+    # Ölçülemeyen değerler None'dır (0 / 35°C gibi uydurma varsayılan yok)
+    assert snap.vram_total_mb is None or snap.vram_total_mb >= 0.0
+    assert snap.gpu_temperature_c is None or snap.gpu_temperature_c > 0.0
+    assert snap.simulated is False
     assert test_breaker.should_allow_gpu_task() is True
 
 
@@ -57,6 +59,18 @@ def test_record_inference_latency(test_breaker: GpuHealthCircuitBreaker):
     test_breaker.record_inference_latency(140.0)
     assert len(test_breaker.latency_history) == 2
     assert 100.0 <= test_breaker.latency_ema_ms <= 150.0
+
+
+def test_no_invented_defaults_without_measurement(test_breaker: GpuHealthCircuitBreaker):
+    # Hiç ölçüm yokken gecikme null; simülasyon verisi 'simulated' etiketlenir
+    assert test_breaker.latency_ema_ms is None
+    snap = test_breaker.sample_telemetry()
+    assert snap.inference_latency_ms is None and snap.inference_latency_ema_ms is None
+    test_breaker.simulate_telemetry_metrics(vram_percent=40.0)
+    sim = test_breaker.sample_telemetry()
+    assert sim.simulated is True
+    assert sim.gpu_name == "simulated"
+    assert sim.gpu_temperature_c is None  # verilmeyen sıcaklık uydurulmaz
 
 
 def test_trip_on_consecutive_vram_failures(test_breaker: GpuHealthCircuitBreaker):

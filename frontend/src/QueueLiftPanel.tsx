@@ -40,9 +40,10 @@ type CapacityStatus = {
   idle_lifts: number;
   maintenance_lifts: number;
   queue_waiting_count: number;
-  estimated_wait_minutes: number;
+  // null = hesaplanamadı (lift yok veya kalan süre bilinmiyor)
+  estimated_wait_minutes: number | null;
   all_lifts_busy: boolean;
-  earliest_available_time: string;
+  earliest_available_time: string | null;
   spoken_message: string;
 };
 
@@ -332,8 +333,8 @@ export function QueueLiftPanel({ api }: Props) {
             <div style={{ backgroundColor: "#4C1D95", padding: "10px", borderRadius: "8px", textAlign: "center" }}>
               <div style={{ fontSize: "11px", color: "#DDD6FE" }}>TAHMİNİ BEKLEME</div>
               <div style={{ fontSize: "20px", fontWeight: "bold", color: "#FFFFFF" }}>
-                {capacity.estimated_wait_minutes >= 999 || capacity.total_lifts - capacity.maintenance_lifts <= 0
-                  ? "Lift yok"
+                {capacity.estimated_wait_minutes == null
+                  ? (capacity.total_lifts - capacity.maintenance_lifts <= 0 ? "Lift yok" : "Hesaplanamadı")
                   : capacity.estimated_wait_minutes > 0
                     ? `~${capacity.estimated_wait_minutes} dk`
                     : "0 dk"}

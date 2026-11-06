@@ -209,6 +209,10 @@ PANEL_DEPRECIATION_RATES: Dict[str, Dict[str, float]] = {
 }
 
 
+# Değerlemenin dayanağı: sabit 2020 tablosu; canlı piyasa verisi DEĞİLDİR
+ESTIMATE_BASIS = "sabit 2020 tablosu, piyasa verisi değil"
+
+
 @dataclass
 class ValuationDetail:
     brand: str
@@ -227,6 +231,7 @@ class ValuationDetail:
     valuation_range_max_tl: float
     summary_pitch: str
     breakdown: Dict[str, Any] = field(default_factory=dict)
+    estimate_basis: str = ESTIMATE_BASIS
 
 
 def get_base_benchmark_price(brand: str, model: str, year: int) -> float:
@@ -412,7 +417,8 @@ def calculate_dynamic_valuation(
     plate_mention = f"{plate} plakalı " if plate else ""
     speech_pitch = (
         f"{plate_mention}{model_year} model {brand} {model} aracınızın "
-        f"tahmini piyasa değeri yaklaşık {int(market_value):,} Türk lirasıdır. "
+        f"değeri sabit bir tabloya göre yaklaşık kaba hesapla {int(market_value):,} Türk lirasıdır; "
+        f"bu canlı piyasa verisi değildir. "
         f"Şubemizde takasa vermek isterseniz {int(trade_in_offer):,} Türk lirası takas desteğiyle "
         f"değerlendirebiliyoruz. Nihai teklifimiz fiziki ekspertiz ve lift kontrolü sonrasında netleşecektir."
     ).replace(",", ".")
@@ -452,17 +458,17 @@ def parse_spoken_valuation_query(text: str) -> Dict[str, Any]:
       "2021 model Passat 85 binde, sadece sol ön çamurluk boyalı, 10 bin tramer var"
     """
     if not text:
-        return {}
+        return {"missing_fields": ["brand", "model", "model_year", "mileage_km"]}
 
     raw = text.lower()
 
     # 1. Yıl Tespiti
     year_match = re.search(r"\b(20[0-2][0-9]|199[0-9])\b", raw)
-    year = int(year_match.group(1)) if year_match else 2020
+    year = int(year_match.group(1)) if year_match else None  # söylenmediyse uydurulmaz
 
     # 2. Marka & Model Tespiti
-    brand = "VOLKSWAGEN"
-    model = "PASSAT"
+    brand = None
+    model = None
     for b in MODEL_BASELINES_2020:
         if b.lower() in raw:
             brand = b
@@ -471,6 +477,14 @@ def parse_spoken_valuation_query(text: str) -> Dict[str, Any]:
                     model = m
                     break
             break
+
+    if brand is None:
+        # Marka söylenmedi ama model adı geçiyorsa (örn. "Passat") marka metinden çıkarılır
+        for b, models_ in MODEL_BASELINES_2020.items():
+            hit = next((m for m in models_ if m != "DEFAULT" and m.lower() in raw), None)
+            if hit:
+                brand, model = b, hit
+                break
 
     # 3. Tramer Tespiti (Önce Tramer taranmalı ki km aramasıyla çakışmasın)
     tramer_tl = 0.0
@@ -495,7 +509,7 @@ def parse_spoken_valuation_query(text: str) -> Dict[str, Any]:
             raw_for_km = raw[:start] + " " * (end - start) + raw[end:]
 
     # 4. Kilometre Tespiti
-    km = 60000
+    km = None  # söylenmediyse uydurulmaz
     # "85 binde", "85 bindeydi", "140 bin km", "85.000 km", "120000 km", "85k"
     km_match = re.search(r"\b(\d{1,3})\s*(?:bin(?:de|deydi|deymiş|i|deymis)?|k)\b", raw_for_km)
     if km_match:
@@ -530,9 +544,15 @@ def parse_spoken_valuation_query(text: str) -> Dict[str, Any]:
             state = "degisen" if "değişen" in raw else "boyali"
             panels["sag_on_kapi"] = state
 
+    missing = [
+        name
+        for name, val in (("brand", brand), ("model", model), ("model_year", year), ("mileage_km", km))
+        if val is None
+    ]
     return {
-        "brand": brand.title(),
-        "model": model.title(),
+        "brand": brand.title() if brand else None,
+        "model": model.title() if model else None,
+        "missing_fields": missing,
         "model_year": year,
         "mileage_km": km,
         "body_panels": panels,

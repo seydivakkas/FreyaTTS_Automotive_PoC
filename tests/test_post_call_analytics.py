@@ -226,6 +226,9 @@ def test_analytics_api_endpoints(client, auth_headers):
     assert r.status_code == 200
     data = r.json()
     assert data["conversation_id"] == c_id
+    assert "csat_score" not in data
+    assert data["csat_is_estimate"] is True
+    assert 1.0 <= data["estimated_sentiment_score"] <= 5.0
     assert data["intent"] == "price_inquiry"
     assert "fiyat_yuksek" in data["objections_json"]
 
@@ -240,7 +243,10 @@ def test_analytics_api_endpoints(client, auth_headers):
     assert r3.status_code == 200
     stats = r3.json()
     assert stats["total_analyzed_calls"] >= 1
-    assert "average_csat" in stats
+    # Gerçek CSAT yok: null; tahmin ayrı alanda ve etiketli
+    assert stats["average_csat"] is None
+    assert stats["csat_is_estimate"] is True
+    assert stats["average_estimated_sentiment_score"] is not None
     assert "top_intents" in stats
 
     # 4. GET /api/analytics/calls (genel liste ucu hassas tablo için kapatıldı)

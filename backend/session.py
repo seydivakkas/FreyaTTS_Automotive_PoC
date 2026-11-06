@@ -26,6 +26,16 @@ logger = logging.getLogger("automotive_voice.session")
 active = ConcurrentCallController(max_concurrent=settings.max_concurrent_calls)
 
 
+def _metrics():
+    """Panel toplayıcısını tembel yükler; metrik hatası çağrı akışını asla bozmaz."""
+    try:
+        from backend.realtime_dashboard_metrics import dashboard_metrics_collector
+        return dashboard_metrics_collector
+    except Exception:
+        logger.debug("Metrik toplayıcı yüklenemedi", exc_info=True)
+        return None
+
+
 class VoiceSession:
     def __init__(
         self,
@@ -111,6 +121,11 @@ class VoiceSession:
             recordings_dir.mkdir(parents=True, exist_ok=True)
             self.recording = wave.open(str(recordings_dir / f"{self.id}.wav"), "wb")
             self.recording.setparams((1, 2, 16000, 0, "NONE", "not compressed"))
+        # Gerçek çağrı başlangıcı: yön, oturum modundan gelir (outbound aramalar mode="outbound").
+        self._metrics_ended = False
+        m = _metrics()
+        if m is not None:
+            m.record_call_start(direction="outbound" if mode == "outbound" else "inbound")
 
     def save(self, role, text, metrics=None):
         with Session() as db:
@@ -487,6 +502,10 @@ class VoiceSession:
                     if self.closed or turn != self.generation:
                         break
                     elapsed = time.monotonic() - began
+                    # Cümle (clause) başına bir kez: kare başına yük yok
+                    m = _metrics()
+                    if m is not None and len(w) > 0:
+                        m.record_tts_inference(len(w) / 48000, elapsed)
                     await queue.put(
                         (
                             w,
@@ -585,6 +604,14 @@ class VoiceSession:
         if self.recording:
             self.recording.close()
         await self.control.close()
+        if not getattr(self, "_metrics_ended", True):
+            self._metrics_ended = True
+            m = _metrics()
+            if m is not None:
+                m.record_call_end(
+                    success=True,
+                    duration_sec=time.monotonic() - getattr(self, "start_time", time.monotonic()),
+                )
         with Session() as db:
             c = db.get(Conversation, self.id)
             if c:

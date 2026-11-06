@@ -148,6 +148,7 @@ from backend.realtime_dashboard_metrics import (
 )
 from backend.dynamic_valuation_calculator import (
     calculate_and_save_valuation,
+    ESTIMATE_BASIS,
     calculate_dynamic_valuation,
     list_vehicle_valuations,
     parse_spoken_valuation_query,
@@ -321,12 +322,14 @@ async def lifespan(app):
     server = await asyncio.start_server(
         connection, settings.audiosocket_host, settings.audiosocket_port
     )
+    unified_server.set_lifespan_listener("audiosocket_tcp", True)
     chan_ws_server = None
     if settings.chan_websocket_enabled:
         try:
             chan_ws_server = await chan_ws_adapter.start_standalone_server(
                 settings.chan_websocket_host, settings.chan_websocket_port
             )
+            unified_server.set_lifespan_listener("chan_websocket", True)
         except Exception:
             pass
 
@@ -360,8 +363,10 @@ async def lifespan(app):
             await chan_ws_adapter.stop_standalone_server()
         except Exception:
             pass
+        unified_server.set_lifespan_listener("chan_websocket", False)
     server.close()
     await server.wait_closed()
+    unified_server.set_lifespan_listener("audiosocket_tcp", False)
     task.cancel()
     await asyncio.gather(task, return_exceptions=True)
 
@@ -422,8 +427,9 @@ class VehicleUpdateIn(BaseModel):
 
 class InspectionReportIn(BaseModel):
     summary: str = Field(min_length=5, max_length=1000)
-    mileage_km: int = Field(default=0, ge=0)
-    score: int = Field(default=100, ge=0, le=100)
+    mileage_km: int = Field(ge=0)  # zorunlu: 0 km uydurulmaz (frontend de zorunlu tutuyor)
+    # Zorunlu: sessizce 100 puan (kusursuz) uydurulmaz; frontend de zorunlu tutuyor
+    score: int = Field(ge=0, le=100)
     appointment_id: str | None = None
     technician_name: str = "Uzman Teknisyen"
     findings: dict[str, Any] = Field(default_factory=dict)
@@ -878,6 +884,14 @@ class M11AcceptanceIn(BaseModel):
 
 def row(obj):
     return {c.name: getattr(obj, c.name) for c in obj.__table__.columns}
+
+
+def call_analytics_row(obj):
+    """csat_score sütunu anahtar kelime tahminidir: API'de tahmin olarak etiketlenir."""
+    d = row(obj)
+    d["estimated_sentiment_score"] = d.pop("csat_score", None)
+    d["csat_is_estimate"] = True
+    return d
 
 
 @app.get("/api/health")
@@ -2354,7 +2368,7 @@ def evaluate_call_endpoint(body: CallAnalyticsIn):
                 duration_sec=body.duration_sec,
                 transcript_override=body.transcript,
             )
-            return row(record)
+            return call_analytics_row(record)
         except ValueError as e:
             raise HTTPException(404, str(e))
 
@@ -2366,7 +2380,7 @@ def get_analytics_calls_endpoint(limit: int = 50, lead_tier: str | None = None):
         if lead_tier:
             stmt = stmt.where(CallAnalytics.lead_tier == lead_tier.upper())
         records = db.scalars(stmt.limit(limit)).all()
-        return [row(r) for r in records]
+        return [call_analytics_row(r) for r in records]
 
 
 @app.get("/api/analytics/call-stats", dependencies=[Depends(auth)])
@@ -2588,17 +2602,27 @@ def valuation_save_endpoint(body: VehicleValuationIn):
             conversation_id=body.conversation_id,
             appointment_id=body.appointment_id,
         )
-        return row(record)
+        return {**row(record), "estimate_basis": ESTIMATE_BASIS}
 
 
 @app.post("/api/valuation/parse-spoken", dependencies=[Depends(auth)])
 def valuation_parse_spoken_endpoint(body: SpokenValuationIn):
     parsed = parse_spoken_valuation_query(body.query_text)
+    if parsed.get("missing_fields"):
+        # Eksik bilgi varsa varsayılan araç uydurulmaz; değerleme hesaplanmaz
+        raise HTTPException(
+            422,
+            detail={
+                "message": "Değerleme için eksik bilgi var",
+                "missing_fields": parsed["missing_fields"],
+                "parsed_query": parsed,
+            },
+        )
     val = calculate_dynamic_valuation(
-        brand=parsed.get("brand", "Volkswagen"),
-        model=parsed.get("model", "Passat"),
-        model_year=parsed.get("model_year", 2020),
-        mileage_km=parsed.get("mileage_km", 60000),
+        brand=parsed["brand"],
+        model=parsed["model"],
+        model_year=parsed["model_year"],
+        mileage_km=parsed["mileage_km"],
         body_panels=parsed.get("body_panels", {}),
         tramer_amount_tl=parsed.get("tramer_amount_tl", 0.0),
         is_heavy_damage=parsed.get("is_heavy_damage", False),
@@ -2873,9 +2897,13 @@ def audio_cache_lookup_endpoint(payload: AudioCacheLookupIn):
 
 @app.post("/api/audio-cache/warmup", dependencies=[Depends(auth)])
 def audio_cache_warmup_endpoint():
+    # Gerçek TTS sentezleyici bu uçta bağlı değil: sahte/sinüs ses konmaz, önbellek boş kalır.
     warmed = telephony_audio_cache.warm_cache_with_phrases(TOP_25_AUTOMOTIVE_PHRASES)
     return {
-        "status": "ok",
+        "status": "ok" if warmed > 0 else "not_warmed",
+        "implemented": warmed > 0,
+        "simulated": False,
+        "note": None if warmed > 0 else "Gerçek sentezleyici bağlı değil; önbellek yalnızca put() ile dolar.",
         "warmed_count": warmed,
         "cached_count": len(telephony_audio_cache.cache),
         "metrics": telephony_audio_cache.get_metrics(),
@@ -3550,6 +3578,8 @@ def technician_dictate_text(body: DictationTextIn):
             vehicle = db.get(Vehicle, body.vehicle_id)
             if not vehicle:
                 raise HTTPException(404, "Araç bulunamadı")
+            if result["calculated_score"] is None:
+                raise HTTPException(422, "Dikte metninde değerlendirilebilir bulgu yok; rapor oluşturulmadı")
             rep = InspectionReport(
                 vehicle_id=body.vehicle_id,
                 technician_name=body.technician_name or "Uzman Teknisyen",
@@ -3629,6 +3659,8 @@ async def technician_dictate_audio(
             vehicle = db.get(Vehicle, vehicle_id)
             if not vehicle:
                 raise HTTPException(404, "Araç bulunamadı")
+            if result["calculated_score"] is None:
+                raise HTTPException(422, "Dikte metninde değerlendirilebilir bulgu yok; rapor oluşturulmadı")
             rep = InspectionReport(
                 vehicle_id=vehicle_id,
                 technician_name=technician_name or "Uzman Teknisyen",

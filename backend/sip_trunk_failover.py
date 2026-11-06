@@ -34,10 +34,13 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
+from backend.config import settings
+
 logger = logging.getLogger("sip_trunk_failover")
 
 
 class TrunkStatus(str, Enum):
+    UNKNOWN = "unknown"          # Yapılandırıldı ama henüz yoklanmadı / doğrulanmadı
     HEALTHY = "HEALTHY"          # Sağlıklı (OPTIONS yanıtı alındı, RTT kabul edilebilir)
     DEGRADED = "DEGRADED"        # Yüksek gecikme veya kısmi paket kaybı (> 150 ms)
     DOWN = "DOWN"                # Hat çöktü / Yanıt yok / 503 Service Unavailable
@@ -54,9 +57,10 @@ class SIPTrunk:
     priority: int = 1               # 1: Ana Operatörler, 2: Yedek / Felaket Kurtarma
     weight: int = 50                # Ağırlıklı Round-Robin ağırlığı (örn. 60, 30, 10)
     max_channels: int = 30          # Eşzamanlı kanal sınırı
-    status: TrunkStatus = TrunkStatus.HEALTHY
-    rtt_ms: float = 25.0
-    rtt_ema_ms: float = 25.0
+    status: TrunkStatus = TrunkStatus.UNKNOWN
+    # Henüz ölçülmediyse None (uydurma RTT yok)
+    rtt_ms: Optional[float] = None
+    rtt_ema_ms: Optional[float] = None
     consecutive_failures: int = 0
     active_calls: int = 0
     total_calls_routed: int = 0
@@ -64,6 +68,10 @@ class SIPTrunk:
     last_checked_at: str = ""
     last_healthy_at: str = ""
     last_error: str = ""
+    # True ise mevcut durum gerçek yoklamadan değil, simülasyondan gelir
+    simulated: bool = False
+    # Durumun nasıl bilindiği (örn. yapılandırıldı, doğrulanmadı)
+    note: str = ""
 
     def to_dict(self) -> Dict[str, Any]:
         d = asdict(self)
@@ -93,7 +101,7 @@ class TrunkSelectionResult:
 class PingResult:
     trunk_id: str
     success: bool
-    rtt_ms: float
+    rtt_ms: Optional[float]
     status_code: int
     status_message: str
     checked_at: str
@@ -157,6 +165,7 @@ class SIPTrunkFailoverManager:
         failure_threshold: int = 2,
         recovery_success_target: int = 2,
         rtt_ema_alpha: float = 0.3,
+        trunks: Optional[List[SIPTrunk]] = None,
     ):
         self.degraded_rtt_threshold_ms = degraded_rtt_threshold_ms
         self.down_rtt_threshold_ms = down_rtt_threshold_ms
@@ -172,47 +181,30 @@ class SIPTrunkFailoverManager:
         # Özel yoklama simülatörü (Test ortamı için)
         self.mock_probe_func: Optional[Callable[[SIPTrunk], Tuple[bool, float, int, str]]] = None
 
-        # Varsayılan Türkiye Kurumsal Telekomünikasyon Trunkları
-        self._load_default_trunks()
+        # Verilen trunklar (test/enjeksiyon) yoksa yalnızca yapılandırılmış trunk yüklenir
+        self._load_default_trunks(trunks)
 
-    def _load_default_trunks(self) -> None:
-        """Varsayılan 3 kurumsal SIP trunk hattını yükler."""
+    def _load_default_trunks(self, trunks: Optional[List[SIPTrunk]] = None) -> None:
+        """Yapılandırmadaki (settings.ami_trunk) tek trunk'ı 'doğrulanmadı' durumunda yükler.
+
+        Uydurma operatör/RTT/sağlık bilgisi yoktur; gerçek durum ilk yoklamayla öğrenilir.
+        """
+        if trunks is not None:
+            for t in trunks:
+                self._trunks[t.trunk_id] = t
+                self._consecutive_successes[t.trunk_id] = 0
+            return
         defaults = [
             SIPTrunk(
-                trunk_id="turk_telekom_trunk",
-                name="Türk Telekom Kurumsal SIP Trunk",
-                host="sip.turktelekom.com.tr",
+                trunk_id=settings.ami_trunk,
+                name=f"{settings.ami_trunk} (yapılandırıldı, doğrulanmadı)",
+                host="",  # trunk SIP adresi yapılandırmada yok: yoklama yapılamaz
                 port=5060,
                 priority=1,
-                weight=60,
+                weight=100,
                 max_channels=30,
-                rtt_ms=22.0,
-                rtt_ema_ms=22.0,
-                last_healthy_at=datetime.now(timezone.utc).isoformat(),
-            ),
-            SIPTrunk(
-                trunk_id="turkcell_superonline_trunk",
-                name="Turkcell Superonline SIP Trunk",
-                host="sip.superonline.net",
-                port=5060,
-                priority=1,
-                weight=30,
-                max_channels=30,
-                rtt_ms=18.0,
-                rtt_ema_ms=18.0,
-                last_healthy_at=datetime.now(timezone.utc).isoformat(),
-            ),
-            SIPTrunk(
-                trunk_id="vodafone_net_trunk",
-                name="Vodafone Net Yedek / Felaket Kurtarma Trunk",
-                host="sip.vodafone.com.tr",
-                port=5060,
-                priority=2,  # İkincil öncelik (Yedek)
-                weight=10,
-                max_channels=20,
-                rtt_ms=32.0,
-                rtt_ema_ms=32.0,
-                last_healthy_at=datetime.now(timezone.utc).isoformat(),
+                status=TrunkStatus.UNKNOWN,
+                note="yapılandırıldı, doğrulanmadı",
             ),
         ]
         for t in defaults:
@@ -251,25 +243,39 @@ class SIPTrunkFailoverManager:
         # Simülasyon modunda mı?
         if trunk_id in self._simulated_down_trunks:
             success = False
-            rtt_ms = 999.0
+            rtt_ms = None  # simülasyonda gerçek RTT yok
             status_code = 503
-            status_msg = "Simulated Network Failure (No SIP Response)"
+            status_msg = "SIMULATED Network Failure (No SIP Response)"
         elif self.mock_probe_func is not None:
             success, rtt_ms, status_code, status_msg = self.mock_probe_func(trunk)
+        elif not trunk.host:
+            # Yoklanacak adres yok: durum/RTT değiştirilmez, trunk 'unknown' kalır
+            return PingResult(
+                trunk_id=trunk_id,
+                success=False,
+                rtt_ms=None,
+                status_code=0,
+                status_message="Trunk SIP adresi yapılandırılmadı; yoklama yapılamadı (durum bilinmiyor)",
+                checked_at=now_iso,
+            )
         else:
             success, rtt_ms, status_code, status_msg = self._send_udp_options_probe(trunk, timeout_sec)
 
         # Durum makinesini güncelle
         with self._lock:
             trunk.last_checked_at = now_iso
-            trunk.rtt_ms = round(rtt_ms, 2)
+            trunk.rtt_ms = round(rtt_ms, 2) if rtt_ms is not None else None
+            trunk.note = ""
 
             if success:
-                # EMA güncelle
-                trunk.rtt_ema_ms = round(
-                    (self.rtt_ema_alpha * rtt_ms) + ((1.0 - self.rtt_ema_alpha) * trunk.rtt_ema_ms),
-                    2,
-                )
+                # EMA güncelle (ilk ölçüm doğrudan başlangıç değeridir)
+                if trunk.rtt_ema_ms is None:
+                    trunk.rtt_ema_ms = round(rtt_ms, 2)
+                else:
+                    trunk.rtt_ema_ms = round(
+                        (self.rtt_ema_alpha * rtt_ms) + ((1.0 - self.rtt_ema_alpha) * trunk.rtt_ema_ms),
+                        2,
+                    )
                 trunk.consecutive_failures = 0
                 trunk.last_healthy_at = now_iso
                 trunk.last_error = ""
@@ -307,7 +313,7 @@ class SIPTrunkFailoverManager:
         return PingResult(
             trunk_id=trunk_id,
             success=success,
-            rtt_ms=round(rtt_ms, 2),
+            rtt_ms=round(rtt_ms, 2) if rtt_ms is not None else None,
             status_code=status_code,
             status_message=status_msg,
             checked_at=now_iso,
@@ -327,7 +333,7 @@ class SIPTrunkFailoverManager:
         self,
         trunk: SIPTrunk,
         timeout_sec: float = 1.0,
-    ) -> Tuple[bool, float, int, str]:
+    ) -> Tuple[bool, Optional[float], int, str]:
         """Fiziksel UDP soketi üzerinden SIP OPTIONS paketi gönderip yanıt bekler."""
         packet = build_sip_options_packet(trunk)
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -348,9 +354,9 @@ class SIPTrunkFailoverManager:
                 return False, rtt_ms, code, msg
 
         except socket.timeout:
-            return False, timeout_sec * 1000.0, 408, "Request Timeout"
+            return False, None, 408, "Request Timeout"
         except Exception as e:
-            return False, 999.0, 503, str(e)
+            return False, None, 503, str(e)
         finally:
             sock.close()
 
@@ -500,7 +506,7 @@ class SIPTrunkFailoverManager:
         with self._lock:
             t = self._trunks.get(trunk_id)
             if t:
-                t.status = TrunkStatus.MAINTENANCE if maintenance else TrunkStatus.HEALTHY
+                t.status = TrunkStatus.MAINTENANCE if maintenance else TrunkStatus.UNKNOWN  # bakım çıkışı: durum doğrulanmadı
 
     def simulate_trunk_outage(self, trunk_id: str, outage: bool = True) -> None:
         """Test amaçlı olarak trunk arızasını simüle eder."""
@@ -510,12 +516,15 @@ class SIPTrunkFailoverManager:
                 t = self._trunks.get(trunk_id)
                 if t:
                     t.status = TrunkStatus.DOWN
-                    t.last_error = "Simulated Telecom Fiber Outage"
+                    t.simulated = True
+                    t.last_error = "SIMULATED Telecom Fiber Outage (gerçek arıza değil)"
             else:
                 self._simulated_down_trunks.discard(trunk_id)
                 t = self._trunks.get(trunk_id)
                 if t:
-                    t.status = TrunkStatus.HEALTHY
+                    # Simülasyon kalktı: gerçek durum bilinmiyor, bir sonraki yoklama belirler
+                    t.status = TrunkStatus.UNKNOWN
+                    t.simulated = False
                     t.consecutive_failures = 0
                     t.last_error = ""
 

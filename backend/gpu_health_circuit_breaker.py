@@ -54,16 +54,19 @@ class FailoverMode(str, Enum):
 class GpuTelemetrySnapshot:
     gpu_available: bool
     gpu_name: str
-    vram_total_mb: float
-    vram_used_mb: float
-    vram_free_mb: float
-    vram_occupancy_percent: float
-    gpu_temperature_c: float
-    gpu_utilization_percent: float
-    inference_latency_ms: float
-    inference_latency_ema_ms: float
+    # Ölçülemeyen değerler None'dur (0 veya uydurma varsayılan DEĞİL).
+    vram_total_mb: Optional[float]
+    vram_used_mb: Optional[float]
+    vram_free_mb: Optional[float]
+    vram_occupancy_percent: Optional[float]
+    gpu_temperature_c: Optional[float]
+    gpu_utilization_percent: Optional[float]
+    inference_latency_ms: Optional[float]
+    inference_latency_ema_ms: Optional[float]
     circuit_state: str
     timestamp: str
+    # True ise değerler gerçek donanımdan değil, simülasyon girdisinden gelir.
+    simulated: bool = False
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
@@ -119,7 +122,8 @@ class GpuHealthCircuitBreaker:
 
         # Gecikme izleme penceresi
         self.latency_history: collections.deque = collections.deque(maxlen=50)
-        self.latency_ema_ms: float = 120.0  # Başlangıç referansı
+        # Henüz ölçüm yoksa None (uydurma başlangıç referansı kullanılmaz)
+        self.latency_ema_ms: Optional[float] = None
         self.ema_alpha: float = 0.25
 
         # Simülasyon değişkenleri (Birim testleri ve senaryolar için)
@@ -148,31 +152,28 @@ class GpuHealthCircuitBreaker:
             pass
         return None
 
-    def _probe_gpu_hardware(self) -> Tuple[bool, str, float, float, float, float, float, float]:
+    def _probe_gpu_hardware(self) -> Tuple[bool, str, Optional[float], Optional[float], Optional[float], Optional[float], Optional[float], Optional[float], bool]:
         """
         Donanım durumunu sorgular.
-        Döner: (available, name, total_mb, used_mb, free_mb, occupancy_pct, temp_c, util_pct)
+        Döner: (available, name, total_mb, used_mb, free_mb, occupancy_pct, temp_c, util_pct, simulated)
+        Bilinmeyen değerler None döner.
         """
-        # 1. Simülasyon değerleri önceliklidir (test amaçlı)
+        # 1. Simülasyon değerleri önceliklidir (test amaçlı); yalnızca verilen alanlar dolu, gerisi None
         if self._sim_vram_percent is not None or self._sim_temp_c is not None:
-            total_mb = 8192.0
-            occ_pct = self._sim_vram_percent if self._sim_vram_percent is not None else 35.0
-            used_mb = total_mb * (occ_pct / 100.0)
-            free_mb = max(0.0, total_mb - used_mb)
-            temp_c = self._sim_temp_c if self._sim_temp_c is not None else 45.0
-            util_pct = 25.0
-            return True, "Simulated NVIDIA GPU", total_mb, used_mb, free_mb, occ_pct, temp_c, util_pct
+            occ_pct = self._sim_vram_percent
+            return True, "simulated", None, None, None, occ_pct, self._sim_temp_c, None, True
 
         # 2. Gerçek donanım sorgusu
         has_cuda = torch.cuda.is_available() and torch.cuda.device_count() > 0
-        gpu_name = torch.cuda.get_device_name(0) if has_cuda else "CPU Only (No GPU)"
+        gpu_name = torch.cuda.get_device_name(0) if has_cuda else "unknown"
 
-        total_mb = 0.0
-        used_mb = 0.0
-        free_mb = 0.0
-        occupancy_pct = 0.0
-        temp_c = 35.0
-        util_pct = 0.0
+        # Ölçülemeyen her değer None kalır (0 / 35°C gibi uydurma varsayılan yok)
+        total_mb: Optional[float] = None
+        used_mb: Optional[float] = None
+        free_mb: Optional[float] = None
+        occupancy_pct: Optional[float] = None
+        temp_c: Optional[float] = None
+        util_pct: Optional[float] = None
 
         if has_cuda:
             try:
@@ -180,7 +181,7 @@ class GpuHealthCircuitBreaker:
                 total_mb = round(total_bytes / (1024 * 1024), 1)
                 free_mb = round(free_bytes / (1024 * 1024), 1)
                 used_mb = round((total_bytes - free_bytes) / (1024 * 1024), 1)
-                occupancy_pct = round((used_mb / total_mb) * 100.0, 1) if total_mb > 0 else 0.0
+                occupancy_pct = round((used_mb / total_mb) * 100.0, 1) if total_mb > 0 else None
             except Exception as e:
                 logger.warning("torch.cuda.mem_get_info başarısız: %s", e)
 
@@ -188,19 +189,22 @@ class GpuHealthCircuitBreaker:
             smi_data = self._probe_nvidia_smi()
             if smi_data is not None:
                 temp_c, smi_used, smi_total, util_pct = smi_data
-                if total_mb == 0.0:
+                if not total_mb:
                     total_mb = smi_total
                     used_mb = smi_used
                     free_mb = max(0.0, total_mb - used_mb)
-                    occupancy_pct = round((used_mb / total_mb) * 100.0, 1) if total_mb > 0 else 0.0
+                    occupancy_pct = round((used_mb / total_mb) * 100.0, 1) if total_mb > 0 else None
 
-        return has_cuda, gpu_name, total_mb, used_mb, free_mb, occupancy_pct, temp_c, util_pct
+        return has_cuda, gpu_name, total_mb, used_mb, free_mb, occupancy_pct, temp_c, util_pct, False
 
     def record_inference_latency(self, latency_ms: float) -> None:
         """Sentezlenen cümlenin ODE inferans gecikmesini kaydeder ve EMA'yı günceller."""
         with self._lock:
             self.latency_history.append(latency_ms)
-            self.latency_ema_ms = (self.ema_alpha * latency_ms) + ((1.0 - self.ema_alpha) * self.latency_ema_ms)
+            if self.latency_ema_ms is None:
+                self.latency_ema_ms = float(latency_ms)
+            else:
+                self.latency_ema_ms = (self.ema_alpha * latency_ms) + ((1.0 - self.ema_alpha) * self.latency_ema_ms)
 
     def record_cuda_oom_event(self, details: str = "") -> None:
         """CUDA OOM riski algılandığında veya istisnası fırlatıldığında anında devreyi keser (OPEN)."""
@@ -215,21 +219,23 @@ class GpuHealthCircuitBreaker:
     def sample_telemetry(self) -> GpuTelemetrySnapshot:
         """Anlık telemetri fotoğrafını çeker ve durum makinesini (state machine) işletir."""
         with self._lock:
-            has_cuda, name, total_mb, used_mb, free_mb, occ_pct, temp_c, util_pct = self._probe_gpu_hardware()
+            has_cuda, name, total_mb, used_mb, free_mb, occ_pct, temp_c, util_pct, simulated = self._probe_gpu_hardware()
 
-            # Simülasyon gecikmesi
+            # Simülasyon gecikmesi (ölçüm yoksa None)
             latest_latency = self._sim_latency_ms if self._sim_latency_ms is not None else (
-                self.latency_history[-1] if self.latency_history else 120.0
+                self.latency_history[-1] if self.latency_history else None
             )
             current_ema = self._sim_latency_ms if self._sim_latency_ms is not None else self.latency_ema_ms
+            if self._sim_latency_ms is not None:
+                simulated = True
 
-            # Eşik İhlalleri Denetimi
+            # Eşik İhlalleri Denetimi (ölçülemeyen değer ihlal sayılmaz)
             violations = []
-            if occ_pct >= self.config.vram_threshold_percent:
+            if occ_pct is not None and occ_pct >= self.config.vram_threshold_percent:
                 violations.append(f"VRAM doluluğu aşıldı (%{occ_pct:.1f} >= %{self.config.vram_threshold_percent:.1f})")
-            if temp_c >= self.config.temp_threshold_c:
+            if temp_c is not None and temp_c >= self.config.temp_threshold_c:
                 violations.append(f"GPU sıcaklığı aşıldı ({temp_c:.1f}°C >= {self.config.temp_threshold_c:.1f}°C)")
-            if current_ema >= self.config.latency_threshold_ms:
+            if current_ema is not None and current_ema >= self.config.latency_threshold_ms:
                 violations.append(f"ODE inferans gecikmesi aşıldı ({current_ema:.1f} ms >= {self.config.latency_threshold_ms:.1f} ms)")
 
             now_mono = time.monotonic()
@@ -279,10 +285,11 @@ class GpuHealthCircuitBreaker:
                 vram_occupancy_percent=occ_pct,
                 gpu_temperature_c=temp_c,
                 gpu_utilization_percent=util_pct,
-                inference_latency_ms=round(latest_latency, 2),
-                inference_latency_ema_ms=round(current_ema, 2),
+                inference_latency_ms=round(latest_latency, 2) if latest_latency is not None else None,
+                inference_latency_ema_ms=round(current_ema, 2) if current_ema is not None else None,
                 circuit_state=self.state.value,
                 timestamp=datetime.now(timezone.utc).isoformat(),
+                simulated=simulated,
             )
 
     def should_allow_gpu_task(self, sample_now: bool = False) -> bool:
@@ -423,6 +430,7 @@ class GpuHealthCircuitBreaker:
             return {
                 "circuit_state": self.state.value,
                 "is_gpu_available": snap.gpu_available,
+                "simulated": snap.simulated,
                 "total_trip_count": self.total_trip_count,
                 "consecutive_failures": self.consecutive_failures,
                 "last_trip_reason": self.last_trip_reason,

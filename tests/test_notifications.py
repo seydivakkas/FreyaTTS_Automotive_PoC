@@ -167,6 +167,7 @@ def test_notification_delivery_and_retry(client):
             slot_id=s.id,
             vehicle_id=v.id,
             customer="Fatma Girik",
+            customer_phone="0533 555 66 77",  # gerçek telefon şart: ad alıcı olarak kullanılmaz
             idempotency_key="fail-retry-001",
             confirmed=True,
         )
@@ -236,3 +237,31 @@ def test_notifications_api_endpoints(client):
     retry_res = c.post(f"/api/notifications/{my_notif['id']}/retry", auth=auth)
     assert retry_res.status_code == 200
     assert retry_res.json()["status"] == "simulated"
+
+
+def test_no_phone_does_not_queue_name_as_recipient(client):
+    """Telefon yoksa müşteri ADI alıcı olarak kuyruğa alınmaz (eski davranış: ad = alıcı)."""
+    c, engine, provider = client
+    SessionLocal = sessionmaker(engine, expire_on_commit=False)
+
+    with SessionLocal() as db:
+        v = Vehicle(description="Renault Clio", plate="06 XYZ 12")
+        db.add(v)
+        slot_time = (datetime.now(timezone.utc) + timedelta(days=2)).replace(
+            hour=11, minute=0, second=0, microsecond=0
+        )
+        s = Slot(starts_at=slot_time.isoformat(), duration_minutes=30)
+        db.add(s)
+        db.commit()
+
+        app = book(
+            db,
+            slot_id=s.id,
+            vehicle_id=v.id,
+            customer="Telefonsuz Musteri",
+            customer_phone="",
+            idempotency_key="book-notif-nophone",
+            confirmed=True,
+        )
+        notifs = db.query(NotificationOutbox).filter_by(appointment_id=app.id).all()
+        assert notifs == []

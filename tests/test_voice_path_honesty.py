@@ -317,7 +317,7 @@ def test_mock_provider_marks_outbox_simulated_real_marks_sent(env, provider_rest
         db.flush()
         s = _slot(db, days=4)
         set_notification_provider(MockNotificationProvider())
-        book(db, slot_id=s.id, vehicle_id=v.id, customer="A", idempotency_key="n-1", confirmed=True)
+        book(db, slot_id=s.id, vehicle_id=v.id, customer="A", customer_phone="05321112233", idempotency_key="n-1", confirmed=True)
         n = db.scalars(select(NotificationOutbox)).first()
         assert n.status == "simulated" and n.sent_at is None
         n.status = "pending"

@@ -157,3 +157,19 @@ def test_unified_system_status_rest_endpoint():
         assert "models_gpu" in data["services"]
         assert "concurrency" in data["services"]
 
+
+
+def test_health_reflects_lifespan_listeners():
+    """main.py lifespan'in açtığı gerçek dinleyiciler 'stopped' yerine 'alive' olarak yansır."""
+    server = UnifiedServer()
+    assert server.get_health_status()["status"] == "stopped"
+    assert server.get_health_status()["uptime_seconds"] is None
+
+    server.set_lifespan_listener("audiosocket_tcp", True)
+    health = server.get_health_status()
+    assert health["status"] == "alive"
+    assert health["services"]["audiosocket_tcp"]["running"] is True
+    assert health["services"]["chan_websocket"]["running"] is False
+
+    server.set_lifespan_listener("audiosocket_tcp", False)
+    assert server.get_health_status()["status"] == "stopped"

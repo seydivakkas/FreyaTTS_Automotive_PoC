@@ -102,8 +102,9 @@ def parse_technician_dictation(text: str) -> dict[str, Any]:
                 "interior_electronics": {},
             },
             "extracted_entities": [],
-            "calculated_score": 100,
-            "generated_summary": "Ekspertiz incelemesinde herhangi bir olumsuz bulgu dikte edilmedi.",
+            # Hiçbir şey dikte edilmedi: rapor "temiz" DEĞİL, değerlendirilmedi → puan None
+            "calculated_score": None,
+            "generated_summary": "Dikte edilmiş bulgu yok; ekspertiz değerlendirilmedi.",
             "confidence_score": 0.0,
         }
 
@@ -236,14 +237,7 @@ def parse_technician_dictation(text: str) -> dict[str, Any]:
                 "raw": "Turbo arızalı / ötme var",
             })
         else:
-            engine_mechanical["turbo_durumu"] = "Basınç ve çalışma normal"
-            entities.append({
-                "category": "engine_mechanical",
-                "part": "Turbo Kompresör",
-                "state": "Normal",
-                "detail": "Basınç ve çalışma normal",
-                "raw": "Turbo normal",
-            })
+            engine_mechanical["turbo_durumu"] = "Belirtilmedi (yalnızca anıldı)"
 
     # Şanzıman / Vites
     if re.search(r"\b(?:[sş]anz[ıi]man[a-zçğıöşü]*|vites[a-zçğıöşü]*|dsg|edc|cvt)\b", norm_text):
@@ -266,14 +260,7 @@ def parse_technician_dictation(text: str) -> dict[str, Any]:
                 "raw": "Şanzımanda vuruntu/sertlik var",
             })
         else:
-            engine_mechanical["sanziman_vites"] = "Kusursuz / Vuruntu yok"
-            entities.append({
-                "category": "engine_mechanical",
-                "part": "Şanzıman / Vites",
-                "state": "Kusursuz",
-                "detail": "Kusursuz / Vuruntu yok",
-                "raw": "Şanzıman iyi",
-            })
+            engine_mechanical["sanziman_vites"] = "Belirtilmedi (yalnızca anıldı)"
 
     # Yağ / Sıvı Kaçakları
     if re.search(r"\b(?:ya[gğ]|antifriz|s[ıi]v[ıi]|karter)\s*(?:ve\s*s[ıi]v[ıi]\s*)?ka[cç]a[gğ][ıi]\b|\bs[ıi]z[ıi]nt[ıi]\b|\bterleme\b", norm_text):
@@ -308,7 +295,7 @@ def parse_technician_dictation(text: str) -> dict[str, Any]:
                 "raw": "Enjektör dengesiz",
             })
         else:
-            engine_mechanical["enjektor_yakit"] = "Püskürtme ve basınç normal"
+            engine_mechanical["enjektor_yakit"] = "Belirtilmedi (yalnızca anıldı)"
 
     # Egzoz / Emisyon
     if re.search(r"\b(?:egzoz|emisyon|partik[uü]l|dpf)\b", norm_text):
@@ -322,7 +309,7 @@ def parse_technician_dictation(text: str) -> dict[str, Any]:
                 "raw": "Egzozda duman / partikül problemi",
             })
         else:
-            engine_mechanical["egzoz_emisyon"] = "Duman ve partikül normal"
+            engine_mechanical["egzoz_emisyon"] = "Belirtilmedi (yalnızca anıldı)"
 
     # 3. Chassis & Frame
     # Podyeler & Şasi & Kuleler
@@ -358,7 +345,7 @@ def parse_technician_dictation(text: str) -> dict[str, Any]:
                 "raw": "Travers / alt takımda boşluk var",
             })
         else:
-            chassis_frame["on_arka_travers"] = "Deformasyon yok / Düzgün"
+            chassis_frame["on_arka_travers"] = "Belirtilmedi (yalnızca anıldı)"
 
     # Marşpiyeller
     if re.search(r"\b(?:mar[sş]piyel(?:ler)?|taban\s*sac[ıi])\b", norm_text):
@@ -372,7 +359,7 @@ def parse_technician_dictation(text: str) -> dict[str, Any]:
                 "raw": "Marşpiyelde ezik var",
             })
         else:
-            chassis_frame["marspiyeller"] = "Kaynak / Darbe yok"
+            chassis_frame["marspiyeller"] = "Belirtilmedi (yalnızca anıldı)"
 
     # Fren disk & balata
     if re.search(r"\b(?:fren(?:ler)?|disk(?:ler)?|balata(?:lar)?)\b", norm_text):
@@ -386,7 +373,7 @@ def parse_technician_dictation(text: str) -> dict[str, Any]:
                 "raw": "Fren balataları aşınmış",
             })
         else:
-            chassis_frame["fren_disk_balata"] = "İyi durumda (%80)"
+            chassis_frame["fren_disk_balata"] = "Belirtilmedi (yalnızca anıldı)"
 
     # 4. Tires & Wheels
     # Diş derinliği
@@ -428,7 +415,7 @@ def parse_technician_dictation(text: str) -> dict[str, Any]:
                 "raw": "Jantta kaldırım izi / eğrilik",
             })
         else:
-            tires_wheels["jant_durumu"] = "Düzgün / Balans Başarılı"
+            tires_wheels["jant_durumu"] = "Belirtilmedi (yalnızca anıldı)"
 
     # 5. Interior & Electronics
     # Airbag
@@ -485,7 +472,7 @@ def parse_technician_dictation(text: str) -> dict[str, Any]:
                 "raw": "Klima soğutmuyor",
             })
         else:
-            interior_electronics["klima_isitma"] = "Klima aktif ve soğutuyor"
+            interior_electronics["klima_isitma"] = "Belirtilmedi (yalnızca anıldı)"
 
     # Koltuk / Döşeme
     if re.search(r"\b(?:koltuk(?:lar)?|dö[sş]eme|iç\s*mekan)\b", norm_text):
@@ -499,7 +486,7 @@ def parse_technician_dictation(text: str) -> dict[str, Any]:
                 "raw": "Koltukta yanık / yırtık",
             })
         else:
-            interior_electronics["koltuk_doseme"] = "Temiz ve lekesiz"
+            interior_electronics["koltuk_doseme"] = "Belirtilmedi (yalnızca anıldı)"
 
     # Paint notes summary if any micron remarks mentioned
     micron_notes = []
@@ -553,6 +540,11 @@ def parse_technician_dictation(text: str) -> dict[str, Any]:
             pass
 
     score = max(10, min(100, score))
+    # Hiçbir bulgu ayrıştırılamadıysa 100 puan uydurulmaz
+    has_findings = any(
+        (paint_body, engine_mechanical, chassis_frame, tires_wheels, interior_electronics)
+    )
+    final_score = score if has_findings else None
 
     # 7. Generate Cohesive Technical Summary
     summary_sentences = []
@@ -611,7 +603,7 @@ def parse_technician_dictation(text: str) -> dict[str, Any]:
             "interior_electronics": interior_electronics,
         },
         "extracted_entities": entities,
-        "calculated_score": score,
+        "calculated_score": final_score,
         "generated_summary": generated_summary,
         "confidence_score": confidence,
     }

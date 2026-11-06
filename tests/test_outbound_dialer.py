@@ -226,6 +226,7 @@ async def test_originate_call_ami(sample_appointment):
     dialer = OutboundCampaignDialer()
 
     mock_ami = AsyncMock()
+    mock_ami.is_real = True  # gerçek AMI davranışı: in-progress
     mock_ami.originate.return_value = {"response": "Success", "action_id": "ami-act-999"}
 
     with patch("backend.outbound_dialer.get_ami_client", return_value=mock_ami):
@@ -249,6 +250,25 @@ async def test_originate_call_ami(sample_appointment):
             assert "34 AMD" in vars_sent["VEHICLE_PLATE"]
             assert vars_sent["VEHICLE_PRICE"] == "1.450.000 TL"
             assert vars_sent["CALL_TYPE"] == "pricing_update"
+
+
+@pytest.mark.asyncio
+async def test_originate_call_ami_mock_is_simulated(sample_appointment):
+    """Mock AMI altında durum 'in-progress' DEĞİL 'simulated' olmalı; gerçek sayaç artmaz."""
+    dialer = OutboundCampaignDialer()
+    mock_ami = AsyncMock()
+    mock_ami.is_real = False
+    mock_ami.originate.return_value = {"response": "Success", "action_id": "mock-1"}
+
+    with patch("backend.outbound_dialer.get_ami_client", return_value=mock_ami):
+        with Session() as db:
+            call_rec = await dialer.originate_call_ami(
+                db, appointment_id=sample_appointment, call_type="reminder"
+            )
+            assert call_rec.status == "simulated"
+    m = dialer.get_metrics()
+    assert m["total_originated_ami"] == 0
+    assert m["total_simulated_ami"] == 1
 
 
 def test_originate_call_file(sample_appointment, tmp_path: Path):

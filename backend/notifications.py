@@ -109,7 +109,8 @@ def queue_appointment_notifications(
     ref_code = appointment.id[:8].upper()
 
     # 1. Musteri SMS Onay Metni (Adres ve Google Maps Konum Pini Dahil)
-    cust_target = customer_phone.strip() or appointment.customer
+    # Gerçek telefon yoksa SMS kuyruğa alınmaz: müşteri ADI alıcı olarak kullanılamaz.
+    cust_target = (customer_phone or "").strip()
     cust_msg = (
         f"Sayın {appointment.customer}, {vehicle_name}{plate_info} aracınız için "
         f"{formatted_time} tarihindeki ekspertiz randevunuz onaylanmıştır. "
@@ -118,21 +119,31 @@ def queue_appointment_notifications(
         f"📍 Konum / Harita: {settings.branch_maps_url} . "
         f"İptal ve saat değişikliği için bu mesaja yanıt verebilirsiniz."
     )
-    cust_notif = NotificationOutbox(
-        appointment_id=appointment.id,
-        recipient_type="customer",
-        recipient=cust_target,
-        channel="sms",
-        message=cust_msg,
-        status="pending",
-        idempotency_key=f"notif-cust-{appointment.id}",
-    )
-    db.add(cust_notif)
-    notifications.append(cust_notif)
+    if not cust_target:
+        logger.warning(
+            "Müşteri telefonu yok, randevu SMS'i kuyruğa alınmadı (alıcı olarak ad kullanılmaz): appointment_id=%s",
+            appointment.id,
+        )
+    else:
+        cust_notif = NotificationOutbox(
+            appointment_id=appointment.id,
+            recipient_type="customer",
+            recipient=cust_target,
+            channel="sms",
+            message=cust_msg,
+            status="pending",
+            idempotency_key=f"notif-cust-{appointment.id}",
+        )
+        db.add(cust_notif)
+        notifications.append(cust_notif)
 
     # 2. Kurumsal Cari Hesap (Galeri) WhatsApp / SMS Bildirimi
-    if account:
-        corp_target = account.phone.strip() or account.name
+    corp_target = (account.phone or "").strip() if account else ""
+    if account and not corp_target:
+        logger.warning(
+            "Cari hesabın telefonu yok, WhatsApp bildirimi kuyruğa alınmadı: account_id=%s", account.id
+        )
+    if account and corp_target:
         billed_tl = appointment.billed_amount_kurus // 100
         balance_tl = account.balance_kurus // 100
         corp_msg = (

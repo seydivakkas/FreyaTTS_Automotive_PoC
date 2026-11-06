@@ -23,7 +23,7 @@ type ParsedResult = {
     interior_electronics: Record<string, string>;
   };
   extracted_entities: EntityItem[];
-  calculated_score: number;
+  calculated_score: number | null; // null = bulgu yok, puan hesaplanamadı
   generated_summary: string;
   confidence_score: number;
   report?: any;
@@ -254,7 +254,8 @@ export function TechnicianDictationPanel({ api }: Props) {
     return { label: "AĞIR HASARLI / RİSKLİ (D)", color: "#DC2626" };
   }
 
-  const scoreBadge = parsedData ? getScoreBadge(parsedData.calculated_score) : null;
+  const scoreBadge =
+    parsedData && parsedData.calculated_score !== null ? getScoreBadge(parsedData.calculated_score) : null;
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
@@ -458,8 +459,12 @@ export function TechnicianDictationPanel({ api }: Props) {
                   textAlign: "center",
                 }}
               >
-                <div style={{ fontSize: "22px" }}>{parsedData.calculated_score} / 100</div>
-                <div style={{ fontSize: "11px", letterSpacing: "0.5px" }}>{scoreBadge?.label}</div>
+                <div style={{ fontSize: "22px" }}>
+                  {parsedData.calculated_score !== null ? `${parsedData.calculated_score} / 100` : "—"}
+                </div>
+                <div style={{ fontSize: "11px", letterSpacing: "0.5px" }}>
+                  {scoreBadge?.label ?? "PUAN HESAPLANAMADI"}
+                </div>
               </div>
 
               <div>
