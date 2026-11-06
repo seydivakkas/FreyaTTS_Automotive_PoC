@@ -27,7 +27,7 @@ import time
 from unittest.mock import AsyncMock, MagicMock
 import pytest
 
-from backend.five_cuts_bargein_controller import (
+from experimental.five_cuts_bargein_controller import (
     SAMPLE_RATE_8K,
     FRAME_SIZE_8K_BYTES,
     PRE_ONSET_FRAMES_COUNT,
@@ -47,11 +47,6 @@ from backend.five_cuts_bargein_controller import (
     EVENT_MEDIA_XOFF,
     EVENT_MEDIA_XON,
     EVENT_MEDIA_FLUSHED,
-)
-from src.five_cuts_bargein_controller import (
-    FiveCutsBargeInController as SrcFiveCutsController,
-    AsteriskMediaBridge as SrcAsteriskBridge,
-    PreOnsetRingBuffer as SrcRingBuffer,
 )
 
 
@@ -314,11 +309,3 @@ async def test_five_cuts_voice_activity_evaluation():
     is_cut2 = await controller.evaluate_voice_activity(duration_ms=500.0, energy_rms=0.12, transcript="dur bir saniye")
     assert is_cut2 is True
     assert controller.state == CallState.INTERRUPTION_CANDIDATE
-
-
-def test_src_module_reexport():
-    """src.five_cuts_bargein_controller re-export uyumluluğunu test eder."""
-    assert SrcFiveCutsController is FiveCutsBargeInController
-    assert SrcAsteriskBridge is AsteriskMediaBridge
-    assert SrcRingBuffer is PreOnsetRingBuffer
-

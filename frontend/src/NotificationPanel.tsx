@@ -5,7 +5,7 @@
  */
 
 import { useEffect, useState, useMemo } from "react";
-import { RawApiFn } from "./ui";
+import { RawApiFn, errorMessage } from "./ui";
 
 export type NotificationItem = {
   id: string;
@@ -38,10 +38,7 @@ export type WhatsAppInboundItem = {
   created_at: string;
 };
 
-type Props = {
-  api: (path: string, method?: string, body?: unknown) => Promise<any>;
-  rawApi: RawApiFn;
-};
+import type { Props } from "./api";
 
 export function NotificationPanel({ api, rawApi }: Props) {
   const [activeTab, setActiveTab] = useState<"inbound" | "outbox">("inbound");
@@ -68,8 +65,8 @@ export function NotificationPanel({ api, rawApi }: Props) {
     setLoading(true);
     try {
       await fn();
-    } catch (e: any) {
-      setError(e?.message || String(e));
+    } catch (e) {
+      setError(errorMessage(e));
     } finally {
       setLoading(false);
     }
@@ -132,8 +129,8 @@ export function NotificationPanel({ api, rawApi }: Props) {
         }${cancelInfo}. Otomatik yanıt outbox'a eklendi.`
       );
       await refresh();
-    } catch (e: any) {
-      setError(e?.message || String(e));
+    } catch (e) {
+      setError(errorMessage(e));
     } finally {
       setSimulating(false);
     }
@@ -156,8 +153,8 @@ export function NotificationPanel({ api, rawApi }: Props) {
       );
       setSimVoiceFile(null);
       await refresh();
-    } catch (e: any) {
-      setError(e?.message || String(e));
+    } catch (e) {
+      setError(errorMessage(e));
     } finally {
       setSimulating(false);
     }

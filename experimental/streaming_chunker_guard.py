@@ -33,7 +33,7 @@ from typing import Any, AsyncGenerator, Dict, List, Optional, Set, Tuple, Union
 
 from backend.morphology.lexicon import load_freya_vocab
 from backend.morphology.text_utils import normalize_apostrophes, tr_lower
-from backend.normalizer import normalize_text_for_tts
+from experimental.normalizer import normalize_text_for_tts
 
 logger = logging.getLogger("streaming_chunker_guard")
 

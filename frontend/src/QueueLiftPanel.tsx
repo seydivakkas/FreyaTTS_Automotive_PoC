@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { errorMessage } from "./ui";
 
-type Props = {
-  api: (path: string, method?: string, body?: unknown) => Promise<any>;
-};
+import type { ApiProps as Props } from "./api";
 
 type LiftItem = {
   id: string;
@@ -100,8 +99,8 @@ export function QueueLiftPanel({ api }: Props) {
       setCapacity(cap);
       setPackages(pkgs || []);
       setLoadError("");
-    } catch (e: any) {
-      setLoadError("Lift ve sıra verileri alınamadı: " + (e?.message || String(e)));
+    } catch (e) {
+      setLoadError("Lift ve sıra verileri alınamadı: " + errorMessage(e));
     }
   }
 
@@ -126,8 +125,8 @@ export function QueueLiftPanel({ api }: Props) {
       setSuccessMsg(
         `Araç sıraya eklendi! Sıra No: #${created.queue_number} (${created.plate})`
       );
-    } catch (e: any) {
-      setError("Sıraya alma hatası: " + e.message);
+    } catch (e) {
+      setError("Sıraya alma hatası: " + errorMessage(e));
     } finally {
       setLoading(false);
     }
@@ -154,8 +153,8 @@ export function QueueLiftPanel({ api }: Props) {
       setShowAddLift(false);
       await loadData();
       setSuccessMsg("Yeni muayene lifti başarıyla oluşturuldu.");
-    } catch (e: any) {
-      setError("Lift oluşturma hatası: " + e.message);
+    } catch (e) {
+      setError("Lift oluşturma hatası: " + errorMessage(e));
     } finally {
       setLoading(false);
     }
@@ -175,8 +174,8 @@ export function QueueLiftPanel({ api }: Props) {
       } else {
         setSuccessMsg("Sırada bekleyen araç bulunmuyor.");
       }
-    } catch (e: any) {
-      setError("Lifte alma hatası: " + e.message);
+    } catch (e) {
+      setError("Lifte alma hatası: " + errorMessage(e));
     } finally {
       setLoading(false);
     }
@@ -190,8 +189,8 @@ export function QueueLiftPanel({ api }: Props) {
       await api(`lifts/${liftId}/release`, "POST");
       await loadData();
       setSuccessMsg("Araç liftten çıkarıldı ve lift boş (müsait) duruma getirildi.");
-    } catch (e: any) {
-      setError("Lift boşaltma hatası: " + e.message);
+    } catch (e) {
+      setError("Lift boşaltma hatası: " + errorMessage(e));
     } finally {
       setLoading(false);
     }
@@ -213,8 +212,8 @@ export function QueueLiftPanel({ api }: Props) {
           ? `${lift.name} bakıma alındı.`
           : `${lift.name} bakımdan çıkarıldı ve hizmete hazır.`
       );
-    } catch (e: any) {
-      setError("Durum güncelleme hatası: " + e.message);
+    } catch (e) {
+      setError("Durum güncelleme hatası: " + errorMessage(e));
     } finally {
       setLoading(false);
     }
@@ -238,8 +237,8 @@ export function QueueLiftPanel({ api }: Props) {
       setAssignPlate("");
       await loadData();
       setSuccessMsg("Araç başarıyla lifte atandı ve işlem başlatıldı.");
-    } catch (e: any) {
-      setError("Lifte atama hatası: " + e.message);
+    } catch (e) {
+      setError("Lifte atama hatası: " + errorMessage(e));
     } finally {
       setLoading(false);
     }
@@ -253,8 +252,8 @@ export function QueueLiftPanel({ api }: Props) {
       await api(`queue/${qId}/cancel`, "POST");
       await loadData();
       setSuccessMsg("Sıra kaydı iptal edildi.");
-    } catch (e: any) {
-      setError("İptal hatası: " + e.message);
+    } catch (e) {
+      setError("İptal hatası: " + errorMessage(e));
     } finally {
       setLoading(false);
     }

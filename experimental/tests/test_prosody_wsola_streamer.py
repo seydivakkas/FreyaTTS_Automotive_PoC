@@ -25,7 +25,7 @@ import time
 import numpy as np
 import pytest
 
-from backend.prosody_wsola_streamer import (
+from experimental.prosody_wsola_streamer import (
     LEYLA_SEED,
     DEFAULT_SAMPLE_RATE,
     DEFAULT_MIN_DURATION_SEC,
@@ -41,11 +41,6 @@ from backend.prosody_wsola_streamer import (
     ModelHashAndSeedGuard,
     OverlappingClauseStreamer,
     prosody_wsola_streamer,
-)
-from src.prosody_wsola_streamer import (
-    WSOLATimeStretch as SrcWSOLA,
-    OverlappingClauseStreamer as SrcStreamer,
-    LEYLA_SEED as SRC_LEYLA_SEED,
 )
 
 
@@ -233,7 +228,6 @@ def test_model_hash_and_seed_guard(tmp_path):
     """Seed kilidini ve SHA-256 bütünlük kontrolünü test eder."""
     assert ModelHashAndSeedGuard.get_canonical_seed() == 9
     assert LEYLA_SEED == 9
-    assert SRC_LEYLA_SEED == 9
 
     # Kontrollü perturbasyon testi
     seed0 = ModelHashAndSeedGuard.get_conditioned_noise_seed(attempt=0)
@@ -345,4 +339,3 @@ async def test_overlapping_clause_streamer_voicing_retry():
     assert attempts == 2  # İlk denemede başarısız olup 2. denemede telafi etti
     assert streamer.total_retries_prevented >= 1
     assert results[0].audio_stretched is not None
-

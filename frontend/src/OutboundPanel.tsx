@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
+import { errorMessage } from "./ui";
 
 export type OutboundCallItem = {
   id: string;
@@ -15,9 +16,7 @@ export type OutboundCallItem = {
   completed_at: string | null;
 };
 
-type Props = {
-  api: (path: string, method?: string, body?: unknown) => Promise<any>;
-};
+import type { ApiProps as Props } from "./api";
 
 export function OutboundPanel({ api }: Props) {
   const [calls, setCalls] = useState<OutboundCallItem[]>([]);
@@ -43,8 +42,8 @@ export function OutboundPanel({ api }: Props) {
     setLoading(true);
     try {
       await fn();
-    } catch (e: any) {
-      setError(e?.message || String(e));
+    } catch (e) {
+      setError(errorMessage(e));
     } finally {
       setLoading(false);
     }

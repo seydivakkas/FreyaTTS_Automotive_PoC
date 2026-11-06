@@ -35,7 +35,7 @@ from typing import Any, Awaitable, Callable, Coroutine, Dict, List, Optional, Se
 import numpy as np
 
 from backend.dsp import apply_telephony_eq_and_downsample_8k
-from backend.prosody_wsola_streamer import prosody_wsola_streamer
+from experimental.prosody_wsola_streamer import prosody_wsola_streamer
 
 logger = logging.getLogger("five_cuts_bargein_controller")
 

@@ -28,11 +28,9 @@ type VehicleItem = {
   vin?: string;
 };
 
-import { ApiFn } from "./ui";
+import { ApiFn, errorMessage } from "./ui";
 
-type Props = {
-  api: ApiFn;
-};
+import type { ApiProps as Props } from "./api";
 
 export function DiagnosticPanel({ api }: Props) {
   const [diagnostics, setDiagnostics] = useState<VehicleDiagnosticItem[]>([]);
@@ -63,8 +61,8 @@ export function DiagnosticPanel({ api }: Props) {
     setLoading(true);
     try {
       await fn();
-    } catch (e: any) {
-      setError(e?.message || String(e));
+    } catch (e) {
+      setError(errorMessage(e));
     } finally {
       setLoading(false);
     }

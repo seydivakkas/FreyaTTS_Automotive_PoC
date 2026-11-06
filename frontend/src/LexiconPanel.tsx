@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
+import { errorMessage } from "./ui";
 
 export type LexiconEntry = {
   term: string;
@@ -8,9 +9,7 @@ export type LexiconEntry = {
   is_override: boolean;
 };
 
-type Props = {
-  api: (path: string, method?: string, body?: unknown) => Promise<any>;
-};
+import type { ApiProps as Props } from "./api";
 
 export function LexiconPanel({ api }: Props) {
   const [entries, setEntries] = useState<LexiconEntry[]>([]);
@@ -42,8 +41,8 @@ export function LexiconPanel({ api }: Props) {
     setLoading(true);
     try {
       await fn();
-    } catch (e: any) {
-      setError(e?.message || String(e));
+    } catch (e) {
+      setError(errorMessage(e));
     } finally {
       setLoading(false);
     }
@@ -141,8 +140,8 @@ export function LexiconPanel({ api }: Props) {
     try {
       const res = await api("normalize", "POST", { text: testText.trim() });
       setNormalizedResult(res.normalized);
-    } catch (e: any) {
-      setError(e?.message || String(e));
+    } catch (e) {
+      setError(errorMessage(e));
     } finally {
       setTesting(false);
     }

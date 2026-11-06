@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import { ApiFn, useEscape } from "./ui";
+import { ApiFn, useEscape, errorMessage } from "./ui";
 
 export type InspectionReportItem = {
   id: string;
@@ -41,9 +41,7 @@ type PhotoItem = {
   category: string;
 };
 
-type Props = {
-  api: ApiFn;
-};
+import type { ApiProps as Props } from "./api";
 
 // Yalnızca "Örnek doldur" düğmesiyle kullanılan örnek bulgular; form boş başlar.
 const SAMPLE_FINDINGS = {
@@ -140,8 +138,8 @@ export function InspectionPanel({ api }: Props) {
     try {
       const { url } = await api("inspections/" + id + "/signed-link");
       window.open(url, "_blank", "noopener");
-    } catch (e: any) {
-      setError("PDF bağlantısı alınamadı: " + (e?.message || String(e)));
+    } catch (e) {
+      setError("PDF bağlantısı alınamadı: " + errorMessage(e));
     }
   }
 
@@ -162,8 +160,8 @@ export function InspectionPanel({ api }: Props) {
     setLoading(true);
     try {
       await fn();
-    } catch (e: any) {
-      setError(e?.message || String(e));
+    } catch (e) {
+      setError(errorMessage(e));
     } finally {
       setLoading(false);
     }

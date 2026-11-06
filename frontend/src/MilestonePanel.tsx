@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-type Props = {
-  api: (path: string, method?: string, body?: unknown) => Promise<any>;
-};
+import type { ApiProps as Props } from "./api";
 export function MilestonePanel({ api }: Props) {
   const [overview, setOverview] = useState<any>(null),
     [items, setItems] = useState<any[]>([]),

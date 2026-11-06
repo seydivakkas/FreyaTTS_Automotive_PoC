@@ -66,3 +66,11 @@ export function formatMetrics(raw: unknown): string {
   }
   return parts.join(" · ");
 }
+
+/** `catch (e)` bloklarında güvenli hata iletisi. */
+export function errorMessage(e: unknown): string {
+  return e instanceof Error ? e.message : String(e);
+}
+
+export const formatDate = (s: string) =>
+  new Date(s).toLocaleString("tr-TR", { timeZone: "Europe/Istanbul" });

@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 
-import { ApiFn } from "./ui";
+import { ApiFn, errorMessage } from "./ui";
 
-type Props = {
-  api: ApiFn;
-};
+import type { ApiProps as Props } from "./api";
 
 type EntityItem = {
   category: string;
@@ -86,8 +84,8 @@ export function TechnicianDictationPanel({ api }: Props) {
       if (vList && vList.length > 0 && !selectedVehicleId) {
         setSelectedVehicleId(vList[0].id);
       }
-    } catch (e: any) {
-      setError("Veriler yüklenirken hata oluştu: " + e.message);
+    } catch (e) {
+      setError("Veriler yüklenirken hata oluştu: " + errorMessage(e));
     }
   }
 
@@ -167,8 +165,8 @@ export function TechnicianDictationPanel({ api }: Props) {
       });
       setParsedData(res);
       setSuccessMsg("Dikte başarıyla ayrıştırıldı. Aşağıdaki bulguları inceleyebilirsiniz.");
-    } catch (e: any) {
-      setError("Ayrıştırma hatası: " + e.message);
+    } catch (e) {
+      setError("Ayrıştırma hatası: " + errorMessage(e));
     } finally {
       setIsProcessing(false);
     }
@@ -202,8 +200,8 @@ export function TechnicianDictationPanel({ api }: Props) {
           ? `Bulgular başarıyla kaydedildi! Rapor ID: ${res.report.id} (${res.report.score}/100 Puan)`
           : "Bulgular başarıyla işlendi."
       );
-    } catch (e: any) {
-      setError("Rapora aktarım hatası: " + e.message);
+    } catch (e) {
+      setError("Rapora aktarım hatası: " + errorMessage(e));
     } finally {
       setIsProcessing(false);
     }
@@ -485,8 +483,8 @@ export function TechnicianDictationPanel({ api }: Props) {
                     try {
                       const { url } = await api("inspections/" + parsedData.report.id + "/signed-link");
                       window.open(url, "_blank", "noopener");
-                    } catch (e: any) {
-                      setError("PDF bağlantısı alınamadı: " + (e?.message || String(e)));
+                    } catch (e) {
+                      setError("PDF bağlantısı alınamadı: " + errorMessage(e));
                     }
                   }}
                   style={{

@@ -24,9 +24,9 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from backend.asr_mapper import ASRMapper, canonicalize_asr_text
+from experimental.asr_mapper import ASRMapper, canonicalize_asr_text
 from backend.morphology.lexicon import load_freya_vocab
-from backend.normalizer import (
+from experimental.normalizer import (
     AutomotiveTTSNormalizer,
     normalize_text_for_tts,
     int_to_turkish,

@@ -29,7 +29,7 @@ import re
 from typing import Any, Dict, List, Optional, Tuple
 
 from backend.morphology.text_utils import tr_lower, normalize_apostrophes
-from backend.normalizer import normalize_text_for_tts
+from experimental.normalizer import normalize_text_for_tts
 
 logger = logging.getLogger("asr_mapper")
 

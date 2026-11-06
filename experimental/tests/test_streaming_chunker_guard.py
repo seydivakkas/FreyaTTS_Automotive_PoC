@@ -23,19 +23,14 @@ YAZARIN AÇIK YAZILI İZNİ OLMAKSIZIN HİÇBİR KULLANIM HAKKI TANINMAZ.
 import asyncio
 import pytest
 
-from backend.normalizer import normalize_text_for_tts
-from backend.streaming_chunker_guard import (
+from experimental.normalizer import normalize_text_for_tts
+from experimental.streaming_chunker_guard import (
     TelephonyStreamSanitizer,
     AtomicTokenStreamingChunker,
     AntiDoubleNormalizationGuard,
     stream_sanitizer,
     atomic_chunker,
     anti_double_guard,
-)
-from src.streaming_chunker_guard import (
-    TelephonyStreamSanitizer as SrcSanitizer,
-    AtomicTokenStreamingChunker as SrcChunker,
-    AntiDoubleNormalizationGuard as SrcGuard,
 )
 
 
@@ -272,11 +267,3 @@ def test_200_automotive_sentences_guard_regression():
         # 2. Çifte normalizasyon güvenliği (ham rakam kalmamış olmalı)
         is_safe, issues = guard.is_double_normalization_safe(spoken)
         assert is_safe is True, f"Güvenlik ihlali: {issues} (Cümle: {spoken})"
-
-
-def test_src_reexport():
-    """src.streaming_chunker_guard re-export uyumluluğunu test eder."""
-    assert SrcSanitizer is TelephonyStreamSanitizer
-    assert SrcChunker is AtomicTokenStreamingChunker
-    assert SrcGuard is AntiDoubleNormalizationGuard
-

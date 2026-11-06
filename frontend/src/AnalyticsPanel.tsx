@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import { formatMetrics, useEscape } from "./ui";
+import { formatMetrics, useEscape, errorMessage } from "./ui";
 
 // Ölçüm yoksa API null döner; ekranda 0 yerine "—" gösterilir.
 type Measured = number | null;
@@ -83,9 +83,7 @@ type TurnItem = {
   created_at: string;
 };
 
-type Props = {
-  api: (path: string, method?: string, body?: unknown) => Promise<any>;
-};
+import type { ApiProps as Props } from "./api";
 
 export function AnalyticsPanel({ api }: Props) {
   const [activeTab, setActiveTab] = useState<"dashboard" | "follow_ups">("dashboard");
@@ -113,8 +111,8 @@ export function AnalyticsPanel({ api }: Props) {
     setLoading(true);
     try {
       await fn();
-    } catch (e: any) {
-      setError(e?.message || String(e));
+    } catch (e) {
+      setError(errorMessage(e));
     } finally {
       setLoading(false);
     }
@@ -165,8 +163,8 @@ export function AnalyticsPanel({ api }: Props) {
     try {
       const turns = await api("conversations/" + id);
       setInspectTurns(Array.isArray(turns) ? turns : []);
-    } catch (e: any) {
-      setError("Tur detayları yüklenemedi: " + (e?.message || String(e)));
+    } catch (e) {
+      setError("Tur detayları yüklenemedi: " + errorMessage(e));
     } finally {
       setLoadingTurns(false);
     }

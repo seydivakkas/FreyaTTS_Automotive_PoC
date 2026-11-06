@@ -5,7 +5,7 @@
  */
 
 import { useState, useEffect } from "react";
-import { RawApiFn, dash } from "./ui";
+import { RawApiFn, dash, errorMessage } from "./ui";
 
 type DSPConfig = {
   enabled: boolean;
@@ -32,10 +32,7 @@ type DSPStats = {
   suppression_db: number;
 };
 
-type Props = {
-  api: (path: string, method?: string, body?: unknown) => Promise<any>;
-  rawApi: RawApiFn;
-};
+import type { Props } from "./api";
 
 export function CarDenoiserPanel({ api, rawApi }: Props) {
   const [config, setConfig] = useState<DSPConfig>({
@@ -70,8 +67,8 @@ export function CarDenoiserPanel({ api, rawApi }: Props) {
     try {
       const res = await api("dsp/config");
       setConfig(res);
-    } catch (e: any) {
-      setError("DSP konfigürasyonu alınamadı: " + (e?.message || String(e)));
+    } catch (e) {
+      setError("DSP konfigürasyonu alınamadı: " + errorMessage(e));
     } finally {
       setLoading(false);
     }
@@ -85,8 +82,8 @@ export function CarDenoiserPanel({ api, rawApi }: Props) {
       const res = await api("dsp/config", "POST", config);
       setConfig(res.config);
       setSuccess("DSP parametreleri başarıyla güncellendi.");
-    } catch (e: any) {
-      setError("Ayarlar kaydedilemedi: " + (e?.message || String(e)));
+    } catch (e) {
+      setError("Ayarlar kaydedilemedi: " + errorMessage(e));
     } finally {
       setSaving(false);
     }
@@ -121,8 +118,8 @@ export function CarDenoiserPanel({ api, rawApi }: Props) {
       const wavBlob = float32ToWavBlob(audioBuffer, fs);
       const file = new File([wavBlob], "synthetic_car_cabin.wav", { type: "audio/wav" });
       await processAudioFile(file);
-    } catch (e: any) {
-      setError("Test sesi oluşturulamadı: " + (e?.message || String(e)));
+    } catch (e) {
+      setError("Test sesi oluşturulamadı: " + errorMessage(e));
       setProcessingPreview(false);
     }
   }
@@ -151,8 +148,8 @@ export function CarDenoiserPanel({ api, rawApi }: Props) {
       setSuccess(
         `Ses ${config.hpf_cutoff} Hz HPF + -${config.suppression_db} dB spektral gürültü bastırma + ${config.target_dbfs} dBFS hedefli AGC ile işlendi.`,
       );
-    } catch (e: any) {
-      setError("DSP işleme hatası: " + (e?.message || String(e)));
+    } catch (e) {
+      setError("DSP işleme hatası: " + errorMessage(e));
     } finally {
       setProcessingPreview(false);
     }
