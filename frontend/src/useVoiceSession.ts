@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import type { VoiceMessage, VoiceMetrics } from "./api";
 import type { ApiFn } from "./ui";
+import {
+  PipelineTurnState,
+  PipelineTelemetryEvent,
+  createInitialTurnState,
+} from "./pipeline/types";
+import { DEMO_SCENARIOS } from "./pipeline/demoFixtures";
 
 function micError(e: unknown) {
   const n = (e as { name?: string } | null)?.name;
@@ -24,7 +30,17 @@ export function useVoiceSession(api: ApiFn, setError: (msg: string) => void) {
   const [messages, setMessages] = useState<VoiceMessage[]>([]),
     [status, setStatus] = useState("Hazır"),
     [connected, setConnected] = useState(false),
-    [metrics, setMetrics] = useState<VoiceMetrics | null>(null);
+    [metrics, setMetrics] = useState<VoiceMetrics | null>(null),
+    [calibrating, setCalibrating] = useState(false),
+    [calibrationInfo, setCalibrationInfo] = useState<{
+      ambient_dbfs?: number;
+      noise_gate_dbfs?: number;
+      suppression_db?: number;
+      message?: string;
+    } | null>(null),
+    [pipelineState, setPipelineState] = useState<PipelineTurnState>(() =>
+      createInitialTurnState(1, "", "live")
+    );
   const playback = useRef<AudioContext | null>(null);
   const sock = useRef<WebSocket | null>(null),
     ctx = useRef<AudioContext | null>(null),
@@ -130,9 +146,59 @@ export function useVoiceSession(api: ApiFn, setError: (msg: string) => void) {
       ws.onmessage = async (e) => {
         if (typeof e.data === "string") {
           const m = JSON.parse(e.data);
+          if (m.type === "calibration_start") {
+            setCalibrating(true);
+            setStatus("Gürültü Kalibre Ediliyor");
+          }
+          if (m.type === "calibration_done") {
+            setCalibrating(false);
+            setCalibrationInfo({
+              ambient_dbfs: m.ambient_dbfs,
+              noise_gate_dbfs: m.noise_gate_dbfs,
+              suppression_db: m.suppression_db,
+              message: m.message,
+            });
+            setStatus("Dinliyor");
+          }
           if (m.type === "completed") {
             stop();
             return;
+          }
+          if (m.type === "pipeline_event" && m.event) {
+            const ev = m.event as PipelineTelemetryEvent;
+            setPipelineState((prev) => {
+              const updatedStages = { ...prev.stages };
+              updatedStages[ev.stage] = {
+                stage: ev.stage,
+                status: ev.status,
+                durationMs:
+                  ev.duration_ms !== undefined
+                    ? ev.duration_ms
+                    : updatedStages[ev.stage]?.durationMs ?? null,
+                startedAt:
+                  ev.status === "running" ? Date.now() : updatedStages[ev.stage]?.startedAt ?? null,
+                completedAt:
+                  ev.status === "completed"
+                    ? Date.now()
+                    : updatedStages[ev.stage]?.completedAt ?? null,
+                metrics: { ...(updatedStages[ev.stage]?.metrics || {}), ...(ev.metrics || {}) },
+                intermediateData:
+                  ev.intermediate_data !== undefined
+                    ? ev.intermediate_data
+                    : updatedStages[ev.stage]?.intermediateData,
+                errorCode: ev.error_code,
+                errorMessage: ev.error_message,
+              };
+              return {
+                ...prev,
+                turnId: ev.turn_id,
+                sessionId: ev.session_id,
+                source: ev.source || "live",
+                activeStage: ev.status === "running" ? ev.stage : prev.activeStage,
+                stages: updatedStages,
+                traces: [ev, ...prev.traces.slice(0, 49)],
+              };
+            });
           }
           if (m.type === "transcript") {
             if (m.role === "user") setMetrics(null);
@@ -200,12 +266,84 @@ export function useVoiceSession(api: ApiFn, setError: (msg: string) => void) {
       sock.current.send(JSON.stringify({ type: "dtmf", digit }));
     }
   }
+  function recalibrate() {
+    if (sock.current && sock.current.readyState === WebSocket.OPEN) {
+      sock.current.send(JSON.stringify({ type: "recalibrate" }));
+    }
+  }
+  function runDemoScenario(scenarioId: string) {
+    const sc = DEMO_SCENARIOS.find((s) => s.id === scenarioId) || DEMO_SCENARIOS[0];
+    const initial = createInitialTurnState(sc.events[0]?.turn_id || 1, sc.events[0]?.session_id || "demo-sim", "demo");
+    initial.userText = sc.userSpeech;
+    initial.assistantText = sc.botReply;
+    setPipelineState(initial);
+    setStatus("Simülasyon Çalışıyor");
+
+    let delay = 50;
+    sc.events.forEach((ev, idx) => {
+      setTimeout(() => {
+        setPipelineState((prev) => {
+          const updatedStages = { ...prev.stages };
+          updatedStages[ev.stage] = {
+            stage: ev.stage,
+            status: ev.status,
+            durationMs: ev.duration_ms !== undefined ? ev.duration_ms : updatedStages[ev.stage]?.durationMs ?? null,
+            startedAt: ev.status === "running" ? Date.now() : updatedStages[ev.stage]?.startedAt ?? null,
+            completedAt: ev.status === "completed" ? Date.now() : updatedStages[ev.stage]?.completedAt ?? null,
+            metrics: { ...(updatedStages[ev.stage]?.metrics || {}), ...(ev.metrics || {}) },
+            intermediateData: ev.intermediate_data !== undefined ? ev.intermediate_data : updatedStages[ev.stage]?.intermediateData,
+            errorCode: ev.error_code,
+            errorMessage: ev.error_message,
+          };
+          return {
+            ...prev,
+            turnId: ev.turn_id,
+            sessionId: ev.session_id,
+            source: "demo",
+            activeStage: ev.status === "running" ? ev.stage : prev.activeStage,
+            stages: updatedStages,
+            traces: [
+              {
+                ...ev,
+                schema_version: "3.0",
+                event_id: `demo-ev-${idx}`,
+                timestamp: Date.now(),
+              },
+              ...prev.traces.slice(0, 49),
+            ],
+          };
+        });
+        if (idx === sc.events.length - 1) {
+          setStatus("Hazır");
+        }
+      }, delay);
+      delay += 140;
+    });
+  }
+
   /** Çıkışta: oturumu kapat ve görünür durumu başlangıca döndür. */
   function reset() {
     stop();
     setMessages([]);
     setMetrics(null);
+    setCalibrating(false);
+    setCalibrationInfo(null);
+    setPipelineState(createInitialTurnState(1, "", "live"));
     setStatus("Hazır");
   }
-  return { messages, status, connected, metrics, start, stop, sendDtmf, reset };
+  return {
+    messages,
+    status,
+    connected,
+    metrics,
+    calibrating,
+    calibrationInfo,
+    pipelineState,
+    runDemoScenario,
+    start,
+    stop,
+    sendDtmf,
+    recalibrate,
+    reset,
+  };
 }

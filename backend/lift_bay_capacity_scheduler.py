@@ -310,8 +310,8 @@ def find_free_bay_for_window(
             and_(
                 BaySchedule.bay_id == bay.id,
                 BaySchedule.status.in_(["scheduled", "in_progress"]),
-                BaySchedule.starts_at < end_iso,
-                BaySchedule.ends_at > start_iso,
+                func.julianday(BaySchedule.starts_at) < func.julianday(end_iso),
+                func.julianday(BaySchedule.ends_at) > func.julianday(start_iso),
             )
         )
         if exclude_schedule_id:
@@ -355,8 +355,8 @@ def find_free_technician_for_window(
             and_(
                 BaySchedule.technician_id == tech.id,
                 BaySchedule.status.in_(["scheduled", "in_progress"]),
-                BaySchedule.starts_at < end_iso,
-                BaySchedule.ends_at > start_iso,
+                func.julianday(BaySchedule.starts_at) < func.julianday(end_iso),
+                func.julianday(BaySchedule.ends_at) > func.julianday(start_iso),
             )
         )
         if exclude_schedule_id:
@@ -493,12 +493,14 @@ def check_multi_stage_bay_capacity(
     requested_start_iso: str,
     exclude_schedule_id: Optional[str] = None,
     lookahead_intervals: int = 16,  # 16 x 15 dk = 4 saat ileriye tarama
+    seed: bool = True,
 ) -> CapacityCheckResult:
     """
     Bir ekspertiz paketinin tüm alt istasyon aşamalarını sıralı olarak simüle eder.
     Çakışma varsa darboğazı tespit eder ve çakışmasız en erken alternatif zamanı bulur.
     """
-    seed_default_bays_and_technicians(db)
+    if seed:
+        seed_default_bays_and_technicians(db)
 
     stages_spec = PACKAGE_STAGE_ROUTING.get(
         package_type, PACKAGE_STAGE_ROUTING["standart_ekspertiz"]

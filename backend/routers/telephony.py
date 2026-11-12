@@ -48,6 +48,15 @@ from backend.transfer import (
 from backend.notifications import (
     dispatch_pending_notifications,
     retry_notification,
+    get_notification_provider,
+    can_send_real_notifications,
+    TwilioNotificationProvider,
+    scan_and_queue_appointment_reminders,
+    queue_cancellation_notification,
+)
+from backend.telephony import (
+    register_inbound_metadata,
+    get_inbound_metadata,
 )
 from backend.outbound import (
     initiate_outbound_call,
@@ -76,8 +85,10 @@ from backend.schemas import (
     CallAnalyticsIn,
     CallOutcomeIn,
     CampaignDialIn,
+    InboundMetadataIn,
     OutboundCallIn,
     SimulateBargeInIn,
+    TestNotificationIn,
     TransferAcceptIn,
     TransferDTMFIn,
     TransferDeclineIn,
@@ -130,6 +141,127 @@ def retry_single_notification(id: str):
         if not res:
             raise HTTPException(404, "Bildirim bulunamadı")
         return row(res)
+
+
+@router.get("/api/notifications/status", dependencies=[Depends(auth)])
+def notification_provider_status():
+    provider = get_notification_provider()
+    is_real = can_send_real_notifications()
+    provider_name = (
+        "twilio" if isinstance(provider, TwilioNotificationProvider) else "mock"
+    )
+    return {
+        "provider": provider_name,
+        "is_real": is_real,
+        "configured_provider": settings.notification_provider,
+        "twilio_configured": bool(
+            settings.twilio_account_sid and settings.twilio_auth_token
+        ),
+        "from_number": settings.twilio_from_number or "",
+        "whatsapp_from": settings.twilio_whatsapp_from or "",
+    }
+
+
+@router.post("/api/notifications/test-send", dependencies=[Depends(auth)])
+def test_send_notification(body: TestNotificationIn):
+    provider = get_notification_provider()
+    try:
+        receipt = provider.send(
+            channel=body.channel,
+            recipient=body.recipient,
+            message=body.message,
+        )
+        return {"success": True, "receipt": receipt}
+    except Exception as e:
+        raise HTTPException(400, f"Bildirim gönderilemedi: {e}")
+
+
+@router.post("/api/notifications/reminders/scan", dependencies=[Depends(auth)])
+def scan_appointment_reminders_endpoint(
+    hours_ahead_min: int = 20,
+    hours_ahead_max: int = 36,
+    trigger_voice_call: bool = False,
+):
+    """Randevusuna 24 saat kalan müşteriler için hatırlatma SMS/WhatsApp bildirimlerini tarar ve kuyruklar."""
+    with db_module.Session() as db:
+        reminders = scan_and_queue_appointment_reminders(
+            db,
+            hours_ahead_min=hours_ahead_min,
+            hours_ahead_max=hours_ahead_max,
+            trigger_voice_call=trigger_voice_call,
+        )
+        return {
+            "success": True,
+            "queued_count": len(reminders),
+            "reminders": [row(r) for r in reminders],
+        }
+
+
+@router.get("/api/notifications/reminders/pending", dependencies=[Depends(auth)])
+def list_pending_reminders_endpoint(
+    hours_ahead_min: int = 20,
+    hours_ahead_max: int = 36,
+):
+    """Zaman penceresi içindeki randevuları ve hatırlatma durumlarını listeler."""
+    from datetime import datetime, timezone, timedelta
+    from backend.db import Appointment, Slot, Vehicle
+
+    now_utc = datetime.now(timezone.utc)
+    min_time = now_utc + timedelta(hours=hours_ahead_min)
+    max_time = now_utc + timedelta(hours=hours_ahead_max)
+
+    with db_module.Session() as db:
+        appointments = (
+            db.scalars(
+                select(Appointment)
+                .where(Appointment.status.in_(["confirmed", "pending"]))
+                .order_by(Appointment.created_at.desc())
+            )
+            .all()
+        )
+        results = []
+        for app in appointments:
+            if not app.slot_id:
+                continue
+            slot = db.get(Slot, app.slot_id)
+            if not slot or not slot.starts_at:
+                continue
+            try:
+                slot_dt = datetime.fromisoformat(slot.starts_at)
+                if slot_dt.tzinfo is None:
+                    slot_dt = slot_dt.replace(tzinfo=timezone.utc)
+            except Exception:
+                continue
+
+            if min_time <= slot_dt <= max_time:
+                v = db.get(Vehicle, app.vehicle_id) if app.vehicle_id else None
+                key = f"notif-reminder-{app.id}"
+                notif = db.scalars(
+                    select(NotificationOutbox).where(NotificationOutbox.idempotency_key == key)
+                ).first()
+                results.append({
+                    "appointment_id": app.id,
+                    "customer": app.customer,
+                    "customer_phone": app.customer_phone or "",
+                    "vehicle": v.description if v else "",
+                    "starts_at": slot.starts_at,
+                    "reminder_queued": bool(notif),
+                    "reminder_status": notif.status if notif else "not_queued",
+                })
+        return results
+
+
+
+@router.post("/api/telephony/inbound-metadata")
+def record_inbound_metadata_endpoint(body: InboundMetadataIn):
+    """Asterisk dialplan (CURL / FastAGI) tarafından gelen çağrı üstverisini kaydeder."""
+    meta = register_inbound_metadata(
+        call_uuid=body.call_uuid,
+        caller_id=body.caller_id,
+        caller_channel=body.caller_channel,
+        did=body.did,
+    )
+    return {"registered": True, "metadata": meta}
 
 
 @router.post("/api/outbound/call", dependencies=[Depends(auth)])

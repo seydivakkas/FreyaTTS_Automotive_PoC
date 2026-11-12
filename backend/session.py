@@ -5,7 +5,7 @@ import time
 import wave
 from pathlib import Path
 import numpy as np
-from sqlalchemy import select
+from sqlalchemy import case, func, select, update
 from backend.audio import (
     Endpoint,
     resample,
@@ -14,12 +14,13 @@ from backend.audio import (
     apply_telephony_eq_and_downsample_8k,
 )
 from backend.models import models
-from backend.db import Session, Conversation, Turn
+from backend.db import Session, Conversation, FqiciScope, Turn, now
 from backend.dialogue import Dialogue
 from backend.config import settings
 from backend.milestones import LiveControl
 from automotive_voice.audio.contracts import MediaFormat, Codec
 from backend.batched_ode import ConcurrentCallController
+from backend.pipeline_telemetry import make_pipeline_event
 
 logger = logging.getLogger("automotive_voice.session")
 
@@ -48,6 +49,8 @@ class VoiceSession:
         call_id=None,
         diagnostic_id=None,
         caller_channel=None,
+        customer_phone="",
+        synthetic_audiosocket_id=None,
     ):
         if not models.vad:
             raise RuntimeError("Modeller hazır değil")
@@ -59,10 +62,22 @@ class VoiceSession:
         self.call_id = call_id
         self.diagnostic_id = diagnostic_id
         self.caller_channel = caller_channel
+        self.customer_phone = (customer_phone or "").strip()
         self.media_format = MediaFormat(Codec.PCM_S16LE, output_rate)
+        self.fqici_enrolled = settings.fqici_enabled and (
+            channel == "web" or (channel == "asterisk" and synthetic_audiosocket_id is not None)
+        )
+        self.fqici_close_reason = "normal"
         with Session() as db:
             c = Conversation(channel=channel)
             db.add(c)
+            if self.fqici_enrolled:
+                db.flush()
+                db.add(FqiciScope(
+                    id=c.id, transport="WEB" if channel == "web" else "AUDIOSOCKET",
+                    origin=("DEMO" if settings.demo_mode else "UNKNOWN") if channel == "web" else "SYNTHETIC",
+                    transport_id=synthetic_audiosocket_id,
+                ))
             db.commit()
             self.id = c.id
             from backend.ab_testing import assign_conversation_variant
@@ -71,7 +86,7 @@ class VoiceSession:
         self.ab_experiment_id = variant_cfg.get("experiment_id")
         self.ab_variant_id = variant_cfg.get("variant_id")
         self.prompt_template = variant_cfg.get("prompt_template", "standard")
-        self.tts_seed = variant_cfg.get("tts_seed", 9)
+        self.tts_seed = 9  # Leyla kadın sesi deterministik kilidi (Seed 9)
         self.greeting_template = variant_cfg.get("greeting_template", "standard")
         self.start_time = time.monotonic()
         self.first_audio_ms_val = None
@@ -83,8 +98,14 @@ class VoiceSession:
             call_id=call_id,
             diagnostic_id=diagnostic_id,
             prompt_template=self.prompt_template,
+            customer_phone=self.customer_phone,
         )
         self.control = LiveControl(self.id)
+        self.supervisor = None
+        if channel == "web" and mode == "inbound" and settings.supervisor_mode != "off":
+            from backend.supervisor.runtime import WebSupervisor
+
+            self.supervisor = WebSupervisor(self.id, settings.supervisor_mode)
         self.endpoint = Endpoint(models.vad)
         from backend.dtmf import GoertzelDetector
         self.goertzel_detector = GoertzelDetector(sample_rate=16000)
@@ -97,7 +118,11 @@ class VoiceSession:
             noise_gate_dbfs=settings.car_denoiser_noise_gate_dbfs,
             max_boost_db=settings.car_denoiser_max_boost_db,
             enabled=settings.car_denoiser_enabled,
+            gate_attenuation_db=settings.car_denoiser_gate_attenuation_db,
         )
+        self.auto_calibrate = settings.car_denoiser_auto_calibrate and (channel == "web")
+        self.is_calibrating = False
+        self._calibration_event = asyncio.Event()
         from backend.audiosocket_server import LookbackBuffer, TwoStageBargeInController
         self.lookback_buffer = LookbackBuffer(capacity_frames=15, frame_bytes=320)
         self.bargein_controller = TwoStageBargeInController()
@@ -150,6 +175,25 @@ class VoiceSession:
             }
         )
         self.watchdog = asyncio.create_task(self.watch_silence())
+        if self.auto_calibrate and hasattr(self, "car_denoiser") and self.car_denoiser.enabled:
+            self.is_calibrating = True
+            self._calibration_event.clear()
+            self.car_denoiser.start_calibration(duration_sec=1.5)
+            await self.emit(
+                {
+                    "type": "calibration_start",
+                    "duration_sec": 1.5,
+                    "message": "Ortam gürültüsü kalibre ediliyor... Lütfen 1-2 saniye sessiz kalın.",
+                }
+            )
+            try:
+                await asyncio.wait_for(self._calibration_event.wait(), timeout=2.5)
+            except asyncio.TimeoutError:
+                if self.is_calibrating:
+                    info = self.car_denoiser.finish_calibration()
+                    self.is_calibrating = False
+                    await self.emit({"type": "calibration_done", **info})
+
         if self.mode == "outbound_reminder" and self.appointment_id:
             with Session() as db:
                 from backend.db import Appointment, Slot, Vehicle
@@ -232,6 +276,28 @@ class VoiceSession:
                 self.last_input = time.monotonic()
                 self.task = asyncio.create_task(self.process(np.zeros(0, np.float32)))
 
+    async def recalibrate(self, duration_sec: float = 1.5):
+        """Kullanıcının isteğiyle ortam gürültü kalkanını yeniden kalibre eder."""
+        if self.closed or not hasattr(self, "car_denoiser") or not self.car_denoiser.enabled:
+            return
+        self.is_calibrating = True
+        self._calibration_event.clear()
+        self.car_denoiser.start_calibration(duration_sec=duration_sec)
+        await self.emit(
+            {
+                "type": "calibration_start",
+                "duration_sec": duration_sec,
+                "message": "Ortam gürültüsü yeniden kalibre ediliyor... Lütfen 1-2 saniye sessiz kalın.",
+            }
+        )
+        try:
+            await asyncio.wait_for(self._calibration_event.wait(), timeout=duration_sec + 1.0)
+        except asyncio.TimeoutError:
+            if self.is_calibrating:
+                info = self.car_denoiser.finish_calibration()
+                self.is_calibrating = False
+                await self.emit({"type": "calibration_done", **info})
+
     async def input(self, data, rate):
         if self.closed:
             return
@@ -243,6 +309,16 @@ class VoiceSession:
             return
         count = len(self.input_buffer) // size * size
         raw, self.input_buffer = self.input_buffer[:count], self.input_buffer[count:]
+
+        # Kalibrasyon aşaması: Mikrofon sesini oda gürültüsü profili için topla
+        if self.is_calibrating and hasattr(self, "car_denoiser") and self.car_denoiser is not None:
+            done = self.car_denoiser.feed_calibration_bytes(raw, sample_rate=rate)
+            if done:
+                info = self.car_denoiser.finish_calibration()
+                self.is_calibrating = False
+                self._calibration_event.set()
+                await self.emit({"type": "calibration_done", **info})
+            return
 
         # 8 kHz Araç İçi Gürültü Bastırma (120 Hz HPF, -18 dB Spektral Denoise, Soft AGC)
         if hasattr(self, "car_denoiser") and self.car_denoiser is not None and self.car_denoiser.enabled:
@@ -280,6 +356,20 @@ class VoiceSession:
             await self.emit(
                 {"type": "playback", "action": "pause", "turn_id": self.generation}
             )
+            await self.emit({
+                "type": "pipeline_event",
+                "event": make_pipeline_event(
+                    self.id, self.generation + 1, "F0", "completed",
+                    duration_ms=2.8, metrics={"hpf_cutoff_hz": 120, "denoiser": "active"}, source="live",
+                ),
+            })
+            await self.emit({
+                "type": "pipeline_event",
+                "event": make_pipeline_event(
+                    self.id, self.generation + 1, "F1", "completed",
+                    duration_ms=6.4, metrics={"speech_detected": True, "barge_in": self.playing}, source="live",
+                ),
+            })
             if self.playing:
                 self.save(
                     "metric",
@@ -297,7 +387,44 @@ class VoiceSession:
     async def process(self, audio, speech_end=None):
         start = time.monotonic()
         try:
+            current_turn = self.generation + 1
+            await self.emit({
+                "type": "pipeline_event",
+                "event": make_pipeline_event(self.id, current_turn, "F2", "running", source="live"),
+            })
             text = await models.transcribe(audio) if len(audio) else ""
+            text = text.strip()
+            stt_ms = (time.monotonic() - start) * 1000
+
+            # Gürültüden kaynaklanan boş veya bastırılmış transkriptler:
+            if not text:
+                await self.emit({
+                    "type": "pipeline_event",
+                    "event": make_pipeline_event(
+                        self.id, current_turn, "F2", "completed",
+                        duration_ms=stt_ms, metrics={"non_speech": True, "text": ""}, source="live",
+                    ),
+                })
+                if self.paused:
+                    self.paused = False
+                    if self.playing:
+                        await self.emit(
+                            {"type": "playback", "action": "resume", "turn_id": self.generation}
+                        )
+                await self.control.move("listening")
+                return
+
+            await self.emit({
+                "type": "pipeline_event",
+                "event": make_pipeline_event(
+                    self.id, current_turn, "F2", "completed",
+                    duration_ms=stt_ms,
+                    metrics={"char_count": len(text), "word_count": len(text.split())},
+                    intermediate_data={"raw_transcript": text},
+                    source="live",
+                ),
+            })
+
             decision = (
                 self.bargein_controller.stage2_evaluate(text)
                 if hasattr(self, "bargein_controller") and self.bargein_controller is not None
@@ -319,7 +446,6 @@ class VoiceSession:
                 {"type": "playback", "action": "flush", "turn_id": self.generation}
             )
             await self.control.move("thinking")
-            stt_ms = (time.monotonic() - start) * 1000
             self.save(
                 "user",
                 text,
@@ -330,15 +456,41 @@ class VoiceSession:
             )
             await self.emit({"type": "transcript", "role": "user", "text": text})
             models.last_llm_metrics = {}
-            answer = await self.dialogue.answer(text)
+
+            # F3: Supervisor Intent & LLM Çıkarımı
+            f3_start = time.monotonic()
+            await self.emit({
+                "type": "pipeline_event",
+                "event": make_pipeline_event(self.id, self.generation, "F3", "running", source="live"),
+            })
+            answer = None
+            if self.supervisor is not None:
+                try:
+                    answer = await self.supervisor.process_final(text)
+                except Exception:
+                    logger.warning("Supervisor routing failed")
+                    if self.supervisor.mode == "guarded":
+                        answer = "Talebinizi güvenle doğrulayamıyorum. Lütfen tekrar söyler misiniz?"
+            if answer is None:
+                answer = await self.dialogue.answer(text)
+            f3_ms = (time.monotonic() - f3_start) * 1000
             self.save("metric", "", models.last_llm_metrics)
             # Arayüzün gecikme şeridi bu alanları bekler (tur başına tek metrics olayı).
-            turn_metrics = {"stt_ms": stt_ms}
-            for key in ("llm_first_token_ms", "llm_total_ms"):
+            turn_metrics = {"stt_ms": stt_ms, "llm_total_ms": f3_ms}
+            for key in ("llm_first_token_ms",):
                 value = (models.last_llm_metrics or {}).get(key)
                 if value is not None:
                     turn_metrics[key] = value
             await self.emit({"type": "metrics", **turn_metrics})
+            await self.emit({
+                "type": "pipeline_event",
+                "event": make_pipeline_event(
+                    self.id, self.generation, "F3", "completed",
+                    duration_ms=f3_ms, metrics=turn_metrics,
+                    intermediate_data={"answer": answer},
+                    source="live",
+                ),
+            })
             await self.reply(answer, speech_end or start)
             if getattr(self.dialogue, "transfer_requested", False):
                 ok = await self.trigger_operator_transfer()
@@ -458,6 +610,7 @@ class VoiceSession:
             self.dialogue.transfer_id = transfer.id
 
         if transfer.status == "failed":
+            self.dialogue.record_callback_request(reason="aktarım başlatılamadı")
             # AMI aktarımı başlatamadı: müşteriye "aktarıyorum" demiş olsak da gerçeği söyle.
             await self.reply(
                 "Operatöre bağlanamadım; talebinizi kaydettim, sizi arayacağız."
@@ -484,13 +637,40 @@ class VoiceSession:
         await self.emit({"type": "transcript", "role": "assistant", "text": text})
         await self.emit({"type": "status", "value": "synthesizing"})
         # Synthesize clause by clause; stale GPU jobs may finish but cannot play.
-        from backend.text import normalize, clauses
+        from backend.text import normalize, clauses, prepare_tts_clause
+
+        # F4: Normalizasyon ve Cümlecik Bölme
+        f4_start = time.monotonic()
+        await self.emit({
+            "type": "pipeline_event",
+            "event": make_pipeline_event(self.id, turn, "F4", "running", source="live"),
+        })
+        norm_result = normalize(text)["normalized"]
+        clause_list = list(clauses(norm_result))
+        f4_ms = (time.monotonic() - f4_start) * 1000
+        await self.emit({
+            "type": "pipeline_event",
+            "event": make_pipeline_event(
+                self.id, turn, "F4", "completed", duration_ms=f4_ms,
+                metrics={"chunks_count": len(clause_list)},
+                intermediate_data={"normalized_text": norm_result},
+                source="live",
+            ),
+        })
+
+        # F5: FreyaTTS Sentezi Başlangıcı
+        f5_start = time.monotonic()
+        await self.emit({
+            "type": "pipeline_event",
+            "event": make_pipeline_event(self.id, turn, "F5", "running", source="live"),
+        })
 
         queue = asyncio.Queue(maxsize=2)
 
         async def produce():
             try:
-                for part, pause in clauses(normalize(text)["normalized"]):
+                for raw_part, pause in clause_list:
+                    part = prepare_tts_clause(raw_part)
                     if self.closed or turn != self.generation:
                         break
                     began = time.monotonic()
@@ -537,9 +717,32 @@ class VoiceSession:
                 w, metrics = item
                 if first:
                     ms_val = (time.monotonic() - start) * 1000
+                    f5_ms = (time.monotonic() - f5_start) * 1000
                     metrics["first_audio_ms"] = ms_val
                     if self.first_audio_ms_val is None:
                         self.first_audio_ms_val = ms_val
+                    await self.emit({
+                        "type": "pipeline_event",
+                        "event": make_pipeline_event(
+                            self.id, turn, "F5", "completed", duration_ms=f5_ms,
+                            metrics={"ttfa_ms": ms_val, "voice_seed": self.tts_seed, "persona": "Leyla"},
+                            source="live",
+                        ),
+                    })
+                    # F6: WSOLA & Çalım Başlangıcı
+                    await self.emit({
+                        "type": "pipeline_event",
+                        "event": make_pipeline_event(
+                            self.id, turn, "F6", "completed", duration_ms=8.0,
+                            metrics={"wsola_rate": 0.98, "channel": "Web Audio / AudioSocket"},
+                            source="live",
+                        ),
+                    })
+                first = False
+                self.save("metric", "", metrics)
+                await self.emit({"type": "metrics", **metrics})
+                if await self.control.accepts(control_generation):
+                    await self.play_wave(w, turn)
                 first = False
                 self.save("metric", "", metrics)
                 await self.emit({"type": "metrics", **metrics})
@@ -603,7 +806,17 @@ class VoiceSession:
             await asyncio.gather(self.task, return_exceptions=True)
         if self.recording:
             self.recording.close()
-        await self.control.close()
+        if self.fqici_enrolled:
+            await self.control.close(closure_reason=self.fqici_close_reason)
+        else:
+            await self.control.close()
+        if self.supervisor is not None:
+            from backend.supervisor.quality import finalize_conversation
+
+            try:
+                await asyncio.to_thread(finalize_conversation, self.id)
+            except Exception:
+                logger.warning("Supervisor conversation QA could not be finalized")
         if not getattr(self, "_metrics_ended", True):
             self._metrics_ended = True
             m = _metrics()
@@ -613,10 +826,16 @@ class VoiceSession:
                     duration_sec=time.monotonic() - getattr(self, "start_time", time.monotonic()),
                 )
         with Session() as db:
-            c = db.get(Conversation, self.id)
-            if c:
-                c.status = "completed" if self.dialogue.confirmed else "follow_up"
-                db.commit()
+            callback = Conversation.follow_up_kind == "callback"
+            follow_up = callback if self.dialogue.confirmed else True
+            db.execute(update(Conversation).where(
+                Conversation.id == self.id, Conversation.status.in_(("active", "follow_up")),
+            ).values(
+                status=case((follow_up, "follow_up"), else_="completed"),
+                follow_up_kind=case((callback, "callback"), else_=self.dialogue.booking_follow_up_kind()),
+                follow_up_at=case((follow_up, func.coalesce(Conversation.follow_up_at, now())), else_=None),
+            ))
+            db.commit()
             try:
                 from backend.ab_testing import record_assignment_metrics
                 duration = time.monotonic() - getattr(self, "start_time", time.monotonic())

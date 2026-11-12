@@ -156,9 +156,9 @@ def seed_default_experiment(db) -> ABExperiment:
             "name": "Varyant B — Samimi & Hızlı",
             "weight": 50,
             "prompt_template": "friendly",
-            "tts_seed": 42,
+            "tts_seed": 9,
             "greeting_template": "friendly",
-            "description": "Samimi prompt + Sıcak karşılama + Leyla Seed 42",
+            "description": "Samimi prompt + Sıcak karşılama + Leyla Seed 9",
         },
     ]
 

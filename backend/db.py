@@ -1,7 +1,11 @@
+# =====================================================================
+# ÖZEL LİSANS — TÜM HAKLAR SAKLIDIR
+# Telif Hakkı (c) 2026 Seydi Eryılmaz (@seydivakkas)
+# =====================================================================
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
-from sqlalchemy import create_engine, String, Text, ForeignKey, event, Index, Float
+from sqlalchemy import BigInteger, create_engine, String, Text, ForeignKey, event, Index, Float, UniqueConstraint
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, sessionmaker
 from backend.config import settings
 
@@ -18,6 +22,45 @@ def pragmas(dbapi, _):
 
 
 Session = sessionmaker(engine, expire_on_commit=False)
+
+
+def switch_database(demo: bool):
+    """Çalışma zamanında Demo ve Reel (Canlı) veritabanı arasında geçiş yapar."""
+    global engine, Session
+    settings.demo_mode = bool(demo)
+    if demo:
+        settings.data_dir = Path("data/demo")
+        settings.database_url = "sqlite:///./data/demo/assistant.db"
+    else:
+        settings.data_dir = Path("data")
+        settings.database_url = "sqlite:///./data/assistant.db"
+        try:
+            from backend.qa_telemetry_operator import operator_panel
+            operator_panel.live_sessions.clear()
+        except Exception:
+            pass
+
+    try:
+        from backend.models import models
+        models.invalidate_hotwords()
+    except Exception:
+        pass
+
+    settings.data_dir.mkdir(parents=True, exist_ok=True)
+    new_engine = create_engine(
+        settings.database_url, connect_args={"check_same_thread": False, "timeout": 15}
+    )
+
+    @event.listens_for(new_engine, "connect")
+    def pragmas(dbapi, _):
+        dbapi.execute("PRAGMA foreign_keys=ON")
+        dbapi.execute("PRAGMA journal_mode=WAL")
+
+    engine.dispose()
+    engine = new_engine
+    Session.configure(bind=engine)
+    Base.metadata.create_all(engine)
+    return {"demo_mode": settings.demo_mode, "database_url": settings.database_url}
 
 
 def uid():
@@ -137,12 +180,16 @@ class Appointment(Base):
     package_type: Mapped[str] = mapped_column(
         String(64), default="standart_ekspertiz", server_default="standart_ekspertiz"
     )
+    customer_phone: Mapped[str] = mapped_column(
+        String(40), default="", server_default=""
+    )
     created_at: Mapped[str] = mapped_column(default=now)
 
     __table_args__ = (
         Index("ix_appointments_vehicle_id", "vehicle_id"),
         Index("ix_appointments_status", "status"),
         Index("ix_appointments_created_at", "created_at"),
+        Index("ix_appointments_customer_phone", "customer_phone"),
     )
 
 
@@ -250,6 +297,8 @@ class Conversation(Base):
     status: Mapped[str] = mapped_column(default="active", server_default="active")
     operator_notes: Mapped[str] = mapped_column(Text, default="", server_default="")
     resolved_at: Mapped[str | None] = mapped_column(String(40), nullable=True)
+    follow_up_kind: Mapped[str | None] = mapped_column(String(24))
+    follow_up_at: Mapped[str | None] = mapped_column(String(40))
     created_at: Mapped[str] = mapped_column(default=now)
 
     __table_args__ = (
@@ -270,6 +319,74 @@ class Turn(Base):
     created_at: Mapped[str] = mapped_column(default=now)
 
     __table_args__ = (Index("ix_turns_conversation_id", "conversation_id"),)
+
+
+class SupervisorTrace(Base):
+    __tablename__ = "supervisor_traces"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    conversation_id: Mapped[str] = mapped_column(
+        ForeignKey("conversations.id", ondelete="CASCADE"), index=True,
+    )
+    payload: Mapped[str] = mapped_column(Text)
+    review_status: Mapped[str] = mapped_column(String(24), default="PENDING")
+    review_labels: Mapped[str | None] = mapped_column(Text, nullable=True)
+    created_at: Mapped[str] = mapped_column(String(40), default=now, index=True)
+
+
+class FqiciScope(Base):
+    __tablename__ = "fqici_scopes"
+    id: Mapped[str] = mapped_column(ForeignKey("conversations.id", ondelete="CASCADE"), primary_key=True)
+    transport: Mapped[str] = mapped_column(String(12))
+    origin: Mapped[str] = mapped_column(String(12))
+    transport_id: Mapped[str | None] = mapped_column(String(36))
+    terminal_seen: Mapped[bool] = mapped_column(default=False, index=True)
+    dirty_since_ms: Mapped[int | None] = mapped_column(BigInteger)
+    ready_at_ms: Mapped[int | None] = mapped_column(BigInteger, index=True)
+
+
+class FqiciEvent(Base):
+    __tablename__ = "fqici_events"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    scope_id: Mapped[str] = mapped_column(ForeignKey("fqici_scopes.id", ondelete="CASCADE"), index=True)
+    producer: Mapped[str] = mapped_column(String(24))
+    source_event_id: Mapped[str] = mapped_column(String(36))
+    evidence: Mapped[str] = mapped_column(Text)
+    observed_at: Mapped[str] = mapped_column(String(40), default=now)
+    __table_args__ = (UniqueConstraint("producer", "source_event_id", name="uq_fqici_source_event"),)
+
+
+class FqiciRun(Base):
+    __tablename__ = "fqici_runs"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
+    scope_id: Mapped[str] = mapped_column(ForeignKey("fqici_scopes.id", ondelete="CASCADE"), index=True)
+    evidence_hash: Mapped[str] = mapped_column(String(64))
+    rule_version: Mapped[str] = mapped_column(String(32))
+    event_ids: Mapped[str] = mapped_column(Text)
+    state: Mapped[str] = mapped_column(String(24), index=True)
+    created_at_ms: Mapped[int] = mapped_column(BigInteger)
+    available_at_ms: Mapped[int] = mapped_column(BigInteger)
+    fence: Mapped[int] = mapped_column(default=0)
+    lease_until_ms: Mapped[int | None] = mapped_column(BigInteger)
+    __table_args__ = (UniqueConstraint("scope_id", "evidence_hash", "rule_version", name="uq_fqici_run_snapshot"),)
+
+
+class IntentTrainingCandidate(Base):
+    __tablename__ = "intent_training_candidates"
+    trace_id: Mapped[str] = mapped_column(
+        ForeignKey("supervisor_traces.id", ondelete="CASCADE"), primary_key=True,
+    )
+    text_digest: Mapped[str] = mapped_column(String(64), unique=True)
+    group_id: Mapped[str] = mapped_column(String(36), index=True)
+    split: Mapped[str] = mapped_column(String(12))
+    example: Mapped[str] = mapped_column(Text)
+
+
+class SupervisorWriteReceipt(Base):
+    __tablename__ = "supervisor_write_receipts"
+    key: Mapped[str] = mapped_column(String(36), primary_key=True)
+    action: Mapped[str] = mapped_column(String(64))
+    request_digest: Mapped[str] = mapped_column(String(64))
+    created_at: Mapped[str] = mapped_column(String(40), default=now)
 
 
 class ABExperiment(Base):
@@ -727,6 +844,44 @@ class AudioArchive(Base):
     )
 
 
+class KVKKErasureRequest(Base):
+    __tablename__ = "kvkk_erasure_requests"
+    id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)
+    identifier_type: Mapped[str] = mapped_column(
+        String(32)
+    )  # "phone" | "plate" | "customer_name" | "conversation_id"
+    identifier_value: Mapped[str] = mapped_column(String(120))
+    requester_name: Mapped[str] = mapped_column(
+        String(120), default="", server_default=""
+    )
+    reason: Mapped[str] = mapped_column(
+        String(255),
+        default="KVKK Madde 11 uyarınca silme talebi",
+        server_default="KVKK Madde 11 uyarınca silme talebi",
+    )
+    status: Mapped[str] = mapped_column(
+        String(32), default="pending", server_default="pending"
+    )  # "pending" | "executed" | "rejected"
+    impact_summary_json: Mapped[str] = mapped_column(
+        Text, default="{}", server_default="{}"
+    )
+    certificate_sha256: Mapped[str] = mapped_column(
+        String(64), default="", server_default=""
+    )
+    notes: Mapped[str] = mapped_column(Text, default="", server_default="")
+    created_at: Mapped[str] = mapped_column(default=now)
+    executed_at: Mapped[str | None] = mapped_column(String(40), nullable=True)
+    executed_by: Mapped[str] = mapped_column(
+        String(80), default="admin", server_default="admin"
+    )
+
+    __table_args__ = (
+        Index("ix_kvkk_erasure_requests_status", "status"),
+        Index("ix_kvkk_erasure_requests_identifier_value", "identifier_value"),
+        Index("ix_kvkk_erasure_requests_created_at", "created_at"),
+    )
+
+
 def book(
     db,
     *,
@@ -779,6 +934,7 @@ def book(
         slot_id=slot_id,
         vehicle_id=vehicle_id,
         customer=customer,
+        customer_phone=(customer_phone or "").strip(),
         idempotency_key=idempotency_key,
         confirmed=True,
         corporate_account_id=corporate_account_id,

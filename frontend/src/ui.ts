@@ -41,7 +41,7 @@ const METRIC_LABELS: Record<string, [string, string, number]> = {
   endpoint_ms: ["Konuşma sonu", " ms", 0],
   llm_total_ms: ["LLM", " ms", 0],
   llm_first_token_ms: ["LLM ilk token", " ms", 0],
-  first_audio_ms: ["İlk ses", " ms", 0],
+  first_audio_ms: ["İlk ses (sunucuda hazır)", " ms", 0],
   tts_ms: ["TTS", " ms", 0],
   rtf: ["RTF", "", 2],
 };

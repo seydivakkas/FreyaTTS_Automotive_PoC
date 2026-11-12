@@ -17,6 +17,7 @@ from fastapi import (
     HTTPException,
     Depends,
     Response,
+    Query,
     UploadFile,
     File,
     Form,
@@ -26,6 +27,7 @@ from fastapi.security import HTTPBasicCredentials
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from backend.config import settings
+from backend.appointment_reschedule import MoveCheck, slot_summary, version_for
 from backend.security_utils import (
     MAX_AUDIO_BYTES,
     MAX_IMAGE_BYTES,
@@ -67,13 +69,19 @@ from backend.notifications import (
     dispatch_pending_notifications,
     queue_inspection_delivery_notifications,
 )
-from backend.report_generator import generate_inspection_pdf
+from backend.report_generator import (
+    generate_inspection_pdf,
+    generate_weekly_summary_report,
+    generate_weekly_excel_report,
+)
 from backend.analytics import (
     get_analytics_overview,
     get_follow_up_conversations,
+    get_unclear_conversations,
     resolve_conversation,
     reopen_conversation,
 )
+from backend.normalizer_rules import set_lexicon_term
 from backend.diagnostics import (
     DTC_REGISTRY,
     ingest_vehicle_telemetry,
@@ -96,11 +104,13 @@ from backend.schemas import (
     CorporateAccountIn,
     CorporateAccountUpdateIn,
     DictationTextIn,
+    FeedbackLexiconIn,
     InspectionReportIn,
     PaymentIn,
     PhoneticDecodeIn,
     ProactiveActionIn,
     QuoteIn,
+    RescheduleIn,
     RuhsatApplyIn,
     RuhsatTextDecodeIn,
     SlotIn,
@@ -1009,6 +1019,124 @@ def cancel(id: UUID):
         return row(x)
 
 
+@router.get("/api/appointments/{id}/reschedule-preview", dependencies=[Depends(auth)])
+def preview_appointment_reschedule(id: UUID, response: Response, target_slot_id: str = Query(min_length=1, max_length=100)):
+    response.headers["Cache-Control"] = "no-store"
+    with db_module.Session() as db:
+        appointment = db.get(Appointment, str(id))
+        if appointment is None:
+            raise HTTPException(404, "Randevu bulunamadı")
+        target = db.get(Slot, target_slot_id)
+        if target is None:
+            raise HTTPException(404, "Hedef saat bulunamadı")
+        source = db.get(Slot, appointment.slot_id) if appointment.slot_id else None
+        check = MoveCheck(db, appointment, datetime.now(timezone.utc))
+        status, lift_status, message = check.evaluate(target)
+        return {
+            "appointment_id": appointment.id,
+            "source": slot_summary(source),
+            "target": slot_summary(target),
+            "status": status,
+            "lift_status": lift_status,
+            "message": message,
+            "preview_version": version_for(appointment, source, target),
+            "alternatives": check.alternatives(target) if status in {"occupied", "capacity", "past"} else [],
+        }
+
+
+@router.post("/api/appointments/{id}/reschedule", dependencies=[Depends(auth)])
+def reschedule_appointment(id: UUID, body: RescheduleIn):
+    id_str = str(id)
+    with db_module.Session() as db:
+        db.connection().exec_driver_sql("BEGIN IMMEDIATE")
+        appt = db.get(Appointment, id_str)
+        if not appt:
+            raise HTTPException(404, "Randevu bulunamadı")
+
+        if body.target_slot_id:
+            target_slot = db.get(Slot, body.target_slot_id)
+            if not target_slot:
+                raise HTTPException(404, "Hedef saat bulunamadı")
+        elif body.new_starts_at:
+            iso_str = body.new_starts_at.isoformat()
+            target_slot = db.query(Slot).filter_by(starts_at=iso_str).first()
+            if not target_slot:
+                target_slot = Slot(starts_at=iso_str, duration_minutes=30)
+        else:
+            raise HTTPException(422, "Hedef slot ID veya yeni saat belirtilmelidir")
+
+        source = db.get(Slot, appt.slot_id) if appt.slot_id else None
+        if body.preview_version and body.preview_version != version_for(appt, source, target_slot):
+            raise HTTPException(409, "Randevu veya hedef saat değişti. Önizlemeyi yeniden kontrol edin.")
+        status, _, message = MoveCheck(db, appt, datetime.now(timezone.utc)).evaluate(target_slot)
+        if status not in {"available", "same_slot"} or (status == "same_slot" and body.preview_version):
+            raise HTTPException(400 if status == "past" else 409, message)
+        old_slot_id = appt.slot_id
+        try:
+            if target_slot.id is None:
+                db.add(target_slot)
+                db.flush()
+            appt.slot_id = target_slot.id
+            db.commit()
+        except IntegrityError as exc:
+            db.rollback()
+            raise HTTPException(409, "Hedef saat artık müsait değil.") from exc
+
+        return {
+            "status": "rescheduled",
+            "appointment_id": appt.id,
+            "old_slot_id": old_slot_id,
+            "new_slot_id": target_slot.id,
+            "starts_at": target_slot.starts_at,
+            "customer": appt.customer,
+            "customer_phone": appt.customer_phone,
+        }
+
+
+@router.get("/api/appointments/calendar", dependencies=[Depends(auth)])
+def get_calendar_events():
+    with db_module.Session() as db:
+        slots = db.scalars(select(Slot).order_by(Slot.starts_at)).all()
+        appointments = db.scalars(select(Appointment)).all()
+        vehicles = {v.id: v for v in db.scalars(select(Vehicle)).all()}
+
+        appt_by_slot = {
+            a.slot_id: a for a in appointments if a.slot_id and a.status == "confirmed"
+        }
+
+        events = []
+        for s in slots:
+            a = appt_by_slot.get(s.id)
+            v = vehicles.get(a.vehicle_id) if a else None
+            events.append(
+                {
+                    "slot_id": s.id,
+                    "starts_at": s.starts_at,
+                    "duration_minutes": s.duration_minutes,
+                    "is_occupied": a is not None,
+                    "appointment": (
+                        {
+                            "id": a.id,
+                            "customer": a.customer,
+                            "customer_phone": a.customer_phone or "",
+                            "plate": getattr(v, "plate", "") if v else "",
+                            "package_type": a.package_type or "standart_ekspertiz",
+                            "status": a.status,
+                        }
+                        if a
+                        else None
+                    ),
+                }
+            )
+        return events
+
+
+@router.get("/api/conversations/unclear", dependencies=[Depends(auth)])
+def list_unclear_conversations(limit: int = 50):
+    with db_module.Session() as db:
+        return get_unclear_conversations(db, limit=limit)
+
+
 @router.get("/api/conversations/{id}", dependencies=[Depends(auth)])
 def detail(id: UUID):
     id = str(id)
@@ -1109,3 +1237,69 @@ def export_conversation(id: UUID, format: str = "json"):
                     "Content-Disposition": f'attachment; filename="conversation_{id_str}.json"'
                 },
             )
+
+
+@router.get("/api/conversations/{id}/audio", dependencies=[Depends(auth)])
+def stream_conversation_audio(id: UUID):
+    id_str = str(id)
+    rec_path = settings.data_dir / "recordings" / f"{id_str}.wav"
+    if rec_path.exists():
+        return FileResponse(
+            path=str(rec_path),
+            media_type="audio/wav",
+            filename=f"recording_{id_str}.wav",
+        )
+    raise HTTPException(404, "Kayıt dosyası bulunamadı")
+
+
+@router.post("/api/conversations/{id}/feedback-lexicon", dependencies=[Depends(auth)])
+def feedback_lexicon(id: UUID, body: FeedbackLexiconIn):
+    id_str = str(id)
+    with db_module.Session() as db:
+        c = db.get(Conversation, id_str)
+        if not c:
+            raise HTTPException(404, "Görüşme bulunamadı")
+
+        entry = set_lexicon_term(
+            term=body.term,
+            spoken=body.spoken,
+            category=body.category,
+        )
+
+        note_addition = f"[Sözlük Geri Besleme] '{body.term}' -> '{body.spoken}' ({body.category})"
+        if c.operator_notes:
+            c.operator_notes += f"\n{note_addition}"
+        else:
+            c.operator_notes = note_addition
+
+        if c.status == "follow_up":
+            c.status = "resolved"
+            c.resolved_at = datetime.now(timezone.utc).isoformat()
+
+        db.commit()
+        return {
+            "status": "ok",
+            "conversation_id": id_str,
+            "lexicon_entry": entry,
+            "operator_notes": c.operator_notes,
+        }
+
+
+@router.get("/api/reports/weekly/summary", dependencies=[Depends(auth)])
+def get_weekly_summary_endpoint(days: int = 7):
+    with db_module.Session() as db:
+        return generate_weekly_summary_report(db, days=days)
+
+
+@router.get("/api/reports/weekly/excel", dependencies=[Depends(auth)])
+def get_weekly_excel_endpoint(days: int = 7):
+    with db_module.Session() as db:
+        excel_bytes = generate_weekly_excel_report(db, days=days)
+        return Response(
+            content=excel_bytes,
+            media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            headers={
+                "Content-Disposition": 'attachment; filename="haftalik_operasyon_raporu.xlsx"'
+            },
+        )
+

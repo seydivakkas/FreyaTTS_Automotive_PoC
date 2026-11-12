@@ -141,6 +141,10 @@ def find_target_appointment(
             .order_by(Appointment.created_at.desc())
         ).all()
         for app in all_apps:
+            # Doğrudan customer_phone sütunu eşleşmesi
+            app_phone = normalize_phone(getattr(app, "customer_phone", ""))
+            if app_phone and (clean_phone.endswith(app_phone[-10:]) or app_phone.endswith(clean_phone[-10:])):
+                return app
             # Customer stringi içinde telefon numarası geçiyorsa
             digits = normalize_phone(app.customer)
             if digits and (clean_phone in digits or digits in clean_phone):

@@ -134,9 +134,14 @@ class SessionManager:
         return await self._apply(session_id, EventType.SESSION_FAILED,
                                  lambda s: s.move(State.FAILED), {"code": reason_code})
 
-    async def end(self, session_id: str) -> SessionSnapshot:
+    async def end(self, session_id: str, *, closure_reason: str | None = None) -> SessionSnapshot:
+        payload = {"to": "ENDED"}
+        if closure_reason is not None:
+            if closure_reason not in {"normal", "disconnect", "transport_error"}:
+                raise ValueError("invalid closure reason")
+            payload["closure_reason"] = closure_reason
         return await self._apply(session_id, EventType.SESSION_ENDED,
-                                 lambda s: s.move(State.ENDED), {"to": "ENDED"}, idempotent_ended=True)
+                                 lambda s: s.move(State.ENDED), payload, idempotent_ended=True)
 
     async def emergency_close(self, session_id: str, *, fail: bool = False) -> SessionSnapshot:
         """Fail-closed terminal path when RAM outbox is saturated.

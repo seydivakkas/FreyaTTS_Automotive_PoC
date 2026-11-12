@@ -225,6 +225,8 @@ class MockAMIClient:
 class AsteriskAMIClient:
     """Gercek TCP tabanli Asterisk Manager Interface (AMI) client."""
 
+    is_real = True
+
     def __init__(
         self,
         host: str | None = None,
@@ -444,20 +446,25 @@ class AsteriskAMIClient:
             return False
 
 
-_active_ami: AMIClientProtocol = MockAMIClient()
+_default_mock_ami = MockAMIClient()
+_custom_ami: AMIClientProtocol | None = None
 
 
 def get_ami_client() -> AMIClientProtocol:
-    global _active_ami
-    return _active_ami
+    global _custom_ami
+    if _custom_ami is not None:
+        return _custom_ami
+    if getattr(settings, "ami_enabled", False) and settings.ami_secret:
+        return AsteriskAMIClient()
+    return _default_mock_ami
 
 
-def set_ami_client(client: AMIClientProtocol) -> None:
-    global _active_ami
-    _active_ami = client
+def set_ami_client(client: AMIClientProtocol | None) -> None:
+    global _custom_ami
+    _custom_ami = client
 
 
 def is_real_ami() -> bool:
     """Etkin AMI istemcisi gerçek Asterisk'e bağlıysa True; MockAMIClient için False."""
-    return bool(getattr(get_ami_client(), "is_real", True))
+    return bool(getattr(get_ami_client(), "is_real", False))
 

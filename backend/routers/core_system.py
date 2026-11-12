@@ -6,6 +6,7 @@ from fastapi import (
     HTTPException,
     Depends,
 )
+from pydantic import BaseModel
 from backend.config import settings
 from backend.models import models
 from backend.session import active
@@ -13,6 +14,18 @@ from backend.unified_server import unified_server
 from backend.deps import auth
 
 router = APIRouter()
+
+
+class SystemModePayload(BaseModel):
+    demo_mode: bool
+
+
+@router.post("/api/system/mode", dependencies=[Depends(auth)])
+async def set_system_mode(payload: SystemModePayload):
+    """Demo ve Reel (Canlı) çalışma modu arasında dinamik geçiş yapar."""
+    from backend.db import switch_database
+    res = switch_database(payload.demo_mode)
+    return res
 
 
 @router.get("/api/health")

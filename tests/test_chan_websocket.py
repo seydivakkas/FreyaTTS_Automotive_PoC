@@ -35,7 +35,6 @@ from backend.websocket_adapter import (
     parse_event,
     COMMAND_FLUSH_MEDIA,
     COMMAND_PAUSE_MEDIA,
-    COMMAND_RESUME_MEDIA,
     COMMAND_HANGUP,
     EVENT_CALL_START,
     EVENT_DTMF,
@@ -101,7 +100,7 @@ async def test_chan_websocket_session_flush_and_controls():
     await session.resume_media()
     assert session.resume_count == 1
     assert json.loads(sent_text[1])["command"] == "PAUSE_MEDIA"
-    assert json.loads(sent_text[2])["command"] == "RESUME_MEDIA"
+    assert json.loads(sent_text[2])["command"] == "CONTINUE_MEDIA"
 
     # 3. İkili Ses Gönderimi (PBX Game Clock)
     dummy_frame = b"\x00\x01" * 160  # 320 byte
@@ -142,7 +141,7 @@ async def test_chan_websocket_barge_in_event_flushing():
     await session.handle_session_event({"type": "playback", "action": "pause", "turn_id": 3})
     await session.handle_session_event({"type": "playback", "action": "resume", "turn_id": 3})
     assert json.loads(sent_text[1])["command"] == "PAUSE_MEDIA"
-    assert json.loads(sent_text[2])["command"] == "RESUME_MEDIA"
+    assert json.loads(sent_text[2])["command"] == "CONTINUE_MEDIA"
 
     # VoiceSession completed olayı
     await session.handle_session_event({"type": "completed", "reason": "appointment"})

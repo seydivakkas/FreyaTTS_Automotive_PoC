@@ -1,3 +1,7 @@
+# =====================================================================
+# ÖZEL LİSANS — TÜM HAKLAR SAKLIDIR
+# Telif Hakkı (c) 2026 Seydi Eryılmaz (@seydivakkas)
+# =====================================================================
 import asyncio
 import json
 import secrets
@@ -43,6 +47,7 @@ from backend.routers import (
     audio_dsp,
     compliance,
     observability,
+    supervisor,
     generic_resources,
 )
 
@@ -53,6 +58,16 @@ tickets = {}
 @asynccontextmanager
 async def lifespan(app):
     await milestones.recover_abandoned()
+    # Modelleri (FreyaTTS, Faster-Whisper, Silero VAD, Ollama) otomatik arka planda yükle ve ısıt
+    asyncio.create_task(models.load())
+    fqici_task = None
+    if settings.fqici_enabled:
+        from backend.fqici.journal import poll, run_poll_loop
+        from backend.fqici.queue import Queue
+
+        fqici_root = milestones.runtime_root()
+        fqici_queue = Queue()
+        await poll(fqici_root, fqici_queue, startup=True)
     with db_module.Session() as db:
         db.query(Conversation).filter_by(status="active").update(
             {"status": "follow_up"}
@@ -87,16 +102,33 @@ async def lifespan(app):
             except OSError:
                 continue
 
+    def purge_old_transcripts():
+        """KVKK gereğince saklama süresi dolan transkriptleri imha eder."""
+        try:
+            from backend.kvkk_compliance import purge_expired_transcripts
+            from backend.db import Session
+            from backend.fqici.queue import purge_expired_scopes
+            from backend.supervisor.quality import purge_expired
+            with Session() as db:
+                result = purge_expired_transcripts(db, dry_run=False)
+            purge_expired(result["cutoff_date"])
+            purge_expired_scopes(result["cutoff_date"])
+        except Exception:
+            pass
+
     async def cleanup():
         while True:
             try:
-                # Engelleyen dosya sistemi işlemleri olay döngüsünü tutmasın.
+                # Engelleyen dosya sistemi ve veritabanı işlemleri olay döngüsünü tutmasın.
                 await asyncio.to_thread(purge_old_recordings)
+                await asyncio.to_thread(purge_old_transcripts)
             except Exception:
                 pass
             await asyncio.sleep(3600)
 
     task = asyncio.create_task(cleanup())
+    if settings.fqici_enabled:
+        fqici_task = asyncio.create_task(run_poll_loop(fqici_root, fqici_queue))
     yield
     if chan_ws_server:
         try:
@@ -109,6 +141,9 @@ async def lifespan(app):
     unified_server.set_lifespan_listener("audiosocket_tcp", False)
     task.cancel()
     await asyncio.gather(task, return_exceptions=True)
+    if fqici_task:
+        fqici_task.cancel()
+        await asyncio.gather(fqici_task, return_exceptions=True)
 
 
 app = FastAPI(title="Freya Otomotiv Asistanı", lifespan=lifespan)
@@ -122,6 +157,7 @@ app.include_router(scheduling.router)
 app.include_router(audio_dsp.router)
 app.include_router(compliance.router)
 app.include_router(observability.router)
+app.include_router(supervisor.router)
 app.include_router(generic_resources.router)
 
 
@@ -170,11 +206,16 @@ async def voice(ws: WebSocket):
             async with lock:
                 await ws.send_bytes(frame)
 
+        if not models.vad:
+            await emit({"type": "status", "value": "Modeller hazırlanıyor..."})
+            await models.load()
+
         session = VoiceSession("web", emit, audio)
         greeting = asyncio.create_task(session.start())
         while not session.closed:
             message = await ws.receive()
             if message["type"] == "websocket.disconnect":
+                session.fqici_close_reason = "disconnect"
                 break
             text_data = message.get("text")
             if text_data:
@@ -185,6 +226,8 @@ async def voice(ws: WebSocket):
                         if digit:
                             # Referans tutulur, hata loglanır, oturum içinde sıralanır.
                             session.schedule_dtmf(digit)
+                    elif payload.get("type") == "recalibrate":
+                        asyncio.create_task(session.recalibrate())
                 except Exception:
                     pass
             data = message.get("bytes")
@@ -193,8 +236,11 @@ async def voice(ws: WebSocket):
                     raise ValueError("Ses paketi çok büyük")
                 await session.input(data, rate)
     except WebSocketDisconnect:
-        pass
+        if session:
+            session.fqici_close_reason = "disconnect"
     except Exception as e:
+        if session:
+            session.fqici_close_reason = "transport_error"
         try:
             await ws.send_json({"type": "error", "message": str(e)})
         except Exception:

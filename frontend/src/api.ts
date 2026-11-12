@@ -24,6 +24,8 @@ export interface Appointment {
   slot_id: string | null;
   vehicle_id: string;
   customer: string;
+  customer_phone?: string;
+  package_type?: string;
   status: string;
   confirmed: boolean;
   created_at: string;
@@ -46,6 +48,42 @@ export interface Turn {
   text: string;
   metrics: string;
   created_at: string;
+}
+export interface AnalysisRun {
+  id: string;
+  state: string;
+  rule_version: string;
+  created_at_ms: number;
+  attempts: number;
+  lease_expired: boolean;
+}
+export interface AnalysisSource {
+  transport: string;
+  origin: string;
+}
+export interface AnalysisQueue {
+  intake_enabled: boolean;
+  worker_status: string;
+  physical_sip_status: string;
+  store: "READY" | "UNAVAILABLE";
+  counts: Record<string, number>;
+  deferred_count: number | null;
+  oldest_wait_ms: number | null;
+  runs: (AnalysisRun & AnalysisSource & { conversation_id: string })[];
+  deferred: (AnalysisSource & { conversation_id: string; ready_at_ms: number })[];
+}
+export interface ConversationDetail {
+  conversation: Conversation;
+  turns: Turn[];
+  traces: { id: string; created_at: string; review_status: string; route_state: string;
+    outcome: string; intents: string[]; reason_codes: string[] }[];
+  transfers: { id: string; status: string; created_at: string; completed_at: string | null }[];
+  appointment: { id: string; status: string; starts_at: string | null } | null;
+  fqici: {
+    store: "READY" | "UNAVAILABLE";
+    scope: (AnalysisSource & { terminal_seen: boolean; ready_at_ms: number | null }) | null;
+    runs: AnalysisRun[];
+  };
 }
 export interface ComponentStatus {
   status?: string;

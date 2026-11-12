@@ -38,15 +38,32 @@ export type WhatsAppInboundItem = {
   created_at: string;
 };
 
+export type ProviderStatus = {
+  provider: string;
+  is_real: boolean;
+  configured_provider: string;
+  twilio_configured: boolean;
+  from_number: string;
+  whatsapp_from: string;
+};
+
 import type { Props } from "./api";
 
 export function NotificationPanel({ api, rawApi }: Props) {
   const [activeTab, setActiveTab] = useState<"inbound" | "outbox">("inbound");
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const [inboundMessages, setInboundMessages] = useState<WhatsAppInboundItem[]>([]);
+  const [providerStatus, setProviderStatus] = useState<ProviderStatus | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  // Test Gönderim Modalı
+  const [showTestModal, setShowTestModal] = useState(false);
+  const [testChannel, setTestChannel] = useState<"sms" | "whatsapp">("sms");
+  const [testPhone, setTestPhone] = useState("");
+  const [testMessage, setTestMessage] = useState("");
+  const [sendingTest, setSendingTest] = useState(false);
 
   // Inbound Simulator Form
   const [simPhone, setSimPhone] = useState("");
@@ -74,12 +91,14 @@ export function NotificationPanel({ api, rawApi }: Props) {
 
   async function refresh() {
     try {
-      const [outboxList, inboundList] = await Promise.all([
+      const [outboxList, inboundList, provStat] = await Promise.all([
         api("notifications"),
         api("whatsapp/messages"),
+        api("notifications/status").catch(() => null),
       ]);
       setNotifications(Array.isArray(outboxList) ? outboxList : []);
       setInboundMessages(Array.isArray(inboundList) ? inboundList : []);
+      if (provStat) setProviderStatus(provStat);
     } catch (err: any) {
       setError("Bildirim verisi yüklenemedi: " + (err?.message || String(err)));
     }
@@ -107,6 +126,49 @@ export function NotificationPanel({ api, rawApi }: Props) {
       );
       await refresh();
     });
+  }
+
+  const [scanningReminders, setScanningReminders] = useState(false);
+
+  async function handleScanReminders() {
+    setScanningReminders(true);
+    setError("");
+    setSuccess("");
+    try {
+      const res = await api("notifications/reminders/scan", "POST");
+      setSuccess(
+        `1 gün öncesi hatırlatma taraması tamamlandı: ${res.queued_count} randevu için bildirim kuyruğa alındı.`
+      );
+      await refresh();
+    } catch (e) {
+      setError(errorMessage(e));
+    } finally {
+      setScanningReminders(false);
+    }
+  }
+
+  async function handleSendTest() {
+    if (!testPhone.trim() || !testMessage.trim()) return;
+    setSendingTest(true);
+    setError("");
+    setSuccess("");
+    try {
+      const res = await api("notifications/test-send", "POST", {
+        channel: testChannel,
+        recipient: testPhone,
+        message: testMessage,
+      });
+      setSuccess(
+        `Test bildirimi başarıyla gönderildi (${res.receipt.channel.toUpperCase()} ➔ ${res.receipt.recipient}, ID: ${res.receipt.external_id}).`
+      );
+      setShowTestModal(false);
+      setTestMessage("");
+      await refresh();
+    } catch (e) {
+      setError(errorMessage(e));
+    } finally {
+      setSendingTest(false);
+    }
   }
 
   async function handleSimulateText() {
@@ -238,7 +300,102 @@ export function NotificationPanel({ api, rawApi }: Props) {
             {pendingCount} bekleyen · {failedCount} hatalı
           </strong>
         </article>
+        <article style={{ borderLeft: providerStatus?.is_real ? "4px solid #10b981" : "4px solid #f59e0b" }}>
+          <small>Aktif Sağlayıcı</small>
+          <strong style={{ color: providerStatus?.is_real ? "#34d399" : "#fbbf24" }}>
+            {providerStatus?.is_real ? "Twilio Canlı" : "Mock (Simüle)"}
+          </strong>
+          <span style={{ fontSize: "11px", color: "#cbd5e1", marginTop: "2px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <span>{providerStatus?.from_number || (providerStatus?.is_real ? "Twilio API" : "Simülasyon")}</span>
+            <button
+              type="button"
+              className="secondary"
+              onClick={() => setShowTestModal(!showTestModal)}
+              style={{ fontSize: "10px", padding: "2px 8px", marginLeft: "6px" }}
+            >
+              {showTestModal ? "Kapat ✕" : "Test Gönder ➔"}
+            </button>
+          </span>
+        </article>
       </div>
+
+      {showTestModal && (
+        <div
+          style={{
+            background: "#0f172a",
+            border: "1px solid #334155",
+            borderRadius: "10px",
+            padding: "16px",
+            marginTop: "16px",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+          }}
+        >
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+            <h4 style={{ margin: 0, fontSize: "14px", color: "#38bdf8" }}>
+              🚀 Gerçek SMS / WhatsApp Test Bildirimi Gönder
+            </h4>
+            <span style={{ fontSize: "12px", color: providerStatus?.is_real ? "#4ade80" : "#fbbf24" }}>
+              Mod: {providerStatus?.is_real ? "Twilio REST API (Gerçek İletim)" : "Mock Sağlayıcı (Simüle)"}
+            </span>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "140px 1fr", gap: "12px", marginBottom: "12px" }}>
+            <div>
+              <label style={{ fontSize: "12px", color: "#94a3b8", display: "block", marginBottom: "4px" }}>Kanal</label>
+              <select
+                value={testChannel}
+                onChange={(e) => setTestChannel(e.target.value as "sms" | "whatsapp")}
+                style={{ width: "100%", padding: "6px 10px", fontSize: "13px" }}
+              >
+                <option value="sms">SMS</option>
+                <option value="whatsapp">WhatsApp</option>
+              </select>
+            </div>
+            <div>
+              <label style={{ fontSize: "12px", color: "#94a3b8", display: "block", marginBottom: "4px" }}>
+                Alıcı Telefon Numarası (+905xxxxxxxxx)
+              </label>
+              <input
+                type="text"
+                value={testPhone}
+                onChange={(e) => setTestPhone(e.target.value)}
+                placeholder="+905xxxxxxxxx veya 05xxxxxxxxx"
+                style={{ width: "100%", padding: "6px 10px", fontSize: "13px" }}
+              />
+            </div>
+          </div>
+
+          <div style={{ marginBottom: "12px" }}>
+            <label style={{ fontSize: "12px", color: "#94a3b8", display: "block", marginBottom: "4px" }}>Mesaj İçeriği</label>
+            <textarea
+              rows={2}
+              value={testMessage}
+              onChange={(e) => setTestMessage(e.target.value)}
+              placeholder="Test mesajınızı yazın..."
+              style={{ width: "100%", padding: "6px 10px", fontSize: "13px" }}
+            />
+          </div>
+
+          <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
+            <button
+              type="button"
+              className="secondary"
+              onClick={() => setShowTestModal(false)}
+              style={{ fontSize: "12px", padding: "6px 14px" }}
+            >
+              Vazgeç
+            </button>
+            <button
+              type="button"
+              onClick={handleSendTest}
+              disabled={sendingTest || !testPhone.trim() || !testMessage.trim()}
+              style={{ fontSize: "12px", padding: "6px 16px", background: "#059669" }}
+            >
+              {sendingTest ? "Gönderiliyor..." : "Hemen Gönder ➔"}
+            </button>
+          </div>
+        </div>
+      )}
 
       {error && (
         <div role="alert" className="error" style={{ marginTop: "18px" }}>
@@ -599,14 +756,25 @@ export function NotificationPanel({ api, rawApi }: Props) {
                 (Google Maps linki) ile birlikte güvenli (at-least-once) şekilde kuyruklanır.
               </p>
             </div>
-            <button
-              type="button"
-              onClick={handleDispatch}
-              disabled={loading || pendingCount === 0}
-              style={{ fontSize: "13px", padding: "10px 18px" }}
-            >
-              {loading ? "Sevk ediliyor..." : "Bekleyenleri Gönder ➔"}
-            </button>
+            <div style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" }}>
+              <button
+                type="button"
+                className="secondary"
+                onClick={handleScanReminders}
+                disabled={scanningReminders}
+                style={{ fontSize: "13px", padding: "10px 16px" }}
+              >
+                {scanningReminders ? "Taranıyor..." : "🔔 1 Gün Öncesi Hatırlatmaları Tara"}
+              </button>
+              <button
+                type="button"
+                onClick={handleDispatch}
+                disabled={loading || pendingCount === 0}
+                style={{ fontSize: "13px", padding: "10px 18px" }}
+              >
+                {loading ? "Sevk ediliyor..." : "Bekleyenleri Gönder ➔"}
+              </button>
+            </div>
           </div>
 
           {/* Filtre Barı */}

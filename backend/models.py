@@ -8,7 +8,7 @@ from pathlib import Path
 import numpy as np
 import httpx
 from backend.config import settings
-from backend.text import normalize, clauses
+from backend.text import normalize, clauses, prepare_tts_clause
 from backend.audio import apply_fade_and_comfort_noise
 from automotive_voice.adapters.lifecycle.breaker import CircuitBreaker
 from sqlalchemy import select
@@ -91,7 +91,8 @@ class Models:
     @staticmethod
     def _cache_key(text, seed):
         try:
-            return normalize(text)["normalized"], seed if seed is not None else 9
+            prepared = prepare_tts_clause(text)
+            return normalize(prepared)["normalized"], seed if seed is not None else 9
         except ValueError:
             return None
 
@@ -138,7 +139,8 @@ class Models:
 
             seen = set()
             for text, seed in self._prewarm_targets():
-                for part, _ in clauses(normalize(text)["normalized"]):
+                for raw_part, _ in clauses(normalize(text)["normalized"]):
+                    part = prepare_tts_clause(raw_part)
                     key = self._cache_key(part, seed)
                     if key is None or key in seen:
                         continue
@@ -210,6 +212,7 @@ class Models:
         self.error = None
 
     async def synth(self, text, seed: int | None = None):
+        text = prepare_tts_clause(text)
         key = self._cache_key(text, seed)
         hit = self._synth_cache.get(key) if key is not None else None
         if hit is not None:
@@ -288,26 +291,89 @@ class Models:
         return np.concatenate(parts)
 
     async def transcribe(self, audio):
+        # 1. Ses Enerjisi Ön Kontrolü: Ortam gürültüsü, nefes veya sessizlikte Whisper çağrılmaz
+        if len(audio) < 1600:  # 100 ms'den kısa
+            return ""
+        rms = float(np.sqrt(np.mean(audio**2)))
+        max_amp = float(np.max(np.abs(audio)))
+        # RMS < -42 dBFS (~0.0075) veya tepe genlik < 0.025 ise doğrudan boş transkript dön
+        if rms < 0.0075 or max_amp < 0.025:
+            return ""
+
         if not self.stt:
             raise RuntimeError("STT hazır değil")
 
         def run():
             with self.stt_lock:
-                names = self._catalog_hotwords()
-                # Real catalog vocabulary + dynamic custom hotwords guide decoding;
-                # no text correction or vehicle identity is fabricated after recognition.
-                combined = list(names) + self.custom_hotwords
-                hints = ", ".join(combined)[:800]
+                # DİKKAT: hotwords parametresi faster-whisper'da doğrudan decoder prompt'una eklenir (prompt.extend).
+                # Ortamda gürültü, araba uğultusu veya fısıltı varken Whisper Turbo decoder bu prompt'u
+                # müşteri konuşmuş gibi halüsinasyon olarak döker ("Context, VTEC, Volkswagen Golf...").
+                # Bu sebeple hotwords=None tutulur; Whisper Turbo'nun yerel Türkçe akustik modeline güvenilir.
                 segments, _ = self.stt.transcribe(
                     audio,
                     language="tr",
-                    beam_size=3,
-                    # initial_prompt kullanılmaz: turbo belirsiz seste ipucu metnini müşteri
-                    # sözü gibi transkripte yazıyor ("Araç modelleri", "Otomotiv ekspertiz...").
-                    hotwords=hints or None,
+                    beam_size=1,
+                    hotwords=None,
                     condition_on_previous_text=False,
+                    no_speech_threshold=0.50,
+                    log_prob_threshold=-0.80,
+                    compression_ratio_threshold=2.2,
+                    repetition_penalty=1.2,
+                    no_repeat_ngram_size=3,
+                    hallucination_silence_threshold=2.0,
                 )
-                return " ".join(s.text.strip() for s in segments)
+
+                accepted_texts = []
+                for s in segments:
+                    if getattr(s, "no_speech_prob", 0.0) > 0.40:
+                        continue
+                    if getattr(s, "avg_logprob", 0.0) < -0.85:
+                        continue
+                    if getattr(s, "compression_ratio", 1.0) > 2.2:
+                        continue
+                    txt = s.text.strip()
+                    if txt:
+                        accepted_texts.append(txt)
+
+                raw_result = " ".join(accepted_texts).strip()
+                if not raw_result:
+                    return ""
+
+                # 2. Tipik Halüsinasyon ve İngilizce Kalıntı Taraması
+                lowered = raw_result.lower()
+                hallucination_tokens = (
+                    "let's see", "lets see", "biddyo", "thank you for watching",
+                    "subtitles by", "amara.org", "subscribe", "bye bye",
+                    "watching", "mbc", "izlediğiniz için teşekkürler", "context,",
+                    "thank you", "video", "see you", "all right,", "alright,",
+                    "you for watching", "abone olmayı unutmayın"
+                )
+                for h in hallucination_tokens:
+                    if h in lowered:
+                        return ""
+
+                # 3. Yalnızca İngilizce / non-tr kelimelerden oluşan kalıntı filtresi (örn: "IF, LET'S SEE")
+                import re
+                if re.search(r"\b(let's see|lets see|biddyo|context|subtitles)\b", lowered):
+                    return ""
+
+                # 4. Tekrarlı kelime döngüsü filtresi (örn: "IF, LET'S SEE, LET'S SEE...")
+                words = raw_result.split()
+                if len(words) >= 4:
+                    from collections import Counter
+                    counts = Counter([w.lower().strip(".,!?:") for w in words])
+                    most_common_word, count = counts.most_common(1)[0]
+                    if count >= 3 and count / len(words) > 0.35:
+                        return ""
+
+                # 5. İki veya daha fazla virgülle ayrılmış araç modelleri dökümü tespit edilirse:
+                if raw_result.count(",") >= 2:
+                    catalog_names = self._catalog_hotwords()
+                    matches = sum(1 for n in catalog_names if n.lower() in lowered)
+                    if matches >= 2:
+                        return ""
+
+                return raw_result
 
         work = asyncio.create_task(asyncio.to_thread(run))
         try:
@@ -316,12 +382,15 @@ class Models:
             await asyncio.shield(work)
             raise
 
-    async def chat(self, messages):
+    async def chat(self, messages, *, response_schema=None):
         breaker = self.breakers["llm"]
         if not breaker.allow(time.monotonic_ns()):
             raise RuntimeError("LLM geçici hata sonrasında beklemede")
         try:
-            async for part in self._chat(messages):
+            stream = self._chat(messages) if response_schema is None else self._chat(
+                messages, response_schema=response_schema,
+            )
+            async for part in stream:
                 yield part
         except asyncio.CancelledError:
             breaker.abandon_probe()
@@ -332,12 +401,12 @@ class Models:
         else:
             breaker.success()
 
-    async def _chat(self, messages):
+    async def _chat(self, messages, *, response_schema=None):
         import json
 
         start = time.monotonic()
         first = None
-        async with httpx.AsyncClient(timeout=90) as client:
+        async with httpx.AsyncClient(timeout=90, trust_env=response_schema is None) as client:
             async with client.stream(
                 "POST",
                 settings.ollama_url + "/api/chat",
@@ -346,7 +415,7 @@ class Models:
                     "messages": messages,
                     "stream": True,
                     "keep_alive": -1,
-                    "format": "json",
+                    "format": response_schema if response_schema is not None else "json",
                     "options": {
                         "temperature": 0,
                         "num_gpu": settings.ollama_gpu_layers,

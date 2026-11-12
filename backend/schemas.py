@@ -1,3 +1,7 @@
+# =====================================================================
+# ÖZEL LİSANS — TÜM HAKLAR SAKLIDIR
+# Telif Hakkı (c) 2026 Seydi Eryılmaz (@seydivakkas)
+# =====================================================================
 """Pydantic istek modelleri."""
 
 from typing import (
@@ -152,6 +156,20 @@ class BookingIn(BaseModel):
     confirmed: bool = False
     corporate_account_id: str | None = None
     package_type: str = Field(default="standart_ekspertiz", max_length=64)
+
+
+class RescheduleIn(BaseModel):
+    target_slot_id: str | None = None
+    new_starts_at: AwareDatetime | None = None
+    preview_version: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
+
+
+class FeedbackLexiconIn(BaseModel):
+    term: str = Field(min_length=1, max_length=100)
+    spoken: str = Field(min_length=1, max_length=160)
+    category: str = Field(default="custom", max_length=50)
+    turn_id: str | None = None
+
 
 
 class LiftIn(BaseModel):
@@ -332,6 +350,22 @@ class TCKNValidateIn(BaseModel):
 
 class CardValidateIn(BaseModel):
     card_number: str = Field(min_length=12, max_length=30)
+
+
+class KVKKErasureRequestIn(BaseModel):
+    identifier_type: Literal["phone", "plate", "customer_name", "conversation_id"] = "phone"
+    identifier_value: str = Field(min_length=1, max_length=120)
+    requester_name: str = Field(default="", max_length=120)
+    reason: str = Field(
+        default="KVKK Madde 11 uyarınca silme talebi", max_length=255
+    )
+    notes: str = Field(default="", max_length=1000)
+
+
+class TranscriptRetentionPurgeIn(BaseModel):
+    dry_run: bool = True
+    target_date: str | None = None
+    retention_days: int | None = Field(default=None, ge=1, le=3650)
 
 
 class VehicleValuationIn(BaseModel):
@@ -535,3 +569,17 @@ class ReviewIn(BaseModel):
     decision: str
     reviewer: str = Field(min_length=1, max_length=48)
     reason_code: str
+
+
+class InboundMetadataIn(BaseModel):
+    call_uuid: str = Field(min_length=8, max_length=64)
+    caller_id: str = Field(default="", max_length=40)
+    caller_channel: str = Field(default="", max_length=120)
+    did: str = Field(default="", max_length=40)
+
+
+class TestNotificationIn(BaseModel):
+    channel: str = Field(pattern="^(sms|whatsapp)$")
+    recipient: str = Field(min_length=7, max_length=40)
+    message: str = Field(min_length=1, max_length=1000)
+

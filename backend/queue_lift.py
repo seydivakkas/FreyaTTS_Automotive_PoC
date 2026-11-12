@@ -431,12 +431,15 @@ def check_slot_lift_capacity(
     db: Session,
     slot_start_iso: str,
     duration_minutes: int = 45,
+    *,
+    exclude_appointment_id: str | None = None,
+    seed: bool = True,
 ) -> bool:
     """Check if center has available lift capacity for the requested timeslot.
 
     Returns True if slot can be accommodated, False if all lifts are booked.
     """
-    lifts = get_all_lifts(db)
+    lifts = get_all_lifts(db) if seed else db.scalars(select(InspectionLift)).all()
     active_count = sum(1 for l in lifts if l.status != "maintenance")
     if active_count <= 0:
         return False
@@ -451,10 +454,13 @@ def check_slot_lift_capacity(
     req_end = req_start + timedelta(minutes=duration_minutes)
 
     # Check how many existing appointments overlap with this window
-    existing_slots = db.scalars(select(Slot)).all()
-    overlapping_count = 0
-
-    for s in existing_slots:
+    booked = select(Slot).join(Appointment, Appointment.slot_id == Slot.id).where(
+        Appointment.status != "cancelled",
+    )
+    if exclude_appointment_id is not None:
+        booked = booked.where(Appointment.id != exclude_appointment_id)
+    boundaries = []
+    for s in db.scalars(booked):
         try:
             s_start = datetime.fromisoformat(s.starts_at)
             if s_start.tzinfo is None:
@@ -462,18 +468,14 @@ def check_slot_lift_capacity(
             s_dur = getattr(s, "duration_minutes", 30) or 30
             s_end = s_start + timedelta(minutes=s_dur)
 
-            # Check overlap
             if req_start < s_end and req_end > s_start:
-                # Check if booked
-                app = db.scalars(
-                    select(Appointment).where(
-                        and_(Appointment.slot_id == s.id, Appointment.status != "cancelled")
-                    )
-                ).first()
-                if app:
-                    overlapping_count += 1
-        except Exception:
+                boundaries.extend(((max(req_start, s_start), 1), (min(req_end, s_end), -1)))
+        except (TypeError, ValueError):
             continue
-
-    return overlapping_count < active_count
+    overlapping_count = 0
+    for _, change in sorted(boundaries):
+        overlapping_count += change
+        if overlapping_count >= active_count:
+            return False
+    return True
 

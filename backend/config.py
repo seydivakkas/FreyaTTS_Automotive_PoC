@@ -1,4 +1,9 @@
+# =====================================================================
+# ÖZEL LİSANS — TÜM HAKLAR SAKLIDIR
+# Telif Hakkı (c) 2026 Seydi Eryılmaz (@seydivakkas)
+# =====================================================================
 from pathlib import Path
+from typing import Literal
 
 from pydantic import model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -26,10 +31,13 @@ class Settings(BaseSettings):
     pbx_allowed_ips: list[str] = ["127.0.0.1", "::1"]
     record_audio: bool = False
     retention_days: int = 7
+    # KVKK gereğince transkript (metin) saklama süresi (gün)
+    transcript_retention_days: int = 30
     ami_host: str = "127.0.0.1"
     ami_port: int = 5038
     ami_username: str = "freya"
     ami_secret: str = ""
+    ami_enabled: bool = False
     ami_channel_prefix: str = "PJSIP"
     ami_trunk: str = "trunk"
     ami_context: str = "automotive-outbound"
@@ -44,6 +52,12 @@ class Settings(BaseSettings):
     branch_longitude: float = 29.0225
     branch_maps_url: str = "https://maps.google.com/?q=41.1118,29.0225"
     whatsapp_webhook_token: str = ""
+    # Gerçek SMS / WhatsApp bildirim sağlayıcısı ("mock" veya "twilio")
+    notification_provider: str = "mock"
+    twilio_account_sid: str = ""
+    twilio_auth_token: str = ""
+    twilio_from_number: str = ""
+    twilio_whatsapp_from: str = ""
     # Ses arşivi HMAC mühür anahtarı; boşsa arşiv oluşturma ve doğrulama reddedilir.
     audio_archive_master_key: str = ""
     # İmzalı müşteri bağlantıları (rapor PDF) için HMAC anahtarı; boşsa imzalı erişim kapalıdır.
@@ -54,6 +68,8 @@ class Settings(BaseSettings):
     car_denoiser_target_dbfs: float = -16.0
     car_denoiser_noise_gate_dbfs: float = -42.0
     car_denoiser_max_boost_db: float = 12.0
+    car_denoiser_auto_calibrate: bool = True
+    car_denoiser_gate_attenuation_db: float = 30.0
     max_concurrent_calls: int = 50
     batched_ode_enabled: bool = True
     batched_ode_batch_size: int = 8
@@ -65,6 +81,11 @@ class Settings(BaseSettings):
     chan_websocket_enabled: bool = True
     morph_precheck_enabled: bool = True
     morph_precheck_pause_ms: int = 35
+    supervisor_mode: Literal["off", "shadow", "guarded"] = "off"
+    fqici_enabled: bool = False
+    supervisor_model_path: Path | None = None
+    supervisor_model_sha256: str = ""
+    supervisor_llm_fallback: bool = False
 
     @model_validator(mode="after")
     def _isolate_demo_data(self):

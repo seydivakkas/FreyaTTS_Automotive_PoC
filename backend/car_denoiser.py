@@ -250,12 +250,14 @@ class SoftAGC:
         max_boost_db: float = 12.0,
         max_cut_db: float = 6.0,
         sample_rate: int = 8000,
+        gate_attenuation_db: float = 30.0,
     ):
         self.target_dbfs = float(target_dbfs)
         self.noise_gate_dbfs = float(noise_gate_dbfs)
         self.max_boost_db = float(max_boost_db)
         self.max_cut_db = float(max_cut_db)
         self.sample_rate = int(sample_rate)
+        self.gate_attenuation_db = float(gate_attenuation_db)
 
         self.reset()
 
@@ -288,13 +290,16 @@ class SoftAGC:
         dbfs = 20.0 * math.log10(max(rms, 1e-6))
         self.last_input_dbfs = dbfs
 
-        # 1. Gürültü Kapısı Denetimi
+        # 1. Gürültü Kapısı ve Downward Expander Denetimi
         if dbfs < self.noise_gate_dbfs:
-            # Sadece gürültü / sessizlik var: Kazancı yükseltme, unity (1.0) seviyesine doğru gevşet
             self.is_speech = False
-            target_gain_linear = 1.0
-            # Yavaşça 1.0'a dön
-            self.current_gain = 0.95 * self.current_gain + 0.05 * target_gain_linear
+            # Kapı altındaki ortam/oda gürültüsünü sertçe sönümle (Downward Expander)
+            deficit_db = self.noise_gate_dbfs - dbfs
+            # Eşik altına indikçe hızlıca -12 dB ile -gate_attenuation_db (-30 dB) arası sönümleme
+            attenuation_db = min(self.gate_attenuation_db, max(12.0, deficit_db * 2.5))
+            target_gain_linear = float(10.0 ** (-attenuation_db / 20.0))
+            # Hızlı kapı kapanması (hızlı zayıflatma)
+            self.current_gain = 0.65 * self.current_gain + 0.35 * target_gain_linear
         else:
             # Konuşma algılandı: Hedef seviyeye göre kazancı hesapla
             self.is_speech = True
@@ -353,12 +358,15 @@ class InboundCarDenoiser:
         noise_gate_dbfs: float = -42.0,
         max_boost_db: float = 12.0,
         enabled: bool = True,
+        gate_attenuation_db: float = 30.0,
     ):
         self.sample_rate = int(sample_rate)
         self.enabled = bool(enabled)
         self.hpf_cutoff_hz = float(hpf_cutoff_hz)
         self.suppression_db = float(suppression_db)
         self.target_dbfs = float(target_dbfs)
+        self.noise_gate_dbfs = float(noise_gate_dbfs)
+        self.gate_attenuation_db = float(gate_attenuation_db)
 
         self.hpf = CarNoiseFilter(cutoff_hz=hpf_cutoff_hz, sample_rate=sample_rate)
         self.suppressor = SpectralNoiseSuppressor(
@@ -369,13 +377,120 @@ class InboundCarDenoiser:
             noise_gate_dbfs=noise_gate_dbfs,
             max_boost_db=max_boost_db,
             sample_rate=sample_rate,
+            gate_attenuation_db=gate_attenuation_db,
         )
+
+        # Kalibrasyon durumu
+        self.is_calibrating = False
+        self._calib_frames: list[np.ndarray] = []
+        self._target_calib_frames = 75
+        self.calibrated = False
+        self.ambient_noise_dbfs = -90.0
 
         # Telemetri ve İstatistik
         self.total_frames_processed = 0
         self.speech_frames_detected = 0
         self.false_barge_in_prevented = 0
         self.total_noise_suppression_db = 0.0
+
+    def start_calibration(self, duration_sec: float = 1.5, target_frames: int | None = None) -> None:
+        """Kullanıcı sessizken ortam oda gürültüsünü profillemek üzere kalibrasyon başlatır."""
+        self.is_calibrating = True
+        self._calib_frames = []
+        frame_dur = 0.020  # 20 ms
+        self._target_calib_frames = target_frames or max(int(duration_sec / frame_dur), 25)
+
+    def feed_calibration_frame(self, samples: np.ndarray) -> bool:
+        """
+        Kalibrasyon çerçevesi ekler.
+        Döndürür: True ise hedef çerçeve sayısına ulaşıldı (kalibrasyon hazır).
+        """
+        if not self.is_calibrating:
+            return True
+        if len(samples) > 0:
+            self._calib_frames.append(samples.astype(np.float32))
+        return len(self._calib_frames) >= self._target_calib_frames
+
+    def feed_calibration_bytes(self, raw_bytes: bytes, sample_rate: int | None = None) -> bool:
+        """PCM byte dizisinden kalibrasyon çerçevesi besler."""
+        if not self.is_calibrating or not raw_bytes:
+            return True
+        if sample_rate and sample_rate != self.sample_rate:
+            self.sample_rate = sample_rate
+            self.hpf = CarNoiseFilter(cutoff_hz=self.hpf_cutoff_hz, sample_rate=sample_rate)
+            self.suppressor = SpectralNoiseSuppressor(
+                sample_rate=sample_rate, suppression_db=self.suppression_db
+            )
+            self.agc.sample_rate = sample_rate
+
+        samples_int16 = np.frombuffer(raw_bytes, dtype="<i2")
+        samples_f32 = samples_int16.astype(np.float32) / 32768.0
+        frame_size = int(self.sample_rate * 0.020)
+        done = False
+        for i in range(0, len(samples_f32), frame_size):
+            chunk = samples_f32[i : i + frame_size]
+            done = self.feed_calibration_frame(chunk)
+            if done:
+                break
+        return done
+
+    def finish_calibration(self) -> dict[str, Any]:
+        """
+        Toplanan ortam gürültüsü çerçevelerini analiz ederek gürültü kapısı eşiğini
+        ve spektral profilini dinamik olarak ayarlar.
+        """
+        self.is_calibrating = False
+        if not self._calib_frames:
+            return {
+                "calibrated": False,
+                "ambient_dbfs": self.ambient_noise_dbfs,
+                "noise_gate_dbfs": self.agc.noise_gate_dbfs,
+                "suppression_db": self.suppressor.suppression_db,
+            }
+
+        # 1. Çerçeveleri HPF'den geçirerek motor/klima/oda uğultusu sonrası RMS dağılımını hesapla
+        filtered_rms_list = []
+        all_samples = []
+        for frame in self._calib_frames:
+            hpf_frame = self.hpf.process(frame)
+            mean_sq = float(np.mean(hpf_frame**2))
+            rms = math.sqrt(max(mean_sq, 1e-12))
+            filtered_rms_list.append(rms)
+            all_samples.append(hpf_frame)
+
+        # 85. persentil: Odadaki arka plan tepe gürültüsü (konuşma olmaksızın)
+        ambient_rms = float(np.percentile(filtered_rms_list, 85))
+        ambient_dbfs = 20.0 * math.log10(max(ambient_rms, 1e-6))
+        self.ambient_noise_dbfs = ambient_dbfs
+
+        # 2. Dinamik Gürültü Kapısı Eşiği:
+        # Ortam gürültüsünün 4.5 dB üstü (güvenlik marjı) olarak ayarla.
+        # En az -52.0 dBFS, en fazla -24.0 dBFS ile sınırla.
+        dynamic_gate_dbfs = round(min(max(ambient_dbfs + 4.5, -52.0), -24.0), 2)
+        self.noise_gate_dbfs = dynamic_gate_dbfs
+        self.agc.noise_gate_dbfs = dynamic_gate_dbfs
+
+        # 3. Spektral Bastırıcıyı Odanın Gerçek Frekans Dağılımına Göre Kalibre Et
+        if all_samples:
+            flat_samples = np.concatenate(all_samples)
+            # Spektral bastırıcıyı bu gürültü parçasıyla ısıtarak noise_power profilini güncelle
+            self.suppressor.reset()
+            self.suppressor.process(flat_samples)
+            # Eğer oda çok gürültülüyse (ambient > -38 dBFS), bastırma miktarını artır
+            if ambient_dbfs > -38.0:
+                boosted_suppression = min(24.0, 18.0 + (ambient_dbfs + 38.0) * 0.75)
+                self.suppressor.suppression_db = boosted_suppression
+                self.suppressor.g_floor = float(10.0 ** (-boosted_suppression / 20.0))
+                self.suppressor.g_floor_sq = self.suppressor.g_floor**2
+
+        self.calibrated = True
+        return {
+            "calibrated": True,
+            "ambient_dbfs": round(ambient_dbfs, 2),
+            "noise_gate_dbfs": round(dynamic_gate_dbfs, 2),
+            "suppression_db": round(self.suppressor.suppression_db, 2),
+            "frames_analyzed": len(self._calib_frames),
+        }
 
     def reset(self) -> None:
         """Yeni bir arama oturumu için tüm durumları sıfırlar."""
@@ -490,6 +605,9 @@ class InboundCarDenoiser:
             "hpf_cutoff_hz": self.hpf_cutoff_hz,
             "target_dbfs": self.target_dbfs,
             "suppression_db": self.suppression_db,
+            "noise_gate_dbfs": self.noise_gate_dbfs,
+            "calibrated": self.calibrated,
+            "ambient_noise_dbfs": round(self.ambient_noise_dbfs, 2),
         }
 
 

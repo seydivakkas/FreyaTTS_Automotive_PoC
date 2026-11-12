@@ -35,6 +35,8 @@ type AnalyticsData = {
     active_conversations: number;
     total_appointments: number;
     confirmed_appointments: number;
+    cancelled_appointments?: number;
+    cancellation_rate_pct?: number;
     conversion_rate_pct: number;
     avg_turns_per_conversation: Measured;
     avg_duration_seconds: Measured;
@@ -83,11 +85,48 @@ type TurnItem = {
   created_at: string;
 };
 
+type WeeklyReportData = {
+  period_days: number;
+  start_date: string;
+  end_date: string;
+  generated_at: string;
+  summary: {
+    total_conversations: number;
+    completed_conversations: number;
+    follow_up_conversations: number;
+    total_appointments: number;
+    confirmed_appointments: number;
+    cancelled_appointments: number;
+    cancellation_rate_pct: number;
+    conversion_rate_pct: number;
+    stt_clarity_rate_pct: number | null;
+    unclear_turns_count: number;
+  };
+  latency_percentiles: {
+    first_audio_p50_ms: number | null;
+    first_audio_p95_ms: number | null;
+    llm_p50_ms: number | null;
+    llm_p95_ms: number | null;
+    stt_p50_ms: number | null;
+    stt_p95_ms: number | null;
+    sample_count: number;
+  };
+  package_distribution: Record<string, number>;
+  daily_breakdown: Array<{
+    date: string;
+    conversations: number;
+    appointments: number;
+    cancelled: number;
+  }>;
+};
+
 import type { ApiProps as Props } from "./api";
 
 export function AnalyticsPanel({ api }: Props) {
-  const [activeTab, setActiveTab] = useState<"dashboard" | "follow_ups">("dashboard");
+  const [activeTab, setActiveTab] = useState<"dashboard" | "follow_ups" | "weekly_reports">("dashboard");
   const [data, setData] = useState<AnalyticsData | null>(null);
+  const [weeklyReport, setWeeklyReport] = useState<WeeklyReportData | null>(null);
+  const [loadingReport, setLoadingReport] = useState(false);
   const [followUps, setFollowUps] = useState<FollowUpItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -130,8 +169,21 @@ export function AnalyticsPanel({ api }: Props) {
     setFollowUps(followUpsRes);
   }
 
+  async function loadWeeklyReport() {
+    try {
+      setLoadingReport(true);
+      const rep = await api("reports/weekly/summary?days=7");
+      setWeeklyReport(rep);
+    } catch (e) {
+      setError(errorMessage(e));
+    } finally {
+      setLoadingReport(false);
+    }
+  }
+
   useEffect(() => {
     act(refresh);
+    loadWeeklyReport();
   }, [statusFilter]);
 
   async function handleResolve(e: React.FormEvent) {
@@ -226,6 +278,16 @@ export function AnalyticsPanel({ api }: Props) {
               </span>
             ) : null}
           </button>
+          <button
+            className={activeTab === "weekly_reports" ? "selected" : "secondary"}
+            onClick={() => {
+              setActiveTab("weekly_reports");
+              loadWeeklyReport();
+            }}
+            style={{ padding: "0.5rem 1.2rem" }}
+          >
+            📑 Haftalık Rapor & Excel Çıktısı
+          </button>
         </div>
 
         <button
@@ -242,8 +304,13 @@ export function AnalyticsPanel({ api }: Props) {
         <>
           {/* Executive Summary Cards */}
           <div
-            className="stats kpi-grid-4"
-            style={{ marginBottom: "1.5rem" }}
+            className="stats"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+              gap: "1rem",
+              marginBottom: "1.5rem",
+            }}
           >
             <div className="card" style={{ borderLeft: "4px solid #16a34a" }}>
               <small>🎯 DÖNÜŞÜM ORANI (CONVERSION)</small>
@@ -251,8 +318,18 @@ export function AnalyticsPanel({ api }: Props) {
                 {data.summary.total_conversations ? `%${data.summary.conversion_rate_pct}` : "—"}
               </h2>
               <small>
-                {data.summary.confirmed_appointments} Randevu /{" "}
-                {data.summary.total_conversations} Görüşme
+                {data.summary.confirmed_appointments} Onaylı /{" "}
+                {data.summary.total_conversations} Çağrı
+              </small>
+            </div>
+
+            <div className="card" style={{ borderLeft: "4px solid #ef4444" }}>
+              <small>🚫 RANDEVU İPTAL ORANI</small>
+              <h2 style={{ color: "#f87171", margin: "6px 0" }}>
+                {data.summary.total_appointments ? `%${data.summary.cancellation_rate_pct ?? 0}` : "—"}
+              </h2>
+              <small>
+                {data.summary.cancelled_appointments ?? 0} İptal / {data.summary.total_appointments} Randevu
               </small>
             </div>
 
@@ -694,6 +771,169 @@ export function AnalyticsPanel({ api }: Props) {
               )}
             </tbody>
           </table></div>
+        </section>
+      )}
+
+      {/* TAB 3: HAFTALIK OPERASYONEL RAPOR VE EXCEL ÇIKTISI */}
+      {activeTab === "weekly_reports" && (
+        <section>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem", flexWrap: "wrap", gap: "1rem" }}>
+            <div>
+              <h2 style={{ margin: "0 0 0.25rem 0" }}>Haftalık Yönetici ve Operasyon Raporu</h2>
+              <p style={{ margin: 0, color: "#94a3b8", fontSize: "0.9rem" }}>
+                Görüşme hacmi, randevu dönüşümü, iptal oranı, gecikme SLA metrikleri ve paket dağılımı özeti.
+              </p>
+            </div>
+            <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
+              <button
+                onClick={loadWeeklyReport}
+                disabled={loadingReport}
+                style={{ padding: "0.5rem 1rem", fontSize: "0.85rem" }}
+              >
+                {loadingReport ? "Hesaplanıyor..." : "🔄 Özeti Güncelle"}
+              </button>
+              <a
+                href="/api/reports/weekly/excel"
+                download="haftalik_operasyon_raporu.xlsx"
+                className="primary"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.4rem",
+                  textDecoration: "none",
+                  padding: "0.5rem 1.2rem",
+                  borderRadius: "6px",
+                  fontWeight: "bold",
+                  background: "#16a34a",
+                  color: "#ffffff",
+                }}
+              >
+                📊 Haftalık Excel İndir (.xlsx)
+              </a>
+            </div>
+          </div>
+
+          {weeklyReport ? (
+            <>
+              {/* Dönem Banner */}
+              <div
+                style={{
+                  background: "#1e293b",
+                  border: "1px solid #334155",
+                  borderRadius: "8px",
+                  padding: "1rem 1.25rem",
+                  marginBottom: "1.5rem",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                  gap: "0.75rem",
+                }}
+              >
+                <div>
+                  <div style={{ fontSize: "0.8rem", color: "#94a3b8" }}>RAPOR DÖNEMİ:</div>
+                  <strong style={{ fontSize: "1.05rem", color: "#38bdf8" }}>
+                    {weeklyReport.start_date} — {weeklyReport.end_date} (Son {weeklyReport.period_days} Gün)
+                  </strong>
+                </div>
+                <div>
+                  <span style={{ fontSize: "0.8rem", color: "#94a3b8" }}>
+                    Rapor Üretilme Tarihi: {weeklyReport.generated_at.substring(0, 16).replace("T", " ")} UTC
+                  </span>
+                </div>
+              </div>
+
+              {/* Haftalık KPI Kartları */}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                  gap: "1rem",
+                  marginBottom: "1.5rem",
+                }}
+              >
+                <div className="card" style={{ borderLeft: "4px solid #16a34a" }}>
+                  <small>DÖNÜŞÜM ORANI</small>
+                  <h3 style={{ color: "#4ade80", margin: "6px 0" }}>
+                    %{weeklyReport.summary.conversion_rate_pct}
+                  </h3>
+                  <small>{weeklyReport.summary.confirmed_appointments} Onaylı / {weeklyReport.summary.total_conversations} Çağrı</small>
+                </div>
+
+                <div className="card" style={{ borderLeft: "4px solid #ef4444" }}>
+                  <small>RANDEVU İPTAL ORANI</small>
+                  <h3 style={{ color: "#f87171", margin: "6px 0" }}>
+                    %{weeklyReport.summary.cancellation_rate_pct}
+                  </h3>
+                  <small>{weeklyReport.summary.cancelled_appointments} İptal / {weeklyReport.summary.total_appointments} Randevu</small>
+                </div>
+
+                <div className="card" style={{ borderLeft: "4px solid #0284c7" }}>
+                  <small>UÇTAN UCA P95 GECİKME</small>
+                  <h3 style={{ color: "#38bdf8", margin: "6px 0" }}>
+                    {weeklyReport.latency_percentiles.first_audio_p95_ms !== null ? `${weeklyReport.latency_percentiles.first_audio_p95_ms} ms` : "—"}
+                  </h3>
+                  <small>P50 Medyan: {weeklyReport.latency_percentiles.first_audio_p50_ms ?? "—"} ms</small>
+                </div>
+
+                <div className="card" style={{ borderLeft: "4px solid #a855f7" }}>
+                  <small>STT NETLİK ORANI</small>
+                  <h3 style={{ color: "#c084fc", margin: "6px 0" }}>
+                    {weeklyReport.summary.stt_clarity_rate_pct !== null ? `%${weeklyReport.summary.stt_clarity_rate_pct}` : "—"}
+                  </h3>
+                  <small>Belirsiz Tur: {weeklyReport.summary.unclear_turns_count}</small>
+                </div>
+              </div>
+
+              {/* Günlük Kırılım Tablosu */}
+              <div style={{ background: "#1e293b", border: "1px solid #334155", borderRadius: "8px", padding: "1.25rem", marginBottom: "1.5rem" }}>
+                <h3 style={{ margin: "0 0 1rem 0", fontSize: "1.1rem" }}>📅 Günlük Çağrı ve Randevu Kırılımı</h3>
+                <div className="table-wrap">
+                  <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                    <thead>
+                      <tr style={{ borderBottom: "2px solid #475569", textAlign: "left", fontSize: "0.85rem", color: "#94a3b8" }}>
+                        <th style={{ padding: "8px" }}>Tarih</th>
+                        <th style={{ padding: "8px" }}>Görüşme Sayısı</th>
+                        <th style={{ padding: "8px" }}>Alınan Randevu</th>
+                        <th style={{ padding: "8px" }}>İptal Edilen</th>
+                        <th style={{ padding: "8px" }}>Net Randevu</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {weeklyReport.daily_breakdown.map((d) => (
+                        <tr key={d.date} style={{ borderBottom: "1px solid #334155", fontSize: "0.9rem" }}>
+                          <td style={{ padding: "8px", fontWeight: 600 }}>{d.date}</td>
+                          <td style={{ padding: "8px" }}>{d.conversations}</td>
+                          <td style={{ padding: "8px", color: "#4ade80" }}>{d.appointments}</td>
+                          <td style={{ padding: "8px", color: "#f87171" }}>{d.cancelled}</td>
+                          <td style={{ padding: "8px", fontWeight: "bold" }}>{d.appointments - d.cancelled}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Paket Dağılımı Kartı */}
+              <div style={{ background: "#1e293b", border: "1px solid #334155", borderRadius: "8px", padding: "1.25rem" }}>
+                <h3 style={{ margin: "0 0 1rem 0", fontSize: "1.1rem" }}>📦 Ekspertiz Paketi Tercihleri</h3>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "1rem" }}>
+                  {Object.entries(weeklyReport.package_distribution).map(([pkg, cnt]) => (
+                    <div key={pkg} style={{ background: "#0f172a", padding: "1rem", borderRadius: "6px", border: "1px solid #334155" }}>
+                      <div style={{ fontSize: "0.8rem", color: "#94a3b8" }}>{pkg.replace(/_/g, " ").toUpperCase()}</div>
+                      <div style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#38bdf8", margin: "4px 0" }}>{cnt}</div>
+                      <small style={{ color: "#64748b" }}>randevu talebi</small>
+                    </div>
+                  ))}
+                  {Object.keys(weeklyReport.package_distribution).length === 0 && (
+                    <p className="muted">Bu dönemde henüz paket seçimi kaydedilmedi.</p>
+                  )}
+                </div>
+              </div>
+            </>
+          ) : (
+            <p>Haftalık rapor verileri yükleniyor...</p>
+          )}
         </section>
       )}
 

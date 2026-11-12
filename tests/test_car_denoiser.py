@@ -314,3 +314,141 @@ async def test_session_denoiser_integration(tmp_path, monkeypatch):
 
     await session.close()
     engine.dispose()
+
+
+def test_soft_agc_downward_expander_attenuates_noise():
+    """SoftAGC'nin kapı altındaki gürültüyü (Downward Expander) güçlü bir şekilde sönümlediğini doğrular."""
+    fs = 8000
+    agc = SoftAGC(
+        target_dbfs=-16.0,
+        noise_gate_dbfs=-40.0,
+        max_boost_db=12.0,
+        gate_attenuation_db=30.0,
+        sample_rate=fs,
+    )
+    # -52 dBFS gürültü sinyali (kapının 12 dB altında)
+    t = np.linspace(0, 0.4, int(fs * 0.4), endpoint=False)
+    noise_sig = (0.0025 * np.sin(2 * np.pi * 350 * t)).astype(np.float32)
+    in_rms = np.sqrt(np.mean(noise_sig**2))
+
+    out_chunks = []
+    chunk_size = 160
+    for i in range(0, len(noise_sig), chunk_size):
+        out_chunks.append(agc.process(noise_sig[i : i + chunk_size]))
+
+    out_sig = np.concatenate(out_chunks)
+    out_rms = np.sqrt(np.mean(out_sig[int(fs * 0.1):] ** 2))
+    attenuation_db = 20 * np.log10(out_rms / in_rms)
+
+    # Kapı altındaki gürültü en az 10 dB zayıflatılmalıdır
+    assert attenuation_db <= -10.0, f"Gürültü yeterince sönümlenmedi: {attenuation_db:.2f} dB"
+    assert agc.is_speech is False
+
+
+def test_inbound_car_denoiser_ambient_calibration():
+    """Ortam gürültüsü kalibrasyonunun oda gürültüsünü doğru profilleyip dinamik kapı belirlediğini doğrular."""
+    fs = 8000
+    denoiser = InboundCarDenoiser(sample_rate=fs, noise_gate_dbfs=-42.0)
+    denoiser.start_calibration(duration_sec=0.5, target_frames=25)
+    assert denoiser.is_calibrating is True
+
+    # -35 dBFS seviyesinde 25 çerçeve oda gürültüsü besle
+    t = np.linspace(0, 0.020, 160, endpoint=False)
+    ambient_frame = (0.018 * np.sin(2 * np.pi * 400 * t)).astype(np.float32)
+
+    done = False
+    for _ in range(25):
+        done = denoiser.feed_calibration_frame(ambient_frame)
+
+    assert done is True
+    info = denoiser.finish_calibration()
+    assert info["calibrated"] is True
+    assert denoiser.is_calibrating is False
+    assert denoiser.calibrated is True
+    # -35 dBFS gürültü için dinamik kapı yaklaşık -31 dBFS civarına çekilmelidir
+    assert -38.0 <= info["ambient_dbfs"] <= -32.0
+    assert info["noise_gate_dbfs"] > info["ambient_dbfs"]
+    assert denoiser.agc.noise_gate_dbfs == info["noise_gate_dbfs"]
+
+
+@pytest.mark.asyncio
+async def test_anti_hallucination_guard():
+    """models.transcribe'ın ortam gürültüsünü, ipucu yankısını ve İngilizce döngüleri süzdüğünü doğrular."""
+    from backend.models import models
+
+    # 1. Düşük enerjili gürültü / sessizlik (RMS < 0.0075): Whisper'a gitmeden boş dönmeli
+    silent_audio = (np.random.randn(3200) * 0.001).astype(np.float32)
+    res_silent = await models.transcribe(silent_audio)
+    assert res_silent == ""
+
+    # 2. Whisper mock ile halüsinasyon filtrelerini test et
+    class MockSegment:
+        def __init__(self, text, no_speech_prob=0.01, avg_logprob=-0.2, compression_ratio=1.1):
+            self.text = text
+            self.no_speech_prob = no_speech_prob
+            self.avg_logprob = avg_logprob
+            self.compression_ratio = compression_ratio
+
+    class MockSTT:
+        def __init__(self, return_segments):
+            self.return_segments = return_segments
+            self.last_kwargs = {}
+
+        def transcribe(self, *args, **kwargs):
+            self.last_kwargs = kwargs
+            assert "log_prob_threshold" in kwargs, f"log_prob_threshold bekleniyordu: {kwargs.keys()}"
+            assert "logprob_threshold" not in kwargs, "Hatalı logprob_threshold tespit edildi!"
+            return self.return_segments, None
+
+    # Güçlü ama sahte sinyal (RMS yüksek)
+    loud_audio = (np.sin(np.linspace(0, 1, 3200)) * 0.3).astype(np.float32)
+
+    # 2a. İngilizce halüsinasyon ("IF, LET'S SEE, LET'S SEE, LET'S SEE.")
+    models.stt = MockSTT([MockSegment("IF, LET'S SEE, LET'S SEE, LET'S SEE.")])
+    res_hallucination = await models.transcribe(loud_audio)
+    assert res_hallucination == "", f"İngilizce döngü filtrelenemedi: {res_hallucination}"
+
+    # 2b. Biddyo halüsinasyonu
+    models.stt = MockSTT([MockSegment("Biddyo.")])
+    res_biddyo = await models.transcribe(loud_audio)
+    assert res_biddyo == "", f"Biddyo halüsinasyonu filtrelenemedi: {res_biddyo}"
+
+    # 2c. Hotwords yankısı ("Context, VTEC, Volkswagen Golf 1.4 TSI, Volkswagen Golf 1.8")
+    models.stt = MockSTT([MockSegment("Context, VTEC, Volkswagen Golf 1.4 TSI, Volkswagen Golf 1.8")])
+    res_echo = await models.transcribe(loud_audio)
+    assert res_echo == "", f"Katalog ipucu yankısı filtrelenemedi: {res_echo}"
+
+    # 2d. Geçerli Türkçe konuşma: korunmalı!
+    models.stt = MockSTT([MockSegment("Randevu almak istiyorum.")])
+    res_valid = await models.transcribe(loud_audio)
+    assert res_valid == "Randevu almak istiyorum."
+
+
+def test_system_mode_dynamic_switch():
+    """Çalışma zamanında Demo ve Reel veritabanı arasında geçişi ve API uç noktasını doğrular."""
+    from backend.db import Session, Vehicle
+    client = TestClient(app)
+    auth_headers = {"Authorization": "Basic YWRtaW46c2VjcmV0"}
+
+    with patch("backend.main.settings.admin_password", "secret"):
+        # 1. Demo moduna geç
+        post_res = client.post("/api/system/mode", json={"demo_mode": True}, headers=auth_headers)
+        assert post_res.status_code == 200
+        assert post_res.json()["demo_mode"] is True
+        assert settings.demo_mode is True
+        with Session() as db:
+            demo_count = db.query(Vehicle).count()
+        assert demo_count > 0, "Demo veritabanında araçlar bulunamadı"
+
+        # 2. Reel moduna geç
+        post_res_real = client.post("/api/system/mode", json={"demo_mode": False}, headers=auth_headers)
+        assert post_res_real.status_code == 200
+        assert post_res_real.json()["demo_mode"] is False
+        assert settings.demo_mode is False
+        with Session() as db:
+            real_count = db.query(Vehicle).count()
+        assert real_count == 0, "Reel veritabanında gereksiz sentetik veri var"
+
+        # 3. Test bitiminde Demo moduna geri al
+        client.post("/api/system/mode", json={"demo_mode": True}, headers=auth_headers)
+        assert settings.demo_mode is True

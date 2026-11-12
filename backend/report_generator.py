@@ -591,3 +591,421 @@ def generate_inspection_pdf(
         out_p.write_bytes(pdf_bytes)
 
     return pdf_bytes
+
+
+# ============================================================================
+# HAFTALIK ÖZET VE EXCEL (.XLSX) RAPORLAMA FONKSİYONLARI
+# ============================================================================
+
+def generate_weekly_summary_report(db, days: int = 7) -> dict[str, Any]:
+    """Generates a structured weekly executive summary for automotive operations."""
+    from datetime import datetime, timezone, timedelta
+    from collections import defaultdict
+    from sqlalchemy import select
+    from backend.db import Conversation, Turn, Appointment, Slot, Vehicle
+    from backend.analytics import _calc_percentile
+
+    now_utc = datetime.now(timezone.utc)
+    start_utc = now_utc - timedelta(days=days)
+    start_iso = start_utc.isoformat()
+
+    # Conversations
+    convs = db.scalars(
+        select(Conversation).where(Conversation.created_at >= start_iso)
+    ).all()
+    total_convs = len(convs)
+
+    status_counts = defaultdict(int)
+    for c in convs:
+        status_counts[c.status] += 1
+
+    # Appointments
+    appts = db.scalars(
+        select(Appointment).where(Appointment.created_at >= start_iso)
+    ).all()
+    total_appts = len(appts)
+    confirmed_appts = sum(1 for a in appts if a.confirmed and a.status == "confirmed")
+    cancelled_appts = sum(1 for a in appts if a.status == "cancelled")
+
+    cancellation_rate = (
+        round((cancelled_appts / total_appts) * 100, 1) if total_appts > 0 else 0.0
+    )
+    conversion_rate = (
+        round((confirmed_appts / total_convs) * 100, 1) if total_convs > 0 else 0.0
+    )
+
+    package_counts = defaultdict(int)
+    for a in appts:
+        pkg = getattr(a, "package_type", "standart_ekspertiz") or "standart_ekspertiz"
+        package_counts[pkg] += 1
+
+    # Turns & Latency
+    first_audio_list = []
+    llm_total_list = []
+    stt_list = []
+    unclear_count = 0
+    total_user_turns = 0
+
+    unclear_keywords = ["anlayamadım", "tekrar edebilir misiniz", "net duyamadım", "doğrulayamadım"]
+
+    conv_ids = [c.id for c in convs]
+    turns = (
+        db.scalars(
+            select(Turn).where(Turn.conversation_id.in_(conv_ids)).order_by(Turn.created_at)
+        ).all()
+        if conv_ids
+        else []
+    )
+
+    for t in turns:
+        if t.role == "user":
+            total_user_turns += 1
+        elif t.role == "assistant":
+            txt = (t.text or "").lower()
+            if any(k in txt for k in unclear_keywords):
+                unclear_count += 1
+
+        if t.metrics and t.metrics != "{}":
+            try:
+                m = json.loads(t.metrics) if isinstance(t.metrics, str) else t.metrics
+                if isinstance(m, dict):
+                    if m.get("first_audio_ms") is not None:
+                        first_audio_list.append(float(m["first_audio_ms"]))
+                    if m.get("llm_total_ms") is not None:
+                        llm_total_list.append(float(m["llm_total_ms"]))
+                    if m.get("stt_ms") is not None:
+                        stt_list.append(float(m["stt_ms"]))
+            except Exception:
+                pass
+
+    clarity_rate = (
+        round(100.0 - (unclear_count / max(total_user_turns, 1) * 100.0), 1)
+        if total_user_turns > 0
+        else None
+    )
+
+    # Daily breakdown
+    daily_stats = {}
+    for i in range(days - 1, -1, -1):
+        d_str = (now_utc - timedelta(days=i)).strftime("%Y-%m-%d")
+        daily_stats[d_str] = {
+            "date": d_str,
+            "conversations": 0,
+            "appointments": 0,
+            "cancelled": 0,
+        }
+
+    for c in convs:
+        d = (c.created_at or "")[:10]
+        if d in daily_stats:
+            daily_stats[d]["conversations"] += 1
+    for a in appts:
+        d = (a.created_at or "")[:10]
+        if d in daily_stats:
+            daily_stats[d]["appointments"] += 1
+            if a.status == "cancelled":
+                daily_stats[d]["cancelled"] += 1
+
+    return {
+        "period_days": days,
+        "start_date": start_iso[:10],
+        "end_date": now_utc.strftime("%Y-%m-%d"),
+        "generated_at": now_utc.isoformat(),
+        "summary": {
+            "total_conversations": total_convs,
+            "completed_conversations": status_counts.get("completed", 0),
+            "follow_up_conversations": status_counts.get("follow_up", 0),
+            "total_appointments": total_appts,
+            "confirmed_appointments": confirmed_appts,
+            "cancelled_appointments": cancelled_appts,
+            "cancellation_rate_pct": cancellation_rate,
+            "conversion_rate_pct": conversion_rate,
+            "stt_clarity_rate_pct": clarity_rate,
+            "unclear_turns_count": unclear_count,
+        },
+        "latency_percentiles": {
+            "first_audio_p50_ms": _calc_percentile(first_audio_list, 50),
+            "first_audio_p95_ms": _calc_percentile(first_audio_list, 95),
+            "llm_p50_ms": _calc_percentile(llm_total_list, 50),
+            "llm_p95_ms": _calc_percentile(llm_total_list, 95),
+            "stt_p50_ms": _calc_percentile(stt_list, 50),
+            "stt_p95_ms": _calc_percentile(stt_list, 95),
+            "sample_count": len(first_audio_list),
+        },
+        "package_distribution": dict(package_counts),
+        "daily_breakdown": list(daily_stats.values()),
+    }
+
+
+def generate_weekly_excel_report(db, days: int = 7) -> bytes:
+    """Generates a professional multi-sheet Excel (.xlsx) operational report."""
+    import openpyxl
+    from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
+    from openpyxl.utils import get_column_letter
+    from sqlalchemy import select
+    from backend.db import Conversation, Turn, Appointment, Slot, Vehicle
+
+    summary_data = generate_weekly_summary_report(db, days=days)
+    summ = summary_data["summary"]
+    lat = summary_data["latency_percentiles"]
+
+    wb = openpyxl.Workbook()
+
+    # Standard styling tokens
+    font_title = Font(name="Calibri", size=15, bold=True, color="FFFFFF")
+    font_section = Font(name="Calibri", size=12, bold=True, color="1E293B")
+    font_header = Font(name="Calibri", size=10, bold=True, color="FFFFFF")
+    font_bold = Font(name="Calibri", size=10, bold=True, color="0F172A")
+    font_regular = Font(name="Calibri", size=10, color="334155")
+    font_muted = Font(name="Calibri", size=9, italic=True, color="64748B")
+
+    fill_dark = PatternFill(start_color="1E293B", end_color="1E293B", fill_type="solid")
+    fill_blue = PatternFill(start_color="2563EB", end_color="2563EB", fill_type="solid")
+    fill_light = PatternFill(start_color="F8FAFC", end_color="F8FAFC", fill_type="solid")
+    fill_zebra = PatternFill(start_color="F1F5F9", end_color="F1F5F9", fill_type="solid")
+
+    thin_border_side = Side(style="thin", color="CBD5E1")
+    border_cell = Border(left=thin_border_side, right=thin_border_side, top=thin_border_side, bottom=thin_border_side)
+
+    align_center = Alignment(horizontal="center", vertical="center")
+    align_left = Alignment(horizontal="left", vertical="center")
+    align_right = Alignment(horizontal="right", vertical="center")
+
+    # ----------------------------------------------------
+    # SHEET 1: YÖNETİCİ ÖZETİ
+    # ----------------------------------------------------
+    ws1 = wb.active
+    ws1.title = "Yönetici Özeti"
+    ws1.views.sheetView[0].showGridLines = True
+
+    # Title Banner
+    ws1.merge_cells("A1:F1")
+    c1 = ws1["A1"]
+    c1.value = "FREYATTS AUTOMOTIVE — HAFTALIK OPERASYON VE KPI RAPORU"
+    c1.font = font_title
+    c1.fill = fill_dark
+    c1.alignment = align_center
+    ws1.row_dimensions[1].height = 36
+
+    ws1.merge_cells("A2:F2")
+    c2 = ws1["A2"]
+    c2.value = f"Dönem: {summary_data['start_date']} — {summary_data['end_date']} | Rapor Tarihi: {summary_data['generated_at'][:19].replace('T', ' ')} (UTC)"
+    c2.font = font_muted
+    c2.alignment = align_center
+    ws1.row_dimensions[2].height = 20
+
+    # Section 1: Ana Metrikler
+    ws1.cell(row=4, column=1, value="GENEL OPERASYONEL METRİKLER").font = font_section
+    kpis = [
+        ("Toplam Müşteri Görüşmesi", summ["total_conversations"], "Görüşme"),
+        ("Tamamlanan Görüşmeler", summ["completed_conversations"], "Görüşme"),
+        ("Takibe Düşen Görüşmeler", summ["follow_up_conversations"], "Görüşme"),
+        ("Alınan Toplam Randevu", summ["total_appointments"], "Randevu"),
+        ("Onaylanan Randevular", summ["confirmed_appointments"], "Randevu"),
+        ("İptal Edilen Randevular", summ["cancelled_appointments"], "Randevu"),
+        ("Randevu İptal Oranı", f"%{summ['cancellation_rate_pct']}", "Oran"),
+        ("Dönüşüm Oranı (Randevu/Çağrı)", f"%{summ['conversion_rate_pct']}", "Oran"),
+        ("STT Konuşma Netlik Oranı", f"%{summ['stt_clarity_rate_pct']}" if summ['stt_clarity_rate_pct'] is not None else "—", "Netlik"),
+        ("Anlaşılamayan Tur Sayısı", summ["unclear_turns_count"], "Adet"),
+    ]
+
+    r_idx = 5
+    ws1.cell(row=r_idx, column=1, value="Metrik Adı").font = font_header
+    ws1.cell(row=r_idx, column=1).fill = fill_blue
+    ws1.cell(row=r_idx, column=2, value="Değer").font = font_header
+    ws1.cell(row=r_idx, column=2).fill = fill_blue
+    ws1.cell(row=r_idx, column=3, value="Birim").font = font_header
+    ws1.cell(row=r_idx, column=3).fill = fill_blue
+    ws1.row_dimensions[r_idx].height = 22
+
+    for name, val, unit in kpis:
+        r_idx += 1
+        c_name = ws1.cell(row=r_idx, column=1, value=name)
+        c_name.font = font_regular
+        c_name.border = border_cell
+        c_name.fill = fill_zebra if r_idx % 2 == 0 else fill_light
+
+        c_val = ws1.cell(row=r_idx, column=2, value=val)
+        c_val.font = font_bold
+        c_val.alignment = align_right
+        c_val.border = border_cell
+        c_val.fill = fill_zebra if r_idx % 2 == 0 else fill_light
+
+        c_unit = ws1.cell(row=r_idx, column=3, value=unit)
+        c_unit.font = font_muted
+        c_unit.alignment = align_center
+        c_unit.border = border_cell
+        c_unit.fill = fill_zebra if r_idx % 2 == 0 else fill_light
+
+    # Section 2: Gecikme & Ses Performansı
+    r_idx += 2
+    ws1.cell(row=r_idx, column=1, value="SİSTEM VE SES GECİKME PERFORMANSI (REAL SLA)").font = font_section
+    r_idx += 1
+
+    ws1.cell(row=r_idx, column=1, value="Gecikme Göstergesi").font = font_header
+    ws1.cell(row=r_idx, column=1).fill = fill_dark
+    ws1.cell(row=r_idx, column=2, value="P50 (Medyan)").font = font_header
+    ws1.cell(row=r_idx, column=2).fill = fill_dark
+    ws1.cell(row=r_idx, column=3, value="P95 (Kritik)").font = font_header
+    ws1.cell(row=r_idx, column=3).fill = fill_dark
+    ws1.row_dimensions[r_idx].height = 22
+
+    lat_rows = [
+        ("Uçtan Uca İlk Ses Yanıtı (first_audio_ms)", f"{lat['first_audio_p50_ms']} ms" if lat['first_audio_p50_ms'] else "—", f"{lat['first_audio_p95_ms']} ms" if lat['first_audio_p95_ms'] else "—"),
+        ("LLM Cevap Üretim Süresi (llm_total_ms)", f"{lat['llm_p50_ms']} ms" if lat['llm_p50_ms'] else "—", f"{lat['llm_p95_ms']} ms" if lat['llm_p95_ms'] else "—"),
+        ("STT Konuşma Tanıma Süresi (stt_ms)", f"{lat['stt_p50_ms']} ms" if lat['stt_p50_ms'] else "—", f"{lat['stt_p95_ms']} ms" if lat['stt_p95_ms'] else "—"),
+    ]
+
+    for label, p50_val, p95_val in lat_rows:
+        r_idx += 1
+        ws1.cell(row=r_idx, column=1, value=label).font = font_regular
+        ws1.cell(row=r_idx, column=1).border = border_cell
+        ws1.cell(row=r_idx, column=2, value=p50_val).font = font_bold
+        ws1.cell(row=r_idx, column=2).alignment = align_right
+        ws1.cell(row=r_idx, column=2).border = border_cell
+        ws1.cell(row=r_idx, column=3, value=p95_val).font = font_bold
+        ws1.cell(row=r_idx, column=3).alignment = align_right
+        ws1.cell(row=r_idx, column=3).border = border_cell
+
+    # ----------------------------------------------------
+    # SHEET 2: RANDEVULAR
+    # ----------------------------------------------------
+    ws2 = wb.create_sheet(title="Randevular")
+    ws2.views.sheetView[0].showGridLines = True
+
+    headers2 = ["Randevu ID", "Tarih / Saat", "Müşteri Adı", "Telefon Numarası", "Araç Plakası", "Paket Türü", "Durum", "Ücret (TL)"]
+    for c_i, h in enumerate(headers2, start=1):
+        cell = ws2.cell(row=1, column=c_i, value=h)
+        cell.font = font_header
+        cell.fill = fill_blue
+        cell.alignment = align_center
+        cell.border = border_cell
+    ws2.row_dimensions[1].height = 24
+
+    appts_all = db.scalars(
+        select(Appointment).order_by(Appointment.created_at.desc())
+    ).all()
+
+    for r_i, a in enumerate(appts_all, start=2):
+        v = db.get(Vehicle, a.vehicle_id) if a.vehicle_id else None
+        s = db.get(Slot, a.slot_id) if a.slot_id else None
+        plate = getattr(v, "plate", "") if v else ""
+        slot_time = getattr(s, "starts_at", a.created_at) if s else a.created_at
+        amount_tl = (a.billed_amount_kurus or 0) / 100.0
+
+        row_vals = [
+            a.id,
+            str(slot_time)[:16].replace("T", " "),
+            a.customer,
+            getattr(a, "customer_phone", "") or "—",
+            plate or "—",
+            a.package_type or "standart_ekspertiz",
+            "Onaylı" if a.status == "confirmed" else "İptal Edildi",
+            f"{amount_tl:,.2f} TL" if amount_tl > 0 else "Peşin / Standart",
+        ]
+
+        fill_cur = fill_zebra if r_i % 2 == 0 else fill_light
+        for c_i, val in enumerate(row_vals, start=1):
+            cell = ws2.cell(row=r_i, column=c_i, value=val)
+            cell.font = font_regular
+            cell.border = border_cell
+            cell.fill = fill_cur
+            if c_i in (2, 7):
+                cell.alignment = align_center
+            elif c_i == 8:
+                cell.alignment = align_right
+
+    # ----------------------------------------------------
+    # SHEET 3: GÖRÜŞMELER
+    # ----------------------------------------------------
+    ws3 = wb.create_sheet(title="Görüşmeler")
+    ws3.views.sheetView[0].showGridLines = True
+
+    headers3 = ["Görüşme ID", "Tarih", "Kanal", "Durum", "Tur Sayısı", "Operatör Notu"]
+    for c_i, h in enumerate(headers3, start=1):
+        cell = ws3.cell(row=1, column=c_i, value=h)
+        cell.font = font_header
+        cell.fill = fill_dark
+        cell.alignment = align_center
+        cell.border = border_cell
+    ws3.row_dimensions[1].height = 24
+
+    convs_all = db.scalars(
+        select(Conversation).order_by(Conversation.created_at.desc()).limit(200)
+    ).all()
+
+    for r_i, c in enumerate(convs_all, start=2):
+        t_count = db.scalar(
+            select(Turn.id).where(Turn.conversation_id == c.id)
+        )
+        fill_cur = fill_zebra if r_i % 2 == 0 else fill_light
+
+        status_tr = {
+            "completed": "Tamamlandı",
+            "follow_up": "Takip Gerekiyor",
+            "resolved": "Çözüldü",
+            "active": "Aktif",
+        }.get(c.status, c.status)
+
+        row_vals = [
+            c.id,
+            str(c.created_at)[:19].replace("T", " "),
+            c.channel or "voice",
+            status_tr,
+            c.turn_count if hasattr(c, "turn_count") else "—",
+            c.operator_notes or "",
+        ]
+
+        for c_i, val in enumerate(row_vals, start=1):
+            cell = ws3.cell(row=r_i, column=c_i, value=val)
+            cell.font = font_regular
+            cell.border = border_cell
+            cell.fill = fill_cur
+            if c_i in (2, 3, 4, 5):
+                cell.alignment = align_center
+
+    # ----------------------------------------------------
+    # SHEET 4: GÜNLÜK DAĞILIM
+    # ----------------------------------------------------
+    ws4 = wb.create_sheet(title="Günlük Dağılım")
+    ws4.views.sheetView[0].showGridLines = True
+
+    headers4 = ["Tarih", "Görüşme Sayısı", "Alınan Randevu", "İptal Edilen Randevu", "Net Randevu"]
+    for c_i, h in enumerate(headers4, start=1):
+        cell = ws4.cell(row=1, column=c_i, value=h)
+        cell.font = font_header
+        cell.fill = fill_blue
+        cell.alignment = align_center
+        cell.border = border_cell
+    ws4.row_dimensions[1].height = 24
+
+    for r_i, d in enumerate(summary_data["daily_breakdown"], start=2):
+        net_appts = d["appointments"] - d["cancelled"]
+        fill_cur = fill_zebra if r_i % 2 == 0 else fill_light
+        vals = [d["date"], d["conversations"], d["appointments"], d["cancelled"], net_appts]
+
+        for c_i, val in enumerate(vals, start=1):
+            cell = ws4.cell(row=r_i, column=c_i, value=val)
+            cell.font = font_regular
+            cell.border = border_cell
+            cell.fill = fill_cur
+            cell.alignment = align_center if c_i == 1 else align_right
+
+    # Auto-adjust column widths across all sheets
+    for ws in [ws1, ws2, ws3, ws4]:
+        for col in ws.columns:
+            max_len = 0
+            col_letter = get_column_letter(col[0].column)
+            for cell in col:
+                val_str = str(cell.value or "")
+                if "\n" in val_str:
+                    val_str = max(val_str.split("\n"), key=len)
+                if len(val_str) > max_len:
+                    max_len = len(val_str)
+            ws.column_dimensions[col_letter].width = max(max_len + 4, 12)
+
+    # Save to buffer
+    buf = io.BytesIO()
+    wb.save(buf)
+    return buf.getvalue()
+

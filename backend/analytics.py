@@ -54,7 +54,16 @@ def get_analytics_overview(db) -> dict[str, Any]:
     # 2. Appointment Counts & Conversion
     appointments = db.scalars(select(Appointment)).all()
     total_appointments = len(appointments)
-    confirmed_appointments = sum(1 for a in appointments if a.confirmed)
+    confirmed_appointments = sum(
+        1 for a in appointments if a.confirmed and a.status == "confirmed"
+    )
+    cancelled_appointments = sum(1 for a in appointments if a.status == "cancelled")
+
+    cancellation_rate = (
+        round((cancelled_appointments / total_appointments) * 100, 1)
+        if total_appointments > 0
+        else 0.0
+    )
 
     conversion_rate = (
         round((confirmed_appointments / total_conversations) * 100, 1)
@@ -216,6 +225,8 @@ def get_analytics_overview(db) -> dict[str, Any]:
             "active_conversations": status_counts.get("active", 0),
             "total_appointments": total_appointments,
             "confirmed_appointments": confirmed_appointments,
+            "cancelled_appointments": cancelled_appointments,
+            "cancellation_rate_pct": cancellation_rate,
             "conversion_rate_pct": conversion_rate,
             "avg_turns_per_conversation": (
                 round(total_turns / total_conversations, 1) if total_conversations else None
@@ -312,6 +323,76 @@ def reopen_conversation(db, conversation_id: str) -> Conversation:
         raise ValueError("Görüşme bulunamadı")
     c.status = "follow_up"
     c.resolved_at = None
+    c.follow_up_at = now()
     db.commit()
     return c
+
+
+UNCLEAR_PATTERNS = [
+    "anlayamadım",
+    "tekrar edebilir misiniz",
+    "tekrar söyleyebilir misiniz",
+    "net duyamadım",
+    "doğrulayamadım",
+    "tam duyamadım",
+]
+
+
+def get_unclear_conversations(db, limit: int = 50) -> list[dict[str, Any]]:
+    """Returns conversations where the assistant asked for clarification or misrecognition occurred."""
+    from backend.config import settings
+    from pathlib import Path
+
+    # Fetch recent conversations
+    conversations = db.scalars(
+        select(Conversation)
+        .order_by(Conversation.created_at.desc())
+        .limit(limit * 3)
+    ).all()
+
+    unclear_list = []
+    for c in conversations:
+        turns = db.scalars(
+            select(Turn)
+            .where(Turn.conversation_id == c.id)
+            .order_by(Turn.created_at)
+        ).all()
+
+        unclear_turns = []
+        turn_items = []
+        for t in turns:
+            text_lower = (t.text or "").lower()
+            is_unclear = t.role == "assistant" and any(p in text_lower for p in UNCLEAR_PATTERNS)
+            if is_unclear:
+                unclear_turns.append(t.text)
+            turn_items.append({
+                "id": t.id,
+                "role": t.role,
+                "text": t.text,
+                "metrics": t.metrics,
+                "created_at": t.created_at,
+                "is_unclear": is_unclear,
+            })
+
+        # Include if has unclear turns or status is follow_up
+        if unclear_turns or c.status == "follow_up":
+            rec_path = settings.data_dir / "recordings" / f"{c.id}.wav"
+            unclear_list.append({
+                "id": c.id,
+                "status": c.status,
+                "channel": c.channel or "voice",
+                "created_at": c.created_at,
+                "operator_notes": c.operator_notes or "",
+                "resolved_at": c.resolved_at,
+                "turn_count": len(turns),
+                "unclear_count": len(unclear_turns),
+                "unclear_phrases": unclear_turns,
+                "has_recording": rec_path.exists(),
+                "turns": turn_items,
+            })
+            if len(unclear_list) >= limit:
+                break
+
+    return unclear_list
+
 

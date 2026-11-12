@@ -26,3 +26,7 @@ frontend/playwright-report/
 test_output.txt
 docs/*.docx
 frontend/dist/
+
+# --- test ve tarayici artiklari ---
+.playwright-mcp/
+build/

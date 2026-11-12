@@ -21,7 +21,8 @@ YAZARIN AÇIK YAZILI İZNİ OLMAKSIZIN HİÇBİR KULLANIM HAKKI TANINMAZ.
 */
 
 import React, { useState, useEffect, useRef } from "react";
-import { dash, useEscape } from "./ui";
+import { dash, errorMessage, useEscape } from "./ui";
+import { OperatorToday } from "./OperatorToday";
 
 interface OperatorTransfer {
   id: string;
@@ -57,10 +58,64 @@ interface OperatorSessionView {
 interface OperatorPanelProps {
   api: (path: string, method?: string, body?: unknown) => Promise<any>;
   onError: (msg: string) => void;
+  onOpenConversation: (id: string) => void;
 }
 
-export function OperatorPanel({ api, onError }: OperatorPanelProps) {
-  const [activeTab, setActiveTab] = useState<"sip_transfers" | "live_takeover" | "quality_gate">("sip_transfers");
+interface UnclearTurn {
+  id: string;
+  role: string;
+  text: string;
+  metrics: string;
+  created_at: string;
+  is_unclear: boolean;
+}
+
+interface UnclearCall {
+  id: string;
+  status: string;
+  channel: string;
+  created_at: string;
+  operator_notes: string;
+  resolved_at: string | null;
+  turn_count: number;
+  unclear_count: number;
+  unclear_phrases: string[];
+  has_recording: boolean;
+  turns: UnclearTurn[];
+}
+
+export function OperatorPanel({ api, onError, onOpenConversation }: OperatorPanelProps) {
+  const [activeTab, setActiveTab] = useState<"today" | "sip_transfers" | "live_takeover" | "quality_gate" | "failed_calls" | "kvkk_compliance">("today");
+  const [todayRevision, setTodayRevision] = useState(0);
+
+  // Başarısız & Anlaşılamayan Görüşmeler State
+  const [unclearCalls, setUnclearCalls] = useState<UnclearCall[]>([]);
+  const [unclearLoading, setUnclearLoading] = useState(false);
+  const [selectedUnclearCall, setSelectedUnclearCall] = useState<UnclearCall | null>(null);
+  const [feedbackTerm, setFeedbackTerm] = useState("");
+  const [feedbackSpoken, setFeedbackSpoken] = useState("");
+  const [feedbackCategory, setFeedbackCategory] = useState("brand");
+  const [feedbackBusy, setFeedbackBusy] = useState(false);
+  const [feedbackMsg, setFeedbackMsg] = useState("");
+
+  // KVKK Transkript Saklama & Silme Talepleri State
+  const [kvkkAudit, setKvkkAudit] = useState<any>(null);
+  const [kvkkAuditLoading, setKvkkAuditLoading] = useState(false);
+  const [kvkkPurgeBusy, setKvkkPurgeBusy] = useState(false);
+  const [kvkkPurgeMsg, setKvkkPurgeMsg] = useState("");
+  const [kvkkRequests, setKvkkRequests] = useState<any[]>([]);
+  const [kvkkRequestsLoading, setKvkkRequestsLoading] = useState(false);
+  const [selectedCertificate, setSelectedCertificate] = useState<any | null>(null);
+
+  // Yeni Silme Talebi Formu
+  const [newReqType, setNewReqType] = useState<"phone" | "plate" | "customer_name" | "conversation_id">("phone");
+  const [newReqVal, setNewReqVal] = useState("");
+  const [newReqName, setNewReqName] = useState("");
+  const [newReqReason, setNewReqReason] = useState("KVKK Madde 11 uyarınca silme talebi");
+  const [newReqNotes, setNewReqNotes] = useState("");
+  const [newReqBusy, setNewReqBusy] = useState(false);
+  const [newReqMsg, setNewReqMsg] = useState("");
+  const [executingReqId, setExecutingReqId] = useState<string | null>(null);
 
   // SIP Aktarımları State
   const [transfers, setTransfers] = useState<OperatorTransfer[]>([]);
@@ -94,6 +149,7 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
   const pollIntervalRef = useRef<any>(null);
 
   useEscape(() => setSelectedTransfer(null), !!selectedTransfer);
+  useEscape(() => setSelectedCertificate(null), !!selectedCertificate);
 
   // silent=true: 3 sn'lik otomatik yenilemede "Yenileniyor" yanıp sönmesini önler.
   const loadTransfers = async (silent = false) => {
@@ -119,10 +175,142 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
     }
   };
 
-  useEffect(() => {
-    loadTransfers();
-    loadLiveSessions();
-  }, []);
+  const loadUnclearCalls = async () => {
+    try {
+      setUnclearLoading(true);
+      const data: UnclearCall[] = await api("conversations/unclear?limit=50");
+      setUnclearCalls(data || []);
+      if (data && data.length > 0 && !selectedUnclearCall) {
+        setSelectedUnclearCall(data[0]);
+      }
+    } catch (err: any) {
+      setPollError(`Başarısız görüşmeler alınamadı: ${err?.message || err}`);
+    } finally {
+      setUnclearLoading(false);
+    }
+  };
+
+  const handleFeedbackSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedUnclearCall) return;
+    if (!feedbackTerm.trim() || !feedbackSpoken.trim()) {
+      setFeedbackMsg("Lütfen hem terimi hem de telaffuzunu yazın.");
+      return;
+    }
+    try {
+      setFeedbackBusy(true);
+      await api(`conversations/${selectedUnclearCall.id}/feedback-lexicon`, "POST", {
+        term: feedbackTerm.trim(),
+        spoken: feedbackSpoken.trim(),
+        category: feedbackCategory,
+      });
+      setFeedbackMsg(`'${feedbackTerm}' başarıyla otomotiv sözlüğüne eklendi ve normalizer güncellendi!`);
+      setFeedbackTerm("");
+      setFeedbackSpoken("");
+      await loadUnclearCalls();
+    } catch (err: any) {
+      setFeedbackMsg(`Sözlüğe ekleme hatası: ${err?.message || err}`);
+    } finally {
+      setFeedbackBusy(false);
+    }
+  };
+
+  const loadKvkkAudit = async () => {
+    try {
+      setKvkkAuditLoading(true);
+      const data = await api("kvkk/transcript-retention-audit");
+      setKvkkAudit(data);
+    } catch (err: any) {
+      setPollError(`KVKK saklama denetimi alınamadı: ${err?.message || err}`);
+    } finally {
+      setKvkkAuditLoading(false);
+    }
+  };
+
+  const loadKvkkRequests = async () => {
+    try {
+      setKvkkRequestsLoading(true);
+      const data = await api("kvkk/erasure-requests?limit=50");
+      setKvkkRequests(data || []);
+    } catch (err: any) {
+      setPollError(`Silme talepleri alınamadı: ${err?.message || err}`);
+    } finally {
+      setKvkkRequestsLoading(false);
+    }
+  };
+
+  const handlePurgeTranscripts = async (dryRun: boolean) => {
+    try {
+      setKvkkPurgeBusy(true);
+      setKvkkPurgeMsg("");
+      const res = await api("kvkk/transcript-retention-purge", "POST", { dry_run: dryRun });
+      if (dryRun) {
+        setKvkkPurgeMsg(`Önizleme: ${res.purged_conversations} görüşme (${res.purged_turns} tur transkript) imha edilebilir.`);
+      } else {
+        setKvkkPurgeMsg(`Başarılı: ${res.purged_conversations} görüşme ve ${res.purged_turns} tur transkript kalıcı olarak imha edildi/anonimleştirildi.`);
+        await loadKvkkAudit();
+      }
+    } catch (err: any) {
+      setKvkkPurgeMsg(`İmha hatası: ${err?.message || err}`);
+    } finally {
+      setKvkkPurgeBusy(false);
+    }
+  };
+
+  const handleCreateErasureRequest = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newReqVal.trim()) {
+      setNewReqMsg("Lütfen silinecek kimlik değerini (telefon, plaka vb.) girin.");
+      return;
+    }
+    try {
+      setNewReqBusy(true);
+      setNewReqMsg("");
+      const res = await api("kvkk/erasure-requests", "POST", {
+        identifier_type: newReqType,
+        identifier_value: newReqVal.trim(),
+        requester_name: newReqName.trim(),
+        reason: newReqReason.trim(),
+        notes: newReqNotes.trim(),
+      });
+      const aff = res.impact_summary?.total_records_affected || 0;
+      setNewReqMsg(`Talep oluşturuldu! (ID: ${res.id}, Etkilenecek Kayıt: ${aff})`);
+      setNewReqVal("");
+      setNewReqName("");
+      setNewReqNotes("");
+      await loadKvkkRequests();
+    } catch (err: any) {
+      setNewReqMsg(`Talep oluşturma hatası: ${err?.message || err}`);
+    } finally {
+      setNewReqBusy(false);
+    }
+  };
+
+  const handleExecuteErasureRequest = async (requestId: string) => {
+    if (!window.confirm("Bu talep kapsamında bulunan tüm kişisel veriler (transkript, ses kaydı, randevu, whatsapp) kalıcı olarak imha edilecek ve SHA-256 imzalı İmha Tutanağı üretilecektir. Onaylıyor musunuz?")) {
+      return;
+    }
+    try {
+      setExecutingReqId(requestId);
+      const res = await api(`kvkk/erasure-requests/${requestId}/execute`, "POST", {});
+      alert(`Silme işlemi başarıyla icra edildi!\nSHA-256 Sertifika: ${res.certificate_sha256}`);
+      await loadKvkkRequests();
+      await loadKvkkAudit();
+    } catch (err: any) {
+      alert(`İcra hatası: ${err?.message || err}`);
+    } finally {
+      setExecutingReqId(null);
+    }
+  };
+
+  const handleViewCertificate = async (requestId: string) => {
+    try {
+      const data = await api(`kvkk/erasure-requests/${requestId}/certificate?format=json`);
+      setSelectedCertificate(data);
+    } catch (err: any) {
+      alert(`Sertifika alınamadı: ${err?.message || err}`);
+    }
+  };
 
   useEffect(() => {
     if (autoRefresh) {
@@ -131,6 +319,11 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
           loadTransfers(true);
         } else if (activeTab === "live_takeover") {
           loadLiveSessions();
+        } else if (activeTab === "failed_calls") {
+          loadUnclearCalls();
+        } else if (activeTab === "kvkk_compliance") {
+          loadKvkkAudit();
+          loadKvkkRequests();
         }
       }, 3000);
     } else if (pollIntervalRef.current) {
@@ -333,8 +526,14 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
               type="button"
               className="secondary"
               onClick={() => {
+                if (activeTab === "today") setTodayRevision((n) => n + 1);
                 if (activeTab === "sip_transfers") loadTransfers();
                 if (activeTab === "live_takeover") loadLiveSessions();
+                if (activeTab === "failed_calls") loadUnclearCalls();
+                if (activeTab === "kvkk_compliance") {
+                  loadKvkkAudit();
+                  loadKvkkRequests();
+                }
               }}
               disabled={loading || actionBusy}
               style={{ padding: "6px 12px", fontSize: "13px" }}
@@ -354,8 +553,14 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
         <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", borderTop: "1px solid #1e293b", paddingTop: "12px" }}>
           <button
             type="button"
+            className={activeTab === "today" ? "primary" : "secondary"}
+            aria-current={activeTab === "today" ? "true" : undefined}
+            onClick={() => { setPollError(""); setActiveTab("today"); }}
+          >Bugün</button>
+          <button
+            type="button"
             className={activeTab === "sip_transfers" ? "primary" : "secondary"}
-            onClick={() => setActiveTab("sip_transfers")}
+            onClick={() => { setActiveTab("sip_transfers"); loadTransfers(); }}
             style={{ padding: "8px 16px", fontSize: "13px", fontWeight: "bold" }}
           >
             📞 SIP Warm Transfer (Dahili 6002)
@@ -379,8 +584,46 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
           >
             🎯 Kalite Kapısı 5 & Telemetri
           </button>
+          <button
+            type="button"
+            className={activeTab === "failed_calls" ? "primary" : "secondary"}
+            onClick={() => {
+              setActiveTab("failed_calls");
+              loadUnclearCalls();
+            }}
+            style={{ padding: "8px 16px", fontSize: "13px", fontWeight: "bold" }}
+          >
+            🚨 Başarısız & Anlaşılamayan Görüşmeler ({unclearCalls.length})
+          </button>
+          <button
+            type="button"
+            className={activeTab === "kvkk_compliance" ? "primary" : "secondary"}
+            onClick={() => {
+              setActiveTab("kvkk_compliance");
+              loadKvkkAudit();
+              loadKvkkRequests();
+            }}
+            style={{ padding: "8px 16px", fontSize: "13px", fontWeight: "bold" }}
+          >
+            🛡️ KVKK Silme & Saklama ({kvkkRequests.length})
+          </button>
         </div>
       </section>
+
+      {activeTab === "today" && <OperatorToday
+        api={api}
+        autoRefresh={autoRefresh}
+        revision={todayRevision}
+        onOpenConversation={onOpenConversation}
+        onOpenTransfer={async (id) => {
+          try {
+            setPollError("");
+            setSelectedTransfer(await api(`transfers/${id}`));
+          } catch (err) {
+            setPollError(errorMessage(err));
+          }
+        }}
+      />}
 
       {/* ========================================================================= */}
       {/* SEKME 1: SIP DAHİLİ WARM TRANSFER                                         */}
@@ -1193,6 +1436,788 @@ export function OperatorPanel({ api, onError }: OperatorPanelProps) {
               </div>
             )}
           </section>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* SEKME 4: BAŞARISIZ & ANLAŞILAMAYAN GÖRÜŞMELER (LEXICON GERİ BESLEME)       */}
+      {/* ========================================================================= */}
+      {activeTab === "failed_calls" && (
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          <section style={{ background: "#0f172a", border: "1px solid #1e293b", borderRadius: "8px", padding: "16px" }}>
+            <h3 style={{ margin: "0 0 6px 0", fontSize: "16px", color: "#f8fafc", display: "flex", alignItems: "center", gap: "8px" }}>
+              <span>🚨</span>
+              <span>Başarısız & Anlaşılamayan Görüşmeler — Sözlüğe Geri Besleme</span>
+            </h3>
+            <p style={{ margin: 0, color: "#94a3b8", fontSize: "13px" }}>
+              Asistanın teyit istediği veya terimlerin yanlış anlaşıldığı görüşmeleri dinleyip doğru otomotiv terimini sisteme öğretebilirsiniz. Yapılan düzeltmeler anında fonetik normalizer'a ve terim sözlüğüne aktarılır.
+            </p>
+          </section>
+
+          {feedbackMsg && (
+            <div
+              style={{
+                padding: "10px 14px",
+                borderRadius: "6px",
+                background: feedbackMsg.includes("başarıyla") ? "#064e3b" : "#7f1d1d",
+                color: feedbackMsg.includes("başarıyla") ? "#6ee7b7" : "#fca5a5",
+                fontSize: "13px",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <span>{feedbackMsg}</span>
+              <button
+                type="button"
+                onClick={() => setFeedbackMsg("")}
+                style={{ background: "none", border: "none", color: "inherit", cursor: "pointer", fontWeight: "bold" }}
+              >
+                ✕
+              </button>
+            </div>
+          )}
+
+          <div style={{ display: "grid", gridTemplateColumns: "minmax(320px, 1fr) minmax(400px, 1.5fr)", gap: "16px" }}>
+            {/* Sol Kolon: Görüşme Listesi */}
+            <div style={{ background: "#0f172a", border: "1px solid #1e293b", borderRadius: "8px", padding: "16px", maxHeight: "700px", overflowY: "auto" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+                <h4 style={{ margin: 0, fontSize: "14px", color: "#f8fafc" }}>
+                  Görüşmeler ({unclearCalls.length})
+                </h4>
+                <button
+                  type="button"
+                  className="secondary"
+                  onClick={loadUnclearCalls}
+                  disabled={unclearLoading}
+                  style={{ fontSize: "11px", padding: "3px 8px" }}
+                >
+                  {unclearLoading ? "..." : "Yenile ↻"}
+                </button>
+              </div>
+
+              {!unclearCalls.length && !unclearLoading && (
+                <div style={{ textAlign: "center", padding: "2rem", color: "#64748b", fontSize: "13px" }}>
+                  🎉 Harika! İncelenmesi gereken anlaşılamayan görüşme bulunmuyor.
+                </div>
+              )}
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                {unclearCalls.map((c) => {
+                  const isSelected = selectedUnclearCall?.id === c.id;
+                  return (
+                    <div
+                      key={c.id}
+                      onClick={() => setSelectedUnclearCall(c)}
+                      style={{
+                        padding: "10px",
+                        borderRadius: "6px",
+                        border: isSelected ? "1px solid #3b82f6" : "1px solid #1e293b",
+                        background: isSelected ? "#1e293b" : "#0f172a",
+                        cursor: "pointer",
+                        transition: "all 0.15s ease",
+                      }}
+                    >
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+                        <span style={{ fontSize: "11px", color: "#94a3b8" }}>
+                          {c.created_at?.substring(0, 16).replace("T", " ")}
+                        </span>
+                        <span
+                          style={{
+                            fontSize: "10px",
+                            padding: "2px 6px",
+                            borderRadius: "10px",
+                            background: c.unclear_count > 0 ? "#7f1d1d" : "#854d0e",
+                            color: "#fecaca",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {c.unclear_count > 0 ? `⚠️ ${c.unclear_count} Belirsiz Tur` : "Takipte"}
+                        </span>
+                      </div>
+                      <div style={{ fontSize: "12px", color: "#f1f5f9", fontWeight: 600 }}>
+                        Çağrı #{c.id.substring(0, 8)} ({c.channel})
+                      </div>
+                      <div style={{ fontSize: "11px", color: "#64748b", marginTop: "2px" }}>
+                        Toplam {c.turn_count} diyalog turu {c.has_recording ? "• 🎧 Ses Var" : ""}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Sağ Kolon: Seçili Görüşme Detayı, Ses Kaydı & Sözlüğe Geri Besleme */}
+            <div style={{ background: "#0f172a", border: "1px solid #1e293b", borderRadius: "8px", padding: "16px", display: "flex", flexDirection: "column", gap: "16px" }}>
+              {selectedUnclearCall ? (
+                <>
+                  <div style={{ borderBottom: "1px solid #1e293b", paddingBottom: "12px" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <h4 style={{ margin: 0, fontSize: "15px", color: "#f8fafc" }}>
+                        Çağrı #{selectedUnclearCall.id}
+                      </h4>
+                      <span style={{ fontSize: "11px", color: "#94a3b8" }}>
+                        Kanal: {selectedUnclearCall.channel}
+                      </span>
+                    </div>
+
+                    {/* Ses Çalar */}
+                    <div style={{ marginTop: "10px", padding: "10px", background: "#1e293b", borderRadius: "6px" }}>
+                      <div style={{ fontSize: "12px", color: "#38bdf8", fontWeight: "bold", marginBottom: "6px" }}>
+                        🎧 Görüşme Ses Kaydı:
+                      </div>
+                      {selectedUnclearCall.has_recording ? (
+                        <audio
+                          controls
+                          src={`/api/conversations/${selectedUnclearCall.id}/audio`}
+                          style={{ width: "100%", height: "36px" }}
+                        />
+                      ) : (
+                        <div style={{ fontSize: "12px", color: "#94a3b8", fontStyle: "italic" }}>
+                          ℹ️ Bu oturumun ham WAV kaydı doğrudan ses kartından akıtılmıştır veya arşivlenmiştir.
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Transkript Akışı */}
+                  <div>
+                    <h5 style={{ margin: "0 0 8px 0", fontSize: "13px", color: "#cbd5e1" }}>
+                      💬 Diyalog Akışı:
+                    </h5>
+                    <div style={{ maxHeight: "250px", overflowY: "auto", display: "flex", flexDirection: "column", gap: "8px", paddingRight: "4px" }}>
+                      {selectedUnclearCall.turns.map((t) => (
+                        <div
+                          key={t.id}
+                          style={{
+                            padding: "8px 12px",
+                            borderRadius: "6px",
+                            fontSize: "12px",
+                            background: t.is_unclear
+                              ? "#451a03"
+                              : t.role === "user"
+                              ? "#1e3a8a"
+                              : "#1e293b",
+                            border: t.is_unclear ? "1px solid #b45309" : "none",
+                            color: "#f8fafc",
+                          }}
+                        >
+                          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "2px" }}>
+                            <span style={{ fontWeight: "bold", color: t.role === "user" ? "#93c5fd" : "#38bdf8" }}>
+                              {t.role === "user" ? "Müşteri" : "FreyaTTS Asistan"}
+                            </span>
+                            {t.is_unclear && (
+                              <span style={{ color: "#fcd34d", fontSize: "10px", fontWeight: "bold" }}>
+                                ⚠️ ANLAŞILAMADI / TEYİT
+                              </span>
+                            )}
+                          </div>
+                          <div>{t.text}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Sözlüğe Geri Besleme Formu */}
+                  <div style={{ marginTop: "auto", background: "#1e293b", border: "1px solid #334155", borderRadius: "8px", padding: "14px" }}>
+                    <div style={{ fontSize: "13px", color: "#f8fafc", fontWeight: "bold", marginBottom: "8px", display: "flex", alignItems: "center", gap: "6px" }}>
+                      <span>✍️</span>
+                      <span>Düzeltmeyi Sözlüğe Geri Besle (Domain Lexicon Feedback)</span>
+                    </div>
+                    <form onSubmit={handleFeedbackSubmit} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+                      <div>
+                        <label style={{ display: "block", fontSize: "11px", color: "#94a3b8", marginBottom: "4px" }}>
+                          Doğru Otomotiv Terimi (Örn: Qashqai)
+                        </label>
+                        <input
+                          type="text"
+                          value={feedbackTerm}
+                          onChange={(e) => setFeedbackTerm(e.target.value)}
+                          placeholder="Örn: Qashqai, EcoBoost"
+                          required
+                          style={{ width: "100%", padding: "6px 8px", background: "#0f172a", border: "1px solid #475569", borderRadius: "4px", color: "#f8fafc", fontSize: "12px" }}
+                        />
+                      </div>
+                      <div>
+                        <label style={{ display: "block", fontSize: "11px", color: "#94a3b8", marginBottom: "4px" }}>
+                          Duyulan / Okunuş (Örn: kaşkay)
+                        </label>
+                        <input
+                          type="text"
+                          value={feedbackSpoken}
+                          onChange={(e) => setFeedbackSpoken(e.target.value)}
+                          placeholder="Örn: kaşkay, eko büst"
+                          required
+                          style={{ width: "100%", padding: "6px 8px", background: "#0f172a", border: "1px solid #475569", borderRadius: "4px", color: "#f8fafc", fontSize: "12px" }}
+                        />
+                      </div>
+                      <div>
+                        <label style={{ display: "block", fontSize: "11px", color: "#94a3b8", marginBottom: "4px" }}>
+                          Kategori
+                        </label>
+                        <select
+                          value={feedbackCategory}
+                          onChange={(e) => setFeedbackCategory(e.target.value)}
+                          style={{ width: "100%", padding: "6px 8px", background: "#0f172a", border: "1px solid #475569", borderRadius: "4px", color: "#f8fafc", fontSize: "12px" }}
+                        >
+                          <option value="brand">Marka (Brand)</option>
+                          <option value="model">Model</option>
+                          <option value="technical">Motor / Teknik</option>
+                          <option value="custom">Özel Terim</option>
+                        </select>
+                      </div>
+                      <div style={{ display: "flex", alignItems: "flex-end" }}>
+                        <button
+                          type="submit"
+                          disabled={feedbackBusy}
+                          style={{
+                            width: "100%",
+                            padding: "7px 12px",
+                            background: "#2563eb",
+                            color: "#ffffff",
+                            border: "none",
+                            borderRadius: "4px",
+                            fontWeight: "bold",
+                            fontSize: "12px",
+                            cursor: "pointer",
+                          }}
+                        >
+                          {feedbackBusy ? "Kaydediliyor..." : "💾 Sözlüğe Ekle & Normalizer'ı Güncelle"}
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </>
+              ) : (
+                <div style={{ textAlign: "center", padding: "4rem 2rem", color: "#64748b", fontSize: "13px" }}>
+                  Sol taraftan incelemek istediğiniz bir görüşmeyi seçin.
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* SEKME 5: KVKK TRANSKRİPT SAKLAMA SÜRESİ VE SİLME TALEPLERİ                 */}
+      {/* ========================================================================= */}
+      {activeTab === "kvkk_compliance" && (
+        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          {/* ÜST BİLGİ & DENETİM PANELİ */}
+          <div
+            style={{
+              background: "#0f172a",
+              border: "1px solid #1e293b",
+              borderRadius: "12px",
+              padding: "20px",
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
+              <div>
+                <h3 style={{ margin: 0, color: "#f8fafc", fontSize: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
+                  🛡️ KVKK Transkript Saklama Süresi ve Otomatik İmha İlkesi
+                  <span
+                    style={{
+                      fontSize: "11px",
+                      padding: "2px 8px",
+                      borderRadius: "10px",
+                      background: kvkkAudit?.compliance_status === "compliant" ? "#065f46" : "#991b1b",
+                      color: "#f8fafc",
+                    }}
+                  >
+                    {kvkkAudit?.compliance_status === "compliant" ? "✓ UYUMLU" : "⚠ İŞLEM GEREKİYOR"}
+                  </span>
+                </h3>
+                <p style={{ margin: "4px 0 0 0", color: "#94a3b8", fontSize: "13px" }}>
+                  6698 sayılı KVKK Madde 7 gereğince {kvkkAudit?.retention_policy_days ?? 30} günü aşan konuşma transkriptleri periyodik olarak anonimleştirilerek imha edilir.
+                </p>
+              </div>
+
+              <div style={{ display: "flex", gap: "8px" }}>
+                <button
+                  type="button"
+                  className="secondary"
+                  disabled={kvkkAuditLoading || kvkkPurgeBusy}
+                  onClick={() => loadKvkkAudit()}
+                  style={{ padding: "6px 12px", fontSize: "12px" }}
+                >
+                  {kvkkAuditLoading ? "Denetleniyor..." : "Denetle ↻"}
+                </button>
+                <button
+                  type="button"
+                  className="secondary"
+                  disabled={kvkkPurgeBusy}
+                  onClick={() => handlePurgeTranscripts(true)}
+                  style={{ padding: "6px 12px", fontSize: "12px" }}
+                >
+                  Önizleme (Dry Run)
+                </button>
+                <button
+                  type="button"
+                  className="primary"
+                  disabled={kvkkPurgeBusy || !kvkkAudit?.expired_conversations_count}
+                  onClick={() => handlePurgeTranscripts(false)}
+                  style={{ padding: "6px 12px", fontSize: "12px", background: "#b91c1c", borderColor: "#dc2626" }}
+                >
+                  {kvkkPurgeBusy ? "İmha Ediliyor..." : "Süresi Dolanları İmha Et"}
+                </button>
+              </div>
+            </div>
+
+            {kvkkPurgeMsg && (
+              <div
+                style={{
+                  padding: "10px 14px",
+                  borderRadius: "8px",
+                  background: kvkkPurgeMsg.includes("Başarılı") ? "#064e3b" : "#1e293b",
+                  border: "1px solid #334155",
+                  color: "#f8fafc",
+                  fontSize: "13px",
+                  marginBottom: "16px",
+                }}
+              >
+                {kvkkPurgeMsg}
+              </div>
+            )}
+
+            {/* İstatistik Kartları */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+                gap: "12px",
+              }}
+            >
+              <div style={{ background: "#1e293b", padding: "14px", borderRadius: "8px" }}>
+                <div style={{ color: "#94a3b8", fontSize: "12px" }}>Saklama İlkesi</div>
+                <div style={{ fontSize: "20px", fontWeight: "bold", color: "#38bdf8", marginTop: "4px" }}>
+                  {kvkkAudit?.retention_policy_days ?? 30} Gün
+                </div>
+              </div>
+              <div style={{ background: "#1e293b", padding: "14px", borderRadius: "8px" }}>
+                <div style={{ color: "#94a3b8", fontSize: "12px" }}>Aktif Transkriptler</div>
+                <div style={{ fontSize: "20px", fontWeight: "bold", color: "#f8fafc", marginTop: "4px" }}>
+                  {kvkkAudit?.active_conversations ?? 0}
+                </div>
+              </div>
+              <div style={{ background: "#1e293b", padding: "14px", borderRadius: "8px" }}>
+                <div style={{ color: "#94a3b8", fontSize: "12px" }}>Süresi Dolan (İmha Bekleyen)</div>
+                <div style={{ fontSize: "20px", fontWeight: "bold", color: kvkkAudit?.expired_conversations_count ? "#f87171" : "#4ade80", marginTop: "4px" }}>
+                  {kvkkAudit?.expired_conversations_count ?? 0} Görüşme
+                </div>
+                <div style={{ fontSize: "11px", color: "#64748b", marginTop: "2px" }}>
+                  ({kvkkAudit?.expired_turns_count ?? 0} metin turu)
+                </div>
+              </div>
+              <div style={{ background: "#1e293b", padding: "14px", borderRadius: "8px" }}>
+                <div style={{ color: "#94a3b8", fontSize: "12px" }}>İmha Edilmiş / Anonim</div>
+                <div style={{ fontSize: "20px", fontWeight: "bold", color: "#94a3b8", marginTop: "4px" }}>
+                  {kvkkAudit?.already_purged_conversations ?? 0}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* İKİ KOLONLU GÖVDE: YENİ TALEP FORMU & TALEPLER LİSTESİ */}
+          <div style={{ display: "grid", gridTemplateColumns: "360px 1fr", gap: "20px" }}>
+            {/* SOL: YENİ SİLME TALEBİ FORMU */}
+            <div
+              style={{
+                background: "#0f172a",
+                border: "1px solid #1e293b",
+                borderRadius: "12px",
+                padding: "20px",
+                height: "fit-content",
+              }}
+            >
+              <h4 style={{ margin: "0 0 12px 0", color: "#f8fafc", fontSize: "15px" }}>
+                📝 Yeni Silme Talebi (KVKK Madde 11)
+              </h4>
+              <p style={{ margin: "0 0 16px 0", color: "#94a3b8", fontSize: "12px", lineHeight: "1.5" }}>
+                Müşterinin unutulma hakkı başvurusu üzerine telefon, plaka veya görüşme ID girerek bağlı tüm verileri tarayabilir ve imha edebilirsiniz.
+              </p>
+
+              <form onSubmit={handleCreateErasureRequest} style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                <div>
+                  <label style={{ display: "block", color: "#94a3b8", fontSize: "12px", marginBottom: "4px" }}>
+                    Kimlik Türü
+                  </label>
+                  <select
+                    value={newReqType}
+                    onChange={(e: any) => setNewReqType(e.target.value)}
+                    style={{
+                      width: "100%",
+                      padding: "8px",
+                      borderRadius: "6px",
+                      background: "#1e293b",
+                      color: "#f8fafc",
+                      border: "1px solid #334155",
+                      fontSize: "13px",
+                    }}
+                  >
+                    <option value="phone">Telefon Numarası</option>
+                    <option value="plate">Araç Plakası</option>
+                    <option value="customer_name">Müşteri Adı</option>
+                    <option value="conversation_id">Görüşme ID</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label style={{ display: "block", color: "#94a3b8", fontSize: "12px", marginBottom: "4px" }}>
+                    Kimlik Değeri *
+                  </label>
+                  <input
+                    type="text"
+                    value={newReqVal}
+                    onChange={(e) => setNewReqVal(e.target.value)}
+                    placeholder={
+                      newReqType === "phone"
+                        ? "05321234567"
+                        : newReqType === "plate"
+                        ? "34ABC789"
+                        : newReqType === "customer_name"
+                        ? "Ahmet Yılmaz"
+                        : "uuid..."
+                    }
+                    style={{
+                      width: "100%",
+                      padding: "8px",
+                      borderRadius: "6px",
+                      background: "#1e293b",
+                      color: "#f8fafc",
+                      border: "1px solid #334155",
+                      fontSize: "13px",
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: "block", color: "#94a3b8", fontSize: "12px", marginBottom: "4px" }}>
+                    Başvuran Adı (Opsiyonel)
+                  </label>
+                  <input
+                    type="text"
+                    value={newReqName}
+                    onChange={(e) => setNewReqName(e.target.value)}
+                    placeholder="Başvuran kişi veya vekili"
+                    style={{
+                      width: "100%",
+                      padding: "8px",
+                      borderRadius: "6px",
+                      background: "#1e293b",
+                      color: "#f8fafc",
+                      border: "1px solid #334155",
+                      fontSize: "13px",
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: "block", color: "#94a3b8", fontSize: "12px", marginBottom: "4px" }}>
+                    Talep Gerekçesi
+                  </label>
+                  <input
+                    type="text"
+                    value={newReqReason}
+                    onChange={(e) => setNewReqReason(e.target.value)}
+                    style={{
+                      width: "100%",
+                      padding: "8px",
+                      borderRadius: "6px",
+                      background: "#1e293b",
+                      color: "#f8fafc",
+                      border: "1px solid #334155",
+                      fontSize: "13px",
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: "block", color: "#94a3b8", fontSize: "12px", marginBottom: "4px" }}>
+                    Notlar
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={newReqNotes}
+                    onChange={(e) => setNewReqNotes(e.target.value)}
+                    placeholder="İç iletişim veya evrak referans notu"
+                    style={{
+                      width: "100%",
+                      padding: "8px",
+                      borderRadius: "6px",
+                      background: "#1e293b",
+                      color: "#f8fafc",
+                      border: "1px solid #334155",
+                      fontSize: "13px",
+                    }}
+                  />
+                </div>
+
+                {newReqMsg && (
+                  <div
+                    style={{
+                      padding: "8px",
+                      borderRadius: "6px",
+                      fontSize: "12px",
+                      background: newReqMsg.includes("oluşturuldu") ? "#064e3b" : "#7f1d1d",
+                      color: "#f8fafc",
+                    }}
+                  >
+                    {newReqMsg}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  className="primary"
+                  disabled={newReqBusy}
+                  style={{ width: "100%", padding: "10px", fontSize: "13px", fontWeight: "bold" }}
+                >
+                  {newReqBusy ? "Hesaplanıyor..." : "Etki Analizi Yap & Talep Oluştur"}
+                </button>
+              </form>
+            </div>
+
+            {/* SAĞ: KAYITLI SİLME TALEPLERİ LİSTESİ */}
+            <div
+              style={{
+                background: "#0f172a",
+                border: "1px solid #1e293b",
+                borderRadius: "12px",
+                padding: "20px",
+              }}
+            >
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+                <h4 style={{ margin: 0, color: "#f8fafc", fontSize: "15px" }}>
+                  📋 Kayıtlı Veri Silme Talepleri ({kvkkRequests.length})
+                </h4>
+                <button
+                  type="button"
+                  className="secondary"
+                  disabled={kvkkRequestsLoading}
+                  onClick={() => loadKvkkRequests()}
+                  style={{ padding: "4px 10px", fontSize: "12px" }}
+                >
+                  {kvkkRequestsLoading ? "Yenileniyor..." : "Yenile ↻"}
+                </button>
+              </div>
+
+              {kvkkRequests.length === 0 ? (
+                <div style={{ textAlign: "center", padding: "3rem", color: "#64748b", fontSize: "13px" }}>
+                  Henüz kayıtlı bir silme talebi bulunmuyor.
+                </div>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                  {kvkkRequests.map((req) => {
+                    const impact = req.impact_summary || {};
+                    const isExecuted = req.status === "executed";
+                    return (
+                      <div
+                        key={req.id}
+                        style={{
+                          background: "#1e293b",
+                          border: isExecuted ? "1px solid #065f46" : "1px solid #b45309",
+                          borderRadius: "8px",
+                          padding: "16px",
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "10px",
+                        }}
+                      >
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "8px" }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                            <span
+                              style={{
+                                padding: "2px 8px",
+                                borderRadius: "4px",
+                                fontSize: "11px",
+                                fontWeight: "bold",
+                                background: isExecuted ? "#064e3b" : "#78350f",
+                                color: isExecuted ? "#34d399" : "#fbbf24",
+                              }}
+                            >
+                              {isExecuted ? "✓ İCRA EDİLDİ" : "⏳ BEKLEMEDE"}
+                            </span>
+                            <span style={{ color: "#38bdf8", fontWeight: "bold", fontSize: "13px" }}>
+                              {req.identifier_type.toUpperCase()}: {req.identifier_value}
+                            </span>
+                            {req.requester_name && (
+                              <span style={{ color: "#94a3b8", fontSize: "12px" }}>
+                                ({req.requester_name})
+                              </span>
+                            )}
+                          </div>
+                          <span style={{ color: "#64748b", fontSize: "12px" }}>
+                            {new Date(req.created_at).toLocaleString("tr-TR")}
+                          </span>
+                        </div>
+
+                        <div style={{ fontSize: "12px", color: "#cbd5e1" }}>
+                          <b>Gerekçe:</b> {req.reason}
+                        </div>
+
+                        {/* Etki / İmha Dağılımı */}
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: "8px",
+                            flexWrap: "wrap",
+                            background: "#0f172a",
+                            padding: "8px 12px",
+                            borderRadius: "6px",
+                            fontSize: "12px",
+                            color: "#94a3b8",
+                          }}
+                        >
+                          <span>💬 Transkript Turu: <b style={{ color: "#f8fafc" }}>{impact.turns_count ?? 0}</b></span>
+                          <span>•</span>
+                          <span>🎙️ Ses Kaydı: <b style={{ color: "#f8fafc" }}>{impact.audio_archives_count ?? 0}</b></span>
+                          <span>•</span>
+                          <span>📅 Randevu: <b style={{ color: "#f8fafc" }}>{impact.appointments_count ?? 0}</b></span>
+                          <span>•</span>
+                          <span>📱 WhatsApp: <b style={{ color: "#f8fafc" }}>{impact.whatsapp_messages_count ?? 0}</b></span>
+                          <span>•</span>
+                          <span>📊 Analitik: <b style={{ color: "#f8fafc" }}>{impact.call_analytics_count ?? 0}</b></span>
+                          <span>•</span>
+                          <span>TOPLAM: <b style={{ color: "#38bdf8" }}>{impact.total_records_affected ?? 0}</b></span>
+                        </div>
+
+                        {/* Butonlar */}
+                        <div style={{ display: "flex", justifyContent: "flex-end", gap: "8px", marginTop: "4px" }}>
+                          {!isExecuted ? (
+                            <button
+                              type="button"
+                              className="primary"
+                              disabled={executingReqId === req.id}
+                              onClick={() => handleExecuteErasureRequest(req.id)}
+                              style={{
+                                background: "#dc2626",
+                                borderColor: "#ef4444",
+                                fontSize: "12px",
+                                padding: "6px 14px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              {executingReqId === req.id ? "İcra Ediliyor..." : "🗑️ Kalıcı İcra Et & İmha Tutanağı İmzala"}
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              className="secondary"
+                              onClick={() => handleViewCertificate(req.id)}
+                              style={{
+                                fontSize: "12px",
+                                padding: "6px 14px",
+                                borderColor: "#38bdf8",
+                                color: "#38bdf8",
+                              }}
+                            >
+                              📜 İmha Tutanağını Görüntüle (SHA-256)
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* KVKK İMHA TUTANAĞI MODALI */}
+      {selectedCertificate && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="KVKK İmha Tutanağı"
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: "rgba(0,0,0,0.8)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000,
+            padding: "20px",
+          }}
+          onClick={() => setSelectedCertificate(null)}
+        >
+          <div
+            style={{
+              background: "#0f172a",
+              border: "1px solid #334155",
+              borderRadius: "12px",
+              padding: "24px",
+              maxWidth: "760px",
+              width: "100%",
+              maxHeight: "85vh",
+              overflowY: "auto",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+              <h3 style={{ margin: 0, color: "#f8fafc", fontSize: "16px" }}>
+                📜 Resmi KVKK Kişisel Veri İmha ve Anonimleştirme Tutanağı
+              </h3>
+              <button
+                type="button"
+                className="secondary"
+                onClick={() => setSelectedCertificate(null)}
+                style={{ padding: "4px 8px", fontSize: "14px" }}
+              >
+                ✕
+              </button>
+            </div>
+
+            <pre
+              style={{
+                background: "#020617",
+                padding: "16px",
+                borderRadius: "8px",
+                overflowX: "auto",
+                color: "#e2e8f0",
+                fontSize: "12px",
+                lineHeight: "1.6",
+                fontFamily: "monospace",
+                border: "1px solid #1e293b",
+                whiteSpace: "pre-wrap",
+              }}
+            >
+              {selectedCertificate.certificate_text}
+            </pre>
+
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "16px" }}>
+              <span style={{ fontSize: "12px", color: "#64748b" }}>
+                SHA-256: {selectedCertificate.certificate_sha256}
+              </span>
+              <div style={{ display: "flex", gap: "8px" }}>
+                <button
+                  type="button"
+                  className="secondary"
+                  onClick={() => {
+                    navigator.clipboard?.writeText(selectedCertificate.certificate_text);
+                    alert("İmha tutanağı panoya kopyalandı!");
+                  }}
+                  style={{ fontSize: "12px", padding: "6px 12px" }}
+                >
+                  📋 Tutanağı Kopyala
+                </button>
+                <button
+                  type="button"
+                  className="primary"
+                  onClick={() => setSelectedCertificate(null)}
+                  style={{ fontSize: "12px", padding: "6px 16px" }}
+                >
+                  Kapat
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 

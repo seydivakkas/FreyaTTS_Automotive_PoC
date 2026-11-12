@@ -33,6 +33,7 @@ class LiveControl:
         self.lock = asyncio.Lock()
         self.manager = None
         self.journal = None
+        self._closed = False
 
     async def _ensure(self):
         if self.manager is not None:
@@ -81,13 +82,20 @@ class LiveControl:
             self.manager and await self.manager.accepts_chunk(self.sid, generation)
         )
 
-    async def close(self):
-        if self.manager:
-            try:
-                await self.move("ended")
-            finally:
-                self.journal.close()
-                self.manager = None
+    async def close(self, *, closure_reason=None):
+        async with self.lock:
+            if self._closed:
+                return
+            self._closed = True
+            if closure_reason is not None and self.manager is None:
+                await self._ensure()
+            if self.manager:
+                try:
+                    await self.manager.end(self.sid, closure_reason=closure_reason)
+                    await self.manager.dispatch_pending(self.sid)
+                finally:
+                    self.journal.close()
+                    self.manager = None
 
 
 async def recover_abandoned():

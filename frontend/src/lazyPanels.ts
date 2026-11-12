@@ -17,4 +17,5 @@ export const TechnicianDictationPanel = lazyPanel(
 export const QueueLiftPanel = lazyPanel(() => import("./QueueLiftPanel"), "QueueLiftPanel");
 export const ABTestingPanel = lazyPanel(() => import("./ABTestingPanel"), "ABTestingPanel");
 export const OperatorPanel = lazyPanel(() => import("./OperatorPanel"), "OperatorPanel");
+export const SupervisorPanel = lazyPanel(() => import("./SupervisorPanel"), "SupervisorPanel");
 export const CarDenoiserPanel = lazyPanel(() => import("./CarDenoiserPanel"), "CarDenoiserPanel");

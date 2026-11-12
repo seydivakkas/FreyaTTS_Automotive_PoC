@@ -1,3 +1,7 @@
+# =====================================================================
+# ÖZEL LİSANS — TÜM HAKLAR SAKLIDIR
+# Telif Hakkı (c) 2026 Seydi Eryılmaz (@seydivakkas)
+# =====================================================================
 """Uyumluluk uç noktaları: KVKK ve ses arşivi."""
 
 import io
@@ -8,21 +12,23 @@ from datetime import (
     timezone,
 )
 from pathlib import Path
+from typing import Optional
 from fastapi import (
     APIRouter,
     HTTPException,
     Depends,
+    Query,
     Response,
     UploadFile,
     File,
     Form,
 )
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, PlainTextResponse
 from backend.security_utils import (
     MAX_AUDIO_BYTES,
     read_upload_capped,
 )
-from backend.db import AudioArchive
+from backend.db import AudioArchive, KVKKErasureRequest
 from backend.audio_archive_compliance import (
     ArchiveKeyMissingError,
     audio_archive_engine,
@@ -36,13 +42,23 @@ from backend.redaction_kvkk_guard import (
     redact_audio,
     redact_text,
 )
+from backend.kvkk_compliance import (
+    audit_transcript_retention,
+    create_erasure_request,
+    execute_erasure,
+    generate_certificate_text,
+    purge_expired_transcripts,
+    scan_erasure_impact,
+)
 from backend import db as db_module
 from backend.schemas import (
     ArchiveCallIn,
     ArchivePurgeIn,
     CardValidateIn,
+    KVKKErasureRequestIn,
     KVKKRedactIn,
     TCKNValidateIn,
+    TranscriptRetentionPurgeIn,
 )
 from backend.deps import auth
 
@@ -232,3 +248,164 @@ def download_archive_endpoint(archive_id: str):
                 "X-Freya-Retention-Expires": record.expires_at or "",
             },
         )
+
+
+# =========================================================================
+# KVKK TRANSKRİPT SAKLAMA SÜRESİ VE SİLME TALEBİ UÇ NOKTALARI
+# =========================================================================
+
+
+@router.get("/api/kvkk/transcript-retention-audit", dependencies=[Depends(auth)])
+def kvkk_transcript_retention_audit_endpoint(retention_days: Optional[int] = None):
+    """Transkript saklama süresi durumunu denetler ve özetler."""
+    with db_module.Session() as db:
+        return audit_transcript_retention(db=db, retention_days=retention_days)
+
+
+@router.post("/api/kvkk/transcript-retention-purge", dependencies=[Depends(auth)])
+def kvkk_transcript_retention_purge_endpoint(payload: TranscriptRetentionPurgeIn):
+    """Süresi dolmuş konuşma transkriptlerini anonimleştirir/imha eder."""
+    target_dt = None
+    if payload.target_date:
+        try:
+            target_dt = datetime.fromisoformat(payload.target_date)
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=f"Geçersiz target_date formatı: {e}")
+        if target_dt.tzinfo is None:
+            target_dt = target_dt.replace(tzinfo=timezone.utc)
+        if target_dt > datetime.now(timezone.utc):
+            raise HTTPException(status_code=400, detail="target_date gelecekte bir tarih olamaz")
+
+    with db_module.Session() as db:
+        return purge_expired_transcripts(
+            db=db,
+            dry_run=payload.dry_run,
+            retention_days=payload.retention_days,
+            target_date=target_dt,
+        )
+
+
+@router.post("/api/kvkk/erasure-requests", dependencies=[Depends(auth)])
+def kvkk_create_erasure_request_endpoint(payload: KVKKErasureRequestIn):
+    """KVKK Madde 11 uyarınca yeni bir veri silme (unutulma) talebi kaydeder."""
+    with db_module.Session() as db:
+        req = create_erasure_request(db=db, payload=payload, requester="admin")
+        impact = json.loads(req.impact_summary_json) if req.impact_summary_json else {}
+        return {
+            "id": req.id,
+            "identifier_type": req.identifier_type,
+            "identifier_value": req.identifier_value,
+            "requester_name": req.requester_name,
+            "reason": req.reason,
+            "status": req.status,
+            "notes": req.notes,
+            "created_at": req.created_at,
+            "impact_summary": impact,
+        }
+
+
+@router.get("/api/kvkk/erasure-requests", dependencies=[Depends(auth)])
+def kvkk_list_erasure_requests_endpoint(
+    status: Optional[str] = None,
+    limit: int = Query(default=50, ge=1, le=200),
+):
+    """Kayıtlı KVKK veri silme taleplerini listeler."""
+    with db_module.Session() as db:
+        q = db.query(KVKKErasureRequest)
+        if status:
+            q = q.filter(KVKKErasureRequest.status == status)
+        items = q.order_by(KVKKErasureRequest.created_at.desc()).limit(limit).all()
+
+        results = []
+        for it in items:
+            try:
+                impact = json.loads(it.impact_summary_json)
+            except Exception:
+                impact = {}
+            results.append(
+                {
+                    "id": it.id,
+                    "identifier_type": it.identifier_type,
+                    "identifier_value": it.identifier_value,
+                    "requester_name": it.requester_name,
+                    "reason": it.reason,
+                    "status": it.status,
+                    "certificate_sha256": it.certificate_sha256,
+                    "notes": it.notes,
+                    "created_at": it.created_at,
+                    "executed_at": it.executed_at,
+                    "executed_by": it.executed_by,
+                    "impact_summary": impact,
+                }
+            )
+        return results
+
+
+@router.get("/api/kvkk/erasure-requests/{request_id}", dependencies=[Depends(auth)])
+def kvkk_get_erasure_request_endpoint(request_id: str):
+    """Tek bir silme talebinin detayını ve etki özetini döner."""
+    with db_module.Session() as db:
+        req = db.get(KVKKErasureRequest, request_id)
+        if not req:
+            raise HTTPException(status_code=404, detail="Silme talebi bulunamadı")
+        try:
+            impact = json.loads(req.impact_summary_json)
+        except Exception:
+            impact = {}
+        return {
+            "id": req.id,
+            "identifier_type": req.identifier_type,
+            "identifier_value": req.identifier_value,
+            "requester_name": req.requester_name,
+            "reason": req.reason,
+            "status": req.status,
+            "certificate_sha256": req.certificate_sha256,
+            "notes": req.notes,
+            "created_at": req.created_at,
+            "executed_at": req.executed_at,
+            "executed_by": req.executed_by,
+            "impact_summary": impact,
+        }
+
+
+@router.post("/api/kvkk/erasure-requests/{request_id}/execute", dependencies=[Depends(auth)])
+def kvkk_execute_erasure_request_endpoint(request_id: str):
+    """KVKK veri silme talebini icra eder: kayıtları anonimleştirir/siler ve SHA-256 sertifikası üretir."""
+    with db_module.Session() as db:
+        req = db.get(KVKKErasureRequest, request_id)
+        if not req:
+            raise HTTPException(status_code=404, detail="Silme talebi bulunamadı")
+        if req.status == "executed":
+            raise HTTPException(
+                status_code=409,
+                detail=f"Bu talep zaten {req.executed_at} tarihinde icra edilmiştir. (İmha SHA-256: {req.certificate_sha256})",
+            )
+        res = execute_erasure(db=db, request=req, executed_by="admin")
+        return res
+
+
+@router.get("/api/kvkk/erasure-requests/{request_id}/certificate", dependencies=[Depends(auth)])
+def kvkk_get_certificate_endpoint(request_id: str, format: str = "json"):
+    """İcra edilmiş bir silme talebinin resmi KVKK İmha Tutanağını döner."""
+    with db_module.Session() as db:
+        req = db.get(KVKKErasureRequest, request_id)
+        if not req:
+            raise HTTPException(status_code=404, detail="Silme talebi bulunamadı")
+        if req.status != "executed":
+            raise HTTPException(
+                status_code=400,
+                detail="Bu talep henüz icra edilmediği için imha tutanağı oluşturulmamıştır.",
+            )
+        cert_text = generate_certificate_text(req)
+        if format == "text":
+            return Response(content=cert_text, media_type="text/plain; charset=utf-8")
+        return {
+            "request_id": req.id,
+            "identifier_type": req.identifier_type,
+            "identifier_value": req.identifier_value,
+            "executed_at": req.executed_at,
+            "executed_by": req.executed_by,
+            "certificate_sha256": req.certificate_sha256,
+            "certificate_text": cert_text,
+        }
+

@@ -33,7 +33,7 @@ from scipy import signal
 
 from backend.audio import apply_fade_and_comfort_noise
 from backend.config import settings
-from backend.text import SHORT_CLAUSE_MAX_CHARS, clauses, normalize
+from backend.text import SHORT_CLAUSE_MAX_CHARS, clauses, normalize, prepare_tts_clause
 
 SAMPLE_RATE = 48000
 SAMPLES_PER_FRAME = 1920  # 48 kHz audio over 25 Hz latents
@@ -231,6 +231,7 @@ class BatchedODEEngine:
         """
         Bir yan cümleyi mikro-yığın kuyruğuna ekler ve GPU sentez sonucunu bekler.
         """
+        clause_text = prepare_tts_clause(clause_text)
         loop = asyncio.get_running_loop()
         future = loop.create_future()
         item = BatchItem(
@@ -266,7 +267,7 @@ class BatchedODEEngine:
 
         # Tüm yan cümleleri paralel kuyruğa gönder
         tasks = [
-            self.enqueue_clause(part, pause_sec=pause, seed=used_seed)
+            self.enqueue_clause(prepare_tts_clause(part), pause_sec=pause, seed=used_seed)
             for part, pause in clause_list
         ]
         results = await asyncio.gather(*tasks)
@@ -379,10 +380,10 @@ class BatchedODEEngine:
             # Seslilik kontrolü
             v_score = check_voicedness(w, SAMPLE_RATE)
             if v_score < 0.06:
-                # Fısıltı çökmesi tespit edildi -> Seed perturbasyonu ile yeniden sentezle
+                # Fısıltı çökmesi tespit edildi -> Leyla 9 ile hazırla ve yeniden sentezle
                 self.whisper_collapses_prevented += 1
                 if self.synth_fallback_fn is not None:
-                    w = self.synth_fallback_fn(item.text, seed=item.seed + 1)
+                    w = self.synth_fallback_fn(prepare_tts_clause(item.text), seed=LEYLA_SEED)
 
             w_clean = apply_fade_and_comfort_noise(w)
             results.append(w_clean)

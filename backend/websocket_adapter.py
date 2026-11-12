@@ -38,7 +38,7 @@ logger = logging.getLogger("chan_websocket")
 # Asterisk 20.18+ chan_websocket Protokol Komutları
 COMMAND_FLUSH_MEDIA = "FLUSH_MEDIA"
 COMMAND_PAUSE_MEDIA = "PAUSE_MEDIA"
-COMMAND_RESUME_MEDIA = "RESUME_MEDIA"
+COMMAND_CONTINUE_MEDIA = "CONTINUE_MEDIA"
 COMMAND_SET_VARIABLE = "SET_VARIABLE"
 COMMAND_HANGUP = "HANGUP"
 
@@ -146,7 +146,7 @@ class ChanWebSocketSession:
         """Stage 2 Backchannel Rollback: Asterisk çalmasını devam ettirir."""
         self.resume_count += 1
         self.adapter.total_resume_commands += 1
-        await self.send_command(COMMAND_RESUME_MEDIA)
+        await self.send_command(COMMAND_CONTINUE_MEDIA)
 
     async def send_audio_frame(self, frame: bytes) -> None:
         """

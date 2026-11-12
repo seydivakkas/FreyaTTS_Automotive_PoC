@@ -233,6 +233,33 @@ def protected_atoms(sentence):
         yield words[start:i]
 
 
+def turkish_capitalize(text: str) -> str:
+    """Türkçe imla kurallarına uygun olarak ilk harfi büyütür."""
+    s = text.strip()
+    if not s:
+        return s
+    tr_map = {"i": "İ", "ı": "I", "ü": "Ü", "ş": "Ş", "ö": "Ö", "ç": "Ç", "ğ": "ğ"}
+    first = tr_map.get(s[0], s[0].upper())
+    return first + s[1:]
+
+
+def prepare_tts_clause(text: str) -> str:
+    """TTS akustik modeline girecek her yan tümceyi Leyla ses kimliğine kilitler.
+
+    FreyaDiT akustik modeli eğitim kümesinde yalnızca büyük harfle başlayan cümlelerle
+    eğitildiği için, küçük harfle başlayan yan tümceler modelin perdesini erkek/kalın
+    ses bölgesine (130-170 Hz) düşürür. Bu fonksiyon her yan tümcenin baş harfini
+    Türkçe kurallarına uygun büyütür ve uygun noktalama ekler.
+    """
+    s = text.strip()
+    if not s:
+        return s
+    capitalized = turkish_capitalize(s)
+    if capitalized[-1] not in ".?!,:;":
+        capitalized += "."
+    return capitalized
+
+
 def clauses(text):
     # "Evet," gibi çok kısa bir parça tek başına sentezlenirse model süreyi doldurmak için
     # sözcüğü tekrar ediyor ("Evet, evet"); bu yüzden virgülden sonraki parçayla birleşir.

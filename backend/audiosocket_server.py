@@ -65,8 +65,13 @@ BACKCHANNEL_WORDS = frozenset([
     "hım",
     "hı hım",
     "anlıyorum",
+    "anladım",
     "tamam",
+    "tamamdır",
     "dinliyorum",
+    "olur",
+    "tabii",
+    "tabi",
     "he",
     "ha",
     "efendim",
@@ -286,7 +291,14 @@ class TwoStageBargeInController:
         clean_text = transcription.strip().lower().strip(".!?,;:\"'")
         self.pause_started_at = None
 
-        if clean_text in self.backchannel_words:
+        words = clean_text.split()
+        is_backchannel = (
+            not words
+            or clean_text in self.backchannel_words
+            or (len(words) <= 2 and all(w in self.backchannel_words for w in words))
+        )
+
+        if is_backchannel:
             # Geri Alma (Rollback): Kuyruk korunur, çalma devam ettirilir
             self.state = "rollbacked"
             self.paused = False
@@ -375,7 +387,9 @@ class AudioSocketOrchestrator:
             self.server = None
         logger.info("AudioSocket Orchestrator durduruldu.")
 
-    async def handle_connection(self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter) -> None:
+    async def handle_connection(
+        self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter, *, synthetic: bool = False,
+    ) -> None:
         """Tek bir Asterisk AudioSocket bağlantısını yönetir."""
         peername = writer.get_extra_info("peername")
         client_ip = peername[0] if peername else "unknown"
@@ -455,12 +469,30 @@ class AudioSocketOrchestrator:
                     outbound_ctx = get_outbound_session_context(db, call_uuid_str) or {}
             except Exception:
                 logger.exception("Giden arama bağlamı okunamadı: %s", call_uuid_str)
+
+            # Gelen çağrı metadata kontrolü (Asterisk dialplan webhook kaydı)
+            inbound_meta = None
+            try:
+                from backend.telephony import get_inbound_metadata
+
+                inbound_meta = get_inbound_metadata(call_uuid_str)
+            except Exception:
+                pass
+
+            channel_name = (
+                (inbound_meta and inbound_meta.get("caller_channel"))
+                or f"AudioSocket/{call_uuid_str}"
+            )
+            phone_val = (inbound_meta and inbound_meta.get("caller_id")) or ""
+
             session = VoiceSession(
                 channel="asterisk",
                 emit=emit_event,
                 send_audio=send_audio_frame,
                 output_rate=SAMPLE_RATE,
-                caller_channel=f"AudioSocket/{call_uuid_str}",
+                caller_channel=channel_name,
+                customer_phone=phone_val,
+                **({"synthetic_audiosocket_id": call_uuid_str} if synthetic else {}),
                 **outbound_ctx,
             )
             greeting_task = asyncio.create_task(session.start())
@@ -471,6 +503,8 @@ class AudioSocketOrchestrator:
 
                 # Sonlandırma Sinyali
                 if kind in (AUDIOSOCKET_HANGUP, AUDIOSOCKET_ERROR):
+                    if synthetic and kind == AUDIOSOCKET_ERROR:
+                        session.fqici_close_reason = "transport_error"
                     logger.info(f"AudioSocket çağrı sonlandı (kind={kind}): {call_uuid_str}")
                     break
 
@@ -492,8 +526,11 @@ class AudioSocketOrchestrator:
                     raise ValueError(f"Desteklenmeyen AudioSocket mesaj türü: {kind}")
 
         except (asyncio.IncompleteReadError, ConnectionError, TimeoutError):
-            pass
+            if synthetic and session:
+                session.fqici_close_reason = "disconnect"
         except Exception as e:
+            if synthetic and session:
+                session.fqici_close_reason = "transport_error"
             logger.exception(f"AudioSocket oturum hatası ({call_uuid_str}): {e}")
         finally:
             if greeting_task:

@@ -241,7 +241,7 @@ async def run_batched_ode_benchmark(body: BatchedBenchmarkIn):
 
     bench_start = time.monotonic()
     tasks = [
-        test_engine.synthesize_clause(txt, seed=body.seed + idx)
+        test_engine.synthesize_clause(txt, seed=body.seed)
         for idx, txt in enumerate(texts_to_run)
     ]
     waveforms = await asyncio.gather(*tasks)

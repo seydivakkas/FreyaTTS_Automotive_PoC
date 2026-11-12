@@ -1,11 +1,18 @@
 """Operatör ve kalite (QA) uç noktaları."""
 
+from datetime import datetime, timezone
+from typing import Literal
+
 from fastapi import (
     APIRouter,
     HTTPException,
     Depends,
+    Query,
+    Response,
 )
 from backend.acoustic_evaluation import load_latest_report
+from backend.db import Session
+from backend.operator_inbox import today_view
 from backend.qa_telemetry_operator import (
     realtime_turn_collector,
     operator_panel,
@@ -22,6 +29,19 @@ from backend.schemas import (
 from backend.deps import auth
 
 router = APIRouter()
+
+
+@router.get("/api/operator/today", dependencies=[Depends(auth)])
+def operator_today(
+    response: Response,
+    period: Literal["all", "today", "carryover"] = "all",
+    category: Literal["all", "transfer", "callback", "booking", "follow_up"] = "all",
+    limit: int = Query(50, ge=1, le=100),
+    offset: int = Query(0, ge=0),
+):
+    response.headers["Cache-Control"] = "no-store"
+    with Session() as db:
+        return today_view(db, now=datetime.now(timezone.utc), period=period, category=category, limit=limit, offset=offset)
 
 
 # -----------------------------------------------------------------------------

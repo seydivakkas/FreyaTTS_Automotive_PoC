@@ -39,6 +39,79 @@ _NEGATIVE_RE = re.compile(
 _POSITIVE_RE = re.compile(
     r"\b(evet|geliyorum|oradayım|onaylıyorum|onay|tamam|uygun|kesinlikle)\b"
 )
+_CANCEL_INTENT_RE = re.compile(
+    r"\b(randevu(?:mu|yu|muz|m)?\s+)?(iptal\s*(?:etmek|edin|edelim|istiyorum|edilsin)?|vazgeçtim|gelemeyeceğim|gelmiyorum)\b",
+    re.I,
+)
+_RESCHEDULE_INTENT_RE = re.compile(
+    r"\b(randevu(?:mu|yu|muz|m)?\s+)?(değiştir(?:mek|in|elim|istiyorum)?|saat(?:ini)?\s+değiştir|ertelemek|başka\s+(?:bir\s+)?(?:güne|saate|tarihe)|erteleyelim)\b",
+    re.I,
+)
+_PRICE_INQUIRY_RE = re.compile(
+    r"\b(fiyat|fiyatı|fiyatlar|fiyatları|ücret|ücreti|ücretler|kaç\s*para|ne\s*kadar|paketler|paketleri|hizmetler|hizmetleri)\b",
+    re.I,
+)
+_MULTI_VEHICLE_RE = re.compile(
+    r"\b(iki\s+ara[çc]\w*|2\s+ara[çc]\w*|iki\s+araba\w*|2\s+araba\w*|bir\s+ara[çc]\w*\s+daha|bir\s+araba\w*\s+daha|ikinci\s+ara[çc]\w*|ikinci\s+araba\w*|başka\s+(?:bir\s+)?ara[çc]\w*|başka\s+(?:bir\s+)?araba\w*|diğer\s+ara[çc]\w*|diğer\s+araba\w*)\b",
+    re.I,
+)
+
+
+def extract_plate(text: str) -> str | None:
+    """Metin içindeki Türkiye araç plakasını (34 ABC 123, 06 ANK 99) çıkarır."""
+    m = re.search(
+        r"\b(0[1-9]|[1-7][0-9]|8[01])\s*([a-zA-ZçğıöşüÇĞİÖŞÜ]{1,3})\s*(\d{2,4})\b",
+        text,
+    )
+    if m:
+        return f"{m.group(1)} {m.group(2).upper()} {m.group(3)}"
+    return None
+
+
+def _find_active_appointment(
+    db,
+    customer_phone: str = "",
+    plate: str = "",
+    customer_name: str = "",
+) -> Appointment | None:
+    """Telefon numarası, plaka veya müşteri adı ile aktif randevuyu bulur."""
+    apps = (
+        db.scalars(
+            select(Appointment)
+            .where(Appointment.status.in_(["confirmed", "pending"]))
+            .order_by(Appointment.created_at.desc())
+        )
+        .all()
+    )
+    # 1. Telefon ile
+    if customer_phone:
+        clean_target = "".join(c for c in customer_phone if c.isdigit())
+        if len(clean_target) >= 7:
+            for app in apps:
+                app_p = "".join(c for c in (app.customer_phone or "") if c.isdigit())
+                if app_p and (clean_target.endswith(app_p[-10:]) or app_p.endswith(clean_target[-10:])):
+                    return app
+                cust_p = "".join(c for c in (app.customer or "") if c.isdigit())
+                if cust_p and (clean_target.endswith(cust_p[-10:]) or cust_p.endswith(clean_target[-10:])):
+                    return app
+
+    # 2. Plaka ile
+    if plate:
+        norm_plate = re.sub(r"\s+", "", plate).upper()
+        for app in apps:
+            if app.vehicle_id:
+                v = db.get(Vehicle, app.vehicle_id)
+                if v and v.plate and re.sub(r"\s+", "", v.plate).upper() == norm_plate:
+                    return app
+
+    # 3. İsim ile
+    if customer_name and len(customer_name.strip()) >= 3:
+        target_name = customer_name.strip().casefold()
+        for app in apps:
+            if target_name in (app.customer or "").casefold():
+                return app
+
+    return None
 
 
 class Extract(BaseModel):
@@ -133,6 +206,80 @@ def parse_selected_option(text: str) -> int | None:
     return option
 
 
+def extract_phone_number(text: str) -> str | None:
+    """Metin içindeki Türkiye telefon numarasını (05xx... veya 5xx...) çıkarır."""
+    digits = re.findall(r"\d+", text)
+    if digits:
+        joined = "".join(digits)
+        if len(joined) == 11 and joined.startswith("05"):
+            return joined
+        if len(joined) == 10 and joined.startswith("5"):
+            return "0" + joined
+        if len(joined) == 12 and joined.startswith("905"):
+            return "0" + joined[2:]
+        if len(joined) == 13 and joined.startswith("+905"):
+            return "0" + joined[3:]
+
+    # Türkçe sözlü sayılar ve basamak çözümleme
+    units = {"bir": 1, "iki": 2, "üç": 3, "dört": 4, "beş": 5, "altı": 6, "yedi": 7, "sekiz": 8, "dokuz": 9}
+    tens = {"on": 10, "yirmi": 20, "otuz": 30, "kırk": 40, "elli": 50, "altmış": 60, "yetmiş": 70, "seksen": 80, "doksan": 90}
+
+    lowered = text.replace("İ", "i").replace("I", "ı").lower()
+    words = re.sub(r"[^\w\s]", " ", lowered).split()
+    parsed_digits = []
+    i = 0
+    while i < len(words):
+        w = words[i]
+        if w == "sıfır":
+            parsed_digits.append("0")
+            i += 1
+        elif w in units and i + 1 < len(words) and words[i + 1] == "yüz":
+            val = units[w] * 100
+            i += 2
+            if i < len(words) and words[i] in tens:
+                val += tens[words[i]]
+                i += 1
+            if i < len(words) and words[i] in units:
+                val += units[words[i]]
+                i += 1
+            parsed_digits.append(str(val))
+        elif w == "yüz":
+            val = 100
+            i += 1
+            if i < len(words) and words[i] in tens:
+                val += tens[words[i]]
+                i += 1
+            if i < len(words) and words[i] in units:
+                val += units[words[i]]
+                i += 1
+            parsed_digits.append(str(val))
+        elif w in tens:
+            val = tens[w]
+            i += 1
+            if i < len(words) and words[i] in units:
+                val += units[words[i]]
+                i += 1
+            parsed_digits.append(str(val))
+        elif w in units:
+            parsed_digits.append(str(units[w]))
+            i += 1
+        elif re.fullmatch(r"\d+", w):
+            parsed_digits.append(w)
+            i += 1
+        else:
+            i += 1
+
+    joined_parsed = "".join(parsed_digits)
+    if len(joined_parsed) == 11 and joined_parsed.startswith("05"):
+        return joined_parsed
+    if len(joined_parsed) == 10 and joined_parsed.startswith("5"):
+        return "0" + joined_parsed
+    if len(joined_parsed) == 12 and joined_parsed.startswith("905"):
+        return "0" + joined_parsed[2:]
+    return None
+
+
+
 class Dialogue:
     def __init__(
         self,
@@ -143,6 +290,7 @@ class Dialogue:
         call_id: str | None = None,
         diagnostic_id: str | None = None,
         prompt_template: str = "standard",
+        customer_phone: str = "",
     ):
         self.id = conversation_id
         self.mode = mode
@@ -164,11 +312,28 @@ class Dialogue:
         self.retries = 0
         self.transfer_requested = False
         self.transfer_id = None
-        # Telefon numarası bilinmiyorsa (sesli görüşmede genelde bilinmez) SMS vaadi verilmez.
-        self.customer_phone = ""
+        self.customer_phone = (customer_phone or "").strip()
         self.outbound_persisted: bool | None = None
         self.history: list[dict[str, str]] = []
         self.max_history_turns = max_history_turns
+        self.awaiting_multi_vehicle: bool = False
+        self.multi_vehicle_planned: bool = False
+        self.awaiting_cancel_confirmation: bool = False
+        self.inbound_intent: str | None = None
+        self.target_appointment_id: str | None = None
+
+    def reset_for_next_vehicle(self):
+        """Aynı müşterinin ikinci veya sonraki aracı için randevu durumunu sıfırlar."""
+        self.vehicle = None
+        self.slot = None
+        self.options = []
+        self.booking_status = BookingStatus.IDLE
+        self.package_type = "standart_ekspertiz"
+        self.awaiting_multi_vehicle = False
+        self.awaiting_cancel_confirmation = False
+        self.inbound_intent = None
+        self.target_appointment_id = None
+        self.done = False
 
     def record_turn(self, role: str, content: str):
         if content and content.strip():
@@ -325,28 +490,38 @@ class Dialogue:
             self.transfer_requested = True
             return None
         self.transfer_requested = False
-        self._record_callback_request(db)
+        self.record_callback_request(db)
         return "Şu anda operatöre bağlayamıyorum; talebinizi kaydettim, sizi arayacağız."
 
-    def _record_callback_request(self, db=None) -> None:
+    def record_callback_request(self, db=None, *, reason="AMI bağlı değil") -> None:
         """Aktarım yapılamadığında görüşmeyi 'follow_up' işaretleyip operatör notu ekler."""
         try:
             if db is None:
                 with Session() as own:
-                    self._record_callback_request(own)
+                    self.record_callback_request(own, reason=reason)
                 return
             conv = db.get(Conversation, self.id)
-            if conv:
+            if conv and conv.status in {"active", "follow_up"}:
                 conv.status = "follow_up"
                 stamp = datetime.now(ZoneInfo("UTC")).isoformat()
+                if conv.follow_up_kind != "callback":
+                    conv.follow_up_at = stamp
+                conv.follow_up_kind = "callback"
                 note = (
-                    f"[{stamp}] Operatör aktarımı yapılamadı (AMI bağlı değil); "
+                    f"[{stamp}] Operatör aktarımı yapılamadı ({reason}); "
                     f"müşteri geri aranacak. {self.get_transfer_summary(db)}"
                 )
                 conv.operator_notes = f"{conv.operator_notes or ''}\n{note}".strip()
                 db.commit()
         except Exception:
             logger.exception("Geri arama kaydı oluşturulamadı: %s", self.id)
+
+    def booking_follow_up_kind(self) -> str | None:
+        if self.booking_status in {BookingStatus.UNKNOWN, BookingStatus.CONFIRMING}:
+            return "booking_unknown"
+        if self.awaiting or (self.booking_status == BookingStatus.IDLE and self.options and not self.done):
+            return "booking_pending"
+        return None
 
     def _persist_outbound(self, db, outcome: str) -> bool:
         """Giden arama sonucunu kaydeder. Başarısızlık yutulmaz: loglanır ve False döner."""
@@ -386,11 +561,13 @@ class Dialogue:
         self.outbound_persisted = ok
         return ok_text if ok else fail_text
 
-    def unclear(self):
+    def unclear(self, db=None):
         self.retries += 1
         if self.retries >= 3:
-            self.done = True
-            return "Sizi anlayamadım. Görüşmeyi takip için kaydediyorum. İyi günler."
+            unavailable = self._begin_transfer(db)
+            if unavailable:
+                return f"Sizi anlayamadım. {unavailable}"
+            return "Sizi daha iyi yardımcı olabilmesi için yetkili danışmanımıza aktarıyorum. Lütfen hattan ayrılmayın."
         if self.retries == 2:
             return format_stt_fallback_message(self)
         return "Sizi anlayamadım. Tekrar söyler misiniz?"
@@ -409,6 +586,47 @@ class Dialogue:
             self.record_turn("user", f"[DTMF: {d}]")
             self.record_turn("assistant", ans)
             return ans
+
+        # İptal Onayı Beklenirken Tuşlama
+        if getattr(self, "awaiting_cancel_confirmation", False):
+            if d == "1":
+                app = db.get(Appointment, self.target_appointment_id) if self.target_appointment_id else None
+                if app:
+                    cancel_appointment(db, app)
+                    try:
+                        from backend.notifications import queue_cancellation_notification
+                        queue_cancellation_notification(db, app)
+                    except Exception:
+                        pass
+                self.done = True
+                self.awaiting_cancel_confirmation = False
+                ans = "1'i tuşladınız. Randevunuz talebiniz üzerine iptal edilmiştir. İyi günler dileriz."
+                self.record_turn("user", f"[DTMF: {d}]")
+                self.record_turn("assistant", ans)
+                return ans
+            elif d == "2":
+                self.awaiting_cancel_confirmation = False
+                self.target_appointment_id = None
+                ans = "2'yi tuşladınız. İptal işlemi yapılmadı, mevcut randevunuz aynen geçerlidir."
+                self.record_turn("user", f"[DTMF: {d}]")
+                self.record_turn("assistant", ans)
+                return ans
+
+        # Çoklu Araç Randevusu Sorusunda Tuşlama
+        if getattr(self, "awaiting_multi_vehicle", False):
+            if d == "1":
+                self.reset_for_next_vehicle()
+                ans = "1'i tuşladınız. Diğer aracınızın marka ve modelini söyler misiniz?"
+                self.record_turn("user", f"[DTMF: {d}]")
+                self.record_turn("assistant", ans)
+                return ans
+            elif d == "2":
+                self.done = True
+                self.awaiting_multi_vehicle = False
+                ans = "2'yi tuşladınız. Teşekkür eder, iyi günler dileriz."
+                self.record_turn("user", f"[DTMF: {d}]")
+                self.record_turn("assistant", ans)
+                return ans
 
         # 1. Giden Hatırlatma Araması Modu (Outbound Reminder)
         if self.mode == "outbound_reminder":
@@ -485,12 +703,16 @@ class Dialogue:
                 self.booking_status = BookingStateMachine.transition(
                     self.booking_status, BookingStatus.CONFIRMED
                 )
-                self.done = True
                 self.retries = 0
-                if self.corporate_account_name:
-                    ans = f"1'i tuşladınız. Randevunuz {self.corporate_account_name} kurumsal cari hesabınıza işlenerek onaylandı.{self._sms_note('SMS ve WhatsApp ile detayları iletiyorum.')} İyi günler dilerim."
+                if getattr(self, "multi_vehicle_planned", False):
+                    ans = f"1'i tuşladınız. İlk aracınız için randevunuz oluşturuldu.{self._sms_note('Onay ve randevu detaylarını SMS olarak telefonunuza iletiyorum.')} Şimdi ikinci aracınızın marka ve modelini söyler misiniz?"
+                    self.reset_for_next_vehicle()
                 else:
-                    ans = f"1'i tuşladınız. Randevunuz onaylandı ve oluşturuldu.{self._sms_note('Onay ve randevu detaylarını SMS olarak telefonunuza iletiyorum.')} İyi günler dilerim."
+                    self.done = True
+                    if self.corporate_account_name:
+                        ans = f"1'i tuşladınız. Randevunuz {self.corporate_account_name} kurumsal cari hesabınıza işlenerek onaylandı.{self._sms_note('SMS ve WhatsApp ile detayları iletiyorum.')} İyi günler dilerim."
+                    else:
+                        ans = f"1'i tuşladınız. Randevunuz onaylandı ve oluşturuldu.{self._sms_note('Onay ve randevu detaylarını SMS olarak telefonunuza iletiyorum.')} İyi günler dilerim."
                 self.record_turn("user", f"[DTMF: {d}]")
                 self.record_turn("assistant", ans)
                 return ans
@@ -536,8 +758,12 @@ class Dialogue:
             self.record_turn("assistant", ans)
             return ans
 
-        norm = text.strip().lower()
+        norm = _tr_lower(text.strip())
         clean = re.sub(r"[.,!?;:]", " ", norm)
+
+        phone_in_text = extract_phone_number(text)
+        if phone_in_text:
+            self.customer_phone = phone_in_text
 
         # Canlı Operatör / Danışman Aktarım Talebi (Sesli Komut)
         if (
@@ -629,6 +855,179 @@ class Dialogue:
                 self.record_turn("assistant", ans)
                 return ans
 
+        # 1. İptal Onayı Beklenirken Sesli Yanıt
+        if getattr(self, "awaiting_cancel_confirmation", False):
+            if _POSITIVE_RE.search(clean) or re.search(r"\b(iptal\s*(?:et|edin|edilsin|istiyorum))\b", clean):
+                with Session() as db:
+                    app = db.get(Appointment, self.target_appointment_id) if self.target_appointment_id else None
+                    if app:
+                        cancel_appointment(db, app)
+                        try:
+                            from backend.notifications import queue_cancellation_notification
+                            queue_cancellation_notification(db, app)
+                        except Exception:
+                            pass
+                self.done = True
+                self.awaiting_cancel_confirmation = False
+                ans = f"Randevunuz başarıyla iptal edilmiştir.{self._sms_note('İptal onayını telefonunuza SMS olarak ilettim.')} Dilediğiniz zaman tekrar randevu oluşturabilirsiniz. İyi günler dileriz."
+                self.record_turn("user", text)
+                self.record_turn("assistant", ans)
+                return ans
+            elif _NEGATIVE_RE.search(clean) or "kalsın" in clean or "vazgeçtim" in clean:
+                self.awaiting_cancel_confirmation = False
+                self.target_appointment_id = None
+                ans = "İptal işlemi gerçekleştirilmedi, mevcut randevunuz geçerlidir. Size başka bir konuda yardımcı olabilir miyim?"
+                self.record_turn("user", text)
+                self.record_turn("assistant", ans)
+                return ans
+
+        # 2. Çoklu Araç Sorusu Yanıtı
+        if getattr(self, "awaiting_multi_vehicle", False):
+            if _POSITIVE_RE.search(clean) or any(w in clean for w in ("istiyorum", "var", "ekleyelim", "lütfen")):
+                self.reset_for_next_vehicle()
+                ans = "Tabii ki. Diğer aracınızın marka ve modelini söyler misiniz?"
+                self.record_turn("user", text)
+                self.record_turn("assistant", ans)
+                return ans
+            elif _NEGATIVE_RE.search(clean) or any(w in clean for w in ("yok", "teşekkür", "gerek yok", "bu kadar")):
+                self.done = True
+                self.awaiting_multi_vehicle = False
+                ans = "Teşekkür eder, iyi günler dileriz."
+                self.record_turn("user", text)
+                self.record_turn("assistant", ans)
+                return ans
+
+        # 3. Görüşme İçinde Çoklu Araç Bildirimi
+        if _MULTI_VEHICLE_RE.search(clean):
+            if any(w in clean for w in ("iki", "2")):
+                self.multi_vehicle_planned = True
+                if not self.customer:
+                    ans = "Memnuniyetle, iki aracınız için de sırayla randevu oluşturalım. Öncelikle adınızı ve soyadınızı söyler misiniz?"
+                    self.record_turn("user", text)
+                    self.record_turn("assistant", ans)
+                    return ans
+                elif not self.vehicle:
+                    ans = "Memnuniyetle. İlk aracınızın marka ve modelini söyler misiniz?"
+                    self.record_turn("user", text)
+                    self.record_turn("assistant", ans)
+                    return ans
+            else:
+                self.reset_for_next_vehicle()
+                ans = "Tabii ki. Diğer aracınızın marka ve modelini söyler misiniz?"
+                self.record_turn("user", text)
+                self.record_turn("assistant", ans)
+                return ans
+
+        # 4. İptal veya Değişiklik İçin Telefon/Plaka Belirtildiğinde
+        if self.inbound_intent in ("cancel", "reschedule"):
+            p_in = extract_phone_number(text) or self.customer_phone
+            pl_in = extract_plate(text)
+            with Session() as db:
+                target_app = _find_active_appointment(db, customer_phone=p_in, plate=pl_in or "")
+                if target_app:
+                    act_intent = self.inbound_intent
+                    self.inbound_intent = None
+                    v = db.get(Vehicle, target_app.vehicle_id) if target_app.vehicle_id else None
+                    v_desc = v.description if v else (v.plate if v else "aracınız")
+                    if act_intent == "cancel":
+                        self.target_appointment_id = target_app.id
+                        self.awaiting_cancel_confirmation = True
+                        s = db.get(Slot, target_app.slot_id) if target_app.slot_id else None
+                        s_time = datetime.fromisoformat(s.starts_at).astimezone(ZoneInfo("Europe/Istanbul")).strftime("%d.%m.%Y saat %H:%M") if s else "belirtilen"
+                        ans = f"Sayın {target_app.customer}, {v_desc} aracınız için {s_time} tarihindeki randevunuzu iptal etmek istediğinizi onaylıyor musunuz? Onaylamak için 'evet onaylıyorum' diyebilirsiniz."
+                        self.record_turn("user", text)
+                        self.record_turn("assistant", ans)
+                        return ans
+                    else:
+                        cancel_appointment(db, target_app, commit=True)
+                        self.customer = target_app.customer
+                        self.vehicle = target_app.vehicle_id
+                        self.customer_phone = target_app.customer_phone or self.customer_phone
+                        occupied = select(Appointment.slot_id).where(Appointment.slot_id.is_not(None))
+                        slots = db.scalars(select(Slot).where(Slot.id.not_in(occupied)).order_by(Slot.starts_at)).all()
+                        slots = [s for s in slots if datetime.fromisoformat(s.starts_at) > datetime.now(ZoneInfo("UTC"))][:3]
+                        self.options = [(s.id, datetime.fromisoformat(s.starts_at).astimezone(ZoneInfo("Europe/Istanbul")).strftime("%d.%m.%Y saat %H:%M")) for s in slots]
+                        ans = f"Sayın {target_app.customer}, {v_desc} aracınızın mevcut randevusunu iptal ettim. Yeni randevunuz için seçeneklerimiz: {self.format_options(db)}"
+                        self.record_turn("user", text)
+                        self.record_turn("assistant", ans)
+                        return ans
+                else:
+                    self.inbound_intent = None
+                    ans = "Belirttiğiniz bilgilerle aktif bir randevu bulunamadı. Dilerseniz yeni bir randevu oluşturmak için adınızı ve aracınızı söyleyebilirsiniz."
+                    self.record_turn("user", text)
+                    self.record_turn("assistant", ans)
+                    return ans
+
+        # 5. Gelen Randevu İptal veya Değişiklik Talebi
+        if _CANCEL_INTENT_RE.search(clean) or _RESCHEDULE_INTENT_RE.search(clean):
+            is_cancel = bool(_CANCEL_INTENT_RE.search(clean))
+            pl_found = extract_plate(text)
+            with Session() as db:
+                target_app = _find_active_appointment(
+                    db,
+                    customer_phone=self.customer_phone,
+                    plate=pl_found or "",
+                    customer_name=self.customer or "",
+                )
+                if target_app:
+                    v = db.get(Vehicle, target_app.vehicle_id) if target_app.vehicle_id else None
+                    v_desc = v.description if v else (v.plate if v else "aracınız")
+                    if is_cancel:
+                        self.target_appointment_id = target_app.id
+                        self.awaiting_cancel_confirmation = True
+                        s = db.get(Slot, target_app.slot_id) if target_app.slot_id else None
+                        s_time = datetime.fromisoformat(s.starts_at).astimezone(ZoneInfo("Europe/Istanbul")).strftime("%d.%m.%Y saat %H:%M") if s else "belirtilen"
+                        ans = f"Sayın {target_app.customer}, {v_desc} aracınız için {s_time} tarihindeki randevunuzu iptal etmek istediğinizi onaylıyor musunuz? Onaylamak için 'evet onaylıyorum' diyebilirsiniz."
+                        self.record_turn("user", text)
+                        self.record_turn("assistant", ans)
+                        return ans
+                    else:
+                        cancel_appointment(db, target_app, commit=True)
+                        self.customer = target_app.customer
+                        self.vehicle = target_app.vehicle_id
+                        self.customer_phone = target_app.customer_phone or self.customer_phone
+                        occupied = select(Appointment.slot_id).where(Appointment.slot_id.is_not(None))
+                        slots = db.scalars(select(Slot).where(Slot.id.not_in(occupied)).order_by(Slot.starts_at)).all()
+                        slots = [s for s in slots if datetime.fromisoformat(s.starts_at) > datetime.now(ZoneInfo("UTC"))][:3]
+                        self.options = [(s.id, datetime.fromisoformat(s.starts_at).astimezone(ZoneInfo("Europe/Istanbul")).strftime("%d.%m.%Y saat %H:%M")) for s in slots]
+                        ans = f"Sayın {target_app.customer}, {v_desc} aracınızın mevcut randevusunu iptal ettim. Yeni randevunuz için seçeneklerimiz: {self.format_options(db)}"
+                        self.record_turn("user", text)
+                        self.record_turn("assistant", ans)
+                        return ans
+                else:
+                    self.inbound_intent = "cancel" if is_cancel else "reschedule"
+                    ans = "Telefon numaranıza kayıtlı aktif bir randevu bulamadım. Randevunuz hangi telefon numarası veya araç plakası ile kayıtlıydı?"
+                    self.record_turn("user", text)
+                    self.record_turn("assistant", ans)
+                    return ans
+
+        # 6. Fiyat ve Ekspertiz Paketleri Bilgilendirme
+        if _PRICE_INQUIRY_RE.search(clean) and not self.awaiting and not self.options:
+            from backend.queue_lift import PACKAGE_DEFINITIONS
+            matched_pkg = None
+            lower_text = text.lower()
+            for k, p in PACKAGE_DEFINITIONS.items():
+                if any(kw in lower_text for kw in p["keywords"]):
+                    matched_pkg = p
+                    break
+            if matched_pkg:
+                price_tl = f"{matched_pkg['base_price_kurus'] // 100:,}".replace(",", ".")
+                self.package_type = matched_pkg["key"]
+                ans = (
+                    f"{matched_pkg['name']} paketimiz {price_tl} TL'dir. "
+                    f"Yaklaşık {matched_pkg['duration_minutes']} dakika sürer ve {matched_pkg['description']} "
+                    f"Bu paket için randevu oluşturmak ister misiniz?"
+                )
+            else:
+                ans = (
+                    "Ekspertiz merkezimizde 4 ana paketimiz bulunmaktadır: "
+                    "Motor ve Mekanik 950 TL, Standart Ekspertiz 1.450 TL, Full Kapsamlı 1.950 TL ve VIP Premium 2.600 TL'dir. "
+                    "Hangi paketimiz için randevu oluşturmak istersiniz?"
+                )
+            self.record_turn("user", text)
+            self.record_turn("assistant", ans)
+            return ans
+
         if self.awaiting:
             if re.fullmatch(
                 r"\s*(evet|(?:evet\s+){0,2}onaylıyorum|tamam\s+onaylıyorum)\s*",
@@ -665,12 +1064,16 @@ class Dialogue:
                 self.booking_status = BookingStateMachine.transition(
                     self.booking_status, BookingStatus.CONFIRMED
                 )
-                self.done = True
                 self.retries = 0
-                if self.corporate_account_name:
-                    ans = f"Randevunuz {self.corporate_account_name} kurumsal cari hesabınıza işlenerek oluşturuldu.{self._sms_note('Onay ve randevu detaylarını SMS ve WhatsApp ile iletiyorum.')} İyi günler dilerim."
+                if getattr(self, "multi_vehicle_planned", False):
+                    ans = f"İlk aracınız için randevunuz oluşturuldu.{self._sms_note('Onay ve randevu detaylarını SMS olarak telefonunuza iletiyorum.')} Şimdi ikinci aracınızın marka ve modelini söyler misiniz?"
+                    self.reset_for_next_vehicle()
                 else:
-                    ans = f"Randevunuz oluşturuldu.{self._sms_note('Onay ve randevu detaylarını SMS olarak telefonunuza iletiyorum.')} İyi günler dilerim."
+                    self.done = True
+                    if self.corporate_account_name:
+                        ans = f"Randevunuz {self.corporate_account_name} kurumsal cari hesabınıza işlenerek oluşturuldu.{self._sms_note('Onay ve randevu detaylarını SMS ve WhatsApp ile iletiyorum.')} İyi günler dilerim."
+                    else:
+                        ans = f"Randevunuz oluşturuldu.{self._sms_note('Onay ve randevu detaylarını SMS olarak telefonunuza iletiyorum.')} İyi günler dilerim."
                 self.record_turn("user", text)
                 self.record_turn("assistant", ans)
                 return ans
