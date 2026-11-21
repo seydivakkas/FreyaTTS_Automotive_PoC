@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "skills": {
+    "baseline-ui": {
+      "source": "vercel-labs/open-agents",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/baseline-ui/SKILL.md",
+      "computedHash": "2a363ec09b5be3eb3590772f7d55b5f2121ebbb6be6d46f0b36a02760449a120"
+    },
+    "web-design-reviewer": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/web-design-reviewer/SKILL.md",
+      "computedHash": "73ae10d780502c1e9269ca461622362839a855fcd4ec0d3091fed4b506110b3b"
+    }
+  }
+}

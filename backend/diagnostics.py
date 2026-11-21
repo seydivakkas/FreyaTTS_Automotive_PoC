@@ -6,7 +6,6 @@ Telif Hakkı (c) 2026 Seydi Eryılmaz (@seydivakkas) - Tüm Hakları Saklıdır.
 from __future__ import annotations
 
 import logging
-from typing import Any
 from sqlalchemy import select
 from backend.db import (
     VehicleDiagnostic,

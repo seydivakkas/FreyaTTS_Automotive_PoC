@@ -38,10 +38,24 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\ensure_ollama.ps1
 
 echo [*] Veritabani semasi guncelleniyor (Alembic)...
 .venv\Scripts\python.exe -m alembic upgrade head
+if errorlevel 1 (
+    echo.
+    echo [HATA] Veritabani sema guncellemesi (Alembic) basarisiz oldu!
+    echo Tarayici baslatilmadi. Lutfen hata kayitlarini inceleyin.
+    pause
+    exit /b 1
+)
 
 if not exist "frontend\dist\index.html" (
     echo [*] Frontend paketi derleniyor...
     call npm run build --prefix frontend
+    if errorlevel 1 (
+        echo.
+        echo [HATA] Frontend derlemesi (npm run build) basarisiz oldu!
+        echo Tarayici baslatilmadi. Lutfen derleme hatalarini duzeltin.
+        pause
+        exit /b 1
+    )
 )
 
 if defined DEV_MODE_ARG (

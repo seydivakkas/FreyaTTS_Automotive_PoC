@@ -4,6 +4,7 @@
 # =====================================================================
 """Pydantic istek modelleri."""
 
+import re
 from typing import (
     Any,
     Literal,
@@ -16,12 +17,19 @@ from pydantic import (
     BaseModel,
     Field,
     AwareDatetime,
+    model_validator,
 )
 from backend.deps import AUDIO_B64_MAX
 
 
 class TextIn(BaseModel):
     text: str = Field(min_length=1, max_length=4000)
+
+
+class VoiceChatTurnIn(BaseModel):
+    text: str = Field(min_length=1, max_length=4000)
+    session_id: str | None = Field(default=None)
+    reset: bool = Field(default=False)
 
 
 class DSPProcessIn(BaseModel):
@@ -354,12 +362,33 @@ class CardValidateIn(BaseModel):
 
 class KVKKErasureRequestIn(BaseModel):
     identifier_type: Literal["phone", "plate", "customer_name", "conversation_id"] = "phone"
-    identifier_value: str = Field(min_length=1, max_length=120)
+    identifier_value: str = Field(min_length=3, max_length=120)
     requester_name: str = Field(default="", max_length=120)
     reason: str = Field(
         default="KVKK Madde 11 uyarınca silme talebi", max_length=255
     )
     notes: str = Field(default="", max_length=1000)
+
+
+    @model_validator(mode="after")
+    def validate_identifier(self):
+        value = self.identifier_value.strip()
+        patterns = {
+            "phone": r"\+?[0-9][0-9 ()-]{8,23}",
+            "plate": r"[0-9]{2}\s*[A-Za-z]{1,3}\s*[0-9]{2,4}",
+            "customer_name": r"[^\W\d_]+(?:[ '’-]+[^\W\d_]+)+",
+            "conversation_id": r"[A-Za-z0-9-]{8,120}",
+        }
+        if not re.fullmatch(patterns[self.identifier_type], value):
+            raise ValueError("Geçerli ve eksiksiz bir kimlik değeri girin.")
+        if self.identifier_type == "phone" and len(re.sub(r"\D", "", value)) not in (10, 11, 12):
+            raise ValueError("Telefon numarası 10–12 rakam içermelidir.")
+        self.identifier_value = value
+        return self
+
+
+class KVKKErasureExecuteIn(BaseModel):
+    confirmed_record_count: int = Field(ge=0, strict=True)
 
 
 class TranscriptRetentionPurgeIn(BaseModel):

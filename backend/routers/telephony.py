@@ -3,6 +3,7 @@
 import io
 import json
 import secrets
+from pydantic import ValidationError
 from fastapi import (
     APIRouter,
     HTTPException,
@@ -52,11 +53,9 @@ from backend.notifications import (
     can_send_real_notifications,
     TwilioNotificationProvider,
     scan_and_queue_appointment_reminders,
-    queue_cancellation_notification,
 )
 from backend.telephony import (
     register_inbound_metadata,
-    get_inbound_metadata,
 )
 from backend.outbound import (
     initiate_outbound_call,
@@ -253,8 +252,24 @@ def list_pending_reminders_endpoint(
 
 
 @router.post("/api/telephony/inbound-metadata")
-def record_inbound_metadata_endpoint(body: InboundMetadataIn):
+async def record_inbound_metadata_endpoint(request: Request):
     """Asterisk dialplan (CURL / FastAGI) tarafından gelen çağrı üstverisini kaydeder."""
+    supplied = request.headers.get("X-PBX-Secret", "")
+    if (
+        request.client is None
+        or request.client.host not in settings.pbx_allowed_ips
+        or not settings.pbx_metadata_secret
+        or not secrets.compare_digest(supplied.encode(), settings.pbx_metadata_secret.encode())
+    ):
+        raise HTTPException(403, "PBX çağrı bilgisi reddedildi.")
+    try:
+        if request.headers.get("content-type", "").startswith("application/x-www-form-urlencoded"):
+            payload = dict(await request.form())
+        else:
+            payload = await request.json()
+        body = InboundMetadataIn.model_validate(payload)
+    except (ValueError, ValidationError) as exc:
+        raise HTTPException(422, "Geçersiz PBX çağrı bilgisi.") from exc
     meta = register_inbound_metadata(
         call_uuid=body.call_uuid,
         caller_id=body.caller_id,

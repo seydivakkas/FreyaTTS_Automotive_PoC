@@ -5,7 +5,7 @@
 from pathlib import Path
 from typing import Literal
 
-from pydantic import model_validator
+from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -23,11 +23,19 @@ class Settings(BaseSettings):
     ollama_gpu_layers: int = 8
     freya_path: str = "vendor/FreyaTTS"
     tts_device: str = "cuda"
+    auto_load_models: bool = True
+    stt_catalog_hotwords: bool = False
+    stt_min_rms: float = Field(default=0.0, ge=0.0, le=1.0)
     stt_model: str = "large-v3-turbo"
     stt_device: str = "cuda"
     stt_compute_type: str = "float16"
     audiosocket_host: str = "127.0.0.1"
     audiosocket_port: int = 9092
+    pbx_metadata_secret: str = ""
+    kvkk_erasure_enabled: bool = False
+    multi_vehicle_booking_enabled: bool = False
+    twilio_enabled: bool = False
+    auto_purge_transcripts: bool = False
     pbx_allowed_ips: list[str] = ["127.0.0.1", "::1"]
     record_audio: bool = False
     retention_days: int = 7
@@ -68,7 +76,6 @@ class Settings(BaseSettings):
     car_denoiser_target_dbfs: float = -16.0
     car_denoiser_noise_gate_dbfs: float = -42.0
     car_denoiser_max_boost_db: float = 12.0
-    car_denoiser_auto_calibrate: bool = True
     car_denoiser_gate_attenuation_db: float = 30.0
     max_concurrent_calls: int = 50
     batched_ode_enabled: bool = True

@@ -9,13 +9,16 @@ import {
 import { DEMO_SCENARIOS } from "./pipeline/demoFixtures";
 
 function micError(e: unknown) {
-  const n = (e as { name?: string } | null)?.name;
+  const n = (e as { name?: string; message?: string } | null)?.name;
+  const msg = (e as { message?: string } | null)?.message || "";
   if (n === "NotAllowedError" || n === "SecurityError")
     return "Mikrofon izni verilmedi. Tarayıcı adres çubuğundan mikrofona izin verip tekrar deneyin.";
-  if (n === "NotFoundError" || n === "OverconstrainedError")
+  if (n === "NotFoundError" || n === "DevicesNotFoundError")
     return "Mikrofon bulunamadı. Bir mikrofon bağlayıp tekrar deneyin.";
-  if (n === "NotReadableError")
-    return "Mikrofon başka bir uygulama tarafından kullanılıyor olabilir.";
+  if (n === "NotReadableError" || msg.includes("Could not start audio source"))
+    return "Mikrofon başlatılamadı: Cihaz başka bir uygulama (Zoom, Teams, Discord vb.) tarafından kullanılıyor olabilir veya Windows mikrofon erişim izni kapalı olabilir. Alternatif olarak aşağıdaki metin kutusundan yazarak görüşmeyi sürdürebilirsiniz.";
+  if (n === "OverconstrainedError")
+    return "Mikrofon donanımı istenen ses parametrelerini desteklemiyor.";
   return null;
 }
 
@@ -40,7 +43,8 @@ export function useVoiceSession(api: ApiFn, setError: (msg: string) => void) {
     } | null>(null),
     [pipelineState, setPipelineState] = useState<PipelineTurnState>(() =>
       createInitialTurnState(1, "", "live")
-    );
+    ),
+    [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
   const playback = useRef<AudioContext | null>(null);
   const sock = useRef<WebSocket | null>(null),
     ctx = useRef<AudioContext | null>(null),
@@ -72,6 +76,8 @@ export function useVoiceSession(api: ApiFn, setError: (msg: string) => void) {
     sock.current = null;
     node.current?.disconnect();
     stream.current?.getTracks().forEach((t) => t.stop());
+    stream.current = null;
+    setMediaStream(null);
     flush();
     ctx.current?.close();
     ctx.current = null;
@@ -94,24 +100,36 @@ export function useVoiceSession(api: ApiFn, setError: (msg: string) => void) {
     setStatus("Bağlanıyor");
     try {
       await unlocked;
+      let s: MediaStream | null = null;
       try {
-        stream.current = await navigator.mediaDevices.getUserMedia({
-          audio: {
-            echoCancellation: true,
-            noiseSuppression: true,
-            autoGainControl: true,
-          },
-        });
-      } catch (e) {
-        const m = micError(e);
-        if (m) {
-          fail(m);
-          stop();
-          return;
+        try {
+          s = await navigator.mediaDevices.getUserMedia({
+            audio: {
+              echoCancellation: true,
+              noiseSuppression: true,
+              autoGainControl: true,
+            },
+          });
+        } catch (firstErr) {
+          console.warn("useVoiceSession: DSP kısıtlı mikrofon açılamadı, basit audio:true deneniyor...", firstErr);
+          s = await navigator.mediaDevices.getUserMedia({ audio: true });
         }
-        throw e;
+        stream.current = s;
+        setMediaStream(s);
+      } catch (e) {
+        console.warn("Mikrofon donanım hatası (metin modu devreye alındı):", e);
+        const m = micError(e);
+        setError(m || "Mikrofon başlatılamadı. Metin kutusundan yazarak görüşmeyi sürdürebilirsiniz.");
       }
-      await ac.audioWorklet.addModule("/capture.js");
+
+      if (s) {
+        try {
+          await ac.audioWorklet.addModule("/capture.js");
+        } catch (wErr) {
+          console.warn("AudioWorklet yüklenemedi:", wErr);
+        }
+      }
+
       // Bilet yalnızca 30 sn geçerli: mikrofon izni ve worklet yüklemesinden SONRA alınır.
       const ticket = await api("session-ticket", "POST");
       const ws = new WebSocket(
@@ -128,20 +146,26 @@ export function useVoiceSession(api: ApiFn, setError: (msg: string) => void) {
             channels: 1,
           }),
         );
-        const n = new AudioWorkletNode(ac, "capture");
-        node.current = n;
-        ac.createMediaStreamSource(stream.current!).connect(n);
-        const mute = ac.createGain();
-        mute.gain.value = 0;
-        n.connect(mute);
-        mute.connect(ac.destination);
-        n.port.onmessage = (e) => {
-          if (ws.readyState === 1 && ws.bufferedAmount < 128000)
-            ws.send(e.data);
-        };
+        if (stream.current) {
+          try {
+            const n = new AudioWorkletNode(ac, "capture");
+            node.current = n;
+            ac.createMediaStreamSource(stream.current).connect(n);
+            const mute = ac.createGain();
+            mute.gain.value = 0;
+            n.connect(mute);
+            mute.connect(ac.destination);
+            n.port.onmessage = (e) => {
+              if (ws.readyState === 1 && ws.bufferedAmount < 128000)
+                ws.send(e.data);
+            };
+          } catch (workletConnErr) {
+            console.warn("Worklet ses hattı bağlantı hatası:", workletConnErr);
+          }
+        }
         wasConnected.current = true;
         setConnected(true);
-        setStatus("Bağlandı");
+        setStatus(stream.current ? "Bağlandı (Mikrofon Aktif)" : "Bağlandı (Metin Modu)");
       };
       ws.onmessage = async (e) => {
         if (typeof e.data === "string") {
@@ -266,6 +290,14 @@ export function useVoiceSession(api: ApiFn, setError: (msg: string) => void) {
       sock.current.send(JSON.stringify({ type: "dtmf", digit }));
     }
   }
+
+  function sendTextInput(text: string): boolean {
+    if (sock.current && sock.current.readyState === WebSocket.OPEN) {
+      sock.current.send(JSON.stringify({ type: "text_input", text }));
+      return true;
+    }
+    return false;
+  }
   function recalibrate() {
     if (sock.current && sock.current.readyState === WebSocket.OPEN) {
       sock.current.send(JSON.stringify({ type: "recalibrate" }));
@@ -325,6 +357,7 @@ export function useVoiceSession(api: ApiFn, setError: (msg: string) => void) {
   function reset() {
     stop();
     setMessages([]);
+    setMediaStream(null);
     setMetrics(null);
     setCalibrating(false);
     setCalibrationInfo(null);
@@ -335,6 +368,7 @@ export function useVoiceSession(api: ApiFn, setError: (msg: string) => void) {
     messages,
     status,
     connected,
+    mediaStream,
     metrics,
     calibrating,
     calibrationInfo,
@@ -343,7 +377,9 @@ export function useVoiceSession(api: ApiFn, setError: (msg: string) => void) {
     start,
     stop,
     sendDtmf,
+    sendTextInput,
     recalibrate,
+    interruptBargeIn: flush,
     reset,
   };
 }

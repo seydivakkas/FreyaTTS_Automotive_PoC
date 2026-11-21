@@ -404,7 +404,7 @@ class AudioSocketOrchestrator:
 
         # 2. Concurrency (Kapasite) Kontrolü
         if active.locked():
-            logger.warning(f"AudioSocket çağrı reddedildi: Sistem maksimum kapasitede.")
+            logger.warning("AudioSocket çağrı reddedildi: Sistem maksimum kapasitede.")
             self.total_rejected_connections += 1
             writer.close()
             await writer.wait_closed()

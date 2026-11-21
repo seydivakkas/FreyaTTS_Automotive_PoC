@@ -23,7 +23,7 @@ YAZARIN AÇIK YAZILI İZNİ OLMAKSIZIN HİÇBİR KULLANIM HAKKI TANINMAZ.
 from __future__ import annotations
 
 import re
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, Optional
 
 from backend.morphology.contracts import LexiconEntry, WordPhoneticHint
 from backend.morphology.syllabifier import TurkishSyllabifier, VOWELS

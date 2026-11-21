@@ -15,6 +15,8 @@ export type StageStatus =
   | "skipped"
   | "bypassed";
 
+export const LIVE_MEASURED_STAGES: readonly StageId[] = ["F2", "F3", "F4", "F5"];
+
 export type TelemetrySource = "live" | "demo" | "replay";
 
 export interface StageDefinition {
@@ -23,7 +25,6 @@ export interface StageDefinition {
   name: string;
   shortDesc: string;
   technology: string;
-  targetLatencyMs: number;
   inputDescription: string;
   outputDescription: string;
   inspectorTabs: readonly ("overview" | "parameters" | "intermediate" | "metrics" | "traces")[];
@@ -36,7 +37,6 @@ export const STAGE_DEFINITIONS: Record<StageId, StageDefinition> = {
     name: "Akustik DSP & Gürültü",
     shortDesc: "120Hz HPF + Spektral Bastırma + AGC",
     technology: "Butterworth 4. Derece + Sine Spectral (-18dB) + Soft AGC",
-    targetLatencyMs: 3,
     inputDescription: "8 kHz SLIN16 / 16 kHz WebRTC ham ses çerçeveleri",
     outputDescription: "Gürültüden arındırılmış, normalize edilmiş PCM",
     inspectorTabs: ["overview", "parameters", "intermediate", "metrics", "traces"],
@@ -47,7 +47,6 @@ export const STAGE_DEFINITIONS: Record<StageId, StageDefinition> = {
     name: "VAD & 2-Aşamalı Barge-In",
     shortDesc: "Silero VAD + 300ms Ring Tampon",
     technology: "Silero VAD (0.55 eşik) + Goertzel DTMF + 2-Stage Soft/Hard Barge-in",
-    targetLatencyMs: 8,
     inputDescription: "16 kHz filtrelenmiş ses blokları (512 örnek)",
     outputDescription: "Konuşma segmentleri, VAD olasılığı, barge-in durdurma sinyali",
     inspectorTabs: ["overview", "parameters", "intermediate", "metrics", "traces"],
@@ -58,7 +57,6 @@ export const STAGE_DEFINITIONS: Record<StageId, StageDefinition> = {
     name: "ASR / Faster-Whisper",
     shortDesc: "Türkçe Akustik Transkripsiyon",
     technology: "Faster-Whisper large-v3-turbo (CUDA) + RMS Enerji Kapısı",
-    targetLatencyMs: 140,
     inputDescription: "Süreksizliği bitirilmiş (endpointed) ses segmenti",
     outputDescription: "Ham metin transkripti & segment güven olasılıkları",
     inspectorTabs: ["overview", "parameters", "intermediate", "metrics", "traces"],
@@ -69,7 +67,6 @@ export const STAGE_DEFINITIONS: Record<StageId, StageDefinition> = {
     name: "Niyet & LLM Çıkarımı",
     shortDesc: "Supervisor Router & Qwen2.5 7B",
     technology: "Supervisor Intent Router + Deterministik DB Kilidi + Ollama Qwen2.5",
-    targetLatencyMs: 180,
     inputDescription: "Doğrulanmış müşteri konuşma transkripti",
     outputDescription: "Niyet, slotlar, veritabanı yanıtı ve diyalog metni",
     inspectorTabs: ["overview", "parameters", "intermediate", "metrics", "traces"],
@@ -80,7 +77,6 @@ export const STAGE_DEFINITIONS: Record<StageId, StageDefinition> = {
     name: "Normalizasyon & Chunker",
     shortDesc: "P0 Sözlük + İlk Cümlecik Kilidi",
     technology: "P0 Otomotiv Fonetik Sözlüğü + Atomik Chunker + Sıfır Markdown Kalkanı",
-    targetLatencyMs: 2,
     inputDescription: "LLM tarafından üretilen ham diyalog yanıtı",
     outputDescription: "Telaffuz kuralları uygulanmış 4-7 kelimelik atomik cümle parçaları",
     inspectorTabs: ["overview", "parameters", "intermediate", "metrics", "traces"],
@@ -90,8 +86,7 @@ export const STAGE_DEFINITIONS: Record<StageId, StageDefinition> = {
     code: "F5",
     name: "FreyaTTS Akustik Sentez",
     shortDesc: "Batched ODE + Leyla Kadın Sesi",
-    technology: "FreyaTTS Flow Matching + AudioVAE2 + Leyla Seed #9 + DiT LoRA",
-    targetLatencyMs: 220,
+    technology: "FreyaTTS Flow Matching + AudioVAE2 + Leyla Seed #9",
     inputDescription: "Fonetik olarak normalize edilmiş metin parçaları",
     outputDescription: "24 kHz / 16 kHz sentetik PCM dalga formu",
     inspectorTabs: ["overview", "parameters", "intermediate", "metrics", "traces"],
@@ -99,10 +94,9 @@ export const STAGE_DEFINITIONS: Record<StageId, StageDefinition> = {
   F6: {
     id: "F6",
     code: "F6",
-    name: "İletim, WSOLA & Çalım",
-    shortDesc: "0.98x WSOLA + Asterisk / Web Çıkışı",
-    technology: "WSOLA Zaman Ölçekleme + Asterisk AudioSocket / Web Audio API",
-    targetLatencyMs: 10,
+    name: "Ses iletimi",
+    shortDesc: "Asterisk / Web Çıkışı",
+    technology: "Asterisk AudioSocket / Web Audio API",
     inputDescription: "Sentezlenmiş ham PCM parçaları",
     outputDescription: "Kulaklığa / telefon hattına akıtılan kesintisiz ses yayını",
     inspectorTabs: ["overview", "parameters", "intermediate", "metrics", "traces"],

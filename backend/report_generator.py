@@ -16,7 +16,7 @@ from backend.config import settings
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
-from reportlab.lib.units import cm, mm
+from reportlab.lib.units import mm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import (
@@ -602,7 +602,7 @@ def generate_weekly_summary_report(db, days: int = 7) -> dict[str, Any]:
     from datetime import datetime, timezone, timedelta
     from collections import defaultdict
     from sqlalchemy import select
-    from backend.db import Conversation, Turn, Appointment, Slot, Vehicle
+    from backend.db import Conversation, Turn, Appointment
     from backend.analytics import _calc_percentile
 
     now_utc = datetime.now(timezone.utc)

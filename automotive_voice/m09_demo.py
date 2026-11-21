@@ -1,5 +1,6 @@
 """M09 offline synthetic acceptance: python -m automotive_voice.m09_demo."""
-import asyncio, json
+import asyncio
+import json
 from automotive_voice.e2e.runner import run_catalog
 
 def main():

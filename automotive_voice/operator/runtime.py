@@ -12,7 +12,6 @@ from pathlib import Path
 from uuid import uuid4
 from automotive_voice.core.event_bus import EventBus
 from automotive_voice.core.session_manager import SessionManager
-from automotive_voice.core.session import State
 from automotive_voice.conversation.reducer import ConversationReducer, Decision
 from automotive_voice.conversation.signals import ConversationSignal, SignalKind
 from automotive_voice.audio.queue import MediaBuffer
@@ -20,7 +19,7 @@ from automotive_voice.audio.coordinator import MediaCoordinator
 from automotive_voice.telephony.transport import FakeTransport
 from automotive_voice.adapters.lifecycle.clock import MockClock
 from automotive_voice.adapters.lifecycle.supervisor import AdapterSupervisor
-from .review_store import PronunciationReviewStore, ReviewError
+from .review_store import PronunciationReviewStore
 from automotive_voice.readiness.contracts import AdapterConfig,AdapterType,OfflineReadiness
 from automotive_voice.e2e import ScenarioRunner, SCENARIOS
 

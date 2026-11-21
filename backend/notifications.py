@@ -11,7 +11,7 @@ import logging
 import re
 import httpx
 from datetime import datetime, timezone, timedelta
-from typing import Protocol, Optional, List
+from typing import Protocol, Optional
 from sqlalchemy import select
 from backend.config import settings
 from backend.security_utils import signed_pdf_path
@@ -205,7 +205,7 @@ def get_notification_provider() -> NotificationProvider:
     if _active_provider is not None:
         return _active_provider
 
-    if (settings.notification_provider or "").lower() == "twilio":
+    if settings.twilio_enabled and (settings.notification_provider or "").lower() == "twilio":
         if settings.twilio_account_sid and settings.twilio_auth_token:
             return TwilioNotificationProvider()
         logger.warning(

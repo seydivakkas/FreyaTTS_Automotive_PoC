@@ -27,7 +27,7 @@ pythonpath = ["."]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 testpaths = ["tests", "experimental/tests"]
-addopts = "--import-mode=importlib"
+addopts = "--import-mode=importlib --basetemp=data/temp_pytest"
 
 [[tool.uv.index]]
 name = "pytorch-cu128"

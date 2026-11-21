@@ -148,7 +148,7 @@ export function OutboundPanel({ api }: Props) {
   }
 
   return (
-    <>
+    <div style={{ height: "100%", display: "flex", flexDirection: "column", gap: "8px", minHeight: 0, overflowY: "auto", padding: "2px 4px" }}>
       <div className="stats">
         <article>
           <small>Toplam Giden Arama</small>
@@ -477,7 +477,7 @@ export function OutboundPanel({ api }: Props) {
           </table></div>
         </div>
       </section>
-    </>
+    </div>
   );
 }
 

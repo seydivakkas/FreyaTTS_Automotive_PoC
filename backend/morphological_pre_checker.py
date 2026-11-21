@@ -22,7 +22,6 @@ YAZARIN AÇIK YAZILI İZNİ OLMAKSIZIN HİÇBİR KULLANIM HAKKI TANINMAZ.
 
 from __future__ import annotations
 
-from functools import lru_cache
 import re
 from typing import Dict, List, Optional
 

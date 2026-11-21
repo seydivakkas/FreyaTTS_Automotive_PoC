@@ -6,9 +6,9 @@
 import React from "react";
 import {
   StageId,
+  LIVE_MEASURED_STAGES,
   STAGE_DEFINITIONS,
   PipelineTurnState,
-  TelemetrySource,
 } from "./pipeline/types";
 
 interface Props {
@@ -26,7 +26,8 @@ export function AudioPipelineStepper({
   onRunDemoScenario,
   isStreaming = false,
 }: Props) {
-  const stageIds: StageId[] = ["F0", "F1", "F2", "F3", "F4", "F5", "F6"];
+  const isLive = pipelineState.source === "live";
+  const stageIds = isLive ? LIVE_MEASURED_STAGES : (Object.keys(STAGE_DEFINITIONS) as StageId[]);
 
   const sumDurations = stageIds.reduce((acc, id) => {
     const d = pipelineState.stages[id]?.durationMs;
@@ -34,24 +35,21 @@ export function AudioPipelineStepper({
   }, 0);
 
   return (
-    <section className="pipeline-stepper-container" aria-label="F0–F6 Ses İşleme Hattı">
+    <section className="pipeline-stepper-container" aria-label="Ses İşleme Hattı">
       <div className="pipeline-top-bar">
         <div className="pipeline-title-box">
           <span className="pipeline-pulse-icon" />
-          <h2 className="pipeline-title">F0–F6 SES İŞLEME VE YAPAY ZEKÂ HATTI</h2>
+          <h2 className="pipeline-title">SES İŞLEME HATTI</h2>
           <span className={`telemetry-source-tag source-${pipelineState.source}`}>
             {pipelineState.source.toUpperCase()}
           </span>
-          {isStreaming && <span className="streaming-badge">CANLI AKIŞ ⚡</span>}
+          {isStreaming && pipelineState.source === "live" && <span className="streaming-badge">CANLI AKIŞ ⚡</span>}
         </div>
 
         <div className="pipeline-latency-box">
-          <span className="latency-label">Ölçülen Tur Süresi:</span>
+          <span className="latency-label">{pipelineState.source === "demo" ? "Simülasyon toplamı:" : "Ölçülen aşamaların toplamı:"}</span>
           <span className="latency-value">
             {sumDurations > 0 ? `${sumDurations.toFixed(1)} ms` : "—"}
-          </span>
-          <span className="latency-target" title="SLA Gecikme Bütçesi Hedefi">
-            (SLA: &lt;600 ms)
           </span>
 
           {onRunDemoScenario && (
@@ -107,7 +105,7 @@ export function AudioPipelineStepper({
                       ? `${runtime.durationMs.toFixed(1)} ms`
                       : status === "running"
                       ? "..."
-                      : `~${def.targetLatencyMs} ms`}
+                      : "—"}
                   </span>
                   <span className="inspector-hint">🔍 İncele</span>
                 </div>

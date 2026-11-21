@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { ApiFn, RawApiFn, dash, useEscape } from "./ui";
+import { Sliders, Sparkles, Activity, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { INITIAL_F2_HOTWORDS, F2_ASR_MODELS, runF2DomainBooster, F2Hotword, F2AsrModel } from "./pipeline/f2Hotwords";
 
 type ActionFn = (fn: () => Promise<void>) => void;
 
@@ -76,7 +78,26 @@ export function ABTestingPanel({ api, rawApi, action }: { api: ApiFn; rawApi: Ra
   const [templates, setTemplates] = useState<TemplatesData | null>(null);
   const [loading, setLoading] = useState(false);
   const [showNewModal, setShowNewModal] = useState(false);
-  const [activeSubTab, setActiveSubTab] = useState<"results" | "audio_lab" | "templates">("results");
+  const [activeSubTab, setActiveSubTab] = useState<"acoustic_ab" | "results" | "audio_lab" | "templates">("acoustic_ab");
+
+  // Acoustic F1 VAD & F2 ASR Lab state
+  const [activeAbProfile, setActiveAbProfile] = useState<"A" | "B">("B");
+  const [selectedAsrModelId, setSelectedAsrModelId] = useState<string>("whisper_turbo");
+  const [f2HotwordWeight, setF2HotwordWeight] = useState(4.5);
+  const [abTestSampleInput, setAbTestSampleInput] = useState(
+    "Merhaba Trabzon'da altmış bir te se sıfır altmış bir plakalı pejo 3008 aracımın de se ge şanzıman ve o be de p 0 300 arızası var"
+  );
+
+  const liveAbComparison = useMemo(() => {
+    const profAResult = runF2DomainBooster(abTestSampleInput, INITIAL_F2_HOTWORDS, false, 1.0);
+    const profBResult = runF2DomainBooster(abTestSampleInput, INITIAL_F2_HOTWORDS, true, f2HotwordWeight);
+    const activeAsrModel = F2_ASR_MODELS.find((m) => m.id === selectedAsrModelId) || F2_ASR_MODELS[0];
+    return {
+      profAResult,
+      profBResult,
+      activeAsrModel
+    };
+  }, [abTestSampleInput, f2HotwordWeight, selectedAsrModelId]);
 
   // Audio Lab state
   const [testText, setTestText] = useState("Merhaba, Maslak Ekspertiz merkezinden arıyorum. Aracınız için randevunuzu teyit etmek amacıyla aradık.");
@@ -207,14 +228,19 @@ export function ABTestingPanel({ api, rawApi, action }: { api: ApiFn; rawApi: Ra
   }
 
   return (
-    <div className="ab-panel" style={{ padding: "16px", maxWidth: "1280px", margin: "0 auto" }}>
+    <div className="ab-panel" style={{ height: "100%", display: "flex", flexDirection: "column", minHeight: 0, padding: "4px 8px", overflowY: "auto" }}>
       {/* BAŞLIK & ÜST KONTROLLER */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "20px", flexWrap: "wrap", gap: "12px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "8px", flexWrap: "wrap", gap: "8px", flexShrink: 0 }}>
         <div>
-          <h2 style={{ margin: "0 0 6px 0", display: "flex", alignItems: "center", gap: "8px" }}>
-            <span>🔬 A/B Test ve İnce Ayar Altyapısı</span>
-          </h2>
-          <p style={{ margin: 0, color: "#94a3b8", fontSize: "14px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "3px" }}>
+            <h2 style={{ margin: 0, fontSize: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
+              <span>🔬 A/B Test ve İnce Ayar Altyapısı</span>
+            </h2>
+            <span className="stage-badge purple" title="F2 ASR Modeli ve F3 LLM Diyalog Karşılaştırma Deneyleri">
+              F2 ASR & F3 NLU
+            </span>
+          </div>
+          <p style={{ margin: 0, color: "#94a3b8", fontSize: "12px" }}>
             Farklı LLM prompt şablonları, FreyaTTS ses tohumları (seed) ve karşılama metinlerini canlı müşteri görüşmelerinde test edin.
           </p>
         </div>
@@ -246,7 +272,21 @@ export function ABTestingPanel({ api, rawApi, action }: { api: ApiFn; rawApi: Ra
       )}
 
       {/* ALT SEKME GEÇİŞLERİ */}
-      <div style={{ display: "flex", gap: "8px", borderBottom: "1px solid #334155", marginBottom: "20px" }}>
+      <div style={{ display: "flex", gap: "8px", borderBottom: "1px solid #334155", marginBottom: "20px", flexWrap: "wrap" }}>
+        <button
+          onClick={() => setActiveSubTab("acoustic_ab")}
+          style={{
+            padding: "10px 18px",
+            background: activeSubTab === "acoustic_ab" ? "#1e293b" : "transparent",
+            color: activeSubTab === "acoustic_ab" ? "#38bdf8" : "#94a3b8",
+            border: "none",
+            borderBottom: activeSubTab === "acoustic_ab" ? "2px solid #38bdf8" : "none",
+            cursor: "pointer",
+            fontWeight: "bold",
+          }}
+        >
+          ⚡ F₁ Spektral VAD & F₂ ASR Akustik A/B Lab
+        </button>
         <button
           onClick={() => setActiveSubTab("results")}
           style={{
@@ -290,6 +330,259 @@ export function ABTestingPanel({ api, rawApi, action }: { api: ApiFn; rawApi: Ra
           📑 Prompt & Şablon Kataloğu
         </button>
       </div>
+
+      {/* 0. SEKME: F1 SPEKTRAL VAD & F2 STREAMING ASR CANLI A/B LABORATUVARI */}
+      {activeSubTab === "acoustic_ab" && (
+        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          <div
+            style={{
+              background: "#0f172a",
+              border: "1px solid #38bdf8",
+              borderRadius: "12px",
+              padding: "18px 20px",
+              display: "flex",
+              flexDirection: "column",
+              gap: "16px",
+              boxShadow: "0 10px 25px -5px rgba(56, 189, 248, 0.1)",
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", paddingBottom: "12px", borderBottom: "1px solid rgba(255, 255, 255, 0.1)" }}>
+              <div>
+                <h3 style={{ margin: 0, fontSize: "15px", fontWeight: "bold", color: "#f8fafc", display: "flex", alignItems: "center", gap: "8px" }}>
+                  <Sliders style={{ width: "18px", height: "18px", color: "#38bdf8" }} />
+                  F₁ Spektral VAD & F₂ Streaming ASR Canlı A/B Laboratuvarı
+                </h3>
+                <p style={{ margin: "4px 0 0", fontSize: "12px", color: "#94a3b8" }}>
+                  Standart Ofis profili (A) ile Zırhlı Atölye / Kafe profili (B) arasındaki gürültü kesme ve otomotiv terim düzeltme başarısını anlık karşılaştırın.
+                </p>
+              </div>
+
+              <div style={{ display: "flex", gap: "8px", fontFamily: "monospace", fontSize: "12px" }}>
+                <button
+                  type="button"
+                  onClick={() => setActiveAbProfile("A")}
+                  style={{
+                    padding: "8px 14px",
+                    borderRadius: "8px",
+                    fontWeight: "bold",
+                    cursor: "pointer",
+                    border: activeAbProfile === "A" ? "1px solid #38bdf8" : "1px solid #334155",
+                    background: activeAbProfile === "A" ? "#38bdf8" : "#1e293b",
+                    color: activeAbProfile === "A" ? "#0f172a" : "#94a3b8",
+                  }}
+                >
+                  Profil A (Standart Ofis)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveAbProfile("B")}
+                  style={{
+                    padding: "8px 14px",
+                    borderRadius: "8px",
+                    fontWeight: "bold",
+                    cursor: "pointer",
+                    border: activeAbProfile === "B" ? "1px solid #10b981" : "1px solid #334155",
+                    background: activeAbProfile === "B" ? "#10b981" : "#1e293b",
+                    color: activeAbProfile === "B" ? "#0f172a" : "#94a3b8",
+                  }}
+                >
+                  Profil B (Atölye / Zırhlı)
+                </button>
+              </div>
+            </div>
+
+            {/* Test Cümlesi */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+              <label style={{ fontSize: "12px", fontFamily: "monospace", color: "#cbd5e1" }}>
+                Test Edilecek Ham Müşteri Konuşma / ASR Cümlesi:
+              </label>
+              <textarea
+                rows={2}
+                value={abTestSampleInput}
+                onChange={(e) => setAbTestSampleInput(e.target.value)}
+                style={{
+                  width: "100%",
+                  background: "#090d16",
+                  border: "1px solid #334155",
+                  borderRadius: "8px",
+                  padding: "10px 14px",
+                  color: "#f8fafc",
+                  fontSize: "12px",
+                  fontFamily: "monospace",
+                  boxSizing: "border-box",
+                }}
+              />
+            </div>
+
+            {/* Yan Yana Profil Kıyaslama */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "14px" }}>
+              {/* Profil A */}
+              <div
+                style={{
+                  background: "#090d16",
+                  border: "1px solid #334155",
+                  borderRadius: "10px",
+                  padding: "14px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span style={{ fontWeight: "bold", color: "#38bdf8", fontSize: "13px" }}>Profil A (Dengeli / Ofis)</span>
+                  <span style={{ fontSize: "11px", color: "#94a3b8", fontFamily: "monospace" }}>0 Düzeltme (Hotword Kapalı)</span>
+                </div>
+                <div
+                  style={{
+                    background: "#1e293b",
+                    padding: "10px 12px",
+                    borderRadius: "6px",
+                    color: "#cbd5e1",
+                    fontSize: "12px",
+                    fontFamily: "monospace",
+                    minHeight: "44px",
+                  }}
+                >
+                  "{liveAbComparison.profAResult.corrected}"
+                </div>
+                <div style={{ fontSize: "11px", color: "#64748b", fontFamily: "monospace" }}>
+                  VAD: -38 dBFS • Spektral Kapı: Kapalı • Hotword Boost: x1.0
+                </div>
+              </div>
+
+              {/* Profil B */}
+              <div
+                style={{
+                  background: "#090d16",
+                  border: "1px solid #10b981",
+                  borderRadius: "10px",
+                  padding: "14px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
+                  boxShadow: "0 0 15px rgba(16, 185, 129, 0.15)",
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span style={{ fontWeight: "bold", color: "#10b981", fontSize: "13px" }}>Profil B (Zırhlı Atölye / Near-Field)</span>
+                  <span style={{ fontSize: "11px", color: "#34d399", fontFamily: "monospace", fontWeight: "bold" }}>
+                    +{liveAbComparison.profBResult.confidenceGain}% Güven Artışı
+                  </span>
+                </div>
+                <div
+                  style={{
+                    background: "#1e293b",
+                    padding: "10px 12px",
+                    borderRadius: "6px",
+                    color: "#a7f3d0",
+                    fontSize: "12px",
+                    fontFamily: "monospace",
+                    fontWeight: "bold",
+                    minHeight: "44px",
+                  }}
+                >
+                  "{liveAbComparison.profBResult.corrected}"
+                </div>
+                <div style={{ fontSize: "11px", color: "#34d399", fontFamily: "monospace" }}>
+                  VAD: -24 dBFS • Spektral Kapı: %55 • Hotword Boost: x{f2HotwordWeight}
+                </div>
+              </div>
+            </div>
+
+            {/* Uygulanan Hotword Düzeltmeleri */}
+            {liveAbComparison.profBResult.appliedFixes.length > 0 && (
+              <div
+                style={{
+                  background: "#090d16",
+                  border: "1px solid rgba(56, 189, 248, 0.2)",
+                  borderRadius: "8px",
+                  padding: "12px 14px",
+                  display: "flex",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                  gap: "8px",
+                }}
+              >
+                <span style={{ fontSize: "11px", color: "#38bdf8", fontWeight: "bold", fontFamily: "monospace" }}>
+                  F₂ Otomotiv Hotword Eşleşmeleri ({liveAbComparison.profBResult.appliedFixes.length}):
+                </span>
+                {liveAbComparison.profBResult.appliedFixes.map((fx, idx) => (
+                  <span
+                    key={idx}
+                    style={{
+                      background: "rgba(56, 189, 248, 0.15)",
+                      border: "1px solid rgba(56, 189, 248, 0.3)",
+                      color: "#bae6fd",
+                      padding: "3px 8px",
+                      borderRadius: "6px",
+                      fontSize: "11px",
+                      fontFamily: "monospace",
+                    }}
+                  >
+                    <span style={{ textDecoration: "line-through", color: "#fca5a5" }}>{fx.from}</span> →{" "}
+                    <strong style={{ color: "#34d399" }}>{fx.to}</strong> ({fx.category} • +{fx.weight} logit)
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* F2 MODEL SEÇİMİ VE HOTWORD ÇARPANI */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+              gap: "14px",
+            }}
+          >
+            {F2_ASR_MODELS.map((model) => (
+              <div
+                key={model.id}
+                onClick={() => setSelectedAsrModelId(model.id)}
+                style={{
+                  background: selectedAsrModelId === model.id ? "rgba(56, 189, 248, 0.1)" : "#0f172a",
+                  border: selectedAsrModelId === model.id ? "1px solid #38bdf8" : "1px solid #1e293b",
+                  borderRadius: "10px",
+                  padding: "14px",
+                  cursor: "pointer",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  gap: "8px",
+                  transition: "all 0.15s ease",
+                }}
+              >
+                <div>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span style={{ fontWeight: "bold", color: "#f8fafc", fontSize: "13px" }}>{model.name}</span>
+                    <span style={{ fontFamily: "monospace", color: "#10b981", fontWeight: "bold", fontSize: "12px" }}>
+                      {model.wer}
+                    </span>
+                  </div>
+                  <p style={{ margin: "6px 0 0", fontSize: "12px", color: "#94a3b8", lineHeight: "1.5" }}>
+                    {model.desc}
+                  </p>
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    paddingTop: "8px",
+                    borderTop: "1px solid rgba(255, 255, 255, 0.05)",
+                    fontSize: "11px",
+                    fontFamily: "monospace",
+                    color: "#64748b",
+                  }}
+                >
+                  <span>Taban Gecikme: <strong style={{ color: "#f8fafc" }}>{model.baseMs} ms</strong></span>
+                  <span>Beam: {model.beamDefault}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* 1. SEKME: DENEY SONUÇLARI */}
       {activeSubTab === "results" && (

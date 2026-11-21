@@ -6,7 +6,6 @@ The overlay does not promote rules into Freya's approved production lexicon.
 """
 from __future__ import annotations
 import hashlib
-import os
 from pathlib import Path
 import sqlite3
 from contextlib import contextmanager, closing

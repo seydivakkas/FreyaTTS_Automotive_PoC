@@ -19,3 +19,4 @@ export const ABTestingPanel = lazyPanel(() => import("./ABTestingPanel"), "ABTes
 export const OperatorPanel = lazyPanel(() => import("./OperatorPanel"), "OperatorPanel");
 export const SupervisorPanel = lazyPanel(() => import("./SupervisorPanel"), "SupervisorPanel");
 export const CarDenoiserPanel = lazyPanel(() => import("./CarDenoiserPanel"), "CarDenoiserPanel");
+export const OntologyPanel = lazyPanel(() => import("./OntologyPanel"), "OntologyPanel");

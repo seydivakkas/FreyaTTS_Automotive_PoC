@@ -107,7 +107,7 @@ async def test_synthesis_bounded_and_cancellation(monkeypatch):
     release.set()
     with pytest.raises(asyncio.CancelledError):
         await first
-    assert await second == "new" and executed == ["old", "new"] and m.pending == 0
+    assert await second == "New." and executed == ["Old.", "New."] and m.pending == 0
 
 
 async def test_multi_turn_sliding_window_and_entity_memory(local_db, monkeypatch):

@@ -27,8 +27,8 @@ import logging
 import re
 import threading
 import time
-from dataclasses import asdict, dataclass, field
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from dataclasses import dataclass, field
+from typing import Any, Callable, Dict, List, Optional, Union
 import numpy as np
 
 logger = logging.getLogger("pause_breath_cleaner")

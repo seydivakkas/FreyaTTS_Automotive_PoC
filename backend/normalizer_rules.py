@@ -4,7 +4,7 @@ import json
 import re
 import threading
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 BASE_AUTOMOTIVE_LEXICON: Dict[str, str] = {
     # Otomobil Markalari

@@ -6,9 +6,8 @@ Telif Hakkı (c) 2026 Seydi Eryılmaz (@seydivakkas) - Tüm Hakları Saklıdır.
 import json
 import math
 import random
-from datetime import datetime, timezone
 from sqlalchemy import select, func, and_
-from backend.db import ABExperiment, ABAssignment, Conversation, now, uid
+from backend.db import ABExperiment, ABAssignment, now
 
 
 # ============================================================================

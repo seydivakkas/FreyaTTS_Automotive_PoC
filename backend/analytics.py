@@ -11,7 +11,7 @@ from collections import defaultdict
 from datetime import datetime, timezone, timedelta
 from typing import Any
 
-from sqlalchemy import select, func
+from sqlalchemy import select
 from backend.db import Conversation, Turn, Appointment, now
 
 logger = logging.getLogger("automotive_voice.analytics")
@@ -341,7 +341,6 @@ UNCLEAR_PATTERNS = [
 def get_unclear_conversations(db, limit: int = 50) -> list[dict[str, Any]]:
     """Returns conversations where the assistant asked for clarification or misrecognition occurred."""
     from backend.config import settings
-    from pathlib import Path
 
     # Fetch recent conversations
     conversations = db.scalars(

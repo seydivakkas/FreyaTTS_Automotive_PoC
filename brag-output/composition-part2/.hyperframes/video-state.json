@@ -1,0 +1,185 @@
+{
+  "version": 1,
+  "historyId": "a76cab1d-1dab-4e7a-b6fd-e2718adf5abe",
+  "currentRevision": null,
+  "pendingChanges": false,
+  "files": {
+    "assets/screens/01_gorusme_kokpiti.png": {
+      "hash": "26541fcb124519449b718c7ad89846f9ae961790517a5ac9f0e0adc4a772b009",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\26\\26541fcb124519449b718c7ad89846f9ae961790517a5ac9f0e0adc4a772b009"
+    },
+    "assets/screens/02_arac_ici_dsp.png": {
+      "hash": "0e9166adcd9567210526fe2dcf3e9535f185bfc788326b95891b1d7a80cb0d7c",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\0e\\0e9166adcd9567210526fe2dcf3e9535f185bfc788326b95891b1d7a80cb0d7c"
+    },
+    "assets/screens/03_ab_test_ayari.png": {
+      "hash": "9b42ea548f950dcf1d155afdf19e7fe659ad645073138f5879880d085054e489",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\9b\\9b42ea548f950dcf1d155afdf19e7fe659ad645073138f5879880d085054e489"
+    },
+    "assets/screens/04_sozluk_fonetik.png": {
+      "hash": "7c0a543403c4680efe5996e5f9960400be80bf0ad73af08ade42dd0af20ead12",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\7c\\7c0a543403c4680efe5996e5f9960400be80bf0ad73af08ade42dd0af20ead12"
+    },
+    "assets/screens/05_otomotiv_ontolojisi.png": {
+      "hash": "6a5a0ffe026d9a588efc099576365aba6f0eb7105c3466c08260d60d742a8f8b",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\6a\\6a5a0ffe026d9a588efc099576365aba6f0eb7105c3466c08260d60d742a8f8b"
+    },
+    "assets/screens/06_ses_laboratuvari.png": {
+      "hash": "e5c24e1dab325be396a0cf187638dd3c11fbd7410e1acdb453f9f26733c5669b",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\e5\\e5c24e1dab325be396a0cf187638dd3c11fbd7410e1acdb453f9f26733c5669b"
+    },
+    "assets/screens/07_ekspertiz_raporlari.png": {
+      "hash": "3cdfe7ad3fc964c7f7863fd2017f479e6ff75dc2c0c664dd5bca7e326acec6e8",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\3c\\3cdfe7ad3fc964c7f7863fd2017f479e6ff75dc2c0c664dd5bca7e326acec6e8"
+    },
+    "assets/screens/08_randevu_takvimi.png": {
+      "hash": "c6f771e281f95236753f9b60c69fad8102a92d817c79a7445a16d7ad1af913b5",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\c6\\c6f771e281f95236753f9b60c69fad8102a92d817c79a7445a16d7ad1af913b5"
+    },
+    "assets/screens/09_sira_lift_durumu.png": {
+      "hash": "18f97908180e88bccb4a8f5d7fac764a9fe284448bd36c76b7e1c5715ca30392",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\18\\18f97908180e88bccb4a8f5d7fac764a9fe284448bd36c76b7e1c5715ca30392"
+    },
+    "assets/screens/10_arac_teshis_obd2.png": {
+      "hash": "8536cac6d40c42fe077bdcd07ea669c37f0cc7bc907366df07ad817c4323433e",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\85\\8536cac6d40c42fe077bdcd07ea669c37f0cc7bc907366df07ad817c4323433e"
+    },
+    "assets/screens/11_arac_katalog_fiyatlar.png": {
+      "hash": "e171b491cd9256f634154f1b438db450f103e6c8ff6eeb5e4538035654e3f048",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\e1\\e171b491cd9256f634154f1b438db450f103e6c8ff6eeb5e4538035654e3f048"
+    },
+    "assets/screens/12_teknisyen_dikte.png": {
+      "hash": "ab1584a83c49e20cfb66d7337a2535190b4e2fc5990ce78b392c78385f24cf96",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\ab\\ab1584a83c49e20cfb66d7337a2535190b4e2fc5990ce78b392c78385f24cf96"
+    },
+    "assets/screens/13_operator_kokpiti.png": {
+      "hash": "3f9d6061ef47387420b9b2dc4cbdd321fcd8c3706cf16d4b6ac6812271b8ea06",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\3f\\3f9d6061ef47387420b9b2dc4cbdd321fcd8c3706cf16d4b6ac6812271b8ea06"
+    },
+    "assets/screens/14_giden_cagrilar.png": {
+      "hash": "ff369439ef669e5a570c77b6f8a47305984c4119656b15e114985ae8dc96d027",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\ff\\ff369439ef669e5a570c77b6f8a47305984c4119656b15e114985ae8dc96d027"
+    },
+    "assets/screens/15_gorusme_gecmisi.png": {
+      "hash": "4df49bd093854839b65fb3e26889c3881ea4562f9cec610c9eb989f7d48e88c1",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\4d\\4df49bd093854839b65fb3e26889c3881ea4562f9cec610c9eb989f7d48e88c1"
+    },
+    "assets/screens/16_bildirimler_whatsapp.png": {
+      "hash": "b3037bd0a46ff9bad72c27ca875f2fa8ab2d55ba566fa93e3842628c57da7fe2",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\b3\\b3037bd0a46ff9bad72c27ca875f2fa8ab2d55ba566fa93e3842628c57da7fe2"
+    },
+    "assets/screens/17_supervisor_fqici.png": {
+      "hash": "233972983848f30699889bb9666c4922ce88e4aa4e61651b752f692b4dd6df4f",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\23\\233972983848f30699889bb9666c4922ce88e4aa4e61651b752f692b4dd6df4f"
+    },
+    "assets/screens/18_analitik_kpi.png": {
+      "hash": "922e9d6e60f9417d3ada61dd66b362d6af209052d8e55fb75a6c8ee3f5ca47b2",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\92\\922e9d6e60f9417d3ada61dd66b362d6af209052d8e55fb75a6c8ee3f5ca47b2"
+    },
+    "assets/screens/19_sistem_sagligi.png": {
+      "hash": "35ec727413bab2b24aca2fb429bda2dfa396745c59e6465029ab4f4ae58622ee",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\35\\35ec727413bab2b24aca2fb429bda2dfa396745c59e6465029ab4f4ae58622ee"
+    },
+    "assets/screens/20_m01_m11_kapilari.png": {
+      "hash": "d5ffc3a9f8897101e9774ab7722a56d0843b907223311e38bb7c76bd14d62cf2",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\d5\\d5ffc3a9f8897101e9774ab7722a56d0843b907223311e38bb7c76bd14d62cf2"
+    },
+    "assets/sfx/impact/impactBell_heavy_000.ogg": {
+      "hash": "94b8bb5f2d43ab65e4bcc32b28562416e9bc2c51d9fd4be1e333660ee52f977f",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\94\\94b8bb5f2d43ab65e4bcc32b28562416e9bc2c51d9fd4be1e333660ee52f977f"
+    },
+    "assets/sfx/interface/bong_001.ogg": {
+      "hash": "d21d0f0b782445db579d11e2506b24cd1ac9d664ee33aeaf807761aa7b6fd710",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\d2\\d21d0f0b782445db579d11e2506b24cd1ac9d664ee33aeaf807761aa7b6fd710"
+    },
+    "assets/sfx/interface/click_001.ogg": {
+      "hash": "ccfb7fa0cccdd9faec0eb16033c732b1e308d139d80f799161495d58f7adcdb9",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\cc\\ccfb7fa0cccdd9faec0eb16033c732b1e308d139d80f799161495d58f7adcdb9"
+    },
+    "assets/sfx/interface/drop_001.ogg": {
+      "hash": "692ee3a6f1821402ca649ff735bee9591dc4846c8098fc7d6a90fd15fa57c1af",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\69\\692ee3a6f1821402ca649ff735bee9591dc4846c8098fc7d6a90fd15fa57c1af"
+    },
+    "hyperframes.json": {
+      "hash": "53dbce1e19aa713cbb12ee0bc4d206143b45ab15e6ffbfcaa8f69572d4d24d50",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\53\\53dbce1e19aa713cbb12ee0bc4d206143b45ab15e6ffbfcaa8f69572d4d24d50"
+    },
+    "index.html": {
+      "hash": "a2add02335c93a3127c25deccea7f7172287925b23497bc8b68457b50f5e521d",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\a2\\a2add02335c93a3127c25deccea7f7172287925b23497bc8b68457b50f5e521d"
+    },
+    "meta.json": {
+      "hash": "3f0a50b0536fe9d7cf9e396817f79afbf90781147f98c2fa6bb01aa0296b7d7c",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\3f\\3f0a50b0536fe9d7cf9e396817f79afbf90781147f98c2fa6bb01aa0296b7d7c"
+    },
+    "package.json": {
+      "hash": "2aeca4003e9b10be10c5355a27f298171b01749f4ac8f124057954642bc180a8",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\2a\\2aeca4003e9b10be10c5355a27f298171b01749f4ac8f124057954642bc180a8"
+    },
+    "assets/music/music.mp3": {
+      "hash": "aa56ab1cdcbef6b05566c6a7c114323078580ccf6a740a9e6c6b6c4b40b4389f",
+      "content": "C:\\Users\\seydieryilmaz\\.cache\\hyperframes\\history\\a76cab1d-1dab-4e7a-b6fd-e2718adf5abe\\blobs\\aa\\aa56ab1cdcbef6b05566c6a7c114323078580ccf6a740a9e6c6b6c4b40b4389f"
+    }
+  },
+  "revisions": {},
+  "checks": {
+    "latest": {
+      "revision": null,
+      "id": "8e92744e-66d2-44b4-8956-b1e034ecd345"
+    },
+    "revisions": {},
+    "unversioned": [
+      {
+        "id": "8e92744e-66d2-44b4-8956-b1e034ecd345",
+        "scope": "project",
+        "report": "C:\\Users\\seydieryilmaz\\Desktop\\FreyaTTS_Automotive_PoC\\brag-output\\composition-part2\\.hyperframes\\artifacts\\checks\\8e92744e-66d2-44b4-8956-b1e034ecd345.json",
+        "metadata": {
+          "ok": true,
+          "browserSkipped": false,
+          "options": {
+            "samples": 9,
+            "atTransitions": false,
+            "maxIssues": 80,
+            "collapseStatic": true,
+            "tolerance": 2,
+            "timeout": 45000,
+            "cache": true,
+            "contrast": true,
+            "craft": true,
+            "strict": false,
+            "snapshots": false,
+            "safeZones": [
+              "tiktok",
+              "reels",
+              "shorts"
+            ],
+            "browserGpuMode": "auto",
+            "includeUnmounted": false
+          }
+        },
+        "createdAt": 1794737437262,
+        "contentHash": "c3cf36e90408404e652a0848f7a9d949e957062027879ab5a1ab16a3a7495ea5",
+        "revision": null,
+        "inputFingerprint": "7273dd394b00e530f3f905bab2a0a5fa501909ba45932ca555e60257723f6277",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      }
+    ]
+  },
+  "snapshots": {
+    "latest": null,
+    "revisions": {},
+    "unversioned": []
+  },
+  "renders": {
+    "latest": {
+      "id": "9d648fd8-217d-452e-888e-300b2d6a238c",
+      "completedAt": 1794737511323,
+      "output": "C:\\Users\\seydieryilmaz\\Desktop\\FreyaTTS_Automotive_PoC\\brag-output\\brag-part2.mp4",
+      "status": "completed",
+      "revision": null
+    },
+    "retainedRevisions": []
+  },
+  "pendingArtifactCleanup": []
+}

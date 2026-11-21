@@ -1,0 +1,519 @@
+{
+  "ok": true,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "filesScanned": 1
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "duration": 30,
+    "samples": [
+      1.667,
+      5,
+      8.333,
+      11.667,
+      15,
+      18.333,
+      21.667,
+      25,
+      28.333
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 0,
+    "truncated": false
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "samples": [
+      1.667,
+      8.333,
+      15,
+      21.667,
+      28.333
+    ],
+    "checked": 52,
+    "passed": 52
+  },
+  "craft": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 4,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "text_below_floor",
+        "severity": "warning",
+        "message": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and 43 text elements stay under it for 0.5 s or more, the smallest \"Atölye & Lift\" at 13 px: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md.",
+        "text": "Atölye & Lift",
+        "selector": "div.part2-topics-row > div:nth-of-type(1) > span:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 241,
+          "y": 641.15,
+          "width": 106.47,
+          "height": 16
+        },
+        "time": 0.75,
+        "times": [
+          0,
+          0.75,
+          0.75,
+          0.75,
+          0.875,
+          0.875,
+          0.875,
+          1,
+          1,
+          1,
+          3.375,
+          3.375,
+          3.375,
+          3.375,
+          3.375,
+          3.375,
+          3.375,
+          10.375,
+          10.375,
+          10.375,
+          10.375,
+          10.375,
+          10.375,
+          10.375,
+          17.375,
+          17.375,
+          17.375,
+          17.375,
+          17.375,
+          17.375,
+          25.125,
+          25.125,
+          25.125,
+          25.25,
+          25.25,
+          25.25,
+          25.375,
+          25.375,
+          25.375,
+          25.5,
+          25.5,
+          25.5,
+          26.375
+        ],
+        "fontPx": 12.9,
+        "floorPx": 28,
+        "seconds": 2.5,
+        "elements": [
+          {
+            "selector": "div.part2-topics-row > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "Atölye & Lift",
+            "fontPx": 12.9,
+            "time": 0.75,
+            "seconds": 2.5
+          },
+          {
+            "selector": "div.part2-topics-row > div:nth-of-type(2) > span:nth-of-type(1)",
+            "text": "Teşhis & Dikte",
+            "fontPx": 12.9,
+            "time": 0.875,
+            "seconds": 2.375
+          },
+          {
+            "selector": "div.part2-topics-row > div:nth-of-type(3) > span:nth-of-type(1)",
+            "text": "Gözetim & Kilit",
+            "fontPx": 12.9,
+            "time": 1,
+            "seconds": 2.25
+          },
+          {
+            "selector": "#scene-part2-lift > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(2)",
+            "text": "Lift-1 (Mekanik), Lift-2 (Ağır Bakım), Lift-3 (Ekspertiz)",
+            "fontPx": 13,
+            "time": 3.375,
+            "seconds": 6.875
+          },
+          {
+            "selector": "#scene-part2-lift > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > span:nth-of-type(2)",
+            "text": "Görüşme anında müşteriye doğrudan bitiş saati bildirimi",
+            "fontPx": 13,
+            "time": 3.375,
+            "seconds": 6.875
+          },
+          {
+            "selector": "#scene-part2-obd > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(2)",
+            "text": "Motor koruma tavsiyesi & çekici yönlendirme kilidi (M06)",
+            "fontPx": 13,
+            "time": 10.375,
+            "seconds": 6.875
+          },
+          {
+            "selector": "#scene-part2-obd > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > span:nth-of-type(2)",
+            "text": "Faster-Whisper ile yağ sızıntısı ve parça aşınma transkripsiyonu",
+            "fontPx": 13,
+            "time": 10.375,
+            "seconds": 6.875
+          },
+          {
+            "selector": "#scene-part2-op > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(2)",
+            "text": "Karmaşık taleplerde müşteri bekletilmeden insan müdahalesi",
+            "fontPx": 13,
+            "time": 17.375,
+            "seconds": 6.875
+          },
+          {
+            "selector": "#scene-part2-op > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > span:nth-of-type(2)",
+            "text": "Niyet doğruluğu, nezaket ve empati seviyesi yapay zekâ denetimi",
+            "fontPx": 13,
+            "time": 17.375,
+            "seconds": 6.875
+          },
+          {
+            "selector": "div.milestone-grid > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "M01 GÜVENCE",
+            "fontPx": 13,
+            "time": 25.125,
+            "seconds": 4.875
+          },
+          {
+            "selector": "div.milestone-grid > div:nth-of-type(1) > span:nth-of-type(3)",
+            "text": "Görüşmede verilen fiyat tek kaynak ontolojiden kilitlenir",
+            "fontPx": 13,
+            "time": 25.125,
+            "seconds": 4.875
+          },
+          {
+            "selector": "div.milestone-grid > div:nth-of-type(2) > span:nth-of-type(1)",
+            "text": "M02 GÜVENLİK",
+            "fontPx": 13,
+            "time": 25.25,
+            "seconds": 4.75
+          },
+          {
+            "selector": "div.milestone-grid > div:nth-of-type(2) > span:nth-of-type(3)",
+            "text": "Kişisel veriler transkriptten anlık redaction ile silinir",
+            "fontPx": 13,
+            "time": 25.25,
+            "seconds": 4.75
+          },
+          {
+            "selector": "div.milestone-grid > div:nth-of-type(3) > span:nth-of-type(1)",
+            "text": "M06 EMNİYET",
+            "fontPx": 13,
+            "time": 25.375,
+            "seconds": 4.625
+          },
+          {
+            "selector": "div.milestone-grid > div:nth-of-type(3) > span:nth-of-type(3)",
+            "text": "Kritik arızalarda motor çalıştırma engellenir",
+            "fontPx": 13,
+            "time": 25.375,
+            "seconds": 4.625
+          },
+          {
+            "selector": "div.milestone-grid > div:nth-of-type(4) > span:nth-of-type(1)",
+            "text": "M08 TELEFONİ",
+            "fontPx": 13,
+            "time": 25.5,
+            "seconds": 4.5
+          },
+          {
+            "selector": "div.milestone-grid > div:nth-of-type(4) > span:nth-of-type(3)",
+            "text": "Dahili 6002 ile kesintisiz çağrı aktarımı ve denetim",
+            "fontPx": 13,
+            "time": 25.5,
+            "seconds": 4.5
+          },
+          {
+            "selector": "div.part2-topics-row > div:nth-of-type(1) > span:nth-of-type(3)",
+            "text": "Dinamik istasyon ataması, bekleme süresi ve teyitli randevular",
+            "fontPx": 13.9,
+            "time": 0.75,
+            "seconds": 2.5
+          },
+          {
+            "selector": "div.part2-topics-row > div:nth-of-type(2) > span:nth-of-type(3)",
+            "text": "DTC arıza kodları ve eller serbest Türkçe sesli bulgu kaydı",
+            "fontPx": 13.9,
+            "time": 0.875,
+            "seconds": 2.375
+          },
+          {
+            "selector": "div.part2-topics-row > div:nth-of-type(3) > span:nth-of-type(3)",
+            "text": "Dahili 6002 masası, canlı fısıltı ve kurumsal emniyet bariyerleri",
+            "fontPx": 13.9,
+            "time": 1,
+            "seconds": 2.25
+          },
+          {
+            "selector": "#scene-part2-lift > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1)",
+            "text": "Kullanım Rehberi • Adım 1",
+            "fontPx": 14,
+            "time": 3.375,
+            "seconds": 6.875
+          },
+          {
+            "selector": "#scene-part2-obd > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1)",
+            "text": "Kullanım Rehberi • Adım 2",
+            "fontPx": 14,
+            "time": 10.375,
+            "seconds": 6.875
+          },
+          {
+            "selector": "#scene-part2-op > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1)",
+            "text": "Kullanım Rehberi • Adım 3",
+            "fontPx": 14,
+            "time": 17.375,
+            "seconds": 6.875
+          },
+          {
+            "selector": "#scene-part2-lift > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "Canlı Lift İstasyonları",
+            "fontPx": 15,
+            "time": 3.375,
+            "seconds": 6.875
+          },
+          {
+            "selector": "#scene-part2-lift > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "Bekleme Süresi Tahmini",
+            "fontPx": 15,
+            "time": 3.375,
+            "seconds": 6.875
+          },
+          {
+            "selector": "#scene-part2-obd > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "DTC P0300 Ateşleme Arızası",
+            "fontPx": 15,
+            "time": 10.375,
+            "seconds": 6.875
+          },
+          {
+            "selector": "#scene-part2-obd > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "Eller Serbest Usta Dikte",
+            "fontPx": 15,
+            "time": 10.375,
+            "seconds": 6.875
+          },
+          {
+            "selector": "#scene-part2-op > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "Canlı Araya Girme (Barge-In)",
+            "fontPx": 15,
+            "time": 17.375,
+            "seconds": 6.875
+          },
+          {
+            "selector": "#scene-part2-op > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "5 Boyutlu FQICI Kalite Skoru",
+            "fontPx": 15,
+            "time": 17.375,
+            "seconds": 6.875
+          },
+          {
+            "selector": "p.copyright-text",
+            "text": "FreyaTTS Automotive Cockpit • Telif Hakkı (c) 2026 Seydi Eryılmaz (@seydivakkas) • ÖZEL LİSANS / TÜM HAKLAR SAKLIDIR",
+            "fontPx": 15,
+            "time": 26.375,
+            "seconds": 3.625
+          },
+          {
+            "selector": "div.milestone-grid > div:nth-of-type(1) > span:nth-of-type(2)",
+            "text": "Sabit Fiyat Kilidi",
+            "fontPx": 17,
+            "time": 25.125,
+            "seconds": 4.875
+          },
+          {
+            "selector": "div.milestone-grid > div:nth-of-type(2) > span:nth-of-type(2)",
+            "text": "KVKK Maskeleme",
+            "fontPx": 17,
+            "time": 25.25,
+            "seconds": 4.75
+          },
+          {
+            "selector": "div.milestone-grid > div:nth-of-type(3) > span:nth-of-type(2)",
+            "text": "Çekici Koruma Kuralı",
+            "fontPx": 17,
+            "time": 25.375,
+            "seconds": 4.625
+          },
+          {
+            "selector": "div.milestone-grid > div:nth-of-type(4) > span:nth-of-type(2)",
+            "text": "Operatör Fısıltı Masası",
+            "fontPx": 17,
+            "time": 25.5,
+            "seconds": 4.5
+          },
+          {
+            "selector": "#scene-part2-lift > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(1)",
+            "text": "4 ana lift istasyonunun anlık doluluk oranları, araç giriş-çıkışları ve randevu slotları tek ekrandan senkronize yönetilir.",
+            "fontPx": 18,
+            "time": 3.375,
+            "seconds": 6.875
+          },
+          {
+            "selector": "#scene-part2-lift > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > span:nth-of-type(1)",
+            "text": "⏱️",
+            "fontPx": 18,
+            "time": 3.375,
+            "seconds": 6.875
+          },
+          {
+            "selector": "#scene-part2-obd > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(1)",
+            "text": "Araçtan okunan hata kodları anında Türkçe açıklamalarıyla eşleşir; usta araç altındayken sesli dikte ile bulguları iş emrine işler.",
+            "fontPx": 18,
+            "time": 10.375,
+            "seconds": 6.875
+          },
+          {
+            "selector": "#scene-part2-obd > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > span:nth-of-type(1)",
+            "text": "🎙️",
+            "fontPx": 18,
+            "time": 10.375,
+            "seconds": 6.875
+          },
+          {
+            "selector": "#scene-part2-op > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(1)",
+            "text": "Yapay zekânın müşteriyle yaptığı görüşmeyi operatör kulaklıktan dinler, tek tuşla fısıldar veya çağrıyı devralır.",
+            "fontPx": 18,
+            "time": 17.375,
+            "seconds": 6.875
+          },
+          {
+            "selector": "div.hook-badge > span:nth-of-type(1)",
+            "text": "Devam Klibi • Bölüm 2",
+            "fontPx": 19.85,
+            "time": 0,
+            "seconds": 3.25
+          },
+          {
+            "selector": "div.part2-topics-row > div:nth-of-type(1) > span:nth-of-type(2)",
+            "text": "Sıra & Lift Yönetimi",
+            "fontPx": 21.84,
+            "time": 0.75,
+            "seconds": 2.5
+          },
+          {
+            "selector": "div.part2-topics-row > div:nth-of-type(2) > span:nth-of-type(2)",
+            "text": "OBD-II & Usta Dikte",
+            "fontPx": 21.84,
+            "time": 0.875,
+            "seconds": 2.375
+          },
+          {
+            "selector": "div.part2-topics-row > div:nth-of-type(3) > span:nth-of-type(2)",
+            "text": "Operatör & M01–M11",
+            "fontPx": 21.84,
+            "time": 1,
+            "seconds": 2.25
+          }
+        ]
+      },
+      {
+        "code": "dead_stretch",
+        "severity": "warning",
+        "message": "Nothing on screen changes for 4.88 s (4.88–9.75 s): start the next move within 3 s, or put data-hold on the element whose stillness is deliberate; see references/motion.md.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 4.875,
+        "seconds": 4.875,
+        "floorSeconds": 3,
+        "until": 9.75
+      },
+      {
+        "code": "dead_stretch",
+        "severity": "warning",
+        "message": "Nothing on screen changes for 4.88 s (11.88–16.75 s): start the next move within 3 s, or put data-hold on the element whose stillness is deliberate; see references/motion.md.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 11.875,
+        "seconds": 4.875,
+        "floorSeconds": 3,
+        "until": 16.75
+      },
+      {
+        "code": "dead_stretch",
+        "severity": "warning",
+        "message": "Nothing on screen changes for 4.88 s (18.88–23.75 s): start the next move within 3 s, or put data-hold on the element whose stillness is deliberate; see references/motion.md.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 18.875,
+        "seconds": 4.875,
+        "floorSeconds": 3,
+        "until": 23.75
+      }
+    ],
+    "enabled": true,
+    "step": 0.125,
+    "samples": 240
+  },
+  "audio": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  }
+}

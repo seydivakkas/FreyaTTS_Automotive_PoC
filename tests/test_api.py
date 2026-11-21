@@ -472,7 +472,14 @@ def test_vin_validation_and_inspection_reports(client):
     assert client.get("/api/vehicles/by-vin/1HGCR2F83HA999999", auth=auth).status_code == 404
 
 
-def test_lexicon_management(client):
+def test_lexicon_management(client, tmp_path, monkeypatch):
+    from backend import normalizer_rules
+
+    for name in ("AUTOMOTIVE_LEXICON", "CUSTOM_LEXICON", "CUSTOM_CATEGORIES"):
+        monkeypatch.setattr(normalizer_rules, name, getattr(normalizer_rules, name).copy())
+    save = normalizer_rules.save_custom_lexicon
+    monkeypatch.setattr(normalizer_rules, "save_custom_lexicon", lambda _path: save(tmp_path / "lexicon.json"))
+
     auth = ("admin", "test-password")
 
     # 1. Fetch lexicon list
@@ -553,3 +560,81 @@ def test_lexicon_management(client):
     reset_res = client.post("/api/lexicon/reset", auth=auth)
     assert reset_res.status_code == 200
     assert reset_res.json()["reset"] is True
+
+
+def test_voice_chat_turn_endpoint(client):
+    auth = ("admin", "test-password")
+    res = client.post(
+        "/api/voice/chat-turn",
+        auth=auth,
+        json={"text": "Periyodik bakım randevusu almak istiyorum", "session_id": "test-chat-turn-1", "reset": True},
+    )
+    assert res.status_code == 200
+    data = res.json()
+    assert "reply" in data
+    assert "slot_info" in data
+    assert "pipeline_events" in data
+    events = data["pipeline_events"]
+    assert any(e["stage"] == "F0" and e["status"] == "bypassed" and e["source"] == "text_input" for e in events)
+    assert any(e["stage"] == "F1" and e["status"] == "bypassed" and e["source"] == "text_input" for e in events)
+    assert any(e["stage"] == "F2" and e["status"] == "bypassed" and e["source"] == "text_input" for e in events)
+    assert any(e["stage"] == "F3" and e["status"] == "completed" and e["source"] == "text_input" for e in events)
+    assert data["slot_info"]["intent"] is not None
+
+
+def test_ws_voice_text_input_lifecycle(client, monkeypatch):
+    import numpy as np
+
+    async def dummy_synth(*args, **kwargs):
+        return np.ones(4800, np.float32) * 0.1
+
+    async def dummy_load():
+        pass
+
+    class DummyVad:
+        def reset_states(self):
+            pass
+
+    monkeypatch.setattr(main.models, "synth", dummy_synth)
+    monkeypatch.setattr(main.models, "load", dummy_load)
+    monkeypatch.setattr(main.models, "vad", DummyVad())
+    monkeypatch.setattr(main.models, "ollama_ready", True)
+
+    auth = ("admin", "test-password")
+    ticket_res = client.post("/api/session-ticket", auth=auth)
+    assert ticket_res.status_code == 200
+    ticket = ticket_res.json()["ticket"]
+
+    with client.websocket_connect(f"/ws/voice?ticket={ticket}") as ws:
+        # 1. Ses formatı el sıkışması
+        ws.send_json({"sample_rate": 16000, "encoding": "pcm_s16le", "channels": 1})
+
+        # 2. Doğrudan metin mesajı gönder
+        ws.send_json({"type": "text_input", "text": "Merhabalar, kolay gelsin"})
+
+        # Yanıtları topla
+        received_types = []
+        pipeline_stages = []
+        got_user = False
+        for _ in range(40):
+            try:
+                msg = ws.receive_json()
+                t = msg.get("type")
+                if t == "error":
+                    assert False, f"WS error message was: {msg}"
+                received_types.append(t)
+                if t == "pipeline_event":
+                    ev = msg.get("event", {})
+                    pipeline_stages.append((ev.get("stage"), ev.get("status"), ev.get("source")))
+                if t == "transcript":
+                    if msg.get("role") == "user":
+                        got_user = True
+                    elif msg.get("role") == "assistant" and got_user:
+                        break
+            except Exception as exc:
+                raise AssertionError(f"WS receive error: {type(exc)} {exc}")
+
+        assert "transcript" in received_types
+        assert ("F0", "bypassed", "text_input") in pipeline_stages
+        assert ("F1", "bypassed", "text_input") in pipeline_stages
+        assert ("F2", "bypassed", "text_input") in pipeline_stages

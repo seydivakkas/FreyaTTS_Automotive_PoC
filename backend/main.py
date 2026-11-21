@@ -4,6 +4,7 @@
 # =====================================================================
 import asyncio
 import json
+import logging
 import secrets
 import time
 from contextlib import asynccontextmanager
@@ -49,17 +50,28 @@ from backend.routers import (
     observability,
     supervisor,
     generic_resources,
+    dataset,
 )
+from backend.ontology import router as ontology_router
 
 
+logger = logging.getLogger("automotive_voice.main")
 tickets = {}
+
+
+async def warm_models():
+    try:
+        await models.load()
+    except Exception:
+        logger.exception("Modeller başlatma sırasında yüklenemedi")
 
 
 @asynccontextmanager
 async def lifespan(app):
     await milestones.recover_abandoned()
     # Modelleri (FreyaTTS, Faster-Whisper, Silero VAD, Ollama) otomatik arka planda yükle ve ısıt
-    asyncio.create_task(models.load())
+    if settings.auto_load_models:
+        asyncio.create_task(warm_models())
     fqici_task = None
     if settings.fqici_enabled:
         from backend.fqici.journal import poll, run_poll_loop
@@ -73,6 +85,11 @@ async def lifespan(app):
             {"status": "follow_up"}
         )
         seed_default_experiment(db)
+        try:
+            from backend.caller_memory import seed_default_profiles
+            seed_default_profiles(db)
+        except Exception:
+            logger.warning("Caller memory default profile seeding failed", exc_info=True)
         db.commit()
     server = await asyncio.start_server(
         connection, settings.audiosocket_host, settings.audiosocket_port
@@ -121,7 +138,8 @@ async def lifespan(app):
             try:
                 # Engelleyen dosya sistemi ve veritabanı işlemleri olay döngüsünü tutmasın.
                 await asyncio.to_thread(purge_old_recordings)
-                await asyncio.to_thread(purge_old_transcripts)
+                if settings.kvkk_erasure_enabled and settings.auto_purge_transcripts:
+                    await asyncio.to_thread(purge_old_transcripts)
             except Exception:
                 pass
             await asyncio.sleep(3600)
@@ -158,7 +176,9 @@ app.include_router(audio_dsp.router)
 app.include_router(compliance.router)
 app.include_router(observability.router)
 app.include_router(supervisor.router)
+app.include_router(ontology_router.router)
 app.include_router(generic_resources.router)
+app.include_router(dataset.router)
 
 
 @app.post("/api/session-ticket", dependencies=[Depends(auth)])
@@ -206,7 +226,7 @@ async def voice(ws: WebSocket):
             async with lock:
                 await ws.send_bytes(frame)
 
-        if not models.vad:
+        if settings.auto_load_models and not models.ollama_ready:
             await emit({"type": "status", "value": "Modeller hazırlanıyor..."})
             await models.load()
 
@@ -228,6 +248,10 @@ async def voice(ws: WebSocket):
                             session.schedule_dtmf(digit)
                     elif payload.get("type") == "recalibrate":
                         asyncio.create_task(session.recalibrate())
+                    elif payload.get("type") in ("text", "text_input", "user_message"):
+                        user_text = str(payload.get("text", "")).strip()
+                        if user_text:
+                            asyncio.create_task(session.handle_text_input(user_text))
                 except Exception:
                     pass
             data = message.get("bytes")

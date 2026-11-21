@@ -1,0 +1,594 @@
+{
+  "ok": true,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 1,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "composition_file_too_large",
+        "severity": "warning",
+        "message": "This HTML composition file has 375 lines. Smaller sub-compositions are easier to read, iterate on, and diff.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "C:\\Users\\seydieryilmaz\\Desktop\\FreyaTTS_Automotive_PoC\\brag-output\\composition\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Split coherent scenes or layers into separate .html files under compositions/, then mount them from the parent with data-composition-src so each file stays small enough to inspect, revise, and validate independently."
+      }
+    ],
+    "filesScanned": 1
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "duration": 20,
+    "samples": [
+      1.111,
+      3.333,
+      5.556,
+      7.778,
+      10,
+      12.222,
+      14.444,
+      16.667,
+      18.889
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 0,
+    "truncated": false
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "samples": [
+      1.111,
+      5.556,
+      10,
+      14.444,
+      18.889
+    ],
+    "checked": 76,
+    "passed": 76
+  },
+  "craft": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 1,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "text_below_floor",
+        "severity": "warning",
+        "message": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and 57 text elements stay under it for 0.5 s or more, the smallest \"Motor ve kabin gürültüsü süzgeci, SNR...\" at 13 px: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md.",
+        "text": "Motor ve kabin gürültüsü süzgeci, SNR eşiği",
+        "selector": "#pcard-0 > span:nth-of-type(3)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 141,
+          "y": 574.59,
+          "width": 270.84,
+          "height": 16
+        },
+        "time": 9.5,
+        "times": [
+          0,
+          1,
+          3.25,
+          3.25,
+          3.25,
+          3.25,
+          3.25,
+          3.25,
+          3.25,
+          3.25,
+          3.25,
+          3.25,
+          3.25,
+          3.25,
+          3.25,
+          3.25,
+          3.25,
+          3.25,
+          3.25,
+          3.25,
+          4.125,
+          4.125,
+          6.375,
+          6.375,
+          9.125,
+          9.5,
+          9.5,
+          9.5,
+          9.5,
+          9.75,
+          9.75,
+          9.75,
+          9.75,
+          9.875,
+          9.875,
+          9.875,
+          9.875,
+          10,
+          10,
+          10,
+          10,
+          10.25,
+          10.25,
+          10.25,
+          10.25,
+          11.375,
+          11.375,
+          11.375,
+          11.375,
+          11.375,
+          11.375,
+          16,
+          16.625,
+          16.625,
+          16.625,
+          16.625,
+          17.375
+        ],
+        "fontPx": 12.71,
+        "floorPx": 28,
+        "seconds": 5.5,
+        "elements": [
+          {
+            "selector": "#pcard-0 > span:nth-of-type(3)",
+            "text": "Motor ve kabin gürültüsü süzgeci, SNR eşiği",
+            "fontPx": 12.71,
+            "time": 9.5,
+            "seconds": 5.5
+          },
+          {
+            "selector": "#pcard-1 > span:nth-of-type(3)",
+            "text": "Türkçe akustik transkripsiyon & VAD kesimi",
+            "fontPx": 12.71,
+            "time": 9.75,
+            "seconds": 5.25
+          },
+          {
+            "selector": "#pcard-2 > span:nth-of-type(3)",
+            "text": "Deterministik slot çıkarımı & Supervisor",
+            "fontPx": 12.71,
+            "time": 9.875,
+            "seconds": 5.125
+          },
+          {
+            "selector": "#pcard-3 > span:nth-of-type(3)",
+            "text": "280+ otomotiv terimi (TSI, DSG, Quattro)",
+            "fontPx": 12.71,
+            "time": 10,
+            "seconds": 5
+          },
+          {
+            "selector": "#pcard-4 > span:nth-of-type(3)",
+            "text": "Batched ODE yerel nöral ses sentezi (Leyla)",
+            "fontPx": 12.71,
+            "time": 10.25,
+            "seconds": 4.75
+          },
+          {
+            "selector": "span.metric-badge.ttfa",
+            "text": "TTFA:",
+            "fontPx": 13,
+            "time": 3.25,
+            "seconds": 5.75
+          },
+          {
+            "selector": "span.metric-badge.ttfa > b:nth-of-type(1)",
+            "text": "214ms",
+            "fontPx": 13,
+            "time": 3.25,
+            "seconds": 5.75
+          },
+          {
+            "selector": "span.metric-badge.tts",
+            "text": "F5 ODE:",
+            "fontPx": 13,
+            "time": 3.25,
+            "seconds": 5.75
+          },
+          {
+            "selector": "span.metric-badge.tts > b:nth-of-type(1)",
+            "text": "194ms",
+            "fontPx": 13,
+            "time": 3.25,
+            "seconds": 5.75
+          },
+          {
+            "selector": "span.speaker-name.cust",
+            "text": "Müşteri (Ahmet Yılmaz)",
+            "fontPx": 13,
+            "time": 4.125,
+            "seconds": 4.875
+          },
+          {
+            "selector": "span.speaker-name.ley",
+            "text": "Leyla (FreyaTTS)",
+            "fontPx": 13,
+            "time": 6.375,
+            "seconds": 2.625
+          },
+          {
+            "selector": "div.mockup-call-pill > span:nth-of-type(1)",
+            "text": "Görüşmeyi Bitir",
+            "fontPx": 14,
+            "time": 3.25,
+            "seconds": 5.75
+          },
+          {
+            "selector": "div.mockup-status-text > span:nth-of-type(2)",
+            "text": "SIP/6001 • 01:42 (Aktif Görüşme)",
+            "fontPx": 14,
+            "time": 3.25,
+            "seconds": 5.75
+          },
+          {
+            "selector": "div.chat-box-title",
+            "text": "Canlı Görüşme Akışı (Streaming ASR & Leyla)",
+            "fontPx": 14,
+            "time": 3.25,
+            "seconds": 5.75
+          },
+          {
+            "selector": "div.side-title",
+            "text": "Müşteri & Deterministik İşlem",
+            "fontPx": 14,
+            "time": 3.25,
+            "seconds": 5.75
+          },
+          {
+            "selector": "div.side-card > div:nth-of-type(2) > span:nth-of-type(1)",
+            "text": "Müşteri:",
+            "fontPx": 14,
+            "time": 3.25,
+            "seconds": 5.75
+          },
+          {
+            "selector": "div.side-card > div:nth-of-type(3) > span:nth-of-type(1)",
+            "text": "Araç:",
+            "fontPx": 14,
+            "time": 3.25,
+            "seconds": 5.75
+          },
+          {
+            "selector": "div.side-card > div:nth-of-type(4) > span:nth-of-type(1)",
+            "text": "İşlem:",
+            "fontPx": 14,
+            "time": 3.25,
+            "seconds": 5.75
+          },
+          {
+            "selector": "div.side-card > div:nth-of-type(5) > span:nth-of-type(1)",
+            "text": "Atanan İstasyon:",
+            "fontPx": 14,
+            "time": 3.25,
+            "seconds": 5.75
+          },
+          {
+            "selector": "div.side-card > div:nth-of-type(6) > span:nth-of-type(1)",
+            "text": "Fiyat Güvencesi:",
+            "fontPx": 14,
+            "time": 3.25,
+            "seconds": 5.75
+          },
+          {
+            "selector": "div.tech-tags-row > span:nth-of-type(1)",
+            "text": "NVIDIA RTX 4070 / CUDA",
+            "fontPx": 14,
+            "time": 16.625,
+            "seconds": 3.375
+          },
+          {
+            "selector": "div.tech-tags-row > span:nth-of-type(2)",
+            "text": "Faster-Whisper",
+            "fontPx": 14,
+            "time": 16.625,
+            "seconds": 3.375
+          },
+          {
+            "selector": "div.tech-tags-row > span:nth-of-type(3)",
+            "text": "Ollama Qwen2.5",
+            "fontPx": 14,
+            "time": 16.625,
+            "seconds": 3.375
+          },
+          {
+            "selector": "div.tech-tags-row > span:nth-of-type(4)",
+            "text": "FreyaTTS Leyla #9",
+            "fontPx": 14,
+            "time": 16.625,
+            "seconds": 3.375
+          },
+          {
+            "selector": "div.speed-comparison-banner > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "FreyaTTS (Yerel):",
+            "fontPx": 14.67,
+            "time": 11.375,
+            "seconds": 3.625
+          },
+          {
+            "selector": "div.speed-comparison-banner > div:nth-of-type(3) > span:nth-of-type(1)",
+            "text": "Klasik Bulut API:",
+            "fontPx": 14.67,
+            "time": 11.375,
+            "seconds": 3.625
+          },
+          {
+            "selector": "div.side-card > div:nth-of-type(2) > span:nth-of-type(2)",
+            "text": "Ahmet Yılmaz",
+            "fontPx": 15,
+            "time": 3.25,
+            "seconds": 5.75
+          },
+          {
+            "selector": "div.side-card > div:nth-of-type(3) > span:nth-of-type(2)",
+            "text": "Peugeot 3008 (61 TS 061)",
+            "fontPx": 15,
+            "time": 3.25,
+            "seconds": 5.75
+          },
+          {
+            "selector": "div.side-card > div:nth-of-type(4) > span:nth-of-type(2)",
+            "text": "60.000 KM Ağır Bakım",
+            "fontPx": 15,
+            "time": 3.25,
+            "seconds": 5.75
+          },
+          {
+            "selector": "div.side-card > div:nth-of-type(5) > span:nth-of-type(2)",
+            "text": "LIFT-2 (Mekanik)",
+            "fontPx": 15,
+            "time": 3.25,
+            "seconds": 5.75
+          },
+          {
+            "selector": "div.side-card > div:nth-of-type(6) > span:nth-of-type(2)",
+            "text": "14.500 TRY (M01 KİLİTLİ)",
+            "fontPx": 15,
+            "time": 3.25,
+            "seconds": 5.75
+          },
+          {
+            "selector": "p.copyright-text",
+            "text": "Telif Hakkı (c) 2026 Seydi Eryılmaz (@seydivakkas) • ÖZEL LİSANS / TÜM HAKLAR SAKLIDIR",
+            "fontPx": 15,
+            "time": 17.375,
+            "seconds": 2.625
+          },
+          {
+            "selector": "div.section-badge",
+            "text": "F0–F6 Uçtan Uca Donanım Akışı",
+            "fontPx": 15.65,
+            "time": 9.125,
+            "seconds": 5.875
+          },
+          {
+            "selector": "#bubble-cust > p:nth-of-type(1)",
+            "text": "\"Trabzon'da 61 TS 061 plakalı Peugeot 3008 aracım için periyodik bakım randevusu almak istiyorum.\"",
+            "fontPx": 16,
+            "time": 4.125,
+            "seconds": 4.875
+          },
+          {
+            "selector": "#bubble-leyla > p:nth-of-type(1)",
+            "text": "\"Harika Ahmet Bey. Aracınızın 60.000 km ağır bakımı için yarın saat 09:30'da Lift-2 istasyonumuz uygundur. Onaylıyor musunuz?\"",
+            "fontPx": 16,
+            "time": 6.375,
+            "seconds": 2.625
+          },
+          {
+            "selector": "#pcard-0 > span:nth-of-type(2)",
+            "text": "Araç İçi DSP",
+            "fontPx": 16.62,
+            "time": 9.5,
+            "seconds": 5.5
+          },
+          {
+            "selector": "#pcard-1 > span:nth-of-type(2)",
+            "text": "Faster-Whisper",
+            "fontPx": 16.62,
+            "time": 9.75,
+            "seconds": 5.25
+          },
+          {
+            "selector": "#pcard-2 > span:nth-of-type(2)",
+            "text": "Qwen2.5 7B",
+            "fontPx": 16.62,
+            "time": 9.875,
+            "seconds": 5.125
+          },
+          {
+            "selector": "#pcard-3 > span:nth-of-type(2)",
+            "text": "Fonetik Sezer",
+            "fontPx": 16.62,
+            "time": 10,
+            "seconds": 5
+          },
+          {
+            "selector": "#pcard-4 > span:nth-of-type(2)",
+            "text": "FreyaTTS CUDA",
+            "fontPx": 16.62,
+            "time": 10.25,
+            "seconds": 4.75
+          },
+          {
+            "selector": "#pcard-0 > span:nth-of-type(1)",
+            "text": "F₀ DSP",
+            "fontPx": 17.6,
+            "time": 9.5,
+            "seconds": 5.5
+          },
+          {
+            "selector": "#pcard-1 > span:nth-of-type(1)",
+            "text": "F₂ ASR",
+            "fontPx": 17.6,
+            "time": 9.75,
+            "seconds": 5.25
+          },
+          {
+            "selector": "#pcard-2 > span:nth-of-type(1)",
+            "text": "F₃ LLM",
+            "fontPx": 17.6,
+            "time": 9.875,
+            "seconds": 5.125
+          },
+          {
+            "selector": "#pcard-3 > span:nth-of-type(1)",
+            "text": "F₄ NORM",
+            "fontPx": 17.6,
+            "time": 10,
+            "seconds": 5
+          },
+          {
+            "selector": "#pcard-4 > span:nth-of-type(1)",
+            "text": "F₅ TTS",
+            "fontPx": 17.6,
+            "time": 10.25,
+            "seconds": 4.75
+          },
+          {
+            "selector": "span.brand-version",
+            "text": "v3 COCKPIT",
+            "fontPx": 17.8,
+            "time": 16,
+            "seconds": 4
+          },
+          {
+            "selector": "#pcard-0 > span:nth-of-type(4)",
+            "text": "+14.8 dB SNR",
+            "fontPx": 19.56,
+            "time": 9.5,
+            "seconds": 5.5
+          },
+          {
+            "selector": "#pcard-1 > span:nth-of-type(4)",
+            "text": "138 ms",
+            "fontPx": 19.56,
+            "time": 9.75,
+            "seconds": 5.25
+          },
+          {
+            "selector": "#pcard-2 > span:nth-of-type(4)",
+            "text": "176 ms",
+            "fontPx": 19.56,
+            "time": 9.875,
+            "seconds": 5.125
+          },
+          {
+            "selector": "#pcard-3 > span:nth-of-type(4)",
+            "text": "4 ms",
+            "fontPx": 19.56,
+            "time": 10,
+            "seconds": 5
+          },
+          {
+            "selector": "#pcard-4 > span:nth-of-type(4)",
+            "text": "194 ms",
+            "fontPx": 19.56,
+            "time": 10.25,
+            "seconds": 4.75
+          },
+          {
+            "selector": "div.speed-comparison-banner > div:nth-of-type(2)",
+            "text": "vs",
+            "fontPx": 19.56,
+            "time": 11.375,
+            "seconds": 3.625
+          },
+          {
+            "selector": "div.hook-badge > span:nth-of-type(1)",
+            "text": "Yerel Nöral Ses Sentezi",
+            "fontPx": 19.91,
+            "time": 0,
+            "seconds": 3
+          },
+          {
+            "selector": "div.comp-multiplier",
+            "text": "⚡ 8.4x Daha Hızlı!",
+            "fontPx": 21.51,
+            "time": 11.375,
+            "seconds": 3.625
+          },
+          {
+            "selector": "span.latency-label-main",
+            "text": "E2E İlk Ses Yanıtı (TTFA)",
+            "fontPx": 23.9,
+            "time": 1,
+            "seconds": 2
+          },
+          {
+            "selector": "span.comp-val.local",
+            "text": "214 ms",
+            "fontPx": 25.43,
+            "time": 11.375,
+            "seconds": 3.625
+          },
+          {
+            "selector": "span.comp-val.cloud",
+            "text": "1.800 ms",
+            "fontPx": 25.43,
+            "time": 11.375,
+            "seconds": 3.625
+          }
+        ]
+      }
+    ],
+    "enabled": true,
+    "step": 0.125,
+    "samples": 160
+  },
+  "audio": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  }
+}

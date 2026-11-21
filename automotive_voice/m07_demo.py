@@ -1,6 +1,7 @@
 """M07 metadata-only synthetic stream + barge-in demo; no real WAV, model or PBX."""
 from __future__ import annotations
-import asyncio,json
+import asyncio
+import json
 from automotive_voice.core.event_bus import EventBus
 from automotive_voice.core.session_manager import SessionManager
 from automotive_voice.core.identifiers import SessionId,TurnId,GenerationId

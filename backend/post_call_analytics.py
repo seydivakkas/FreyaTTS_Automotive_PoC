@@ -36,7 +36,6 @@ from backend.db import (
     CallAnalytics,
     Conversation,
     Turn,
-    Vehicle,
     now,
 )
 

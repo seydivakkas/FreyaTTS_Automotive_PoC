@@ -98,13 +98,13 @@ export function AppointmentsTab({ api, action, refresh, busy, slots, appointment
   };
 
   return (
-    <>
+    <div style={{ height: "100%", display: "flex", flexDirection: "column", minHeight: 0, overflowY: "auto", padding: "2px 4px" }}>
       {/* Üst Yönetim ve Saat Ekleme */}
-      <section style={{ marginBottom: "1.5rem" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
+      <section style={{ marginBottom: "8px", padding: "8px 12px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.5rem" }}>
           <div>
-            <h2 style={{ margin: "0 0 0.25rem 0" }}>Randevu Takvimi & Planlama</h2>
-            <p style={{ margin: 0, color: "var(--muted, #64748B)", fontSize: "0.9rem" }}>
+            <h2 style={{ margin: "0 0 0.15rem 0", fontSize: "16px" }}>Randevu Takvimi & Planlama</h2>
+            <p style={{ margin: 0, color: "var(--muted, #64748B)", fontSize: "0.8rem" }}>
               Randevuları takvim üzerinde sürükleyip boş slotlara bırakarak yeniden saatlendirebilirsiniz.
             </p>
           </div>
@@ -155,11 +155,11 @@ export function AppointmentsTab({ api, action, refresh, busy, slots, appointment
       </section>
 
       {/* Müsait Saat Ekleme Kartı */}
-      <section style={{ marginBottom: "1.5rem", background: "var(--bg-card, #F8FAFC)", padding: "1rem", borderRadius: "8px", border: "1px solid var(--border, #E2E8F0)" }}>
-        <h3 style={{ margin: "0 0 0.75rem 0", fontSize: "1rem" }}>➕ Yeni Müsait Saat Tanımla</h3>
+      <section style={{ marginBottom: "8px", background: "var(--bg-card, #F8FAFC)", padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--border, #E2E8F0)" }}>
+        <h3 style={{ margin: "0 0 0.4rem 0", fontSize: "0.9rem" }}>➕ Yeni Müsait Saat Tanımla</h3>
         <form
           className="inline"
-          style={{ display: "flex", gap: "0.75rem", alignItems: "flex-end", flexWrap: "wrap" }}
+          style={{ display: "flex", gap: "0.5rem", alignItems: "flex-end", flexWrap: "wrap" }}
           onSubmit={(e) => {
             e.preventDefault();
             const d = new FormData(e.currentTarget);
@@ -172,11 +172,11 @@ export function AppointmentsTab({ api, action, refresh, busy, slots, appointment
             });
           }}
         >
-          <label style={{ display: "flex", flexDirection: "column", gap: "0.25rem", fontSize: "0.85rem" }}>
+          <label style={{ display: "flex", flexDirection: "column", gap: "0.2rem", fontSize: "0.8rem" }}>
             Tarih ve Saat (İstanbul TS)
-            <input type="datetime-local" name="time" required disabled={busy} style={{ padding: "0.4rem 0.6rem" }} />
+            <input type="datetime-local" name="time" required disabled={busy} style={{ padding: "0.3rem 0.5rem", fontSize: "0.8rem" }} />
           </label>
-          <button type="submit" disabled={busy}>
+          <button type="submit" disabled={busy} style={{ padding: "5px 12px", fontSize: "0.8rem" }}>
             Saat Ekle
           </button>
         </form>
@@ -184,7 +184,7 @@ export function AppointmentsTab({ api, action, refresh, busy, slots, appointment
 
       {/* Tarih Filtresi */}
       {availableDates.length > 0 && (
-        <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", marginBottom: "1rem", overflowX: "auto", paddingBottom: "0.5rem" }}>
+        <div style={{ display: "flex", gap: "0.4rem", alignItems: "center", marginBottom: "6px", overflowX: "auto", paddingBottom: "0.25rem" }}>
           <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--muted, #64748B)" }}>Tarih:</span>
           <button
             type="button"
@@ -384,6 +384,6 @@ export function AppointmentsTab({ api, action, refresh, busy, slots, appointment
           void action(refresh);
         }}
       />}
-    </>
+    </div>
   );
 }

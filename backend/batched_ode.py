@@ -26,13 +26,12 @@ import asyncio
 import math
 import time
 from dataclasses import dataclass
-from typing import Any, Callable, List, Optional
+from typing import Any, Callable, Optional
 
 import numpy as np
 from scipy import signal
 
 from backend.audio import apply_fade_and_comfort_noise
-from backend.config import settings
 from backend.text import SHORT_CLAUSE_MAX_CHARS, clauses, normalize, prepare_tts_clause
 
 SAMPLE_RATE = 48000

@@ -10,7 +10,7 @@ Bu modül:
 2. KVKK Madde 11 (Unutulma Hakkı) kapsamındaki silme taleplerini kaydeder,
    etki analizini hesaplar, ilgili tüm tablolardaki kişisel verileri (transkript,
    ses arşivi, randevu, WhatsApp, arama analitiği, ruhsat vb.) anonimleştirir/imha eder.
-3. Kriptografik SHA-256 (ve HMAC) imzalı resmi KVKK İmha Tutanağı üretir.
+3. Uygulanan işlemin SHA-256 özetini ve işlem kaydını üretir.
 """
 
 from __future__ import annotations
@@ -18,11 +18,12 @@ from __future__ import annotations
 import hashlib
 import hmac
 import json
+import re
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Optional
 
-from sqlalchemy import inspect, or_
+from sqlalchemy import func, inspect
 from sqlalchemy.orm import Session
 
 from backend.config import settings
@@ -33,7 +34,6 @@ from backend.db import (
     Conversation,
     KVKKErasureRequest,
     NotificationOutbox,
-    OperatorTransfer,
     OutboundCall,
     RuhsatScan,
     SupervisorTrace,
@@ -54,7 +54,7 @@ def _clean_phone(raw: str) -> str:
     digits = "".join(ch for ch in raw if ch.isdigit())
     if digits.startswith("90") and len(digits) == 12:
         return "0" + digits[2:]
-    return digits
+    return "0" + digits if len(digits) == 10 else digits
 
 
 def _clean_plate(raw: str) -> str:
@@ -189,8 +189,9 @@ def scan_erasure_impact(
     identifier_value: str,
 ) -> Dict[str, Any]:
     """Belirtilen kimlik verisine göre imha edilecek kayıtların etki analizini çıkarır."""
-    id_type = identifier_type.strip().lower()
-    val = identifier_value.strip()
+    identity = KVKKErasureRequestIn(identifier_type=identifier_type, identifier_value=identifier_value)
+    id_type = identity.identifier_type
+    val = identity.identifier_value
 
     matched_conv_ids: set[str] = set()
     matched_appt_ids: set[str] = set()
@@ -208,19 +209,21 @@ def scan_erasure_impact(
         conv = db.get(Conversation, val)
         if conv:
             matched_conv_ids.add(conv.id)
-            for appt in db.query(Appointment).all():
-                pass  # conv ile eşleşme aşağıda aranır
 
     elif id_type == "phone":
+        forms = {val, phone_clean}
+        if len(phone_clean) == 11 and phone_clean.startswith("0"):
+            local = phone_clean[1:]
+            forms.update((local, "90" + local, "+90" + local))
+        phone_token = re.compile(r"(?<!\d)(?:\+?90|0)?[ .()-]*(?:[0-9][ .()-]*){9}[0-9](?!\d)")
+        for conversation_id, text in db.query(Turn.conversation_id, Turn.text).filter(Turn.role == "user"):
+            if any(_clean_phone(token.group()) == phone_clean for token in phone_token.finditer(text or "")):
+                matched_conv_ids.add(conversation_id)
         # 1. Randevular
         appts = (
             db.query(Appointment)
             .filter(
-                or_(
-                    Appointment.customer_phone == val,
-                    Appointment.customer_phone == phone_clean,
-                    Appointment.customer.ilike(f"%{val}%"),
-                )
+                Appointment.customer_phone.in_(forms)
             )
             .all()
         )
@@ -231,10 +234,7 @@ def scan_erasure_impact(
         audios = (
             db.query(AudioArchive)
             .filter(
-                or_(
-                    AudioArchive.caller_phone == val,
-                    AudioArchive.caller_phone == phone_clean,
-                )
+                AudioArchive.caller_phone.in_(forms)
             )
             .all()
         )
@@ -247,10 +247,7 @@ def scan_erasure_impact(
         was = (
             db.query(WhatsAppMessage)
             .filter(
-                or_(
-                    WhatsAppMessage.from_phone == val,
-                    WhatsAppMessage.from_phone == phone_clean,
-                )
+                WhatsAppMessage.from_phone.in_(forms)
             )
             .all()
         )
@@ -263,10 +260,7 @@ def scan_erasure_impact(
         cas = (
             db.query(CallAnalytics)
             .filter(
-                or_(
-                    CallAnalytics.caller_phone == val,
-                    CallAnalytics.caller_phone == phone_clean,
-                )
+                CallAnalytics.caller_phone.in_(forms)
             )
             .all()
         )
@@ -281,10 +275,7 @@ def scan_erasure_impact(
         rss = (
             db.query(RuhsatScan)
             .filter(
-                or_(
-                    RuhsatScan.from_phone == val,
-                    RuhsatScan.from_phone == phone_clean,
-                )
+                RuhsatScan.from_phone.in_(forms)
             )
             .all()
         )
@@ -295,10 +286,7 @@ def scan_erasure_impact(
         obs = (
             db.query(OutboundCall)
             .filter(
-                or_(
-                    OutboundCall.phone == val,
-                    OutboundCall.phone == phone_clean,
-                )
+                OutboundCall.phone.in_(forms)
             )
             .all()
         )
@@ -311,10 +299,7 @@ def scan_erasure_impact(
         notifs = (
             db.query(NotificationOutbox)
             .filter(
-                or_(
-                    NotificationOutbox.recipient == val,
-                    NotificationOutbox.recipient == phone_clean,
-                )
+                NotificationOutbox.recipient.in_(forms)
             )
             .all()
         )
@@ -323,7 +308,7 @@ def scan_erasure_impact(
 
     elif id_type == "plate":
         # Plaka ile araç ve randevuları bul
-        vehs = db.query(Vehicle).filter(Vehicle.plate == plate_clean).all()
+        vehs = db.query(Vehicle).filter(func.upper(func.replace(Vehicle.plate, " ", "")) == plate_clean).all()
         veh_ids = [v.id for v in vehs]
         if veh_ids:
             appts = (
@@ -335,7 +320,7 @@ def scan_erasure_impact(
                 matched_appt_ids.add(a.id)
 
         # Ruhsat taramaları
-        rss = db.query(RuhsatScan).filter(RuhsatScan.plate == plate_clean).all()
+        rss = db.query(RuhsatScan).filter(func.upper(func.replace(RuhsatScan.plate, " ", "")) == plate_clean).all()
         for r in rss:
             matched_rs_ids.add(r.id)
             if r.appointment_id:
@@ -344,7 +329,7 @@ def scan_erasure_impact(
     elif id_type == "customer_name":
         appts = (
             db.query(Appointment)
-            .filter(Appointment.customer.ilike(f"%{val}%"))
+            .filter(func.lower(func.trim(Appointment.customer)) == func.lower(val))
             .all()
         )
         for a in appts:
@@ -352,7 +337,7 @@ def scan_erasure_impact(
 
         was = (
             db.query(WhatsAppMessage)
-            .filter(WhatsAppMessage.customer_name.ilike(f"%{val}%"))
+            .filter(func.lower(func.trim(WhatsAppMessage.customer_name)) == func.lower(val))
             .all()
         )
         for w in was:
@@ -360,7 +345,7 @@ def scan_erasure_impact(
 
         cas = (
             db.query(CallAnalytics)
-            .filter(CallAnalytics.caller_name.ilike(f"%{val}%"))
+            .filter(func.lower(func.trim(CallAnalytics.caller_name)) == func.lower(val))
             .all()
         )
         for c in cas:
@@ -370,7 +355,7 @@ def scan_erasure_impact(
 
         obs = (
             db.query(OutboundCall)
-            .filter(OutboundCall.customer.ilike(f"%{val}%"))
+            .filter(func.lower(func.trim(OutboundCall.customer)) == func.lower(val))
             .all()
         )
         for o in obs:
@@ -397,6 +382,17 @@ def scan_erasure_impact(
             if c.conversation_id:
                 matched_conv_ids.add(c.conversation_id)
 
+    if matched_conv_ids:
+        for archive in db.query(AudioArchive).filter(AudioArchive.conversation_id.in_(matched_conv_ids)):
+            matched_audio_ids.add(archive.id)
+
+    recording_root = (settings.data_dir / "recordings").resolve()
+    recording_ids = sorted(
+        conv_id for conv_id in matched_conv_ids
+        if Path(conv_id).name == conv_id
+        and (recording_root / f"{conv_id}.wav").is_file()
+    )
+
     # Eşleşen konuşmaların tur sayılarını say
     matched_turns_count = 0
     if matched_conv_ids:
@@ -411,6 +407,7 @@ def scan_erasure_impact(
         "identifier_value": val,
         "conversations_count": len(matched_conv_ids),
         "turns_count": matched_turns_count,
+        "recordings_count": len(recording_ids),
         "appointments_count": len(matched_appt_ids),
         "audio_archives_count": len(matched_audio_ids),
         "whatsapp_messages_count": len(matched_wa_ids),
@@ -421,6 +418,7 @@ def scan_erasure_impact(
         "total_records_affected": (
             len(matched_conv_ids)
             + matched_turns_count
+            + len(recording_ids)
             + len(matched_appt_ids)
             + len(matched_audio_ids)
             + len(matched_wa_ids)
@@ -432,7 +430,12 @@ def scan_erasure_impact(
         "matched_conversation_ids": sorted(list(matched_conv_ids)),
         "matched_appointment_ids": sorted(list(matched_appt_ids)),
         "matched_audio_archive_ids": sorted(list(matched_audio_ids)),
-        "matched_whatsapp_ids": sorted(list(matched_wa_ids)),
+        "matched_whatsapp_ids": sorted(matched_wa_ids),
+        "matched_call_analytics_ids": sorted(matched_ca_ids),
+        "matched_ruhsat_scan_ids": sorted(matched_rs_ids),
+        "matched_outbound_call_ids": sorted(matched_ob_ids),
+        "matched_notification_ids": sorted(matched_notif_ids),
+        "matched_recording_ids": recording_ids,
     }
 
 
@@ -467,6 +470,8 @@ def execute_erasure(
     db: Session,
     request: KVKKErasureRequest,
     executed_by: str = "admin",
+    *,
+    confirmed_record_count: int,
 ) -> Dict[str, Any]:
     """KVKK silme talebini tüm bağlı tablolarda icra eder ve imha tutanağı üretir."""
     if request.status == "executed":
@@ -483,9 +488,17 @@ def execute_erasure(
     audio_ids = impact.get("matched_audio_archive_ids", [])
     wa_ids = impact.get("matched_whatsapp_ids", [])
 
-    val = request.identifier_value.strip()
-    phone_clean = _clean_phone(val)
-    plate_clean = _clean_plate(val)
+    preview = json.loads(request.impact_summary_json or "{}")
+    if confirmed_record_count != impact["total_records_affected"] or preview != impact:
+        raise ValueError("Etki önizlemesi değişti. Yeni bir silme talebi ile önizlemeyi doğrulayın.")
+
+    if conv_ids and db.query(Conversation.id).filter(
+        Conversation.id.in_(conv_ids), Conversation.status == "active",
+    ).first():
+        raise ValueError("Eşleşen görüşme sürüyor. Görüşme kapandıktan sonra tekrar deneyin.")
+
+    for conv_id in impact["matched_recording_ids"]:
+        (settings.data_dir / "recordings" / f"{conv_id}.wav").unlink(missing_ok=True)
 
     # 1. Konuşmalar ve Turn'ler
     if conv_ids:
@@ -503,7 +516,7 @@ def execute_erasure(
         for c in db.query(Conversation).filter(Conversation.id.in_(conv_ids)).all():
             c.status = "purged"
             c.operator_notes = (
-                f"{c.operator_notes}\n[KVKK Silme Talebi İcra Edildi: {request.id}]".strip()
+                f"[KVKK Silme Talebi İcra Edildi: {request.id}]"
             )
 
     # 2. Randevular (PII maskeleme)
@@ -516,12 +529,7 @@ def execute_erasure(
     if audio_ids:
         for aud in db.query(AudioArchive).filter(AudioArchive.id.in_(audio_ids)).all():
             if aud.file_path:
-                try:
-                    p = Path(aud.file_path)
-                    if p.exists():
-                        p.unlink()
-                except OSError:
-                    pass
+                Path(aud.file_path).unlink(missing_ok=True)
             aud.file_path = ""
             aud.caller_phone = "[KVKK SİLİNDİ]"
             aud.status = "purged"
@@ -536,67 +544,43 @@ def execute_erasure(
             w.from_phone = "[KVKK SİLİNDİ]"
 
     # 5. Çağrı Analitiği
-    ca_query = db.query(CallAnalytics).filter(
-        or_(
-            CallAnalytics.caller_phone == val,
-            CallAnalytics.caller_phone == phone_clean,
-            CallAnalytics.caller_name.ilike(f"%{val}%"),
-            CallAnalytics.conversation_id.in_(conv_ids) if conv_ids else False,
-            CallAnalytics.appointment_id.in_(appt_ids) if appt_ids else False,
-        )
-    )
+    ca_query = db.query(CallAnalytics).filter(CallAnalytics.id.in_(impact["matched_call_analytics_ids"]))
     for ca in ca_query.all():
         ca.caller_name = "[KVKK SİLİNDİ]"
         ca.caller_phone = "[KVKK SİLİNDİ]"
         ca.executive_summary = "[KVKK SİLİNDİ]"
 
     # 6. Ruhsat Taramaları
-    rs_query = db.query(RuhsatScan).filter(
-        or_(
-            RuhsatScan.from_phone == val,
-            RuhsatScan.from_phone == phone_clean,
-            RuhsatScan.plate == plate_clean,
-            RuhsatScan.owner_name.ilike(f"%{val}%"),
-            RuhsatScan.appointment_id.in_(appt_ids) if appt_ids else False,
-        )
-    )
+    rs_query = db.query(RuhsatScan).filter(RuhsatScan.id.in_(impact["matched_ruhsat_scan_ids"]))
     for rs in rs_query.all():
         rs.owner_name = "[KVKK SİLİNDİ]"
         rs.from_phone = "[KVKK SİLİNDİ]"
         rs.raw_extracted_text = "[KVKK SİLİNDİ]"
 
     # 7. Giden Aramalar
-    ob_query = db.query(OutboundCall).filter(
-        or_(
-            OutboundCall.phone == val,
-            OutboundCall.phone == phone_clean,
-            OutboundCall.customer.ilike(f"%{val}%"),
-            OutboundCall.appointment_id.in_(appt_ids) if appt_ids else False,
-        )
-    )
+    ob_query = db.query(OutboundCall).filter(OutboundCall.id.in_(impact["matched_outbound_call_ids"]))
     for ob in ob_query.all():
         ob.customer = "[KVKK SİLİNDİ]"
         ob.phone = "[KVKK SİLİNDİ]"
 
     # 8. Bildirimler Outbox
-    notif_query = db.query(NotificationOutbox).filter(
-        or_(
-            NotificationOutbox.recipient == val,
-            NotificationOutbox.recipient == phone_clean,
-            NotificationOutbox.appointment_id.in_(appt_ids) if appt_ids else False,
-        )
-    )
+    notif_query = db.query(NotificationOutbox).filter(NotificationOutbox.id.in_(impact["matched_notification_ids"]))
     for notif in notif_query.all():
         notif.recipient = "[KVKK SİLİNDİ]"
         notif.message = "[KVKK SİLİNDİ]"
 
-    # Kriptografik İmha Tutanağı İmzası
+    impact.pop("identifier_value", None)
+    request.identifier_value = "[KVKK SİLİNDİ]"
+    request.requester_name = ""
+    request.notes = ""
+    request.reason = "Kişisel veri silme talebi"
+
+    # İşlem özeti
     executed_at_iso = now()
     canonical_payload = (
         f"KVKK_IMHA_TUTANAGI_v1|"
         f"REQUEST_ID={request.id}|"
         f"IDENTIFIER_TYPE={request.identifier_type}|"
-        f"IDENTIFIER_VALUE={request.identifier_value}|"
         f"EXECUTED_AT={executed_at_iso}|"
         f"EXECUTED_BY={executed_by}|"
         f"IMPACT={json.dumps(impact, sort_keys=True, ensure_ascii=False)}"
@@ -632,7 +616,7 @@ def execute_erasure(
 
 
 def generate_certificate_text(request: KVKKErasureRequest) -> str:
-    """KVKK Madde 7 ve 11 uyarınca resmi İmha Tutanağı metnini üretir."""
+    """Uygulamanın silme ve anonimleştirme işlem kaydını üretir."""
     try:
         impact = json.loads(request.impact_summary_json)
     except Exception:
@@ -647,14 +631,13 @@ def generate_certificate_text(request: KVKKErasureRequest) -> str:
         f"TALEP TARİHİ       : {request.created_at}",
         f"İMHA TARİHİ        : {request.executed_at or 'BEKLEMEDE'}",
         f"İŞLEMİ YAPAN       : {request.executed_by}",
-        f"TALEP SAHİBİ       : {request.requester_name or 'İlgili Kişi'}",
-        f"KİMLİK TİPİ/DEĞERİ : {request.identifier_type.upper()} -> {request.identifier_value}",
+        f"KİMLİK TİPİ        : {request.identifier_type.upper()}",
         f"TALEP GEREKÇESİ    : {request.reason}",
         f"DURUM              : {request.status.upper()}",
         "--------------------------------------------------------------------------------",
         "İMHA EDİLEN / ANONİMLEŞTİRİLEN VERİ KALEMLERİ VE KAYIT ADETLERİ:",
         f"  - Görüşme Transkriptleri (Turn)   : {impact.get('turns_count', 0)} adet metin",
-        f"  - Sesli Görüşme Kayıtları (Audio) : {impact.get('audio_archives_count', 0)} adet dosya",
+        f"  - Sesli Görüşme Kayıtları (Audio) : {impact.get('audio_archives_count', 0) + impact.get('recordings_count', 0)} adet",
         f"  - Randevu ve Müşteri Kayıtları    : {impact.get('appointments_count', 0)} adet",
         f"  - WhatsApp Mesaj İçerikleri       : {impact.get('whatsapp_messages_count', 0)} adet",
         f"  - Arama Analitik & Özetleri       : {impact.get('call_analytics_count', 0)} adet",
@@ -665,9 +648,6 @@ def generate_certificate_text(request: KVKKErasureRequest) -> str:
         "--------------------------------------------------------------------------------",
         "KRİPTOGRAFİK BÜTÜNLÜK VE DOĞRULAMA:",
         f"SHA-256 SERTİFİKA HASH: {request.certificate_sha256 or 'HENÜZ ÜRETİLMEDİ'}",
-        "YASAL UYARI: İşbu tutanak 6698 sayılı KVKK ve Kişisel Verilerin Silinmesi, Yok  ",
-        "Edilmesi veya Anonim Hale Getirilmesi Hakkında Yönetmelik hükümleri gereğince   ",
-        "dijital olarak tanzim edilmiş olup, 3 yıl süreyle log kayıtlarında saklanacaktır.",
         "================================================================================",
     ]
     return "\n".join(lines)

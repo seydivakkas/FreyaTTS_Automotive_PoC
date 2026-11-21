@@ -8,10 +8,9 @@ kaydinda atomik olarak gunceller.
 
 from __future__ import annotations
 import logging
-from typing import Optional
 from sqlalchemy import select
 from backend.config import settings
-from backend.db import OutboundCall, Appointment, Slot, Vehicle, cancel_appointment, now, uid
+from backend.db import OutboundCall, Appointment, cancel_appointment, now
 from backend.ami import get_ami_client, is_real_ami
 
 logger = logging.getLogger("automotive_voice.outbound")

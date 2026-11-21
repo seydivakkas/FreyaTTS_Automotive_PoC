@@ -22,14 +22,12 @@ YAZARIN AÇIK YAZILI İZNİ OLMAKSIZIN HİÇBİR KULLANIM HAKKI TANINMAZ.
 
 from __future__ import annotations
 
-import io
 import logging
 import re
 from datetime import datetime, timezone
 from typing import Any, Dict, Optional, Tuple
 from uuid import uuid4
 
-import numpy as np
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -39,7 +37,6 @@ from backend.db import (
     NotificationOutbox,
     OutboundCall,
     Slot,
-    Vehicle,
     WhatsAppMessage,
     cancel_appointment,
     now,

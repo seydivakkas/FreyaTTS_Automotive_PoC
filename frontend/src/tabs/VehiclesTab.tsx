@@ -12,9 +12,9 @@ type Props = {
 
 export function VehiclesTab({ api, action, refresh, busy, vehicles, quotes }: Props) {
   return (
-    <>
-      <section>
-        <h2>Araç ekle</h2>
+    <div style={{ height: "100%", display: "flex", flexDirection: "column", minHeight: 0, overflowY: "auto", padding: "2px 4px", gap: "8px" }}>
+      <section style={{ margin: 0, padding: "10px 14px" }}>
+        <h2 style={{ fontSize: "16px", margin: "0 0 6px 0" }}>Araç ekle</h2>
         <form
           className="inline"
           onSubmit={(e) => {
@@ -86,6 +86,6 @@ export function VehiclesTab({ api, action, refresh, busy, vehicles, quotes }: Pr
           <p className="muted">Henüz araç kaydı yok.</p>
         )}
       </section>
-    </>
+    </div>
   );
 }

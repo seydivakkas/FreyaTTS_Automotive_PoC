@@ -22,10 +22,7 @@ YAZARIN AÇIK YAZILI İZNİ OLMAKSIZIN HİÇBİR KULLANIM HAKKI TANINMAZ.
 
 from __future__ import annotations
 
-import asyncio
 from dataclasses import dataclass, field
-from datetime import datetime, timezone, timedelta
-import json
 import logging
 import os
 from pathlib import Path
@@ -37,7 +34,7 @@ import numpy as np
 from sqlalchemy import select
 
 from backend.config import settings
-from backend.db import OutboundCall, Appointment, Slot, Vehicle, now, uid
+from backend.db import OutboundCall, Appointment, Vehicle, now
 from backend.ami import get_ami_client
 
 

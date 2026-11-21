@@ -11,7 +11,10 @@ from pathlib import Path
 from hashlib import sha256
 from enum import Enum
 from typing import Iterable
-import json, unicodedata, re, wave
+import json
+import unicodedata
+import re
+import wave
 
 GATES = ('windows_edge', 'freya_leyla', 'stt_vad', 'codec', 'asterisk_pbx',
          'a01yt_references', 'safety_privacy', 'legacy_regression')

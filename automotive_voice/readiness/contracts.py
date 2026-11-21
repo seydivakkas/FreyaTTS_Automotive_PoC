@@ -61,7 +61,7 @@ class OfflineReadiness:
                 u=urlsplit(cfg.endpoint)
                 if u.scheme not in ('http','https','ws','wss') or not u.hostname or u.username or u.password or u.fragment:
                     issues.append('unsafe_endpoint')
-                if u.hostname and not (u.hostname in ('localhost','127.0.0.1','::1')):
+                if u.hostname and u.hostname not in ('localhost','127.0.0.1','::1'):
                     issues.append('external_endpoint_not_tested')
                 if u.scheme in ('http','ws') and u.hostname not in ('localhost','127.0.0.1','::1'):
                     issues.append('unencrypted_remote_transport')

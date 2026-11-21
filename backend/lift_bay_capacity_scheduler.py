@@ -25,12 +25,12 @@ from __future__ import annotations
 import json
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 from zoneinfo import ZoneInfo
-from sqlalchemy import and_, func, or_, select
+from sqlalchemy import and_, func, select
 from sqlalchemy.orm import Session
 
-from backend.db import Appointment, BaySchedule, InspectionBay, Technician, Vehicle, now
+from backend.db import Appointment, BaySchedule, InspectionBay, Technician
 
 IST_TZ = ZoneInfo("Europe/Istanbul")
 

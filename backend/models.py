@@ -4,6 +4,7 @@ import sys
 import time
 import threading
 from collections import OrderedDict
+from contextvars import ContextVar
 from pathlib import Path
 import numpy as np
 import httpx
@@ -42,7 +43,7 @@ class Models:
         self.pending = 0
         self.load_ms = None
         self.synth_count = 0
-        self.last_llm_metrics = {}
+        self._last_llm_metrics = ContextVar("last_llm_metrics", default=None)
         self.ollama_ready = False
         self.custom_hotwords: list[str] = []
         # (normalize edilmiş cümle, kullanılan seed) -> dalga; yalnızca ön ısıtmada dolar.
@@ -53,6 +54,14 @@ class Models:
             name: CircuitBreaker(threshold=3, cooldown_ns=10_000_000_000)
             for name in ("tts", "llm")
         }
+
+    @property
+    def last_llm_metrics(self):
+        return self._last_llm_metrics.get() or {}
+
+    @last_llm_metrics.setter
+    def last_llm_metrics(self, value):
+        self._last_llm_metrics.set(value)
 
     async def load(self):
         async with self.load_lock:
@@ -79,9 +88,10 @@ class Models:
                 ]
             ):
                 pass
-            self.ollama_ready = True
             await self._prewarm_tts()
+            self.ollama_ready = True
             self.load_ms = (time.monotonic() - start) * 1000
+            self.error = None
         except Exception as e:
             self.error = f"{type(e).__name__}: {e}"
             raise
@@ -291,29 +301,22 @@ class Models:
         return np.concatenate(parts)
 
     async def transcribe(self, audio):
-        # 1. Ses Enerjisi Ön Kontrolü: Ortam gürültüsü, nefes veya sessizlikte Whisper çağrılmaz
-        if len(audio) < 1600:  # 100 ms'den kısa
+        if not len(audio):
             return ""
-        rms = float(np.sqrt(np.mean(audio**2)))
-        max_amp = float(np.max(np.abs(audio)))
-        # RMS < -42 dBFS (~0.0075) veya tepe genlik < 0.025 ise doğrudan boş transkript dön
-        if rms < 0.0075 or max_amp < 0.025:
+        if settings.stt_min_rms and np.sqrt(np.mean(audio**2)) < settings.stt_min_rms:
             return ""
 
         if not self.stt:
             raise RuntimeError("STT hazır değil")
 
         def run():
+            catalog = self._catalog_hotwords() if settings.stt_catalog_hotwords else []
             with self.stt_lock:
-                # DİKKAT: hotwords parametresi faster-whisper'da doğrudan decoder prompt'una eklenir (prompt.extend).
-                # Ortamda gürültü, araba uğultusu veya fısıltı varken Whisper Turbo decoder bu prompt'u
-                # müşteri konuşmuş gibi halüsinasyon olarak döker ("Context, VTEC, Volkswagen Golf...").
-                # Bu sebeple hotwords=None tutulur; Whisper Turbo'nun yerel Türkçe akustik modeline güvenilir.
                 segments, _ = self.stt.transcribe(
                     audio,
                     language="tr",
                     beam_size=1,
-                    hotwords=None,
+                    hotwords=", ".join(catalog) or None,
                     condition_on_previous_text=False,
                     no_speech_threshold=0.50,
                     log_prob_threshold=-0.80,
@@ -335,45 +338,7 @@ class Models:
                     if txt:
                         accepted_texts.append(txt)
 
-                raw_result = " ".join(accepted_texts).strip()
-                if not raw_result:
-                    return ""
-
-                # 2. Tipik Halüsinasyon ve İngilizce Kalıntı Taraması
-                lowered = raw_result.lower()
-                hallucination_tokens = (
-                    "let's see", "lets see", "biddyo", "thank you for watching",
-                    "subtitles by", "amara.org", "subscribe", "bye bye",
-                    "watching", "mbc", "izlediğiniz için teşekkürler", "context,",
-                    "thank you", "video", "see you", "all right,", "alright,",
-                    "you for watching", "abone olmayı unutmayın"
-                )
-                for h in hallucination_tokens:
-                    if h in lowered:
-                        return ""
-
-                # 3. Yalnızca İngilizce / non-tr kelimelerden oluşan kalıntı filtresi (örn: "IF, LET'S SEE")
-                import re
-                if re.search(r"\b(let's see|lets see|biddyo|context|subtitles)\b", lowered):
-                    return ""
-
-                # 4. Tekrarlı kelime döngüsü filtresi (örn: "IF, LET'S SEE, LET'S SEE...")
-                words = raw_result.split()
-                if len(words) >= 4:
-                    from collections import Counter
-                    counts = Counter([w.lower().strip(".,!?:") for w in words])
-                    most_common_word, count = counts.most_common(1)[0]
-                    if count >= 3 and count / len(words) > 0.35:
-                        return ""
-
-                # 5. İki veya daha fazla virgülle ayrılmış araç modelleri dökümü tespit edilirse:
-                if raw_result.count(",") >= 2:
-                    catalog_names = self._catalog_hotwords()
-                    matches = sum(1 for n in catalog_names if n.lower() in lowered)
-                    if matches >= 2:
-                        return ""
-
-                return raw_result
+                return " ".join(accepted_texts)
 
         work = asyncio.create_task(asyncio.to_thread(run))
         try:

@@ -7,6 +7,7 @@ import type { Appointment, Conversation, Health, Quote, Slot, Vehicle } from "./
 import { MAIN_DATA_TABS, TABS, TabName } from "./nav";
 import { SidebarNav } from "./SidebarNav";
 import { CockpitHeader } from "./CockpitHeader";
+import { FirstAppointmentGuide } from "./FirstAppointmentGuide";
 import { useVoiceSession } from "./useVoiceSession";
 import { LoginGate } from "./LoginGate";
 import { VoiceTab } from "./tabs/VoiceTab";
@@ -29,6 +30,7 @@ import {
   QueueLiftPanel,
   SupervisorPanel,
   TechnicianDictationPanel,
+  OntologyPanel,
 } from "./lazyPanels";
 
 function App() {
@@ -65,50 +67,29 @@ function App() {
     }
   }
   async function refresh() {
-    const [h, v, s, a, c, q] = await Promise.all(
-      [
-        "readiness",
-        "vehicles",
-        "slots",
-        "appointments",
-        "conversations",
-        "quotes",
-      ].map((x) => api(x)),
-    );
-    setHealth(h);
-    setVehicles(v);
-    setSlots(s);
-    setAppointments(a);
-    setCalls(c);
-    setQuotes(q);
-  }
-  async function handleToggleMode(isDemo: boolean) {
-    await action(async () => {
-      // 1. Arka uçta veritabanını ve önbellekleri deterministik olarak değiştir
-      await api("system/mode", "POST", { demo_mode: isDemo });
-      // 2. Ana durum ve liste verilerini yeni veritabanından çek
-      const [h, v, s, a, c, q] = await Promise.all(
-        [
-          "readiness",
-          "vehicles",
-          "slots",
-          "appointments",
-          "conversations",
-          "quotes",
-        ].map((x) => api(x)),
-      );
-      setHistoryId(null);
-      setQualityConversationId(undefined);
-      setHealth(h);
-      setVehicles(v);
-      setSlots(s);
-      setAppointments(a);
-      setCalls(c);
-      setQuotes(q);
-      // 3. En son refreshTick'i artırarak tüm aktif/pasif alt panellerin (Inspection, Analytics, Queue vb.)
-      // unmount olup yeni veritabanından tertemiz verilerle remount edilmesini sağla
-      setRefreshTick((t) => t + 1);
-    });
+    const endpoints = [
+      "readiness",
+      "vehicles",
+      "slots",
+      "appointments",
+      "conversations",
+      "quotes",
+    ] as const;
+    const results = await Promise.allSettled(endpoints.map((x) => api(x)));
+    const [h, v, s, a, c, q] = results;
+    if (h.status === "fulfilled") setHealth(h.value as Health);
+    if (v.status === "fulfilled") setVehicles(v.value as Vehicle[]);
+    if (s.status === "fulfilled") setSlots(s.value as Slot[]);
+    if (a.status === "fulfilled") setAppointments(a.value as Appointment[]);
+    if (c.status === "fulfilled") setCalls(c.value as Conversation[]);
+    if (q.status === "fulfilled") setQuotes(q.value as Quote[]);
+
+    // Sadece tüm istekler birden başarısız olursa genel hata bildir
+    const allRejected = results.every((r) => r.status === "rejected");
+    if (allRejected && results.length > 0) {
+      const firstError = (results[0] as PromiseRejectedResult).reason;
+      setError(errorMessage(firstError));
+    }
   }
   function openConversation(id: string) {
     setHistoryId(id);
@@ -170,60 +151,70 @@ function App() {
           activeTabTitle={tab}
           health={health}
           busy={busy}
-          onToggleDemoMode={handleToggleMode}
           onRefresh={() => {
             setRefreshTick((t) => t + 1);
             void action(refresh);
           }}
           onLogout={logout}
         />
-        {health.demo_mode ? (
-          <div role="status" className="demo-banner">
-            <strong>DEMO MODU</strong> Bu paneldeki görüşmeler, gecikme değerleri
-            ve kayıtlar örnek veridir; gerçek ölçüm veya müşteri kaydı değildir.
-          </div>
-        ) : (
+        <FirstAppointmentGuide
+          health={health}
+          vehicles={vehicles}
+          slots={slots}
+          appointments={appointments}
+          calls={calls}
+          onNavigateToTab={(t) => setTab(t)}
+          action={action}
+          api={api}
+          refresh={refresh}
+          busy={busy}
+          onStartVoice={() => action(voice.start)}
+        />
+        {error && (
           <div
-            role="status"
+            role="alert"
+            className="error"
             style={{
-              background: "rgba(6, 78, 59, 0.4)",
-              color: "#6ee7b7",
-              border: "1px solid #059669",
-              padding: "8px 14px",
-              borderRadius: "6px",
-              margin: "0 0 16px 0",
+              padding: "5px 12px",
+              margin: "0 0 4px 0",
               fontSize: "12px",
+              flexShrink: 0,
               display: "flex",
               alignItems: "center",
+              justifyContent: "space-between",
               gap: "8px",
             }}
           >
-            <span
+            <span>{error}</span>
+            <button
+              type="button"
+              onClick={() => setError("")}
               style={{
-                display: "inline-block",
-                width: "8px",
-                height: "8px",
-                borderRadius: "50%",
-                background: "#10b981",
-                boxShadow: "0 0 8px #10b981",
+                background: "transparent",
+                border: "none",
+                color: "inherit",
+                cursor: "pointer",
+                padding: "0 4px",
+                fontSize: "13px",
+                fontWeight: "bold",
               }}
-            />
-            <strong>REEL (CANLI) MOD</strong> Gerçek operasyon veritabanı aktif; yalnızca gerçek müşteri kayıtları ve canlı ölçümler listelenir.
+              title="Kapat"
+            >
+              ✕
+            </button>
           </div>
         )}
-        {error && (
-          <div role="alert" className="error">
-            {error}
-          </div>
-        )}
-        <div key={`${tab}-${health.demo_mode ? "demo" : "reel"}-${refreshTick}`}>
+        <div className="cockpit-content-viewport" key={`${tab}-${health.demo_mode ? "demo" : "reel"}-${refreshTick}`}>
           {tab === "Görüşme" && (
             <VoiceTab
               busy={busy}
               health={health}
               appointments={appointments}
               vehicles={vehicles}
+              slots={slots}
               voice={voice}
+              api={api}
+              rawApi={rawApi}
               onStart={() => action(voice.start)}
               onNavigateToTab={(t) => setTab(t)}
             />
@@ -276,7 +267,7 @@ function App() {
             />
           )}
           <Suspense fallback={<p className="muted">Panel yükleniyor…</p>}>
-            {tab === "Operatör (6002)" && <OperatorPanel api={api} onError={setError} onOpenConversation={openConversation} />}
+            {tab === "Operatör (6002)" && <OperatorPanel kvkkErasureEnabled={health.kvkk_erasure_enabled === true} autoPurgeTranscripts={health.auto_purge_transcripts === true} api={api} onError={setError} onOpenConversation={openConversation} />}
             {tab === "Supervisor Kalite" && <SupervisorPanel
               api={api}
               rawApi={rawApi}
@@ -293,6 +284,7 @@ function App() {
             {tab === "Teknisyen Dikte" && <TechnicianDictationPanel api={api} />}
             {tab === "Araç Teşhis & OBD-II" && <DiagnosticPanel api={api} />}
             {tab === "Sözlük" && <LexiconPanel api={api} />}
+            {tab === "Otomotiv Ontolojisi" && <OntologyPanel api={api} />}
             {tab === "Bildirimler" && <NotificationPanel api={api} rawApi={rawApi} />}
             {tab === "Giden Çağrılar" && <OutboundPanel api={api} />}
             {tab === "M01–M11" && <MilestonePanel api={api} />}
@@ -307,9 +299,8 @@ function App() {
             />
           )}
         </div>
-        <footer>
-          Freya Automotive · Yerel çalışma alanı · Fiyatlar yalnızca kayıtlı
-          veriden aktarılır.
+        <footer style={{ fontSize: "10px", color: "#64748b", textAlign: "center", padding: "3px 0", flexShrink: 0, margin: 0 }}>
+          FreyaTTS Automotive · Otomotiv Operasyon Kokpiti
         </footer>
       </main>
     </div>

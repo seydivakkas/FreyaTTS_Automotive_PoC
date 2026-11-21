@@ -4,7 +4,6 @@
 # =====================================================================
 import uuid
 from datetime import datetime, timezone
-from pathlib import Path
 from sqlalchemy import BigInteger, create_engine, String, Text, ForeignKey, event, Index, Float, UniqueConstraint
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, sessionmaker
 from backend.config import settings
@@ -22,45 +21,6 @@ def pragmas(dbapi, _):
 
 
 Session = sessionmaker(engine, expire_on_commit=False)
-
-
-def switch_database(demo: bool):
-    """Çalışma zamanında Demo ve Reel (Canlı) veritabanı arasında geçiş yapar."""
-    global engine, Session
-    settings.demo_mode = bool(demo)
-    if demo:
-        settings.data_dir = Path("data/demo")
-        settings.database_url = "sqlite:///./data/demo/assistant.db"
-    else:
-        settings.data_dir = Path("data")
-        settings.database_url = "sqlite:///./data/assistant.db"
-        try:
-            from backend.qa_telemetry_operator import operator_panel
-            operator_panel.live_sessions.clear()
-        except Exception:
-            pass
-
-    try:
-        from backend.models import models
-        models.invalidate_hotwords()
-    except Exception:
-        pass
-
-    settings.data_dir.mkdir(parents=True, exist_ok=True)
-    new_engine = create_engine(
-        settings.database_url, connect_args={"check_same_thread": False, "timeout": 15}
-    )
-
-    @event.listens_for(new_engine, "connect")
-    def pragmas(dbapi, _):
-        dbapi.execute("PRAGMA foreign_keys=ON")
-        dbapi.execute("PRAGMA journal_mode=WAL")
-
-    engine.dispose()
-    engine = new_engine
-    Session.configure(bind=engine)
-    Base.metadata.create_all(engine)
-    return {"demo_mode": settings.demo_mode, "database_url": settings.database_url}
 
 
 def uid():
@@ -882,6 +842,47 @@ class KVKKErasureRequest(Base):
     )
 
 
+class CallerProfile(Base):
+    __tablename__ = "caller_profiles"
+    id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)
+    phone: Mapped[str] = mapped_column(
+        String(40), default="", server_default=""
+    )
+    plate: Mapped[str] = mapped_column(
+        String(32), default="", server_default=""
+    )
+    name: Mapped[str] = mapped_column(
+        String(120), default="", server_default=""
+    )
+    vehicle_model: Mapped[str] = mapped_column(
+        String(120), default="", server_default=""
+    )
+    warranty_expires_at: Mapped[str | None] = mapped_column(
+        String(40), nullable=True
+    )
+    warranty_status: Mapped[str] = mapped_column(
+        String(32), default="active", server_default="active"
+    )
+    maintenance_history_json: Mapped[str] = mapped_column(
+        Text, default="[]", server_default="[]"
+    )
+    inspection_scores_json: Mapped[str] = mapped_column(
+        Text, default="[]", server_default="[]"
+    )
+    notes: Mapped[str] = mapped_column(Text, default="", server_default="")
+    user_preferences_json: Mapped[str] = mapped_column(
+        Text, default="{}", server_default="{}"
+    )
+    created_at: Mapped[str] = mapped_column(default=now)
+    updated_at: Mapped[str] = mapped_column(default=now)
+
+    __table_args__ = (
+        Index("ix_caller_profiles_phone", "phone"),
+        Index("ix_caller_profiles_plate", "plate"),
+        Index("ix_caller_profiles_name", "name"),
+    )
+
+
 def book(
     db,
     *,
@@ -893,6 +894,7 @@ def book(
     corporate_account_id=None,
     customer_phone="",
     package_type="standart_ekspertiz",
+    plate="",
 ):
     if not confirmed:
         raise ValueError("Açık müşteri onayı gerekli")
@@ -911,6 +913,9 @@ def book(
         raise ValueError("Araç veya saat bulunamadı")
     if datetime.fromisoformat(slot.starts_at) <= datetime.now(timezone.utc):
         raise ValueError("Geçmiş saate randevu oluşturulamaz")
+
+    if plate and vehicle:
+        vehicle.plate = plate
 
     billed_charge = 0
     account = None

@@ -277,7 +277,7 @@ export function NotificationPanel({ api, rawApi }: Props) {
   }
 
   return (
-    <>
+    <div style={{ height: "100%", display: "flex", flexDirection: "column", gap: "8px", minHeight: 0, overflowY: "auto", padding: "2px 4px" }}>
       {/* İstatistik Kartları */}
       <div className="stats">
         <article>
@@ -963,6 +963,6 @@ export function NotificationPanel({ api, rawApi }: Props) {
           </div>
         </section>
       )}
-    </>
+    </div>
   );
 }

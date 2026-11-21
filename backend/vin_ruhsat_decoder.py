@@ -25,7 +25,7 @@ from __future__ import annotations
 import io
 import logging
 import re
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple
 from uuid import uuid4
 
 from sqlalchemy import desc, select

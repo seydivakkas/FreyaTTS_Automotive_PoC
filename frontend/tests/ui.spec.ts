@@ -54,21 +54,23 @@ for (const width of [1440, 390]) {
 
 const ALL_TABS = [
   "Görüşme",
-  "Operatör (6002)",
-  "Araç İçi DSP & Gürültü",
   "Randevular",
   "Sıra & Lift Durumu",
-  "A/B Test & İnce Ayar",
-  "Analitik & KPI",
   "Ekspertiz Raporları",
+  "Araçlar ve fiyatlar",
   "Teknisyen Dikte",
   "Araç Teşhis & OBD-II",
-  "Araçlar ve fiyatlar",
-  "Sözlük",
   "Bildirimler",
-  "Giden Çağrılar",
   "Geçmiş",
+  "Operatör (6002)",
+  "Giden Çağrılar",
+  "Araç İçi DSP & Gürültü",
+  "A/B Test & İnce Ayar",
+  "Sözlük",
+  "Otomotiv Ontolojisi",
   "Ses laboratuvarı",
+  "Supervisor Kalite",
+  "Analitik & KPI",
   "Sistem",
   "M01–M11",
 ];
@@ -110,4 +112,27 @@ test("Çıkış giriş ekranına döner ve parolayı temizler", async ({ page })
   await page.getByRole("button", { name: "Çıkış", exact: true }).click();
   await expect(page.getByLabel("Yönetici parolası")).toBeVisible();
   await expect(page.getByLabel("Yönetici parolası")).toHaveValue("");
+});
+
+test("İlk randevu rehberi panelden ilk randevuyu yönlendirir ve takvime bağlar", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto("http://127.0.0.1:8000");
+  await page.getByLabel("Yönetici parolası").fill(password);
+  await page.getByRole("button", { name: "Panele giriş" }).click();
+
+  // 1. İlk Randevu Kurulum Rehberinin 'Bir randevu ile başlayın' metniyle açıldığını doğrula
+  await expect(page.getByText("Bir randevu ile başlayın.")).toBeVisible();
+  await expect(page.getByText("İlk Randevu Kurulum Rehberi")).toBeVisible();
+
+  // 2. Beş aşamalı rehber adımları görünür
+  await expect(page.getByText("1. MODELLERİ HAZIRLA")).toBeVisible();
+  await expect(page.getByText("2. ARAÇ & FİYAT TANIMLA")).toBeVisible();
+  await expect(page.getByText("3. MÜSAİT SAAT EKLE")).toBeVisible();
+  await expect(page.getByText("4. GÖRÜŞMEYİ BAŞLAT")).toBeVisible();
+  await expect(page.getByText("5. RANDEVUYU AÇ")).toBeVisible();
+
+  // 3. Rehber üzerinden Randevular sekmesine geçiş
+  await page.getByRole("button", { name: "Randevular", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "Randevular", exact: true })).toBeVisible();
+  await expect(page.getByText("Randevu Takvimi & Planlama")).toBeVisible();
 });

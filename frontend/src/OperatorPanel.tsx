@@ -56,6 +56,8 @@ interface OperatorSessionView {
 }
 
 interface OperatorPanelProps {
+  kvkkErasureEnabled: boolean;
+  autoPurgeTranscripts: boolean;
   api: (path: string, method?: string, body?: unknown) => Promise<any>;
   onError: (msg: string) => void;
   onOpenConversation: (id: string) => void;
@@ -84,7 +86,7 @@ interface UnclearCall {
   turns: UnclearTurn[];
 }
 
-export function OperatorPanel({ api, onError, onOpenConversation }: OperatorPanelProps) {
+export function OperatorPanel({ api, onError, onOpenConversation, kvkkErasureEnabled, autoPurgeTranscripts }: OperatorPanelProps) {
   const [activeTab, setActiveTab] = useState<"today" | "sip_transfers" | "live_takeover" | "quality_gate" | "failed_calls" | "kvkk_compliance">("today");
   const [todayRevision, setTodayRevision] = useState(0);
 
@@ -286,14 +288,14 @@ export function OperatorPanel({ api, onError, onOpenConversation }: OperatorPane
     }
   };
 
-  const handleExecuteErasureRequest = async (requestId: string) => {
-    if (!window.confirm("Bu talep kapsamında bulunan tüm kişisel veriler (transkript, ses kaydı, randevu, whatsapp) kalıcı olarak imha edilecek ve SHA-256 imzalı İmha Tutanağı üretilecektir. Onaylıyor musunuz?")) {
+  const handleExecuteErasureRequest = async (requestId: string, count: number) => {
+    if (!window.confirm(`Önizlemedeki ${count} kayda kalıcı silme veya maskeleme uygulanacak. Onaylıyor musunuz?`)) {
       return;
     }
     try {
       setExecutingReqId(requestId);
-      const res = await api(`kvkk/erasure-requests/${requestId}/execute`, "POST", {});
-      alert(`Silme işlemi başarıyla icra edildi!\nSHA-256 Sertifika: ${res.certificate_sha256}`);
+      const res = await api(`kvkk/erasure-requests/${requestId}/execute`, "POST", { confirmed_record_count: count });
+      alert(`Silme işlemi başarıyla icra edildi!\nSHA-256 özeti: ${res.certificate_sha256}`);
       await loadKvkkRequests();
       await loadKvkkAudit();
     } catch (err: any) {
@@ -489,12 +491,12 @@ export function OperatorPanel({ api, onError, onOpenConversation }: OperatorPane
   });
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+    <div style={{ height: "100%", display: "flex", flexDirection: "column", gap: "8px", minHeight: 0, overflowY: "auto", padding: "2px 4px" }}>
       {/* Üst Bar & Alt Sekme Seçimi */}
-      <section style={{ background: "#0f172a", border: "1px solid #1e293b", borderRadius: "8px", padding: "16px" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "10px", marginBottom: "14px" }}>
+      <section style={{ background: "#0f172a", border: "1px solid #1e293b", borderRadius: "8px", padding: "8px 12px", flexShrink: 0 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "8px", marginBottom: "8px" }}>
           <div>
-            <h2 style={{ margin: 0, fontSize: "18px", color: "#f8fafc", display: "flex", alignItems: "center", gap: "8px" }}>
+            <h2 style={{ margin: 0, fontSize: "16px", color: "#f8fafc", display: "flex", alignItems: "center", gap: "8px" }}>
               🎧 Çağrı Merkezi Operatör & Kalite Konsolu
               <span
                 style={{
@@ -1729,7 +1731,7 @@ export function OperatorPanel({ api, onError, onOpenConversation }: OperatorPane
                   </span>
                 </h3>
                 <p style={{ margin: "4px 0 0 0", color: "#94a3b8", fontSize: "13px" }}>
-                  6698 sayılı KVKK Madde 7 gereğince {kvkkAudit?.retention_policy_days ?? 30} günü aşan konuşma transkriptleri periyodik olarak anonimleştirilerek imha edilir.
+                  Saklama süresi {kvkkAudit?.retention_policy_days ?? 30} gün. Otomatik transkript imhası {autoPurgeTranscripts ? "açık" : "kapalı"}. Silme işlemleri {kvkkErasureEnabled ? "açık" : "kapalı"}.
                 </p>
               </div>
 
@@ -1755,7 +1757,7 @@ export function OperatorPanel({ api, onError, onOpenConversation }: OperatorPane
                 <button
                   type="button"
                   className="primary"
-                  disabled={kvkkPurgeBusy || !kvkkAudit?.expired_conversations_count}
+                  disabled={!kvkkErasureEnabled || kvkkPurgeBusy || !kvkkAudit?.expired_conversations_count}
                   onClick={() => handlePurgeTranscripts(false)}
                   style={{ padding: "6px 12px", fontSize: "12px", background: "#b91c1c", borderColor: "#dc2626" }}
                 >
@@ -1970,7 +1972,7 @@ export function OperatorPanel({ api, onError, onOpenConversation }: OperatorPane
                 <button
                   type="submit"
                   className="primary"
-                  disabled={newReqBusy}
+                  disabled={!kvkkErasureEnabled || newReqBusy}
                   style={{ width: "100%", padding: "10px", fontSize: "13px", fontWeight: "bold" }}
                 >
                   {newReqBusy ? "Hesaplanıyor..." : "Etki Analizi Yap & Talep Oluştur"}
@@ -2088,8 +2090,8 @@ export function OperatorPanel({ api, onError, onOpenConversation }: OperatorPane
                             <button
                               type="button"
                               className="primary"
-                              disabled={executingReqId === req.id}
-                              onClick={() => handleExecuteErasureRequest(req.id)}
+                              disabled={!kvkkErasureEnabled || executingReqId === req.id}
+                              onClick={() => handleExecuteErasureRequest(req.id, impact.total_records_affected ?? 0)}
                               style={{
                                 background: "#dc2626",
                                 borderColor: "#ef4444",
@@ -2098,7 +2100,7 @@ export function OperatorPanel({ api, onError, onOpenConversation }: OperatorPane
                                 fontWeight: "bold",
                               }}
                             >
-                              {executingReqId === req.id ? "İcra Ediliyor..." : "🗑️ Kalıcı İcra Et & İmha Tutanağı İmzala"}
+                              {executingReqId === req.id ? "İcra Ediliyor..." : "🗑️ Silme İşlemini Uygula"}
                             </button>
                           ) : (
                             <button
@@ -2162,7 +2164,7 @@ export function OperatorPanel({ api, onError, onOpenConversation }: OperatorPane
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
               <h3 style={{ margin: 0, color: "#f8fafc", fontSize: "16px" }}>
-                📜 Resmi KVKK Kişisel Veri İmha ve Anonimleştirme Tutanağı
+                📜 Kişisel Veri İmha ve Anonimleştirme Kaydı
               </h3>
               <button
                 type="button"

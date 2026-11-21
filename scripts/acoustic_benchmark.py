@@ -25,8 +25,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-# backend içe aktarılmadan önce: STT ipuçları sabit kalsın, işletim verisi okunmasın.
+# backend içe aktarılmadan önce: işletim verisi okunmasın.
 _database_dir = tempfile.TemporaryDirectory(prefix="freya-acoustic-", ignore_cleanup_errors=True)
+os.environ["DEMO_MODE"] = "false"
 os.environ["DATABASE_URL"] = "sqlite:///" + Path(_database_dir.name, "empty.db").as_posix()
 
 import numpy as np  # noqa: E402
@@ -46,6 +47,7 @@ from backend.acoustic_evaluation import (  # noqa: E402
 )
 from backend.audio import apply_telephony_eq_and_downsample_8k, resample  # noqa: E402
 from backend.config import settings  # noqa: E402
+from backend.db import Base, Session, Vehicle, engine  # noqa: E402
 from backend.models import models  # noqa: E402
 
 FIXTURE = ROOT / "data" / "fixtures" / "legacy_320_cases.json"
@@ -87,6 +89,13 @@ async def measure_case(case: dict, audio_dir: Path) -> dict:
 
 
 async def main(args) -> None:
+    catalog = args.catalog_hotwords
+    if catalog:
+        Base.metadata.create_all(engine, tables=[Vehicle.__table__])
+        with Session.begin() as db:
+            db.add_all(Vehicle(id=f"benchmark-{i:03d}", description=name) for i, name in enumerate(catalog))
+    settings.stt_catalog_hotwords = bool(catalog)
+
     cases = json.loads(FIXTURE.read_text(encoding="utf-8"))
     selected = select_cases(cases, None if args.all else args.per_category)
     audio_dir = report_dir() / "audio"
@@ -119,7 +128,9 @@ async def main(args) -> None:
             "stt_model": settings.stt_model,
             "stt_device": settings.stt_device,
             "stt_compute_type": settings.stt_compute_type,
-            "stt_catalog_hints": False,
+            "stt_catalog_hints": settings.stt_catalog_hotwords,
+            "stt_catalog_hotwords": catalog,
+            "stt_min_rms": settings.stt_min_rms,
             "fixture": FIXTURE.name,
             "selection": "all" if args.all else f"first {args.per_category} per category",
             "lora_adapter": None,
@@ -139,4 +150,8 @@ if __name__ == "__main__":
     parser.add_argument("--per-category", type=int, default=3, help="Her kategoriden alınacak cümle sayısı")
     parser.add_argument("--all", action="store_true", help="320 cümlenin tamamını ölç")
     parser.add_argument("--save-baseline", action="store_true", help="Sonucu F0 taban kaydı olarak kaydet")
-    asyncio.run(main(parser.parse_args()))
+    parser.add_argument("--catalog-hotwords", nargs="+", default=[], help="Yalıtılmış ölçüm kataloğundaki araç adları")
+    try:
+        asyncio.run(main(parser.parse_args()))
+    finally:
+        engine.dispose()

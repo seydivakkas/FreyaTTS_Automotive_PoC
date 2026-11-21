@@ -45,8 +45,15 @@ def test_client():
     return client
 
 
-def test_automotive_brand_normalization_and_suffixes():
+def test_automotive_brand_normalization_and_suffixes(monkeypatch):
     """Yabancı marka isimleri ve Türkçe ses uyumlu ek açılımlarını test eder."""
+    from backend import normalizer_rules
+
+    monkeypatch.setitem(
+        normalizer_rules.AUTOMOTIVE_LEXICON,
+        "qashqai",
+        normalizer_rules.BASE_AUTOMOTIVE_LEXICON["qashqai"],
+    )
     normalizer = AutomotiveTextNormalizer()
 
     # 1. Temel marka isimleri

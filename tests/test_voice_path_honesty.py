@@ -542,7 +542,8 @@ async def test_llm_timeout_returns_unclear_answer(env, monkeypatch):
     assert d.retries == 1
 
 
-async def test_turn_emits_stt_and_llm_metrics(env, monkeypatch):
+@pytest.mark.parametrize("used_llm", [True, False])
+async def test_turn_emits_stt_and_llm_metrics(env, monkeypatch, used_llm):
     class Vad:
         def reset_states(self):
             pass
@@ -562,7 +563,8 @@ async def test_turn_emits_stt_and_llm_metrics(env, monkeypatch):
         return "merhaba"
 
     async def answer(text):
-        models.last_llm_metrics = {"llm_first_token_ms": 12.0, "llm_total_ms": 34.0}
+        if used_llm:
+            models.last_llm_metrics = {"llm_first_token_ms": 12.0, "llm_total_ms": 34.0}
         return "Merhaba"
 
     async def reply(text, start=None):
@@ -574,7 +576,11 @@ async def test_turn_emits_stt_and_llm_metrics(env, monkeypatch):
     await s.process(np.ones(1600, np.float32) * 0.1)
     m = [e for e in events if e.get("type") == "metrics"]
     assert len(m) == 1
-    assert m[0]["llm_first_token_ms"] == 12.0 and m[0]["llm_total_ms"] == 34.0
+    if used_llm:
+        assert m[0]["llm_first_token_ms"] == 12.0 and m[0]["llm_total_ms"] == 34.0
+    else:
+        assert "llm_first_token_ms" not in m[0]
+        assert "llm_total_ms" not in m[0]
     assert m[0]["stt_ms"] >= 0
     await s.close()
 
@@ -635,3 +641,40 @@ def test_operator_register_call_defaults_are_none(monkeypatch):
     )
     sess = r.json()["session"]
     assert sess["mos_score"] is None and sess["rtf"] is None
+
+async def test_single_clause_plays_once(env, monkeypatch):
+    from unittest.mock import AsyncMock, Mock
+
+    events = []
+
+    async def emit(event):
+        events.append(event)
+
+    monkeypatch.setattr(models, "vad", Mock(spec=["reset_states"]))
+    session = session_mod.VoiceSession("test", emit, AsyncMock())
+    wave = np.zeros(960, dtype=np.float32)
+    monkeypatch.setattr(models, "synth", AsyncMock(return_value=wave))
+    play = AsyncMock()
+    monkeypatch.setattr(session, "play_wave", play)
+
+    try:
+        await session.reply("Merhaba.")
+        play.assert_awaited_once_with(wave, session.generation)
+        assert sum(event["type"] == "metrics" for event in events) == 1
+    finally:
+        await session.close()
+
+
+@pytest.mark.parametrize("text", [
+    "Videoda gördüğüm paketi almak istiyorum.",
+    "Aracım Volkswagen Golf, 2018 model, bir de Volkswagen Passat var.",
+])
+async def test_stt_preserves_customer_words_in_quiet_audio(monkeypatch, text):
+    from types import SimpleNamespace
+    from backend.models import Models
+
+    model = Models()
+    model.stt = SimpleNamespace(transcribe=lambda *_args, **_kwargs: ([SimpleNamespace(text=text)], None))
+    monkeypatch.setattr(settings, "stt_min_rms", 0.0)
+    monkeypatch.setattr(settings, "stt_catalog_hotwords", False)
+    assert await model.transcribe(np.full(1600, 0.005, dtype=np.float32)) == text

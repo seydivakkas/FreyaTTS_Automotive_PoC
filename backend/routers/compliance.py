@@ -23,11 +23,12 @@ from fastapi import (
     File,
     Form,
 )
-from fastapi.responses import FileResponse, PlainTextResponse
+from fastapi.responses import FileResponse
 from backend.security_utils import (
     MAX_AUDIO_BYTES,
     read_upload_capped,
 )
+from backend.config import settings
 from backend.db import AudioArchive, KVKKErasureRequest
 from backend.audio_archive_compliance import (
     ArchiveKeyMissingError,
@@ -48,7 +49,6 @@ from backend.kvkk_compliance import (
     execute_erasure,
     generate_certificate_text,
     purge_expired_transcripts,
-    scan_erasure_impact,
 )
 from backend import db as db_module
 from backend.schemas import (
@@ -56,6 +56,7 @@ from backend.schemas import (
     ArchivePurgeIn,
     CardValidateIn,
     KVKKErasureRequestIn,
+    KVKKErasureExecuteIn,
     KVKKRedactIn,
     TCKNValidateIn,
     TranscriptRetentionPurgeIn,
@@ -265,6 +266,8 @@ def kvkk_transcript_retention_audit_endpoint(retention_days: Optional[int] = Non
 @router.post("/api/kvkk/transcript-retention-purge", dependencies=[Depends(auth)])
 def kvkk_transcript_retention_purge_endpoint(payload: TranscriptRetentionPurgeIn):
     """Süresi dolmuş konuşma transkriptlerini anonimleştirir/imha eder."""
+    if not payload.dry_run and not settings.kvkk_erasure_enabled:
+        raise HTTPException(403, "KVKK silme işlemleri kapalı.")
     target_dt = None
     if payload.target_date:
         try:
@@ -288,6 +291,8 @@ def kvkk_transcript_retention_purge_endpoint(payload: TranscriptRetentionPurgeIn
 @router.post("/api/kvkk/erasure-requests", dependencies=[Depends(auth)])
 def kvkk_create_erasure_request_endpoint(payload: KVKKErasureRequestIn):
     """KVKK Madde 11 uyarınca yeni bir veri silme (unutulma) talebi kaydeder."""
+    if not settings.kvkk_erasure_enabled:
+        raise HTTPException(403, "KVKK silme işlemleri kapalı.")
     with db_module.Session() as db:
         req = create_erasure_request(db=db, payload=payload, requester="admin")
         impact = json.loads(req.impact_summary_json) if req.impact_summary_json else {}
@@ -369,9 +374,12 @@ def kvkk_get_erasure_request_endpoint(request_id: str):
 
 
 @router.post("/api/kvkk/erasure-requests/{request_id}/execute", dependencies=[Depends(auth)])
-def kvkk_execute_erasure_request_endpoint(request_id: str):
-    """KVKK veri silme talebini icra eder: kayıtları anonimleştirir/siler ve SHA-256 sertifikası üretir."""
+def kvkk_execute_erasure_request_endpoint(request_id: str, payload: KVKKErasureExecuteIn):
+    """KVKK veri silme talebini icra eder: kayıtları anonimleştirir/siler ve SHA-256 özeti üretir."""
+    if not settings.kvkk_erasure_enabled:
+        raise HTTPException(403, "KVKK silme işlemleri kapalı.")
     with db_module.Session() as db:
+        db.connection().exec_driver_sql("BEGIN IMMEDIATE")
         req = db.get(KVKKErasureRequest, request_id)
         if not req:
             raise HTTPException(status_code=404, detail="Silme talebi bulunamadı")
@@ -380,13 +388,18 @@ def kvkk_execute_erasure_request_endpoint(request_id: str):
                 status_code=409,
                 detail=f"Bu talep zaten {req.executed_at} tarihinde icra edilmiştir. (İmha SHA-256: {req.certificate_sha256})",
             )
-        res = execute_erasure(db=db, request=req, executed_by="admin")
-        return res
+        try:
+            return execute_erasure(db=db, request=req, executed_by="admin",
+                                   confirmed_record_count=payload.confirmed_record_count)
+        except ValueError as exc:
+            raise HTTPException(409, str(exc)) from exc
+        except OSError as exc:
+            raise HTTPException(409, "Ses dosyası silinemedi. Silme işlemi kaydedilmedi.") from exc
 
 
 @router.get("/api/kvkk/erasure-requests/{request_id}/certificate", dependencies=[Depends(auth)])
 def kvkk_get_certificate_endpoint(request_id: str, format: str = "json"):
-    """İcra edilmiş bir silme talebinin resmi KVKK İmha Tutanağını döner."""
+    """İcra edilmiş bir silme talebinin uygulama işlem kaydını döner."""
     with db_module.Session() as db:
         req = db.get(KVKKErasureRequest, request_id)
         if not req:
@@ -402,7 +415,6 @@ def kvkk_get_certificate_endpoint(request_id: str, format: str = "json"):
         return {
             "request_id": req.id,
             "identifier_type": req.identifier_type,
-            "identifier_value": req.identifier_value,
             "executed_at": req.executed_at,
             "executed_by": req.executed_by,
             "certificate_sha256": req.certificate_sha256,

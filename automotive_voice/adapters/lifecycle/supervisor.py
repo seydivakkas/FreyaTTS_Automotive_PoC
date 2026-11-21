@@ -8,7 +8,7 @@ from automotive_voice.conversation.effects import Effect,EffectKind
 from automotive_voice.audio.coordinator import MediaCoordinator
 from .clock import MockClock
 from .runtime import SyntheticAdapter
-from .contracts import (AdapterKind,AdapterReceipt,SyntheticCommand,Deadline,RetryPolicy,ResultCode)
+from .contracts import (AdapterKind,AdapterReceipt,SyntheticCommand,Deadline,RetryPolicy)
 from automotive_voice.core.session_manager import SessionManager
 
 EFFECT_ROUTE={EffectKind.REQUEST_LLM:AdapterKind.LLM,EffectKind.START_TTS:AdapterKind.TTS,

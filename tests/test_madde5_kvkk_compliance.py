@@ -73,7 +73,8 @@ def test_db_session(monkeypatch, tmp_path):
 
 
 @pytest.fixture
-def client(test_db_session):
+def client(test_db_session, monkeypatch):
+    monkeypatch.setattr(settings, "kvkk_erasure_enabled", True)
     c = TestClient(app)
     c.auth = ("admin", settings.admin_password)
     return c
@@ -206,7 +207,7 @@ def test_scan_erasure_impact_phone_identifier(test_db_session, tmp_path):
     test_db_session.flush()
 
     # Konuşma ve Tur
-    conv = Conversation(channel="audiosocket", status="active")
+    conv = Conversation(channel="audiosocket", status="completed")
     test_db_session.add(conv)
     test_db_session.flush()
 
@@ -308,7 +309,7 @@ def test_execute_erasure_workflow_and_certificate(test_db_session, tmp_path):
     audio_file.write_bytes(b"very_secret_audio_call")
     assert audio_file.exists()
 
-    conv = Conversation(channel="audiosocket", status="active")
+    conv = Conversation(channel="audiosocket", status="completed")
     test_db_session.add(conv)
     test_db_session.flush()
 
@@ -351,7 +352,7 @@ def test_execute_erasure_workflow_and_certificate(test_db_session, tmp_path):
     )
 
     # Talebi İcra Et
-    res = execute_erasure(test_db_session, request=req, executed_by="admin_test")
+    res = execute_erasure(test_db_session, request=req, executed_by="admin_test", confirmed_record_count=json.loads(req.impact_summary_json)["total_records_affected"])
     assert res["status"] == "executed"
     assert len(res["certificate_sha256"]) == 64
 
@@ -377,7 +378,8 @@ def test_execute_erasure_workflow_and_certificate(test_db_session, tmp_path):
     cert_text = generate_certificate_text(req)
     assert "KİŞİSEL VERİ İMHA VE ANONİMLEŞTİRME TUTANAĞI" in cert_text
     assert req.certificate_sha256 in cert_text
-    assert "05334445566" in cert_text
+    assert "05334445566" not in cert_text
+    assert req.identifier_value == "[KVKK SİLİNDİ]"
 
 
 def test_execute_erasure_idempotency_raises(test_db_session):
@@ -386,10 +388,10 @@ def test_execute_erasure_idempotency_raises(test_db_session):
         test_db_session,
         KVKKErasureRequestIn(identifier_type="plate", identifier_value="34 XYZ 12"),
     )
-    execute_erasure(test_db_session, request=req, executed_by="admin")
+    execute_erasure(test_db_session, request=req, executed_by="admin", confirmed_record_count=0)
 
     with pytest.raises(ValueError, match="zaten icra edilmiştir"):
-        execute_erasure(test_db_session, request=req, executed_by="admin")
+        execute_erasure(test_db_session, request=req, executed_by="admin", confirmed_record_count=0)
 
 
 # ============================================================================
@@ -459,14 +461,18 @@ def test_api_erasure_request_full_lifecycle(client, test_db_session):
     assert r_cert_early.status_code == 400
 
     # 5. Talebi İcra Et
-    r_exec = client.post(f"/api/kvkk/erasure-requests/{req_id}/execute")
+    endpoint = f"/api/kvkk/erasure-requests/{req_id}/execute"
+    count = created["impact_summary"]["total_records_affected"]
+    assert client.post(endpoint).status_code == 422
+    assert client.post(endpoint, json={"confirmed_record_count": count + 1}).status_code == 409
+    r_exec = client.post(endpoint, json={"confirmed_record_count": count})
     assert r_exec.status_code == 200
     exec_data = r_exec.json()
     assert exec_data["status"] == "executed"
     assert "certificate_sha256" in exec_data
 
     # 6. Tekrar icra etmeye çalışma 409 dönmeli
-    r_exec_dup = client.post(f"/api/kvkk/erasure-requests/{req_id}/execute")
+    r_exec_dup = client.post(endpoint, json={"confirmed_record_count": count})
     assert r_exec_dup.status_code == 409
 
     # 7. Resmi İmha Tutanağını JSON formatında al
@@ -480,3 +486,48 @@ def test_api_erasure_request_full_lifecycle(client, test_db_session):
     assert r_cert_text.status_code == 200
     assert "KİŞİSEL VERİ İMHA VE ANONİMLEŞTİRME TUTANAĞI" in r_cert_text.text
     assert "text/plain" in r_cert_text.headers["content-type"]
+
+
+@pytest.mark.parametrize("value", ["a", "%", "Ali% Kaya"])
+def test_erasure_rejects_partial_and_wildcard_identity(client, value):
+    response = client.post("/api/kvkk/erasure-requests", json={
+        "identifier_type": "customer_name", "identifier_value": value,
+    })
+    assert response.status_code == 422
+
+
+def test_erasure_phone_covers_web_transcript_and_recording(test_db_session, tmp_path, monkeypatch):
+    from backend.config import settings
+
+    monkeypatch.setattr(settings, "data_dir", tmp_path)
+    conv = Conversation(channel="web", status="closed")
+    test_db_session.add(conv)
+    test_db_session.flush()
+    turn = Turn(conversation_id=conv.id, role="user", text="Numaram +90 532 111 22 33.")
+    test_db_session.add(turn)
+    recording = tmp_path / "recordings" / f"{conv.id}.wav"
+    recording.parent.mkdir()
+    recording.write_bytes(b"test recording")
+    test_db_session.commit()
+    req = create_erasure_request(test_db_session, KVKKErasureRequestIn(
+        identifier_type="phone", identifier_value="05321112233",
+    ))
+    preview = json.loads(req.impact_summary_json)
+    assert preview["recordings_count"] == 1
+    execute_erasure(test_db_session, req, confirmed_record_count=preview["total_records_affected"])
+    test_db_session.refresh(turn)
+    assert "[KVKK_SILINDI" in turn.text
+    assert not recording.exists()
+
+
+def test_kvkk_mutations_disabled_with_preview_available(client, monkeypatch):
+    monkeypatch.setattr(settings, "kvkk_erasure_enabled", False)
+    base = "/api/kvkk"
+    assert client.post(f"{base}/erasure-requests", json={
+        "identifier_type": "phone", "identifier_value": "05321112233",
+    }).status_code == 403
+    assert client.post(f"{base}/erasure-requests/test/execute", json={
+        "confirmed_record_count": 0,
+    }).status_code == 403
+    assert client.post(f"{base}/transcript-retention-purge", json={"dry_run": False}).status_code == 403
+    assert client.post(f"{base}/transcript-retention-purge", json={"dry_run": True}).status_code == 200

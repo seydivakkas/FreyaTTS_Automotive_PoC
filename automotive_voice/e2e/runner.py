@@ -5,7 +5,6 @@ in memory in the test fixture and never copied into a trace or telemetry.
 Completion of M03 business policy is distinct from readiness of a TTS clause.
 """
 from __future__ import annotations
-import asyncio
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from typing import Any

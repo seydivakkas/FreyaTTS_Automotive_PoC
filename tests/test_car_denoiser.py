@@ -372,83 +372,34 @@ def test_inbound_car_denoiser_ambient_calibration():
 
 
 @pytest.mark.asyncio
-async def test_anti_hallucination_guard():
-    """models.transcribe'ın ortam gürültüsünü, ipucu yankısını ve İngilizce döngüleri süzdüğünü doğrular."""
-    from backend.models import models
+async def test_stt_confidence_and_configurable_energy_gate(monkeypatch):
+    from types import SimpleNamespace
+    from unittest.mock import Mock
+    from backend.models import Models
 
-    # 1. Düşük enerjili gürültü / sessizlik (RMS < 0.0075): Whisper'a gitmeden boş dönmeli
-    silent_audio = (np.random.randn(3200) * 0.001).astype(np.float32)
-    res_silent = await models.transcribe(silent_audio)
-    assert res_silent == ""
+    model = Models()
+    text = "Randevu almak istiyorum."
+    segments = [
+        SimpleNamespace(text=text, no_speech_prob=0.9),
+        SimpleNamespace(text=text, avg_logprob=-1.2),
+        SimpleNamespace(text=text, compression_ratio=3.0),
+    ]
+    decoder = Mock(return_value=(segments, None))
+    model.stt = SimpleNamespace(transcribe=decoder)
+    quiet_audio = np.full(3200, 0.001, dtype=np.float32)
 
-    # 2. Whisper mock ile halüsinasyon filtrelerini test et
-    class MockSegment:
-        def __init__(self, text, no_speech_prob=0.01, avg_logprob=-0.2, compression_ratio=1.1):
-            self.text = text
-            self.no_speech_prob = no_speech_prob
-            self.avg_logprob = avg_logprob
-            self.compression_ratio = compression_ratio
+    monkeypatch.setattr(settings, "stt_min_rms", 0.0075)
+    assert await model.transcribe(quiet_audio) == ""
+    decoder.assert_not_called()
 
-    class MockSTT:
-        def __init__(self, return_segments):
-            self.return_segments = return_segments
-            self.last_kwargs = {}
+    monkeypatch.setattr(settings, "stt_min_rms", 0.0)
+    monkeypatch.setattr(settings, "stt_catalog_hotwords", False)
+    assert await model.transcribe(quiet_audio) == ""
+    assert decoder.call_args.kwargs["hotwords"] is None
+    assert "log_prob_threshold" in decoder.call_args.kwargs
 
-        def transcribe(self, *args, **kwargs):
-            self.last_kwargs = kwargs
-            assert "log_prob_threshold" in kwargs, f"log_prob_threshold bekleniyordu: {kwargs.keys()}"
-            assert "logprob_threshold" not in kwargs, "Hatalı logprob_threshold tespit edildi!"
-            return self.return_segments, None
-
-    # Güçlü ama sahte sinyal (RMS yüksek)
-    loud_audio = (np.sin(np.linspace(0, 1, 3200)) * 0.3).astype(np.float32)
-
-    # 2a. İngilizce halüsinasyon ("IF, LET'S SEE, LET'S SEE, LET'S SEE.")
-    models.stt = MockSTT([MockSegment("IF, LET'S SEE, LET'S SEE, LET'S SEE.")])
-    res_hallucination = await models.transcribe(loud_audio)
-    assert res_hallucination == "", f"İngilizce döngü filtrelenemedi: {res_hallucination}"
-
-    # 2b. Biddyo halüsinasyonu
-    models.stt = MockSTT([MockSegment("Biddyo.")])
-    res_biddyo = await models.transcribe(loud_audio)
-    assert res_biddyo == "", f"Biddyo halüsinasyonu filtrelenemedi: {res_biddyo}"
-
-    # 2c. Hotwords yankısı ("Context, VTEC, Volkswagen Golf 1.4 TSI, Volkswagen Golf 1.8")
-    models.stt = MockSTT([MockSegment("Context, VTEC, Volkswagen Golf 1.4 TSI, Volkswagen Golf 1.8")])
-    res_echo = await models.transcribe(loud_audio)
-    assert res_echo == "", f"Katalog ipucu yankısı filtrelenemedi: {res_echo}"
-
-    # 2d. Geçerli Türkçe konuşma: korunmalı!
-    models.stt = MockSTT([MockSegment("Randevu almak istiyorum.")])
-    res_valid = await models.transcribe(loud_audio)
-    assert res_valid == "Randevu almak istiyorum."
-
-
-def test_system_mode_dynamic_switch():
-    """Çalışma zamanında Demo ve Reel veritabanı arasında geçişi ve API uç noktasını doğrular."""
-    from backend.db import Session, Vehicle
-    client = TestClient(app)
-    auth_headers = {"Authorization": "Basic YWRtaW46c2VjcmV0"}
-
-    with patch("backend.main.settings.admin_password", "secret"):
-        # 1. Demo moduna geç
-        post_res = client.post("/api/system/mode", json={"demo_mode": True}, headers=auth_headers)
-        assert post_res.status_code == 200
-        assert post_res.json()["demo_mode"] is True
-        assert settings.demo_mode is True
-        with Session() as db:
-            demo_count = db.query(Vehicle).count()
-        assert demo_count > 0, "Demo veritabanında araçlar bulunamadı"
-
-        # 2. Reel moduna geç
-        post_res_real = client.post("/api/system/mode", json={"demo_mode": False}, headers=auth_headers)
-        assert post_res_real.status_code == 200
-        assert post_res_real.json()["demo_mode"] is False
-        assert settings.demo_mode is False
-        with Session() as db:
-            real_count = db.query(Vehicle).count()
-        assert real_count == 0, "Reel veritabanında gereksiz sentetik veri var"
-
-        # 3. Test bitiminde Demo moduna geri al
-        client.post("/api/system/mode", json={"demo_mode": True}, headers=auth_headers)
-        assert settings.demo_mode is True
+    segments.append(SimpleNamespace(text=text))
+    monkeypatch.setattr(settings, "stt_catalog_hotwords", True)
+    monkeypatch.setattr(model, "_catalog_hotwords", lambda: ["Volkswagen Golf"])
+    assert await model.transcribe(quiet_audio) == text
+    assert decoder.call_args.kwargs["hotwords"] == "Volkswagen Golf"

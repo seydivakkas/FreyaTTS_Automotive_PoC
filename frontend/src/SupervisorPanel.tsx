@@ -133,7 +133,14 @@ export function SupervisorPanel({ api, rawApi, initialConversationId, onOpenConv
 
   return (
     <section className="card supervisor-panel" aria-labelledby="supervisor-title">
-      <h2 id="supervisor-title">Supervisor Kalite</h2>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "10px", marginBottom: "12px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <h2 id="supervisor-title" style={{ margin: 0 }}>Supervisor & Kalite Masası</h2>
+          <span className="stage-badge warn" title="F6 Aşaması: FQICI Kalite Skoru, Niyet Karar Ağacı ve Operatör QA">
+            F6 Telemetry & QA
+          </span>
+        </div>
+      </div>
       <AnalysisQueuePanel api={api} onOpenConversation={onOpenConversation} />
       <div className="row">
         <label>Görünüm{" "}

@@ -17,6 +17,7 @@ TEST_DB = TEST_ROOT / "assistant.db"
 
 os.environ["DATABASE_URL"] = "sqlite:///" + TEST_DB.as_posix()
 os.environ["DATA_DIR"] = str(TEST_ROOT)
+os.environ["AUTO_LOAD_MODELS"] = "0"
 os.environ["DEMO_MODE"] = "0"
 # Yalnızca test amaçlı gizli değerler (kodda varsayılan gizli anahtar yoktur).
 os.environ["WHATSAPP_WEBHOOK_TOKEN"] = "test-webhook-token"
@@ -44,7 +45,7 @@ _errors = isolation_errors()
 if _errors:
     pytest.exit("Test yalıtımı kurulamadı: " + "; ".join(_errors), returncode=3)
 
-Base.metadata.create_all(engine)
+Base.metadata.create_all(bind=engine)
 
 
 def pytest_unconfigure(config):

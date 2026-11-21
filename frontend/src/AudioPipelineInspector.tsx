@@ -3,13 +3,15 @@
  * Telif Hakkı (c) 2026 Seydi Eryılmaz (@seydivakkas) — ÖZEL LİSANS / TÜM HAKLAR SAKLIDIR
  */
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   StageId,
   STAGE_DEFINITIONS,
   PipelineTurnState,
 } from "./pipeline/types";
 import { TabName } from "./nav";
+import { Sparkles, Volume2 } from "lucide-react";
+import { runF4Pipeline, speakF4ChunksSequentially } from "./pipeline/f4Engine";
 
 interface Props {
   selectedStage: StageId;
@@ -27,6 +29,14 @@ export function AudioPipelineInspector({
   onNavigateToTab,
 }: Props) {
   const [activeTab, setActiveTab] = useState<InspectorTab>("overview");
+  const [f4InspectorInput, setF4InspectorInput] = useState(
+    "Trabzon'da 61 TS 061 plakalı Peugeot 3008 OBD-II P0300 arıza tespiti ve DSG bakımı 14.500 TL."
+  );
+  const [f4Speaking, setF4Speaking] = useState(false);
+  const f4InspectorResult = useMemo(
+    () => runF4Pipeline(f4InspectorInput),
+    [f4InspectorInput]
+  );
   const def = STAGE_DEFINITIONS[selectedStage];
   const runtime = pipelineState.stages[selectedStage] || {
     status: "idle",
@@ -143,10 +153,6 @@ export function AudioPipelineInspector({
                 </span>
               </div>
               <div className="stat-card">
-                <span className="stat-label">SLA Hedefi</span>
-                <span className="stat-value">{def.targetLatencyMs} ms</span>
-              </div>
-              <div className="stat-card">
                 <span className="stat-label">Kaynak</span>
                 <span className="stat-value">{pipelineState.source.toUpperCase()}</span>
               </div>
@@ -199,14 +205,12 @@ export function AudioPipelineInspector({
                       <tr><td>Dil Parametresi</td><td>"tr" (Türkçe)</td><td><span className="tag-ro">Zorunlu</span></td></tr>
                       <tr><td>Repetition Penalty</td><td>1.2</td><td><span className="tag-ro">Kilitli</span></td></tr>
                       <tr><td>No Repeat N-Gram</td><td>3</td><td><span className="tag-ro">Kilitli</span></td></tr>
-                      <tr><td>RMS Enerji Kapısı</td><td>&gt; 0.008 (-42 dBFS)</td><td><span className="tag-ro">Aktif</span></td></tr>
                     </>
                   )}
                   {selectedStage === "F3" && (
                     <>
                       <tr><td>LLM Modeli</td><td>Qwen2.5 7B (Ollama)</td><td><span className="tag-ro">Yerel GPU</span></td></tr>
                       <tr><td>Temperature</td><td>0.0 (Deterministik)</td><td><span className="tag-ro">Kilitli</span></td></tr>
-                      <tr><td>Supervisor Modu</td><td>Guarded Intent Router</td><td><span className="tag-ro">Aktif</span></td></tr>
                       <tr><td>Veritabanı Kilidi</td><td>SQLite Deterministik</td><td><span className="tag-ro">Zorunlu</span></td></tr>
                     </>
                   )}
@@ -222,12 +226,10 @@ export function AudioPipelineInspector({
                       <tr><td>Sentez Motoru</td><td>FreyaTTS Batched Flow ODE</td><td><span className="tag-ro">CUDA</span></td></tr>
                       <tr><td>Ses Kimliği (Persona)</td><td>Leyla Kurumsal Kadın Sesi</td><td><span className="tag-ro">Seed #9</span></td></tr>
                       <tr><td>ODE Adım Sayısı</td><td>32 Adım</td><td><span className="tag-ro">Sabit</span></td></tr>
-                      <tr><td>LoRA Katmanı</td><td>DiT Cross-Attention</td><td><span className="tag-ro">Yüklü</span></td></tr>
                     </>
                   )}
                   {selectedStage === "F6" && (
                     <>
-                      <tr><td>WSOLA Hız Oranı</td><td>0.98x (Doğal Konuşma Akışı)</td><td><span className="tag-ro">Kilitli</span></td></tr>
                       <tr><td>Comfort Noise</td><td>-54 dBFS Gaussian Dither</td><td><span className="tag-ro">Aktif</span></td></tr>
                       <tr><td>Santral Arayüzü</td><td>Asterisk 20+ AudioSocket</td><td><span className="tag-ro">8 kHz SLIN16</span></td></tr>
                     </>
@@ -290,6 +292,81 @@ export function AudioPipelineInspector({
               ) : (
                 <div className="empty-notice">Bu aşama için olay kaydı yok.</div>
               )}
+            </div>
+          </div>
+        )}
+        {selectedStage === "F4" && (
+          <div
+            style={{
+              marginTop: "14px",
+              padding: "12px 14px",
+              background: "#090d16",
+              border: "1px solid #f59e0b",
+              borderRadius: "8px",
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px",
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <span style={{ fontSize: "11px", fontWeight: "bold", color: "#fde68a", display: "flex", alignItems: "center", gap: "6px" }}>
+                <Sparkles style={{ width: "14px", height: "14px" }} />
+                CANLI F₄ SEZER G2P & CHUNKER ({f4InspectorResult.processingMs} ms)
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  setF4Speaking(true);
+                  speakF4ChunksSequentially(f4InspectorResult, undefined, () => setF4Speaking(false));
+                }}
+                style={{
+                  background: "#10b981",
+                  color: "#0f172a",
+                  fontWeight: "bold",
+                  fontSize: "11px",
+                  padding: "4px 10px",
+                  borderRadius: "6px",
+                  border: 0,
+                  cursor: "pointer",
+                }}
+              >
+                🔊 {f4Speaking ? "Çalıyor..." : "Seslendir"}
+              </button>
+            </div>
+            <input
+              type="text"
+              value={f4InspectorInput}
+              onChange={(e) => setF4InspectorInput(e.target.value)}
+              style={{
+                background: "#1e293b",
+                border: "1px solid #334155",
+                borderRadius: "6px",
+                padding: "6px 10px",
+                color: "#f8fafc",
+                fontSize: "11px",
+                fontFamily: "monospace",
+              }}
+            />
+            <div style={{ fontSize: "11px", fontFamily: "monospace", color: "#6ee7b7", background: "#020617", padding: "8px", borderRadius: "6px" }}>
+              <strong>Normalize:</strong> "{f4InspectorResult.phoneticText}"
+            </div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "4px" }}>
+              {f4InspectorResult.chunks.map((ch) => (
+                <span
+                  key={ch.index}
+                  style={{
+                    background: "rgba(56, 189, 248, 0.15)",
+                    border: "1px solid rgba(56, 189, 248, 0.3)",
+                    color: "#bae6fd",
+                    padding: "2px 6px",
+                    borderRadius: "4px",
+                    fontSize: "10px",
+                    fontFamily: "monospace",
+                  }}
+                >
+                  <strong>[#{ch.index}]</strong> {ch.text}
+                </span>
+              ))}
             </div>
           </div>
         )}

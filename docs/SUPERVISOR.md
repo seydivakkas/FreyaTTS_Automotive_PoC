@@ -10,7 +10,7 @@ Web görüşmesinde final ASR metni, 22 niyetli katalog ve deterministik politik
 | Diyalog ve takvim | `backend/dialogue.py`, `backend/db.py` | Mevcut randevu durum makinesi varsayılan ses yoludur. Guarded mod aynı SQLite takvimindeki boşluğu yalnızca okur. |
 | Telefon | `backend/audiosocket_server.py`, `backend/ami.py`, `asterisk/extensions.conf` | Mevcut AudioSocket/AMI zinciri Supervisor V1'e bağlanmadı. |
 | Supervisor | `backend/supervisor/` | Katalog, kural katmanı, bağlam, plan, araç erişimi, iz ve çevrimdışı eğitim ayrıdır. |
-| Kalite | `backend/qa_telemetry_operator.py`, `backend/supervisor/quality.py` | Mevcut telemetri ses kalitesini izler. Depoda bağımsız FQICI sistemi bulunmadığı için niyet incelemesi yerel iz ve operatör onayıyla sağlanır. |
+| Kalite | `backend/qa_telemetry_operator.py`, `backend/supervisor/quality.py` | Mevcut telemetri ses kalitesini izler. Niyet incelemesi yerel iz ve operatör onayıyla sağlanır. FQICI ayrı bir kapanış kuyruğudur. Pilot seçenekleri [uzman inceleme planının Aşama 3 bölümünde](UZMAN_INCELEME_PLANI.md#aşama-3-kapsam-kararı-yarım-gün-karar-sizin) yer alır. |
 | Yönetim paneli | `backend/routers/supervisor.py`, `frontend/src/SupervisorPanel.tsx` | Kimlik doğrulamalı karar incelemesi, veri dışa aktarma ve deney raporları. |
 
 ## Etkinleştirme

@@ -1,0 +1,3 @@
+Otomotiv yetkili servisleri ve ekspertiz merkezleri için geliştirdiğimiz yeni nesil yerel sesli yapay zekâ kokpiti FreyaTTS: 214ms ilk ses yanıtı (TTFA), F0–F6 neural DSP hattı ve %100 yerel GPU gücüyle sıfır bulut bağımlılığı. 🚗🎙️⚡
+
+#FreyaTTS #AutomotiveAI #LocalAI #Whisper #VoiceAI #DeepLearning

@@ -260,7 +260,7 @@ export function QueueLiftPanel({ api }: Props) {
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+    <div style={{ height: "100%", display: "flex", flexDirection: "column", gap: "8px", minHeight: 0, overflowY: "auto", padding: "2px 4px" }}>
       {/* Üst Başlık & Kapasite Özeti */}
       <section
         style={{

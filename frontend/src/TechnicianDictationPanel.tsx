@@ -256,7 +256,7 @@ export function TechnicianDictationPanel({ api }: Props) {
     parsedData && parsedData.calculated_score !== null ? getScoreBadge(parsedData.calculated_score) : null;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+    <div style={{ height: "100%", display: "flex", flexDirection: "column", gap: "8px", minHeight: 0, overflowY: "auto", padding: "2px 4px" }}>
       {/* Başlık ve Sahadan Teknisyen Modu Açıklaması */}
       <section style={{ background: "linear-gradient(135deg, #1E293B 0%, #0F172A 100%)", color: "white", padding: "20px", borderRadius: "10px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "10px" }}>

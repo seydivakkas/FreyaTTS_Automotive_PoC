@@ -1,5 +1,7 @@
 # Freya • Yerel otomotiv sesli asistanı
 
+![License: All Rights Reserved](https://img.shields.io/badge/license-All%20Rights%20Reserved-red?style=flat-square)
+
 M01–M11 ZIP kaynakları güncel M11 sürümü temel alınarak entegre edildi. Canlı bağlantılar, arşiv karmaları ve kapsam: [M01–M11 entegrasyon kaydı](docs/milestones/INTEGRATION.md). Paneldeki **M01–M11** sekmesi sözleşme, telaffuz ve kalıcı olay incelemesini sunar.
 
 Türkçe ekspertiz randevusu için yerel STT → Ollama → FreyaTTS uygulaması. Web mikrofonu ve Asterisk AudioSocket aynı görüşme motorunu kullanır. Araç ve fiyat kayıtları, müsait saatler, randevular, transkriptler ve ses laboratuvarı Türkçe yönetim panelindedir.
@@ -83,4 +85,13 @@ Kaynaklar: `docs/VERIFICATION.md`, `data/acoustic/latest.json`, `docs/measured-l
 - Eşzamanlı görüşme ölçülmedi; testler tek görüşmeyle yapıldı (`max_concurrent_calls` üst sınırı 50).
 
 Eski `automotive_freya_poc.py`, `run_poc.bat`, örnek WAV dosyaları ve eski test çıktısı karşılaştırma için `archive/` klasöründe korunmuştur. Eski çıktı dosyası yeni uygulamanın doğrulama raporu değildir.
+
+## Lisans
+
+**ÖZEL LİSANS — TÜM HAKLAR SAKLIDIR**  
+Telif Hakkı (c) 2026 Seydi Eryılmaz (@seydivakkas)
+
+Bu yazılım ve ilgili tüm dosyalar ("Yazılım") yalnızca görüntüleme ve eğitim amaçlı olarak paylaşılmıştır.  
+Kopyalanamaz, çoğaltılamaz, dağıtılamaz, ticari/ticari olmayan projelerde kullanılamaz veya tersine mühendislik yapılamaz. Detaylı bilgi için [LICENSE](LICENSE) dosyasına bakınız.
+
 

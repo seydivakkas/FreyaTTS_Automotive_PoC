@@ -3,11 +3,19 @@
 Never installs packages, downloads media or opens a phone call automatically.
 """
 from __future__ import annotations
-import argparse, json, os, platform, shutil, subprocess, sys, time, wave, csv
-from hashlib import sha256
+import argparse
+import json
+import os
+import platform
+import shutil
+import subprocess
+import sys
+import time
+import wave
+import csv
 from pathlib import Path
 from .acceptance import (Gate,Status,now,evidence_ref,hash_file,save_gate,
-                         summary,write_summary,wav_info,error_rates,validate_pbx_trace,validate_voice_reviews)
+                         write_summary,wav_info,error_rates,validate_pbx_trace,validate_voice_reviews)
 
 PROJECT=Path(__file__).resolve().parents[2]
 DEFAULT_FOLDER=PROJECT/'data'/'m11'/'results'

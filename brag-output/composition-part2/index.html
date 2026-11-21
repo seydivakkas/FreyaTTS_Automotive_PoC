@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="en" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>FreyaTTS Automotive Cockpit — Devam Klibi (Bölüm 2)</title>
+    <!--
+      ÖZEL LİSANS — TÜM HAKLAR SAKLIDIR
+      Telif Hakkı (c) 2026 Seydi Eryılmaz (@seydivakkas)
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      :root {
+        --ground: #070a12;
+        --card-bg: #0f172a;
+        --card-border: rgba(255, 255, 255, 0.12);
+        --ink: #f8fafc;
+        --ink-muted: #94a3b8;
+        --emerald: #10b981;
+        --cyan: #38bdf8;
+        --amber: #fbbf24;
+        --rose: #f43f5e;
+        --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+        --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html, body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--ground);
+        color: var(--ink);
+        font-family: var(--font-sans);
+        -webkit-font-smoothing: antialiased;
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: radial-gradient(circle at 50% 20%, #1e1b4b 0%, #070a12 70%);
+      }
+
+      .bg-grid {
+        position: absolute;
+        inset: 0;
+        background-size: 60px 60px;
+        background-image: 
+          linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        opacity: 0.8;
+      }
+      .bg-glow-spot {
+        position: absolute;
+        top: 25%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 1000px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
+        filter: blur(70px);
+        pointer-events: none;
+      }
+
+      .scene {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 60px;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      /* ================= Scene 1: Part 2 Hook ================= */
+      #scene-part2-hook {
+        gap: 24px;
+        opacity: 1;
+      }
+      .hook-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 24px;
+        background: rgba(56, 189, 248, 0.15);
+        border: 1px solid rgba(56, 189, 248, 0.4);
+        border-radius: 9999px;
+        color: #38bdf8;
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .pulse-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #38bdf8;
+        box-shadow: 0 0 14px #38bdf8;
+      }
+      .hook-title {
+        font-size: 74px;
+        font-weight: 900;
+        line-height: 1.1;
+        text-align: center;
+        letter-spacing: -0.03em;
+        background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .hook-title span {
+        background: linear-gradient(90deg, #34d399 0%, #38bdf8 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .part2-topics-row {
+        display: grid;
+        grid-template-columns: repeat(3, 480px);
+        gap: 24px;
+        margin-top: 16px;
+      }
+      .topic-card {
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 14px;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+      }
+      .topic-tag {
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #38bdf8;
+      }
+      .topic-name {
+        font-size: 22px;
+        font-weight: 700;
+        color: #ffffff;
+      }
+      .topic-desc {
+        font-size: 14px;
+        color: var(--ink-muted);
+        line-height: 1.4;
+      }
+
+      /* Common Showcase Container */
+      .showcase-container {
+        width: 1800px;
+        height: 980px;
+        display: grid;
+        grid-template-columns: 520px 1fr;
+        gap: 40px;
+        align-items: center;
+      }
+      .showcase-info {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .showcase-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        font-weight: 800;
+        color: #38bdf8;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+      .showcase-title {
+        font-size: 46px;
+        font-weight: 900;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        color: #ffffff;
+      }
+      .showcase-desc {
+        font-size: 18px;
+        line-height: 1.5;
+        color: #cbd5e1;
+      }
+      .showcase-feature-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 10px;
+      }
+      .feature-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        background: rgba(15, 23, 42, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 12px 18px;
+        border-radius: 10px;
+      }
+      .feature-icon {
+        font-size: 18px;
+      }
+      .feature-text {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .feature-title {
+        font-size: 15px;
+        font-weight: 700;
+        color: #ffffff;
+      }
+      .feature-sub {
+        font-size: 13px;
+        color: var(--ink-muted);
+      }
+
+      .showcase-visual {
+        position: relative;
+        width: 1240px;
+        height: 780px;
+      }
+      .screen-frame {
+        position: absolute;
+        inset: 0;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(56, 189, 248, 0.15);
+        border: 2px solid rgba(255, 255, 255, 0.15);
+        background: #0f172a;
+      }
+      .screen-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background: #070a12;
+      }
+
+      .mini-screen-card {
+        position: absolute;
+        width: 500px;
+        height: 300px;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.85);
+        border: 2px solid rgba(56, 189, 248, 0.4);
+        background: #0b1120;
+      }
+      .mini-screen-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* ================= Scene 5: Milestones Outro ================= */
+      #scene-part2-outro {
+        gap: 28px;
+        text-align: center;
+      }
+      .outro-headline {
+        font-size: 64px;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        line-height: 1.15;
+      }
+      .outro-headline span {
+        background: linear-gradient(90deg, #34d399 0%, #38bdf8 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .milestone-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 380px);
+        gap: 20px;
+        margin-top: 14px;
+      }
+      .milestone-card {
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid rgba(16, 185, 129, 0.35);
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        text-align: left;
+      }
+      .milestone-tag {
+        font-family: var(--font-mono);
+        font-size: 13px;
+        font-weight: 800;
+        color: #34d399;
+      }
+      .milestone-name {
+        font-size: 17px;
+        font-weight: 700;
+        color: #ffffff;
+      }
+      .milestone-desc {
+        font-size: 13px;
+        color: var(--ink-muted);
+      }
+      .copyright-text {
+        font-size: 15px;
+        color: var(--ink-muted);
+        margin-top: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="30"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div class="bg-grid"></div>
+      <div class="bg-glow-spot"></div>
+
+      <!-- Audio Track -->
+      <audio
+        id="bg-music"
+        class="clip"
+        data-start="0"
+        data-duration="30"
+        data-track-index="10"
+        data-volume="0.32"
+        src="assets/music/music.mp3"
+      ></audio>
+
+      <!-- SFX Clips -->
+      <audio
+        id="sfx-hero"
+        class="clip"
+        data-start="1.2"
+        data-duration="1.5"
+        data-track-index="11"
+        data-volume="0.55"
+        src="assets/sfx/impact/impactBell_heavy_000.ogg"
+      ></audio>
+      <audio
+        id="sfx-p1"
+        class="clip"
+        data-start="3.5"
+        data-duration="0.12"
+        data-track-index="12"
+        data-volume="0.45"
+        src="assets/sfx/interface/bong_001.ogg"
+      ></audio>
+      <audio
+        id="sfx-p2"
+        class="clip"
+        data-start="10.5"
+        data-duration="0.12"
+        data-track-index="13"
+        data-volume="0.45"
+        src="assets/sfx/interface/bong_001.ogg"
+      ></audio>
+      <audio
+        id="sfx-p3"
+        class="clip"
+        data-start="17.5"
+        data-duration="0.12"
+        data-track-index="14"
+        data-volume="0.45"
+        src="assets/sfx/interface/bong_001.ogg"
+      ></audio>
+
+      <!-- ================= SCENE 1: PART 2 HOOK (0 - 3.2s) ================= -->
+      <div id="scene-part2-hook" class="scene">
+        <div class="hook-badge">
+          <div class="pulse-dot"></div>
+          <span>Devam Klibi • Bölüm 2</span>
+        </div>
+        <h1 class="hook-title">
+          OPERASYONEL KULLANIM<br />
+          <span>VE ATÖLYE YÖNETİMİ.</span>
+        </h1>
+        <div class="part2-topics-row">
+          <div class="topic-card">
+            <span class="topic-tag">Atölye & Lift</span>
+            <span class="topic-name">Sıra & Lift Yönetimi</span>
+            <span class="topic-desc">Dinamik istasyon ataması, bekleme süresi ve teyitli randevular</span>
+          </div>
+          <div class="topic-card">
+            <span class="topic-tag">Teşhis & Dikte</span>
+            <span class="topic-name">OBD-II & Usta Dikte</span>
+            <span class="topic-desc">DTC arıza kodları ve eller serbest Türkçe sesli bulgu kaydı</span>
+          </div>
+          <div class="topic-card">
+            <span class="topic-tag">Gözetim & Kilit</span>
+            <span class="topic-name">Operatör & M01–M11</span>
+            <span class="topic-desc">Dahili 6002 masası, canlı fısıltı ve kurumsal emniyet bariyerleri</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= SCENE 2: ATÖLYE & LİFT (3.2s - 10.2s) ================= -->
+      <div id="scene-part2-lift" class="scene">
+        <div class="showcase-container">
+          <div class="showcase-info">
+            <div class="showcase-kicker">Kullanım Rehberi • Adım 1</div>
+            <h2 class="showcase-title">Sıra & Lift Kapasite Yönetimi</h2>
+            <p class="showcase-desc">
+              4 ana lift istasyonunun anlık doluluk oranları, araç giriş-çıkışları ve randevu slotları tek ekrandan senkronize yönetilir.
+            </p>
+            <div class="showcase-feature-list">
+              <div class="feature-item">
+                <span class="feature-icon">🚗</span>
+                <div class="feature-text">
+                  <span class="feature-title">Canlı Lift İstasyonları</span>
+                  <span class="feature-sub">Lift-1 (Mekanik), Lift-2 (Ağır Bakım), Lift-3 (Ekspertiz)</span>
+                </div>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon">⏱️</span>
+                <div class="feature-text">
+                  <span class="feature-title">Bekleme Süresi Tahmini</span>
+                  <span class="feature-sub">Görüşme anında müşteriye doğrudan bitiş saati bildirimi</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="showcase-visual">
+            <div class="screen-frame">
+              <img src="assets/screens/09_sira_lift_durumu.png" alt="Sıra ve Lift Durumu" />
+            </div>
+            <div class="mini-screen-card" style="bottom: -20px; right: -20px;">
+              <img src="assets/screens/08_randevu_takvimi.png" alt="Randevu Takvimi" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= SCENE 3: OBD-II & DİKTE (10.2s - 17.2s) ================= -->
+      <div id="scene-part2-obd" class="scene">
+        <div class="showcase-container">
+          <div class="showcase-info">
+            <div class="showcase-kicker">Kullanım Rehberi • Adım 2</div>
+            <h2 class="showcase-title">OBD-II Teşhis & Teknisyen Dikte</h2>
+            <p class="showcase-desc">
+              Araçtan okunan hata kodları anında Türkçe açıklamalarıyla eşleşir; usta araç altındayken sesli dikte ile bulguları iş emrine işler.
+            </p>
+            <div class="showcase-feature-list">
+              <div class="feature-item">
+                <span class="feature-icon">🔌</span>
+                <div class="feature-text">
+                  <span class="feature-title">DTC P0300 Ateşleme Arızası</span>
+                  <span class="feature-sub">Motor koruma tavsiyesi & çekici yönlendirme kilidi (M06)</span>
+                </div>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon">🎙️</span>
+                <div class="feature-text">
+                  <span class="feature-title">Eller Serbest Usta Dikte</span>
+                  <span class="feature-sub">Faster-Whisper ile yağ sızıntısı ve parça aşınma transkripsiyonu</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="showcase-visual">
+            <div class="screen-frame">
+              <img src="assets/screens/10_arac_teshis_obd2.png" alt="OBD-II Teşhis" />
+            </div>
+            <div class="mini-screen-card" style="bottom: -20px; right: -20px;">
+              <img src="assets/screens/12_teknisyen_dikte.png" alt="Teknisyen Dikte" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= SCENE 4: OPERATÖR & FQICI (17.2s - 24.2s) ================= -->
+      <div id="scene-part2-op" class="scene">
+        <div class="showcase-container">
+          <div class="showcase-info">
+            <div class="showcase-kicker">Kullanım Rehberi • Adım 3</div>
+            <h2 class="showcase-title">Operatör Masası (6002) & FQICI</h2>
+            <p class="showcase-desc">
+              Yapay zekânın müşteriyle yaptığı görüşmeyi operatör kulaklıktan dinler, tek tuşla fısıldar veya çağrıyı devralır.
+            </p>
+            <div class="showcase-feature-list">
+              <div class="feature-item">
+                <span class="feature-icon">🎧</span>
+                <div class="feature-text">
+                  <span class="feature-title">Canlı Araya Girme (Barge-In)</span>
+                  <span class="feature-sub">Karmaşık taleplerde müşteri bekletilmeden insan müdahalesi</span>
+                </div>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon">🔍</span>
+                <div class="feature-text">
+                  <span class="feature-title">5 Boyutlu FQICI Kalite Skoru</span>
+                  <span class="feature-sub">Niyet doğruluğu, nezaket ve empati seviyesi yapay zekâ denetimi</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="showcase-visual">
+            <div class="screen-frame">
+              <img src="assets/screens/13_operator_kokpiti.png" alt="Operatör Kokpiti" />
+            </div>
+            <div class="mini-screen-card" style="bottom: -20px; right: -20px;">
+              <img src="assets/screens/17_supervisor_fqici.png" alt="Supervisor FQICI" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= SCENE 5: M01-M11 KİLİTLERİ & BİTİŞ (24.2s - 30.0s) ================= -->
+      <div id="scene-part2-outro" class="scene">
+        <h2 class="outro-headline">
+          Kurumsal Emniyet Bariyerleri.<br />
+          <span>M01–M11 Kalite Kapıları.</span>
+        </h2>
+
+        <div class="milestone-grid">
+          <div class="milestone-card">
+            <span class="milestone-tag">M01 GÜVENCE</span>
+            <span class="milestone-name">Sabit Fiyat Kilidi</span>
+            <span class="milestone-desc">Görüşmede verilen fiyat tek kaynak ontolojiden kilitlenir</span>
+          </div>
+          <div class="milestone-card">
+            <span class="milestone-tag">M02 GÜVENLİK</span>
+            <span class="milestone-name">KVKK Maskeleme</span>
+            <span class="milestone-desc">Kişisel veriler transkriptten anlık redaction ile silinir</span>
+          </div>
+          <div class="milestone-card">
+            <span class="milestone-tag">M06 EMNİYET</span>
+            <span class="milestone-name">Çekici Koruma Kuralı</span>
+            <span class="milestone-desc">Kritik arızalarda motor çalıştırma engellenir</span>
+          </div>
+          <div class="milestone-card">
+            <span class="milestone-tag">M08 TELEFONİ</span>
+            <span class="milestone-name">Operatör Fısıltı Masası</span>
+            <span class="milestone-desc">Dahili 6002 ile kesintisiz çağrı aktarımı ve denetim</span>
+          </div>
+        </div>
+
+        <p class="copyright-text">
+          FreyaTTS Automotive Cockpit • Telif Hakkı (c) 2026 Seydi Eryılmaz (@seydivakkas) • ÖZEL LİSANS / TÜM HAKLAR SAKLIDIR
+        </p>
+      </div>
+    </div>
+
+    <!-- GSAP Master Timeline -->
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      // Scene 1: Part 2 Hook (0.0s -> 3.2s)
+      tl.to("#scene-part2-hook", { opacity: 1, duration: 0.01 }, 0.0);
+      tl.fromTo("#scene-part2-hook .hook-badge", { y: -20, opacity: 0.5 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, 0.0);
+      tl.fromTo("#scene-part2-hook .hook-title", { scale: 0.98, opacity: 0.8 }, { scale: 1, opacity: 1, duration: 0.5, ease: "power4.out" }, 0.0);
+      tl.fromTo(".topic-card", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, stagger: 0.12, ease: "back.out(1.2)" }, 0.6);
+      tl.to("#scene-part2-hook", { opacity: 0, scale: 0.96, duration: 0.35, ease: "power2.in" }, 2.9);
+
+      // Scene 2: Lift (3.2s -> 10.2s)
+      tl.to("#scene-part2-lift", { opacity: 1, duration: 0.01 }, 3.2);
+      tl.fromTo("#scene-part2-lift .showcase-info", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 3.25);
+      tl.fromTo("#scene-part2-lift .screen-frame", { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: "power3.out" }, 3.3);
+      tl.fromTo("#scene-part2-lift .mini-screen-card", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "back.out(1.3)" }, 4.4);
+      tl.to("#scene-part2-lift", { opacity: 0, x: -30, duration: 0.4, ease: "power2.in" }, 9.8);
+
+      // Scene 3: OBD (10.2s -> 17.2s)
+      tl.to("#scene-part2-obd", { opacity: 1, duration: 0.01 }, 10.2);
+      tl.fromTo("#scene-part2-obd .showcase-info", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 10.25);
+      tl.fromTo("#scene-part2-obd .screen-frame", { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: "power3.out" }, 10.3);
+      tl.fromTo("#scene-part2-obd .mini-screen-card", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "back.out(1.3)" }, 11.4);
+      tl.to("#scene-part2-obd", { opacity: 0, x: -30, duration: 0.4, ease: "power2.in" }, 16.8);
+
+      // Scene 4: Operator (17.2s -> 24.2s)
+      tl.to("#scene-part2-op", { opacity: 1, duration: 0.01 }, 17.2);
+      tl.fromTo("#scene-part2-op .showcase-info", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 17.25);
+      tl.fromTo("#scene-part2-op .screen-frame", { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: "power3.out" }, 17.3);
+      tl.fromTo("#scene-part2-op .mini-screen-card", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "back.out(1.3)" }, 18.4);
+      tl.to("#scene-part2-op", { opacity: 0, x: -30, duration: 0.4, ease: "power2.in" }, 23.8);
+
+      // Scene 5: Outro (24.2s -> 30.0s)
+      tl.to("#scene-part2-outro", { opacity: 1, duration: 0.01 }, 24.2);
+      tl.fromTo(".outro-headline", { y: -30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power4.out" }, 24.3);
+      tl.fromTo(".milestone-card", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, stagger: 0.1, ease: "power2.out" }, 25.0);
+      tl.fromTo(".copyright-text", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power1.out" }, 26.2);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,552 @@
+{
+  "ok": true,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 1,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "composition_file_too_large",
+        "severity": "warning",
+        "message": "This HTML composition file has 310 lines. Smaller sub-compositions are easier to read, iterate on, and diff.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "C:\\Users\\seydieryilmaz\\Desktop\\FreyaTTS_Automotive_PoC\\brag-output\\composition\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Split coherent scenes or layers into separate .html files under compositions/, then mount them from the parent with data-composition-src so each file stays small enough to inspect, revise, and validate independently."
+      }
+    ],
+    "filesScanned": 1
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "duration": 25,
+    "samples": [
+      1.389,
+      4.167,
+      6.944,
+      9.722,
+      12.5,
+      15.278,
+      18.056,
+      20.833,
+      23.611
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 0,
+    "truncated": false
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "samples": [
+      1.389,
+      6.944,
+      12.5,
+      18.056,
+      23.611
+    ],
+    "checked": 58,
+    "passed": 58
+  },
+  "craft": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 4,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "text_below_floor",
+        "severity": "warning",
+        "message": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and 45 text elements stay under it for 0.5 s or more, the smallest \"Pillar 1\" at 13 px: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md.",
+        "text": "Pillar 1",
+        "selector": "div.pillar-badge-card.active > span:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 195,
+          "y": 641.95,
+          "width": 62.41,
+          "height": 16
+        },
+        "time": 0.75,
+        "times": [
+          0,
+          0.75,
+          0.75,
+          0.75,
+          0.875,
+          0.875,
+          0.875,
+          0.875,
+          0.875,
+          0.875,
+          1,
+          1,
+          1,
+          3.375,
+          3.375,
+          3.375,
+          3.375,
+          3.375,
+          3.375,
+          3.375,
+          3.375,
+          3.375,
+          3.375,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          14.625,
+          14.625,
+          14.625,
+          14.625,
+          14.625,
+          14.625,
+          14.625,
+          14.625,
+          21,
+          21.75,
+          21.75,
+          21.75,
+          21.75,
+          22.375
+        ],
+        "fontPx": 12.9,
+        "floorPx": 28,
+        "seconds": 2.5,
+        "elements": [
+          {
+            "selector": "div.pillar-badge-card.active > span:nth-of-type(1)",
+            "text": "Pillar 1",
+            "fontPx": 12.9,
+            "time": 0.75,
+            "seconds": 2.5
+          },
+          {
+            "selector": "div.pillars-overview-row > div:nth-of-type(2) > span:nth-of-type(1)",
+            "text": "Pillar 2",
+            "fontPx": 12.9,
+            "time": 0.875,
+            "seconds": 2.375
+          },
+          {
+            "selector": "div.pillars-overview-row > div:nth-of-type(3) > span:nth-of-type(1)",
+            "text": "Pillar 3",
+            "fontPx": 12.9,
+            "time": 0.875,
+            "seconds": 2.375
+          },
+          {
+            "selector": "div.pillars-overview-row > div:nth-of-type(4) > span:nth-of-type(1)",
+            "text": "Pillar 4",
+            "fontPx": 12.9,
+            "time": 1,
+            "seconds": 2.25
+          },
+          {
+            "selector": "#scene-pillar-1 > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(2)",
+            "text": "214ms TTFA, canlı dalga formu, hızlı simülasyon çipleri",
+            "fontPx": 13,
+            "time": 3.375,
+            "seconds": 5.375
+          },
+          {
+            "selector": "#scene-pillar-1 > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > span:nth-of-type(2)",
+            "text": "120Hz Butterworth filtre & +14.8dB SNR bastırma",
+            "fontPx": 13,
+            "time": 3.375,
+            "seconds": 5.375
+          },
+          {
+            "selector": "#scene-pillar-1 > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div:nth-of-type(1) > span:nth-of-type(2)",
+            "text": "280+ terim (DSG, TSI, Quattro) & semantik graf",
+            "fontPx": 13,
+            "time": 3.375,
+            "seconds": 5.375
+          },
+          {
+            "selector": "#scene-pillar-2 > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(2)",
+            "text": "Lift-1 / Lift-2 istasyon ataması, çakışmasız planlama",
+            "fontPx": 13,
+            "time": 9,
+            "seconds": 5.375
+          },
+          {
+            "selector": "#scene-pillar-2 > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > span:nth-of-type(2)",
+            "text": "P0300 ateşleme arızası, emniyet yönlendirmeleri",
+            "fontPx": 13,
+            "time": 9,
+            "seconds": 5.375
+          },
+          {
+            "selector": "#scene-pillar-2 > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div:nth-of-type(1) > span:nth-of-type(2)",
+            "text": "TSE onaylı dijital PDF çıktısı & sesli muayene kaydı",
+            "fontPx": 13,
+            "time": 9,
+            "seconds": 5.375
+          },
+          {
+            "selector": "#scene-pillar-3 > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(2)",
+            "text": "Canlı çağrı dinleme, fısıltı ve acil durum müdahalesi",
+            "fontPx": 13,
+            "time": 14.625,
+            "seconds": 5.375
+          },
+          {
+            "selector": "#scene-pillar-3 > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > span:nth-of-type(2)",
+            "text": "Doğruluk, empati, niyet eşleme kalite puanlaması",
+            "fontPx": 13,
+            "time": 14.625,
+            "seconds": 5.375
+          },
+          {
+            "selector": "#scene-pillar-3 > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div:nth-of-type(1) > span:nth-of-type(2)",
+            "text": "KVKK koruma, sabit fiyat güvencesi, çekici kuralı",
+            "fontPx": 13,
+            "time": 14.625,
+            "seconds": 5.375
+          },
+          {
+            "selector": "div.pillar-badge-card.active > span:nth-of-type(3)",
+            "text": "6 Modül • F0–F6 Hattı",
+            "fontPx": 13.9,
+            "time": 0.75,
+            "seconds": 2.5
+          },
+          {
+            "selector": "div.pillars-overview-row > div:nth-of-type(2) > span:nth-of-type(3)",
+            "text": "6 Modül • Lift & OBD",
+            "fontPx": 13.9,
+            "time": 0.875,
+            "seconds": 2.375
+          },
+          {
+            "selector": "div.pillars-overview-row > div:nth-of-type(3) > span:nth-of-type(3)",
+            "text": "4 Modül • SIP & WhatsApp",
+            "fontPx": 13.9,
+            "time": 0.875,
+            "seconds": 2.375
+          },
+          {
+            "selector": "div.pillars-overview-row > div:nth-of-type(4) > span:nth-of-type(3)",
+            "text": "4 Modül • FQICI & M01-M11",
+            "fontPx": 13.9,
+            "time": 1,
+            "seconds": 2.25
+          },
+          {
+            "selector": "#scene-pillar-1 > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1)",
+            "text": "Pillar 1 • F0–F6 Nöral Donanım",
+            "fontPx": 14,
+            "time": 3.375,
+            "seconds": 5.375
+          },
+          {
+            "selector": "#scene-pillar-2 > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1)",
+            "text": "Pillar 2 • Servis & Muayene",
+            "fontPx": 14,
+            "time": 9,
+            "seconds": 5.375
+          },
+          {
+            "selector": "#scene-pillar-3 > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1)",
+            "text": "Pillar 3 & 4 • Santral & Yönetişim",
+            "fontPx": 14,
+            "time": 14.625,
+            "seconds": 5.375
+          },
+          {
+            "selector": "#scene-pillar-1 > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "Görüşme Kokpiti (F0–F6)",
+            "fontPx": 15,
+            "time": 3.375,
+            "seconds": 5.375
+          },
+          {
+            "selector": "#scene-pillar-1 > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "Araç İçi DSP & Gürültü (F0)",
+            "fontPx": 15,
+            "time": 3.375,
+            "seconds": 5.375
+          },
+          {
+            "selector": "#scene-pillar-1 > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "Otomotiv Ontolojisi & Fonetik Sözlük",
+            "fontPx": 15,
+            "time": 3.375,
+            "seconds": 5.375
+          },
+          {
+            "selector": "#scene-pillar-2 > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "Randevu Takvimi & Lift Sırası",
+            "fontPx": 15,
+            "time": 9,
+            "seconds": 5.375
+          },
+          {
+            "selector": "#scene-pillar-2 > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "Araç Teşhis & OBD-II DTC",
+            "fontPx": 15,
+            "time": 9,
+            "seconds": 5.375
+          },
+          {
+            "selector": "#scene-pillar-2 > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "Ekspertiz Raporları & Teknisyen Dikte",
+            "fontPx": 15,
+            "time": 9,
+            "seconds": 5.375
+          },
+          {
+            "selector": "#scene-pillar-3 > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "Operatör Masası (6002)",
+            "fontPx": 15,
+            "time": 14.625,
+            "seconds": 5.375
+          },
+          {
+            "selector": "#scene-pillar-3 > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "Supervisor & FQICI Denetimi",
+            "fontPx": 15,
+            "time": 14.625,
+            "seconds": 5.375
+          },
+          {
+            "selector": "#scene-pillar-3 > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "M01–M11 Emniyet Kilitleri",
+            "fontPx": 15,
+            "time": 14.625,
+            "seconds": 5.375
+          },
+          {
+            "selector": "p.copyright-text",
+            "text": "Telif Hakkı (c) 2026 Seydi Eryılmaz (@seydivakkas) • ÖZEL LİSANS / TÜM HAKLAR SAKLIDIR",
+            "fontPx": 15,
+            "time": 22.375,
+            "seconds": 2.625
+          },
+          {
+            "selector": "div.summary-pills-row > span:nth-of-type(1)",
+            "text": "20 Bağımsız Modül",
+            "fontPx": 16,
+            "time": 21.75,
+            "seconds": 3.25
+          },
+          {
+            "selector": "div.summary-pills-row > span:nth-of-type(2)",
+            "text": "214 ms E2E TTFA",
+            "fontPx": 16,
+            "time": 21.75,
+            "seconds": 3.25
+          },
+          {
+            "selector": "div.summary-pills-row > span:nth-of-type(3)",
+            "text": "Sıfır Bulut Bağımlılığı",
+            "fontPx": 16,
+            "time": 21.75,
+            "seconds": 3.25
+          },
+          {
+            "selector": "div.summary-pills-row > span:nth-of-type(4)",
+            "text": "%100 Kurumsal Güvenlik",
+            "fontPx": 16,
+            "time": 21.75,
+            "seconds": 3.25
+          },
+          {
+            "selector": "span.brand-version",
+            "text": "v3 COCKPIT",
+            "fontPx": 17.8,
+            "time": 21,
+            "seconds": 4
+          },
+          {
+            "selector": "#scene-pillar-1 > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(1)",
+            "text": "Kabin içi gürültüden arındırılmış Türkçe akustik model, niyet çıkarımı ve yerel CUDA ODE ses sentezi.",
+            "fontPx": 18,
+            "time": 3.375,
+            "seconds": 5.375
+          },
+          {
+            "selector": "#scene-pillar-1 > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "🎙️",
+            "fontPx": 18,
+            "time": 3.375,
+            "seconds": 5.375
+          },
+          {
+            "selector": "#scene-pillar-1 > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > span:nth-of-type(1)",
+            "text": "🛡️",
+            "fontPx": 18,
+            "time": 3.375,
+            "seconds": 5.375
+          },
+          {
+            "selector": "#scene-pillar-2 > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(1)",
+            "text": "Lift doluluk optimizasyonu, dinamik araç kataloğu, sesli usta diktesi ve OBD-II arıza kodları.",
+            "fontPx": 18,
+            "time": 9,
+            "seconds": 5.375
+          },
+          {
+            "selector": "#scene-pillar-3 > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(1)",
+            "text": "SIP/6002 masası, WhatsApp teslimat entegrasyonu ve 5 boyutlu konuşma kalite puanlama motoru.",
+            "fontPx": 18,
+            "time": 14.625,
+            "seconds": 5.375
+          },
+          {
+            "selector": "div.hook-badge > span:nth-of-type(1)",
+            "text": "Türkiye'nin İlk Yerel Otomotiv Yapay Zekâ Santrali",
+            "fontPx": 19.85,
+            "time": 0,
+            "seconds": 3.25
+          },
+          {
+            "selector": "div.pillar-badge-card.active > span:nth-of-type(2)",
+            "text": "Ses & Yapay Zekâ",
+            "fontPx": 21.84,
+            "time": 0.75,
+            "seconds": 2.5
+          },
+          {
+            "selector": "div.pillars-overview-row > div:nth-of-type(2) > span:nth-of-type(2)",
+            "text": "Ekspertiz & Atölye",
+            "fontPx": 21.84,
+            "time": 0.875,
+            "seconds": 2.375
+          },
+          {
+            "selector": "div.pillars-overview-row > div:nth-of-type(3) > span:nth-of-type(2)",
+            "text": "Telefoni & Santral",
+            "fontPx": 21.84,
+            "time": 0.875,
+            "seconds": 2.375
+          },
+          {
+            "selector": "div.pillars-overview-row > div:nth-of-type(4) > span:nth-of-type(2)",
+            "text": "Gözetim & Kalite",
+            "fontPx": 21.84,
+            "time": 1,
+            "seconds": 2.25
+          }
+        ]
+      },
+      {
+        "code": "dead_stretch",
+        "severity": "warning",
+        "message": "Nothing on screen changes for 3.63 s (4.75–8.38 s): start the next move within 3 s, or put data-hold on the element whose stillness is deliberate; see references/motion.md.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 4.75,
+        "seconds": 3.625,
+        "floorSeconds": 3,
+        "until": 8.375
+      },
+      {
+        "code": "dead_stretch",
+        "severity": "warning",
+        "message": "Nothing on screen changes for 3.75 s (10.25–14.00 s): start the next move within 3 s, or put data-hold on the element whose stillness is deliberate; see references/motion.md.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 10.25,
+        "seconds": 3.75,
+        "floorSeconds": 3,
+        "until": 14
+      },
+      {
+        "code": "dead_stretch",
+        "severity": "warning",
+        "message": "Nothing on screen changes for 3.75 s (15.88–19.63 s): start the next move within 3 s, or put data-hold on the element whose stillness is deliberate; see references/motion.md.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 15.875,
+        "seconds": 3.75,
+        "floorSeconds": 3,
+        "until": 19.625
+      }
+    ],
+    "enabled": true,
+    "step": 0.125,
+    "samples": 200
+  },
+  "audio": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  }
+}

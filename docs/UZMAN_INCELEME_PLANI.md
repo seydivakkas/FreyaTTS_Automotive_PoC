@@ -220,6 +220,20 @@ Her yeni özellik için üç seçenekten biri: tut, kapalı beklet, `experimenta
 | Ardışık düzen görünümü (F0–F6) | Yalnızca ölçülen aşamalarla tut | Y1 |
 | Demo/Reel düğmesi | Kaldır | K4 |
 
+#### Aşama 3 kapsam kararı ve kullanım seçenekleri
+
+- Kullanımda kalacak özellikler randevu telefon alanı, takvim, panelden erteleme, operatörün Bugün kutusu ve doğrulamalı sesli iptal/ertelemedir. Canlı ses paneli F2–F5 ölçüm noktalarını gösterir. Simülasyon kendi kaynak etiketiyle görüntülenir.
+- Twilio, iki araçlı randevu, KVKK silme ve otomatik transkript imhası varsayılan olarak kapalıdır. KVKK saklama denetimi ve silme önizlemesi salt okunur kullanılabilir.
+- Supervisor ve FQICI kendi modüllerinde geliştirilecek. Pilot kapsamı ve uygulama sırası için aşağıdaki seçeneklerden karar bekleniyor.
+
+| Karar | Önerilen ilk kullanım | Alternatif |
+|---|---|---|
+| Supervisor | Yerel demo web görüşmelerinde gölge niyet yönlendirmesi ve operatör incelemesi. Karar kaydı müşteri yanıtını geciktirmeyecek şekilde ayrıştırıldıktan sonra pilot açılır. | Yalnızca çevrimdışı, insan etiketli görüşme setiyle başlayıp gölge pilota daha sonra geçmek. |
+| FQICI | Önce kapanış kuyruğuna deterministik değerlendirme işçisi bağlamak. Demo web ve sentetik AudioSocket oturumlarında görüşme sonucu ile işlem kanıtını karşılaştırıp operatöre inceleme nedeni göstermek. | İlk teslimi kuyruk görünürlüğü, bekleme süresi ve hata sayılarıyla sınırlayıp değerlendirme işçisini sonraya almak. |
+| Uygulama sırası | FQICI işçisi ve kuyruk gözlemi, ardından Supervisor gölge pilotu. | Her iki modül için önce ortak pilot veri seti ve operatör inceleme akışı hazırlamak. |
+
+Supervisor için gölge pilot kabulü, mevcut diyalog yanıtlarının ve randevu işlemlerinin aynı kalmasını, ilk ses gecikmesinde regresyon olmamasını ve bağımsız insan etiketli sette kapsam dışı örneklerin ayrıca ölçülmesini gerektirir. FQICI için aynı kapanışın tekrar teslimi tek kalıcı değerlendirme üretmeli. Eksik işlem kanıtı bilinmiyor olarak görünmeli. Pilot veri saklama ve silme koşulları pilot açılmadan belirlenmeli. İki modülün varsayılan ayarları karar süresince kapalıdır.
+
 ### Aşama 4: Asıl sorun, terim doğruluğu (1–2 hafta)
 - Sizin sesinizle ve gürültüde 50–100 cümlelik bir kayıt seti oluşturun. Bu, sizin girdinizi gerektirir.
 - Bu setle temel ölçümü alın; sonra sırayla deneyin: katalog ipuçları açık/kapalı, ışın genişliği, tanıma sonrası katalog eşleştirme, sözlük okunuşları.
@@ -244,7 +258,7 @@ Gerçek SMS hesabı, Asterisk hattı, eşzamanlılık yükü, rol bazlı yetki, 
 
 1. Bugünkü çalışma ağacı ayrı bir dala commit edilsin mi (Aşama 0)?
 2. `data/` altındaki test artıkları (yaklaşık 250 MB) ve iki göç denemesi veritabanı silinsin mi?
-3. Supervisor ve FQICI `experimental/` altına taşınsın mı, yoksa kapalı olarak yerinde mi kalsın?
+3. Supervisor ve FQICI için Aşama 3 tablosundaki pilot kapsamı ve uygulama sırası nasıl seçilsin?
 4. KVKK otomatik imhası kapatılsın mı? Açık kalırsa, 27 Ekim tarihli demo görüşmeleri 26 Kasım'dan itibaren kalıcı olarak silinir (yalnızca sunucu demo modunda çalışırken).
 5. Kendi sesinizle kayıt seti hazırlayabilir misiniz (Aşama 4)?
 

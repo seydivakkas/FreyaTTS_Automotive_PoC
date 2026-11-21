@@ -1,6 +1,5 @@
 """Business-authoritative replaceable ports, with deterministic no-network fakes."""
 from __future__ import annotations
-from datetime import datetime
 from typing import Protocol
 from uuid import uuid5, NAMESPACE_URL
 from .models import VehicleRecord, PriceQuote, AppointmentSlot, Availability, BookingReceipt, Commitment, CaseKind, CaseReceipt

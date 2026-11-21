@@ -28,7 +28,6 @@ from typing import Any
 from backend.audiosocket_server import (
     orchestrator,
     read_packet as _read_packet,
-    build_packet,
 )
 
 read_packet = _read_packet

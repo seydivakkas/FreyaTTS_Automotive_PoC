@@ -148,6 +148,7 @@ def test_twilio_provider_sms_and_whatsapp(monkeypatch):
 
 
 def test_twilio_provider_fallback_when_unconfigured(monkeypatch):
+    monkeypatch.setattr(settings, "twilio_enabled", True)
     monkeypatch.setattr(settings, "notification_provider", "twilio")
     monkeypatch.setattr(settings, "twilio_account_sid", "")
     monkeypatch.setattr(settings, "twilio_auth_token", "")
@@ -194,7 +195,7 @@ def test_appointment_persists_customer_phone(test_env):
 # 4. Asterisk/SIP Inbound Metadata Webhook Testi
 # -----------------------------------------------------------------------------
 
-def test_inbound_metadata_webhook_and_retrieval(test_env):
+def test_inbound_metadata_webhook_and_retrieval(test_env, monkeypatch):
     client, _, _ = test_env
     auth = ("admin", "test-pass-123")
 
@@ -205,7 +206,18 @@ def test_inbound_metadata_webhook_and_retrieval(test_env):
         "caller_channel": "PJSIP/trunk-000000a1",
         "did": "02129998877",
     }
-    resp = client.post("/api/telephony/inbound-metadata", json=payload)
+    from backend.config import settings
+
+    endpoint = "/api/telephony/inbound-metadata"
+    headers = {"X-PBX-Secret": "test-pbx-secret"}
+    monkeypatch.setattr(settings, "pbx_metadata_secret", "test-pbx-secret")
+    monkeypatch.setattr(settings, "pbx_allowed_ips", [])
+    assert client.post(endpoint, json=payload, headers=headers).status_code == 403
+    monkeypatch.setattr(settings, "pbx_allowed_ips", ["testclient"])
+    assert client.post(endpoint, json=payload).status_code == 403
+    assert client.post(endpoint, json=payload, headers={"X-PBX-Secret": "wrong"}).status_code == 403
+    assert get_inbound_metadata(call_uuid) is None
+    resp = client.post(endpoint, data=payload, headers=headers)
     assert resp.status_code == 200
     assert resp.json()["registered"] is True
 
@@ -261,3 +273,13 @@ def test_dialogue_unclear_fallback_when_ami_offline(monkeypatch):
     assert d.retries == 3
     assert d.transfer_requested is False
     assert "talebinizi kaydettim, sizi arayacağız" in ans
+
+
+def test_twilio_disabled_even_with_credentials(monkeypatch):
+    monkeypatch.setattr(settings, "notification_provider", "twilio")
+    monkeypatch.setattr(settings, "twilio_enabled", False)
+    monkeypatch.setattr(settings, "twilio_account_sid", "AC_TEST")
+    monkeypatch.setattr(settings, "twilio_auth_token", "test-token")
+    set_notification_provider(None)
+    assert isinstance(get_notification_provider(), MockNotificationProvider)
+    assert not can_send_real_notifications()

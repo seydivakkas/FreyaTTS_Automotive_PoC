@@ -11,7 +11,7 @@ from automotive_voice.core.session import State
 from .clock import MockClock
 from .breaker import CircuitBreaker
 from .contracts import (AdapterKind,AdapterState,AdapterReceipt,SyntheticCommand,SyntheticResult,
-                        HealthSnapshot,RetryPolicy,ResultCode,CircuitState)
+                        HealthSnapshot,RetryPolicy,ResultCode)
 
 @dataclass(slots=True)
 class _Work:

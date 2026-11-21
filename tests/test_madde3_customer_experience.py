@@ -22,9 +22,11 @@ import pytest
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import sessionmaker
 
+from backend.config import settings
 from backend.db import (
     Base,
     Appointment,
+    Conversation,
     Slot,
     Vehicle,
     Quote,
@@ -35,8 +37,6 @@ from backend.db import (
 )
 from backend.dialogue import (
     Dialogue,
-    extract_plate,
-    _find_active_appointment,
 )
 from backend.audiosocket_server import (
     TwoStageBargeInController,
@@ -98,9 +98,10 @@ async def test_inbound_cancel_by_phone_match(env):
         app_id = app.id
 
     d = Dialogue("c-cancel-1", customer_phone=phone)
-    ans1 = await d.answer("Ekspertiz randevumu iptal etmek istiyorum.")
+    assert "plakanızı" in await d.answer("Ekspertiz randevumu iptal etmek istiyorum.")
+    ans1 = await d.answer("34 ABC 123")
     assert "iptal etmek istediğinizi onaylıyor musunuz" in ans1
-    assert "Passat" in ans1 or "34 ABC 123" in ans1
+    assert "34 ABC 123" not in ans1
     assert d.awaiting_cancel_confirmation is True
 
     # Onay verildiğinde randevu iptal edilir
@@ -123,7 +124,8 @@ async def test_inbound_cancel_by_phone_match(env):
 
 
 @pytest.mark.asyncio
-async def test_inbound_cancel_abort(env):
+@pytest.mark.parametrize("reply", ["Hayır tamam kalsın.", "Uygun değil, iptal etmeyin."])
+async def test_inbound_cancel_abort(env, reply):
     """Müşteri iptalden vazgeçerse randevu aktif kalır."""
     phone = "05329998877"
     with env() as db:
@@ -143,11 +145,11 @@ async def test_inbound_cancel_abort(env):
         app_id = app.id
 
     d = Dialogue("c-cancel-2", customer_phone=phone)
-    await d.answer("Randevumu iptal edelim.")
+    await d.answer("Randevumu iptal edelim. 06 ANK 99")
     assert d.awaiting_cancel_confirmation is True
 
-    ans2 = await d.answer("Hayır, kalsın vazgeçtim.")
-    assert "İptal işlemi gerçekleştirilmedi" in ans2
+    ans2 = await d.answer(reply)
+    assert "Mevcut randevunuz geçerlidir" in ans2
     assert d.done is False
 
     with env() as db:
@@ -156,8 +158,9 @@ async def test_inbound_cancel_abort(env):
 
 
 @pytest.mark.asyncio
-async def test_inbound_reschedule_flow(env):
-    """Randevu saatini değiştirmek isteyen müşteriye eski randevu iptal edilip yeni saatler sunulur."""
+@pytest.mark.parametrize("target_occupied", [False, True])
+async def test_inbound_reschedule_flow(env, target_occupied):
+    """Eski saat kesin onaya kadar korunur ve aynı randevu taşınır."""
     phone = "05441234567"
     with env() as db:
         v = Vehicle(description="Toyota Corolla 1.5 Vision", plate="35 EKS 456")
@@ -174,21 +177,45 @@ async def test_inbound_reschedule_flow(env):
             confirmed=True,
             customer_phone=phone,
         )
-        old_id = app.id
+        old_id, old_slot, new_slot, vehicle_id = app.id, s_old.id, s_new.id, v.id
 
     d = Dialogue("c-reschedule-1", customer_phone=phone)
-    ans1 = await d.answer("Randevu saatimi değiştirmek, ertelemek istiyorum.")
-    assert "mevcut randevusunu iptal ettim" in ans1 or "Yeni randevunuz için" in ans1
-    assert len(d.options) > 0
-    assert d.customer == "Selin Kaya"
+    d.customer = "Selin"
+    assert "plakanızı" in await d.answer("Randevumu ertelemek istiyorum.")
+    assert "1. seçenek" in await d.answer("35 EKS 456")
+    assert "onaylıyor musunuz" in await d.answer("Birinci seçenek.")
+    with env() as db:
+        assert db.get(Appointment, old_id).slot_id == old_slot
 
-    # Yeni slot seçimi
-    ans2 = await d.answer("Birinci seçenek olsun lütfen.")
-    assert "onaylıyor musunuz" in ans2
+    if target_occupied:
+        with env() as db:
+            book(db, slot_id=new_slot, vehicle_id=vehicle_id, customer="Diğer Müşteri",
+                 idempotency_key="takes-target", confirmed=True)
+    response = await d.answer("Evet, onaylıyorum.")
+    assert ("geçerlidir" if target_occupied else "taşındı") in response
+    with env() as db:
+        assert db.get(Appointment, old_id).slot_id == (old_slot if target_occupied else new_slot)
+        assert db.query(Appointment).count() == (2 if target_occupied else 1)
 
-    # Yeni slot teyidi
-    ans3 = await d.answer("Evet, onaylıyorum.")
-    assert "oluşturuldu" in ans3
+
+@pytest.mark.asyncio
+async def test_name_and_plate_cannot_replace_registered_phone(env):
+    with env() as db:
+        car = Vehicle(description="Corolla", plate="35 EKS 456")
+        call = Conversation(channel="web", status="active")
+        db.add_all([car, call])
+        slot = _create_slot(db)
+        app = book(db, slot_id=slot.id, vehicle_id=car.id, customer="Ali Kaya",
+                   idempotency_key="identity-check", confirmed=True, customer_phone="05329998877")
+        app_id, call_id = app.id, call.id
+
+    dialogue = Dialogue(call_id, customer_phone="05321112233")
+    dialogue.customer = "Ali"
+    answer = await dialogue.answer("Randevumu ertelemek istiyorum. 35 EKS 456")
+    assert "operatöre" in answer
+    with env() as db:
+        assert db.get(Appointment, app_id).status == "confirmed"
+        assert db.get(Conversation, call_id).follow_up_kind == "callback"
 
 
 @pytest.mark.asyncio
@@ -212,12 +239,11 @@ async def test_inbound_cancel_dtmf(env):
         app_id = app.id
 
     d = Dialogue("c-dtmf-cancel", customer_phone=phone)
-    await d.answer("Randevumu iptal etmek istiyorum.")
+    await d.answer("Randevumu iptal etmek istiyorum. 16 BUR 789")
     assert d.awaiting_cancel_confirmation is True
 
     with env() as db:
         dtmf_ans = await d.handle_dtmf("1", db)
-    assert "1'i tuşladınız" in dtmf_ans
     assert "iptal edilmiştir" in dtmf_ans
     assert d.done is True
 
@@ -338,7 +364,8 @@ def test_two_stage_bargein_real_interrupt_commits():
 # =====================================================================
 
 @pytest.mark.asyncio
-async def test_multi_vehicle_preplanned_booking(env):
+async def test_multi_vehicle_preplanned_booking(env, monkeypatch):
+    monkeypatch.setattr(settings, "multi_vehicle_booking_enabled", True)
     """Müşteri başta iki araç belirttiğinde, 1. araç onayından sonra otomatik olarak 2. araca geçer."""
     phone = "05325556677"
     with env() as db:
@@ -376,7 +403,8 @@ async def test_multi_vehicle_preplanned_booking(env):
 
 
 @pytest.mark.asyncio
-async def test_multi_vehicle_sequential_inquiry(env):
+async def test_multi_vehicle_sequential_inquiry(env, monkeypatch):
+    monkeypatch.setattr(settings, "multi_vehicle_booking_enabled", True)
     """Müşteri tek araç randevusunu aldıktan sonra 'Bir aracım daha var' dediğinde diyalog devam eder."""
     phone = "05321239900"
     with env() as db:
@@ -398,3 +426,16 @@ async def test_multi_vehicle_sequential_inquiry(env):
     assert "diğer aracınızın marka ve modelini" in ans_next.lower()
     assert d.customer == "Leyla Güven"
     assert d.done is False
+
+
+@pytest.mark.asyncio
+async def test_multi_vehicle_disabled_preserves_current_booking(env, monkeypatch):
+    monkeypatch.setattr(settings, "multi_vehicle_booking_enabled", False)
+    dialogue = Dialogue("multi-disabled")
+    dialogue.vehicle = "current-vehicle"
+    dialogue.options = [("current-slot", "Yarın saat 10")]
+    for phrase in ("İki araç için randevu istiyorum", "Başka bir araç eklemek istiyorum"):
+        assert "bir araç için" in await dialogue.answer(phrase)
+        assert dialogue.vehicle == "current-vehicle"
+        assert dialogue.options == [("current-slot", "Yarın saat 10")]
+        assert not dialogue.multi_vehicle_planned

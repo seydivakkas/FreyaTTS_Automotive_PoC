@@ -9,7 +9,6 @@ from concurrent.futures import TimeoutError as FutureTimeout
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from importlib.resources import files
 import json
-from pathlib import Path
 import secrets
 import threading
 from urllib.parse import urlsplit

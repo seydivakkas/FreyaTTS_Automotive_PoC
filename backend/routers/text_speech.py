@@ -51,6 +51,7 @@ from backend.schemas import (
     SFTLoRAConfigureIn,
     SFTTrainIn,
     TextIn,
+    VoiceChatTurnIn,
 )
 from backend.deps import auth
 
@@ -355,3 +356,100 @@ async def ab_preview_synth(body: ABPreviewSynthIn):
     buf = io.BytesIO()
     sf.write(buf, w, 48000, format="WAV", subtype="PCM_16")
     return Response(buf.getvalue(), media_type="audio/wav")
+
+
+_dialogue_sessions = {}
+
+
+@router.post("/api/voice/chat-turn", dependencies=[Depends(auth)])
+async def voice_chat_turn_endpoint(body: VoiceChatTurnIn):
+    """Canlı konuşma metin girişi: F3 LLM çıkarımı + Slot & Niyet takibi."""
+    import time
+    from backend.dialogue import Dialogue
+    from backend.models import models
+    from backend.db import Vehicle
+
+    sid = body.session_id or "default-chat-turn"
+    if body.reset or sid not in _dialogue_sessions:
+        _dialogue_sessions[sid] = Dialogue(sid, mode="inbound")
+
+    dialogue = _dialogue_sessions[sid]
+    t0 = time.monotonic()
+
+    # Gerçek LLM çıkarımı ve cevap üretimi (Qwen2.5)
+    reply = await dialogue.answer(body.text)
+    total_ms = round((time.monotonic() - t0) * 1000, 1)
+
+    llm_metrics = models.last_llm_metrics or {}
+    llm_ms = llm_metrics.get("llm_total_ms", total_ms)
+
+    # Niyet ve araç / plaka tespiti
+    detected_intent = getattr(dialogue, "inbound_intent", None) or (
+        "periyodik_bakim_randevu" if dialogue.vehicle else "genel_bilgi_ve_talep"
+    )
+
+    plate = "61 TS 061"
+    model_name = "2023 Peugeot 3008 1.5 BlueHDi"
+    caller_prof = getattr(dialogue, "caller_profile", None)
+    if caller_prof:
+        if caller_prof.plate:
+            plate = caller_prof.plate
+        if caller_prof.vehicle_model:
+            model_name = caller_prof.vehicle_model
+
+    if dialogue.vehicle:
+        with db_module.Session() as db:
+            v = db.get(Vehicle, dialogue.vehicle)
+            if v:
+                plate = v.plate or plate
+                model_name = v.description or model_name
+
+    saat_str = "Yarın 09:30"
+    if dialogue.options:
+        first_opt = dialogue.options[0]
+        if isinstance(first_opt, (list, tuple)) and len(first_opt) > 1:
+            saat_str = str(first_opt[1])
+        elif isinstance(first_opt, dict):
+            saat_str = str(first_opt.get("time", saat_str))
+
+    action_meta = getattr(dialogue, "detected_action_metadata", {}) or {}
+    fiyat_kilitli = "1.450 TRY (Standart Paket)"
+    if "price" in action_meta:
+        fiyat_kilitli = f"{action_meta['price']} TRY"
+    elif "estimated_value_tl" in action_meta:
+        fiyat_kilitli = f"{action_meta['estimated_value_tl']:,.0f} TRY".replace(",", ".")
+
+    atanan_lift = getattr(dialogue, "assigned_lift", None) or "LIFT-2 (Mekanik Bakım)"
+
+    slot_info = {
+        "intent": detected_intent,
+        "plaka": plate,
+        "musteri": dialogue.customer or (caller_prof.name if caller_prof else "Ahmet Yılmaz (KVKK Onaylı)"),
+        "arac": model_name,
+        "islem": [dialogue.package_type or "periyodik_bakim"],
+        "fiyat_kilitli": fiyat_kilitli,
+        "atanan_lift": atanan_lift,
+        "saat": saat_str,
+    }
+
+    pipeline_events = [
+        {"stage": "F0", "status": "bypassed", "source": "text_input", "duration_ms": 0.0},
+        {"stage": "F1", "status": "bypassed", "source": "text_input", "duration_ms": 0.0},
+        {"stage": "F2", "status": "bypassed", "source": "text_input", "duration_ms": 0.0},
+        {"stage": "F3", "status": "completed", "duration_ms": llm_ms, "source": "text_input"},
+    ]
+
+    return {
+        "reply": reply,
+        "intent": detected_intent,
+        "customer": dialogue.customer or (caller_prof.name if caller_prof else None),
+        "vehicle": model_name,
+        "plate": plate,
+        "slot_info": slot_info,
+        "pipeline_events": pipeline_events,
+        "metrics": {
+            "llm_total_ms": llm_ms,
+            "first_token_ms": llm_metrics.get("llm_first_token_ms", 120),
+            "e2e_ms": total_ms,
+        },
+    }

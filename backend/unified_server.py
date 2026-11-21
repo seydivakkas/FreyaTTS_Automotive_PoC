@@ -24,9 +24,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
-from pathlib import Path
 import signal
-import sys
 import time
 from typing import Any
 

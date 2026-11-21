@@ -28,5 +28,10 @@ docs/*.docx
 frontend/dist/
 
 # --- test ve tarayici artiklari ---
+~$*.docx
 .playwright-mcp/
 build/
+temp_*
+data/temp_pytest/
+.FullName/
+.agents/

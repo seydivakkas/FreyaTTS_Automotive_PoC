@@ -70,7 +70,8 @@ def test_preview_is_read_only_and_conflict_offers_current_alternative(calendar):
 def test_confirm_rechecks_capacity_and_rejects_a_stale_source(calendar):
     app, sessions, auth = calendar
     source, target, alternative, _, appointment = seed(sessions)
-    client = TestClient(app, auth=auth)
+    client = TestClient(app)
+    client.auth = auth
     base = f"/api/appointments/{appointment}"
     params = {"target_slot_id": target}
     with sessions.begin() as db:
@@ -103,7 +104,8 @@ def test_active_station_assignment_prevents_detaching_appointment(calendar):
             appointment_id=appointment, bay_id=bay.id, stage_name="Test stage",
             starts_at=start.isoformat(), ends_at=(start + timedelta(minutes=15)).isoformat(),
         ))
-    client = TestClient(app, auth=auth)
+    client = TestClient(app)
+    client.auth = auth
     base = f"/api/appointments/{appointment}"
     params = {"target_slot_id": target}
     preview = client.get(base + "/reschedule-preview", params=params).json()
@@ -125,7 +127,8 @@ def test_concurrent_confirmations_admit_one_move(calendar):
         ))
 
     def confirm(id):
-        client = TestClient(app, auth=auth)
+        client = TestClient(app)
+        client.auth = auth
         base = f"/api/appointments/{id}"
         params = {"target_slot_id": target}
         version = client.get(base + "/reschedule-preview", params=params).json()["preview_version"]

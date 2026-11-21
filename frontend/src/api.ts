@@ -93,6 +93,8 @@ export interface ComponentStatus {
   model?: string;
 }
 export interface Health {
+  kvkk_erasure_enabled?: boolean;
+  auto_purge_transcripts?: boolean;
   demo_mode?: boolean;
   tts?: ComponentStatus;
   stt?: ComponentStatus;
