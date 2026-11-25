@@ -217,14 +217,30 @@ async def voice(ws: WebSocket):
         ):
             raise ValueError("Ses biçimi desteklenmiyor")
         lock = asyncio.Lock()
+        from backend.audiosocket_server import NetworkWriteTimeout, send_with_timeout
+
+        async def _close_after_timeout():
+            # H01.12: okumayan istemci → kontrollü kapanış (kapanış da süresiz beklemez).
+            try:
+                await asyncio.wait_for(ws.close(code=1011, reason="write_timeout"), 1.0)
+            except Exception:
+                pass
 
         async def emit(event):
             async with lock:
-                await ws.send_json(event)
+                try:
+                    await send_with_timeout(ws.send_json(event), "web olay")
+                except NetworkWriteTimeout:
+                    await _close_after_timeout()
+                    raise
 
         async def audio(frame):
             async with lock:
-                await ws.send_bytes(frame)
+                try:
+                    await send_with_timeout(ws.send_bytes(frame), "web ses")
+                except NetworkWriteTimeout:
+                    await _close_after_timeout()
+                    raise
 
         if settings.auto_load_models and not models.ollama_ready:
             await emit({"type": "status", "value": "Modeller hazırlanıyor..."})

@@ -32,6 +32,7 @@ from fastapi import WebSocket, WebSocketDisconnect
 
 from backend.config import settings
 from backend.session import VoiceSession, active
+from backend.audiosocket_server import NetworkWriteTimeout, send_with_timeout
 
 logger = logging.getLogger("chan_websocket")
 
@@ -100,6 +101,9 @@ class ChanWebSocketSession:
         self.started_at = time.monotonic()
         self.is_closed = False
         self.send_lock = asyncio.Lock()
+        # H01.12: yazma zaman aşımında bağlantıyı kapatmak için (process_connection atar).
+        self.close_fn: Callable[[], Coroutine[Any, Any, None]] | None = None
+        self.write_timeouts = 0
 
         # Oturum bazlı sayaçlar
         self.flush_count = 0
@@ -118,7 +122,9 @@ class ChanWebSocketSession:
         msg = build_command(command, channel=self.channel_id, **kwargs)
         async with self.send_lock:
             try:
-                await self.send_text_fn(msg)
+                await send_with_timeout(self.send_text_fn(msg), "chan_websocket komut")
+            except NetworkWriteTimeout:
+                await self._on_write_timeout()
             except Exception as e:
                 logger.warning(f"Asterisk komut gönderme hatası ({command}): {e}")
 
@@ -157,13 +163,25 @@ class ChanWebSocketSession:
             return
         async with self.send_lock:
             try:
-                await self.send_bytes_fn(frame)
+                await send_with_timeout(self.send_bytes_fn(frame), "chan_websocket ses")
                 self.frames_sent += 1
                 self.bytes_sent += len(frame)
                 self.adapter.total_binary_frames_out += 1
                 self.adapter.total_bytes_out += len(frame)
+            except NetworkWriteTimeout:
+                await self._on_write_timeout()
             except Exception as e:
                 logger.warning(f"Asterisk ses iletim hatası: {e}")
+
+    async def _on_write_timeout(self) -> None:
+        """H01.12: okumayan istemci → olay kaydı ve kontrollü kapanış (süresiz bekleme yok)."""
+        self.write_timeouts += 1
+        self.is_closed = True
+        if self.close_fn is not None:
+            try:
+                await asyncio.wait_for(self.close_fn(), 1.0)
+            except Exception:
+                pass
 
     async def handle_session_event(self, event: dict[str, Any]) -> None:
         """VoiceSession'dan gelen olayları dinler ve Asterisk kontrol sinyallerine dönüştürür."""
@@ -364,6 +382,7 @@ class ChanWebSocketAdapter:
             send_text_fn=send_text_fn,
             adapter=self,
         )
+        session.close_fn = close_fn
         self.active_sessions[call_uuid_str] = session
         self.total_connections += 1
 

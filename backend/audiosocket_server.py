@@ -89,6 +89,44 @@ async def read_packet(reader: asyncio.StreamReader) -> tuple[int, bytes]:
     return kind, payload
 
 
+# H01.12 (R6): her ağ yazmasına zaman aşımı. Öneri formülü 2 × çerçeve (20 ms) × önden
+# gönderim sınırı; oturum gerçek zamanlı (1 çerçeve önden) gönderdiği için 40 ms çıkar,
+# plan alt sınırı 200 ms uygulanır. Okumayı durduran istemci süresiz bekletemez.
+NETWORK_WRITE_TIMEOUT_S = 0.2
+
+
+class NetworkWriteTimeout(ConnectionError):
+    """Ağ yazması zaman aşımına uğradı; bağlantı kontrollü kapatıldı."""
+
+
+async def send_with_timeout(awaitable, what: str, timeout: float | None = None) -> None:
+    """Ağ yazmasını zaman aşımıyla bekler; aşılırsa olay kaydı + NetworkWriteTimeout."""
+    limit = NETWORK_WRITE_TIMEOUT_S if timeout is None else timeout
+    try:
+        # asyncio.timeout aynı görevde çalışır (wait_for gibi ek görev açmaz): hemen
+        # tamamlanan yazmalarda mesaj sırası değişmez.
+        async with asyncio.timeout(limit):
+            await awaitable
+    except TimeoutError:
+        logger.warning("Ağ yazma zaman aşımı (%s, %.0f ms): bağlantı kapatılıyor", what, limit * 1000)
+        raise NetworkWriteTimeout(f"{what} yazma zaman aşımı") from None
+
+
+async def write_audio_packet(writer: asyncio.StreamWriter, frame: bytes) -> None:
+    """AudioSocket 0x10 paketini yazar; drain zaman aşımında yazıcı kapatılır (H01.12)."""
+    if writer.is_closing():
+        raise ConnectionError("AudioSocket bağlantısı kapalı")
+    writer.write(build_packet(AUDIOSOCKET_AUDIO, frame))
+    try:
+        await send_with_timeout(writer.drain(), "AudioSocket")
+    except NetworkWriteTimeout:
+        try:
+            writer.close()
+        except Exception:
+            pass
+        raise
+
+
 def build_packet(kind: int, payload: bytes) -> bytes:
     """Asterisk app_audiosocket formatında ikili paket üretir."""
     return struct.pack("!BH", kind, len(payload)) + payload
@@ -361,6 +399,7 @@ class AudioSocketOrchestrator:
         self.total_dtmf_received = 0
         self.total_audio_frames_in = 0
         self.total_audio_frames_out = 0
+        self.total_write_timeouts = 0
         # Pacer istatistikleri: VoiceSession kendi pacing'ini yapar, bu sınıftaki pacer
         # kullanılmaz; ölçülmediği için None (0 DEĞİL) raporlanır.
         self.total_reclampe_count: int | None = None
@@ -450,10 +489,12 @@ class AudioSocketOrchestrator:
                         pass
 
             async def send_audio_frame(frame: bytes) -> None:
-                """AudioSocket 0x10 ses paketi gönderir."""
-                packet = build_packet(AUDIOSOCKET_AUDIO, frame)
-                writer.write(packet)
-                await writer.drain()
+                """AudioSocket 0x10 ses paketi gönderir (H01.12: zaman aşımlı)."""
+                try:
+                    await write_audio_packet(writer, frame)
+                except NetworkWriteTimeout:
+                    self.total_write_timeouts += 1
+                    raise
                 self.total_audio_frames_out += 1
 
             # 5. VoiceSession Başlatma (8 kHz telefon formatı)
