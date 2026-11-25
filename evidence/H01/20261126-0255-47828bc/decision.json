@@ -16,7 +16,7 @@
     {
       "id": "H01-G01",
       "status": "HOLD",
-      "reason": "Torch absence and HF01 collection passed on latest workflow, HF02 still running.",
+      "reason": "HF01 and HF02 commands PASS on source SHA 47828bc: torch absent, 1588 collected; 1582 passed, 8 skipped, 44 subtests. Gate HOLD only for strict zero live-service call count not separately instrumented; no live service started in job.",
       "test_ids": [
         "HF01",
         "HF02"
@@ -77,7 +77,7 @@
     {
       "id": "H01-G05",
       "status": "HOLD",
-      "reason": "Earlier 1578 passed; intermediate SHA had one teardown failure; latest CPU/torch-free and Playwright outcomes pending.",
+      "reason": "Torch-free suite passed on source SHA; earlier intermediate CPU suite had one teardown failure; latest CPU verify and corrected Playwright still pending.",
       "test_ids": [],
       "evidence_refs": [
         "https://github.com/seydivakkas/FreyaTTS_Automotive_PoC/actions/runs/45724337388",

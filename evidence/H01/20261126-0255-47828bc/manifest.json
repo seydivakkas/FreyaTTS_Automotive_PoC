@@ -136,14 +136,21 @@
       "run": 45724942397,
       "commit": "47828bcfbc7f82a88c3b9128c5be3fc6588f758b",
       "status": "PASS",
-      "source": "GitHub Actions step metadata; raw log pending"
+      "source": "completed CI logs",
+      "collected": 1588
     },
     {
       "command": "uv run --no-sync pytest -q -m \"not llm and not gpu and not pbx\"",
       "run": 45724942397,
       "commit": "47828bcfbc7f82a88c3b9128c5be3fc6588f758b",
-      "status": "HOLD",
-      "source": "CI in progress"
+      "status": "PASS",
+      "source": "completed CI logs",
+      "passed": 1582,
+      "skipped": 8,
+      "failed": 0,
+      "subtests_passed": 44,
+      "torch": "absent",
+      "live_network_call_count": null
     }
   ],
   "evidence_class": "HISTORICAL_RECORD",
@@ -171,12 +178,12 @@
     {
       "path": "test-log.txt",
       "class": "HISTORICAL_RECORD",
-      "note": "Completed CI command output sections (environment headers excluded); current run raw log not available at capture."
+      "note": "Raw completed test command sections including no-torch job; environment headers excluded. Full job logs linked."
     },
     {
       "path": "decision.json",
       "class": "STATIC_CODE"
     }
   ],
-  "notes": "PARTIAL / HOLD. M00 PR #2 open HOLD; existing H01 PR #3 draft. Local Claude workspace not available; GitHub remote branch checked, seed and timeout commits recovered remotely. Direct git clone failed DNS; no local full suite. No real GPU, ASR/model, SIP or human experiment performed. H01.06 unresolved: ADR-F1-01 missing from plan main; choose shared weights + per-session state after model API/memory verification and ADR approval. CI workflow, alembic.ini, migration, pyproject, uv.lock, config, gpu_health_circuit_breaker, SidebarNav and existing test changes are scope exceptions; no blanket gate waiver. New tests authored with fixes; pre-fix red runs not independently executed. Latest workflow pending."
+  "notes": "PARTIAL / HOLD. M00 PR #2 open HOLD; existing H01 PR #3 draft. Local Claude workspace not available; GitHub remote branch checked, seed and timeout commits recovered remotely. Direct git clone failed DNS; no local full suite. No real GPU, ASR/model, SIP or human experiment performed. H01.06 unresolved: ADR-F1-01 missing from plan main; choose shared weights + per-session state after model API/memory verification and ADR approval. CI workflow, alembic.ini, migration, pyproject, uv.lock, config, gpu_health_circuit_breaker, SidebarNav and existing test changes are scope exceptions; no blanket gate waiver. New tests authored with fixes; pre-fix red runs not independently executed. Latest workflow pending. UPDATE: hermetic-no-torch job completed SUCCESS; HF01 collected 1588, HF02 1582 passed / 8 skipped / 44 subtests. Exact network-call count was not separately instrumented. Other verify job still pending at capture."
 }
