@@ -295,7 +295,10 @@ class BatchedODEEngine:
     async def _process_queue_now(self) -> None:
         """Kuyruktaki en fazla batch_size elemanı çeker ve GPU Euler ODE çözücüsüne verir."""
         async with self._queue_lock:
+            # HF12: iptal edilen bekleyiciler GPU yığınına girmemeli.
+            self._queue = [item for item in self._queue if not item.future.done()]
             if not self._queue:
+                self._collector_task = None
                 return
             batch = self._queue[: self.batch_size]
             self._queue = self._queue[self.batch_size :]
@@ -323,6 +326,8 @@ class BatchedODEEngine:
                     batch[0].future.set_exception(batch_error)
                 return
             for item in batch:
+                if item.future.done():
+                    continue
                 try:
                     solve_start = time.monotonic()
                     single = await asyncio.to_thread(self._solve_ode_batch, [item])
