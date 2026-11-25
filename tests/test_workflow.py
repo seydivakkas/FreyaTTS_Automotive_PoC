@@ -88,19 +88,20 @@ async def test_synthesis_bounded_and_cancellation(monkeypatch):
     release = threading.Event()
     executed = []
 
-    def slow(text):
+    # H01.10: seed anahtar sözcükle verilir; seed'siz sentez ve TypeError yedeği yok.
+    def slow(text, seed=None):
         started.set()
         release.wait(5)
         executed.append(text)
         return text
 
     monkeypatch.setattr(m, "_synth", slow)
-    first = asyncio.create_task(m.synth("old"))
+    first = asyncio.create_task(m.synth("old", seed=9))
     await asyncio.to_thread(started.wait, 2)
-    second = asyncio.create_task(m.synth("new"))
+    second = asyncio.create_task(m.synth("new", seed=9))
     await asyncio.sleep(0.01)
     with pytest.raises(RuntimeError, match="kuyruğu dolu"):
-        await m.synth("overflow")
+        await m.synth("overflow", seed=9)
     first.cancel()
     await asyncio.sleep(0.01)
     assert m.pending == 2

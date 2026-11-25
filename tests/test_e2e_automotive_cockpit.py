@@ -182,7 +182,7 @@ async def test_tier1_f1_voice_session_text_input_pipeline_events(isolated_db, mo
     async def send_audio(frame):
         audio_frames.append(frame)
 
-    async def fake_synth(text):
+    async def fake_synth(text, seed=None):  # H01.10: seed anahtar sözcükle gelir
         return np.ones(2400, np.float32) * 0.05
 
     monkeypatch.setattr(models, "synth", fake_synth)
@@ -199,7 +199,7 @@ async def test_tier1_f1_voice_session_text_input_pipeline_events(isolated_db, mo
 
 def test_tier1_f1_synthesize_endpoint_valid_audio(client, auth_headers, monkeypatch):
     """F1.3: POST /api/synthesize endpoint'i metni ses dalgasına sentezler."""
-    async def fake_synth(text):
+    async def fake_synth(text, seed=None):  # H01.10: seed anahtar sözcükle gelir
         return np.ones(4800, np.float32) * 0.1
 
     monkeypatch.setattr(models, "synth", fake_synth)
@@ -900,7 +900,7 @@ async def test_tier3_cross_text_input_pipeline_telemetry_intent(monkeypatch):
     Doğrudan metin girişi F0-F2'yi atlar, telemetri yayar ve F3 aşamasında doğru niyeti tetikler.
     """
     monkeypatch.setattr(models, "vad", MockVad())
-    async def fake_synth(text):
+    async def fake_synth(text, seed=None):  # H01.10: seed anahtar sözcükle gelir
         return np.zeros(2400, dtype=np.float32)
     monkeypatch.setattr(models, "synth", fake_synth)
     events = []

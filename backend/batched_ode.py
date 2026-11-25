@@ -257,8 +257,11 @@ class BatchedODEEngine:
         """
         Tüm cümleyi veya yan cümleyi mikro-yığınlayarak sentezler.
         """
+        if seed is None:
+            # H01.10 (N3): seed ses profilinden gelir; sessizce LEYLA_SEED'e dönülmez.
+            raise ValueError("Sentez için ses profili seed'i verilmeli")
         norm_text = normalize(text)["normalized"]
-        used_seed = seed if seed is not None else LEYLA_SEED
+        used_seed = seed
         clause_list = list(clauses(norm_text))
 
         if not clause_list:
@@ -379,10 +382,11 @@ class BatchedODEEngine:
             # Seslilik kontrolü
             v_score = check_voicedness(w, SAMPLE_RATE)
             if v_score < 0.06:
-                # Fısıltı çökmesi tespit edildi -> Leyla 9 ile hazırla ve yeniden sentezle
+                # Fısıltı çökmesi tespit edildi -> aynı ses profili seed'iyle yeniden sentezle
+                # (H01.10: yedek yol seed'i LEYLA_SEED'e çevirmez).
                 self.whisper_collapses_prevented += 1
                 if self.synth_fallback_fn is not None:
-                    w = self.synth_fallback_fn(prepare_tts_clause(item.text), seed=LEYLA_SEED)
+                    w = self.synth_fallback_fn(prepare_tts_clause(item.text), seed=item.seed)
 
             w_clean = apply_fade_and_comfort_noise(w)
             results.append(w_clean)

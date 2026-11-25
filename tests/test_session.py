@@ -21,7 +21,7 @@ async def test_stale_synthesis_cannot_play(tmp_path, monkeypatch):
     audio = []
     events = []
 
-    async def synth(text):
+    async def synth(text, seed=None):  # H01.10: seed anahtar sözcükle gelir
         started.set()
         await release.wait()
         return np.ones(4800, np.float32) * 0.1
@@ -57,7 +57,7 @@ async def test_next_clause_prefetched_during_playback(tmp_path, monkeypatch):
     generated = []
     second = asyncio.Event()
 
-    async def synth(text):
+    async def synth(text, seed=None):  # H01.10: seed anahtar sözcükle gelir
         generated.append(text)
         if len(generated) == 2:
             second.set()
@@ -69,7 +69,7 @@ async def test_next_clause_prefetched_during_playback(tmp_path, monkeypatch):
     async def send(frame):
         pass
 
-    async def play(w, turn):
+    async def play(w, turn, source="live"):  # H01.10: TypeError yedek çalma kaldırıldı
         await asyncio.wait_for(second.wait(), 1)
 
     monkeypatch.setattr(module.models, "synth", synth)
@@ -97,7 +97,7 @@ async def test_call_and_tts_events_feed_dashboard_metrics(tmp_path, monkeypatch)
     collector = RealtimeDashboardMetricsCollector()
     monkeypatch.setattr(module, "_metrics", lambda: collector)
 
-    async def synth(text):
+    async def synth(text, seed=None):  # H01.10: seed anahtar sözcükle gelir
         await asyncio.sleep(0.05)  # ölçülebilir sentez süresi
         return np.ones(4800, np.float32) * 0.1
 
@@ -107,7 +107,7 @@ async def test_call_and_tts_events_feed_dashboard_metrics(tmp_path, monkeypatch)
     async def send(frame):
         pass
 
-    async def play(w, turn):
+    async def play(w, turn, source="live"):  # H01.10: TypeError yedek çalma kaldırıldı
         pass
 
     monkeypatch.setattr(module.models, "synth", synth)

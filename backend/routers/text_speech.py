@@ -22,7 +22,7 @@ from backend.ab_testing import (
     set_experiment_status,
     get_experiment_report,
 )
-from backend.models import models
+from backend.models import LEYLA_DEFAULT_SEED, models
 from backend.text import normalize
 from backend.normalizer_rules import (
     get_lexicon_entries,
@@ -249,7 +249,7 @@ async def synth(body: TextIn):
     if active.active_count > 0:
         raise HTTPException(409, "Aktif görüşme var")
     try:
-        w = await models.synth(body.text)
+        w = await models.synth(body.text, seed=LEYLA_DEFAULT_SEED)  # H01.10: açık Leyla profili
     except Exception as e:
         raise HTTPException(503, str(e))
     buf = io.BytesIO()

@@ -317,13 +317,14 @@ async def test_models_synth_batched_yol_devre_kesiciden_gecer():
             return np.ones(10, np.float32)
 
     m.batched_ode_engine = Motor()
-    await m.synth("a")
+    # H01.10: seed açıkça verilir (seed'siz sentez artık reddedilir).
+    await m.synth("a", seed=9)
     assert m.synth_count == 1 and m.breakers["tts"].failures == 0
 
     m.batched_ode_engine.hata = RuntimeError("gpu")
     for _ in range(3):
         with pytest.raises(RuntimeError, match="gpu"):
-            await m.synth("a")
+            await m.synth("a", seed=9)
     # Eşik aşıldı: devre açık, motor çağrılmadan reddedilir.
     with pytest.raises(RuntimeError, match="beklemede"):
-        await m.synth("a")
+        await m.synth("a", seed=9)

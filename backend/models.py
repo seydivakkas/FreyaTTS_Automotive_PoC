@@ -16,6 +16,9 @@ from sqlalchemy import select
 from sqlalchemy.exc import SQLAlchemyError
 from backend.db import Session, Vehicle
 
+# Leyla varsayılan ses profili (CLAUDE.md kural 7). Seed başka hiçbir yolda varsayılmaz.
+LEYLA_DEFAULT_SEED = 9
+
 logger = logging.getLogger("automotive_voice.models")
 
 # Sabit cümle önbelleği sınırı ve hotword önbelleği ömrü.
@@ -100,9 +103,12 @@ class Models:
 
     @staticmethod
     def _cache_key(text, seed):
+        # H01.10 (N3): seed'siz anahtar 9 varsayılmaz; seed yoksa önbellek kullanılmaz.
+        if seed is None:
+            return None
         try:
             prepared = prepare_tts_clause(text)
-            return normalize(prepared)["normalized"], seed if seed is not None else 9
+            return normalize(prepared)["normalized"], seed
         except ValueError:
             return None
 
@@ -144,7 +150,7 @@ class Models:
         başarısız kılmaz; ilk hatada ısıtma bırakılır (devre kesiciyi zorlamamak için).
         """
         try:
-            await self.synth("Merhaba.")  # yalnızca ısınma; önbelleğe girmez
+            await self.synth("Merhaba.", seed=LEYLA_DEFAULT_SEED)  # yalnızca ısınma; önbelleğe girmez
             from backend.text import clauses
 
             seen = set()
@@ -222,6 +228,9 @@ class Models:
         self.error = None
 
     async def synth(self, text, seed: int | None = None):
+        if seed is None:
+            # H01.10 (N3): seed her zaman ses profilinden gelir; sessizce 9'a dönülmez.
+            raise ValueError("Sentez için ses profili seed'i verilmeli")
         text = prepare_tts_clause(text)
         key = self._cache_key(text, seed)
         hit = self._synth_cache.get(key) if key is not None else None
@@ -267,10 +276,8 @@ class Models:
             if not breaker.allow(time.monotonic_ns()):
                 raise RuntimeError("TTS geçici hata sonrasında beklemede")
             try:
-                try:
-                    result = self._synth(text, seed=seed)
-                except TypeError:
-                    result = self._synth(text)
+                # H01.10: TypeError'da seed'siz yeniden deneme yok (seed sessizce düşmez).
+                result = self._synth(text, seed=seed)
             except ValueError:
                 breaker.abandon_probe()
                 raise
@@ -284,7 +291,9 @@ class Models:
     def _synth(self, text, seed: int | None = None):
         t = normalize(text)["normalized"]
         parts = []
-        used_seed = seed if seed is not None else 9
+        if seed is None:
+            raise ValueError("Sentez için ses profili seed'i verilmeli")
+        used_seed = seed
         for part, pause in clauses(t):
             missing = set(part) - set(self.tts.char_to_id)
             if missing:

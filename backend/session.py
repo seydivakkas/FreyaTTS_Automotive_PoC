@@ -85,7 +85,24 @@ class VoiceSession:
         self.ab_experiment_id = variant_cfg.get("experiment_id")
         self.ab_variant_id = variant_cfg.get("variant_id")
         self.prompt_template = variant_cfg.get("prompt_template", "standard")
-        self.tts_seed = 9  # Leyla kadın sesi deterministik kilidi (Seed 9)
+        # H01.10 (N3): seed ses profilinden (A/B deney varyantı) gelir; varsayılan Leyla seed 9.
+        # 9 dışı profil seed'i sessizce 9'a çevrilmez ve geçersiz değer sessizce yutulmaz:
+        # her iki durum da olay olarak kaydedilir.
+        from backend.models import LEYLA_DEFAULT_SEED
+
+        profile_seed = variant_cfg.get("tts_seed", LEYLA_DEFAULT_SEED)
+        seed_event = None
+        if isinstance(profile_seed, bool) or not isinstance(profile_seed, int):
+            seed_event = {"event": "voice_seed_invalid_profile", "requested": repr(profile_seed),
+                          "seed": LEYLA_DEFAULT_SEED, "variant_id": self.ab_variant_id}
+            profile_seed = LEYLA_DEFAULT_SEED
+        elif profile_seed != LEYLA_DEFAULT_SEED:
+            seed_event = {"event": "voice_seed_profile", "seed": profile_seed,
+                          "source": "ab_variant", "variant_id": self.ab_variant_id}
+        self.tts_seed = profile_seed
+        if seed_event is not None:
+            logger.info("Ses profili seed olayı: %s", seed_event)
+            self.save("event", "", seed_event)
         self.greeting_template = variant_cfg.get("greeting_template", "standard")
         self.start_time = time.monotonic()
         self.first_audio_ms_val = None
@@ -768,10 +785,8 @@ class VoiceSession:
                         break
                     began = time.monotonic()
                     cold = models.synth_count == 0
-                    try:
-                        w = await models.synth(part, seed=self.tts_seed)
-                    except TypeError:
-                        w = await models.synth(part)
+                    # H01.10: TypeError'da seed'siz yeniden deneme yok.
+                    w = await models.synth(part, seed=self.tts_seed)
                     if self.closed or turn != self.generation:
                         break
                     elapsed = time.monotonic() - began
@@ -826,10 +841,8 @@ class VoiceSession:
                 self.save("metric", "", metrics)
                 await self.emit({"type": "metrics", **metrics})
                 if await self.control.accepts(control_generation):
-                    try:
-                        await self.play_wave(w, turn, source=source)
-                    except TypeError:
-                        await self.play_wave(w, turn)
+                    # H01.10: TypeError'da ikinci çalma denemesi yok (çift ses riski).
+                    await self.play_wave(w, turn, source=source)
         finally:
             producer.cancel()
             await asyncio.gather(producer, return_exceptions=True)
