@@ -318,7 +318,7 @@ class VoiceSession:
                 self.is_calibrating = False
                 self._calibration_event.set()
                 await self.emit({"type": "calibration_done", **info})
-            return
+            # HF08: Kalibrasyon sesin VAD/STT yoluna iletilmesini kesmez.
 
         # 8 kHz Araç İçi Gürültü Bastırma (120 Hz HPF, -18 dB Spektral Denoise, Soft AGC)
         if hasattr(self, "car_denoiser") and self.car_denoiser is not None and self.car_denoiser.enabled:
