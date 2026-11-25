@@ -55,3 +55,23 @@ jobs:
         with:
           name: browser-failures
           path: frontend/test-results
+
+  hermetic-no-torch:
+    runs-on: ubuntu-latest
+    env:
+      ADMIN_PASSWORD: ci-only-disposable
+      LINK_SIGNING_KEY: ci-only-link-signing-key
+      AUDIO_ARCHIVE_MASTER_KEY: ci-only-archive-master-key
+      AMI_SECRET: ci-only-ami-secret
+      WHATSAPP_WEBHOOK_TOKEN: ci-only-webhook-token
+      CUDA_VISIBLE_DEVICES: ""
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --frozen --extra test
+      - name: Confirm torch is absent
+        run: uv run --no-sync python -c "import importlib.util; assert importlib.util.find_spec('torch') is None, 'torch unexpectedly installed'"
+      - name: HF01 collect without torch
+        run: uv run --no-sync pytest --collect-only -q -m "not llm and not gpu and not pbx"
+      - name: HF02 hermetic suite without torch
+        run: uv run --no-sync pytest -q -m "not llm and not gpu and not pbx"
