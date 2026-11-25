@@ -1,5 +1,28 @@
 import { test, expect } from "@playwright/test";
 import fs from "node:fs";
+
+// V3 sidebar uses menuitems and user-facing labels, not internal tab IDs.
+// Keep expected labels explicit so a removed navigation item fails the test.
+const TAB_LABELS: Record<string, string> = {
+  "Görüşme": "Görüşme Kokpiti",
+  "Randevular": "Randevu Takvimi",
+  "Araçlar ve fiyatlar": "Araç Kataloğu & Fiyatlar",
+  "Geçmiş": "Görüşme Geçmişi",
+  "Ses laboratuvarı": "Ses Laboratuvarı",
+  "Sistem": "Sistem & Donanım Sağlığı",
+  "M01–M11": "M01–M11 Kalite Kapıları",
+  "Operatör (6002)": "Operatör Kokpiti (6002)",
+  "Giden Çağrılar": "Giden Çağrılar (Outbound)",
+  "A/B Test & İnce Ayar": "A/B Test & ASR Ayarı",
+  "Sözlük": "Sözlük & Fonetik",
+  "Supervisor Kalite": "Supervisor & FQICI",
+  "Bildirimler": "Bildirimler & WhatsApp",
+};
+
+function navItem(page: import("@playwright/test").Page, title: string) {
+  return page.getByRole("menuitem", { name: TAB_LABELS[title] ?? title, exact: true });
+}
+
 const password = fs
   .readFileSync("../.env", "utf8")
   .match(/^ADMIN_PASSWORD=(.*)$/m)![1]
@@ -22,7 +45,7 @@ for (const width of [1440, 390]) {
       "Sistem",
       "M01–M11",
     ]) {
-      await page.getByRole("button", { name: title, exact: true }).click();
+      await navItem(page, title).click();
       await expect(
         page.getByRole("heading", { name: title, exact: true }),
       ).toBeVisible();
@@ -32,7 +55,7 @@ for (const width of [1440, 390]) {
         ),
       ).toBeTruthy();
     }
-    await page.getByRole("button", { name: "M01–M11", exact: true }).click();
+    await navItem(page, "M01–M11").click();
     await page.getByRole("button", { name: "Sözleşmeyi incele" }).click();
     await expect(page.locator(".bubble")).toContainText(
       "bir milyon iki yüz elli bin",
@@ -41,9 +64,7 @@ for (const width of [1440, 390]) {
       path: `../data/milestones-ui-${width}.png`,
       fullPage: true,
     });
-    await page
-      .getByRole("button", { name: "Ses laboratuvarı", exact: true })
-      .click();
+    await navItem(page, "Ses laboratuvarı").click();
     await page.getByRole("button", { name: "Normalizasyonu incele" }).click();
     await expect(page.locator(".bubble")).toContainText(
       "bir milyon iki yüz elli bin",
@@ -82,7 +103,7 @@ for (const width of [1440, 390]) {
     await page.getByRole("button", { name: "Panele giriş" }).click();
     await expect(page.locator("header h1")).toHaveText("Görüşme");
     for (const title of ALL_TABS) {
-      await page.getByRole("button", { name: title, exact: true }).click();
+      await navItem(page, title).click();
       await expect(page.locator("header h1")).toHaveText(title);
       // Tembel yüklenen panelin yerleşmesi için kısa bekleme.
       await page.waitForLoadState("networkidle");
@@ -132,7 +153,7 @@ test("İlk randevu rehberi panelden ilk randevuyu yönlendirir ve takvime bağla
   await expect(page.getByText("5. RANDEVUYU AÇ")).toBeVisible();
 
   // 3. Rehber üzerinden Randevular sekmesine geçiş
-  await page.getByRole("button", { name: "Randevular", exact: true }).click();
+  await navItem(page, "Randevular").click();
   await expect(page.getByRole("heading", { name: "Randevular", exact: true })).toBeVisible();
   await expect(page.getByText("Randevu Takvimi & Planlama")).toBeVisible();
 });
