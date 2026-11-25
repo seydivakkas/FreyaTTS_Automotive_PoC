@@ -1,0 +1,116 @@
+{
+  "template_only": false,
+  "package": "H01",
+  "run_id": "20261126-0255-47828bc",
+  "package_status": "HOLD",
+  "gates": [
+    {
+      "id": "H01-G00",
+      "status": "HOLD",
+      "reason": "Scope deviations recorded in manifest; plan not amended.",
+      "test_ids": [],
+      "evidence_refs": [
+        "manifest.json"
+      ]
+    },
+    {
+      "id": "H01-G01",
+      "status": "HOLD",
+      "reason": "Torch absence and HF01 collection passed on latest workflow, HF02 still running.",
+      "test_ids": [
+        "HF01",
+        "HF02"
+      ],
+      "evidence_refs": [
+        "https://github.com/seydivakkas/FreyaTTS_Automotive_PoC/actions/runs/45724942397"
+      ]
+    },
+    {
+      "id": "H01-G02",
+      "status": "HOLD",
+      "reason": "Prior safety tests included in passing suite; latest SHA and all private data paths not independently accepted.",
+      "test_ids": [
+        "HF03",
+        "HF04",
+        "HF05",
+        "HF18"
+      ],
+      "evidence_refs": [
+        "https://github.com/seydivakkas/FreyaTTS_Automotive_PoC/actions/runs/45724337388",
+        "https://github.com/seydivakkas/FreyaTTS_Automotive_PoC/actions/runs/45724942397"
+      ]
+    },
+    {
+      "id": "H01-G03",
+      "status": "HOLD",
+      "reason": "HF07 VAD isolation and ADR missing. HF06/HF08/HF12 new fixtures and CI pending; GPU and real transport smoke not run.",
+      "test_ids": [
+        "HF06",
+        "HF07",
+        "HF08",
+        "HF09",
+        "HF10",
+        "HF11",
+        "HF12",
+        "HF13"
+      ],
+      "evidence_refs": [
+        "https://github.com/seydivakkas/FreyaTTS_Automotive_PoC/actions/runs/45724942397",
+        "manifest.json"
+      ]
+    },
+    {
+      "id": "H01-G04",
+      "status": "HOLD",
+      "reason": "HF14–HF17 code/test commits present; full UI validation previously failed and greeting cache/real audio not verified.",
+      "test_ids": [
+        "HF14",
+        "HF15",
+        "HF16",
+        "HF17"
+      ],
+      "evidence_refs": [
+        "https://github.com/seydivakkas/FreyaTTS_Automotive_PoC/actions/runs/45724337388",
+        "https://github.com/seydivakkas/FreyaTTS_Automotive_PoC/actions/runs/45724942397"
+      ]
+    },
+    {
+      "id": "H01-G05",
+      "status": "HOLD",
+      "reason": "Earlier 1578 passed; intermediate SHA had one teardown failure; latest CPU/torch-free and Playwright outcomes pending.",
+      "test_ids": [],
+      "evidence_refs": [
+        "https://github.com/seydivakkas/FreyaTTS_Automotive_PoC/actions/runs/45724337388",
+        "https://github.com/seydivakkas/FreyaTTS_Automotive_PoC/actions/runs/45724724460",
+        "https://github.com/seydivakkas/FreyaTTS_Automotive_PoC/actions/runs/45724942397"
+      ]
+    }
+  ],
+  "test_counts": {
+    "planned": 18,
+    "executed": null,
+    "pass": null,
+    "fail": null,
+    "hold": null,
+    "not_run": null,
+    "deferred": null
+  },
+  "known_baseline_failures": [
+    "M00 baseline diagnostic 21 failures (see PR #2)",
+    "Intermediate H01 CI test_teardown_failure_releases_single_call_capacity: DID NOT RAISE RuntimeError; latest recheck pending",
+    "Playwright old V3 selectors failed 5 tests; corrected selector commit 635e7b5, results pending"
+  ],
+  "open_decisions": [
+    "ADR-F1-01 VAD per-session state absent: requires implementation and approval with real model API and memory evidence",
+    "ADR-X-03 outbound greeting wording and seed-9 cached greeting audio validation",
+    "H01-G00 scope exception approval"
+  ],
+  "deferred_scope": [],
+  "rollback_verified": null,
+  "reviewer": {
+    "independent": false,
+    "name_or_session": "ChatGPT GitHub handover",
+    "reviewed_at": null
+  },
+  "next_package_started": false
+}

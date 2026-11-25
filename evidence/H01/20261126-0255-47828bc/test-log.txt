@@ -1,0 +1,268 @@
+H01 PARTIAL EVIDENCE — 20261126-0255-47828bc
+Current source commit: 47828bcfbc7f82a88c3b9128c5be3fc6588f758b
+Current run https://github.com/seydivakkas/FreyaTTS_Automotive_PoC/actions/runs/45724942397: HF01 torch absence and collection successful (job 139592293368 metadata); HF02 and verify in progress at evidence capture. Raw logs for running jobs unavailable. No GPU/SIP/live-model tests performed. The completed command output sections below are historical, for the exact listed SHAs, not the current HEAD. Environment setup headers excluded to avoid recording credentials. Full workflow log remains accessible at each run URL.
+
+RUN 45724337388 | JOB 139590246006 | COMMIT 30aba457021c598503a3f24fb88e21441309a2f9
+https://github.com/seydivakkas/FreyaTTS_Automotive_PoC/actions/runs/45724337388
+
+2026-11-25T23:50:34.0612167Z ##[group]Run uv run --no-sync pytest -q -m "not llm and not gpu and not pbx"
+2026-11-25T23:50:51.3130737Z ........................................................................................................................ [  7%]
+2026-11-25T23:50:51.4548278Z ........................................................................ [ 12%]
+2026-11-25T23:50:51.5769600Z ........................................................................ [ 16%]
+2026-11-25T23:50:51.7888241Z ........................................................................ [ 21%]
+2026-11-25T23:50:52.3087708Z ........................................................................ [ 25%]
+2026-11-25T23:50:55.1863716Z .............................................................................................................s.............. [ 33%]
+2026-11-25T23:50:59.5603236Z ........................................................................ [ 38%]
+2026-11-25T23:51:02.0152688Z ........................................................................ [ 42%]
+2026-11-25T23:51:03.7121068Z ............ssss........................................................ [ 47%]
+2026-11-25T23:51:05.8271497Z ........................................................................ [ 51%]
+2026-11-25T23:51:13.6002959Z ........................................................................ [ 56%]
+2026-11-25T23:51:20.6576413Z ........................................................................ [ 60%]
+2026-11-25T23:51:23.4455606Z ........................................................................ [ 65%]
+2026-11-25T23:51:26.2187736Z ........................................................................ [ 69%]
+2026-11-25T23:51:29.6461736Z ........................................................................ [ 74%]
+2026-11-25T23:51:35.4151157Z ........................................................................ [ 79%]
+2026-11-25T23:51:39.3515297Z ........................................................................ [ 83%]
+2026-11-25T23:51:39.6186749Z ........................................................................ [ 88%]
+2026-11-25T23:51:39.9751936Z ........................................................................ [ 92%]
+2026-11-25T23:51:40.3039575Z ........................................................................ [ 97%]
+2026-11-25T23:51:41.0160602Z ...........................................                              [100%]
+2026-11-25T23:51:41.0161556Z =============================== warnings summary ===============================
+2026-11-25T23:51:41.0162975Z .venv/lib/python3.11/site-packages/fastapi/testclient.py:1
+2026-11-25T23:51:41.0165180Z   /home/runner/work/FreyaTTS_Automotive_PoC/FreyaTTS_Automotive_PoC/.venv/lib/python3.11/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+2026-11-25T23:51:41.0167365Z     from starlette.testclient import TestClient as TestClient  # noqa
+2026-11-25T23:51:41.0167857Z 
+2026-11-25T23:51:41.0168322Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+2026-11-25T23:51:41.0169744Z 1578 passed, 6 skipped, 16 deselected, 1 warning, 44 subtests passed in 63.50s (0:01:03)
+
+2026-11-25T23:51:42.3780313Z ##[group]Run uv run --no-sync alembic upgrade head
+
+
+2026-11-25T23:51:43.1117556Z ##[group]Run uv run --no-sync alembic check
+2026-11-25T23:51:43.6805122Z No new upgrade operations detected.
+
+2026-11-25T23:51:43.8052910Z ##[group]Run uv run --no-sync python scripts/check_ui_routes.py
+2026-11-25T23:51:45.6166808Z Arayuz cagrisi: 127, API rotasi: 228
+2026-11-25T23:51:45.6167902Z UYARI frontend/src/DiagnosticPanel.tsx:74 GET vehicles yalnizca genel /api/{...} rotasina eslesti
+2026-11-25T23:51:45.6169587Z UYARI frontend/src/InspectionPanel.tsx:173 GET vehicles yalnizca genel /api/{...} rotasina eslesti
+2026-11-25T23:51:45.6170895Z UYARI frontend/src/InspectionPanel.tsx:174 GET appointments yalnizca genel /api/{...} rotasina eslesti
+2026-11-25T23:51:45.6172149Z UYARI frontend/src/OutboundPanel.tsx:55 GET appointments yalnizca genel /api/{...} rotasina eslesti
+2026-11-25T23:51:45.6173356Z UYARI frontend/src/OutboundPanel.tsx:56 GET slots yalnizca genel /api/{...} rotasina eslesti
+2026-11-25T23:51:45.6174619Z UYARI frontend/src/TechnicianDictationPanel.tsx:79 GET vehicles yalnizca genel /api/{...} rotasina eslesti
+2026-11-25T23:51:45.6175593Z Tum arayuz cagrilari bir backend rotasina eslesiyor
+
+2026-11-25T23:51:49.5328743Z ##[group]Run npm run build
+2026-11-25T23:51:49.6536247Z 
+2026-11-25T23:51:49.6537609Z > freya-automotive-ui@0.1.0 build
+2026-11-25T23:51:49.6538354Z > tsc --noEmit && vite build
+2026-11-25T23:51:49.6538883Z 
+2026-11-25T23:51:55.6470764Z [36mvite v6.4.5 [32mbuilding for production...[36m[39m
+2026-11-25T23:51:55.7250639Z transforming...
+2026-11-25T23:51:57.1434473Z [33mnode_modules/lucide-react/dist/esm/context.mjs (2:0): Module level directives cause errors when bundled, "use client" in "node_modules/lucide-react/dist/esm/context.mjs" was ignored.[39m
+2026-11-25T23:51:57.1556812Z [33mnode_modules/lucide-react/dist/esm/Icon.mjs (2:0): Module level directives cause errors when bundled, "use client" in "node_modules/lucide-react/dist/esm/Icon.mjs" was ignored.[39m
+2026-11-25T23:51:58.0989793Z [32m✓[39m 2136 modules transformed.
+2026-11-25T23:51:58.2399850Z rendering chunks...
+2026-11-25T23:51:58.3905696Z computing gzip size...
+2026-11-25T23:51:58.4053014Z [2mdist/[22m[32mindex.html                                   [39m[1m[2m  0.37 kB[22m[1m[22m[2m │ gzip:   0.28 kB[22m
+2026-11-25T23:51:58.4054853Z [2mdist/[22m[2massets/[22m[35mindex-BuEhThRE.css                    [39m[1m[2m 38.15 kB[22m[1m[22m[2m │ gzip:   8.27 kB[22m
+2026-11-25T23:51:58.4056688Z [2mdist/[22m[2massets/[22m[36mSupervisorPanel-Bd3lZzd0.js           [39m[1m[2m  8.18 kB[22m[1m[22m[2m │ gzip:   3.14 kB[22m
+2026-11-25T23:51:58.4058516Z [2mdist/[22m[2massets/[22m[36mOutboundPanel-BPv7dzkG.js             [39m[1m[2m  8.81 kB[22m[1m[22m[2m │ gzip:   3.18 kB[22m
+2026-11-25T23:51:58.4060602Z [2mdist/[22m[2massets/[22m[36mMilestonePanel-BmJoAGMN.js            [39m[1m[2m  9.42 kB[22m[1m[22m[2m │ gzip:   3.53 kB[22m
+2026-11-25T23:51:58.4062397Z [2mdist/[22m[2massets/[22m[36mOntologyPanel-B1u5ULAQ.js             [39m[1m[2m 12.27 kB[22m[1m[22m[2m │ gzip:   3.38 kB[22m
+2026-11-25T23:51:58.4064321Z [2mdist/[22m[2massets/[22m[36mDiagnosticPanel-lysG1KK5.js           [39m[1m[2m 12.33 kB[22m[1m[22m[2m │ gzip:   3.92 kB[22m
+2026-11-25T23:51:58.4066199Z [2mdist/[22m[2massets/[22m[36mCarDenoiserPanel-BoUoRPG_.js          [39m[1m[2m 13.96 kB[22m[1m[22m[2m │ gzip:   3.99 kB[22m
+2026-11-25T23:51:58.4068022Z [2mdist/[22m[2massets/[22m[36mTechnicianDictationPanel-EkV-4mNy.js  [39m[1m[2m 15.27 kB[22m[1m[22m[2m │ gzip:   5.02 kB[22m
+2026-11-25T23:51:58.4069533Z [2mdist/[22m[2massets/[22m[36mLexiconPanel-_ArBrlm4.js              [39m[1m[2m 16.55 kB[22m[1m[22m[2m │ gzip:   4.41 kB[22m
+2026-11-25T23:51:58.4070868Z [2mdist/[22m[2massets/[22m[36mQueueLiftPanel-6ZhMT6mO.js            [39m[1m[2m 18.78 kB[22m[1m[22m[2m │ gzip:   4.67 kB[22m
+2026-11-25T23:51:58.4071916Z [2mdist/[22m[2massets/[22m[36mNotificationPanel-BpeJhdMC.js         [39m[1m[2m 19.38 kB[22m[1m[22m[2m │ gzip:   5.56 kB[22m
+2026-11-25T23:51:58.4072989Z [2mdist/[22m[2massets/[22m[36mInspectionPanel-DP6EAcHM.js           [39m[1m[2m 21.34 kB[22m[1m[22m[2m │ gzip:   6.34 kB[22m
+2026-11-25T23:51:58.4074031Z [2mdist/[22m[2massets/[22m[36mAnalyticsPanel-BW9YYLgx.js            [39m[1m[2m 24.00 kB[22m[1m[22m[2m │ gzip:   6.03 kB[22m
+2026-11-25T23:51:58.4075043Z [2mdist/[22m[2massets/[22m[36mABTestingPanel-BGk-yDVp.js            [39m[1m[2m 31.02 kB[22m[1m[22m[2m │ gzip:   7.86 kB[22m
+2026-11-25T23:51:58.4076242Z [2mdist/[22m[2massets/[22m[36mOperatorPanel-DkGVdJS-.js             [39m[1m[2m 58.55 kB[22m[1m[22m[2m │ gzip:  13.90 kB[22m
+2026-11-25T23:51:58.4077235Z [2mdist/[22m[2massets/[22m[36mindex-BYepU0NJ.js                     [39m[1m[2m364.68 kB[22m[1m[22m[2m │ gzip: 111.58 kB[22m
+2026-11-25T23:51:58.4077841Z [32m✓ built in 2.73s[39m
+
+2026-11-25T23:52:17.2823277Z ##[group]Run npx playwright test tests/ui.spec.ts
+2026-11-25T23:52:18.6146530Z 
+2026-11-25T23:52:18.6147233Z Running 7 tests using 1 worker
+2026-11-25T23:52:18.6148340Z 
+2026-11-25T23:52:49.4196299Z   ✘  1 tests/ui.spec.ts:8:3 › Yönetim ekranları 1440px (30.0s)
+2026-11-25T23:53:20.0718884Z   ✘  2 tests/ui.spec.ts:8:3 › Yönetim ekranları 390px (30.0s)
+2026-11-25T23:53:50.7044715Z   ✘  3 tests/ui.spec.ts:78:3 › Tüm sekmeler yatay taşma yapmaz 1440px (30.1s)
+2026-11-25T23:54:21.3473916Z   ✘  4 tests/ui.spec.ts:78:3 › Tüm sekmeler yatay taşma yapmaz 390px (30.0s)
+2026-11-25T23:54:22.1744171Z   ✓  5 tests/ui.spec.ts:99:1 › Yanlış parola Türkçe hata gösterir (277ms)
+2026-11-25T23:54:22.5394522Z   ✓  6 tests/ui.spec.ts:107:1 › Çıkış giriş ekranına döner ve parolayı temizler (349ms)
+2026-11-25T23:54:52.6288961Z   ✘  7 tests/ui.spec.ts:117:1 › İlk randevu rehberi panelden ilk randevuyu yönlendirir ve takvime bağlar (30.0s)
+2026-11-25T23:54:52.6445300Z 
+2026-11-25T23:54:52.6451919Z 
+2026-11-25T23:54:52.6462475Z   1) tests/ui.spec.ts:8:3 › Yönetim ekranları 1440px ───────────────────────────────────────────────
+2026-11-25T23:54:52.6463127Z 
+2026-11-25T23:54:52.6463379Z     Test timeout of 30000ms exceeded.
+2026-11-25T23:54:52.6463785Z 
+2026-11-25T23:54:52.6464144Z     Error: locator.click: Test timeout of 30000ms exceeded.
+2026-11-25T23:54:52.6464778Z     Call log:
+2026-11-25T23:54:52.6465393Z       - waiting for getByRole('button', { name: 'Randevular', exact: true })
+2026-11-25T23:54:52.6465888Z 
+2026-11-25T23:54:52.6465897Z 
+2026-11-25T23:54:52.6466176Z       23 |       "M01–M11",
+2026-11-25T23:54:52.6466632Z       24 |     ]) {
+2026-11-25T23:54:52.6467407Z     > 25 |       await page.getByRole("button", { name: title, exact: true }).click();
+2026-11-25T23:54:52.6468446Z          |                                                                    ^
+2026-11-25T23:54:52.6469386Z       26 |       await expect(
+2026-11-25T23:54:52.6470012Z       27 |         page.getByRole("heading", { name: title, exact: true }),
+2026-11-25T23:54:52.6470455Z       28 |       ).toBeVisible();
+2026-11-25T23:54:52.6471080Z         at /home/runner/work/FreyaTTS_Automotive_PoC/FreyaTTS_Automotive_PoC/frontend/tests/ui.spec.ts:25:68
+2026-11-25T23:54:52.6472198Z 
+2026-11-25T23:54:52.6472950Z     Error Context: test-results/ui-Yönetim-ekranları-1440px/error-context.md
+2026-11-25T23:54:52.6473348Z 
+2026-11-25T23:54:52.6473840Z   2) tests/ui.spec.ts:8:3 › Yönetim ekranları 390px ────────────────────────────────────────────────
+2026-11-25T23:54:52.6474261Z 
+2026-11-25T23:54:52.6474408Z     Test timeout of 30000ms exceeded.
+2026-11-25T23:54:52.6474615Z 
+2026-11-25T23:54:52.6474830Z     Error: locator.click: Test timeout of 30000ms exceeded.
+2026-11-25T23:54:52.6475201Z     Call log:
+2026-11-25T23:54:52.6475600Z       - waiting for getByRole('button', { name: 'Randevular', exact: true })
+2026-11-25T23:54:52.6475947Z 
+2026-11-25T23:54:52.6475953Z 
+2026-11-25T23:54:52.6476090Z       23 |       "M01–M11",
+2026-11-25T23:54:52.6476355Z       24 |     ]) {
+2026-11-25T23:54:52.6476794Z     > 25 |       await page.getByRole("button", { name: title, exact: true }).click();
+2026-11-25T23:54:52.6477342Z          |                                                                    ^
+2026-11-25T23:54:52.6477861Z       26 |       await expect(
+2026-11-25T23:54:52.6478726Z       27 |         page.getByRole("heading", { name: title, exact: true }),
+2026-11-25T23:54:52.6479263Z       28 |       ).toBeVisible();
+2026-11-25T23:54:52.6479870Z         at /home/runner/work/FreyaTTS_Automotive_PoC/FreyaTTS_Automotive_PoC/frontend/tests/ui.spec.ts:25:68
+2026-11-25T23:54:52.6480290Z 
+2026-11-25T23:54:52.6480647Z     Error Context: test-results/ui-Yönetim-ekranları-390px/error-context.md
+2026-11-25T23:54:52.6480962Z 
+2026-11-25T23:54:52.6481385Z   3) tests/ui.spec.ts:78:3 › Tüm sekmeler yatay taşma yapmaz 1440px ────────────────────────────────
+2026-11-25T23:54:52.6481743Z 
+2026-11-25T23:54:52.6481878Z     Test timeout of 30000ms exceeded.
+2026-11-25T23:54:52.6482058Z 
+2026-11-25T23:54:52.6482253Z     Error: locator.click: Test timeout of 30000ms exceeded.
+2026-11-25T23:54:52.6482579Z     Call log:
+2026-11-25T23:54:52.6483283Z       - waiting for getByRole('button', { name: 'Görüşme', exact: true })
+2026-11-25T23:54:52.6483989Z 
+2026-11-25T23:54:52.6483999Z 
+2026-11-25T23:54:52.6484652Z       83 |     await expect(page.locator("header h1")).toHaveText("Görüşme");
+2026-11-25T23:54:52.6485440Z       84 |     for (const title of ALL_TABS) {
+2026-11-25T23:54:52.6485994Z     > 85 |       await page.getByRole("button", { name: title, exact: true }).click();
+2026-11-25T23:54:52.6486491Z          |                                                                    ^
+2026-11-25T23:54:52.6486966Z       86 |       await expect(page.locator("header h1")).toHaveText(title);
+2026-11-25T23:54:52.6487541Z       87 |       // Tembel yüklenen panelin yerleşmesi için kısa bekleme.
+2026-11-25T23:54:52.6489786Z       88 |       await page.waitForLoadState("networkidle");
+2026-11-25T23:54:52.6491012Z         at /home/runner/work/FreyaTTS_Automotive_PoC/FreyaTTS_Automotive_PoC/frontend/tests/ui.spec.ts:85:68
+2026-11-25T23:54:52.6491746Z 
+2026-11-25T23:54:52.6492482Z     Error Context: test-results/ui-Tüm-sekmeler-yatay-taşma-yapmaz-1440px/error-context.md
+2026-11-25T23:54:52.6493146Z 
+2026-11-25T23:54:52.6493876Z   4) tests/ui.spec.ts:78:3 › Tüm sekmeler yatay taşma yapmaz 390px ─────────────────────────────────
+2026-11-25T23:54:52.6494510Z 
+2026-11-25T23:54:52.6494728Z     Test timeout of 30000ms exceeded.
+2026-11-25T23:54:52.6495041Z 
+2026-11-25T23:54:52.6495357Z     Error: locator.click: Test timeout of 30000ms exceeded.
+2026-11-25T23:54:52.6495908Z     Call log:
+2026-11-25T23:54:52.6496659Z       - waiting for getByRole('button', { name: 'Görüşme', exact: true })
+2026-11-25T23:54:52.6497140Z 
+2026-11-25T23:54:52.6497151Z 
+2026-11-25T23:54:52.6497664Z       83 |     await expect(page.locator("header h1")).toHaveText("Görüşme");
+2026-11-25T23:54:52.6498376Z       84 |     for (const title of ALL_TABS) {
+2026-11-25T23:54:52.6499329Z     > 85 |       await page.getByRole("button", { name: title, exact: true }).click();
+2026-11-25T23:54:52.6500151Z          |                                                                    ^
+2026-11-25T23:54:52.6501204Z       86 |       await expect(page.locator("header h1")).toHaveText(title);
+2026-11-25T23:54:52.6502177Z       87 |       // Tembel yüklenen panelin yerleşmesi için kısa bekleme.
+2026-11-25T23:54:52.6502931Z       88 |       await page.waitForLoadState("networkidle");
+2026-11-25T23:54:52.6504033Z         at /home/runner/work/FreyaTTS_Automotive_PoC/FreyaTTS_Automotive_PoC/frontend/tests/ui.spec.ts:85:68
+2026-11-25T23:54:52.6504742Z 
+2026-11-25T23:54:52.6505383Z     Error Context: test-results/ui-Tüm-sekmeler-yatay-taşma-yapmaz-390px/error-context.md
+2026-11-25T23:54:52.6505976Z 
+2026-11-25T23:54:52.6506675Z   5) tests/ui.spec.ts:117:1 › İlk randevu rehberi panelden ilk randevuyu yönlendirir ve takvime bağlar 
+2026-11-25T23:54:52.6507338Z 
+2026-11-25T23:54:52.6507551Z     Test timeout of 30000ms exceeded.
+2026-11-25T23:54:52.6507865Z 
+2026-11-25T23:54:52.6508194Z     Error: locator.click: Test timeout of 30000ms exceeded.
+2026-11-25T23:54:52.6508947Z     Call log:
+2026-11-25T23:54:52.6509584Z       - waiting for getByRole('button', { name: 'Randevular', exact: true })
+2026-11-25T23:54:52.6510073Z 
+2026-11-25T23:54:52.6510325Z 
+2026-11-25T23:54:52.6510474Z       133 |
+2026-11-25T23:54:52.6511104Z       134 |   // 3. Rehber üzerinden Randevular sekmesine geçiş
+2026-11-25T23:54:52.6511966Z     > 135 |   await page.getByRole("button", { name: "Randevular", exact: true }).click();
+2026-11-25T23:54:52.6512802Z           |                                                                       ^
+2026-11-25T23:54:52.6513765Z       136 |   await expect(page.getByRole("heading", { name: "Randevular", exact: true })).toBeVisible();
+2026-11-25T23:54:52.6514876Z       137 |   await expect(page.getByText("Randevu Takvimi & Planlama")).toBeVisible();
+2026-11-25T23:54:52.6515588Z       138 | });
+2026-11-25T23:54:52.6516452Z         at /home/runner/work/FreyaTTS_Automotive_PoC/FreyaTTS_Automotive_PoC/frontend/tests/ui.spec.ts:135:71
+2026-11-25T23:54:52.6517194Z 
+2026-11-25T23:54:52.6518129Z     Error Context: test-results/ui-İlk-randevu-rehberi-pan-4b578-nlendirir-ve-takvime-bağlar/error-context.md
+2026-11-25T23:54:52.6519157Z 
+2026-11-25T23:54:52.6519302Z   5 failed
+2026-11-25T23:54:52.6520221Z     tests/ui.spec.ts:8:3 › Yönetim ekranları 1440px ────────────────────────────────────────────────
+2026-11-25T23:54:52.6521535Z     tests/ui.spec.ts:8:3 › Yönetim ekranları 390px ─────────────────────────────────────────────────
+2026-11-25T23:54:52.6522833Z     tests/ui.spec.ts:78:3 › Tüm sekmeler yatay taşma yapmaz 1440px ─────────────────────────────────
+2026-11-25T23:54:52.6524132Z     tests/ui.spec.ts:78:3 › Tüm sekmeler yatay taşma yapmaz 390px ──────────────────────────────────
+2026-11-25T23:54:52.6525476Z     tests/ui.spec.ts:117:1 › İlk randevu rehberi panelden ilk randevuyu yönlendirir ve takvime bağlar 
+2026-11-25T23:54:52.6526346Z   2 passed (2.6m)
+2026-11-25T23:54:52.6724871Z ##[error]Process completed with exit code 1.
+
+RUN 45724724460 | JOB 139591560155 | COMMIT f7907e45767082abf30a104392fa3f4080a2328a
+https://github.com/seydivakkas/FreyaTTS_Automotive_PoC/actions/runs/45724724460
+
+2026-11-25T23:53:51.7137638Z ##[group]Run uv run --no-sync pytest -q -m "not llm and not gpu and not pbx"
+2026-11-25T23:54:08.2508688Z ...................................................... [  3%]
+2026-11-25T23:54:08.4638013Z .................................................................. [  7%]
+2026-11-25T23:54:08.6041014Z ........................................................................ [ 12%]
+2026-11-25T23:54:08.7193784Z ........................................................................ [ 16%]
+2026-11-25T23:54:08.9317308Z ........................................................................ [ 21%]
+2026-11-25T23:54:09.4307611Z ........................................................................ [ 25%]
+2026-11-25T23:54:11.9886834Z ...............................................................................................................s............ [ 33%]
+2026-11-25T23:54:16.3305122Z ..F..................................................................... [ 38%]
+2026-11-25T23:54:19.1280924Z ........................................................................ [ 42%]
+2026-11-25T23:54:20.7782297Z ..............ssss...................................................... [ 47%]
+2026-11-25T23:54:25.0366557Z ........................................................................ [ 51%]
+2026-11-25T23:54:32.0574579Z ........................................................................ [ 56%]
+2026-11-25T23:54:39.1548637Z ........................................................................ [ 60%]
+2026-11-25T23:54:41.9114033Z ........................................................................ [ 65%]
+2026-11-25T23:54:44.5394139Z ........................................................................ [ 69%]
+2026-11-25T23:54:47.1491375Z ........................................................................ [ 74%]
+2026-11-25T23:54:53.2505824Z ........................................................................ [ 78%]
+2026-11-25T23:54:57.4801628Z ........................................................................ [ 83%]
+2026-11-25T23:54:57.7321259Z ........................................................................ [ 88%]
+2026-11-25T23:54:58.0996034Z ........................................................................ [ 92%]
+2026-11-25T23:54:58.4410078Z ........................................................................ [ 97%]
+2026-11-25T23:54:59.2375593Z .............................................                            [100%]
+2026-11-25T23:54:59.2376985Z =================================== FAILURES ===================================
+2026-11-25T23:54:59.2378364Z _____________ test_teardown_failure_releases_single_call_capacity ______________
+2026-11-25T23:54:59.2378904Z 
+2026-11-25T23:54:59.2379335Z client = <starlette.testclient.TestClient object at 0x771a7b211090>
+2026-11-25T23:54:59.2380298Z monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x771a7b12a790>
+2026-11-25T23:54:59.2380792Z 
+2026-11-25T23:54:59.2381227Z     def test_teardown_failure_releases_single_call_capacity(client, monkeypatch):
+2026-11-25T23:54:59.2381899Z         class BrokenClose:
+2026-11-25T23:54:59.2382376Z             def __init__(self, channel, emit, send):
+2026-11-25T23:54:59.2382890Z                 self.emit = emit
+2026-11-25T23:54:59.2383328Z                 self.closed = False
+2026-11-25T23:54:59.2383973Z     
+2026-11-25T23:54:59.2384310Z             async def start(self):
+2026-11-25T23:54:59.2384809Z                 await self.emit({"type": "session"})
+2026-11-25T23:54:59.2385253Z     
+2026-11-25T23:54:59.2385593Z             async def close(self):
+2026-11-25T23:54:59.2386091Z                 raise RuntimeError("close failed")
+2026-11-25T23:54:59.2386525Z     
+2026-11-25T23:54:59.2387180Z         monkeypatch.setattr(main, "VoiceSession", BrokenClose)
+2026-11-25T23:54:59.2388032Z         token = client.post("/api/session-ticket", auth=("admin", "test-password")).json()[
+2026-11-25T23:54:59.2388715Z             "ticket"
+2026-11-25T23:54:59.2389028Z         ]
+2026-11-25T23:54:59.2389552Z >       with pytest.raises(RuntimeError, match="close failed"):
+2026-11-25T23:54:59.2390195Z E       Failed: DID NOT RAISE RuntimeError
+2026-11-25T23:54:59.2390506Z 
+2026-11-25T23:54:59.2390693Z tests/test_api.py:125: Failed
+2026-11-25T23:54:59.2391318Z =============================== warnings summary ===============================
+2026-11-25T23:54:59.2392081Z .venv/lib/python3.11/site-packages/fastapi/testclient.py:1
+2026-11-25T23:54:59.2394020Z   /home/runner/work/FreyaTTS_Automotive_PoC/FreyaTTS_Automotive_PoC/.venv/lib/python3.11/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+2026-11-25T23:54:59.2395881Z     from starlette.testclient import TestClient as TestClient  # noqa
+2026-11-25T23:54:59.2396255Z 
+2026-11-25T23:54:59.2396711Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+2026-11-25T23:54:59.2397385Z =========================== short test summary info ============================
+2026-11-25T23:54:59.2398298Z FAILED tests/test_api.py::test_teardown_failure_releases_single_call_capacity - Failed: DID NOT RAISE RuntimeError
+2026-11-25T23:54:59.2399297Z 1 failed, 1579 passed, 6 skipped, 16 deselected, 1 warning, 44 subtests passed in 64.93s (0:01:04)
+2026-11-25T23:55:00.8251991Z ##[error]Process completed with exit code 1.
