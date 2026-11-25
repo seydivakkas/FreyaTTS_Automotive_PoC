@@ -190,8 +190,10 @@ class VoiceSession:
                 )
                 veh_str = veh.description if veh else "aracınız"
                 cust_str = app.customer if app else "Müşterimiz"
-                greeting_text = (
-                    f"İyi günler Sayın {cust_str}. Maslak Ekspertiz Merkezinden arıyorum. "
+                from backend.ab_testing import with_ai_disclosure
+
+                greeting_text = with_ai_disclosure(
+                    f"Sayın {cust_str}, Maslak Ekspertiz Merkezinden arıyorum. "
                     f"{veh_str} aracınız için {time_str} saatindeki ekspertiz randevunuzu teyit etmek amacıyla aradık. "
                     f"Randevunuza gelebilecek misiniz?"
                 )
@@ -228,8 +230,10 @@ class VoiceSession:
                     if diag
                     else "kritik motor arıza uyarısı"
                 )
-                greeting_text = (
-                    f"İyi günler Sayın {cust_str}. Maslak Otomotiv Ekspertiz ve Servis Merkezinden arıyorum. "
+                from backend.ab_testing import with_ai_disclosure
+
+                greeting_text = with_ai_disclosure(
+                    f"Sayın {cust_str}, Maslak Otomotiv Ekspertiz ve Servis Merkezinden arıyorum. "
                     f"OBD teşhis sistemimiz üzerinden {veh_str} aracınızda {dtc_str} algılandı. "
                     f"Sürüş güvenliğiniz için kontrol randevusu oluşturmak ister misiniz?"
                 )

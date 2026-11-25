@@ -54,6 +54,10 @@ _PRICE_INQUIRY_RE = re.compile(
     r"\b(fiyat|fiyatı|fiyatlar|fiyatları|ücret|ücreti|ücretler|kaç\s*para|ne\s*kadar|paketler|paketleri|hizmetler|hizmetleri)\b",
     re.I,
 )
+_AI_IDENTITY_QUESTION_RE = re.compile(
+    r"\b(insan(?:la)?\s+m[ıi]\w*|gerçek\s+(?:bir\s+)?(?:kişi|insan)\w*\s+m[ıi]\w*|robot\s+mu\w*|bot\s+mu\w*|yapay\s+zek[aâ]\w*\s+m[ıi]\w*)",
+    re.I,
+)
 _MULTI_VEHICLE_RE = re.compile(
     r"\b(iki\s+ara[çc]\w*|2\s+ara[çc]\w*|iki\s+araba\w*|2\s+araba\w*|bir\s+ara[çc]\w*\s+daha|bir\s+araba\w*\s+daha|ikinci\s+ara[çc]\w*|ikinci\s+araba\w*|başka\s+(?:bir\s+)?ara[çc]\w*|başka\s+(?:bir\s+)?araba\w*|diğer\s+ara[çc]\w*|diğer\s+araba\w*)\b",
     re.I,
@@ -1071,6 +1075,18 @@ class Dialogue:
 
         norm = _tr_lower(text.strip())
         clean = re.sub(r"[.,!?;:]", " ", norm)
+
+        # ADR-X-03 (H01.14): "insanla mı konuşuyorum?" sorusuna dürüst yanıt + aktarım seçeneği.
+        # Durum değişmez (bekleyen onay "evet" ile yanlışlıkla tetiklenmesin diye açık komut istenir).
+        if _AI_IDENTITY_QUESTION_RE.search(clean):
+            ans = (
+                "Ben Freya, yapay zekâ destekli bir asistanım. Bir müşteri temsilcisiyle görüşmek "
+                "isterseniz 'operatöre bağla' demeniz yeterli; dilerseniz ben yardımcı olmaya devam edeyim."
+            )
+            self.record_turn("user", text)
+            self.record_turn("assistant", ans)
+            self._record_turn_trace(turn_id, text, "ai_identity_question", initial_status, db_mutations=0)
+            return ans
 
         phone_in_text = extract_phone_number(text)
         if phone_in_text:

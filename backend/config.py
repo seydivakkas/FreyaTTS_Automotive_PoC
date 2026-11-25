@@ -10,6 +10,9 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
+    # ADR-X-03 (H01.14): her karşılamanın başındaki yapay zekâ bildirimi. Tek yer burası;
+    # metin değişikliği ürün sahibi onayı ister (ajan kendiliğinden değiştirmez).
+    ai_disclosure_text: str = "Merhaba, Freya yapay zekâ destekli müşteri temsilcisine ulaştınız."
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
     admin_password: str = ""
     database_url: str = "sqlite:///./data/assistant.db"
