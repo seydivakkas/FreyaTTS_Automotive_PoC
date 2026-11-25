@@ -1,5 +1,5 @@
 /**
- * FreyaTTS Automotive Cockpit — Ses Laboratuvarı & Piper TTS Stüdyosu (LabTab.tsx)
+ * FreyaTTS Automotive Cockpit — Ses Laboratuvarı & FreyaTTS Stüdyosu (LabTab.tsx)
  * Telif Hakkı (c) 2026 Seydi Eryılmaz (@seydivakkas) — ÖZEL LİSANS / TÜM HAKLAR SAKLIDIR
  * Bu yazılım ve ilgili tüm dosyalar ("Yazılım") yalnızca görüntüleme ve eğitim amaçlıdır.
  */
@@ -35,12 +35,41 @@ type Props = {
 };
 
 interface TtsTelemetry {
-  ttfb_ms: number;
-  duration_sec: number;
-  rtf: number;
-  sample_rate_hz: number;
+  request_ms: number;
+  duration_sec: number | null;
+  rtf: number | null;
+  sample_rate_hz: number | null;
   size_kb: number;
 }
+
+// H01.13: ses süresi tahmin edilmez; WAV başlığındaki gerçek örnekleme hızı ve veri
+// boyutundan hesaplanır. Başlık okunamazsa null ("—") döner.
+function parseWavInfo(buf: ArrayBuffer): { sampleRate: number; durationSec: number } | null {
+  const v = new DataView(buf);
+  if (buf.byteLength < 44) return null;
+  const tag = (o: number) => String.fromCharCode(v.getUint8(o), v.getUint8(o + 1), v.getUint8(o + 2), v.getUint8(o + 3));
+  if (tag(0) !== "RIFF" || tag(8) !== "WAVE") return null;
+  let off = 12;
+  let sampleRate = 0;
+  let blockAlign = 0;
+  while (off + 8 <= buf.byteLength) {
+    const id = tag(off);
+    const size = v.getUint32(off + 4, true);
+    if (id === "fmt ") {
+      sampleRate = v.getUint32(off + 12, true);
+      blockAlign = v.getUint16(off + 20, true);
+    } else if (id === "data") {
+      if (!sampleRate || !blockAlign) return null;
+      const dataBytes = Math.min(size, buf.byteLength - off - 8);
+      return { sampleRate, durationSec: dataBytes / blockAlign / sampleRate };
+    }
+    off += 8 + size + (size % 2);
+  }
+  return null;
+}
+
+// H01.13: arka uç /api/synthesize bu parametreleri uygulamıyor (FreyaTTS, Leyla seed 9).
+const INERT_CONTROL_NOTE = "Devre dışı: FreyaTTS arka ucu bu parametreyi uygulamıyor (Leyla, seed 9).";
 
 const AUTOMOTIVE_PRESETS = [
   {
@@ -61,7 +90,7 @@ const AUTOMOTIVE_PRESETS = [
   {
     id: "date_change",
     label: "🔄 Randevu Değişikliği",
-    text: "Mevcut randevunuz 18 Kasım Çarşamba günü saat 14:00 olarak güncellenmiştir. Onay SMS'iniz telefonunuza iletilmiştir.",
+    text: "Mevcut randevunuz 18 Kasım Çarşamba günü saat 14:00 olarak güncellenmiştir.",
   },
 ];
 
@@ -85,13 +114,8 @@ export function LabTab({
   const [isNormalizing, setIsNormalizing] = useState<boolean>(false);
 
   // Canlı Sentez Metrikleri
-  const [telemetry, setTelemetry] = useState<TtsTelemetry | null>({
-    ttfb_ms: 184,
-    duration_sec: 4.12,
-    rtf: 0.18,
-    sample_rate_hz: 22050,
-    size_kb: 178,
-  });
+  // H01.13: ölçüm yokken sabit sayı gösterilmez.
+  const [telemetry, setTelemetry] = useState<TtsTelemetry | null>(null);
 
   const handleNormalize = async () => {
     setIsNormalizing(true);
@@ -112,27 +136,20 @@ export function LabTab({
     const start = performance.now();
     try {
       await action(async () => {
-        const r = await rawApi("synthesize", "POST", {
-          text,
-          speed: speechRate,
-          speaker,
-        });
-        const elapsedMs = Math.round(performance.now() - start);
+        const r = await rawApi("synthesize", "POST", { text });
         const blob = await r.blob();
+        const elapsedMs = Math.round(performance.now() - start);
         if (audioUrl) URL.revokeObjectURL(audioUrl);
         const url = URL.createObjectURL(blob);
         setAudioUrl(url);
 
-        // Tahmini ses süresi (22050 Hz 16-bit mono: ~44.1 KB/sn)
+        const info = parseWavInfo(await blob.arrayBuffer());
         const sizeKb = Math.round(blob.size / 1024);
-        const durationEst = Math.max(0.5, Number((blob.size / 44100).toFixed(2)));
-        const rtfVal = Number((elapsedMs / 1000 / durationEst).toFixed(2));
-
         setTelemetry({
-          ttfb_ms: elapsedMs,
-          duration_sec: durationEst,
-          rtf: rtfVal,
-          sample_rate_hz: 22050,
+          request_ms: elapsedMs,
+          duration_sec: info ? info.durationSec : null,
+          rtf: info && info.durationSec > 0 ? elapsedMs / 1000 / info.durationSec : null,
+          sample_rate_hz: info ? info.sampleRate : null,
           size_kb: sizeKb,
         });
       });
@@ -159,10 +176,10 @@ export function LabTab({
       >
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <h2 style={{ margin: 0, fontSize: 16, fontWeight: 800, color: "#f8fafc" }}>
-            Ses Laboratuvarı & Piper TTS Stüdyosu
+            Ses Laboratuvarı & FreyaTTS Stüdyosu
           </h2>
           <span className="stage-badge brand">
-            <Volume2 size={12} /> F5 Piper TTS Engine
+            <Volume2 size={12} /> F5 FreyaTTS
           </span>
         </div>
         <div
@@ -184,7 +201,7 @@ export function LabTab({
               background: "#34d399",
             }}
           />
-          Model: Piper TTS Turkish v1.2 (Ready)
+          Model: FreyaTTS · Leyla (seed 9)
         </div>
       </div>
 
@@ -241,6 +258,8 @@ export function LabTab({
                 </label>
                 <select
                   value={speaker}
+                  disabled
+                  title={INERT_CONTROL_NOTE}
                   onChange={(e) => setSpeaker(e.target.value)}
                   style={{
                     width: "100%",
@@ -256,6 +275,7 @@ export function LabTab({
                   <option value="tr_TR-kerem-medium">Kerem (tr_TR-kerem-medium / Danışman)</option>
                   <option value="tr_TR-sezer-accent">Sezer Vurgulu (Otomotiv Özel Telaffuz)</option>
                 </select>
+                <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 6 }}>{INERT_CONTROL_NOTE}</div>
               </div>
 
               <div>
@@ -280,6 +300,8 @@ export function LabTab({
                   max="1.35"
                   step="0.05"
                   value={speechRate}
+                  disabled
+                  title={INERT_CONTROL_NOTE}
                   onChange={(e) => setSpeechRate(parseFloat(e.target.value))}
                   style={{ width: "100%", accentColor: "#38bdf8" }}
                 />
@@ -307,6 +329,8 @@ export function LabTab({
                   max="1.20"
                   step="0.05"
                   value={pitch}
+                  disabled
+                  title={INERT_CONTROL_NOTE}
                   onChange={(e) => setPitch(parseFloat(e.target.value))}
                   style={{ width: "100%", accentColor: "#fbbf24" }}
                 />
@@ -334,6 +358,8 @@ export function LabTab({
                   max="1.0"
                   step="0.033"
                   value={noiseScale}
+                  disabled
+                  title={INERT_CONTROL_NOTE}
                   onChange={(e) => setNoiseScale(parseFloat(e.target.value))}
                   style={{ width: "100%", accentColor: "#94a3b8" }}
                 />
@@ -502,17 +528,17 @@ export function LabTab({
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <div className="metric-tile-grid">
                   <div className="metric-tile">
-                    <span className="metric-tile-label">İlk Ses (TTFB)</span>
+                    <span className="metric-tile-label">İstek süresi</span>
                     <span className="metric-tile-value tabular-data" style={{ color: "#34d399" }}>
-                      {telemetry.ttfb_ms} ms
+                      {telemetry.request_ms} ms
                     </span>
-                    <span className="metric-tile-sub">Hedef: &lt; 250 ms</span>
+                    <span className="metric-tile-sub">Tek istek; p95 değildir</span>
                   </div>
 
                   <div className="metric-tile">
                     <span className="metric-tile-label">Hız Faktörü (RTF)</span>
                     <span className="metric-tile-value tabular-data" style={{ color: "#38bdf8" }}>
-                      {telemetry.rtf.toFixed(2)}x
+                      {telemetry.rtf === null ? "—" : `${telemetry.rtf.toFixed(2)}x`}
                     </span>
                     <span className="metric-tile-sub">Real-Time Factor</span>
                   </div>
@@ -533,13 +559,13 @@ export function LabTab({
                   <div style={{ display: "flex", justifyContent: "space-between" }}>
                     <span style={{ color: "#94a3b8" }}>Ses Süresi:</span>
                     <span className="tabular-data" style={{ color: "#f8fafc", fontWeight: 600 }}>
-                      {telemetry.duration_sec.toFixed(2)} sn
+                      {telemetry.duration_sec === null ? "—" : `${telemetry.duration_sec.toFixed(2)} sn`}
                     </span>
                   </div>
                   <div style={{ display: "flex", justifyContent: "space-between" }}>
                     <span style={{ color: "#94a3b8" }}>Örnekleme Hızı:</span>
                     <span className="tabular-data" style={{ color: "#f8fafc", fontWeight: 600 }}>
-                      {telemetry.sample_rate_hz} Hz
+                      {telemetry.sample_rate_hz === null ? "—" : `${telemetry.sample_rate_hz} Hz`}
                     </span>
                   </div>
                   <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -550,7 +576,7 @@ export function LabTab({
                   </div>
                   <div style={{ display: "flex", justifyContent: "space-between" }}>
                     <span style={{ color: "#94a3b8" }}>DSP Filtre Durumu:</span>
-                    <span style={{ color: "#34d399", fontWeight: 600 }}>Aktif (120Hz HPF)</span>
+                    <span style={{ color: "#94a3b8", fontWeight: 600 }}>—</span>
                   </div>
                 </div>
 
@@ -568,7 +594,7 @@ export function LabTab({
                   }}
                 >
                   <CheckCircle2 size={15} color="#34d399" />
-                  <span>Sentez gecikmesi otomotiv bütçesi (≤300ms) içerisinde stabil.</span>
+                  <span>Tek istek ölçümüdür; gecikme kararlılığı için p50/p95 ölçümü gerekir (Ölçüm bekleniyor).</span>
                 </div>
               </div>
             ) : (

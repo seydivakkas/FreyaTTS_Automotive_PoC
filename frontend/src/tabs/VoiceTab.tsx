@@ -85,7 +85,7 @@ const DEFAULT_TRANSCRIPTS: LocalTranscript[] = [
     speaker: "Leyla (FreyaTTS)",
     time: "14:20:05",
     text: "Merhaba, Trabzon Otomotiv Yetkili Servisi’ne hoş geldiniz. Ben yapay zekâ asistanınız Leyla. Size nasıl yardımcı olabilirim?",
-    fxMs: "TTFA: 214ms | F5: 182ms",
+    fxMs: "ÖRNEK VERİ — ölçüm değil",
     isAssistant: true,
   },
   {
@@ -93,7 +93,7 @@ const DEFAULT_TRANSCRIPTS: LocalTranscript[] = [
     speaker: "Müşteri (Ahmet Yılmaz)",
     time: "14:20:12",
     text: "Merhaba, Trabzon'da 61 TS 061 plakalı Peugeot 3008 aracım için periyodik bakım randevusu almak istiyorum.",
-    fxMs: "F0 SNR: +14.8dB | F2 ASR: 138ms",
+    fxMs: "ÖRNEK VERİ — ölçüm değil",
     isAssistant: false,
   },
   {
@@ -101,7 +101,7 @@ const DEFAULT_TRANSCRIPTS: LocalTranscript[] = [
     speaker: "Leyla (FreyaTTS)",
     time: "14:20:14",
     text: "Harika Ahmet Bey. Aracınızın 60.000 km ağır bakım ve DSG şanzıman kontrolleri için yarın saat 09:30'da Lift-2 istasyonumuz uygundur. Onaylıyor musunuz?",
-    fxMs: "F3 LLM: 176ms | F4 Sezer: 4ms | F5 ODE: 198ms",
+    fxMs: "ÖRNEK VERİ — ölçüm değil",
     isAssistant: true,
   },
 ];
@@ -210,8 +210,8 @@ export function VoiceTab({
         text: m.text,
         fxMs:
           m.role === "assistant"
-            ? `TTFA: ${metrics?.first_audio_ms ? `${metrics.first_audio_ms}ms` : "214ms"} | F5: ${metrics?.tts_ms ? `${metrics.tts_ms}ms` : "182ms"}`
-            : `F0 SNR: +14.8dB | F2 ASR: ${metrics?.stt_ms ? `${metrics.stt_ms}ms` : "138ms"}`,
+            ? `TTFA: ${metrics?.first_audio_ms ? `${metrics.first_audio_ms} ms` : "—"} | F5: ${metrics?.tts_ms ? `${metrics.tts_ms} ms` : "—"}`
+            : `F2 ASR: ${metrics?.stt_ms ? `${metrics.stt_ms} ms` : "—"}`,
         isAssistant: m.role === "assistant",
       }));
       setTranscripts(mapped);
@@ -260,10 +260,10 @@ export function VoiceTab({
 
     const custMsg: LocalTranscript = {
       id: `cust_${Date.now()}`,
-      speaker: "Müşteri (Ahmet Yılmaz)",
+      speaker: "Müşteri (metin girişi)",
       time: nowStr,
       text: text,
-      fxMs: "F0 SNR: +15.2dB | F2 ASR: 134ms",
+      fxMs: "—",
       isAssistant: false,
     };
 
@@ -279,7 +279,9 @@ export function VoiceTab({
     // 2. Canlı WebSocket kapalıysa, arka plandaki gerçek Ollama Qwen2.5 LLM servisini çağır
     setIsLlmLoading(true);
     let leylaReply = "";
-    let llmDurationMs = 175;
+    // H01.13: ölçüm yoksa sayı gösterilmez ("—"); varsayılan gecikme değeri uydurulmaz.
+    let llmDurationMs: number | null = null;
+    let backendError = false;
 
     try {
       if (api) {
@@ -289,7 +291,7 @@ export function VoiceTab({
         });
         if (res && res.reply) {
           leylaReply = res.reply;
-          if (res.metrics?.llm_total_ms) llmDurationMs = Math.round(res.metrics.llm_total_ms);
+          if (typeof res.metrics?.llm_total_ms === "number") llmDurationMs = Math.round(res.metrics.llm_total_ms);
           if (res.slot_info) {
             setDetectedSlotInfo((prev) => ({
               ...prev,
@@ -309,35 +311,26 @@ export function VoiceTab({
       }
     } catch (err) {
       console.warn("Backend LLM endpoint hatası:", err);
+      backendError = true;
     } finally {
       setIsLlmLoading(false);
     }
 
-    // Yedek kural tabanlı yanıt (eğer LLM servisi geçici olarak yanıt vermezse)
+    // H01.15 (UI-2): arka uç yanıt vermezse arayüz kendi Leyla yanıtını ÜRETMEZ ve
+    // doğrulanmamış başarı cümlesi göstermez; yalnız hata mesajı gösterilir, ses çalınmaz.
     if (!leylaReply) {
-      if (text.includes("P0300")) {
-        leylaReply =
-          "M06 Emniyet Kilidi devrede: P-sıfır-üç-yüz tekleme arızasında katalitik konvertör ve silindir hasarını önlemek için aracınızı sürmemenizi ve Trabzon servisimize çekici yönlendirmemizi öneririm.";
-        setDetectedSlotInfo((p) => ({
-          ...p,
-          intent: "obd_p0300_ariza_teshis",
-          islem: ["obd_p0300_atesleme_hatasi", "cekici_talep"],
-        }));
-      } else if (text.includes("balata") || text.includes("fren")) {
-        leylaReply =
-          "Ön ve arka fren balata değişimi yaklaşık 45 dakika sürmektedir. Lift-1 istasyonumuzda orijinal parça ve garantili montajla hemen yardımcı olabiliriz.";
-        setDetectedSlotInfo((p) => ({
-          ...p,
-          intent: "fren_balata_degisim",
-          islem: ["on_arka_balata", "fren_hidrolik_kontrol"],
-        }));
-      } else if (text.includes("WhatsApp") || text.includes("rapor")) {
-        leylaReply =
-          "TSE-HYB onaylı detaylı ekspertiz raporunuz ve OBD-II arıza dökümünüz sistemde kayıtlı WhatsApp numaranıza PDF olarak başarıyla iletilmiştir.";
-        setDetectedSlotInfo((p) => ({ ...p, intent: "whatsapp_rapor_gonderimi" }));
-      } else {
-        leylaReply = `Talebinizi aldım Ahmet Bey. İlettiğiniz '${text.slice(0, 32)}' konusu için yarın saat 09:30'da Lift-2 istasyonunda randevunuzu planlıyorum. Onaylıyor musunuz?`;
-      }
+      const errMsg: LocalTranscript = {
+        id: `sys_${Date.now() + 1}`,
+        speaker: "Sistem",
+        time: new Date().toLocaleTimeString("tr-TR", { hour12: false }),
+        text: backendError
+          ? "Şu anda yanıt veremiyorum: arka uç (LLM) hizmetine ulaşılamadı. Lütfen daha sonra tekrar deneyin."
+          : "Şu anda yanıt veremiyorum: arka uç yanıt üretmedi.",
+        fxMs: "—",
+        isAssistant: false,
+      };
+      setTranscripts((prev) => [...prev, errMsg]);
+      return;
     }
 
     const leylaMsg: LocalTranscript = {
@@ -345,11 +338,12 @@ export function VoiceTab({
       speaker: "Leyla (FreyaTTS)",
       time: new Date().toLocaleTimeString("tr-TR", { hour12: false }),
       text: leylaReply,
-      fxMs: `F3 LLM (Qwen2.5): ${llmDurationMs}ms | F4 Sezer: 4ms | F5 FreyaTTS (CUDA): 194ms`,
+      fxMs: `F3 LLM: ${llmDurationMs === null ? "—" : `${llmDurationMs} ms`}`,
       isAssistant: true,
     };
 
-    setTranscripts((prev) => [...prev, custMsg, leylaMsg]);
+    // Müşteri mesajı yukarıda zaten eklendi; yalnız yanıt eklenir.
+    setTranscripts((prev) => [...prev, leylaMsg]);
 
     // FreyaTTS-small (CUDA) üzerinden gerçek nöral ses sentezi:
     if (connected && voice.sendTextInput) {
@@ -509,7 +503,7 @@ export function VoiceTab({
             }}
             title="E2E İlk Ses Gecikmesi"
           >
-            TTFA: <b>{metrics?.first_audio_ms ? `${metrics.first_audio_ms}ms` : "214ms"}</b>
+            TTFA: <b>{metrics?.first_audio_ms ? `${metrics.first_audio_ms} ms` : "—"}</b>
           </span>
 
           <span
@@ -524,7 +518,7 @@ export function VoiceTab({
             }}
             title="FreyaTTS Neural Audio Synthesizer Gecikmesi"
           >
-            F5 ODE: <b>{metrics?.tts_ms ? `${metrics.tts_ms}ms` : "194ms"}</b>
+            F5 ODE: <b>{metrics?.tts_ms ? `${metrics.tts_ms} ms` : "—"}</b>
           </span>
 
           <button

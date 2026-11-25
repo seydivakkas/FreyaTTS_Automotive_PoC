@@ -168,8 +168,10 @@ class BatchedODEEngine:
     - 12 ms mikro-pencerede (`micro_window_ms = 12.0`) farklı çağrıların yan cümlelerini biriktirir.
     - 8'li dinamik GPU yığınlama (`batch_size = 8`) ile 32 adımlı Euler ODE çözücüsünü
       tek GPU geçişinde çalıştırır.
-    - RTX 4090 / CUDA ortamında 3.8 GB VRAM ile saniyede 65+ saniye ses (RTF <= 0.015) üretir.
-    - İzole `LEYLA_SEED = 9` ve bağımsız Gauss başlangıç gürültüsü ile 2.3 Hz F0 ses kararlılığını korur.
+    - Performans (VRAM, RTF, saniyede üretilen ses) ÖLÇÜLMEDİ; hedef donanım RTX 4070
+      Laptop 8 GB. Önceki "RTX 4090 / RTF <= 0.015" ifadesi kaynaksızdı (H01.13).
+    - Her öğe kendi ses profili seed'iyle (varsayılan Leyla 9) ve bağımsız Gauss başlangıç
+      gürültüsüyle sentezlenir; F0 kararlılığı ölçülmedi (Ölçüm bekleniyor).
     - `check_voicedness >= 0.06` denetimi ile fısıltı çökmelerini yakalayıp otomatik telafi eder.
     """
 

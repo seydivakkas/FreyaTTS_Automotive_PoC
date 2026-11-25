@@ -543,7 +543,7 @@ export function CarDenoiserPanel({ api, rawApi }: Props) {
                 <div className="metric-tile">
                   <span className="metric-tile-label">SNR İyileşmesi</span>
                   <span className="metric-tile-value tabular-data" style={{ color: "#34d399" }}>
-                    {previewResult?.stats ? dash(previewResult.stats.snr_improvement_db, " dB") : "+14.8 dB"}
+                    {previewResult?.stats ? dash(previewResult.stats.snr_improvement_db, " dB") : "—"}
                   </span>
                   <span className="metric-tile-sub">Gürültü tabanı düştü</span>
                 </div>
@@ -572,7 +572,7 @@ export function CarDenoiserPanel({ api, rawApi }: Props) {
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                   <span style={{ color: "#94a3b8" }}>Giriş Global RMS:</span>
                   <span className="tabular-data" style={{ color: "#fca5a5", fontWeight: 600 }}>
-                    {previewResult?.stats ? dash(previewResult.stats.input_global_rms_dbfs, " dBFS") : "-28.4 dBFS"}
+                    {previewResult?.stats ? dash(previewResult.stats.input_global_rms_dbfs, " dBFS") : "—"}
                   </span>
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -590,7 +590,7 @@ export function CarDenoiserPanel({ api, rawApi }: Props) {
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                   <span style={{ color: "#94a3b8" }}>VAD Konuşma Oranı:</span>
                   <span className="tabular-data" style={{ color: "#fbbf24", fontWeight: 700 }}>
-                    {previewResult?.stats ? `${previewResult.stats.speech_ratio_percent}%` : "34.2%"}
+                    {previewResult?.stats ? `${previewResult.stats.speech_ratio_percent}%` : "—"}
                   </span>
                 </div>
               </div>
