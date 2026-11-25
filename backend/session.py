@@ -755,7 +755,14 @@ class VoiceSession:
             "type": "pipeline_event",
             "event": make_pipeline_event(self.id, turn, "F4", "running", source=source),
         })
-        norm_result = normalize(text)["normalized"]
+        # H01.08: seslendirme yolu esnek kipte; tablo dışı karakter yanıtı düşürmez,
+        # atılır ve olay olarak kaydedilir.
+        norm_full = normalize(text, lenient=True)
+        norm_result = norm_full["normalized"]
+        if norm_full.get("dropped_chars"):
+            dropped_event = {"event": "tts_chars_dropped", "chars": norm_full["dropped_chars"], "turn": turn}
+            logger.warning("Seslendirmede atılan karakterler: %s", norm_full["dropped_chars"])
+            self.save("event", "", dropped_event)
         clause_list = list(clauses(norm_result))
         f4_ms = (time.monotonic() - f4_start) * 1000
         await self.emit({

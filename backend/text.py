@@ -64,13 +64,37 @@ LETTERS = dict(
 )
 
 
-def normalize(text: str):
+# H01.08 (L5): seslendirme yolu için minimal güvenli yedek tablosu. Tam adaptör F4-A'dadır.
+SAFE_SYMBOL_FALLBACK = (("°C", " derece"), ("°", " derece"), ("−", "eksi "), ("&", " ve "))
+SAFE_VOCAB_FALLBACK = {"é": "e", "É": "E", "q": "k"}  # sözlük/lexicon sonrası kalanlar için
+
+
+def normalize(text: str, *, lenient: bool = False):
+    """Metni seslendirilebilir biçime çevirir.
+
+    Varsayılan (katı) kip desteklenmeyen karakterde ValueError verir (yönetim ucu,
+    sözlük denetimi). `lenient=True` seslendirme (yanıt) yolu içindir (H01.08): güvenli
+    yedek tablosu uygulanır, tablo dışı karakter atılır ve sonuçta `dropped_chars`
+    olarak bildirilir; yanıt düşmez.
+    """
     if not text.strip() or len(text) > 4000:
         raise ValueError("Metin uzunluğu 1–4000 olmalı")
+    original = text
+    dropped: list[str] = []
+    if lenient:
+        for src, dst in SAFE_SYMBOL_FALLBACK:
+            text = text.replace(src, dst)
     # Reject rather than silently discard meaningful unsupported symbols.
     unsupported = sorted(set(re.findall(r"[^\w\s.,:;?!%\'’₺€+()\-–—/]", text)))
     if unsupported:
-        raise ValueError("Desteklenmeyen karakterler: " + " ".join(unsupported))
+        if not lenient:
+            raise ValueError("Desteklenmeyen karakterler: " + " ".join(unsupported))
+        dropped.extend(unsupported)
+        text = "".join(ch for ch in text if ch not in unsupported)
+        if not text.strip():
+            raise ValueError("Seslendirilebilir karakter kalmadı")
+    if lenient:
+        text = re.sub(r"[ \t]{2,}", " ", text).strip()
     t = text
     t = re.sub(
         r"(?<!\w)(?:\+90|0)\s*\(?[2-5]\d{2}\)?[ -]*\d{3}[ -]*\d{2}[ -]*\d{2}(?!\d)",
@@ -142,6 +166,13 @@ def normalize(text: str):
         t,
     )
     t = re.sub(r"\b(saat\s+)([0-2]?\d)\.([0-5]\d)", r"\1\2:\3", t, flags=re.I)
+    # H01.09 (L3): "1. seçenek" → "birinci seçenek". Sayı + nokta + boşluk + küçük harf
+    # (sıra bağlamı) sıra sayısı okunur; "Bir." gibi tek sözcüklük parça oluşmaz.
+    t = re.sub(
+        r"(?<![\w.,:])(\d{1,2})\.(?=\s+[a-zçğıöşü])",
+        lambda m: ordinal_tr(int(m[1])),
+        t,
+    )
     t = re.sub(
         r"\b0\d{3}[ ()-]*\d{3}[ -]*\d{2}[ -]*\d{2}\b",
         lambda m: " ".join(spell_tr_int(int(c)) for c in m[0] if c.isdigit()),
@@ -163,15 +194,38 @@ def normalize(text: str):
     vocab = json.loads(Path("config/freya_vocab.json").read_text(encoding="utf8"))
     t = t.replace("Ğ", "ğ")
     missing = sorted(set(t) - set(vocab))
+    if missing and lenient:
+        t = "".join(SAFE_VOCAB_FALLBACK.get(ch, ch) if ch in missing else ch for ch in t)
+        still = sorted(set(t) - set(vocab))
+        if still:
+            dropped.extend(still)
+            t = re.sub(r"[ \t]{2,}", " ", "".join(ch for ch in t if ch not in still)).strip()
+            if not t:
+                raise ValueError("Seslendirilebilir karakter kalmadı")
+        missing = []
     if missing:
         raise ValueError("Model karakter sözlüğü desteklemiyor: " + " ".join(missing))
-    return {
-        "source": text,
+    result = {
+        "source": original,
         "normalized": t,
         "warnings": [
             "Telefon bandı ses kalitesi ayrıca dinlenerek değerlendirilmelidir."
         ],
     }
+    if lenient:
+        result["dropped_chars"] = sorted(set(dropped))
+    return result
+
+
+def ordinal_tr(n: int) -> str:
+    """Türkçe sıra sayısı (1 → birinci, 4 → dördüncü, 10 → onuncu)."""
+    word = spell_tr_int(n)
+    if word.endswith("dört"):
+        return word[:-4] + "dördüncü"
+    vowels = [c for c in word if c in "aıeioöuü"]
+    last = vowels[-1] if vowels else "i"
+    v = {"a": "ı", "ı": "ı", "e": "i", "i": "i", "o": "u", "u": "u", "ö": "ü", "ü": "ü"}[last]
+    return word + (f"n{'c'}{v}" if word[-1] in "aıeioöuü" else f"{v}nc{v}")
 
 
 def date_words(day, month, year):
