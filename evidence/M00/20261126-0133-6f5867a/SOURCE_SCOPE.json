@@ -1,0 +1,4586 @@
+{
+ "schema_version": "m00.v1",
+ "run_id": "20261126-0133-6f5867a",
+ "baseline_commit": "6f5867af52dd8d3fd706dc6c9ddd4a42a2dd360f",
+ "generated_at_utc": "2026-11-25T22:33:21+00:00",
+ "summary": {
+  "config_template": 1,
+  "root": 24,
+  "ci": 1,
+  "milestone_sources": 2,
+  "archive": 4,
+  "telephony_config": 1,
+  "source_package": 81,
+  "source_backend": 103,
+  "generated_docs": 103,
+  "config": 12,
+  "contracts": 31,
+  "data": 28,
+  "docs": 144,
+  "source_experimental": 38,
+  "source_frontend": 55,
+  "migrations": 26,
+  "scripts": 22,
+  "tests": 83
+ },
+ "records": [
+  {
+   "path": ".env.example",
+   "category": "config_template",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": ".gitattributes",
+   "category": "root",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": ".github/workflows/ci.yml",
+   "category": "ci",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": ".gitignore",
+   "category": "root",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "AGENTS.md",
+   "category": "root",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "BASLAT.bat",
+   "category": "root",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "BASLAT_HEPSI.bat",
+   "category": "root",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "CLAUDE.md",
+   "category": "root",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "FreyaTTS_Automotive_PoC_Mimari_ve_Arayuz_Sunumu.docx",
+   "category": "root",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "FreyaTTS_Automotive_PoC_Mimari_ve_Arayuz_Sunumu2.docx",
+   "category": "root",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "FreyaTTS_Automotive_PoC_Urun_ve_Teknik_Mimari_Raporu_v2.docx",
+   "category": "root",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "FreyaTTS_Otomotiv_Turkce_Telaffuz_Sezer_ve_Test_Cumleleri.xlsx",
+   "category": "root",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "FreyaTTS_Otomotiv_Turkce_Telaffuz_Sozlugu_2026.xlsx",
+   "category": "root",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "LICENSE",
+   "category": "root",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "M0-M11/FreyaTTS_M00-M11_Detayli_Teknik_Gelisim_ve_Akis_Semalari.md",
+   "category": "milestone_sources",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "M0-M11/FreyaTTS_M11_Physical_Acceptance_v1.zip",
+   "category": "milestone_sources",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "README.md",
+   "category": "root",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "alembic.ini",
+   "category": "root",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "\"archive/FreyaTTS \\303\\207oklu Ajan Mimari Tasar\\304\\261m\\304\\261.md\"",
+   "category": "root",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "archive/automotive_freya_poc.py",
+   "category": "archive",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "archive/patch_sft_tools.py",
+   "category": "archive",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "archive/run_poc.bat",
+   "category": "archive",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "archive/summarize_agents.py",
+   "category": "archive",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "asterisk/extensions.conf",
+   "category": "telephony_config",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/__init__.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/adapters/__init__.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/adapters/fake.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/adapters/lifecycle/__init__.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/adapters/lifecycle/breaker.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/adapters/lifecycle/clock.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/adapters/lifecycle/contracts.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/adapters/lifecycle/runtime.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/adapters/lifecycle/streaming.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/adapters/lifecycle/supervisor.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/audio/__init__.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/audio/contracts.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/audio/coordinator.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/audio/ports.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/audio/queue.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/conversation/__init__.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/conversation/effects.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/conversation/reducer.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/conversation/signals.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/core/__init__.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/core/audio.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/core/cancellation.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/core/event_bus.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/core/events.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/core/identifiers.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/core/session.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/core/session_manager.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/dialogue/__init__.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/dialogue/booking_state.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/dialogue/coordinator.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/dialogue/models.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/dialogue/policy.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/dialogue/ports.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/dialogue/storage.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/domain/__init__.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/domain/booking.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/e2e/__init__.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/e2e/runner.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/m01_demo.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/m02_demo.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/m03_demo.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/m04_report.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/m05_demo.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/m05_report.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/m06_demo.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/m07_demo.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/m09_demo.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/m10_demo.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/m11/__init__.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/m11/__main__.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/m11/acceptance.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/m11/html_report.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/mock_demo.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/nlp/__init__.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/nlp/a01yt_adapter.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/nlp/bridge.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/nlp/lexicon.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/nlp/nlu.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/nlp/normalizer.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/operator/__init__.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/operator/__main__.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/operator/review_store.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/operator/runtime.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/operator/server.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/operator/static/app.css",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/operator/static/app.js",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/operator/static/index.html",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/ports/__init__.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/ports/contracts.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/prosody/__init__.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/prosody/contracts.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/prosody/coordinator.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/prosody/mock_tts.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/prosody/planner.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/readiness/__init__.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/readiness/contracts.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/readiness/presentation.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/resilience/__init__.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/resilience/durable.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/telephony/__init__.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "automotive_voice/telephony/transport.py",
+   "category": "source_package",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/__init__.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/ab_testing.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/acoustic_evaluation.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/ami.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/analytics.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/appointment_reschedule.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/audio.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/audio_archive_compliance.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/audiosocket_server.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/automotive_dispatch.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/automotive_frontend.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/batched_ode.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/caller_memory.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/car_denoiser.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/config.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/dataset_generator.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/db.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/deps.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/diagnostics.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/dialogue.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/dsp.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/dtmf.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/dynamic_valuation_calculator.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/emotion_prosody_adapter.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/fqici/__init__.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/fqici/events.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/fqici/journal.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/fqici/queue.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/gpu_health_circuit_breaker.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/kvkk_compliance.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/lift_bay_capacity_scheduler.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/main.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/milestones.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/models.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/morphological_pre_checker.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/morphology/__init__.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/morphology/clitics.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/morphology/contracts.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/morphology/inflected_matcher.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/morphology/lexicon.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/morphology/stress_engine.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/morphology/syllabifier.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/morphology/text_utils.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/normalizer_rules.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/notifications.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/ontology/__init__.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/ontology/grounding.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/ontology/introspector.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/ontology/mcp_server.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/ontology/models.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/ontology/router.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/operator_inbox.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/outbound.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/outbound_dialer.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/pause_breath_cleaner.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/pipeline_telemetry.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/post_call_analytics.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/qa_telemetry_operator.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/queue_lift.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/realtime_dashboard_metrics.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/redaction_kvkk_guard.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/report_generator.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/routers/__init__.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/routers/audio_dsp.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/routers/compliance.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/routers/core_system.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/routers/crm.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/routers/dataset.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/routers/generic_resources.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/routers/observability.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/routers/operator_qa.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/routers/scheduling.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/routers/supervisor.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/routers/telephony.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/routers/text_speech.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/schemas.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/security_utils.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/semantic_turn_detector.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/session.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/sft_leyla.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/sip_trunk_failover.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/supervisor/__init__.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/supervisor/catalogue.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/supervisor/contracts.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/supervisor/dataset.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/supervisor/gateway.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/supervisor/orchestrator.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/supervisor/policy.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/supervisor/quality.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/supervisor/runtime.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/supervisor/synthetic.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/supervisor/train.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/supervisor/views.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/technician_dictation.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/telephony.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/text.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/transfer.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/turkish_plate.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/unified_server.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/vin.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/vin_ruhsat_decoder.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/websocket_adapter.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "backend/whatsapp_webhook.py",
+   "category": "source_backend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/brag-all-pages.jpg",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/brag-all-pages.mp4",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/brag-extended.jpg",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/brag-extended.mp4",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/brag-part2.jpg",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/brag-part2.mp4",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/brag-plan.md",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/brag.jpg",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/brag.mp4",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition-brief.md",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition-part2/.hyperframes/artifacts/checks/8e92744e-66d2-44b4-8956-b1e034ecd345.json",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition-part2/.hyperframes/cache/check.json",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition-part2/.hyperframes/history-id",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition-part2/.hyperframes/video-state.json",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition-part2/assets/music/music.mp3",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition-part2/assets/screens/01_gorusme_kokpiti.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition-part2/assets/screens/02_arac_ici_dsp.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition-part2/assets/screens/03_ab_test_ayari.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition-part2/assets/screens/04_sozluk_fonetik.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition-part2/assets/screens/05_otomotiv_ontolojisi.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition-part2/assets/screens/06_ses_laboratuvari.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition-part2/assets/screens/07_ekspertiz_raporlari.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition-part2/assets/screens/08_randevu_takvimi.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition-part2/assets/screens/09_sira_lift_durumu.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition-part2/assets/screens/10_arac_teshis_obd2.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition-part2/assets/screens/11_arac_katalog_fiyatlar.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition-part2/assets/screens/12_teknisyen_dikte.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition-part2/assets/screens/13_operator_kokpiti.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition-part2/assets/screens/14_giden_cagrilar.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition-part2/assets/screens/15_gorusme_gecmisi.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition-part2/assets/screens/16_bildirimler_whatsapp.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition-part2/assets/screens/17_supervisor_fqici.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition-part2/assets/screens/18_analitik_kpi.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition-part2/assets/screens/19_sistem_sagligi.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition-part2/assets/screens/20_m01_m11_kapilari.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition-part2/assets/sfx/impact/impactBell_heavy_000.ogg",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition-part2/assets/sfx/interface/bong_001.ogg",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition-part2/assets/sfx/interface/click_001.ogg",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition-part2/assets/sfx/interface/drop_001.ogg",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition-part2/hyperframes.json",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition-part2/index.html",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition-part2/meta.json",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition-part2/package.json",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition/.hyperframes/artifacts/checks/34ee7070-6b49-4558-9fcb-981bf5cf090d.json",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition/.hyperframes/artifacts/checks/b42c87ce-b39f-4104-83ed-6b42b95256d6.json",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition/.hyperframes/artifacts/checks/f0e88e71-2f37-4abf-b46e-60f07039cb6f.json",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition/.hyperframes/cache/check.json",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition/.hyperframes/history-id",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition/.hyperframes/video-state.json",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition/AGENTS.md",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition/CLAUDE.md",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition/assets/music/music.mp3",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition/assets/screens/01_gorusme_kokpiti.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition/assets/screens/02_arac_ici_dsp.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition/assets/screens/03_ab_test_ayari.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition/assets/screens/04_sozluk_fonetik.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition/assets/screens/05_otomotiv_ontolojisi.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition/assets/screens/06_ses_laboratuvari.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition/assets/screens/07_ekspertiz_raporlari.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition/assets/screens/08_randevu_takvimi.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition/assets/screens/09_sira_lift_durumu.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition/assets/screens/10_arac_teshis_obd2.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition/assets/screens/11_arac_katalog_fiyatlar.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition/assets/screens/12_teknisyen_dikte.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition/assets/screens/13_operator_kokpiti.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition/assets/screens/14_giden_cagrilar.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition/assets/screens/15_gorusme_gecmisi.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition/assets/screens/16_bildirimler_whatsapp.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition/assets/screens/17_supervisor_fqici.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition/assets/screens/18_analitik_kpi.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition/assets/screens/19_sistem_sagligi.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition/assets/screens/20_m01_m11_kapilari.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/composition/assets/sfx/impact/impactBell_heavy_000.ogg",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition/assets/sfx/interface/bong_001.ogg",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition/assets/sfx/interface/click_001.ogg",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition/assets/sfx/interface/drop_001.ogg",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition/hyperframes.json",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition/index.html",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition/meta.json",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/composition/package.json",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/concat.txt",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/screens/01_gorusme_kokpiti.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/screens/02_arac_ici_dsp.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/screens/03_ab_test_ayari.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/screens/04_sozluk_fonetik.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/screens/05_otomotiv_ontolojisi.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/screens/06_ses_laboratuvari.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/screens/07_ekspertiz_raporlari.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/screens/08_randevu_takvimi.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/screens/09_sira_lift_durumu.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/screens/10_arac_teshis_obd2.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/screens/11_arac_katalog_fiyatlar.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/screens/12_teknisyen_dikte.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/screens/13_operator_kokpiti.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/screens/14_giden_cagrilar.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/screens/15_gorusme_gecmisi.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/screens/16_bildirimler_whatsapp.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/screens/17_supervisor_fqici.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/screens/18_analitik_kpi.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/screens/19_sistem_sagligi.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/screens/20_m01_m11_kapilari.png",
+   "category": "generated_docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "brag-output/share-copy.txt",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "brag-output/tum_sayfalar_tanitim_ve_kullanim_rehberi.md",
+   "category": "generated_docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "cockpit_v3_overhaul.png",
+   "category": "root",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "config/automotive_compiled_lexicon.json",
+   "category": "config",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "config/automotive_flat_lexicon.json",
+   "category": "config",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "config/automotive_foreign_lexicon.json",
+   "category": "config",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "config/development.json",
+   "category": "config",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "config/freya_vocab.json",
+   "category": "config",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "config/freyatts_automotive_lexicon.json",
+   "category": "config",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "config/lexicon.json",
+   "category": "config",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "config/lexicon_categories.json",
+   "category": "config",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "config/m10_adapter_dryrun.example.json",
+   "category": "config",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "config/milestones/development.json",
+   "category": "config",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "config/milestones/m10_adapter_dryrun.example.json",
+   "category": "config",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "config/stress_exceptions.json",
+   "category": "config",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/access_context.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/approved_lexicon_rule.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/audio_frame.metadata.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/booking_receipt.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/clause_plan_diagnostics.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/conversation_effect.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/conversation_signal.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/dialogue_input.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/event.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/m06_audio_chunk_metadata.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/m06_flush_ack.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/m06_flush_request.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/m06_media_format.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/m06_transport_control.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/m07_health_snapshot.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/m07_retry_policy.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/m07_stream_receipt.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/m07_synthetic_command.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/m07_synthetic_result.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/m08_operator_action.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/m08_operator_snapshot.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/m08_review_audit.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/m09_scenario_result.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/m10_adapter_readiness.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/m10_durable_snapshot.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/nlu_diagnostics.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/normalization_result.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/phrase_boundary.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/policy_decision.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/session_snapshot.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "contracts/tts_input.schema.json",
+   "category": "contracts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/a01yt/a01yt_v05_readonly.sqlite3",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/a01yt/approved_lexicon_v05_snapshot.json",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/a01yt/first50_targets.csv",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/a01yt/freya_char_vocab.json",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/a01yt/sources_verbal_permission_v05.csv",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/fixtures/LEGACY_IMPORT.md",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/fixtures/legacy_320_cases.json",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/fixtures/text_contract_examples.jsonl",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/reports/m04_320_compare.csv",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/reports/m04_320_summary.json",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/reports/m04_console_result.json",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/reports/m04_unittest_193.txt",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/reports/m05_320_clause_report.csv",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/reports/m05_320_summary.json",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/reports/m06_acceptance_summary.json",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/reports/m06_legacy_text_check.json",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/reports/m06_synthetic_demo.json",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/reports/m06_unittest_287.txt",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/reports/m07_acceptance_summary.json",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/reports/m07_synthetic_demo.json",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/reports/m07_unittest_332.txt",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/reports/m08_synthetic_ui_demo.json",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/reports/m08_unittest_362.txt",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/reports/m09_scenario_matrix.csv",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/reports/m09_synthetic_suite.json",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/reports/m10_20_scenarios.json",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/reports/m10_local_dry_run.json",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "data/reports/m10_scenario_matrix.csv",
+   "category": "data",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/ARCHITECTURE.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/FREYA_POC_URUN_VE_TEKNIK_MIMARI_RAPORU.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/POC_CANLI_SES_VE_NIYET_PLANI.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/POC_SOHBET_512.jsonl",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/POC_SOHBET_AGACLARI.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/SUPERVISOR.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/UZMAN_INCELEME_PLANI.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/VERIFICATION.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/benchmark-results.json",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/fqici/00_repo_evidence_audit.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/fqici/02_durable_queue.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/fqici/FQICI_V2_SPECIFICATION_PLAN.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/fqici/archive/FREYA_Self_Evaluation_v1_deprecated.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/fqici/event_evidence_matrix.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/local-llm-results.json",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/measured-latency.json",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/INTEGRATION.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/archive-audit.json",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/current-acceptance.html",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/current-acceptance.json",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/import-manifest.json",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/live-voice-results.json",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/m11/M11_ACCEPTANCE.html",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/m11/M11_ACCEPTANCE.json",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/m11/results/legacy_regression.json",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/m11/results/preflight_details.json",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/m11/results/regression_output.txt",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/m11/results/windows_edge.json",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/m11/templates/a01yt_record_example.jsonl",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/m11/templates/leyla_review_example.jsonl",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/m11/templates/pbx_trace_example.jsonl",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/m11/templates/stt_manifest_example.jsonl",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/reports/m04_320_compare.csv",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/reports/m04_320_summary.json",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/reports/m04_console_result.json",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/reports/m04_unittest_193.txt",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/reports/m05_320_clause_report.csv",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/reports/m05_320_summary.json",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/reports/m06_acceptance_summary.json",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/reports/m06_legacy_text_check.json",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/reports/m06_synthetic_demo.json",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/reports/m06_unittest_287.txt",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/reports/m07_acceptance_summary.json",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/reports/m07_synthetic_demo.json",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/reports/m07_unittest_332.txt",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/reports/m08_synthetic_ui_demo.json",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/reports/m08_unittest_362.txt",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/reports/m09_scenario_matrix.csv",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/reports/m09_synthetic_suite.json",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/reports/m10_20_scenarios.json",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/reports/m10_local_dry_run.json",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/data/reports/m10_scenario_matrix.csv",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/01_MIMARI_MASTER.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/02_IS_PAKETLERI.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/03_KABUL_MATRISI.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/04_AGENT_UYGULAMA_TALIMATI.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/05_REPO_YAPISI.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/06_CARI_DURUM.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/07_M01_SOZLESMELER.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/08_M01_KABUL_VE_M02_DEVIR.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/09_M02_KODLAMA_GOREVI.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/10_M01_DOGRULAMA_RAPORU.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/11_M02_SOZLESME_VE_DURUM_MAKINESI.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/12_M02_KABUL_VE_M03_DEVIR.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/13_M03_AI_AGENT_PROMPT.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/14_M02_DOGRULAMA_RAPORU.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/15_M03_SOZLESME_VE_IS_KURALLARI.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/16_M03_KABUL_VE_M04_DEVIR.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/17_M04_AI_AGENT_GOREVI.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/18_M03_DOGRULAMA_RAPORU.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/19_M04_SOZLESMELER_VE_KURALLAR.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/20_M04_KABUL_VE_M05_DEVIR.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/21_M05_AGENT_GOREVI.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/22_M04_DOGRULAMA_RAPORU.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/23_M05_SOZLESMELER_VE_PROZODI_PLANI.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/24_M05_KABUL_VE_M06_DEVIR.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/25_M06_AI_AGENT_GOREVI.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/26_M05_DOGRULAMA_RAPORU.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/27_M06_SES_KUYRUGU_TASIMA_VE_CODEC_SOZLESMELERI.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/28_M06_KABUL_VE_M07_DEVIR.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/29_M07_AI_AGENT_GOREVI.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/30_M06_DOGRULAMA_RAPORU.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/31_M07_LIFECYCLE_VE_FAULT_ISOLATION.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/32_M07_KABUL_VE_M08_DEVIR.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/33_M08_AI_AGENT_GOREVI.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/34_M07_DOGRULAMA_RAPORU.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/35_M07_ADR.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/35_M08_OPERATOR_CONSOLE_MIMARISI.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/36_M08_KABUL_VE_M09_DEVIR.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/37_M09_AI_AGENT_GOREVI.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/38_M08_DOGRULAMA_RAPORU.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/39_M09_E2E_MIMARISI.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/40_M09_KABUL_VE_M10_DEVIR.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/41_M10_AGENT_GOREVI.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/42_M09_KALAN_RISKLER.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/43_M09_DOGRULAMA_RAPORU.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/44_M10_DURABLE_OUTBOX_VE_RECOVERY.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/45_M10_TEXT_PRESENTATION_AND_ADAPTERS.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/46_M10_GUVENLIK_RISK_VE_HOLD.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/47_M10_M11_DEVIR_VE_AGENT_GOREVI.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/48_M11_FIZIKSEL_KABUL_PLANI.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/49_M11_WINDOWS_ADIM_ADIM.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/50_M11_FIZIKSEL_KABUL_SONUC_MATRISI.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/51_M11_M12_DEVIR_VE_AGENT_GOREVI.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/M09_ACCEPTANCE_REPORT.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/adr/0001-moduler-monolit.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/adr/0002-ses-testleri-final.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/adr/0003-telephony-protocol.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/adr/0004-lexicon-approval.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/adr/0005-M01-core-events.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/adr/0006-M02-conversation-reducer.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/adr/0007-M03-deterministic-business-policy.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/adr/0008-M04-evidence-gated-nlp.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/adr/0009-M05-evidence-gated-clause-planning.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/milestones/reference/docs/ui/01_overview_mock.png",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/milestones/reference/docs/ui/02_session_mock.png",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/milestones/reference/docs/ui/03_pronunciation_mock.png",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/milestones/test-results.txt",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "docs/onceki_surum/FreyaTTS_Otomotiv_Asistani_Yonetici_Sunumu.docx",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/onceki_surum/FreyaTTS_Otomotiv_Asistani_Yonetici_Sunumu_3.docx",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/screenshots/00_giris_ekrani.png",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/screenshots/01_gorusme.png",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/screenshots/02_operator_6002.png",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/screenshots/02_operator_6002_quality_gate.png",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/screenshots/02_operator_6002_takeover.png",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/screenshots/03_arac_ici_dsp_ve_gurultu.png",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/screenshots/04_randevular.png",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/screenshots/05_sira_ve_lift_durumu.png",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/screenshots/06_ab_test_ve_ince_ayar.png",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/screenshots/06_ab_test_ve_ince_ayar_ses_lab.png",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/screenshots/07_analitik_ve_kpi.png",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/screenshots/08_ekspertiz_raporlari.png",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/screenshots/09_teknisyen_dikte.png",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/screenshots/10_arac_teshis_ve_obd-ii.png",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/screenshots/11_araclar_ve_fiyatlar.png",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/screenshots/12_sozluk.png",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/screenshots/13_bildirimler.png",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/screenshots/14_giden_cagrilar.png",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/screenshots/15_gecmis.png",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/screenshots/16_ses_laboratuvari.png",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/screenshots/17_sistem.png",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/screenshots/18_m01-m11.png",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/screenshots/18_m01_m11.png",
+   "category": "docs",
+   "binary": true,
+   "review_state": "BINARY_NOT_READ"
+  },
+  {
+   "path": "docs/supervisor/SUPERVISOR_INTENT_ROUTER_SPECIFICATION.md",
+   "category": "docs",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/README.md",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/__init__.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/asr_mapper.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/five_cuts_bargein_controller.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/asr_mapper.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/audio_archive_compliance.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/audiosocket_orchestrator.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/automotive_frontend.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/batched_ode_engine.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/chan_websocket_adapter.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/dynamic_valuation_calculator.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/emotion_prosody_adapter.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/five_cuts_bargein_controller.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/gpu_health_circuit_breaker.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/inbound_car_denoiser.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/lift_bay_capacity_scheduler.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/main_unified_server.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/morphological_pre_checker.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/normalizer.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/outbound_campaign_dialer.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/pause_breath_cleaner.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/post_call_analytics.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/prosody_wsola_streamer.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/qa_telemetry_operator.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/realtime_dashboard_metrics.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/redaction_kvkk_guard.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/semantic_turn_detector.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/sft_automotive_leyla.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/sip_trunk_failover.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/streaming_chunker_guard.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/legacy_src/vin_ruhsat_ocr_decoder.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/normalizer.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/prosody_wsola_streamer.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/streaming_chunker_guard.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/tests/test_five_cuts_bargein_controller.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/tests/test_prosody_wsola_streamer.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/tests/test_streaming_chunker_guard.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "experimental/tests/test_tts_normalization.py",
+   "category": "source_experimental",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "freyatts_automotive_lexicon.json",
+   "category": "root",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/index.html",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/package-lock.json",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/package.json",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/playwright.config.ts",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/public/capture.js",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/ABTestingPanel.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/AnalysisQueuePanel.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/AnalyticsPanel.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/AppointmentMoveDialog.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/AudioPipelineInspector.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/AudioPipelineStepper.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/AudioVisualizer.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/CarDenoiserPanel.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/CockpitHeader.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/DatasetGeneratorPanel.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/DiagnosticPanel.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/FirstAppointmentGuide.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/InspectionPanel.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/LexiconPanel.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/LoginGate.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/MilestonePanel.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/NotificationPanel.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/OntologyPanel.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/OperatorPanel.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/OperatorToday.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/OutboundPanel.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/QueueLiftPanel.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/SidebarNav.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/SupervisorPanel.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/TechnicianDictationPanel.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/VoiceWaveformBar.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/api.ts",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/lazyPanels.ts",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/main.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/nav.ts",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/pipeline/demoFixtures.ts",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/pipeline/f2Hotwords.ts",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/pipeline/f4Engine.ts",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/pipeline/safetyLocks.ts",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/pipeline/types.ts",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/style.css",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/tabs/AppointmentsTab.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/tabs/HistoryTab.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/tabs/LabTab.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/tabs/SystemTab.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/tabs/VehiclesTab.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/tabs/VoiceTab.tsx",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/ui.ts",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/src/useVoiceSession.ts",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/tests/operator_today.spec.ts",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/tests/supervisor.spec.ts",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/tests/ui.spec.ts",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/tests/voice.spec.ts",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/tsconfig.json",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "frontend/vite.config.ts",
+   "category": "source_frontend",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "generate_doc.py",
+   "category": "root",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "generate_doc2.py",
+   "category": "root",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "migrations/env.py",
+   "category": "migrations",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "migrations/script.py.mako",
+   "category": "migrations",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "migrations/versions/001_initial.py",
+   "category": "migrations",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "migrations/versions/002_quote_unique.py",
+   "category": "migrations",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "migrations/versions/003_slot_duration.py",
+   "category": "migrations",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "migrations/versions/004_vin_and_inspections.py",
+   "category": "migrations",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "migrations/versions/005_corporate_accounts.py",
+   "category": "migrations",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "migrations/versions/006_notifications_outbox.py",
+   "category": "migrations",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "migrations/versions/007_outbound_calls.py",
+   "category": "migrations",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "migrations/versions/008_inspection_templates_and_digital_delivery.py",
+   "category": "migrations",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "migrations/versions/009_analytics_and_conversation_resolution.py",
+   "category": "migrations",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "migrations/versions/010_proactive_diagnostics_and_telemetry.py",
+   "category": "migrations",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "migrations/versions/011_lift_and_queue_management.py",
+   "category": "migrations",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "migrations/versions/012_ab_testing_infrastructure.py",
+   "category": "migrations",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "migrations/versions/013_operator_transfers.py",
+   "category": "migrations",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "migrations/versions/014_whatsapp_inbound.py",
+   "category": "migrations",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "migrations/versions/015_call_analytics_and_ruhsat.py",
+   "category": "migrations",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "migrations/versions/016_vehicle_valuations.py",
+   "category": "migrations",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "migrations/versions/017_lift_bay_capacity_scheduler.py",
+   "category": "migrations",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "migrations/versions/018_audio_archives.py",
+   "category": "migrations",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "migrations/versions/019_latency_indexes.py",
+   "category": "migrations",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "migrations/versions/020_appointment_customer_phone.py",
+   "category": "migrations",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "migrations/versions/021_kvkk_erasure_requests.py",
+   "category": "migrations",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "migrations/versions/022_supervisor_quality.py",
+   "category": "migrations",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "migrations/versions/023_fqici_queue.py",
+   "category": "migrations",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "migrations/versions/024_operator_follow_up.py",
+   "category": "migrations",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "pyproject.toml",
+   "category": "root",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "requirements.txt",
+   "category": "root",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "scripts/acceptance_snapshot.py",
+   "category": "scripts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "scripts/acoustic_benchmark.py",
+   "category": "scripts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "scripts/audit_milestones.py",
+   "category": "scripts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "scripts/benchmark.py",
+   "category": "scripts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "scripts/build_lexicon.py",
+   "category": "scripts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "scripts/capture_screenshots.py",
+   "category": "scripts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "scripts/check_demo_db.py",
+   "category": "scripts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "scripts/check_ui_routes.py",
+   "category": "scripts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "scripts/diagnose.ps1",
+   "category": "scripts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "scripts/ensure_ollama.ps1",
+   "category": "scripts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "scripts/export_requirements.py",
+   "category": "scripts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "scripts/generate_automotive_dataset.py",
+   "category": "scripts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "scripts/generate_docx_report.py",
+   "category": "scripts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "scripts/generate_executive_docx.py",
+   "category": "scripts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "scripts/prepare_models.ps1",
+   "category": "scripts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "scripts/seed_demo_db.py",
+   "category": "scripts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "scripts/seed_demo_telemetry.py",
+   "category": "scripts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "scripts/setup.ps1",
+   "category": "scripts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "scripts/smoke_dialogue.py",
+   "category": "scripts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "scripts/start.ps1",
+   "category": "scripts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "scripts/start_demo.ps1",
+   "category": "scripts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "scripts/voice_acceptance.py",
+   "category": "scripts",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "skills-lock.json",
+   "category": "root",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "start.bat",
+   "category": "root",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/conftest.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/milestones/__init__.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/milestones/test_core.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/milestones/test_m01.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/milestones/test_m02.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/milestones/test_m03.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/milestones/test_m03_contracts.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/milestones/test_m04.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/milestones/test_m04_adapter.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/milestones/test_m04_contracts.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/milestones/test_m05.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/milestones/test_m05_contracts.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/milestones/test_m06.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/milestones/test_m06_contracts.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/milestones/test_m07.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/milestones/test_m07_contracts.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/milestones/test_m08.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/milestones/test_m09.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/milestones/test_m10.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/milestones/test_m11.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_ab_testing.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_acoustic_evaluation.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_analytics.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_api.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_appointment_reschedule_preview.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_audio_archive_compliance.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_audiosocket_server.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_automotive_dispatch.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_automotive_frontend.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_automotive_ontology.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_batched_ode.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_caller_memory.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_car_denoiser.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_chan_websocket.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_core.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_demo_separation.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_diagnostics.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_dtmf.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_dtmf_false_positive.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_dynamic_valuation.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_e2e_automotive_cockpit.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_emotion_prosody_adapter.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_executive_docx.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_fqici_queue.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_gpu_health_circuit_breaker.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_inspections.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_isolation.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_lift_bay_capacity_scheduler.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_madde2_real_world_integration.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_madde3_customer_experience.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_madde4_operation_panel.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_madde5_kvkk_compliance.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_milestone_integration.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_morphological_pre_checker.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_notifications.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_operator_inbox.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_option_selection.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_outbound.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_outbound_dialer.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_p5_latency.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_pause_breath_cleaner.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_pipeline_telemetry.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_poc_spoken_plate_and_intent.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_post_call_analytics.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_qa_telemetry_operator.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_queue_lift.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_realtime_dashboard_metrics.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_redaction_kvkk_guard.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_security_hardening.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_semantic_turn_detector.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_session.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_sft_leyla.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_short_clause_synthesis.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_sip_trunk_failover.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_supervisor.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_supervisor_views.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_technician_dictation.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_transfer.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_unified_server.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_vin_ruhsat_decoder.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_voice_path_honesty.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_whatsapp_webhook.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "tests/test_workflow.py",
+   "category": "tests",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  },
+  {
+   "path": "uv.lock",
+   "category": "root",
+   "binary": false,
+   "review_state": "STATIC_SCANNED"
+  }
+ ],
+ "limitations": [
+  "İzlenmeyen/yok sayılan dosyalar temiz klonda yok.",
+  "İkili dosyalar (docx/xlsx/png) içerik olarak okunmadı."
+ ]
+}

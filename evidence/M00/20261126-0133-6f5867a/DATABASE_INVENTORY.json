@@ -1,0 +1,913 @@
+{
+ "schema_version": "m00.v1",
+ "run_id": "20261126-0133-6f5867a",
+ "baseline_commit": "6f5867af52dd8d3fd706dc6c9ddd4a42a2dd360f",
+ "generated_at_utc": "2026-11-25T22:33:21+00:00",
+ "adr_f3_01_fields": {
+  "birth_year_columns": [],
+  "plate_columns": [
+   "inspection_bays.current_vehicle_plate",
+   "inspection_lifts.current_vehicle_plate",
+   "inspection_queues.plate",
+   "operator_transfers.vehicle_plate",
+   "ruhsat_scans.plate",
+   "vehicle_valuations.plate",
+   "vehicles.plate",
+   "caller_profiles.plate"
+  ],
+  "note": "Doğum yılı alanı yoksa ADR-F3-01 gereği plaka son 3–4 hanesi kullanılır."
+ },
+ "records": [
+  {
+   "db_id": "DB-0001",
+   "table": "ab_assignments",
+   "columns": [
+    "completed_at",
+    "conversation_id",
+    "created_at",
+    "duration_seconds",
+    "experiment_id",
+    "first_audio_ms",
+    "id",
+    "llm_total_ms",
+    "outcome",
+    "tts_total_ms",
+    "turns_count",
+    "variant_id"
+   ],
+   "ddl_sources": [
+    "migrations/versions/012_ab_testing_infrastructure.py"
+   ],
+   "referencing_code": [
+    "backend/db.py"
+   ],
+   "orm_model": "backend/db.py:ABAssignment"
+  },
+  {
+   "db_id": "DB-0002",
+   "table": "ab_experiments",
+   "columns": [
+    "created_at",
+    "description",
+    "experiment_type",
+    "id",
+    "name",
+    "status",
+    "target_metric",
+    "updated_at",
+    "variants_json"
+   ],
+   "ddl_sources": [
+    "migrations/versions/012_ab_testing_infrastructure.py"
+   ],
+   "referencing_code": [
+    "backend/db.py"
+   ],
+   "orm_model": "backend/db.py:ABExperiment"
+  },
+  {
+   "db_id": "DB-0003",
+   "table": "appointments",
+   "columns": [
+    "billed_amount_kurus",
+    "corporate_account_id",
+    "created_at",
+    "customer_phone",
+    "id",
+    "idempotency_key",
+    "package_type",
+    "slot_id",
+    "status",
+    "vehicle_id"
+   ],
+   "ddl_sources": [
+    "migrations/versions/001_initial.py"
+   ],
+   "referencing_code": [
+    "automotive_voice/dialogue/policy.py",
+    "backend/analytics.py",
+    "backend/db.py",
+    "backend/notifications.py",
+    "backend/ontology/introspector.py",
+    "backend/queue_lift.py",
+    "backend/realtime_dashboard_metrics.py",
+    "backend/report_generator.py",
+    "backend/routers/crm.py",
+    "backend/routers/generic_resources.py",
+    "backend/routers/scheduling.py",
+    "backend/routers/telephony.py"
+   ],
+   "orm_model": "backend/db.py:Appointment"
+  },
+  {
+   "db_id": "DB-0004",
+   "table": "audio_archives",
+   "columns": [
+    "call_session_id",
+    "caller_phone",
+    "channels",
+    "codec",
+    "compressed_size_bytes",
+    "compression_ratio_percent",
+    "conversation_id",
+    "created_at",
+    "duration_sec",
+    "expires_at",
+    "file_path",
+    "hmac_signature",
+    "id",
+    "is_redacted",
+    "raw_sha256_hash",
+    "raw_size_bytes",
+    "retention_years",
+    "sample_rate",
+    "sha256_hash",
+    "status"
+   ],
+   "ddl_sources": [
+    "migrations/versions/018_audio_archives.py"
+   ],
+   "referencing_code": [
+    "backend/audio_archive_compliance.py",
+    "backend/db.py"
+   ],
+   "orm_model": "backend/db.py:AudioArchive"
+  },
+  {
+   "db_id": "DB-0005",
+   "table": "bay_schedules",
+   "columns": [
+    "appointment_id",
+    "bay_id",
+    "created_at",
+    "duration_minutes",
+    "ends_at",
+    "id",
+    "notes",
+    "package_type",
+    "stage_index",
+    "stage_name",
+    "starts_at",
+    "status",
+    "technician_id"
+   ],
+   "ddl_sources": [
+    "migrations/versions/017_lift_bay_capacity_scheduler.py"
+   ],
+   "referencing_code": [
+    "backend/db.py"
+   ],
+   "orm_model": "backend/db.py:BaySchedule"
+  },
+  {
+   "db_id": "DB-0006",
+   "table": "call_analytics",
+   "columns": [
+    "appointment_id",
+    "caller_name",
+    "caller_phone",
+    "conversation_id",
+    "created_at",
+    "csat_score",
+    "duration_sec",
+    "executive_summary",
+    "id",
+    "intent",
+    "lead_score",
+    "lead_tier",
+    "objections_json",
+    "recommended_action",
+    "sentiment",
+    "topics_json"
+   ],
+   "ddl_sources": [
+    "migrations/versions/015_call_analytics_and_ruhsat.py"
+   ],
+   "referencing_code": [
+    "backend/db.py",
+    "backend/post_call_analytics.py"
+   ],
+   "orm_model": "backend/db.py:CallAnalytics"
+  },
+  {
+   "db_id": "DB-0007",
+   "table": "conversations",
+   "columns": [
+    "channel",
+    "created_at",
+    "follow_up_at",
+    "follow_up_kind",
+    "id",
+    "operator_notes",
+    "resolved_at",
+    "status"
+   ],
+   "ddl_sources": [
+    "migrations/versions/001_initial.py",
+    "migrations/versions/024_operator_follow_up.py"
+   ],
+   "referencing_code": [
+    "backend/analytics.py",
+    "backend/dataset_generator.py",
+    "backend/db.py",
+    "backend/report_generator.py",
+    "backend/routers/crm.py",
+    "backend/routers/generic_resources.py",
+    "backend/routers/supervisor.py"
+   ],
+   "orm_model": "backend/db.py:Conversation"
+  },
+  {
+   "db_id": "DB-0008",
+   "table": "corporate_accounts",
+   "columns": [
+    "active",
+    "balance_kurus",
+    "created_at",
+    "credit_limit_kurus",
+    "discount_percent",
+    "id",
+    "name",
+    "phone",
+    "tax_id"
+   ],
+   "ddl_sources": [
+    "migrations/versions/005_corporate_accounts.py"
+   ],
+   "referencing_code": [
+    "backend/db.py"
+   ],
+   "orm_model": "backend/db.py:CorporateAccount"
+  },
+  {
+   "db_id": "DB-0009",
+   "table": "corporate_ledger",
+   "columns": [
+    "account_id",
+    "appointment_id",
+    "created_at",
+    "description",
+    "id"
+   ],
+   "ddl_sources": [
+    "migrations/versions/005_corporate_accounts.py"
+   ],
+   "referencing_code": [
+    "backend/db.py"
+   ],
+   "orm_model": "backend/db.py:CorporateLedger"
+  },
+  {
+   "db_id": "DB-0010",
+   "table": "fqici_events",
+   "columns": [
+    "evidence",
+    "id",
+    "observed_at",
+    "producer",
+    "scope_id",
+    "source_event_id"
+   ],
+   "ddl_sources": [
+    "migrations/versions/023_fqici_queue.py"
+   ],
+   "referencing_code": [
+    "backend/db.py"
+   ],
+   "orm_model": "backend/db.py:FqiciEvent"
+  },
+  {
+   "db_id": "DB-0011",
+   "table": "fqici_runs",
+   "columns": [
+    "available_at_ms",
+    "created_at_ms",
+    "event_ids",
+    "evidence_hash",
+    "fence",
+    "id",
+    "lease_until_ms",
+    "rule_version",
+    "scope_id",
+    "state"
+   ],
+   "ddl_sources": [
+    "migrations/versions/023_fqici_queue.py"
+   ],
+   "referencing_code": [
+    "backend/db.py"
+   ],
+   "orm_model": "backend/db.py:FqiciRun"
+  },
+  {
+   "db_id": "DB-0012",
+   "table": "fqici_scopes",
+   "columns": [
+    "dirty_since_ms",
+    "id",
+    "origin",
+    "ready_at_ms",
+    "terminal_seen",
+    "transport",
+    "transport_id"
+   ],
+   "ddl_sources": [
+    "migrations/versions/023_fqici_queue.py"
+   ],
+   "referencing_code": [
+    "backend/db.py"
+   ],
+   "orm_model": "backend/db.py:FqiciScope"
+  },
+  {
+   "db_id": "DB-0013",
+   "table": "inspection_bays",
+   "columns": [
+    "bay_number",
+    "bay_type",
+    "created_at",
+    "current_appointment_id",
+    "current_vehicle_plate",
+    "id",
+    "name",
+    "notes",
+    "status"
+   ],
+   "ddl_sources": [
+    "migrations/versions/017_lift_bay_capacity_scheduler.py"
+   ],
+   "referencing_code": [
+    "backend/db.py"
+   ],
+   "orm_model": "backend/db.py:InspectionBay"
+  },
+  {
+   "db_id": "DB-0014",
+   "table": "inspection_lifts",
+   "columns": [
+    "created_at",
+    "current_appointment_id",
+    "current_vehicle_plate",
+    "estimated_duration_min",
+    "id",
+    "lift_number",
+    "name",
+    "notes",
+    "package_type",
+    "started_at",
+    "status"
+   ],
+   "ddl_sources": [
+    "migrations/versions/011_lift_and_queue_management.py"
+   ],
+   "referencing_code": [
+    "backend/db.py"
+   ],
+   "orm_model": "backend/db.py:InspectionLift"
+  },
+  {
+   "db_id": "DB-0015",
+   "table": "inspection_queues",
+   "columns": [
+    "appointment_id",
+    "check_in_at",
+    "completed_at",
+    "customer",
+    "duration_minutes",
+    "id",
+    "lift_id",
+    "package_type",
+    "plate",
+    "queue_number",
+    "started_at",
+    "status",
+    "vehicle_id"
+   ],
+   "ddl_sources": [
+    "migrations/versions/011_lift_and_queue_management.py"
+   ],
+   "referencing_code": [
+    "backend/db.py"
+   ],
+   "orm_model": "backend/db.py:InspectionQueue"
+  },
+  {
+   "db_id": "DB-0016",
+   "table": "inspection_reports",
+   "columns": [
+    "appointment_id",
+    "delivered_at",
+    "findings_json",
+    "id",
+    "inspected_at",
+    "mileage_km",
+    "pdf_path",
+    "photos_json",
+    "score",
+    "summary",
+    "technician_name",
+    "vehicle_id"
+   ],
+   "ddl_sources": [
+    "migrations/versions/004_vin_and_inspections.py"
+   ],
+   "referencing_code": [
+    "backend/db.py"
+   ],
+   "orm_model": "backend/db.py:InspectionReport"
+  },
+  {
+   "db_id": "DB-0017",
+   "table": "intent_training_candidates",
+   "columns": [
+    "example",
+    "group_id",
+    "split",
+    "text_digest",
+    "trace_id"
+   ],
+   "ddl_sources": [
+    "migrations/versions/022_supervisor_quality.py"
+   ],
+   "referencing_code": [
+    "backend/db.py"
+   ],
+   "orm_model": "backend/db.py:IntentTrainingCandidate"
+  },
+  {
+   "db_id": "DB-0018",
+   "table": "kvkk_erasure_requests",
+   "columns": [
+    "certificate_sha256",
+    "created_at",
+    "executed_at",
+    "executed_by",
+    "id",
+    "identifier_type",
+    "identifier_value",
+    "impact_summary_json",
+    "notes",
+    "reason",
+    "requester_name",
+    "status"
+   ],
+   "ddl_sources": [
+    "migrations/versions/021_kvkk_erasure_requests.py"
+   ],
+   "referencing_code": [
+    "backend/db.py"
+   ],
+   "orm_model": "backend/db.py:KVKKErasureRequest"
+  },
+  {
+   "db_id": "DB-0019",
+   "table": "notifications",
+   "columns": [
+    "appointment_id",
+    "attempts",
+    "channel",
+    "created_at",
+    "id",
+    "idempotency_key",
+    "last_error",
+    "message",
+    "recipient",
+    "recipient_type",
+    "sent_at",
+    "status"
+   ],
+   "ddl_sources": [
+    "migrations/versions/006_notifications_outbox.py"
+   ],
+   "referencing_code": [
+    "backend/automotive_dispatch.py",
+    "backend/db.py",
+    "backend/dialogue.py",
+    "backend/notifications.py",
+    "backend/routers/crm.py",
+    "backend/routers/generic_resources.py",
+    "backend/routers/telephony.py",
+    "backend/session.py",
+    "backend/whatsapp_webhook.py"
+   ],
+   "orm_model": "backend/db.py:NotificationOutbox"
+  },
+  {
+   "db_id": "DB-0020",
+   "table": "operator_review",
+   "columns": [
+    "'rejected'))",
+    "annotation_id",
+    "decision",
+    "id",
+    "reason_code",
+    "reviewed_at",
+    "reviewer",
+    "source_sha256"
+   ],
+   "ddl_sources": [
+    "automotive_voice/operator/review_store.py"
+   ],
+   "referencing_code": [
+    "automotive_voice/operator/review_store.py"
+   ]
+  },
+  {
+   "db_id": "DB-0021",
+   "table": "operator_transfers",
+   "columns": [
+    "caller_channel",
+    "completed_at",
+    "conversation_id",
+    "created_at",
+    "customer_name",
+    "duration_seconds",
+    "id",
+    "operator_extension",
+    "sip_headers_json",
+    "status",
+    "summary",
+    "vehicle_plate",
+    "whisper_text"
+   ],
+   "ddl_sources": [
+    "migrations/versions/013_operator_transfers.py"
+   ],
+   "referencing_code": [
+    "backend/db.py"
+   ],
+   "orm_model": "backend/db.py:OperatorTransfer"
+  },
+  {
+   "db_id": "DB-0022",
+   "table": "outbound_calls",
+   "columns": [
+    "action_id",
+    "appointment_id",
+    "attempts",
+    "call_type",
+    "completed_at",
+    "created_at",
+    "customer",
+    "id",
+    "last_error",
+    "outcome",
+    "phone",
+    "status"
+   ],
+   "ddl_sources": [
+    "migrations/versions/007_outbound_calls.py"
+   ],
+   "referencing_code": [
+    "backend/db.py"
+   ],
+   "orm_model": "backend/db.py:OutboundCall"
+  },
+  {
+   "db_id": "DB-0023",
+   "table": "quotes",
+   "columns": [
+    "id",
+    "vehicle_id"
+   ],
+   "ddl_sources": [
+    "migrations/versions/001_initial.py"
+   ],
+   "referencing_code": [
+    "automotive_voice/dialogue/ports.py",
+    "automotive_voice/e2e/runner.py",
+    "automotive_voice/prosody/planner.py",
+    "backend/db.py",
+    "backend/routers/crm.py",
+    "backend/routers/generic_resources.py"
+   ],
+   "orm_model": "backend/db.py:Quote"
+  },
+  {
+   "db_id": "DB-0024",
+   "table": "ruhsat_scans",
+   "columns": [
+    "appointment_id",
+    "brand_model",
+    "confidence",
+    "created_at",
+    "document_serial",
+    "engine_code",
+    "from_phone",
+    "id",
+    "model_year",
+    "owner_name",
+    "plate",
+    "raw_extracted_text",
+    "vehicle_id",
+    "vin"
+   ],
+   "ddl_sources": [
+    "migrations/versions/015_call_analytics_and_ruhsat.py"
+   ],
+   "referencing_code": [
+    "backend/db.py",
+    "backend/vin_ruhsat_decoder.py"
+   ],
+   "orm_model": "backend/db.py:RuhsatScan"
+  },
+  {
+   "db_id": "DB-0025",
+   "table": "sessions",
+   "columns": [
+    "'acked'))",
+    "-1",
+    "0",
+    "?",
+    "envelope",
+    "event_id",
+    "generation_id",
+    "last_sequence",
+    "recovery_required",
+    "sequence",
+    "sequence)",
+    "sequence);",
+    "session_id",
+    "sid:",
+    "state",
+    "status",
+    "turn_id"
+   ],
+   "ddl_sources": [
+    "automotive_voice/resilience/durable.py"
+   ],
+   "referencing_code": [
+    "automotive_voice/e2e/runner.py",
+    "automotive_voice/operator/runtime.py",
+    "automotive_voice/resilience/durable.py",
+    "backend/fqici/journal.py",
+    "backend/fqici/queue.py",
+    "backend/milestones.py",
+    "backend/qa_telemetry_operator.py",
+    "backend/routers/operator_qa.py"
+   ]
+  },
+  {
+   "db_id": "DB-0026",
+   "table": "slots",
+   "columns": [
+    "duration_minutes",
+    "id",
+    "starts_at"
+   ],
+   "ddl_sources": [
+    "migrations/versions/001_initial.py"
+   ],
+   "referencing_code": [
+    "automotive_voice/adapters/lifecycle/contracts.py",
+    "automotive_voice/adapters/lifecycle/runtime.py",
+    "automotive_voice/adapters/lifecycle/streaming.py",
+    "automotive_voice/audio/contracts.py",
+    "automotive_voice/audio/coordinator.py",
+    "automotive_voice/audio/queue.py",
+    "automotive_voice/conversation/effects.py",
+    "automotive_voice/conversation/reducer.py",
+    "automotive_voice/conversation/signals.py",
+    "automotive_voice/core/audio.py",
+    "automotive_voice/core/cancellation.py",
+    "automotive_voice/core/event_bus.py"
+   ],
+   "orm_model": "backend/db.py:Slot"
+  },
+  {
+   "db_id": "DB-0027",
+   "table": "supervisor_traces",
+   "columns": [
+    "conversation_id",
+    "created_at",
+    "id",
+    "payload",
+    "review_labels",
+    "review_status"
+   ],
+   "ddl_sources": [
+    "migrations/versions/022_supervisor_quality.py"
+   ],
+   "referencing_code": [
+    "backend/db.py"
+   ],
+   "orm_model": "backend/db.py:SupervisorTrace"
+  },
+  {
+   "db_id": "DB-0028",
+   "table": "supervisor_write_receipts",
+   "columns": [
+    "action",
+    "created_at",
+    "key",
+    "request_digest"
+   ],
+   "ddl_sources": [
+    "migrations/versions/022_supervisor_quality.py"
+   ],
+   "referencing_code": [
+    "backend/db.py"
+   ],
+   "orm_model": "backend/db.py:SupervisorWriteReceipt"
+  },
+  {
+   "db_id": "DB-0029",
+   "table": "technicians",
+   "columns": [
+    "created_at",
+    "daily_capacity",
+    "id",
+    "is_active",
+    "name",
+    "notes",
+    "specialties_json",
+    "title"
+   ],
+   "ddl_sources": [
+    "migrations/versions/017_lift_bay_capacity_scheduler.py"
+   ],
+   "referencing_code": [
+    "backend/db.py",
+    "backend/routers/generic_resources.py",
+    "backend/routers/scheduling.py"
+   ],
+   "orm_model": "backend/db.py:Technician"
+  },
+  {
+   "db_id": "DB-0030",
+   "table": "turns",
+   "columns": [
+    "conversation_id",
+    "created_at",
+    "id",
+    "metrics",
+    "text"
+   ],
+   "ddl_sources": [
+    "migrations/versions/001_initial.py"
+   ],
+   "referencing_code": [
+    "automotive_voice/m03_demo.py",
+    "backend/ab_testing.py",
+    "backend/analytics.py",
+    "backend/db.py",
+    "backend/post_call_analytics.py",
+    "backend/qa_telemetry_operator.py",
+    "backend/redaction_kvkk_guard.py",
+    "backend/report_generator.py",
+    "backend/routers/crm.py",
+    "backend/supervisor/views.py"
+   ],
+   "orm_model": "backend/db.py:Turn"
+  },
+  {
+   "db_id": "DB-0031",
+   "table": "vehicle_diagnostics",
+   "columns": [
+    "created_at",
+    "current_mileage_km",
+    "description_tr",
+    "dtc_code",
+    "id",
+    "is_resolved",
+    "last_notified_at",
+    "maintenance_status",
+    "next_service_km",
+    "owner_name",
+    "owner_phone",
+    "recommended_action",
+    "severity",
+    "source",
+    "system_category",
+    "vehicle_id"
+   ],
+   "ddl_sources": [
+    "migrations/versions/010_proactive_diagnostics_and_telemetry.py"
+   ],
+   "referencing_code": [
+    "backend/db.py",
+    "backend/ontology/introspector.py"
+   ],
+   "orm_model": "backend/db.py:VehicleDiagnostic"
+  },
+  {
+   "db_id": "DB-0032",
+   "table": "vehicle_valuations",
+   "columns": [
+    "appointment_id",
+    "base_benchmark_tl",
+    "body_condition_json",
+    "brand",
+    "cash_buy_offer_tl",
+    "conversation_id",
+    "created_at",
+    "estimated_market_value_tl",
+    "fuel_type",
+    "id",
+    "is_heavy_damage",
+    "mileage_km",
+    "model",
+    "model_year",
+    "plate",
+    "status",
+    "trade_in_offer_tl",
+    "tramer_amount_tl",
+    "transmission",
+    "valuation_range_max_tl",
+    "valuation_range_min_tl"
+   ],
+   "ddl_sources": [
+    "migrations/versions/016_vehicle_valuations.py"
+   ],
+   "referencing_code": [
+    "backend/db.py",
+    "backend/dynamic_valuation_calculator.py"
+   ],
+   "orm_model": "backend/db.py:VehicleValuation"
+  },
+  {
+   "db_id": "DB-0033",
+   "table": "vehicles",
+   "columns": [
+    "description",
+    "id",
+    "plate",
+    "vin"
+   ],
+   "ddl_sources": [
+    "migrations/versions/001_initial.py"
+   ],
+   "referencing_code": [
+    "automotive_voice/dialogue/ports.py",
+    "automotive_voice/nlp/nlu.py",
+    "backend/db.py",
+    "backend/dialogue.py",
+    "backend/ontology/introspector.py",
+    "backend/ontology/router.py",
+    "backend/routers/crm.py",
+    "backend/routers/generic_resources.py",
+    "backend/routers/text_speech.py",
+    "backend/supervisor/orchestrator.py",
+    "backend/supervisor/policy.py",
+    "backend/supervisor/runtime.py"
+   ],
+   "orm_model": "backend/db.py:Vehicle"
+  },
+  {
+   "db_id": "DB-0034",
+   "table": "whatsapp_messages",
+   "columns": [
+    "appointment_id",
+    "created_at",
+    "customer_name",
+    "extracted_intent",
+    "extracted_time",
+    "from_phone",
+    "id",
+    "message_sid",
+    "message_type",
+    "outbound_calls_cancelled",
+    "processed",
+    "raw_content",
+    "reply_text",
+    "transcription"
+   ],
+   "ddl_sources": [
+    "migrations/versions/014_whatsapp_inbound.py"
+   ],
+   "referencing_code": [
+    "backend/db.py"
+   ],
+   "orm_model": "backend/db.py:WhatsAppMessage"
+  },
+  {
+   "db_id": "DB-0035",
+   "table": "caller_profiles",
+   "columns": [
+    "created_at",
+    "id",
+    "inspection_scores_json",
+    "maintenance_history_json",
+    "name",
+    "notes",
+    "phone",
+    "plate",
+    "updated_at",
+    "user_preferences_json",
+    "vehicle_model",
+    "warranty_expires_at",
+    "warranty_status"
+   ],
+   "ddl_sources": [],
+   "orm_model": "backend/db.py:CallerProfile",
+   "referencing_code": [],
+   "note": "Yalnız ORM modelinde; göçte create_table bulunamadı"
+  }
+ ],
+ "limitations": [
+  "Statik tarama (AST/regex); çalışma kanıtı değildir.",
+  "Canlı veritabanı açılmadı; satır verisi yok.",
+  "Kısıt/indeks ayrıntısı çıkarılmadı.",
+  "ORM __tablename__ modelleri ek taramayla birleştirildi."
+ ]
+}

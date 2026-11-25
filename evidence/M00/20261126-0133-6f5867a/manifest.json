@@ -1,0 +1,73 @@
+{
+ "package": "M00",
+ "run_id": "20261126-0133-6f5867a",
+ "task_ids": [
+  "M00.01",
+  "M00.02",
+  "M00.03",
+  "M00.04",
+  "M00.05",
+  "M00.06",
+  "M00.07",
+  "M00.08",
+  "M00.09",
+  "M00.10",
+  "M00.11",
+  "M00.12",
+  "M00.13",
+  "M00.14",
+  "M00.15",
+  "M00.16"
+ ],
+ "git": {
+  "branch": "paket/M00",
+  "baseline_commit": "6f5867af52dd8d3fd706dc6c9ddd4a42a2dd360f",
+  "changed_paths": [
+   "evidence/M00/20261126-0133-6f5867a/"
+  ],
+  "dirty_before": false
+ },
+ "environment": {
+  "host": "bulut sanal alanı (Linux)",
+  "test_python": "3.11.18 (uv, yalıtılmış kopya)",
+  "gpu": null
+ },
+ "commands": [
+  "git status/rev-parse/ls-files",
+  "python3 m00_inventory.py (depo dışı, salt okuma)",
+  "uv sync --frozen --extra test (yalıtılmış kopya)",
+  "pytest -q (taban)",
+  "uv pip install torch==2.8.0 CPU + python-multipart (yalıtılmış kopya, tanı)",
+  "pytest -q -rfE (tanı)"
+ ],
+ "evidence_class": "STATIC_CODE + LOCAL_RUNTIME_MEASURED (birim testleri)",
+ "reports": [
+  "ACCEPTANCE_MATRIX.json",
+  "API_INVENTORY.json",
+  "ARCHITECTURE_BASELINE.md",
+  "BASELINE_MANIFEST.json",
+  "BASELINE_TEST_RESULTS.json",
+  "CONFIG_MODEL_INVENTORY.json",
+  "DATABASE_INVENTORY.json",
+  "DEPENDENCIES.json",
+  "EXPERIMENT_INVENTORY.json",
+  "FEATURE_INVENTORY.md",
+  "FEATURE_REGISTRY.json",
+  "INTEGRITY_AFTER.json",
+  "INTEGRITY_BEFORE.json",
+  "M00_REPORT.md",
+  "M01_HANDOFF.md",
+  "METRIC_BASELINE.json",
+  "PIPELINE_TRACE.md",
+  "REGRESSION_MATRIX.csv",
+  "RISK_REGISTER.md",
+  "ROLLBACK_REFERENCE.md",
+  "SOURCE_SCOPE.json",
+  "TEST_INVENTORY.json",
+  "UI_INVENTORY.json",
+  "WORKFLOW_INVENTORY.json",
+  "decision.json",
+  "manifest.json",
+  "test-log.txt"
+ ]
+}

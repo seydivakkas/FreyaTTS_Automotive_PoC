@@ -1,0 +1,454 @@
+{
+ "schema_version": "m00.v1",
+ "run_id": "20261126-0133-6f5867a",
+ "baseline_commit": "6f5867af52dd8d3fd706dc6c9ddd4a42a2dd360f",
+ "generated_at_utc": "2026-11-25T22:33:21+00:00",
+ "routes_in_ui_ts": [],
+ "api_calls_without_backend_match": [],
+ "records": [
+  {
+   "ui_id": "UI-0001",
+   "file": "frontend/src/ABTestingPanel.tsx",
+   "component": "ABTestingPanel",
+   "buttons": 14,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0002",
+   "file": "frontend/src/AnalysisQueuePanel.tsx",
+   "component": "AnalysisQueuePanel",
+   "buttons": 2,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "MOCK_SIGNAL",
+   "mock_or_simulation_signal": true
+  },
+  {
+   "ui_id": "UI-0003",
+   "file": "frontend/src/AnalyticsPanel.tsx",
+   "component": "AnalyticsPanel",
+   "buttons": 15,
+   "api_calls": [
+    "/api/reports/weekly/excel"
+   ],
+   "ws_paths": [],
+   "binding": "API",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0004",
+   "file": "frontend/src/AppointmentMoveDialog.tsx",
+   "component": "AppointmentMoveDialog",
+   "buttons": 3,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0005",
+   "file": "frontend/src/AudioPipelineInspector.tsx",
+   "component": "AudioPipelineInspector",
+   "buttons": 8,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0006",
+   "file": "frontend/src/AudioPipelineStepper.tsx",
+   "component": "AudioPipelineStepper",
+   "buttons": 3,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "MOCK_SIGNAL",
+   "mock_or_simulation_signal": true
+  },
+  {
+   "ui_id": "UI-0007",
+   "file": "frontend/src/AudioVisualizer.tsx",
+   "component": "AudioVisualizer",
+   "buttons": 8,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0008",
+   "file": "frontend/src/CarDenoiserPanel.tsx",
+   "component": "CarDenoiserPanel",
+   "buttons": 6,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0009",
+   "file": "frontend/src/CockpitHeader.tsx",
+   "component": "CockpitHeader",
+   "buttons": 2,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0010",
+   "file": "frontend/src/DatasetGeneratorPanel.tsx",
+   "component": "DatasetGeneratorPanel",
+   "buttons": 2,
+   "api_calls": [
+    "/api/dataset/export",
+    "/api/dataset/generate"
+   ],
+   "ws_paths": [],
+   "binding": "API",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0011",
+   "file": "frontend/src/DiagnosticPanel.tsx",
+   "component": "DiagnosticPanel",
+   "buttons": 7,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0012",
+   "file": "frontend/src/FirstAppointmentGuide.tsx",
+   "component": "FirstAppointmentGuide",
+   "buttons": 8,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0013",
+   "file": "frontend/src/InspectionPanel.tsx",
+   "component": "InspectionPanel",
+   "buttons": 12,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0014",
+   "file": "frontend/src/LexiconPanel.tsx",
+   "component": "LexiconPanel",
+   "buttons": 9,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0015",
+   "file": "frontend/src/LoginGate.tsx",
+   "component": "LoginGate",
+   "buttons": 1,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0016",
+   "file": "frontend/src/MilestonePanel.tsx",
+   "component": "MilestonePanel",
+   "buttons": 2,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0017",
+   "file": "frontend/src/NotificationPanel.tsx",
+   "component": "NotificationPanel",
+   "buttons": 16,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "MOCK_SIGNAL",
+   "mock_or_simulation_signal": true
+  },
+  {
+   "ui_id": "UI-0018",
+   "file": "frontend/src/OntologyPanel.tsx",
+   "component": "OntologyPanel",
+   "buttons": 6,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0019",
+   "file": "frontend/src/OperatorPanel.tsx",
+   "component": "OperatorPanel",
+   "buttons": 34,
+   "api_calls": [
+    "/api/conversations/${selectedUnclearCall.id}/audio"
+   ],
+   "ws_paths": [],
+   "binding": "API",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0020",
+   "file": "frontend/src/OperatorToday.tsx",
+   "component": "OperatorToday",
+   "buttons": 4,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0021",
+   "file": "frontend/src/OutboundPanel.tsx",
+   "component": "OutboundPanel",
+   "buttons": 5,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0022",
+   "file": "frontend/src/QueueLiftPanel.tsx",
+   "component": "QueueLiftPanel",
+   "buttons": 12,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0023",
+   "file": "frontend/src/SidebarNav.tsx",
+   "component": "SidebarNav",
+   "buttons": 4,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0024",
+   "file": "frontend/src/SupervisorPanel.tsx",
+   "component": "SupervisorPanel",
+   "buttons": 5,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0025",
+   "file": "frontend/src/TechnicianDictationPanel.tsx",
+   "component": "TechnicianDictationPanel",
+   "buttons": 6,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0026",
+   "file": "frontend/src/VoiceWaveformBar.tsx",
+   "component": "VoiceWaveformBar",
+   "buttons": 0,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0027",
+   "file": "frontend/src/api.ts",
+   "component": "api",
+   "buttons": 0,
+   "api_calls": [
+    "/api/"
+   ],
+   "ws_paths": [],
+   "binding": "API",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0028",
+   "file": "frontend/src/lazyPanels.ts",
+   "component": "lazyPanels",
+   "buttons": 0,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0029",
+   "file": "frontend/src/main.tsx",
+   "component": "main",
+   "buttons": 1,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "MOCK_SIGNAL",
+   "mock_or_simulation_signal": true
+  },
+  {
+   "ui_id": "UI-0030",
+   "file": "frontend/src/nav.ts",
+   "component": "nav",
+   "buttons": 0,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0031",
+   "file": "frontend/src/pipeline/demoFixtures.ts",
+   "component": "demoFixtures",
+   "buttons": 0,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "MOCK_SIGNAL",
+   "mock_or_simulation_signal": true
+  },
+  {
+   "ui_id": "UI-0032",
+   "file": "frontend/src/pipeline/f2Hotwords.ts",
+   "component": "f2Hotwords",
+   "buttons": 0,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0033",
+   "file": "frontend/src/pipeline/f4Engine.ts",
+   "component": "f4Engine",
+   "buttons": 0,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0034",
+   "file": "frontend/src/pipeline/safetyLocks.ts",
+   "component": "safetyLocks",
+   "buttons": 0,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0035",
+   "file": "frontend/src/pipeline/types.ts",
+   "component": "types",
+   "buttons": 0,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "MOCK_SIGNAL",
+   "mock_or_simulation_signal": true
+  },
+  {
+   "ui_id": "UI-0036",
+   "file": "frontend/src/tabs/AppointmentsTab.tsx",
+   "component": "AppointmentsTab",
+   "buttons": 10,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0037",
+   "file": "frontend/src/tabs/HistoryTab.tsx",
+   "component": "HistoryTab",
+   "buttons": 4,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0038",
+   "file": "frontend/src/tabs/LabTab.tsx",
+   "component": "LabTab",
+   "buttons": 3,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0039",
+   "file": "frontend/src/tabs/SystemTab.tsx",
+   "component": "SystemTab",
+   "buttons": 1,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0040",
+   "file": "frontend/src/tabs/VehiclesTab.tsx",
+   "component": "VehiclesTab",
+   "buttons": 2,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0041",
+   "file": "frontend/src/tabs/VoiceTab.tsx",
+   "component": "VoiceTab",
+   "buttons": 7,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "MOCK_SIGNAL",
+   "mock_or_simulation_signal": true
+  },
+  {
+   "ui_id": "UI-0042",
+   "file": "frontend/src/ui.ts",
+   "component": "ui",
+   "buttons": 0,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "LOCAL_OR_UNRESOLVED",
+   "mock_or_simulation_signal": false
+  },
+  {
+   "ui_id": "UI-0043",
+   "file": "frontend/src/useVoiceSession.ts",
+   "component": "useVoiceSession",
+   "buttons": 0,
+   "api_calls": [],
+   "ws_paths": [],
+   "binding": "MOCK_SIGNAL",
+   "mock_or_simulation_signal": true
+  }
+ ],
+ "limitations": [
+  "Statik tarama (AST/regex); çalışma kanıtı değildir.",
+  "Kontrol düzeyinde (buton başına) eşleme yapılmadı; bileşen düzeyinde API/WS çağrıları listelendi.",
+  "mock_or_simulation_signal yalnız sözcük eşleşmesidir."
+ ]
+}

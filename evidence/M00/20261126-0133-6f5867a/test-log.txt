@@ -1,0 +1,2016 @@
+### Komut 1 — taban (pyproject'te tanımlı test ortamı, torch yok)
+$ uv sync --frozen --extra test && pytest -q -p no:cacheprovider   (yalıtılmış kopya, CI sahte ortam değişkenleri)
+çıkış kodu: 2
+
+==================================== ERRORS ====================================
+__________________ ERROR collecting tests/test_ab_testing.py ___________________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_ab_testing.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_ab_testing.py:19: in <module>
+    from backend import main
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+______________ ERROR collecting tests/test_acoustic_evaluation.py ______________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_acoustic_evaluation.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_acoustic_evaluation.py:21: in <module>
+    from backend.main import app, settings as app_settings
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+___________________ ERROR collecting tests/test_analytics.py ___________________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_analytics.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_analytics.py:21: in <module>
+    from backend import main
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+______________________ ERROR collecting tests/test_api.py ______________________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_api.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_api.py:8: in <module>
+    from backend import main
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+________ ERROR collecting tests/test_appointment_reschedule_preview.py _________
+tests/test_appointment_reschedule_preview.py:14: in <module>
+    from backend.routers.crm import router
+backend/routers/crm.py:306: in <module>
+    @router.post("/api/ruhsat/decode-image", dependencies=[Depends(auth)])
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/fastapi/routing.py:3109: in decorator
+    self.add_api_route(
+.venv/lib/python3.11/site-packages/fastapi/routing.py:3044: in add_api_route
+    route = route_class(
+.venv/lib/python3.11/site-packages/fastapi/routing.py:1246: in __init__
+    _populate_api_route_state(
+.venv/lib/python3.11/site-packages/fastapi/routing.py:1114: in _populate_api_route_state
+    ) = _build_dependant_with_parameterless_dependencies(
+.venv/lib/python3.11/site-packages/fastapi/routing.py:914: in _build_dependant_with_parameterless_dependencies
+    dependant = get_dependant(path=path, call=call, scope="function")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/fastapi/dependencies/utils.py:324: in get_dependant
+    param_details = analyze_param(
+.venv/lib/python3.11/site-packages/fastapi/dependencies/utils.py:563: in analyze_param
+    ensure_multipart_is_installed()
+.venv/lib/python3.11/site-packages/fastapi/dependencies/utils.py:141: in ensure_multipart_is_installed
+    raise RuntimeError(multipart_not_installed_error) from None
+E   RuntimeError: Form data requires "python-multipart" to be installed. 
+E   You can install "python-multipart" with: 
+E   
+E   pip install python-multipart
+___________ ERROR collecting tests/test_audio_archive_compliance.py ____________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_audio_archive_compliance.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_audio_archive_compliance.py:21: in <module>
+    from backend.main import app
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+______________ ERROR collecting tests/test_audiosocket_server.py _______________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_audiosocket_server.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_audiosocket_server.py:49: in <module>
+    from backend.main import app
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+______________ ERROR collecting tests/test_automotive_frontend.py ______________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_automotive_frontend.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_automotive_frontend.py:30: in <module>
+    from backend.main import app
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+______________ ERROR collecting tests/test_automotive_ontology.py ______________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_automotive_ontology.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_automotive_ontology.py:8: in <module>
+    from backend.main import app
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+__________________ ERROR collecting tests/test_batched_ode.py __________________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_batched_ode.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_batched_ode.py:36: in <module>
+    from backend.main import app
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+_________________ ERROR collecting tests/test_car_denoiser.py __________________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_car_denoiser.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_car_denoiser.py:42: in <module>
+    from backend.main import app
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+________________ ERROR collecting tests/test_chan_websocket.py _________________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_chan_websocket.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_chan_websocket.py:46: in <module>
+    from backend.main import app
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+________________ ERROR collecting tests/test_demo_separation.py ________________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_demo_separation.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_demo_separation.py:17: in <module>
+    from backend.main import app, models, settings as app_settings
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+__________________ ERROR collecting tests/test_diagnostics.py __________________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_diagnostics.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_diagnostics.py:18: in <module>
+    from backend import main
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+_____________________ ERROR collecting tests/test_dtmf.py ______________________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_dtmf.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_dtmf.py:21: in <module>
+    from backend import main
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+_______________ ERROR collecting tests/test_dynamic_valuation.py _______________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_dynamic_valuation.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_dynamic_valuation.py:38: in <module>
+    from backend.main import app
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+____________ ERROR collecting tests/test_e2e_automotive_cockpit.py _____________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_e2e_automotive_cockpit.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_e2e_automotive_cockpit.py:56: in <module>
+    from backend import main
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+____________ ERROR collecting tests/test_emotion_prosody_adapter.py ____________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_emotion_prosody_adapter.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_emotion_prosody_adapter.py:35: in <module>
+    from backend.main import app
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+__________ ERROR collecting tests/test_gpu_health_circuit_breaker.py ___________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_gpu_health_circuit_breaker.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_gpu_health_circuit_breaker.py:11: in <module>
+    from backend.gpu_health_circuit_breaker import (
+backend/gpu_health_circuit_breaker.py:35: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+__________________ ERROR collecting tests/test_inspections.py __________________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_inspections.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_inspections.py:24: in <module>
+    from backend import main
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+__________ ERROR collecting tests/test_lift_bay_capacity_scheduler.py __________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_lift_bay_capacity_scheduler.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_lift_bay_capacity_scheduler.py:46: in <module>
+    from backend.main import app
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+_________ ERROR collecting tests/test_madde2_real_world_integration.py _________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_madde2_real_world_integration.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_madde2_real_world_integration.py:42: in <module>
+    from backend import main
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+____________ ERROR collecting tests/test_madde4_operation_panel.py _____________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_madde4_operation_panel.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_madde4_operation_panel.py:35: in <module>
+    from backend.main import app
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+____________ ERROR collecting tests/test_madde5_kvkk_compliance.py _____________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_madde5_kvkk_compliance.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_madde5_kvkk_compliance.py:52: in <module>
+    from backend.main import app
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+___________ ERROR collecting tests/test_morphological_pre_checker.py ___________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_morphological_pre_checker.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_morphological_pre_checker.py:27: in <module>
+    from backend.main import app
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+_________________ ERROR collecting tests/test_notifications.py _________________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_notifications.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_notifications.py:15: in <module>
+    from backend import main
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+___________________ ERROR collecting tests/test_outbound.py ____________________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_outbound.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_outbound.py:7: in <module>
+    from backend import main
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+________________ ERROR collecting tests/test_outbound_dialer.py ________________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_outbound_dialer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_outbound_dialer.py:32: in <module>
+    from backend.main import app
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+_____________ ERROR collecting tests/test_pause_breath_cleaner.py ______________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_pause_breath_cleaner.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_pause_breath_cleaner.py:11: in <module>
+    from backend.main import app
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+______________ ERROR collecting tests/test_post_call_analytics.py ______________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_post_call_analytics.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_post_call_analytics.py:29: in <module>
+    from backend.main import app
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+_____________ ERROR collecting tests/test_qa_telemetry_operator.py _____________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_qa_telemetry_operator.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_qa_telemetry_operator.py:29: in <module>
+    from backend.main import app
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+__________________ ERROR collecting tests/test_queue_lift.py ___________________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_queue_lift.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_queue_lift.py:23: in <module>
+    from backend import main
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+__________ ERROR collecting tests/test_realtime_dashboard_metrics.py ___________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_realtime_dashboard_metrics.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_realtime_dashboard_metrics.py:10: in <module>
+    from backend.main import app
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+_____________ ERROR collecting tests/test_redaction_kvkk_guard.py ______________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_redaction_kvkk_guard.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_redaction_kvkk_guard.py:30: in <module>
+    from backend.main import app
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+______________ ERROR collecting tests/test_security_hardening.py _______________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_security_hardening.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_security_hardening.py:24: in <module>
+    from backend.main import app
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+____________ ERROR collecting tests/test_semantic_turn_detector.py _____________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_semantic_turn_detector.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_semantic_turn_detector.py:27: in <module>
+    from backend.main import app
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+___________________ ERROR collecting tests/test_sft_leyla.py ___________________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_sft_leyla.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_sft_leyla.py:26: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+______________ ERROR collecting tests/test_sip_trunk_failover.py _______________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_sip_trunk_failover.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_sip_trunk_failover.py:10: in <module>
+    from backend.main import app
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+_____________ ERROR collecting tests/test_technician_dictation.py ______________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_technician_dictation.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_technician_dictation.py:17: in <module>
+    from backend import main
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+___________________ ERROR collecting tests/test_transfer.py ____________________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_transfer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_transfer.py:33: in <module>
+    from backend.main import app
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+________________ ERROR collecting tests/test_unified_server.py _________________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_unified_server.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_unified_server.py:35: in <module>
+    from backend.main import app
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+______________ ERROR collecting tests/test_vin_ruhsat_decoder.py _______________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_vin_ruhsat_decoder.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_vin_ruhsat_decoder.py:29: in <module>
+    from backend.main import app
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+______________ ERROR collecting tests/test_voice_path_honesty.py _______________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_voice_path_honesty.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_voice_path_honesty.py:14: in <module>
+    import backend.main as main
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+_______________ ERROR collecting tests/test_whatsapp_webhook.py ________________
+ImportError while importing test module '<yalıtılmış-kopya>/tests/test_whatsapp_webhook.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_whatsapp_webhook.py:42: in <module>
+    from backend.main import app
+backend/main.py:41: in <module>
+    from backend.routers import (
+backend/routers/text_speech.py:35: in <module>
+    from backend.sft_leyla import (
+backend/sft_leyla.py:34: in <module>
+    import torch
+E   ModuleNotFoundError: No module named 'torch'
+=============================== warnings summary ===============================
+.venv/lib/python3.11/site-packages/fastapi/testclient.py:1
+  <yalıtılmış-kopya>/.venv/lib/python3.11/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+ERROR tests/test_ab_testing.py
+ERROR tests/test_acoustic_evaluation.py
+ERROR tests/test_analytics.py
+ERROR tests/test_api.py
+ERROR tests/test_appointment_reschedule_preview.py - RuntimeError: Form data ...
+ERROR tests/test_audio_archive_compliance.py
+ERROR tests/test_audiosocket_server.py
+ERROR tests/test_automotive_frontend.py
+ERROR tests/test_automotive_ontology.py
+ERROR tests/test_batched_ode.py
+ERROR tests/test_car_denoiser.py
+ERROR tests/test_chan_websocket.py
+ERROR tests/test_demo_separation.py
+ERROR tests/test_diagnostics.py
+ERROR tests/test_dtmf.py
+ERROR tests/test_dynamic_valuation.py
+ERROR tests/test_e2e_automotive_cockpit.py
+ERROR tests/test_emotion_prosody_adapter.py
+ERROR tests/test_gpu_health_circuit_breaker.py
+ERROR tests/test_inspections.py
+ERROR tests/test_lift_bay_capacity_scheduler.py
+ERROR tests/test_madde2_real_world_integration.py
+ERROR tests/test_madde4_operation_panel.py
+ERROR tests/test_madde5_kvkk_compliance.py
+ERROR tests/test_morphological_pre_checker.py
+ERROR tests/test_notifications.py
+ERROR tests/test_outbound.py
+ERROR tests/test_outbound_dialer.py
+ERROR tests/test_pause_breath_cleaner.py
+ERROR tests/test_post_call_analytics.py
+ERROR tests/test_qa_telemetry_operator.py
+ERROR tests/test_queue_lift.py
+ERROR tests/test_realtime_dashboard_metrics.py
+ERROR tests/test_redaction_kvkk_guard.py
+ERROR tests/test_security_hardening.py
+ERROR tests/test_semantic_turn_detector.py
+ERROR tests/test_sft_leyla.py
+ERROR tests/test_sip_trunk_failover.py
+ERROR tests/test_technician_dictation.py
+ERROR tests/test_transfer.py
+ERROR tests/test_unified_server.py
+ERROR tests/test_vin_ruhsat_decoder.py
+ERROR tests/test_voice_path_honesty.py
+ERROR tests/test_whatsapp_webhook.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 44 errors during collection !!!!!!!!!!!!!!!!!!!
+1 skipped, 1 warning, 44 errors in 12.05s
+
+### Komut 2 — CI eşdeğeri tanı (CPU torch 2.8.0 + python-multipart elle eklendi)
+$ pytest -q -p no:cacheprovider -rfE
+çıkış kodu: 1
+................................................ [  3%]
+........................................................................ [  7%]
+........................................................................ [ 12%]
+........................................................................ [ 16%]
+........................................................................ [ 21%]
+........................................................................ [ 26%]
+.................................................... [ 29%]
+................F......................F................................ [ 34%]
+........................................................................ [ 38%]
+...........................................ssss......................... [ 43%]
+........................................................................ [ 48%]
+.........F.............................................................. [ 52%]
+..................................................................FF.... [ 57%]
+........................................................................ [ 61%]
+........................................................................ [ 66%]
+.................................................F..F..FFFFFFFFFF.F..... [ 71%]
+........................................................................ [ 75%]
+.............FF......................F.................................. [ 80%]
+........................................................................ [ 84%]
+........................................................................ [ 89%]
+........................................................................ [ 94%]
+........................................................................ [ 98%]
+..................                                                       [100%]
+=================================== FAILURES ===================================
+__________________ test_measure_f0_detects_pitch_and_silence ___________________
+
+    def test_measure_f0_detects_pitch_and_silence():
+        rate = 16000
+        time_axis = np.arange(rate) / rate
+        tone = 0.3 * np.sin(2 * np.pi * 200.0 * time_axis)
+>       assert measure_f0(tone, rate) == pytest.approx(200.0, abs=3.0)
+               ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_acoustic_evaluation.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+audio = array([ 0.        ,  0.02353773,  0.04693034, ..., -0.07003361,
+       -0.04693034, -0.02353773], shape=(16000,))
+sample_rate = 16000
+
+    def measure_f0(audio: np.ndarray, sample_rate: int) -> Optional[float]:
+        """Sesli bölgelerin medyan F0 değeri (Hz); sesli bölge yoksa None."""
+>       import librosa
+E       ModuleNotFoundError: No module named 'librosa'
+
+backend/acoustic_evaluation.py:105: ModuleNotFoundError
+________________________ test_voice_chat_turn_endpoint _________________________
+
+    @contextlib.contextmanager
+    def map_httpcore_exceptions() -> typing.Iterator[None]:
+        global HTTPCORE_EXC_MAP
+        if len(HTTPCORE_EXC_MAP) == 0:
+            HTTPCORE_EXC_MAP = _load_httpcore_exceptions()
+        try:
+>           yield
+
+.venv/lib/python3.11/site-packages/httpx/_transports/default.py:101: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.11/site-packages/httpx/_transports/default.py:394: in handle_async_request
+    resp = await self._pool.handle_async_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/httpcore/_async/connection_pool.py:256: in handle_async_request
+    raise exc from None
+.venv/lib/python3.11/site-packages/httpcore/_async/connection_pool.py:236: in handle_async_request
+    response = await connection.handle_async_request(
+.venv/lib/python3.11/site-packages/httpcore/_async/connection.py:101: in handle_async_request
+    raise exc
+.venv/lib/python3.11/site-packages/httpcore/_async/connection.py:78: in handle_async_request
+    stream = await self._connect(request)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/httpcore/_async/connection.py:124: in _connect
+    stream = await self._network_backend.connect_tcp(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/httpcore/_backends/auto.py:31: in connect_tcp
+    return await self._backend.connect_tcp(
+.venv/lib/python3.11/site-packages/httpcore/_backends/anyio.py:113: in connect_tcp
+    with map_exceptions(exc_map):
+/usr/lib/python3.11/contextlib.py:158: in __exit__
+    self.gen.throw(typ, value, traceback)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+map = {<class 'TimeoutError'>: <class 'httpcore.ConnectTimeout'>, <class 'OSError'>: <class 'httpcore.ConnectError'>, <class 'anyio.BrokenResourceError'>: <class 'httpcore.ConnectError'>}
+
+    @contextlib.contextmanager
+    def map_exceptions(map: ExceptionMapping) -> typing.Iterator[None]:
+        try:
+            yield
+        except Exception as exc:  # noqa: PIE786
+            for from_exc, to_exc in map.items():
+                if isinstance(exc, from_exc):
+>                   raise to_exc(exc) from exc
+E                   httpcore.ConnectError: All connection attempts failed
+
+.venv/lib/python3.11/site-packages/httpcore/_exceptions.py:14: ConnectError
+
+The above exception was the direct cause of the following exception:
+
+client = <starlette.testclient.TestClient object at 0x7fb1359dfb50>
+
+    def test_voice_chat_turn_endpoint(client):
+        auth = ("admin", "test-password")
+>       res = client.post(
+            "/api/voice/chat-turn",
+            auth=auth,
+            json={"text": "Periyodik bakım randevusu almak istiyorum", "session_id": "test-chat-turn-1", "reset": True},
+        )
+
+tests/test_api.py:567: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.11/site-packages/httpx/_client.py:1144: in post
+    return self.request(
+.venv/lib/python3.11/site-packages/starlette/testclient.py:518: in request
+    return super().request(
+.venv/lib/python3.11/site-packages/httpx/_client.py:825: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/httpx/_client.py:928: in send
+    raise exc
+.venv/lib/python3.11/site-packages/httpx/_client.py:922: in send
+    response.read()
+.venv/lib/python3.11/site-packages/httpx/_models.py:881: in read
+    self._content = b"".join(self.iter_bytes())
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/httpx/_models.py:897: in iter_bytes
+    for raw_bytes in self.iter_raw():
+.venv/lib/python3.11/site-packages/httpx/_models.py:951: in iter_raw
+    for raw_stream_bytes in self.stream:
+.venv/lib/python3.11/site-packages/httpx/_client.py:153: in __iter__
+    for chunk in self._stream:
+.venv/lib/python3.11/site-packages/starlette/testclient.py:384: in iter_body
+    exit_stack.close()
+/usr/lib/python3.11/contextlib.py:609: in close
+    self.__exit__(None, None, None)
+/usr/lib/python3.11/contextlib.py:601: in __exit__
+    raise exc_details[1]
+/usr/lib/python3.11/contextlib.py:586: in __exit__
+    if cb(*exc_details):
+       ^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/starlette/testclient.py:399: in close_app
+    raise exception
+.venv/lib/python3.11/site-packages/anyio/from_thread.py:265: in _call_func
+    retval = await retval_or_awaitable
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/starlette/testclient.py:366: in run_app
+    await self.app(scope, receive, send)
+.venv/lib/python3.11/site-packages/fastapi/applications.py:1194: in __call__
+    await super().__call__(scope, receive, send)
+.venv/lib/python3.11/site-packages/starlette/applications.py:96: in __call__
+    await self.middleware_stack(scope, receive, send)
+.venv/lib/python3.11/site-packages/starlette/middleware/errors.py:186: in __call__
+    raise exc
+.venv/lib/python3.11/site-packages/starlette/middleware/errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+.venv/lib/python3.11/site-packages/fastapi/telemetry/_asgi.py:151: in __call__
+    await self.app(scope, receive, send)
+.venv/lib/python3.11/site-packages/starlette/middleware/exceptions.py:63: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+.venv/lib/python3.11/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+.venv/lib/python3.11/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+.venv/lib/python3.11/site-packages/fastapi/middleware/asyncexitstack.py:18: in __call__
+    await self.app(scope, receive, send)
+.venv/lib/python3.11/site-packages/starlette/routing.py:683: in __call__
+    await self.middleware_stack(scope, receive, send)
+.venv/lib/python3.11/site-packages/fastapi/routing.py:2811: in app
+    await route.handle(scope, receive, send)
+.venv/lib/python3.11/site-packages/fastapi/routing.py:1839: in handle
+    await self.original_router.handle(scope, receive, send)
+.venv/lib/python3.11/site-packages/fastapi/routing.py:2894: in handle
+    await included_router._handle_selected(scope, receive, send)
+.venv/lib/python3.11/site-packages/fastapi/routing.py:1865: in _handle_selected
+    await original_route.handle(scope, receive, send)
+.venv/lib/python3.11/site-packages/fastapi/routing.py:1328: in handle
+    await effective_context.app(scope, receive, send)
+.venv/lib/python3.11/site-packages/fastapi/routing.py:166: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+.venv/lib/python3.11/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+.venv/lib/python3.11/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+.venv/lib/python3.11/site-packages/fastapi/routing.py:152: in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/fastapi/routing.py:745: in app
+    raw_response = await run_endpoint_function(
+.venv/lib/python3.11/site-packages/fastapi/routing.py:372: in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+backend/routers/text_speech.py:380: in voice_chat_turn_endpoint
+    reply = await dialogue.answer(body.text)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+backend/dialogue.py:1613: in answer
+    async for chunk in models.chat(messages):
+backend/models.py:358: in chat
+    async for part in stream:
+backend/models.py:375: in _chat
+    async with client.stream(
+/usr/lib/python3.11/contextlib.py:210: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/httpx/_client.py:1583: in stream
+    response = await self.send(
+.venv/lib/python3.11/site-packages/httpx/_client.py:1629: in send
+    response = await self._send_handling_auth(
+.venv/lib/python3.11/site-packages/httpx/_client.py:1657: in _send_handling_auth
+    response = await self._send_handling_redirects(
+.venv/lib/python3.11/site-packages/httpx/_client.py:1694: in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/httpx/_client.py:1730: in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/httpx/_transports/default.py:393: in handle_async_request
+    with map_httpcore_exceptions():
+/usr/lib/python3.11/contextlib.py:158: in __exit__
+    self.gen.throw(typ, value, traceback)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @contextlib.contextmanager
+    def map_httpcore_exceptions() -> typing.Iterator[None]:
+        global HTTPCORE_EXC_MAP
+        if len(HTTPCORE_EXC_MAP) == 0:
+            HTTPCORE_EXC_MAP = _load_httpcore_exceptions()
+        try:
+            yield
+        except Exception as exc:
+            mapped_exc = None
+    
+            for from_exc, to_exc in HTTPCORE_EXC_MAP.items():
+                if not isinstance(exc, from_exc):
+                    continue
+                # We want to map to the most specific exception we can find.
+                # Eg if `exc` is an `httpcore.ReadTimeout`, we want to map to
+                # `httpx.ReadTimeout`, not just `httpx.TimeoutException`.
+                if mapped_exc is None or issubclass(to_exc, mapped_exc):
+                    mapped_exc = to_exc
+    
+            if mapped_exc is None:  # pragma: no cover
+                raise
+    
+            message = str(exc)
+>           raise mapped_exc(message) from exc
+E           httpx.ConnectError: All connection attempts failed
+
+.venv/lib/python3.11/site-packages/httpx/_transports/default.py:118: ConnectError
+________________ test_tier1_f1_voice_chat_turn_basic_text_reply ________________
+
+    @contextlib.contextmanager
+    def map_httpcore_exceptions() -> typing.Iterator[None]:
+        global HTTPCORE_EXC_MAP
+        if len(HTTPCORE_EXC_MAP) == 0:
+            HTTPCORE_EXC_MAP = _load_httpcore_exceptions()
+        try:
+>           yield
+
+.venv/lib/python3.11/site-packages/httpx/_transports/default.py:101: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.11/site-packages/httpx/_transports/default.py:394: in handle_async_request
+    resp = await self._pool.handle_async_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/httpcore/_async/connection_pool.py:256: in handle_async_request
+    raise exc from None
+.venv/lib/python3.11/site-packages/httpcore/_async/connection_pool.py:236: in handle_async_request
+    response = await connection.handle_async_request(
+.venv/lib/python3.11/site-packages/httpcore/_async/connection.py:101: in handle_async_request
+    raise exc
+.venv/lib/python3.11/site-packages/httpcore/_async/connection.py:78: in handle_async_request
+    stream = await self._connect(request)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/httpcore/_async/connection.py:124: in _connect
+    stream = await self._network_backend.connect_tcp(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/httpcore/_backends/auto.py:31: in connect_tcp
+    return await self._backend.connect_tcp(
+.venv/lib/python3.11/site-packages/httpcore/_backends/anyio.py:113: in connect_tcp
+    with map_exceptions(exc_map):
+/usr/lib/python3.11/contextlib.py:158: in __exit__
+    self.gen.throw(typ, value, traceback)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+map = {<class 'TimeoutError'>: <class 'httpcore.ConnectTimeout'>, <class 'OSError'>: <class 'httpcore.ConnectError'>, <class 'anyio.BrokenResourceError'>: <class 'httpcore.ConnectError'>}
+
+    @contextlib.contextmanager
+    def map_exceptions(map: ExceptionMapping) -> typing.Iterator[None]:
+        try:
+            yield
+        except Exception as exc:  # noqa: PIE786
+            for from_exc, to_exc in map.items():
+                if isinstance(exc, from_exc):
+>                   raise to_exc(exc) from exc
+E                   httpcore.ConnectError: All connection attempts failed
+
+.venv/lib/python3.11/site-packages/httpcore/_exceptions.py:14: ConnectError
+
+The above exception was the direct cause of the following exception:
+
+client = <starlette.testclient.TestClient object at 0x7fb12c9419d0>
+auth_headers = {'Authorization': 'Basic YWRtaW46dGVzdC1lMmUtcGFzc3dvcmQ='}
+
+    def test_tier1_f1_voice_chat_turn_basic_text_reply(client, auth_headers):
+        """F1.1: REST /api/voice/chat-turn üzerinden doğrudan metin sorgusu ve slot bilgisi yanıtı."""
+>       resp = client.post(
+            "/api/voice/chat-turn",
+            headers=auth_headers,
+            json={"text": "Periyodik bakım yaptırmak istiyorum", "session_id": "tier1-turn-1"},
+        )
+
+tests/test_e2e_automotive_cockpit.py:157: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.11/site-packages/httpx/_client.py:1144: in post
+    return self.request(
+.venv/lib/python3.11/site-packages/starlette/testclient.py:518: in request
+    return super().request(
+.venv/lib/python3.11/site-packages/httpx/_client.py:825: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/httpx/_client.py:928: in send
+    raise exc
+.venv/lib/python3.11/site-packages/httpx/_client.py:922: in send
+    response.read()
+.venv/lib/python3.11/site-packages/httpx/_models.py:881: in read
+    self._content = b"".join(self.iter_bytes())
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/httpx/_models.py:897: in iter_bytes
+    for raw_bytes in self.iter_raw():
+.venv/lib/python3.11/site-packages/httpx/_models.py:951: in iter_raw
+    for raw_stream_bytes in self.stream:
+.venv/lib/python3.11/site-packages/httpx/_client.py:153: in __iter__
+    for chunk in self._stream:
+.venv/lib/python3.11/site-packages/starlette/testclient.py:384: in iter_body
+    exit_stack.close()
+/usr/lib/python3.11/contextlib.py:609: in close
+    self.__exit__(None, None, None)
+/usr/lib/python3.11/contextlib.py:601: in __exit__
+    raise exc_details[1]
+/usr/lib/python3.11/contextlib.py:586: in __exit__
+    if cb(*exc_details):
+       ^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/starlette/testclient.py:399: in close_app
+    raise exception
+.venv/lib/python3.11/site-packages/anyio/from_thread.py:265: in _call_func
+    retval = await retval_or_awaitable
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/starlette/testclient.py:366: in run_app
+    await self.app(scope, receive, send)
+.venv/lib/python3.11/site-packages/fastapi/applications.py:1194: in __call__
+    await super().__call__(scope, receive, send)
+.venv/lib/python3.11/site-packages/starlette/applications.py:96: in __call__
+    await self.middleware_stack(scope, receive, send)
+.venv/lib/python3.11/site-packages/starlette/middleware/errors.py:186: in __call__
+    raise exc
+.venv/lib/python3.11/site-packages/starlette/middleware/errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+.venv/lib/python3.11/site-packages/fastapi/telemetry/_asgi.py:151: in __call__
+    await self.app(scope, receive, send)
+.venv/lib/python3.11/site-packages/starlette/middleware/exceptions.py:63: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+.venv/lib/python3.11/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+.venv/lib/python3.11/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+.venv/lib/python3.11/site-packages/fastapi/middleware/asyncexitstack.py:18: in __call__
+    await self.app(scope, receive, send)
+.venv/lib/python3.11/site-packages/starlette/routing.py:683: in __call__
+    await self.middleware_stack(scope, receive, send)
+.venv/lib/python3.11/site-packages/fastapi/routing.py:2811: in app
+    await route.handle(scope, receive, send)
+.venv/lib/python3.11/site-packages/fastapi/routing.py:1839: in handle
+    await self.original_router.handle(scope, receive, send)
+.venv/lib/python3.11/site-packages/fastapi/routing.py:2894: in handle
+    await included_router._handle_selected(scope, receive, send)
+.venv/lib/python3.11/site-packages/fastapi/routing.py:1865: in _handle_selected
+    await original_route.handle(scope, receive, send)
+.venv/lib/python3.11/site-packages/fastapi/routing.py:1328: in handle
+    await effective_context.app(scope, receive, send)
+.venv/lib/python3.11/site-packages/fastapi/routing.py:166: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+.venv/lib/python3.11/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+.venv/lib/python3.11/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+.venv/lib/python3.11/site-packages/fastapi/routing.py:152: in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/fastapi/routing.py:745: in app
+    raw_response = await run_endpoint_function(
+.venv/lib/python3.11/site-packages/fastapi/routing.py:372: in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+backend/routers/text_speech.py:380: in voice_chat_turn_endpoint
+    reply = await dialogue.answer(body.text)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+backend/dialogue.py:1613: in answer
+    async for chunk in models.chat(messages):
+backend/models.py:358: in chat
+    async for part in stream:
+backend/models.py:375: in _chat
+    async with client.stream(
+/usr/lib/python3.11/contextlib.py:210: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/httpx/_client.py:1583: in stream
+    response = await self.send(
+.venv/lib/python3.11/site-packages/httpx/_client.py:1629: in send
+    response = await self._send_handling_auth(
+.venv/lib/python3.11/site-packages/httpx/_client.py:1657: in _send_handling_auth
+    response = await self._send_handling_redirects(
+.venv/lib/python3.11/site-packages/httpx/_client.py:1694: in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/httpx/_client.py:1730: in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/httpx/_transports/default.py:393: in handle_async_request
+    with map_httpcore_exceptions():
+/usr/lib/python3.11/contextlib.py:158: in __exit__
+    self.gen.throw(typ, value, traceback)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @contextlib.contextmanager
+    def map_httpcore_exceptions() -> typing.Iterator[None]:
+        global HTTPCORE_EXC_MAP
+        if len(HTTPCORE_EXC_MAP) == 0:
+            HTTPCORE_EXC_MAP = _load_httpcore_exceptions()
+        try:
+            yield
+        except Exception as exc:
+            mapped_exc = None
+    
+            for from_exc, to_exc in HTTPCORE_EXC_MAP.items():
+                if not isinstance(exc, from_exc):
+                    continue
+                # We want to map to the most specific exception we can find.
+                # Eg if `exc` is an `httpcore.ReadTimeout`, we want to map to
+                # `httpx.ReadTimeout`, not just `httpx.TimeoutException`.
+                if mapped_exc is None or issubclass(to_exc, mapped_exc):
+                    mapped_exc = to_exc
+    
+            if mapped_exc is None:  # pragma: no cover
+                raise
+    
+            message = str(exc)
+>           raise mapped_exc(message) from exc
+E           httpx.ConnectError: All connection attempts failed
+
+.venv/lib/python3.11/site-packages/httpx/_transports/default.py:118: ConnectError
+____________________ test_multi_vehicle_preplanned_booking _____________________
+
+    @contextlib.contextmanager
+    def map_httpcore_exceptions() -> typing.Iterator[None]:
+        global HTTPCORE_EXC_MAP
+        if len(HTTPCORE_EXC_MAP) == 0:
+            HTTPCORE_EXC_MAP = _load_httpcore_exceptions()
+        try:
+>           yield
+
+.venv/lib/python3.11/site-packages/httpx/_transports/default.py:101: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.11/site-packages/httpx/_transports/default.py:394: in handle_async_request
+    resp = await self._pool.handle_async_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/httpcore/_async/connection_pool.py:256: in handle_async_request
+    raise exc from None
+.venv/lib/python3.11/site-packages/httpcore/_async/connection_pool.py:236: in handle_async_request
+    response = await connection.handle_async_request(
+.venv/lib/python3.11/site-packages/httpcore/_async/connection.py:101: in handle_async_request
+    raise exc
+.venv/lib/python3.11/site-packages/httpcore/_async/connection.py:78: in handle_async_request
+    stream = await self._connect(request)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/httpcore/_async/connection.py:124: in _connect
+    stream = await self._network_backend.connect_tcp(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/httpcore/_backends/auto.py:31: in connect_tcp
+    return await self._backend.connect_tcp(
+.venv/lib/python3.11/site-packages/httpcore/_backends/anyio.py:113: in connect_tcp
+    with map_exceptions(exc_map):
+/usr/lib/python3.11/contextlib.py:158: in __exit__
+    self.gen.throw(typ, value, traceback)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+map = {<class 'TimeoutError'>: <class 'httpcore.ConnectTimeout'>, <class 'OSError'>: <class 'httpcore.ConnectError'>, <class 'anyio.BrokenResourceError'>: <class 'httpcore.ConnectError'>}
+
+    @contextlib.contextmanager
+    def map_exceptions(map: ExceptionMapping) -> typing.Iterator[None]:
+        try:
+            yield
+        except Exception as exc:  # noqa: PIE786
+            for from_exc, to_exc in map.items():
+                if isinstance(exc, from_exc):
+>                   raise to_exc(exc) from exc
+E                   httpcore.ConnectError: All connection attempts failed
+
+.venv/lib/python3.11/site-packages/httpcore/_exceptions.py:14: ConnectError
+
+The above exception was the direct cause of the following exception:
+
+env = sessionmaker(class_='Session', bind=Engine(sqlite:///<yalıtılmış-kopya>/data/temp_pytest/test_multi_vehicle_preplanned_0/madde3.db), autoflush=True, expire_on_commit=False)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fb123d09350>
+
+    @pytest.mark.asyncio
+    async def test_multi_vehicle_preplanned_booking(env, monkeypatch):
+        monkeypatch.setattr(settings, "multi_vehicle_booking_enabled", True)
+        """Müşteri başta iki araç belirttiğinde, 1. araç onayından sonra otomatik olarak 2. araca geçer."""
+        phone = "05325556677"
+        with env() as db:
+            v1 = Vehicle(description="Volkswagen Passat 1.5 TSI", plate="34 VAG 01")
+            v2 = Vehicle(description="Renault Megane 1.3 TCe", plate="34 REN 02")
+            db.add_all([v1, v2])
+            _create_slot(db, hours_ahead=24)
+            _create_slot(db, hours_ahead=26)
+            _create_slot(db, hours_ahead=28)
+            db.commit()
+    
+        d = Dialogue("c-multi-1", customer_phone=phone)
+    
+        # 1. Giriş: iki araç belirtilir
+        ans1 = await d.answer("İki aracım var randevu almak istiyorum.")
+        assert d.multi_vehicle_planned is True
+        assert "iki aracınız için de" in ans1
+    
+        # 2. İsim ve ilk araç söylenir
+>       ans2 = await d.answer("Adım Kemal Sunal. İlk aracım Passat.")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_madde3_customer_experience.py:388: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+backend/dialogue.py:1613: in answer
+    async for chunk in models.chat(messages):
+backend/models.py:358: in chat
+    async for part in stream:
+backend/models.py:375: in _chat
+    async with client.stream(
+/usr/lib/python3.11/contextlib.py:210: in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/httpx/_client.py:1583: in stream
+    response = await self.send(
+.venv/lib/python3.11/site-packages/httpx/_client.py:1629: in send
+    response = await self._send_handling_auth(
+.venv/lib/python3.11/site-packages/httpx/_client.py:1657: in _send_handling_auth
+    response = await self._send_handling_redirects(
+.venv/lib/python3.11/site-packages/httpx/_client.py:1694: in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/httpx/_client.py:1730: in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/httpx/_transports/default.py:393: in handle_async_request
+    with map_httpcore_exceptions():
+/usr/lib/python3.11/contextlib.py:158: in __exit__
+    self.gen.throw(typ, value, traceback)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @contextlib.contextmanager
+    def map_httpcore_exceptions() -> typing.Iterator[None]:
+        global HTTPCORE_EXC_MAP
+        if len(HTTPCORE_EXC_MAP) == 0:
+            HTTPCORE_EXC_MAP = _load_httpcore_exceptions()
+        try:
+            yield
+        except Exception as exc:
+            mapped_exc = None
+    
+            for from_exc, to_exc in HTTPCORE_EXC_MAP.items():
+                if not isinstance(exc, from_exc):
+                    continue
+                # We want to map to the most specific exception we can find.
+                # Eg if `exc` is an `httpcore.ReadTimeout`, we want to map to
+                # `httpx.ReadTimeout`, not just `httpx.TimeoutException`.
+                if mapped_exc is None or issubclass(to_exc, mapped_exc):
+                    mapped_exc = to_exc
+    
+            if mapped_exc is None:  # pragma: no cover
+                raise
+    
+            message = str(exc)
+>           raise mapped_exc(message) from exc
+E           httpx.ConnectError: All connection attempts failed
+
+.venv/lib/python3.11/site-packages/httpx/_transports/default.py:118: ConnectError
+____________________ test_multi_vehicle_sequential_inquiry _____________________
+
+env = sessionmaker(class_='Session', bind=Engine(sqlite:///<yalıtılmış-kopya>/data/temp_pytest/test_multi_vehicle_sequential_0/madde3.db), autoflush=True, expire_on_commit=False)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fb123c77610>
+
+    @pytest.mark.asyncio
+    async def test_multi_vehicle_sequential_inquiry(env, monkeypatch):
+        monkeypatch.setattr(settings, "multi_vehicle_booking_enabled", True)
+        """Müşteri tek araç randevusunu aldıktan sonra 'Bir aracım daha var' dediğinde diyalog devam eder."""
+        phone = "05321239900"
+        with env() as db:
+            v1 = Vehicle(description="Dacia Duster 1.3 TCe", plate="34 DAC 55")
+            v2 = Vehicle(description="Toyota Corolla 1.5 Vision", plate="34 TYT 88")
+            db.add_all([v1, v2])
+            _create_slot(db, hours_ahead=20)
+            _create_slot(db, hours_ahead=22)
+            db.commit()
+    
+        d = Dialogue("c-multi-2", customer_phone=phone)
+        await d.answer("Adım Leyla Güven. Duster aracım için randevu alacaktım.")
+>       await d.answer("Birinci seçenek olsun.")
+
+tests/test_madde3_customer_experience.py:420: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+backend/dialogue.py:1613: in answer
+    async for chunk in models.chat(messages):
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <backend.models.Models object at 0x7fb240ca2910>
+messages = [{'role': 'system', 'content': 'Türkçe ekspertiz görüşmesinden alan çıkar. Sadece JSON: customer (bireysel müşteri ad ...riye sunulmuş mevcut seçenekler: 1. seçenek yarın saat 21.30.'}, {'role': 'user', 'content': 'Birinci seçenek olsun.'}]
+response_schema = None
+
+    async def chat(self, messages, *, response_schema=None):
+        breaker = self.breakers["llm"]
+        if not breaker.allow(time.monotonic_ns()):
+>           raise RuntimeError("LLM geçici hata sonrasında beklemede")
+E           RuntimeError: LLM geçici hata sonrasında beklemede
+
+backend/models.py:353: RuntimeError
+_________ test_handle_text_input_emits_bypassed_and_f3_pipeline_events _________
+
+tmp_path = PosixPath('<yalıtılmış-kopya>/data/temp_pytest/test_handle_text_input_emits_b0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fb123c4bc50>
+
+    async def test_handle_text_input_emits_bypassed_and_f3_pipeline_events(tmp_path, monkeypatch):
+        """Metin girdisi F0-F2 bypassed telemetrisi ve F3-F6 text_input kaynağı üretir."""
+        engine = create_engine("sqlite:///" + str(tmp_path / "text_telemetry.db"))
+        Base.metadata.create_all(engine)
+        session_factory = sessionmaker(engine, expire_on_commit=False)
+        monkeypatch.setattr(module, "Session", session_factory)
+    
+        class Vad:
+            def reset_states(self):
+                pass
+    
+        monkeypatch.setattr(module.models, "vad", Vad())
+        events = []
+    
+        async def emit(event):
+            events.append(event)
+    
+        async def send(frame):
+            pass
+    
+        async def synth(text, seed=None):
+            return np.ones(4800, np.float32) * 0.1
+    
+        monkeypatch.setattr(module.models, "synth", synth)
+        session = module.VoiceSession("test-text-session", emit, send)
+    
+        # Text input
+        await session.handle_text_input("Bakım randevusu almak istiyorum")
+    
+        # Pipeline events kontrolü
+        pipeline_events = [e["event"] for e in events if e.get("type") == "pipeline_event"]
+        assert any(pe["stage"] == "F0" and pe["status"] == "bypassed" and pe["source"] == "text_input" for pe in pipeline_events)
+        assert any(pe["stage"] == "F1" and pe["status"] == "bypassed" and pe["source"] == "text_input" for pe in pipeline_events)
+        assert any(pe["stage"] == "F2" and pe["status"] == "bypassed" and pe["source"] == "text_input" for pe in pipeline_events)
+>       assert any(pe["stage"] == "F3" and pe["status"] == "completed" and pe["source"] == "text_input" for pe in pipeline_events)
+E       assert False
+E        +  where False = any(<generator object test_handle_text_input_emits_bypassed_and_f3_pipeline_events.<locals>.<genexpr> at 0x7fb123edf030>)
+
+tests/test_session.py:164: AssertionError
+------------------------------ Captured log call -------------------------------
+ERROR    automotive_voice.session:session.py:604 Metin girdisi işleme hatası
+Traceback (most recent call last):
+  File "<yalıtılmış-kopya>/.venv/lib/python3.11/site-packages/httpx/_transports/default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "<yalıtılmış-kopya>/.venv/lib/python3.11/site-packages/httpx/_transports/default.py", line 394, in handle_async_request
+    resp = await self._pool.handle_async_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<yalıtılmış-kopya>/.venv/lib/python3.11/site-packages/httpcore/_async/connection_pool.py", line 256, in handle_async_request
+    raise exc from None
+  File "<yalıtılmış-kopya>/.venv/lib/python3.11/site-packages/httpcore/_async/connection_pool.py", line 236, in handle_async_request
+    response = await connection.handle_async_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<yalıtılmış-kopya>/.venv/lib/python3.11/site-packages/httpcore/_async/connection.py", line 101, in handle_async_request
+    raise exc
+  File "<yalıtılmış-kopya>/.venv/lib/python3.11/site-packages/httpcore/_async/connection.py", line 78, in handle_async_request
+    stream = await self._connect(request)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<yalıtılmış-kopya>/.venv/lib/python3.11/site-packages/httpcore/_async/connection.py", line 124, in _connect
+    stream = await self._network_backend.connect_tcp(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<yalıtılmış-kopya>/.venv/lib/python3.11/site-packages/httpcore/_backends/auto.py", line 31, in connect_tcp
+    return await self._backend.connect_tcp(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<yalıtılmış-kopya>/.venv/lib/python3.11/site-packages/httpcore/_backends/anyio.py", line 113, in connect_tcp
+    with map_exceptions(exc_map):
+  File "/usr/lib/python3.11/contextlib.py", line 158, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "<yalıtılmış-kopya>/.venv/lib/python3.11/site-packages/httpcore/_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ConnectError: All connection attempts failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<yalıtılmış-kopya>/backend/session.py", line 557, in handle_text_input
+    answer = await self.dialogue.answer(clean_text)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<yalıtılmış-kopya>/backend/dialogue.py", line 1613, in answer
+    async for chunk in models.chat(messages):
+  File "<yalıtılmış-kopya>/backend/models.py", line 358, in chat
+    async for part in stream:
+  File "<yalıtılmış-kopya>/backend/models.py", line 375, in _chat
+    async with client.stream(
+  File "/usr/lib/python3.11/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "<yalıtılmış-kopya>/.venv/lib/python3.11/site-packages/httpx/_client.py", line 1583, in stream
+    response = await self.send(
+               ^^^^^^^^^^^^^^^^
+  File "<yalıtılmış-kopya>/.venv/lib/python3.11/site-packages/httpx/_client.py", line 1629, in send
+    response = await self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<yalıtılmış-kopya>/.venv/lib/python3.11/site-packages/httpx/_client.py", line 1657, in _send_handling_auth
+    response = await self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<yalıtılmış-kopya>/.venv/lib/python3.11/site-packages/httpx/_client.py", line 1694, in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<yalıtılmış-kopya>/.venv/lib/python3.11/site-packages/httpx/_client.py", line 1730, in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<yalıtılmış-kopya>/.venv/lib/python3.11/site-packages/httpx/_transports/default.py", line 393, in handle_async_request
+    with map_httpcore_exceptions():
+  File "/usr/lib/python3.11/contextlib.py", line 158, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "<yalıtılmış-kopya>/.venv/lib/python3.11/site-packages/httpx/_transports/default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ConnectError: All connection attempts failed
+_______________________ test_freeze_for_conservative_sft _______________________
+
+    def test_freeze_for_conservative_sft():
+        """Kısmî dondurma: Sadece char_emb, text_conv, dur ve CrossAttn açık olmalı."""
+        try:
+            import sys
+            sys.path.insert(0, "vendor/FreyaTTS")
+            from freyatts.model import FreyaDiT
+            model = FreyaDiT(vocab=92, feat=64, d=256, depth=4, heads=4, ff=512)
+        except Exception:
+            # Fallback dummy model
+            class DummyBlock(nn.Module):
+                def __init__(self):
+                    super().__init__()
+                    self.sa = nn.Linear(64, 64)
+                    self.xa = nn.Linear(64, 64)
+                    self.ff = nn.Linear(64, 64)
+            class DummyFreya(nn.Module):
+                def __init__(self):
+                    super().__init__()
+                    self.char_emb = nn.Embedding(92, 64)
+                    self.text_conv = nn.ModuleList([nn.Linear(64, 64)])
+                    self.dur = nn.Linear(64, 1)
+                    self.blocks = nn.ModuleList([DummyBlock()])
+            model = DummyFreya()
+    
+        stats = freeze_for_conservative_sft(model)
+    
+        assert stats["trainable_params"] > 0
+        assert stats["frozen_params"] > 0
+>       assert stats["trainable_ratio_percent"] < 40.0  # Çoğunluk dondurulmuş olmalı
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       assert 63.17 < 40.0
+
+tests/test_sft_leyla.py:95: AssertionError
+_____________________ test_conservative_sft_trainer_steps ______________________
+
+tmp_path = PosixPath('<yalıtılmış-kopya>/data/temp_pytest/test_conservative_sft_trainer_0')
+
+    def test_conservative_sft_trainer_steps(tmp_path: Path):
+        """Konservatif SFT eğitim adımları ve geçmiş kaydı."""
+        trainer = ConservativeSFTTrainer(checkpoint_dir=tmp_path / "checkpoints")
+        trainer.initialize_model()
+    
+        assert trainer.status == "idle"
+        assert trainer.current_step == 0
+    
+        # 5 eğitim adımı çalıştır
+>       res = trainer.run_training_session(target_steps=5)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_sft_leyla.py:160: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+backend/sft_leyla.py:468: in run_training_session
+    step_res = self.train_step()
+               ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <backend.sft_leyla.ConservativeSFTTrainer object at 0x7fb12c26c610>
+batch_text_ids = None, batch_latents = None
+
+    def train_step(
+        self,
+        batch_text_ids: Optional[torch.Tensor] = None,
+        batch_latents: Optional[torch.Tensor] = None,
+    ) -> Dict[str, Any]:
+        """Tek bir konservatif SFT eğitim adımı yürütür."""
+        if self.model is None or self.optimizer is None:
+            self.initialize_model()
+    
+        assert self.model is not None
+>       assert self.optimizer is not None
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError
+
+backend/sft_leyla.py:392: AssertionError
+------------------------------ Captured log call -------------------------------
+WARNING  sft_automotive_leyla:sft_leyla.py:353 FreyaDiT yüklenemedi, hafif sahte model kullanılıyor: No module named 'freyatts'
+WARNING  sft_automotive_leyla:sft_leyla.py:353 FreyaDiT yüklenemedi, hafif sahte model kullanılıyor: No module named 'freyatts'
+_________________________ test_early_stopping_on_drift _________________________
+
+    def test_early_stopping_on_drift():
+        """Gerçek latent verildiğinde aşırı latent sapmasında eğitimin erken durdurulması."""
+        trainer = ConservativeSFTTrainer()
+        trainer.initialize_model()
+    
+        # Çapanın tersi (kosinüs benzerliği -1) latent: gerçek latent sapması eşiği aşar
+        anchor = trainer.drift_guard.reference_latent_anchor
+>       trainer.train_step(batch_latents=-anchor.expand(trainer.config.batch_size, 80, -1))
+
+tests/test_sft_leyla.py:181: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <backend.sft_leyla.ConservativeSFTTrainer object at 0x7fb12c819690>
+batch_text_ids = None
+batch_latents = tensor([[[-0.0272,  0.1191, -0.0375,  ..., -0.0962,  0.0102, -0.0881],
+         [-0.0272,  0.1191, -0.0375,  ..., -0.0...91, -0.0375,  ..., -0.0962,  0.0102, -0.0881],
+         [-0.0272,  0.1191, -0.0375,  ..., -0.0962,  0.0102, -0.0881]]])
+
+    def train_step(
+        self,
+        batch_text_ids: Optional[torch.Tensor] = None,
+        batch_latents: Optional[torch.Tensor] = None,
+    ) -> Dict[str, Any]:
+        """Tek bir konservatif SFT eğitim adımı yürütür."""
+        if self.model is None or self.optimizer is None:
+            self.initialize_model()
+    
+        assert self.model is not None
+>       assert self.optimizer is not None
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError
+
+backend/sft_leyla.py:392: AssertionError
+------------------------------ Captured log call -------------------------------
+WARNING  sft_automotive_leyla:sft_leyla.py:353 FreyaDiT yüklenemedi, hafif sahte model kullanılıyor: No module named 'freyatts'
+WARNING  sft_automotive_leyla:sft_leyla.py:353 FreyaDiT yüklenemedi, hafif sahte model kullanılıyor: No module named 'freyatts'
+__________________________ test_verify_leyla_identity __________________________
+
+    def test_verify_leyla_identity():
+        """Leyla ses kimliği doğrulaması: ses yoksa ölçüm yapılmaz (uydurma PASS yok)."""
+        trainer = ConservativeSFTTrainer()
+        check = trainer.verify_leyla_identity()
+    
+        assert check["status"] == "NOT_MEASURED"
+        assert check["measured"] is False
+        assert check["measured_f0_hz"] is None and check["f0_drift_hz"] is None
+        assert check["leyla_seed"] == 9
+        assert check["f0_target_hz"] == 220.0
+        assert check["is_healthy"] is None
+    
+        # Gerçek ses (220 Hz sinüs) verilirse ölçülür ve karar verilir
+        import numpy as np
+        sr = 16000
+        t = np.arange(sr) / sr
+        tone = (0.5 * np.sin(2 * np.pi * 220.0 * t)).astype(np.float32)
+        ok = trainer.verify_leyla_identity(audio=tone, sample_rate=sr)
+>       assert ok["measured"] is True
+E       assert False is True
+
+tests/test_sft_leyla.py:204: AssertionError
+------------------------------ Captured log call -------------------------------
+WARNING  sft_automotive_leyla:sft_leyla.py:522 F0 ölçülemedi: No module named 'librosa'
+_________________________ test_rest_api_sft_endpoints __________________________
+
+test_client = <starlette.testclient.TestClient object at 0x7fb134148990>
+tmp_path = PosixPath('<yalıtılmış-kopya>/data/temp_pytest/test_rest_api_sft_endpoints0')
+
+    def test_rest_api_sft_endpoints(test_client, tmp_path: Path):
+        """FastAPI REST API SFT uç noktalarının entegrasyon testleri."""
+        # 1. /api/sft/prepare-corpus
+        resp_corpus = test_client.post("/api/sft/prepare-corpus", json={"count": 10})
+        assert resp_corpus.status_code == 200
+        data_c = resp_corpus.json()
+        assert data_c["total_samples"] == 10
+        assert len(data_c["sample_preview"]) <= 3
+    
+        # 2. /api/sft/configure
+        resp_cfg = test_client.post(
+            "/api/sft/configure",
+            json={
+                "learning_rate": 2e-6,
+                "min_steps": 75,
+                "max_steps": 1000,
+                "f0_max_drift_hz": 2.3,
+            },
+        )
+        assert resp_cfg.status_code == 200
+        data_cfg = resp_cfg.json()
+        assert data_cfg["config"]["learning_rate"] == 2e-6
+>       assert data_cfg["model_stats"]["trainable_params"] > 0
+E       assert 0 > 0
+
+tests/test_sft_leyla.py:231: AssertionError
+------------------------------ Captured log call -------------------------------
+WARNING  sft_automotive_leyla:sft_leyla.py:353 FreyaDiT yüklenemedi, hafif sahte model kullanılıyor: No module named 'freyatts'
+____________________ test_sft_stage1_yaml_dimensions_patch _____________________
+
+    def test_sft_stage1_yaml_dimensions_patch():
+        """sft_stage1.yaml ve sft_stage2.yaml konfigürasyonlarının gerçek Leyla (d=640, depth=16, heads=10) ile eşleştiğini doğrular."""
+        import yaml
+    
+        p1 = Path("vendor/FreyaTTS/training/configs/sft_stage1.yaml")
+>       assert p1.exists()
+E       AssertionError: assert False
+E        +  where False = exists()
+E        +    where exists = PosixPath('vendor/FreyaTTS/training/configs/sft_stage1.yaml').exists
+
+tests/test_sft_leyla.py:261: AssertionError
+_________________ test_sft_base_checkpoint_missing_fails_early _________________
+
+    def test_sft_base_checkpoint_missing_fails_early():
+        """Temel kontrol noktası dosyası bulunamazsa sessizce rastgele ağırlık başlatmak yerine RuntimeError vermesini test eder."""
+        import subprocess
+        import sys
+    
+        # Var olmayan bir init dosyası ile sft.py çağrısı
+        cmd = [
+            sys.executable,
+            "vendor/FreyaTTS/training/sft.py",
+            "--init", "checkpoints/non_existent_model.pt",
+            "--steps", "1",
+        ]
+        res = subprocess.run(cmd, capture_output=True, text=True)
+        assert res.returncode != 0
+>       assert "Base checkpoint missing or mismatched" in (res.stderr + res.stdout)
+E       assert 'Base checkpoint missing or mismatched' in ("<yalıtılmış-kopya>/.venv/bin/python: can't open file '<yalıtılmış-kopya>/vendor/FreyaTTS/training/sft.py': [Errno 2] No such file or directory\n" + '')
+E        +  where "<yalıtılmış-kopya>/.venv/bin/python: can't open file '<yalıtılmış-kopya>/vendor/FreyaTTS/training/sft.py': [Errno 2] No such file or directory\n" = CompletedProcess(args=['<yalıtılmış-kopya>/.venv/bin/python', 'vendor/FreyaTTS/training/sft.py', '--init', 'checkpoints/non...nv/bin/python: can't open file '<yalıtılmış-kopya>/vendor/FreyaTTS/training/sft.py': [Errno 2] No such file or directory\n").stderr
+E        +  and   '' = CompletedProcess(args=['<yalıtılmış-kopya>/.venv/bin/python', 'vendor/FreyaTTS/training/sft.py', '--init', 'checkpoints/non...nv/bin/python: can't open file '<yalıtılmış-kopya>/vendor/FreyaTTS/training/sft.py': [Errno 2] No such file or directory\n").stdout
+
+tests/test_sft_leyla.py:291: AssertionError
+______________________ test_precompute_latents_out_alias _______________________
+
+    def test_precompute_latents_out_alias():
+        """precompute_latents.py argüman ayrıştırıcısının hem --out hem de --output-dir kabul ettiğini test eder."""
+        import subprocess
+        import sys
+    
+        cmd = [
+            sys.executable,
+            "vendor/FreyaTTS/training/precompute_latents.py",
+            "--help",
+        ]
+        res = subprocess.run(cmd, capture_output=True, text=True)
+>       assert res.returncode == 0
+E       assert 2 == 0
+E        +  where 2 = CompletedProcess(args=['<yalıtılmış-kopya>/.venv/bin/python', 'vendor/FreyaTTS/training/precompute_latents.py', '--help'], ...can't open file '<yalıtılmış-kopya>/vendor/FreyaTTS/training/precompute_latents.py': [Errno 2] No such file or directory\n").returncode
+
+tests/test_sft_leyla.py:305: AssertionError
+________________ test_cross_attention_lora_trainable_isolation _________________
+
+    def test_cross_attention_lora_trainable_isolation():
+        """
+        DiT Cross-Attention LoRA izolasyonunu test eder:
+        - Sadece xa.q, xa.kv, xa.o katmanları eğitilebilir olmalı.
+        - Temel DiT (SelfAttn, SwiGLU, adaLN) ve AudioVAE/TextEncoder dondurulmuş olmalı.
+        - Eğitilebilir parametre oranı <%1 (yaklaşık %0.62) olmalı.
+        """
+        import sys
+        sys.path.insert(0, "vendor/FreyaTTS")
+>       from freyatts.model import FreyaDiT
+E       ModuleNotFoundError: No module named 'freyatts'
+
+tests/test_sft_leyla.py:320: ModuleNotFoundError
+_______________________ test_lora_adapter_save_and_load ________________________
+
+tmp_path = PosixPath('<yalıtılmış-kopya>/data/temp_pytest/test_lora_adapter_save_and_loa0')
+
+    def test_lora_adapter_save_and_load(tmp_path: Path):
+        """Sadece LoRA adaptör ağırlıklarının küçük boyutta kaydedilip geri yüklenebildiğini test eder."""
+        import sys
+        sys.path.insert(0, "vendor/FreyaTTS")
+>       from freyatts.model import FreyaDiT
+E       ModuleNotFoundError: No module named 'freyatts'
+
+tests/test_sft_leyla.py:348: ModuleNotFoundError
+_____________ test_rtx4070_hardware_benchmark_and_vram_estimation ______________
+
+    def test_rtx4070_hardware_benchmark_and_vram_estimation():
+        """RTX 4070 8 GB donanım benchmarkı ve VRAM bütçe uyumluluğunu test eder."""
+        import sys
+        sys.path.insert(0, "vendor/FreyaTTS")
+>       from freyatts.model import FreyaDiT
+E       ModuleNotFoundError: No module named 'freyatts'
+
+tests/test_sft_leyla.py:371: ModuleNotFoundError
+_________________________ test_rest_api_lora_endpoints _________________________
+
+test_client = <starlette.testclient.TestClient object at 0x7fb1239b9350>
+
+    def test_rest_api_lora_endpoints(test_client):
+        """FastAPI REST API LoRA uç noktalarının entegrasyon testleri."""
+        # 1. POST /api/sft/lora/configure
+>       resp_cfg = test_client.post(
+            "/api/sft/lora/configure",
+            json={
+                "r": 16,
+                "lora_alpha": 32,
+                "lora_dropout": 0.05,
+                "learning_rate": 2e-5,
+                "batch_size": 1,
+                "grad_accum": 8,
+            },
+        )
+
+tests/test_sft_leyla.py:419: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.11/site-packages/httpx/_client.py:1144: in post
+    return self.request(
+.venv/lib/python3.11/site-packages/starlette/testclient.py:518: in request
+    return super().request(
+.venv/lib/python3.11/site-packages/httpx/_client.py:825: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/httpx/_client.py:928: in send
+    raise exc
+.venv/lib/python3.11/site-packages/httpx/_client.py:922: in send
+    response.read()
+.venv/lib/python3.11/site-packages/httpx/_models.py:881: in read
+    self._content = b"".join(self.iter_bytes())
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/httpx/_models.py:897: in iter_bytes
+    for raw_bytes in self.iter_raw():
+.venv/lib/python3.11/site-packages/httpx/_models.py:951: in iter_raw
+    for raw_stream_bytes in self.stream:
+.venv/lib/python3.11/site-packages/httpx/_client.py:153: in __iter__
+    for chunk in self._stream:
+.venv/lib/python3.11/site-packages/starlette/testclient.py:384: in iter_body
+    exit_stack.close()
+/usr/lib/python3.11/contextlib.py:609: in close
+    self.__exit__(None, None, None)
+/usr/lib/python3.11/contextlib.py:601: in __exit__
+    raise exc_details[1]
+/usr/lib/python3.11/contextlib.py:586: in __exit__
+    if cb(*exc_details):
+       ^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/starlette/testclient.py:399: in close_app
+    raise exception
+.venv/lib/python3.11/site-packages/anyio/from_thread.py:265: in _call_func
+    retval = await retval_or_awaitable
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/starlette/testclient.py:366: in run_app
+    await self.app(scope, receive, send)
+.venv/lib/python3.11/site-packages/fastapi/applications.py:1194: in __call__
+    await super().__call__(scope, receive, send)
+.venv/lib/python3.11/site-packages/starlette/applications.py:96: in __call__
+    await self.middleware_stack(scope, receive, send)
+.venv/lib/python3.11/site-packages/starlette/middleware/errors.py:186: in __call__
+    raise exc
+.venv/lib/python3.11/site-packages/starlette/middleware/errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+.venv/lib/python3.11/site-packages/fastapi/telemetry/_asgi.py:151: in __call__
+    await self.app(scope, receive, send)
+.venv/lib/python3.11/site-packages/starlette/middleware/exceptions.py:63: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+.venv/lib/python3.11/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+.venv/lib/python3.11/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+.venv/lib/python3.11/site-packages/fastapi/middleware/asyncexitstack.py:18: in __call__
+    await self.app(scope, receive, send)
+.venv/lib/python3.11/site-packages/starlette/routing.py:683: in __call__
+    await self.middleware_stack(scope, receive, send)
+.venv/lib/python3.11/site-packages/fastapi/routing.py:2811: in app
+    await route.handle(scope, receive, send)
+.venv/lib/python3.11/site-packages/fastapi/routing.py:1839: in handle
+    await self.original_router.handle(scope, receive, send)
+.venv/lib/python3.11/site-packages/fastapi/routing.py:2894: in handle
+    await included_router._handle_selected(scope, receive, send)
+.venv/lib/python3.11/site-packages/fastapi/routing.py:1865: in _handle_selected
+    await original_route.handle(scope, receive, send)
+.venv/lib/python3.11/site-packages/fastapi/routing.py:1328: in handle
+    await effective_context.app(scope, receive, send)
+.venv/lib/python3.11/site-packages/fastapi/routing.py:166: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+.venv/lib/python3.11/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+.venv/lib/python3.11/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+.venv/lib/python3.11/site-packages/fastapi/routing.py:152: in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/fastapi/routing.py:745: in app
+    raw_response = await run_endpoint_function(
+.venv/lib/python3.11/site-packages/fastapi/routing.py:374: in run_endpoint_function
+    return await run_in_threadpool(
+.venv/lib/python3.11/site-packages/starlette/concurrency.py:34: in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/anyio/to_thread.py:65: in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+.venv/lib/python3.11/site-packages/anyio/_backends/_asyncio.py:2706: in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/anyio/_backends/_asyncio.py:1100: in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.11/site-packages/fastapi/telemetry/_api.py:244: in _run_sync_endpoint
+    return function(**arguments)
+           ^^^^^^^^^^^^^^^^^^^^^
+backend/routers/text_speech.py:189: in sft_lora_configure
+    lora_model, stats = lora_manager.apply_lora_to_model(sft_manager.model, lora_manager.config)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <backend.sft_leyla.FreyaCrossAttentionLoRAManager object at 0x7fb1397057d0>
+model = Sequential(
+  (0): Embedding(92, 256)
+  (1): Linear(in_features=256, out_features=256, bias=True)
+)
+config = <backend.sft_leyla.FreyaCrossAttentionLoRAConfig object at 0x7fb238f04c10>
+
+    def apply_lora_to_model(
+        self,
+        model: nn.Module,
+        config: Optional[FreyaCrossAttentionLoRAConfig] = None,
+    ) -> Tuple[nn.Module, Dict[str, Any]]:
+        """
+        Modele PEFT LoraConfig uygular ve temel parametreleri dondurur.
+        """
+        cfg = config or self.config
+>       from peft import LoraConfig, get_peft_model
+E       ModuleNotFoundError: No module named 'peft'
+
+backend/sft_leyla.py:640: ModuleNotFoundError
+____________ test_voice_booking_without_provider_makes_no_sms_claim ____________
+
+env = sessionmaker(class_='Session', bind=Engine(sqlite:///<yalıtılmış-kopya>/data/temp_pytest/test_voice_booking_without_pro0/p2.db), autoflush=True, expire_on_commit=False)
+provider_restore = None
+
+    async def test_voice_booking_without_provider_makes_no_sms_claim(env, provider_restore):
+        set_notification_provider(MockNotificationProvider())
+        with env() as db:
+            d = _booking_dialogue(db)
+        d.customer_phone = "05321112233"  # telefon bilinse bile sağlayıcı yok
+        ans = await d.answer("Evet, onaylıyorum.")
+>       assert ans == "Randevunuz oluşturuldu. İyi günler dilerim."
+E       AssertionError: assert 'Randevunuz o...z FRY-0AF657.' == 'Randevunuz o...nler dilerim.'
+E         
+E         - Randevunuz oluşturuldu. İyi günler dilerim.
+E         + Randevunuz oluşturuldu. Referansınız FRY-0AF657.
+
+tests/test_voice_path_honesty.py:266: AssertionError
+_________________ test_voice_booking_real_provider_needs_phone _________________
+
+env = sessionmaker(class_='Session', bind=Engine(sqlite:///<yalıtılmış-kopya>/data/temp_pytest/test_voice_booking_real_provid0/p2.db), autoflush=True, expire_on_commit=False)
+provider_restore = None
+
+    async def test_voice_booking_real_provider_needs_phone(env, provider_restore):
+        set_notification_provider(FakeRealProvider())
+        with env() as db:
+            d = _booking_dialogue(db)
+        ans = await d.answer("Evet, onaylıyorum.")  # telefon yok
+>       assert "SMS" not in ans and ans.endswith("İyi günler dilerim.")
+E       AssertionError: assert ('SMS' not in 'Randevunuz ... FRY-79B565.'
+E         
+E         'SMS' is contained here:
+E           FRY-79B565. and False)
+E        +  where False = <built-in method endswith of str object at 0x7fb12cd08b30>('İyi günler dilerim.')
+E        +    where <built-in method endswith of str object at 0x7fb12cd08b30> = 'Randevunuz oluşturuldu. Referansınız FRY-79B565.'.endswith
+
+tests/test_voice_path_honesty.py:274: AssertionError
+------------------------------ Captured log call -------------------------------
+WARNING  automotive_voice.notifications:notifications.py:262 Müşteri telefonu yok, randevu SMS'i kuyruğa alınmadı (alıcı olarak ad kullanılmaz): appointment_id=79b565df-583f-4ca1-a753-d6caeb828295
+________________________ test_single_clause_plays_once _________________________
+
+env = sessionmaker(class_='Session', bind=Engine(sqlite:///<yalıtılmış-kopya>/data/temp_pytest/test_single_clause_plays_once0/p2.db), autoflush=True, expire_on_commit=False)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fb12c84d810>
+
+    async def test_single_clause_plays_once(env, monkeypatch):
+        from unittest.mock import AsyncMock, Mock
+    
+        events = []
+    
+        async def emit(event):
+            events.append(event)
+    
+        monkeypatch.setattr(models, "vad", Mock(spec=["reset_states"]))
+        session = session_mod.VoiceSession("test", emit, AsyncMock())
+        wave = np.zeros(960, dtype=np.float32)
+        monkeypatch.setattr(models, "synth", AsyncMock(return_value=wave))
+        play = AsyncMock()
+        monkeypatch.setattr(session, "play_wave", play)
+    
+        try:
+            await session.reply("Merhaba.")
+>           play.assert_awaited_once_with(wave, session.generation)
+
+tests/test_voice_path_honesty.py:662: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/lib/python3.11/unittest/mock.py:2312: in assert_awaited_once_with
+    return self.assert_awaited_with(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <AsyncMock id='140398928142416'>
+args = (array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0., 0., 0., 0., 0., 0.,... 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0., 0., 0., 0., 0.], dtype=float32), 0)
+kwargs = {}
+
+    def assert_awaited_with(self, /, *args, **kwargs):
+        """
+        Assert that the last await was with the specified arguments.
+        """
+        if self.await_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            raise AssertionError(f'Expected await: {expected}\nNot awaited')
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs, action='await')
+            return msg
+    
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.await_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+>           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected await not found.
+E           Expected: mock(array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0.], dtype=float32), 0)
+E             Actual: mock(array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+E                  0., 0., 0., 0., 0., 0., 0., 0.], dtype=float32), 0, source='live')
+
+/usr/lib/python3.11/unittest/mock.py:2301: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.11/site-packages/fastapi/testclient.py:1
+  <yalıtılmış-kopya>/.venv/lib/python3.11/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_acoustic_evaluation.py::test_measure_f0_detects_pitch_and_silence
+FAILED tests/test_api.py::test_voice_chat_turn_endpoint - httpx.ConnectError:...
+FAILED tests/test_e2e_automotive_cockpit.py::test_tier1_f1_voice_chat_turn_basic_text_reply
+FAILED tests/test_madde3_customer_experience.py::test_multi_vehicle_preplanned_booking
+FAILED tests/test_madde3_customer_experience.py::test_multi_vehicle_sequential_inquiry
+FAILED tests/test_session.py::test_handle_text_input_emits_bypassed_and_f3_pipeline_events
+FAILED tests/test_sft_leyla.py::test_freeze_for_conservative_sft - assert 63....
+FAILED tests/test_sft_leyla.py::test_conservative_sft_trainer_steps - Asserti...
+FAILED tests/test_sft_leyla.py::test_early_stopping_on_drift - AssertionError
+FAILED tests/test_sft_leyla.py::test_verify_leyla_identity - assert False is ...
+FAILED tests/test_sft_leyla.py::test_rest_api_sft_endpoints - assert 0 > 0
+FAILED tests/test_sft_leyla.py::test_sft_stage1_yaml_dimensions_patch - Asser...
+FAILED tests/test_sft_leyla.py::test_sft_base_checkpoint_missing_fails_early
+FAILED tests/test_sft_leyla.py::test_precompute_latents_out_alias - assert 2 ...
+FAILED tests/test_sft_leyla.py::test_cross_attention_lora_trainable_isolation
+FAILED tests/test_sft_leyla.py::test_lora_adapter_save_and_load - ModuleNotFo...
+FAILED tests/test_sft_leyla.py::test_rtx4070_hardware_benchmark_and_vram_estimation
+FAILED tests/test_sft_leyla.py::test_rest_api_lora_endpoints - ModuleNotFound...
+FAILED tests/test_voice_path_honesty.py::test_voice_booking_without_provider_makes_no_sms_claim
+FAILED tests/test_voice_path_honesty.py::test_voice_booking_real_provider_needs_phone
+FAILED tests/test_voice_path_honesty.py::test_single_clause_plays_once - Asse...
+21 failed, 1533 passed, 5 skipped, 1 warning, 44 subtests passed in 82.44s (0:01:22)

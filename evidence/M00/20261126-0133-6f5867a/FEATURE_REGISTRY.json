@@ -1,0 +1,1857 @@
+{
+ "schema_version": "m00.v1",
+ "run_id": "20261126-0133-6f5867a",
+ "baseline_commit": "6f5867af52dd8d3fd706dc6c9ddd4a42a2dd360f",
+ "generated_at_utc": "2026-11-25T22:33:21+00:00",
+ "records": [
+  {
+   "feature_id": "FT-F0-0001",
+   "name": "web mikrofonu/AudioWorklet",
+   "domain": "F0",
+   "current_owner": "frontend/src/VoiceWaveformBar.tsx",
+   "target_owner": "F0",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "frontend/src/VoiceWaveformBar.tsx"
+    },
+    {
+     "path": "frontend/src/useVoiceSession.ts"
+    },
+    {
+     "path": "frontend/tests/voice.spec.ts"
+    }
+   ],
+   "existing_test_ids": [],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F0-0002",
+   "name": "telefon girişi AudioSocket",
+   "domain": "F0",
+   "current_owner": "automotive_voice/readiness/contracts.py",
+   "target_owner": "F0",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "archive/automotive_freya_poc.py"
+    },
+    {
+     "path": "automotive_voice/readiness/contracts.py"
+    },
+    {
+     "path": "backend/audiosocket_server.py"
+    },
+    {
+     "path": "backend/car_denoiser.py"
+    },
+    {
+     "path": "backend/config.py"
+    },
+    {
+     "path": "backend/main.py"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0029",
+    "TEST-0035",
+    "TEST-0046",
+    "TEST-0052",
+    "TEST-0054",
+    "TEST-0069",
+    "TEST-0072",
+    "TEST-0081"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F0-0003",
+   "name": "HPF",
+   "domain": "F0",
+   "current_owner": "backend/automotive_frontend.py",
+   "target_owner": "F0",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "archive/automotive_freya_poc.py"
+    },
+    {
+     "path": "backend/automotive_frontend.py"
+    },
+    {
+     "path": "backend/car_denoiser.py"
+    },
+    {
+     "path": "backend/dsp.py"
+    },
+    {
+     "path": "frontend/src/AudioVisualizer.tsx"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0035"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F0-0004",
+   "name": "FFT gürültü bastırma",
+   "domain": "F0",
+   "current_owner": "backend/car_denoiser.py",
+   "target_owner": "F0",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/car_denoiser.py"
+    },
+    {
+     "path": "backend/outbound_dialer.py"
+    },
+    {
+     "path": "frontend/src/AudioVisualizer.tsx"
+    },
+    {
+     "path": "frontend/src/nav.ts"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0035"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F0-0005",
+   "name": "AGC",
+   "domain": "F0",
+   "current_owner": "backend/car_denoiser.py",
+   "target_owner": "F0",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/car_denoiser.py"
+    },
+    {
+     "path": "backend/routers/audio_dsp.py"
+    },
+    {
+     "path": "backend/session.py"
+    },
+    {
+     "path": "experimental/legacy_src/inbound_car_denoiser.py"
+    },
+    {
+     "path": "frontend/src/AudioPipelineInspector.tsx"
+    },
+    {
+     "path": "frontend/src/CarDenoiserPanel.tsx"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0035"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F0-0006",
+   "name": "DTMF",
+   "domain": "F0",
+   "current_owner": "backend/audiosocket_server.py",
+   "target_owner": "F0",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/audiosocket_server.py"
+    },
+    {
+     "path": "backend/dialogue.py"
+    },
+    {
+     "path": "backend/dtmf.py"
+    },
+    {
+     "path": "backend/main.py"
+    },
+    {
+     "path": "backend/routers/audio_dsp.py"
+    },
+    {
+     "path": "backend/routers/telephony.py"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0029",
+    "TEST-0036",
+    "TEST-0040",
+    "TEST-0041",
+    "TEST-0052",
+    "TEST-0080",
+    "TEST-0083"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F0-0007",
+   "name": "yeniden örnekleme",
+   "domain": "F0",
+   "current_owner": "backend/audio.py",
+   "target_owner": "F0",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "archive/automotive_freya_poc.py"
+    },
+    {
+     "path": "backend/audio.py"
+    },
+    {
+     "path": "backend/audiosocket_server.py"
+    },
+    {
+     "path": "backend/automotive_frontend.py"
+    },
+    {
+     "path": "backend/batched_ode.py"
+    },
+    {
+     "path": "backend/dsp.py"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0037",
+    "TEST-0041",
+    "TEST-0072"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F1-0001",
+   "name": "Silero VAD",
+   "domain": "F1",
+   "current_owner": "backend/models.py",
+   "target_owner": "F1",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/models.py"
+    }
+   ],
+   "existing_test_ids": [],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F1-0002",
+   "name": "lookback/ön kayıt",
+   "domain": "F1",
+   "current_owner": "backend/audiosocket_server.py",
+   "target_owner": "F1",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/audiosocket_server.py"
+    },
+    {
+     "path": "backend/session.py"
+    },
+    {
+     "path": "experimental/legacy_src/audiosocket_orchestrator.py"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0029"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F1-0003",
+   "name": "barge-in",
+   "domain": "F1",
+   "current_owner": "automotive_voice/core/session_manager.py",
+   "target_owner": "F1",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "archive/automotive_freya_poc.py"
+    },
+    {
+     "path": "automotive_voice/core/session_manager.py"
+    },
+    {
+     "path": "automotive_voice/e2e/runner.py"
+    },
+    {
+     "path": "automotive_voice/m05_demo.py"
+    },
+    {
+     "path": "automotive_voice/m06_demo.py"
+    },
+    {
+     "path": "automotive_voice/m07_demo.py"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0001",
+    "TEST-0002",
+    "TEST-0007",
+    "TEST-0013",
+    "TEST-0015",
+    "TEST-0017",
+    "TEST-0019",
+    "TEST-0020",
+    "TEST-0025",
+    "TEST-0029"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F1-0004",
+   "name": "backchannel",
+   "domain": "F1",
+   "current_owner": "backend/audiosocket_server.py",
+   "target_owner": "F1",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/audiosocket_server.py"
+    },
+    {
+     "path": "backend/routers/telephony.py"
+    },
+    {
+     "path": "experimental/five_cuts_bargein_controller.py"
+    },
+    {
+     "path": "experimental/legacy_src/audiosocket_orchestrator.py"
+    },
+    {
+     "path": "experimental/legacy_src/five_cuts_bargein_controller.py"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0001",
+    "TEST-0029",
+    "TEST-0052"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F1-0005",
+   "name": "anlamsal tur sonu",
+   "domain": "F1",
+   "current_owner": "backend/routers/audio_dsp.py",
+   "target_owner": "F1",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/routers/audio_dsp.py"
+    },
+    {
+     "path": "experimental/legacy_src/semantic_turn_detector.py"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0072"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F2-0001",
+   "name": "Faster-Whisper",
+   "domain": "F2",
+   "current_owner": "automotive_voice/m11/__main__.py",
+   "target_owner": "F2",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "automotive_voice/m11/__main__.py"
+    },
+    {
+     "path": "backend/models.py"
+    }
+   ],
+   "existing_test_ids": [],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F2-0002",
+   "name": "hotword",
+   "domain": "F2",
+   "current_owner": "backend/config.py",
+   "target_owner": "F2",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/config.py"
+    },
+    {
+     "path": "backend/models.py"
+    },
+    {
+     "path": "backend/routers/crm.py"
+    },
+    {
+     "path": "backend/routers/text_speech.py"
+    },
+    {
+     "path": "backend/supervisor/runtime.py"
+    },
+    {
+     "path": "frontend/src/pipeline/f2Hotwords.ts"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0026",
+    "TEST-0035",
+    "TEST-0062",
+    "TEST-0083"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F2-0003",
+   "name": "no_speech/logprob filtresi",
+   "domain": "F2",
+   "current_owner": "backend/models.py",
+   "target_owner": "F2",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/models.py"
+    },
+    {
+     "path": "frontend/src/pipeline/demoFixtures.ts"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0035"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F2-0004",
+   "name": "ASR mapper",
+   "domain": "F2",
+   "current_owner": "experimental/asr_mapper.py",
+   "target_owner": "F2",
+   "implementation_state": "EXPERIMENTAL",
+   "source_refs": [
+    {
+     "path": "experimental/asr_mapper.py"
+    },
+    {
+     "path": "experimental/legacy_src/asr_mapper.py"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0004"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F3-0001",
+   "name": "Supervisor kipleri",
+   "domain": "F3",
+   "current_owner": "backend/config.py",
+   "target_owner": "F3",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/config.py"
+    },
+    {
+     "path": "backend/models.py"
+    },
+    {
+     "path": "backend/session.py"
+    },
+    {
+     "path": "backend/supervisor/runtime.py"
+    },
+    {
+     "path": "frontend/tests/supervisor.spec.ts"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0077"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F3-0002",
+   "name": "randevu",
+   "domain": "F3",
+   "current_owner": "automotive_voice/dialogue/models.py",
+   "target_owner": "F3",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "archive/automotive_freya_poc.py"
+    },
+    {
+     "path": "automotive_voice/dialogue/models.py"
+    },
+    {
+     "path": "automotive_voice/dialogue/policy.py"
+    },
+    {
+     "path": "automotive_voice/e2e/runner.py"
+    },
+    {
+     "path": "automotive_voice/nlp/nlu.py"
+    },
+    {
+     "path": "backend/ab_testing.py"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0003",
+    "TEST-0004",
+    "TEST-0013",
+    "TEST-0021",
+    "TEST-0025",
+    "TEST-0026",
+    "TEST-0027",
+    "TEST-0031",
+    "TEST-0032",
+    "TEST-0033"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F3-0003",
+   "name": "CRM",
+   "domain": "F3",
+   "current_owner": "automotive_voice/adapters/lifecycle/supervisor.py",
+   "target_owner": "F3",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "automotive_voice/adapters/lifecycle/supervisor.py"
+    },
+    {
+     "path": "automotive_voice/dialogue/__init__.py"
+    },
+    {
+     "path": "automotive_voice/dialogue/booking_state.py"
+    },
+    {
+     "path": "automotive_voice/dialogue/models.py"
+    },
+    {
+     "path": "automotive_voice/dialogue/policy.py"
+    },
+    {
+     "path": "automotive_voice/dialogue/ports.py"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0008",
+    "TEST-0010",
+    "TEST-0020",
+    "TEST-0027",
+    "TEST-0069",
+    "TEST-0077",
+    "TEST-0082"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F3-0004",
+   "name": "müşteri hafızası",
+   "domain": "F3",
+   "current_owner": "backend/caller_memory.py",
+   "target_owner": "F3",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/caller_memory.py"
+    },
+    {
+     "path": "backend/dialogue.py"
+    },
+    {
+     "path": "backend/main.py"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0034",
+    "TEST-0043"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F3-0005",
+   "name": "outbox",
+   "domain": "F3",
+   "current_owner": "automotive_voice/conversation/reducer.py",
+   "target_owner": "F3",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "automotive_voice/conversation/reducer.py"
+    },
+    {
+     "path": "automotive_voice/core/session_manager.py"
+    },
+    {
+     "path": "automotive_voice/m10_demo.py"
+    },
+    {
+     "path": "automotive_voice/operator/runtime.py"
+    },
+    {
+     "path": "automotive_voice/resilience/durable.py"
+    },
+    {
+     "path": "backend/automotive_dispatch.py"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0006",
+    "TEST-0007",
+    "TEST-0021",
+    "TEST-0052",
+    "TEST-0057",
+    "TEST-0083"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F3-0006",
+   "name": "operatöre aktarım",
+   "domain": "F3",
+   "current_owner": "backend/automotive_dispatch.py",
+   "target_owner": "F3",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/automotive_dispatch.py"
+    },
+    {
+     "path": "backend/config.py"
+    },
+    {
+     "path": "backend/db.py"
+    },
+    {
+     "path": "backend/dialogue.py"
+    },
+    {
+     "path": "backend/gpu_health_circuit_breaker.py"
+    },
+    {
+     "path": "backend/operator_inbox.py"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0007",
+    "TEST-0030",
+    "TEST-0047",
+    "TEST-0051",
+    "TEST-0058",
+    "TEST-0066",
+    "TEST-0078",
+    "TEST-0080",
+    "TEST-0083"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F3-0007",
+   "name": "idempotency",
+   "domain": "F3",
+   "current_owner": "automotive_voice/adapters/lifecycle/contracts.py",
+   "target_owner": "F3",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "automotive_voice/adapters/lifecycle/contracts.py"
+    },
+    {
+     "path": "automotive_voice/adapters/lifecycle/runtime.py"
+    },
+    {
+     "path": "automotive_voice/adapters/lifecycle/supervisor.py"
+    },
+    {
+     "path": "automotive_voice/core/session.py"
+    },
+    {
+     "path": "automotive_voice/core/session_manager.py"
+    },
+    {
+     "path": "automotive_voice/dialogue/policy.py"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0007",
+    "TEST-0008",
+    "TEST-0015",
+    "TEST-0017",
+    "TEST-0020",
+    "TEST-0021",
+    "TEST-0023",
+    "TEST-0025",
+    "TEST-0026",
+    "TEST-0027"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F3-0008",
+   "name": "RAG",
+   "domain": "F3",
+   "current_owner": "automotive_voice/nlp/a01yt_adapter.py",
+   "target_owner": "F3",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "automotive_voice/nlp/a01yt_adapter.py"
+    },
+    {
+     "path": "automotive_voice/resilience/durable.py"
+    },
+    {
+     "path": "backend/db.py"
+    },
+    {
+     "path": "generate_doc.py"
+    },
+    {
+     "path": "generate_doc2.py"
+    },
+    {
+     "path": "scripts/generate_docx_report.py"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0043",
+    "TEST-0046"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F4-0001",
+   "name": "normalizasyon",
+   "domain": "F4",
+   "current_owner": "automotive_voice/e2e/runner.py",
+   "target_owner": "F4",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "archive/automotive_freya_poc.py"
+    },
+    {
+     "path": "automotive_voice/e2e/runner.py"
+    },
+    {
+     "path": "automotive_voice/m04_report.py"
+    },
+    {
+     "path": "automotive_voice/m05_demo.py"
+    },
+    {
+     "path": "automotive_voice/m05_report.py"
+    },
+    {
+     "path": "automotive_voice/m11/__main__.py"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0003",
+    "TEST-0004",
+    "TEST-0010",
+    "TEST-0012",
+    "TEST-0013",
+    "TEST-0014",
+    "TEST-0021",
+    "TEST-0026",
+    "TEST-0031",
+    "TEST-0032"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F4-0002",
+   "name": "otomotiv sözlüğü",
+   "domain": "F4",
+   "current_owner": "automotive_voice/m04_report.py",
+   "target_owner": "F4",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "automotive_voice/m04_report.py"
+    },
+    {
+     "path": "automotive_voice/m05_demo.py"
+    },
+    {
+     "path": "automotive_voice/m05_report.py"
+    },
+    {
+     "path": "automotive_voice/nlp/__init__.py"
+    },
+    {
+     "path": "automotive_voice/nlp/a01yt_adapter.py"
+    },
+    {
+     "path": "automotive_voice/nlp/lexicon.py"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0004",
+    "TEST-0010",
+    "TEST-0012",
+    "TEST-0013",
+    "TEST-0017",
+    "TEST-0026",
+    "TEST-0043",
+    "TEST-0053",
+    "TEST-0056"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F4-0003",
+   "name": "morfoloji",
+   "domain": "F4",
+   "current_owner": "backend/automotive_frontend.py",
+   "target_owner": "F4",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/automotive_frontend.py"
+    },
+    {
+     "path": "backend/emotion_prosody_adapter.py"
+    },
+    {
+     "path": "backend/morphological_pre_checker.py"
+    },
+    {
+     "path": "backend/morphology/__init__.py"
+    },
+    {
+     "path": "backend/morphology/clitics.py"
+    },
+    {
+     "path": "backend/morphology/contracts.py"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0004",
+    "TEST-0056"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F4-0004",
+   "name": "G2P",
+   "domain": "F4",
+   "current_owner": "frontend/src/AudioPipelineInspector.tsx",
+   "target_owner": "F4",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "frontend/src/AudioPipelineInspector.tsx"
+    },
+    {
+     "path": "frontend/src/LexiconPanel.tsx"
+    },
+    {
+     "path": "frontend/src/pipeline/safetyLocks.ts"
+    },
+    {
+     "path": "generate_doc2.py"
+    }
+   ],
+   "existing_test_ids": [],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F5-0001",
+   "name": "FreyaTTS/VoxCPM",
+   "domain": "F5",
+   "current_owner": "backend/batched_ode.py",
+   "target_owner": "F5",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/batched_ode.py"
+    }
+   ],
+   "existing_test_ids": [],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F5-0002",
+   "name": "Leyla seed",
+   "domain": "F5",
+   "current_owner": "backend/batched_ode.py",
+   "target_owner": "F5",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "archive/automotive_freya_poc.py"
+    },
+    {
+     "path": "backend/batched_ode.py"
+    },
+    {
+     "path": "backend/pause_breath_cleaner.py"
+    },
+    {
+     "path": "backend/qa_telemetry_operator.py"
+    },
+    {
+     "path": "backend/session.py"
+    },
+    {
+     "path": "experimental/legacy_src/batched_ode_engine.py"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0002",
+    "TEST-0023",
+    "TEST-0033",
+    "TEST-0040",
+    "TEST-0043",
+    "TEST-0062",
+    "TEST-0080"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F5-0003",
+   "name": "ODE çözücü",
+   "domain": "F5",
+   "current_owner": "automotive_voice/adapters/fake.py",
+   "target_owner": "F5",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "archive/automotive_freya_poc.py"
+    },
+    {
+     "path": "archive/summarize_agents.py"
+    },
+    {
+     "path": "automotive_voice/adapters/fake.py"
+    },
+    {
+     "path": "automotive_voice/adapters/lifecycle/__init__.py"
+    },
+    {
+     "path": "automotive_voice/adapters/lifecycle/contracts.py"
+    },
+    {
+     "path": "automotive_voice/adapters/lifecycle/runtime.py"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0001",
+    "TEST-0002",
+    "TEST-0003",
+    "TEST-0004",
+    "TEST-0008",
+    "TEST-0010",
+    "TEST-0013",
+    "TEST-0015",
+    "TEST-0016",
+    "TEST-0017"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F5-0004",
+   "name": "önbellek",
+   "domain": "F5",
+   "current_owner": "backend/gpu_health_circuit_breaker.py",
+   "target_owner": "F5",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/gpu_health_circuit_breaker.py"
+    },
+    {
+     "path": "backend/models.py"
+    },
+    {
+     "path": "backend/morphological_pre_checker.py"
+    },
+    {
+     "path": "backend/pause_breath_cleaner.py"
+    },
+    {
+     "path": "backend/realtime_dashboard_metrics.py"
+    },
+    {
+     "path": "backend/routers/audio_dsp.py"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0047",
+    "TEST-0058",
+    "TEST-0062",
+    "TEST-0063",
+    "TEST-0069"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F6-0001",
+   "name": "fade/konfor gürültüsü",
+   "domain": "F6",
+   "current_owner": "backend/audio.py",
+   "target_owner": "F6",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "archive/automotive_freya_poc.py"
+    },
+    {
+     "path": "backend/audio.py"
+    },
+    {
+     "path": "backend/automotive_dispatch.py"
+    },
+    {
+     "path": "backend/automotive_frontend.py"
+    },
+    {
+     "path": "backend/batched_ode.py"
+    },
+    {
+     "path": "backend/dialogue.py"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0003",
+    "TEST-0030",
+    "TEST-0031",
+    "TEST-0043",
+    "TEST-0052",
+    "TEST-0059",
+    "TEST-0063",
+    "TEST-0075"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F6-0002",
+   "name": "WSOLA",
+   "domain": "F6",
+   "current_owner": "frontend/src/nav.ts",
+   "target_owner": "F6",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "experimental/five_cuts_bargein_controller.py"
+    },
+    {
+     "path": "experimental/legacy_src/prosody_wsola_streamer.py"
+    },
+    {
+     "path": "experimental/prosody_wsola_streamer.py"
+    },
+    {
+     "path": "frontend/src/nav.ts"
+    },
+    {
+     "path": "frontend/src/pipeline/demoFixtures.ts"
+    },
+    {
+     "path": "generate_doc.py"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0002"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F6-0003",
+   "name": "telefon EQ",
+   "domain": "F6",
+   "current_owner": "automotive_voice/adapters/lifecycle/supervisor.py",
+   "target_owner": "F6",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "archive/automotive_freya_poc.py"
+    },
+    {
+     "path": "automotive_voice/adapters/lifecycle/supervisor.py"
+    },
+    {
+     "path": "automotive_voice/conversation/effects.py"
+    },
+    {
+     "path": "automotive_voice/conversation/reducer.py"
+    },
+    {
+     "path": "automotive_voice/conversation/signals.py"
+    },
+    {
+     "path": "automotive_voice/core/events.py"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0007",
+    "TEST-0008",
+    "TEST-0010",
+    "TEST-0013",
+    "TEST-0017",
+    "TEST-0041",
+    "TEST-0043",
+    "TEST-0077"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F6-0004",
+   "name": "tempo/pacing",
+   "domain": "F6",
+   "current_owner": "automotive_voice/m11/__main__.py",
+   "target_owner": "F6",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "archive/automotive_freya_poc.py"
+    },
+    {
+     "path": "automotive_voice/m11/__main__.py"
+    },
+    {
+     "path": "automotive_voice/prosody/contracts.py"
+    },
+    {
+     "path": "automotive_voice/prosody/planner.py"
+    },
+    {
+     "path": "backend/audio.py"
+    },
+    {
+     "path": "backend/audio_archive_compliance.py"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0002",
+    "TEST-0028",
+    "TEST-0029",
+    "TEST-0031",
+    "TEST-0033",
+    "TEST-0035",
+    "TEST-0037",
+    "TEST-0043",
+    "TEST-0044",
+    "TEST-0049"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-F6-0005",
+   "name": "AMI/ARI",
+   "domain": "F6",
+   "current_owner": "automotive_voice/e2e/__init__.py",
+   "target_owner": "F6",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "archive/automotive_freya_poc.py"
+    },
+    {
+     "path": "archive/patch_sft_tools.py"
+    },
+    {
+     "path": "automotive_voice/e2e/__init__.py"
+    },
+    {
+     "path": "automotive_voice/e2e/runner.py"
+    },
+    {
+     "path": "automotive_voice/m10_demo.py"
+    },
+    {
+     "path": "automotive_voice/operator/runtime.py"
+    }
+   ],
+   "existing_test_ids": [
+    "TEST-0001",
+    "TEST-0002",
+    "TEST-0003",
+    "TEST-0004",
+    "TEST-0020",
+    "TEST-0021",
+    "TEST-0024",
+    "TEST-0029",
+    "TEST-0031",
+    "TEST-0033"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Bayrak kapalıyken bugünkü davranış ve API sonucu korunur",
+   "future_regression_required": true,
+   "regression_requirement": "İlgili mevcut testler ve G2 tam regresyonu",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-CORE-0001",
+   "name": "API yüzeyi: backend/main.py",
+   "domain": "CORE",
+   "current_owner": "backend/main.py",
+   "target_owner": "UNRESOLVED",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/main.py"
+    }
+   ],
+   "api_ids": [
+    "API-0001",
+    "API-0002"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Aynı yol/yöntem ve anlamsal sonuç",
+   "future_regression_required": true,
+   "regression_requirement": "API sözleşme testi (M08)",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-CORE-0002",
+   "name": "API yüzeyi: backend/ontology/router.py",
+   "domain": "CORE",
+   "current_owner": "backend/ontology/router.py",
+   "target_owner": "UNRESOLVED",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/ontology/router.py"
+    }
+   ],
+   "api_ids": [
+    "API-0003",
+    "API-0004",
+    "API-0005",
+    "API-0006",
+    "API-0007",
+    "API-0008",
+    "API-0009",
+    "API-0010"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Aynı yol/yöntem ve anlamsal sonuç",
+   "future_regression_required": true,
+   "regression_requirement": "API sözleşme testi (M08)",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-CORE-0003",
+   "name": "API yüzeyi: backend/routers/audio_dsp.py",
+   "domain": "CORE",
+   "current_owner": "backend/routers/audio_dsp.py",
+   "target_owner": "UNRESOLVED",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/routers/audio_dsp.py"
+    }
+   ],
+   "api_ids": [
+    "API-0011",
+    "API-0012",
+    "API-0013",
+    "API-0014",
+    "API-0015",
+    "API-0016",
+    "API-0017",
+    "API-0018",
+    "API-0019",
+    "API-0020",
+    "API-0021",
+    "API-0022",
+    "API-0023",
+    "API-0024",
+    "API-0025",
+    "API-0026",
+    "API-0027",
+    "API-0028",
+    "API-0029"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Aynı yol/yöntem ve anlamsal sonuç",
+   "future_regression_required": true,
+   "regression_requirement": "API sözleşme testi (M08)",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-CORE-0004",
+   "name": "API yüzeyi: backend/routers/compliance.py",
+   "domain": "CORE",
+   "current_owner": "backend/routers/compliance.py",
+   "target_owner": "UNRESOLVED",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/routers/compliance.py"
+    }
+   ],
+   "api_ids": [
+    "API-0030",
+    "API-0031",
+    "API-0032",
+    "API-0033",
+    "API-0034",
+    "API-0035",
+    "API-0036",
+    "API-0037",
+    "API-0038",
+    "API-0039",
+    "API-0040",
+    "API-0041",
+    "API-0042",
+    "API-0043",
+    "API-0044",
+    "API-0045",
+    "API-0046"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Aynı yol/yöntem ve anlamsal sonuç",
+   "future_regression_required": true,
+   "regression_requirement": "API sözleşme testi (M08)",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-CORE-0005",
+   "name": "API yüzeyi: backend/routers/core_system.py",
+   "domain": "CORE",
+   "current_owner": "backend/routers/core_system.py",
+   "target_owner": "UNRESOLVED",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/routers/core_system.py"
+    }
+   ],
+   "api_ids": [
+    "API-0047",
+    "API-0048",
+    "API-0049",
+    "API-0050",
+    "API-0051"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Aynı yol/yöntem ve anlamsal sonuç",
+   "future_regression_required": true,
+   "regression_requirement": "API sözleşme testi (M08)",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-CORE-0006",
+   "name": "API yüzeyi: backend/routers/crm.py",
+   "domain": "CORE",
+   "current_owner": "backend/routers/crm.py",
+   "target_owner": "UNRESOLVED",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/routers/crm.py"
+    }
+   ],
+   "api_ids": [
+    "API-0052",
+    "API-0053",
+    "API-0054",
+    "API-0055",
+    "API-0056",
+    "API-0057",
+    "API-0058",
+    "API-0059",
+    "API-0060",
+    "API-0061",
+    "API-0062",
+    "API-0063",
+    "API-0064",
+    "API-0065",
+    "API-0066",
+    "API-0067",
+    "API-0068",
+    "API-0069",
+    "API-0070",
+    "API-0071",
+    "API-0072",
+    "API-0073",
+    "API-0074",
+    "API-0075",
+    "API-0076",
+    "API-0077",
+    "API-0078",
+    "API-0079",
+    "API-0080",
+    "API-0081",
+    "API-0082",
+    "API-0083",
+    "API-0084",
+    "API-0085",
+    "API-0086",
+    "API-0087",
+    "API-0088",
+    "API-0089",
+    "API-0090",
+    "API-0091",
+    "API-0092",
+    "API-0093",
+    "API-0094",
+    "API-0095",
+    "API-0096",
+    "API-0097",
+    "API-0098",
+    "API-0099",
+    "API-0100",
+    "API-0101",
+    "API-0102",
+    "API-0103",
+    "API-0104",
+    "API-0105",
+    "API-0106",
+    "API-0107",
+    "API-0108",
+    "API-0109"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Aynı yol/yöntem ve anlamsal sonuç",
+   "future_regression_required": true,
+   "regression_requirement": "API sözleşme testi (M08)",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-CORE-0007",
+   "name": "API yüzeyi: backend/routers/dataset.py",
+   "domain": "CORE",
+   "current_owner": "backend/routers/dataset.py",
+   "target_owner": "UNRESOLVED",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/routers/dataset.py"
+    }
+   ],
+   "api_ids": [
+    "API-0110",
+    "API-0111"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Aynı yol/yöntem ve anlamsal sonuç",
+   "future_regression_required": true,
+   "regression_requirement": "API sözleşme testi (M08)",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-CORE-0008",
+   "name": "API yüzeyi: backend/routers/generic_resources.py",
+   "domain": "CORE",
+   "current_owner": "backend/routers/generic_resources.py",
+   "target_owner": "UNRESOLVED",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/routers/generic_resources.py"
+    }
+   ],
+   "api_ids": [
+    "API-0112"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Aynı yol/yöntem ve anlamsal sonuç",
+   "future_regression_required": true,
+   "regression_requirement": "API sözleşme testi (M08)",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-CORE-0009",
+   "name": "API yüzeyi: backend/routers/observability.py",
+   "domain": "CORE",
+   "current_owner": "backend/routers/observability.py",
+   "target_owner": "UNRESOLVED",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/routers/observability.py"
+    }
+   ],
+   "api_ids": [
+    "API-0113",
+    "API-0114",
+    "API-0115",
+    "API-0116",
+    "API-0117",
+    "API-0118",
+    "API-0119",
+    "API-0120",
+    "API-0121",
+    "API-0122",
+    "API-0123",
+    "API-0124",
+    "API-0125",
+    "API-0126",
+    "API-0127",
+    "API-0128",
+    "API-0129",
+    "API-0130",
+    "API-0131",
+    "API-0132",
+    "API-0133"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Aynı yol/yöntem ve anlamsal sonuç",
+   "future_regression_required": true,
+   "regression_requirement": "API sözleşme testi (M08)",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-CORE-0010",
+   "name": "API yüzeyi: backend/routers/operator_qa.py",
+   "domain": "CORE",
+   "current_owner": "backend/routers/operator_qa.py",
+   "target_owner": "UNRESOLVED",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/routers/operator_qa.py"
+    }
+   ],
+   "api_ids": [
+    "API-0134",
+    "API-0135",
+    "API-0136",
+    "API-0137",
+    "API-0138",
+    "API-0139",
+    "API-0140",
+    "API-0141",
+    "API-0142"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Aynı yol/yöntem ve anlamsal sonuç",
+   "future_regression_required": true,
+   "regression_requirement": "API sözleşme testi (M08)",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-CORE-0011",
+   "name": "API yüzeyi: backend/routers/scheduling.py",
+   "domain": "CORE",
+   "current_owner": "backend/routers/scheduling.py",
+   "target_owner": "UNRESOLVED",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/routers/scheduling.py"
+    }
+   ],
+   "api_ids": [
+    "API-0143",
+    "API-0144",
+    "API-0145",
+    "API-0146",
+    "API-0147",
+    "API-0148",
+    "API-0149",
+    "API-0150",
+    "API-0151",
+    "API-0152",
+    "API-0153",
+    "API-0154",
+    "API-0155",
+    "API-0156",
+    "API-0157",
+    "API-0158",
+    "API-0159",
+    "API-0160",
+    "API-0161"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Aynı yol/yöntem ve anlamsal sonuç",
+   "future_regression_required": true,
+   "regression_requirement": "API sözleşme testi (M08)",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-CORE-0012",
+   "name": "API yüzeyi: backend/routers/supervisor.py",
+   "domain": "CORE",
+   "current_owner": "backend/routers/supervisor.py",
+   "target_owner": "UNRESOLVED",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/routers/supervisor.py"
+    }
+   ],
+   "api_ids": [
+    "API-0162",
+    "API-0163",
+    "API-0164",
+    "API-0165",
+    "API-0166"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Aynı yol/yöntem ve anlamsal sonuç",
+   "future_regression_required": true,
+   "regression_requirement": "API sözleşme testi (M08)",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-CORE-0013",
+   "name": "API yüzeyi: backend/routers/telephony.py",
+   "domain": "CORE",
+   "current_owner": "backend/routers/telephony.py",
+   "target_owner": "UNRESOLVED",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/routers/telephony.py"
+    }
+   ],
+   "api_ids": [
+    "API-0167",
+    "API-0168",
+    "API-0169",
+    "API-0170",
+    "API-0171",
+    "API-0172",
+    "API-0173",
+    "API-0174",
+    "API-0175",
+    "API-0176",
+    "API-0177",
+    "API-0178",
+    "API-0179",
+    "API-0180",
+    "API-0181",
+    "API-0182",
+    "API-0183",
+    "API-0184",
+    "API-0185",
+    "API-0186",
+    "API-0187",
+    "API-0188",
+    "API-0189",
+    "API-0190",
+    "API-0191",
+    "API-0192",
+    "API-0193",
+    "API-0194",
+    "API-0195",
+    "API-0196",
+    "API-0197",
+    "API-0198",
+    "API-0199",
+    "API-0200",
+    "API-0201",
+    "API-0202",
+    "API-0203",
+    "API-0204"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Aynı yol/yöntem ve anlamsal sonuç",
+   "future_regression_required": true,
+   "regression_requirement": "API sözleşme testi (M08)",
+   "unresolved_reason": null
+  },
+  {
+   "feature_id": "FT-CORE-0014",
+   "name": "API yüzeyi: backend/routers/text_speech.py",
+   "domain": "CORE",
+   "current_owner": "backend/routers/text_speech.py",
+   "target_owner": "UNRESOLVED",
+   "implementation_state": "LIVE_PATH",
+   "source_refs": [
+    {
+     "path": "backend/routers/text_speech.py"
+    }
+   ],
+   "api_ids": [
+    "API-0205",
+    "API-0206",
+    "API-0207",
+    "API-0208",
+    "API-0209",
+    "API-0210",
+    "API-0211",
+    "API-0212",
+    "API-0213",
+    "API-0214",
+    "API-0215",
+    "API-0216",
+    "API-0217",
+    "API-0218",
+    "API-0219",
+    "API-0220",
+    "API-0221",
+    "API-0222",
+    "API-0223",
+    "API-0224",
+    "API-0225",
+    "API-0226",
+    "API-0227",
+    "API-0228",
+    "API-0229",
+    "API-0230",
+    "API-0231",
+    "API-0232"
+   ],
+   "verification_status": "NOT_RUN",
+   "preserve_behavior": "Aynı yol/yöntem ve anlamsal sonuç",
+   "future_regression_required": true,
+   "regression_requirement": "API sözleşme testi (M08)",
+   "unresolved_reason": null
+  }
+ ],
+ "limitations": [
+  "Statik tarama (AST/regex); çalışma kanıtı değildir.",
+  "Özellik eşleşmesi anahtar sözcüğe dayanır; kontrol düzeyinde eşleme M08/G3'te tamamlanır."
+ ]
+}

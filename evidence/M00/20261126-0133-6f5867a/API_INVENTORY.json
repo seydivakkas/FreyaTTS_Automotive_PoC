@@ -1,0 +1,3497 @@
+{
+ "schema_version": "m00.v1",
+ "run_id": "20261126-0133-6f5867a",
+ "baseline_commit": "6f5867af52dd8d3fd706dc6c9ddd4a42a2dd360f",
+ "generated_at_utc": "2026-11-25T22:33:21+00:00",
+ "totals": {
+  "REGISTERED_STATIC": 232
+ },
+ "records": [
+  {
+   "api_id": "API-0001",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/session-ticket",
+   "registration": "REGISTERED_STATIC",
+   "handler": "ticket",
+   "source_ref": {
+    "path": "backend/main.py",
+    "line": 185
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0002",
+   "protocol": "WS",
+   "method": "WEBSOCKET",
+   "path_template": "/ws/voice",
+   "registration": "REGISTERED_STATIC",
+   "handler": "voice",
+   "source_ref": {
+    "path": "backend/main.py",
+    "line": 195
+   },
+   "auth_signal": "NOT_DETECTED",
+   "side_effect": "UNKNOWN",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0003",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/ontology/schema",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_ontology_schema",
+   "source_ref": {
+    "path": "backend/ontology/router.py",
+    "line": 31
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0004",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/ontology/packages",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_certified_packages",
+   "source_ref": {
+    "path": "backend/ontology/router.py",
+    "line": 39
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0005",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/ontology/diagnostics",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_certified_diagnostics",
+   "source_ref": {
+    "path": "backend/ontology/router.py",
+    "line": 47
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0006",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/ontology/vehicles",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_certified_vehicles",
+   "source_ref": {
+    "path": "backend/ontology/router.py",
+    "line": 59
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0007",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/ontology/resolve-vehicle",
+   "registration": "REGISTERED_STATIC",
+   "handler": "resolve_vehicle",
+   "source_ref": {
+    "path": "backend/ontology/router.py",
+    "line": 67
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0008",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/ontology/validate-action",
+   "registration": "REGISTERED_STATIC",
+   "handler": "validate_action",
+   "source_ref": {
+    "path": "backend/ontology/router.py",
+    "line": 81
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0009",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/ontology/mcp/tools",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_mcp_tools",
+   "source_ref": {
+    "path": "backend/ontology/router.py",
+    "line": 89
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0010",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/ontology/mcp/execute",
+   "registration": "REGISTERED_STATIC",
+   "handler": "execute_mcp_tool",
+   "source_ref": {
+    "path": "backend/ontology/router.py",
+    "line": 97
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0011",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/dtmf/generate-tone",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_dtmf_tone_endpoint",
+   "source_ref": {
+    "path": "backend/routers/audio_dsp.py",
+    "line": 58
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0012",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/dsp/config",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_dsp_config",
+   "source_ref": {
+    "path": "backend/routers/audio_dsp.py",
+    "line": 74
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0013",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/dsp/config",
+   "registration": "REGISTERED_STATIC",
+   "handler": "update_dsp_config",
+   "source_ref": {
+    "path": "backend/routers/audio_dsp.py",
+    "line": 86
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0014",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/dsp/denoise-preview",
+   "registration": "REGISTERED_STATIC",
+   "handler": "denoise_audio_preview",
+   "source_ref": {
+    "path": "backend/routers/audio_dsp.py",
+    "line": 100
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0015",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/batched-ode/config",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_batched_ode_config_endpoint",
+   "source_ref": {
+    "path": "backend/routers/audio_dsp.py",
+    "line": 158
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0016",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/batched-ode/config",
+   "registration": "REGISTERED_STATIC",
+   "handler": "update_batched_ode_config_endpoint",
+   "source_ref": {
+    "path": "backend/routers/audio_dsp.py",
+    "line": 173
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0017",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/batched-ode/metrics",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_batched_ode_metrics_endpoint",
+   "source_ref": {
+    "path": "backend/routers/audio_dsp.py",
+    "line": 195
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0018",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/batched-ode/benchmark",
+   "registration": "REGISTERED_STATIC",
+   "handler": "run_batched_ode_benchmark",
+   "source_ref": {
+    "path": "backend/routers/audio_dsp.py",
+    "line": 217
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0019",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/turn-detector/evaluate",
+   "registration": "REGISTERED_STATIC",
+   "handler": "turn_evaluate_endpoint",
+   "source_ref": {
+    "path": "backend/routers/audio_dsp.py",
+    "line": 278
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0020",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/turn-detector/analyze-text",
+   "registration": "REGISTERED_STATIC",
+   "handler": "turn_analyze_text_endpoint",
+   "source_ref": {
+    "path": "backend/routers/audio_dsp.py",
+    "line": 298
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0021",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/turn-detector/config",
+   "registration": "REGISTERED_STATIC",
+   "handler": "turn_config_endpoint",
+   "source_ref": {
+    "path": "backend/routers/audio_dsp.py",
+    "line": 304
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0022",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/emotion-prosody/analyze",
+   "registration": "REGISTERED_STATIC",
+   "handler": "emotion_analyze_endpoint",
+   "source_ref": {
+    "path": "backend/routers/audio_dsp.py",
+    "line": 321
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0023",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/emotion-prosody/adapt",
+   "registration": "REGISTERED_STATIC",
+   "handler": "emotion_adapt_endpoint",
+   "source_ref": {
+    "path": "backend/routers/audio_dsp.py",
+    "line": 341
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0024",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/emotion-prosody/config",
+   "registration": "REGISTERED_STATIC",
+   "handler": "emotion_config_endpoint",
+   "source_ref": {
+    "path": "backend/routers/audio_dsp.py",
+    "line": 361
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0025",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/pause-cleaner/clean-audio",
+   "registration": "REGISTERED_STATIC",
+   "handler": "clean_audio_endpoint",
+   "source_ref": {
+    "path": "backend/routers/audio_dsp.py",
+    "line": 370
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0026",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/audio-cache/metrics",
+   "registration": "REGISTERED_STATIC",
+   "handler": "audio_cache_metrics_endpoint",
+   "source_ref": {
+    "path": "backend/routers/audio_dsp.py",
+    "line": 397
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0027",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/audio-cache/phrases",
+   "registration": "REGISTERED_STATIC",
+   "handler": "audio_cache_phrases_endpoint",
+   "source_ref": {
+    "path": "backend/routers/audio_dsp.py",
+    "line": 402
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0028",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/audio-cache/lookup",
+   "registration": "REGISTERED_STATIC",
+   "handler": "audio_cache_lookup_endpoint",
+   "source_ref": {
+    "path": "backend/routers/audio_dsp.py",
+    "line": 417
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0029",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/audio-cache/warmup",
+   "registration": "REGISTERED_STATIC",
+   "handler": "audio_cache_warmup_endpoint",
+   "source_ref": {
+    "path": "backend/routers/audio_dsp.py",
+    "line": 439
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0030",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/kvkk/redact-text",
+   "registration": "REGISTERED_STATIC",
+   "handler": "kvkk_redact_text_endpoint",
+   "source_ref": {
+    "path": "backend/routers/compliance.py",
+    "line": 70
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0031",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/kvkk/validate-tckn",
+   "registration": "REGISTERED_STATIC",
+   "handler": "kvkk_validate_tckn_endpoint",
+   "source_ref": {
+    "path": "backend/routers/compliance.py",
+    "line": 87
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0032",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/kvkk/validate-card",
+   "registration": "REGISTERED_STATIC",
+   "handler": "kvkk_validate_card_endpoint",
+   "source_ref": {
+    "path": "backend/routers/compliance.py",
+    "line": 98
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0033",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/kvkk/policy",
+   "registration": "REGISTERED_STATIC",
+   "handler": "kvkk_get_policy_endpoint",
+   "source_ref": {
+    "path": "backend/routers/compliance.py",
+    "line": 109
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0034",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/kvkk/redact-audio",
+   "registration": "REGISTERED_STATIC",
+   "handler": "kvkk_redact_audio_endpoint",
+   "source_ref": {
+    "path": "backend/routers/compliance.py",
+    "line": 129
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0035",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/archive/call-session",
+   "registration": "REGISTERED_STATIC",
+   "handler": "archive_call_endpoint",
+   "source_ref": {
+    "path": "backend/routers/compliance.py",
+    "line": 163
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0036",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/archive/retention-audit",
+   "registration": "REGISTERED_STATIC",
+   "handler": "retention_audit_endpoint",
+   "source_ref": {
+    "path": "backend/routers/compliance.py",
+    "line": 192
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0037",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/archive/retention-purge",
+   "registration": "REGISTERED_STATIC",
+   "handler": "retention_purge_endpoint",
+   "source_ref": {
+    "path": "backend/routers/compliance.py",
+    "line": 198
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0038",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/archive/{archive_id}/verify",
+   "registration": "REGISTERED_STATIC",
+   "handler": "verify_archive_endpoint",
+   "source_ref": {
+    "path": "backend/routers/compliance.py",
+    "line": 220
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0039",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/archive/{archive_id}/download",
+   "registration": "REGISTERED_STATIC",
+   "handler": "download_archive_endpoint",
+   "source_ref": {
+    "path": "backend/routers/compliance.py",
+    "line": 232
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0040",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/kvkk/transcript-retention-audit",
+   "registration": "REGISTERED_STATIC",
+   "handler": "kvkk_transcript_retention_audit_endpoint",
+   "source_ref": {
+    "path": "backend/routers/compliance.py",
+    "line": 260
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0041",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/kvkk/transcript-retention-purge",
+   "registration": "REGISTERED_STATIC",
+   "handler": "kvkk_transcript_retention_purge_endpoint",
+   "source_ref": {
+    "path": "backend/routers/compliance.py",
+    "line": 267
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0042",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/kvkk/erasure-requests",
+   "registration": "REGISTERED_STATIC",
+   "handler": "kvkk_create_erasure_request_endpoint",
+   "source_ref": {
+    "path": "backend/routers/compliance.py",
+    "line": 292
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0043",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/kvkk/erasure-requests",
+   "registration": "REGISTERED_STATIC",
+   "handler": "kvkk_list_erasure_requests_endpoint",
+   "source_ref": {
+    "path": "backend/routers/compliance.py",
+    "line": 313
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0044",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/kvkk/erasure-requests/{request_id}",
+   "registration": "REGISTERED_STATIC",
+   "handler": "kvkk_get_erasure_request_endpoint",
+   "source_ref": {
+    "path": "backend/routers/compliance.py",
+    "line": 350
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0045",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/kvkk/erasure-requests/{request_id}/execute",
+   "registration": "REGISTERED_STATIC",
+   "handler": "kvkk_execute_erasure_request_endpoint",
+   "source_ref": {
+    "path": "backend/routers/compliance.py",
+    "line": 377
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0046",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/kvkk/erasure-requests/{request_id}/certificate",
+   "registration": "REGISTERED_STATIC",
+   "handler": "kvkk_get_certificate_endpoint",
+   "source_ref": {
+    "path": "backend/routers/compliance.py",
+    "line": 401
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0047",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/health",
+   "registration": "REGISTERED_STATIC",
+   "handler": "health",
+   "source_ref": {
+    "path": "backend/routers/core_system.py",
+    "line": 20
+   },
+   "auth_signal": "NOT_DETECTED",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0048",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/health",
+   "registration": "REGISTERED_STATIC",
+   "handler": "health",
+   "source_ref": {
+    "path": "backend/routers/core_system.py",
+    "line": 20
+   },
+   "auth_signal": "NOT_DETECTED",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0049",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/readiness",
+   "registration": "REGISTERED_STATIC",
+   "handler": "readiness",
+   "source_ref": {
+    "path": "backend/routers/core_system.py",
+    "line": 25
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0050",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/models/load",
+   "registration": "REGISTERED_STATIC",
+   "handler": "load",
+   "source_ref": {
+    "path": "backend/routers/core_system.py",
+    "line": 67
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0051",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/system/unified-status",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_unified_system_status_endpoint",
+   "source_ref": {
+    "path": "backend/routers/core_system.py",
+    "line": 83
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0052",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/vehicles/{id}",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_vehicle",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 135
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0053",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/inspections",
+   "registration": "REGISTERED_STATIC",
+   "handler": "list_inspections",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 144
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0054",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/inspections/{id}",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_inspection",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 160
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0055",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/analytics/overview",
+   "registration": "REGISTERED_STATIC",
+   "handler": "analytics_overview",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 172
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0056",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/analytics/follow-ups",
+   "registration": "REGISTERED_STATIC",
+   "handler": "list_follow_ups",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 181
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0057",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/analytics/conversations/{id}/resolve",
+   "registration": "REGISTERED_STATIC",
+   "handler": "resolve_conv",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 187
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0058",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/analytics/conversations/{id}/reopen",
+   "registration": "REGISTERED_STATIC",
+   "handler": "reopen_conv",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 197
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0059",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/diagnostics/dtc-registry",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_dtc_registry",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 207
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0060",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/diagnostics",
+   "registration": "REGISTERED_STATIC",
+   "handler": "list_all_diagnostics",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 212
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0061",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/vehicles/{id}/diagnostics",
+   "registration": "REGISTERED_STATIC",
+   "handler": "list_vehicle_diagnostics",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 229
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0062",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/vehicles/{id}/diagnostics",
+   "registration": "REGISTERED_STATIC",
+   "handler": "add_vehicle_telemetry",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 242
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0063",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/diagnostics/{id}/call",
+   "registration": "REGISTERED_STATIC",
+   "handler": "call_diagnostic_owner",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 260
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0064",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/diagnostics/{id}/sms",
+   "registration": "REGISTERED_STATIC",
+   "handler": "sms_diagnostic_owner",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 274
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0065",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/diagnostics/{id}/resolve",
+   "registration": "REGISTERED_STATIC",
+   "handler": "resolve_diag",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 292
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0066",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/packages",
+   "registration": "REGISTERED_STATIC",
+   "handler": "list_packages",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 302
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0067",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/ruhsat/decode-image",
+   "registration": "REGISTERED_STATIC",
+   "handler": "ruhsat_decode_image_endpoint",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 307
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0068",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/ruhsat/decode-text",
+   "registration": "REGISTERED_STATIC",
+   "handler": "ruhsat_decode_text_endpoint",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 332
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0069",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/ruhsat/decode-phonetic",
+   "registration": "REGISTERED_STATIC",
+   "handler": "ruhsat_decode_phonetic_endpoint",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 338
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0070",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/ruhsat/apply-to-crm",
+   "registration": "REGISTERED_STATIC",
+   "handler": "ruhsat_apply_crm_endpoint",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 343
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0071",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/ruhsat/scans",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_ruhsat_scans_endpoint",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 388
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0072",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/valuation/calculate",
+   "registration": "REGISTERED_STATIC",
+   "handler": "valuation_calculate_endpoint",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 397
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0073",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/valuation/save",
+   "registration": "REGISTERED_STATIC",
+   "handler": "valuation_save_endpoint",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 412
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0074",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/valuation/parse-spoken",
+   "registration": "REGISTERED_STATIC",
+   "handler": "valuation_parse_spoken_endpoint",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 431
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0075",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/valuation/valuations",
+   "registration": "REGISTERED_STATIC",
+   "handler": "valuation_list_endpoint",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 459
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0076",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/corporate-accounts",
+   "registration": "REGISTERED_STATIC",
+   "handler": "create_corporate_account",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 466
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0077",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/corporate-accounts/{id}",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_corporate_account",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 480
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0078",
+   "protocol": "HTTP",
+   "method": "PUT",
+   "path_template": "/api/corporate-accounts/{id}",
+   "registration": "REGISTERED_STATIC",
+   "handler": "update_corporate_account",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 489
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0079",
+   "protocol": "HTTP",
+   "method": "DELETE",
+   "path_template": "/api/corporate-accounts/{id}",
+   "registration": "REGISTERED_STATIC",
+   "handler": "delete_corporate_account",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 501
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0080",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/corporate-accounts/{id}/ledger",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_corporate_ledger",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 519
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0081",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/corporate-accounts/{id}/payments",
+   "registration": "REGISTERED_STATIC",
+   "handler": "add_corporate_payment",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 532
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0082",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/vehicles",
+   "registration": "REGISTERED_STATIC",
+   "handler": "vehicle",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 547
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0083",
+   "protocol": "HTTP",
+   "method": "PUT",
+   "path_template": "/api/vehicles/{id}",
+   "registration": "REGISTERED_STATIC",
+   "handler": "update_vehicle",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 562
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0084",
+   "protocol": "HTTP",
+   "method": "DELETE",
+   "path_template": "/api/vehicles/{id}",
+   "registration": "REGISTERED_STATIC",
+   "handler": "delete_vehicle",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 582
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0085",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/vehicles/by-vin/{vin}",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_vehicle_by_vin",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 602
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0086",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/vehicles/{id}/inspections",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_vehicle_inspections",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 624
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0087",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/vehicles/{id}/inspections",
+   "registration": "REGISTERED_STATIC",
+   "handler": "add_vehicle_inspection",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 637
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0088",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/inspections/{id}/pdf",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_inspection_pdf",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 673
+   },
+   "auth_signal": "NOT_DETECTED",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0089",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/inspections/{id}/signed-link",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_inspection_signed_link",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 719
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0090",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/inspections/{id}/send-link",
+   "registration": "REGISTERED_STATIC",
+   "handler": "send_inspection_link",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 727
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0091",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/inspections/photos",
+   "registration": "REGISTERED_STATIC",
+   "handler": "upload_inspection_photo",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 778
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0092",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/inspections/photos/{filename}",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_inspection_photo",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 809
+   },
+   "auth_signal": "NOT_DETECTED",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0093",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/technician/dictate-text",
+   "registration": "REGISTERED_STATIC",
+   "handler": "technician_dictate_text",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 818
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0094",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/technician/dictate-audio",
+   "registration": "REGISTERED_STATIC",
+   "handler": "technician_dictate_audio",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 867
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0095",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/quotes",
+   "registration": "REGISTERED_STATIC",
+   "handler": "quote",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 949
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0096",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/slots",
+   "registration": "REGISTERED_STATIC",
+   "handler": "slot",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 967
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0097",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/appointments",
+   "registration": "REGISTERED_STATIC",
+   "handler": "appointment",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 1001
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0098",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/appointments/{id}/cancel",
+   "registration": "REGISTERED_STATIC",
+   "handler": "cancel",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 1012
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0099",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/appointments/{id}/reschedule-preview",
+   "registration": "REGISTERED_STATIC",
+   "handler": "preview_appointment_reschedule",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 1023
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0100",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/appointments/{id}/reschedule",
+   "registration": "REGISTERED_STATIC",
+   "handler": "reschedule_appointment",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 1048
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0101",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/appointments/calendar",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_calendar_events",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 1097
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0102",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/conversations/unclear",
+   "registration": "REGISTERED_STATIC",
+   "handler": "list_unclear_conversations",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 1135
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0103",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/conversations/{id}",
+   "registration": "REGISTERED_STATIC",
+   "handler": "detail",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 1141
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0104",
+   "protocol": "HTTP",
+   "method": "DELETE",
+   "path_template": "/api/conversations/{id}",
+   "registration": "REGISTERED_STATIC",
+   "handler": "delete",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 1155
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0105",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/conversations/{id}/export",
+   "registration": "REGISTERED_STATIC",
+   "handler": "export_conversation",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 1170
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0106",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/conversations/{id}/audio",
+   "registration": "REGISTERED_STATIC",
+   "handler": "stream_conversation_audio",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 1243
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0107",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/conversations/{id}/feedback-lexicon",
+   "registration": "REGISTERED_STATIC",
+   "handler": "feedback_lexicon",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 1256
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0108",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/reports/weekly/summary",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_weekly_summary_endpoint",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 1289
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0109",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/reports/weekly/excel",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_weekly_excel_endpoint",
+   "source_ref": {
+    "path": "backend/routers/crm.py",
+    "line": 1295
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0110",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/dataset/generate",
+   "registration": "REGISTERED_STATIC",
+   "handler": "api_generate_dataset",
+   "source_ref": {
+    "path": "backend/routers/dataset.py",
+    "line": 26
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0111",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/dataset/export",
+   "registration": "REGISTERED_STATIC",
+   "handler": "api_export_dataset",
+   "source_ref": {
+    "path": "backend/routers/dataset.py",
+    "line": 48
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0112",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/{resource}",
+   "registration": "REGISTERED_STATIC",
+   "handler": "listing",
+   "source_ref": {
+    "path": "backend/routers/generic_resources.py",
+    "line": 42
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0113",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/gpu-health/telemetry",
+   "registration": "REGISTERED_STATIC",
+   "handler": "gpu_telemetry_endpoint",
+   "source_ref": {
+    "path": "backend/routers/observability.py",
+    "line": 37
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0114",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/gpu-health/circuit-status",
+   "registration": "REGISTERED_STATIC",
+   "handler": "gpu_circuit_status_endpoint",
+   "source_ref": {
+    "path": "backend/routers/observability.py",
+    "line": 43
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0115",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/gpu-health/configure",
+   "registration": "REGISTERED_STATIC",
+   "handler": "gpu_configure_endpoint",
+   "source_ref": {
+    "path": "backend/routers/observability.py",
+    "line": 48
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0116",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/gpu-health/simulate-oom",
+   "registration": "REGISTERED_STATIC",
+   "handler": "gpu_simulate_oom_endpoint",
+   "source_ref": {
+    "path": "backend/routers/observability.py",
+    "line": 61
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0117",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/gpu-health/reset",
+   "registration": "REGISTERED_STATIC",
+   "handler": "gpu_reset_endpoint",
+   "source_ref": {
+    "path": "backend/routers/observability.py",
+    "line": 80
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0118",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/sip-trunks",
+   "registration": "REGISTERED_STATIC",
+   "handler": "list_sip_trunks_endpoint",
+   "source_ref": {
+    "path": "backend/routers/observability.py",
+    "line": 89
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0119",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/sip-trunks/{trunk_id}/ping",
+   "registration": "REGISTERED_STATIC",
+   "handler": "ping_sip_trunk_endpoint",
+   "source_ref": {
+    "path": "backend/routers/observability.py",
+    "line": 94
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0120",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/sip-trunks/select",
+   "registration": "REGISTERED_STATIC",
+   "handler": "select_sip_trunk_endpoint",
+   "source_ref": {
+    "path": "backend/routers/observability.py",
+    "line": 103
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0121",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/sip-trunks/simulate-outage",
+   "registration": "REGISTERED_STATIC",
+   "handler": "simulate_trunk_outage_endpoint",
+   "source_ref": {
+    "path": "backend/routers/observability.py",
+    "line": 116
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0122",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/sip-trunks/maintenance",
+   "registration": "REGISTERED_STATIC",
+   "handler": "trunk_maintenance_endpoint",
+   "source_ref": {
+    "path": "backend/routers/observability.py",
+    "line": 125
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0123",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/sip-trunks/configure",
+   "registration": "REGISTERED_STATIC",
+   "handler": "configure_sip_trunk_endpoint",
+   "source_ref": {
+    "path": "backend/routers/observability.py",
+    "line": 134
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0124",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/metrics",
+   "registration": "REGISTERED_STATIC",
+   "handler": "prometheus_metrics_endpoint",
+   "source_ref": {
+    "path": "backend/routers/observability.py",
+    "line": 150
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0125",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/sla/status",
+   "registration": "REGISTERED_STATIC",
+   "handler": "sla_status_endpoint",
+   "source_ref": {
+    "path": "backend/routers/observability.py",
+    "line": 160
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0126",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/dashboard/live-summary",
+   "registration": "REGISTERED_STATIC",
+   "handler": "dashboard_live_summary_endpoint",
+   "source_ref": {
+    "path": "backend/routers/observability.py",
+    "line": 167
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0127",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/metrics/record-call",
+   "registration": "REGISTERED_STATIC",
+   "handler": "record_call_metrics_endpoint",
+   "source_ref": {
+    "path": "backend/routers/observability.py",
+    "line": 173
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0128",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/sla/configure",
+   "registration": "REGISTERED_STATIC",
+   "handler": "configure_sla_endpoint",
+   "source_ref": {
+    "path": "backend/routers/observability.py",
+    "line": 188
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0129",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/milestones/overview",
+   "registration": "REGISTERED_STATIC",
+   "handler": "milestone_overview",
+   "source_ref": {
+    "path": "backend/routers/observability.py",
+    "line": 210
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0130",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/milestones/inspect",
+   "registration": "REGISTERED_STATIC",
+   "handler": "milestone_inspect",
+   "source_ref": {
+    "path": "backend/routers/observability.py",
+    "line": 237
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0131",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/milestones/pronunciation",
+   "registration": "REGISTERED_STATIC",
+   "handler": "pronunciation_items",
+   "source_ref": {
+    "path": "backend/routers/observability.py",
+    "line": 245
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0132",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/milestones/pronunciation",
+   "registration": "REGISTERED_STATIC",
+   "handler": "pronunciation_review",
+   "source_ref": {
+    "path": "backend/routers/observability.py",
+    "line": 250
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0133",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/milestones/timeline/{id}",
+   "registration": "REGISTERED_STATIC",
+   "handler": "milestone_timeline",
+   "source_ref": {
+    "path": "backend/routers/observability.py",
+    "line": 263
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0134",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/operator/today",
+   "registration": "REGISTERED_STATIC",
+   "handler": "operator_today",
+   "source_ref": {
+    "path": "backend/routers/operator_qa.py",
+    "line": 35
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0135",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/operator/register-call",
+   "registration": "REGISTERED_STATIC",
+   "handler": "operator_register_call",
+   "source_ref": {
+    "path": "backend/routers/operator_qa.py",
+    "line": 52
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0136",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/operator/takeover",
+   "registration": "REGISTERED_STATIC",
+   "handler": "operator_takeover",
+   "source_ref": {
+    "path": "backend/routers/operator_qa.py",
+    "line": 64
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0137",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/operator/whisper",
+   "registration": "REGISTERED_STATIC",
+   "handler": "operator_whisper",
+   "source_ref": {
+    "path": "backend/routers/operator_qa.py",
+    "line": 76
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0138",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/operator/release",
+   "registration": "REGISTERED_STATIC",
+   "handler": "operator_release",
+   "source_ref": {
+    "path": "backend/routers/operator_qa.py",
+    "line": 88
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0139",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/operator/live-sessions",
+   "registration": "REGISTERED_STATIC",
+   "handler": "operator_live_sessions",
+   "source_ref": {
+    "path": "backend/routers/operator_qa.py",
+    "line": 99
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0140",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/qa/evaluate-variants",
+   "registration": "REGISTERED_STATIC",
+   "handler": "qa_evaluate_variants",
+   "source_ref": {
+    "path": "backend/routers/operator_qa.py",
+    "line": 104
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0141",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/qa/telemetry/{turn_id}",
+   "registration": "REGISTERED_STATIC",
+   "handler": "qa_get_telemetry",
+   "source_ref": {
+    "path": "backend/routers/operator_qa.py",
+    "line": 116
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0142",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/qa/m11-status",
+   "registration": "REGISTERED_STATIC",
+   "handler": "qa_m11_status",
+   "source_ref": {
+    "path": "backend/routers/operator_qa.py",
+    "line": 127
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0143",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/lifts",
+   "registration": "REGISTERED_STATIC",
+   "handler": "list_lifts",
+   "source_ref": {
+    "path": "backend/routers/scheduling.py",
+    "line": 54
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0144",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/lifts",
+   "registration": "REGISTERED_STATIC",
+   "handler": "create_lift",
+   "source_ref": {
+    "path": "backend/routers/scheduling.py",
+    "line": 61
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0145",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/lifts/capacity",
+   "registration": "REGISTERED_STATIC",
+   "handler": "lift_capacity",
+   "source_ref": {
+    "path": "backend/routers/scheduling.py",
+    "line": 73
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0146",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/lifts/{id}/status",
+   "registration": "REGISTERED_STATIC",
+   "handler": "update_lift_status",
+   "source_ref": {
+    "path": "backend/routers/scheduling.py",
+    "line": 79
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0147",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/lifts/{id}/assign",
+   "registration": "REGISTERED_STATIC",
+   "handler": "assign_vehicle_to_lift",
+   "source_ref": {
+    "path": "backend/routers/scheduling.py",
+    "line": 89
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0148",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/lifts/{id}/release",
+   "registration": "REGISTERED_STATIC",
+   "handler": "release_vehicle_from_lift",
+   "source_ref": {
+    "path": "backend/routers/scheduling.py",
+    "line": 106
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0149",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/lifts/{id}/call-next",
+   "registration": "REGISTERED_STATIC",
+   "handler": "call_next_for_lift",
+   "source_ref": {
+    "path": "backend/routers/scheduling.py",
+    "line": 116
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0150",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/queue",
+   "registration": "REGISTERED_STATIC",
+   "handler": "list_queue",
+   "source_ref": {
+    "path": "backend/routers/scheduling.py",
+    "line": 133
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0151",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/queue",
+   "registration": "REGISTERED_STATIC",
+   "handler": "add_to_queue",
+   "source_ref": {
+    "path": "backend/routers/scheduling.py",
+    "line": 140
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0152",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/queue/{id}/cancel",
+   "registration": "REGISTERED_STATIC",
+   "handler": "cancel_queue",
+   "source_ref": {
+    "path": "backend/routers/scheduling.py",
+    "line": 154
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0153",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/bay-scheduler/check-capacity",
+   "registration": "REGISTERED_STATIC",
+   "handler": "bay_check_capacity_endpoint",
+   "source_ref": {
+    "path": "backend/routers/scheduling.py",
+    "line": 169
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0154",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/bay-scheduler/book-stages",
+   "registration": "REGISTERED_STATIC",
+   "handler": "bay_book_stages_endpoint",
+   "source_ref": {
+    "path": "backend/routers/scheduling.py",
+    "line": 181
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0155",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/bay-scheduler/bays",
+   "registration": "REGISTERED_STATIC",
+   "handler": "bay_list_endpoint",
+   "source_ref": {
+    "path": "backend/routers/scheduling.py",
+    "line": 198
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0156",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/bay-scheduler/technicians",
+   "registration": "REGISTERED_STATIC",
+   "handler": "technician_list_endpoint",
+   "source_ref": {
+    "path": "backend/routers/scheduling.py",
+    "line": 205
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0157",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/bay-scheduler/schedules",
+   "registration": "REGISTERED_STATIC",
+   "handler": "bay_schedules_list_endpoint",
+   "source_ref": {
+    "path": "backend/routers/scheduling.py",
+    "line": 212
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0158",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/bay-scheduler/analytics",
+   "registration": "REGISTERED_STATIC",
+   "handler": "bay_analytics_endpoint",
+   "source_ref": {
+    "path": "backend/routers/scheduling.py",
+    "line": 219
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0159",
+   "protocol": "HTTP",
+   "method": "PUT",
+   "path_template": "/api/bay-scheduler/bays/{bay_id}/status",
+   "registration": "REGISTERED_STATIC",
+   "handler": "bay_set_status_endpoint",
+   "source_ref": {
+    "path": "backend/routers/scheduling.py",
+    "line": 225
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0160",
+   "protocol": "HTTP",
+   "method": "PUT",
+   "path_template": "/api/bay-scheduler/technicians/{technician_id}/status",
+   "registration": "REGISTERED_STATIC",
+   "handler": "technician_set_status_endpoint",
+   "source_ref": {
+    "path": "backend/routers/scheduling.py",
+    "line": 235
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0161",
+   "protocol": "HTTP",
+   "method": "DELETE",
+   "path_template": "/api/bay-scheduler/appointments/{appointment_id}",
+   "registration": "REGISTERED_STATIC",
+   "handler": "cancel_appointment_schedules_endpoint",
+   "source_ref": {
+    "path": "backend/routers/scheduling.py",
+    "line": 245
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0162",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/supervisor/fqici-queue",
+   "registration": "REGISTERED_STATIC",
+   "handler": "fqici_queue",
+   "source_ref": {
+    "path": "backend/routers/supervisor.py",
+    "line": 25
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0163",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/supervisor/conversations/{conversation_id}/detail",
+   "registration": "REGISTERED_STATIC",
+   "handler": "conversation_detail",
+   "source_ref": {
+    "path": "backend/routers/supervisor.py",
+    "line": 32
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0164",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/supervisor/quality",
+   "registration": "REGISTERED_STATIC",
+   "handler": "quality",
+   "source_ref": {
+    "path": "backend/routers/supervisor.py",
+    "line": 69
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0165",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/supervisor/review/{trace_id}",
+   "registration": "REGISTERED_STATIC",
+   "handler": "review",
+   "source_ref": {
+    "path": "backend/routers/supervisor.py",
+    "line": 113
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0166",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/supervisor/dataset",
+   "registration": "REGISTERED_STATIC",
+   "handler": "export_dataset",
+   "source_ref": {
+    "path": "backend/routers/supervisor.py",
+    "line": 129
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0167",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/notifications",
+   "registration": "REGISTERED_STATIC",
+   "handler": "list_notifications",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 107
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0168",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/notifications/dispatch",
+   "registration": "REGISTERED_STATIC",
+   "handler": "dispatch_notifications",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 127
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0169",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/notifications/{id}/retry",
+   "registration": "REGISTERED_STATIC",
+   "handler": "retry_single_notification",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 137
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0170",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/notifications/status",
+   "registration": "REGISTERED_STATIC",
+   "handler": "notification_provider_status",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 146
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0171",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/notifications/test-send",
+   "registration": "REGISTERED_STATIC",
+   "handler": "test_send_notification",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 165
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0172",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/notifications/reminders/scan",
+   "registration": "REGISTERED_STATIC",
+   "handler": "scan_appointment_reminders_endpoint",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 179
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0173",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/notifications/reminders/pending",
+   "registration": "REGISTERED_STATIC",
+   "handler": "list_pending_reminders_endpoint",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 200
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0174",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/telephony/inbound-metadata",
+   "registration": "REGISTERED_STATIC",
+   "handler": "record_inbound_metadata_endpoint",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 255
+   },
+   "auth_signal": "NOT_DETECTED",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0175",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/outbound/call",
+   "registration": "REGISTERED_STATIC",
+   "handler": "create_outbound_call",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 283
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0176",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/outbound/calls",
+   "registration": "REGISTERED_STATIC",
+   "handler": "list_outbound_calls",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 300
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0177",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/outbound/calls/{id}/cancel",
+   "registration": "REGISTERED_STATIC",
+   "handler": "cancel_call",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 315
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0178",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/outbound/calls/{id}/complete",
+   "registration": "REGISTERED_STATIC",
+   "handler": "complete_call",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 324
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0179",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/outbound/ami-status",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_ami_status",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 337
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0180",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/outbound/campaign-dial",
+   "registration": "REGISTERED_STATIC",
+   "handler": "campaign_dial",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 354
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0181",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/outbound/amd-analyze",
+   "registration": "REGISTERED_STATIC",
+   "handler": "amd_analyze",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 384
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0182",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/outbound/amd-evaluate-call",
+   "registration": "REGISTERED_STATIC",
+   "handler": "amd_evaluate_call",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 396
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0183",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/outbound/retry-queue",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_retry_queue",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 414
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0184",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/outbound/retry-process",
+   "registration": "REGISTERED_STATIC",
+   "handler": "trigger_retry_process",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 426
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0185",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/outbound/campaign-stats",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_campaign_stats",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 436
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0186",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/audiosocket/stats",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_audiosocket_stats_endpoint",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 445
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0187",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/audiosocket/simulate-bargein",
+   "registration": "REGISTERED_STATIC",
+   "handler": "simulate_barge_in_endpoint",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 451
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0188",
+   "protocol": "WS",
+   "method": "WEBSOCKET",
+   "path_template": "/ws/asterisk",
+   "registration": "REGISTERED_STATIC",
+   "handler": "asterisk_chan_websocket_endpoint",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 476
+   },
+   "auth_signal": "NOT_DETECTED",
+   "side_effect": "UNKNOWN",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0189",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/chan-websocket/stats",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_chan_websocket_stats_endpoint",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 482
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0190",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/chan-websocket/flush",
+   "registration": "REGISTERED_STATIC",
+   "handler": "trigger_chan_websocket_flush_endpoint",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 488
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0191",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/transfers",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_transfers_endpoint",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 499
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0192",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/transfers/{id}",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_transfer_detail_endpoint",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 515
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0193",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/transfers/initiate",
+   "registration": "REGISTERED_STATIC",
+   "handler": "initiate_transfer_endpoint",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 530
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0194",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/transfers/{id}/accept",
+   "registration": "REGISTERED_STATIC",
+   "handler": "accept_transfer_endpoint",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 556
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0195",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/transfers/{id}/decline",
+   "registration": "REGISTERED_STATIC",
+   "handler": "decline_transfer_endpoint",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 567
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0196",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/transfers/{id}/dtmf",
+   "registration": "REGISTERED_STATIC",
+   "handler": "transfer_dtmf_endpoint",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 580
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0197",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/whatsapp/messages",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_whatsapp_messages_endpoint",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 592
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0198",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/whatsapp/inbound",
+   "registration": "REGISTERED_STATIC",
+   "handler": "whatsapp_inbound_endpoint",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 599
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0199",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/whatsapp/inbound-voice",
+   "registration": "REGISTERED_STATIC",
+   "handler": "whatsapp_inbound_voice_endpoint",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 615
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0200",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/webhooks/whatsapp",
+   "registration": "REGISTERED_STATIC",
+   "handler": "whatsapp_webhook_endpoint",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 656
+   },
+   "auth_signal": "NOT_DETECTED",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0201",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/whatsapp/inbound-image",
+   "registration": "REGISTERED_STATIC",
+   "handler": "whatsapp_inbound_image_endpoint",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 716
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0202",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/analytics/evaluate-call",
+   "registration": "REGISTERED_STATIC",
+   "handler": "evaluate_call_endpoint",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 746
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0203",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/analytics/calls",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_analytics_calls_endpoint",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 764
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0204",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/analytics/call-stats",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_analytics_call_stats_endpoint",
+   "source_ref": {
+    "path": "backend/routers/telephony.py",
+    "line": 774
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0205",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/normalize",
+   "registration": "REGISTERED_STATIC",
+   "handler": "normal",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 62
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0206",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/frontend/normalize-prosody",
+   "registration": "REGISTERED_STATIC",
+   "handler": "frontend_normalize_prosody",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 70
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0207",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/frontend/dsp-telephony",
+   "registration": "REGISTERED_STATIC",
+   "handler": "frontend_dsp_telephony",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 78
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0208",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/frontend/status",
+   "registration": "REGISTERED_STATIC",
+   "handler": "frontend_status",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 103
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0209",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/frontend/morphological-check",
+   "registration": "REGISTERED_STATIC",
+   "handler": "frontend_morphological_check",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 108
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0210",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/sft/prepare-corpus",
+   "registration": "REGISTERED_STATIC",
+   "handler": "sft_prepare_corpus",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 137
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0211",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/sft/configure",
+   "registration": "REGISTERED_STATIC",
+   "handler": "sft_configure",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 148
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0212",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/sft/train-step",
+   "registration": "REGISTERED_STATIC",
+   "handler": "sft_train_step",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 162
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0213",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/sft/status",
+   "registration": "REGISTERED_STATIC",
+   "handler": "sft_status",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 168
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0214",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/sft/verify-identity",
+   "registration": "REGISTERED_STATIC",
+   "handler": "sft_verify_identity",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 173
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0215",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/sft/lora/configure",
+   "registration": "REGISTERED_STATIC",
+   "handler": "sft_lora_configure",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 178
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0216",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/sft/lora/status",
+   "registration": "REGISTERED_STATIC",
+   "handler": "sft_lora_status",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 198
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0217",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/sft/lora/benchmark-step",
+   "registration": "REGISTERED_STATIC",
+   "handler": "sft_lora_benchmark_step",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 207
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0218",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/synthesize",
+   "registration": "REGISTERED_STATIC",
+   "handler": "synth",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 222
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0219",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/hotwords",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_hotwords",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 236
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0220",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/hotwords",
+   "registration": "REGISTERED_STATIC",
+   "handler": "update_hotwords",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 248
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0221",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/lexicon",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_lexicon",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 255
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0222",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/lexicon",
+   "registration": "REGISTERED_STATIC",
+   "handler": "update_lexicon",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 260
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0223",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/lexicon/reset",
+   "registration": "REGISTERED_STATIC",
+   "handler": "reset_lexicon",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 272
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0224",
+   "protocol": "HTTP",
+   "method": "DELETE",
+   "path_template": "/api/lexicon/{term:path}",
+   "registration": "REGISTERED_STATIC",
+   "handler": "delete_lexicon",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 277
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0225",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/ab/templates",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_ab_templates",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 289
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0226",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/ab/experiments",
+   "registration": "REGISTERED_STATIC",
+   "handler": "list_ab_experiments",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 298
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0227",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/ab/experiments",
+   "registration": "REGISTERED_STATIC",
+   "handler": "create_ab_experiment_endpoint",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 305
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0228",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/ab/experiments/{id}",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_ab_experiment_endpoint",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 321
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0229",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/ab/experiments/{id}/status",
+   "registration": "REGISTERED_STATIC",
+   "handler": "update_ab_experiment_status_endpoint",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 330
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0230",
+   "protocol": "HTTP",
+   "method": "GET",
+   "path_template": "/api/ab/experiments/{id}/report",
+   "registration": "REGISTERED_STATIC",
+   "handler": "get_ab_experiment_report_endpoint",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 339
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "READ",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0231",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/ab/preview-synth",
+   "registration": "REGISTERED_STATIC",
+   "handler": "ab_preview_synth",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 348
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  },
+  {
+   "api_id": "API-0232",
+   "protocol": "HTTP",
+   "method": "POST",
+   "path_template": "/api/voice/chat-turn",
+   "registration": "REGISTERED_STATIC",
+   "handler": "voice_chat_turn_endpoint",
+   "source_ref": {
+    "path": "backend/routers/text_speech.py",
+    "line": 365
+   },
+   "auth_signal": "DEPENDENCY_PRESENT",
+   "side_effect": "WRITE_OR_ACTION",
+   "verified_by_test": null
+  }
+ ],
+ "limitations": [
+  "Statik tarama (AST/regex); çalışma kanıtı değildir.",
+  "side_effect yönteme göre sezgisel: GET=READ, diğerleri WRITE_OR_ACTION; doğrulanmadı.",
+  "auth_signal yalnız router/dekoratör bağımlılığı veya parametre adı sinyalidir; yetkilendirme doğrulanmadı.",
+  "Dinamik yol kaydı (app.add_api_route, mount) ayrıca aranmadı."
+ ]
+}

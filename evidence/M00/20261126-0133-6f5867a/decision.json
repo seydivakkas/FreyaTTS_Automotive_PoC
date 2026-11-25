@@ -1,0 +1,69 @@
+{
+ "package": "M00",
+ "package_status": "HOLD",
+ "run_id": "20261126-0133-6f5867a",
+ "gates": [
+  {
+   "id": "M00-G00",
+   "status": "PASS",
+   "reason": "İzlenen dosyaların özeti değişmedi; yalnız evidence/M00 eklendi; yıkıcı git işlemi yok."
+  },
+  {
+   "id": "M00-G01",
+   "status": "PASS",
+   "reason": "HEAD, dal, temiz ağaç, ortam ve kapsam BASELINE_MANIFEST.json içinde."
+  },
+  {
+   "id": "M00-G02",
+   "status": "PASS",
+   "reason": "759 izlenen yol sınıflandırıldı (SOURCE_SCOPE.json); ikili dosyalar ve gizli kalıplar gerekçeyle dışlandı."
+  },
+  {
+   "id": "M00-G03",
+   "status": "HOLD",
+   "reason": "232 API AST ile kayıtlı ve router eşleşmeli (PASS düzeyinde); arayüz yalnız bileşen düzeyinde eşlendi, kontrol (buton) düzeyinde eşleme yapılmadı."
+  },
+  {
+   "id": "M00-G04",
+   "status": "PASS",
+   "reason": "34 tablo + ORM; yazma/iş akışı fonksiyonları WORKFLOW_INVENTORY.json; canlı DB açılmadı. Not: caller_profiles göçte yok (RISK-0014)."
+  },
+  {
+   "id": "M00-G05",
+   "status": "HOLD",
+   "reason": "PIPELINE_TRACE.md dosya/sembol düzeyinde; çağrı grafiği ve kenar biçimleri ayrıntılı izlenmedi."
+  },
+  {
+   "id": "M00-G06",
+   "status": "PASS",
+   "reason": "87 yapılandırma kaydı, model başvuruları ve 33 deney sınıflandırıldı; model özetleri null + neden."
+  },
+  {
+   "id": "M00-G07",
+   "status": "PASS",
+   "reason": "85 test dosyası envanterde; taban (44 toplama hatası) ve CI eşdeğeri tanı (1533/21/5) sonuçları ve başarısızlıklar kayıtlı; tarihsel ölçümler ayrı. Sapma: yalıtılmış sanal ortama paket kuruldu (M00_REPORT §Sapmalar)."
+  },
+  {
+   "id": "M00-G08",
+   "status": "HOLD",
+   "reason": "51 özellik kaydı anahtar sözcük eşleşmesiyle; kontrol düzeyinde kapsam ve hedef sahip ataması (API yüzeyleri UNRESOLVED) M08/G2 için açık."
+  },
+  {
+   "id": "M00-G09",
+   "status": "PASS",
+   "reason": "M01_HANDOFF.md: C1–C15 karşılıkları ve iki paralel yapı (backend/ ve automotive_voice/) notu."
+  },
+  {
+   "id": "M00-G10",
+   "status": "PASS",
+   "reason": "Gizli anahtar, kişisel veri, gerçek SIP veya müşteri yazması yok; test günlüğünde yalnız CI sahte değerleri (yazdırılmadı)."
+  }
+ ],
+ "h01_entry_allowed": true,
+ "m01_ready": false,
+ "reviewer": {
+  "independent": false,
+  "name_or_session": null
+ },
+ "next_package_started": false
+}

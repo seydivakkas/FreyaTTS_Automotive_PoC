@@ -1,0 +1,815 @@
+{
+ "schema_version": "m00.v1",
+ "run_id": "20261126-0133-6f5867a",
+ "baseline_commit": "6f5867af52dd8d3fd706dc6c9ddd4a42a2dd360f",
+ "generated_at_utc": "2026-11-25T22:33:21+00:00",
+ "config_files": [
+  "config/automotive_compiled_lexicon.json",
+  "config/automotive_flat_lexicon.json",
+  "config/automotive_foreign_lexicon.json",
+  "config/development.json",
+  "config/freya_vocab.json",
+  "config/freyatts_automotive_lexicon.json",
+  "config/lexicon.json",
+  "config/lexicon_categories.json",
+  "config/m10_adapter_dryrun.example.json",
+  "config/milestones/development.json",
+  "config/milestones/m10_adapter_dryrun.example.json",
+  "config/stress_exceptions.json"
+ ],
+ "model_references": {
+  ".pt": [
+   "backend/sft_leyla.py",
+   "tests/test_sft_leyla.py"
+  ],
+  ".safetensors": [
+   "automotive_voice/m11/__main__.py"
+  ],
+  "Large-v3": [
+   "generate_doc2.py"
+  ],
+  "Qwen": [
+   "generate_doc2.py",
+   "tests/test_e2e_automotive_cockpit.py"
+  ],
+  "Qwen2.5": [
+   "backend/caller_memory.py",
+   "backend/routers/text_speech.py",
+   "generate_doc.py"
+  ],
+  "SEED = 9": [
+   "archive/automotive_freya_poc.py",
+   "backend/batched_ode.py",
+   "backend/pause_breath_cleaner.py",
+   "backend/qa_telemetry_operator.py",
+   "experimental/prosody_wsola_streamer.py"
+  ],
+  "Silero": [
+   "backend/car_denoiser.py",
+   "backend/main.py",
+   "backend/routers/core_system.py",
+   "generate_doc.py",
+   "scripts/generate_docx_report.py",
+   "scripts/generate_executive_docx.py"
+  ],
+  "large-v3-turbo": [
+   "backend/config.py",
+   "generate_doc.py"
+  ],
+  "num_gpu": [
+   "backend/models.py"
+  ],
+  "qwen2.5:7b": [
+   "backend/config.py",
+   "scripts/generate_executive_docx.py"
+  ],
+  "seed = 9": [
+   "backend/session.py"
+  ],
+  "seed=1000": [
+   "tests/test_e2e_automotive_cockpit.py"
+  ],
+  "seed=101": [
+   "tests/test_e2e_automotive_cockpit.py"
+  ],
+  "seed=102": [
+   "tests/test_e2e_automotive_cockpit.py"
+  ],
+  "seed=42": [
+   "archive/automotive_freya_poc.py",
+   "tests/test_batched_ode.py",
+   "tests/test_e2e_automotive_cockpit.py",
+   "tests/test_p5_latency.py"
+  ],
+  "seed=55": [
+   "tests/test_e2e_automotive_cockpit.py"
+  ],
+  "seed=77": [
+   "tests/test_batched_ode.py"
+  ],
+  "seed=9": [
+   "tests/test_ab_testing.py",
+   "tests/test_batched_ode.py",
+   "tests/test_dtmf.py",
+   "tests/test_p5_latency.py",
+   "tests/test_transfer.py"
+  ],
+  "seed=999": [
+   "tests/test_e2e_automotive_cockpit.py"
+  ],
+  "silero": [
+   "backend/models.py"
+  ]
+ },
+ "model_file_digests": null,
+ "model_file_digest_reason": "Ağırlıklar depoda değil; denetim ortamında model yok.",
+ "records": [
+  {
+   "cfg_id": "CFG-0001",
+   "kind": "env",
+   "key": "AMI_SECRET",
+   "consumers": [
+    "tests/conftest.py"
+   ]
+  },
+  {
+   "cfg_id": "CFG-0002",
+   "kind": "env",
+   "key": "AUDIOSOCKET_PORT",
+   "consumers": [
+    "scripts/voice_acceptance.py"
+   ]
+  },
+  {
+   "cfg_id": "CFG-0003",
+   "kind": "env",
+   "key": "AUDIO_ARCHIVE_MASTER_KEY",
+   "consumers": [
+    "tests/conftest.py"
+   ]
+  },
+  {
+   "cfg_id": "CFG-0004",
+   "kind": "env",
+   "key": "AUTO_LOAD_MODELS",
+   "consumers": [
+    "tests/conftest.py"
+   ]
+  },
+  {
+   "cfg_id": "CFG-0005",
+   "kind": "env",
+   "key": "DATABASE_URL",
+   "consumers": [
+    "scripts/acoustic_benchmark.py",
+    "scripts/check_ui_routes.py",
+    "scripts/voice_acceptance.py",
+    "tests/conftest.py"
+   ]
+  },
+  {
+   "cfg_id": "CFG-0006",
+   "kind": "env",
+   "key": "DATA_DIR",
+   "consumers": [
+    "scripts/check_ui_routes.py",
+    "tests/conftest.py"
+   ]
+  },
+  {
+   "cfg_id": "CFG-0007",
+   "kind": "env",
+   "key": "DEMO_MODE",
+   "consumers": [
+    "scripts/acoustic_benchmark.py",
+    "scripts/seed_demo_telemetry.py",
+    "tests/conftest.py"
+   ]
+  },
+  {
+   "cfg_id": "CFG-0008",
+   "kind": "env",
+   "key": "LINK_SIGNING_KEY",
+   "consumers": [
+    "tests/conftest.py"
+   ]
+  },
+  {
+   "cfg_id": "CFG-0009",
+   "kind": "env",
+   "key": "REAL_MODELS",
+   "consumers": [
+    "scripts/voice_acceptance.py"
+   ]
+  },
+  {
+   "cfg_id": "CFG-0010",
+   "kind": "env",
+   "key": "VOICE_TEST_URL",
+   "consumers": [
+    "scripts/voice_acceptance.py"
+   ]
+  },
+  {
+   "cfg_id": "CFG-0011",
+   "kind": "env",
+   "key": "WHATSAPP_WEBHOOK_TOKEN",
+   "consumers": [
+    "tests/conftest.py"
+   ]
+  },
+  {
+   "cfg_id": "CFG-0012",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "admin_password",
+   "default": null,
+   "line": 14
+  },
+  {
+   "cfg_id": "CFG-0013",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "database_url",
+   "default": "sqlite:///./data/assistant.db",
+   "line": 15
+  },
+  {
+   "cfg_id": "CFG-0014",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "data_dir",
+   "default": null,
+   "line": 17
+  },
+  {
+   "cfg_id": "CFG-0015",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "demo_mode",
+   "default": false,
+   "line": 19
+  },
+  {
+   "cfg_id": "CFG-0016",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "ollama_url",
+   "default": "http://127.0.0.1:11434",
+   "line": 20
+  },
+  {
+   "cfg_id": "CFG-0017",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "ollama_model",
+   "default": "qwen2.5:7b",
+   "line": 21
+  },
+  {
+   "cfg_id": "CFG-0018",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "llm_timeout_sec",
+   "default": 20,
+   "line": 22
+  },
+  {
+   "cfg_id": "CFG-0019",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "ollama_gpu_layers",
+   "default": 8,
+   "line": 23
+  },
+  {
+   "cfg_id": "CFG-0020",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "freya_path",
+   "default": "vendor/FreyaTTS",
+   "line": 24
+  },
+  {
+   "cfg_id": "CFG-0021",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "tts_device",
+   "default": "cuda",
+   "line": 25
+  },
+  {
+   "cfg_id": "CFG-0022",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "auto_load_models",
+   "default": true,
+   "line": 26
+  },
+  {
+   "cfg_id": "CFG-0023",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "stt_catalog_hotwords",
+   "default": false,
+   "line": 27
+  },
+  {
+   "cfg_id": "CFG-0024",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "stt_min_rms",
+   "default": null,
+   "line": 28
+  },
+  {
+   "cfg_id": "CFG-0025",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "stt_model",
+   "default": "large-v3-turbo",
+   "line": 29
+  },
+  {
+   "cfg_id": "CFG-0026",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "stt_device",
+   "default": "cuda",
+   "line": 30
+  },
+  {
+   "cfg_id": "CFG-0027",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "stt_compute_type",
+   "default": "float16",
+   "line": 31
+  },
+  {
+   "cfg_id": "CFG-0028",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "audiosocket_host",
+   "default": "127.0.0.1",
+   "line": 32
+  },
+  {
+   "cfg_id": "CFG-0029",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "audiosocket_port",
+   "default": 9092,
+   "line": 33
+  },
+  {
+   "cfg_id": "CFG-0030",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "pbx_metadata_secret",
+   "default": null,
+   "line": 34
+  },
+  {
+   "cfg_id": "CFG-0031",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "kvkk_erasure_enabled",
+   "default": false,
+   "line": 35
+  },
+  {
+   "cfg_id": "CFG-0032",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "multi_vehicle_booking_enabled",
+   "default": false,
+   "line": 36
+  },
+  {
+   "cfg_id": "CFG-0033",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "twilio_enabled",
+   "default": false,
+   "line": 37
+  },
+  {
+   "cfg_id": "CFG-0034",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "auto_purge_transcripts",
+   "default": false,
+   "line": 38
+  },
+  {
+   "cfg_id": "CFG-0035",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "pbx_allowed_ips",
+   "default": null,
+   "line": 39
+  },
+  {
+   "cfg_id": "CFG-0036",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "record_audio",
+   "default": false,
+   "line": 40
+  },
+  {
+   "cfg_id": "CFG-0037",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "retention_days",
+   "default": 7,
+   "line": 41
+  },
+  {
+   "cfg_id": "CFG-0038",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "transcript_retention_days",
+   "default": 30,
+   "line": 43
+  },
+  {
+   "cfg_id": "CFG-0039",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "ami_host",
+   "default": "127.0.0.1",
+   "line": 44
+  },
+  {
+   "cfg_id": "CFG-0040",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "ami_port",
+   "default": 5038,
+   "line": 45
+  },
+  {
+   "cfg_id": "CFG-0041",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "ami_username",
+   "default": "freya",
+   "line": 46
+  },
+  {
+   "cfg_id": "CFG-0042",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "ami_secret",
+   "default": null,
+   "line": 47
+  },
+  {
+   "cfg_id": "CFG-0043",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "ami_enabled",
+   "default": false,
+   "line": 48
+  },
+  {
+   "cfg_id": "CFG-0044",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "ami_channel_prefix",
+   "default": "PJSIP",
+   "line": 49
+  },
+  {
+   "cfg_id": "CFG-0045",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "ami_trunk",
+   "default": "trunk",
+   "line": 50
+  },
+  {
+   "cfg_id": "CFG-0046",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "ami_context",
+   "default": "automotive-outbound",
+   "line": 51
+  },
+  {
+   "cfg_id": "CFG-0047",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "ami_exten",
+   "default": "9092",
+   "line": 52
+  },
+  {
+   "cfg_id": "CFG-0048",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "ami_callerid",
+   "default": "Maslak Ekspertiz <02129998877>",
+   "line": 53
+  },
+  {
+   "cfg_id": "CFG-0049",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "operator_extension",
+   "default": "6002",
+   "line": 54
+  },
+  {
+   "cfg_id": "CFG-0050",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "operator_context",
+   "default": "automotive-transfer",
+   "line": 55
+  },
+  {
+   "cfg_id": "CFG-0051",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "operator_whisper_timeout_sec",
+   "default": 15,
+   "line": 56
+  },
+  {
+   "cfg_id": "CFG-0052",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "branch_name",
+   "default": "Maslak Ekspertiz Merkezi",
+   "line": 57
+  },
+  {
+   "cfg_id": "CFG-0053",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "branch_address",
+   "default": "Maslak Mah. Atatürk Oto Sanayi Sitesi 2. Kısım No:12 Sarıyer/İstanbul",
+   "line": 58
+  },
+  {
+   "cfg_id": "CFG-0054",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "branch_latitude",
+   "default": 41.1118,
+   "line": 59
+  },
+  {
+   "cfg_id": "CFG-0055",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "branch_longitude",
+   "default": 29.0225,
+   "line": 60
+  },
+  {
+   "cfg_id": "CFG-0056",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "branch_maps_url",
+   "default": "https://maps.google.com/?q=41.1118,29.0225",
+   "line": 61
+  },
+  {
+   "cfg_id": "CFG-0057",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "whatsapp_webhook_token",
+   "default": null,
+   "line": 62
+  },
+  {
+   "cfg_id": "CFG-0058",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "notification_provider",
+   "default": "mock",
+   "line": 64
+  },
+  {
+   "cfg_id": "CFG-0059",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "twilio_account_sid",
+   "default": "",
+   "line": 65
+  },
+  {
+   "cfg_id": "CFG-0060",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "twilio_auth_token",
+   "default": null,
+   "line": 66
+  },
+  {
+   "cfg_id": "CFG-0061",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "twilio_from_number",
+   "default": "",
+   "line": 67
+  },
+  {
+   "cfg_id": "CFG-0062",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "twilio_whatsapp_from",
+   "default": "",
+   "line": 68
+  },
+  {
+   "cfg_id": "CFG-0063",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "audio_archive_master_key",
+   "default": null,
+   "line": 70
+  },
+  {
+   "cfg_id": "CFG-0064",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "link_signing_key",
+   "default": null,
+   "line": 72
+  },
+  {
+   "cfg_id": "CFG-0065",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "car_denoiser_enabled",
+   "default": true,
+   "line": 73
+  },
+  {
+   "cfg_id": "CFG-0066",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "car_denoiser_hpf_cutoff",
+   "default": 120.0,
+   "line": 74
+  },
+  {
+   "cfg_id": "CFG-0067",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "car_denoiser_suppression_db",
+   "default": 18.0,
+   "line": 75
+  },
+  {
+   "cfg_id": "CFG-0068",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "car_denoiser_target_dbfs",
+   "default": null,
+   "line": 76
+  },
+  {
+   "cfg_id": "CFG-0069",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "car_denoiser_noise_gate_dbfs",
+   "default": null,
+   "line": 77
+  },
+  {
+   "cfg_id": "CFG-0070",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "car_denoiser_max_boost_db",
+   "default": 12.0,
+   "line": 78
+  },
+  {
+   "cfg_id": "CFG-0071",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "car_denoiser_gate_attenuation_db",
+   "default": 30.0,
+   "line": 79
+  },
+  {
+   "cfg_id": "CFG-0072",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "max_concurrent_calls",
+   "default": 50,
+   "line": 80
+  },
+  {
+   "cfg_id": "CFG-0073",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "batched_ode_enabled",
+   "default": true,
+   "line": 81
+  },
+  {
+   "cfg_id": "CFG-0074",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "batched_ode_batch_size",
+   "default": 8,
+   "line": 82
+  },
+  {
+   "cfg_id": "CFG-0075",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "batched_ode_micro_window_ms",
+   "default": 12.0,
+   "line": 83
+  },
+  {
+   "cfg_id": "CFG-0076",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "batched_ode_steps",
+   "default": 32,
+   "line": 84
+  },
+  {
+   "cfg_id": "CFG-0077",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "batched_ode_default_seed",
+   "default": 9,
+   "line": 85
+  },
+  {
+   "cfg_id": "CFG-0078",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "chan_websocket_host",
+   "default": "127.0.0.1",
+   "line": 86
+  },
+  {
+   "cfg_id": "CFG-0079",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "chan_websocket_port",
+   "default": 8088,
+   "line": 87
+  },
+  {
+   "cfg_id": "CFG-0080",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "chan_websocket_enabled",
+   "default": true,
+   "line": 88
+  },
+  {
+   "cfg_id": "CFG-0081",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "morph_precheck_enabled",
+   "default": true,
+   "line": 89
+  },
+  {
+   "cfg_id": "CFG-0082",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "morph_precheck_pause_ms",
+   "default": 35,
+   "line": 90
+  },
+  {
+   "cfg_id": "CFG-0083",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "supervisor_mode",
+   "default": "off",
+   "line": 91
+  },
+  {
+   "cfg_id": "CFG-0084",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "fqici_enabled",
+   "default": false,
+   "line": 92
+  },
+  {
+   "cfg_id": "CFG-0085",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "supervisor_model_path",
+   "default": null,
+   "line": 93
+  },
+  {
+   "cfg_id": "CFG-0086",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "supervisor_model_sha256",
+   "default": "",
+   "line": 94
+  },
+  {
+   "cfg_id": "CFG-0087",
+   "kind": "settings_field",
+   "class": "Settings",
+   "key": "supervisor_llm_fallback",
+   "default": false,
+   "line": 95
+  }
+ ],
+ "limitations": [
+  "Statik tarama (AST/regex); çalışma kanıtı değildir.",
+  "Model dosyaları bu depoda yok; özet alınamadı (null).",
+  "Gizli anahtar varsayılanları yazılmadı."
+ ]
+}
