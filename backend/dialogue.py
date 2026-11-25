@@ -304,6 +304,9 @@ class Dialogue:
         self.max_history_turns = max_history_turns
         self.awaiting_multi_vehicle: bool = False
         self.multi_vehicle_planned: bool = False
+        # H01.04 (P7): her araç işlemine ayrı idempotency anahtarı; oluşan gerçek referanslar.
+        self.vehicle_seq: int = 0
+        self.booking_refs: list[str] = []
         self.awaiting_cancel_confirmation: bool = False
         self.inbound_intent: str | None = None
         self.target_appointment_id: str | None = None
@@ -318,8 +321,13 @@ class Dialogue:
         self.last_turn_trace: dict | None = None
         self.mutations_before_confirmation: int = 0
 
+    def _booking_key(self) -> str:
+        """Araç başına işlem anahtarı (H01.04). İlk araç geriye uyumlu olarak görüşme kimliğidir."""
+        return self.id if self.vehicle_seq == 0 else f"{self.id}:arac-{self.vehicle_seq + 1}"
+
     def reset_for_next_vehicle(self):
         """Aynı müşterinin ikinci veya sonraki aracı için randevu durumunu sıfırlar."""
+        self.vehicle_seq += 1
         self.vehicle = None
         self.slot = None
         self.plate = None
@@ -694,7 +702,7 @@ class Dialogue:
                         slot_id=self.slot,
                         vehicle_id=self.vehicle,
                         customer=self.customer,
-                        idempotency_key=self.id,
+                        idempotency_key=self._booking_key(),
                         confirmed=True,
                         corporate_account_id=self.corporate_account_id,
                         customer_phone=self.customer_phone,
@@ -935,6 +943,13 @@ class Dialogue:
             if not matched_vehicle:
                 return None
 
+            # H01.04: hızlı yolda söylenen ad kaybolmasın ("Adım Leyla Güven. Duster …").
+            if not self.customer:
+                first_sentence = re.split(r"[.!?,;]+", text, maxsplit=1)[0].strip()
+                parsed_name = parse_name_sentence(first_sentence) if first_sentence else None
+                if parsed_name:
+                    self.customer = parsed_name
+
             self.vehicle = matched_vehicle.id
             quote = db.scalars(select(Quote).where(Quote.vehicle_id == matched_vehicle.id)).first()
             if quote:
@@ -1022,9 +1037,26 @@ class Dialogue:
         turn_id = f"{self.id}-{len(self.history) // 2 + 1}"
         initial_status = self.booking_status.value
 
+        if (
+            (self.confirmed or self.done)
+            and self.booking_refs
+            and settings.multi_vehicle_booking_enabled
+            and _MULTI_VEHICLE_RE.search(_tr_lower(text))
+        ):
+            # H01.04: randevudan sonra "bir aracım daha var" → ikinci araç akışı (aynı müşteri).
+            self.reset_for_next_vehicle()  # booking_status IDLE, done False
+            ans = "Tabii ki. Diğer aracınızın marka ve modelini söyler misiniz?"
+            self.record_turn("user", text)
+            self.record_turn("assistant", ans)
+            self._record_turn_trace(turn_id, text, "next_vehicle", initial_status, db_mutations=0)
+            return ans
+
         if self.confirmed or self.done:
-            ref = "TEST-001" if (self.id.startswith(("NEW-", "PLATE-", "PRICE-", "FULL-", "CAR-", "MOVE-", "CANCEL-", "INFO-", "POC-")) or "test" in self.id.lower() or "demo" in self.id.lower()) else "TEST-001"
-            ans = f"Randevunuz oluşturulmuştur. Referansınız {ref}."
+            # H01.04: yalnız gerçekten oluşan randevunun referansı söylenir; yoksa makbuz uydurulmaz.
+            if self.booking_refs:
+                ans = f"Randevunuz oluşturulmuştur. Referansınız {self.booking_refs[-1]}."
+            else:
+                ans = "Görüşmemiz tamamlandı. Yeni bir işlem için lütfen tekrar arayın. İyi günler dilerim."
             self.record_turn("user", text)
             self.record_turn("assistant", ans)
             self._record_turn_trace(turn_id, text, "already_confirmed", initial_status, db_mutations=0)
@@ -1278,7 +1310,7 @@ class Dialogue:
                             slot_id=self.slot,
                             vehicle_id=self.vehicle,
                             customer=self.customer or "Değerli Müşterimiz",
-                            idempotency_key=self.id,
+                            idempotency_key=self._booking_key(),
                             confirmed=True,
                             corporate_account_id=self.corporate_account_id,
                             customer_phone=self.customer_phone,
@@ -1308,12 +1340,14 @@ class Dialogue:
                 else:
                     self.done = True
                     ref = "TEST-001" if (self.id.startswith(("NEW-", "PLATE-", "PRICE-", "FULL-", "CAR-", "MOVE-", "CANCEL-", "INFO-", "POC-")) or "test" in self.id.lower() or "demo" in self.id.lower()) else f"FRY-{app.id[:6].upper()}"
+                    self.booking_refs.append(ref)
                     if self.corporate_account_name:
                         ans = f"Randevunuz {self.corporate_account_name} kurumsal cari hesabınıza işlenerek oluşturuldu. Referansınız {ref}.{self._sms_note('Onay ve randevu detaylarını SMS ve WhatsApp ile iletiyorum.')} İyi günler dilerim."
                     else:
                         ans = f"Randevunuz oluşturuldu. Referansınız {ref}."
                         if self._sms_note(""):
                             ans += self._sms_note("Onay ve randevu detaylarını SMS olarak telefonunuza iletiyorum.")
+                        ans += " İyi günler dilerim."
                 self.record_turn("user", text)
                 self.record_turn("assistant", ans)
                 self._record_turn_trace(turn_id, text, "booking_confirmed", initial_status, db_mutations=1)

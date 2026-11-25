@@ -405,7 +405,7 @@ async def test_multi_vehicle_preplanned_booking(env, monkeypatch, fake_llm):
 
 
 @pytest.mark.asyncio
-async def test_multi_vehicle_sequential_inquiry(env, monkeypatch, fake_llm):
+async def test_multi_vehicle_sequential_inquiry(env, monkeypatch):
     monkeypatch.setattr(settings, "multi_vehicle_booking_enabled", True)
     """Müşteri tek araç randevusunu aldıktan sonra 'Bir aracım daha var' dediğinde diyalog devam eder."""
     phone = "05321239900"
@@ -418,10 +418,12 @@ async def test_multi_vehicle_sequential_inquiry(env, monkeypatch, fake_llm):
         db.commit()
 
     d = Dialogue("c-multi-2", customer_phone=phone)
-    # H01.01: canlı Ollama yerine SAHTE LLM yanıtı (tests/fakes/fake_llm.py); ağ çağrısı yok.
-    fake_llm.reply({"customer": "Leyla Güven", "vehicle_description": "Duster"})
-    await d.answer("Adım Leyla Güven. Duster aracım için randevu alacaktım.")
-    await d.answer("Birinci seçenek olsun.")
+    # H01.04: mevcut hızlı akış tek saat önerip plaka sorar ("Yarın … uygun. Plakanızı söyler
+    # misiniz?"); senaryo bu akışa göre güncellendi (eski "Birinci seçenek" adımı hiç eşleşmiyordu).
+    ans_offer = await d.answer("Adım Leyla Güven. Duster aracım için randevu alacaktım.")
+    assert "Plakanızı" in ans_offer
+    ans_plate = await d.answer("Plakam 34 DAC 55")
+    assert "onaylıyor musunuz" in ans_plate
     ans_booked = await d.answer("Evet, onaylıyorum.")
     assert "Randevunuz oluşturuldu" in ans_booked
 

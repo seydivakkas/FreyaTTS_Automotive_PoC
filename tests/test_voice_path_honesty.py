@@ -3,6 +3,7 @@
 import asyncio
 import json
 import logging
+import re
 from datetime import datetime, timedelta, timezone
 
 import numpy as np
@@ -263,7 +264,8 @@ async def test_voice_booking_without_provider_makes_no_sms_claim(env, provider_r
         d = _booking_dialogue(db)
     d.customer_phone = "05321112233"  # telefon bilinse bile sağlayıcı yok
     ans = await d.answer("Evet, onaylıyorum.")
-    assert ans == "Randevunuz oluşturuldu. İyi günler dilerim."
+    # H01.04: onay yanıtı gerçek randevu referansını (makbuz) taşır; kapanış cümlesi korunur.
+    assert re.fullmatch(r"Randevunuz oluşturuldu\. Referansınız FRY-[0-9A-F]{6}\. İyi günler dilerim\.", ans), ans
 
 
 async def test_voice_booking_real_provider_needs_phone(env, provider_restore):
