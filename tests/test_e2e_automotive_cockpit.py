@@ -152,8 +152,10 @@ def auth_headers():
 
 # --- Feature 1: Hybrid Audio & Text Streaming Pipeline (F0-F6) ---
 
-def test_tier1_f1_voice_chat_turn_basic_text_reply(client, auth_headers):
+def test_tier1_f1_voice_chat_turn_basic_text_reply(client, auth_headers, fake_llm):
     """F1.1: REST /api/voice/chat-turn üzerinden doğrudan metin sorgusu ve slot bilgisi yanıtı."""
+    # H01.01: canlı Ollama yerine SAHTE LLM yanıtı (tests/fakes/fake_llm.py); ağ çağrısı yok.
+    fake_llm.reply({})
     resp = client.post(
         "/api/voice/chat-turn",
         headers=auth_headers,

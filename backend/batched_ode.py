@@ -340,17 +340,17 @@ class BatchedODEEngine:
         Tek GPU geçişinde 8'li masked 32-step Euler ODE integratörünü çalıştırır.
         Her çağrı için bağımsız Gauss başlangıç gürültüsü (x_0) oluşturur.
         """
-        import torch
-
-        # Gerçek GPU modeli yüklüyse
+        # Gerçek GPU modeli yüklüyse (H01.01: torch yalnızca bu durumda içe aktarılır)
         if (
             self.tts_model is not None
             and self.vae is not None
             and self.char_to_id
-            and torch.cuda.is_available()
             and self.device == "cuda"
         ):
-            return self._solve_pytorch_batch(batch)
+            import torch
+
+            if torch.cuda.is_available():
+                return self._solve_pytorch_batch(batch)
 
         # Fallback / CPU Test Modu (Mock veya FreyaTTS _synth_one fallback)
         results = []

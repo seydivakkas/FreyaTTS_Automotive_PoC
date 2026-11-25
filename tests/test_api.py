@@ -562,7 +562,9 @@ def test_lexicon_management(client, tmp_path, monkeypatch):
     assert reset_res.json()["reset"] is True
 
 
-def test_voice_chat_turn_endpoint(client):
+def test_voice_chat_turn_endpoint(client, fake_llm):
+    # H01.01: canlı Ollama yerine SAHTE LLM yanıtı (tests/fakes/fake_llm.py); ağ çağrısı yok.
+    fake_llm.reply({})
     auth = ("admin", "test-password")
     res = client.post(
         "/api/voice/chat-turn",

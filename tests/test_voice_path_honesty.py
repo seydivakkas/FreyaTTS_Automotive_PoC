@@ -659,7 +659,8 @@ async def test_single_clause_plays_once(env, monkeypatch):
 
     try:
         await session.reply("Merhaba.")
-        play.assert_awaited_once_with(wave, session.generation)
+        # H01.01: play_wave telemetri için `source` alır (varsayılan "live"); tek çalma korunur.
+        play.assert_awaited_once_with(wave, session.generation, source="live")
         assert sum(event["type"] == "metrics" for event in events) == 1
     finally:
         await session.close()

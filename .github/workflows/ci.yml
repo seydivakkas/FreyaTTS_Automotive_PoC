@@ -24,7 +24,8 @@ jobs:
       # Surum kilit dosyasindakiyle ayni tutulur: torch==2.8.0.
       - run: uv sync --frozen --extra test
       - run: uv pip install "torch==2.8.0" --index-url https://download.pytorch.org/whl/cpu --extra-index-url https://pypi.org/simple
-      - run: uv run --no-sync pytest -q
+      # Varsayilan hermetik calistirma (CLAUDE.md kural 1): GPU/model, canli LLM ve PBX testleri haric.
+      - run: uv run --no-sync pytest -q -m "not llm and not gpu and not pbx"
       - run: uv run --no-sync alembic upgrade head
       - run: uv run --no-sync alembic check
       - run: uv run --no-sync python scripts/check_ui_routes.py

@@ -64,3 +64,29 @@ def real_ami():
     set_ami_client(fake)
     yield fake
     set_ami_client(previous)
+
+
+@pytest.fixture(autouse=True)
+def fake_llm(request, monkeypatch):
+    """H01.01 (HF02): `llm` işaretli olmayan testlerde canlı Ollama'ya hiç gidilmez.
+
+    `Models._chat` sahte LLM ile değiştirilir (varsayılan: erişilemez, yani
+    Ollama'sız CI ile aynı davranış) ve LLM/TTS devre kesicileri her test için
+    sıfırlanır; böylece bir testin bağlantı hataları diğerinin devre kesicisini
+    açık bırakmaz. Yanıt gereken test `fake_llm.reply({...})` çağırır.
+    """
+    if request.node.get_closest_marker("llm"):
+        yield None
+        return
+    from automotive_voice.adapters.lifecycle.breaker import CircuitBreaker
+    from backend.models import models
+    from tests.fakes.fake_llm import FakeLLM
+
+    fake = FakeLLM()
+    monkeypatch.setattr(models, "_chat", fake.chat)
+    monkeypatch.setattr(
+        models,
+        "breakers",
+        {name: CircuitBreaker(threshold=3, cooldown_ns=10_000_000_000) for name in ("tts", "llm")},
+    )
+    yield fake
