@@ -144,6 +144,8 @@ class VoiceSession:
         models.vad.reset_states()
         self.generation = 0
         self.task = None
+        self._pending_audio = None
+        self._pending_speech_end = None
         self.playing = False
         self.generating = 0
         self.paused = False
@@ -274,6 +276,8 @@ class VoiceSession:
                 and time.monotonic() - self.last_input > 15
             ):
                 self.last_input = time.monotonic()
+                self._pending_audio = None
+                self._pending_speech_end = None
                 self.task = asyncio.create_task(self.process(np.zeros(0, np.float32)))
 
     async def recalibrate(self, duration_sec: float = 1.5):
@@ -378,11 +382,21 @@ class VoiceSession:
                 )
         for utterance in utterances:
             self.last_input = time.monotonic()
-            if self.task and not self.task.done():
-                self.task.cancel()
-            self.task = asyncio.create_task(
-                self.process(utterance, self.endpoint.last_voice_at)
-            )
+            self._schedule_utterance(utterance, self.endpoint.last_voice_at)
+
+    def _schedule_utterance(self, audio, speech_end):
+        # HF06: F3'e teslim edilmemiş bölümü kaybetmeden yeni PCM ile birleştir.
+        if self.task and not self.task.done():
+            pending = getattr(self, "_pending_audio", None)
+            if pending is not None:
+                self._pending_audio = np.concatenate((pending, audio))
+                self._pending_speech_end = speech_end
+                return
+            # F3'e teslim edilmiş bir turda mevcut barge-in davranışı korunur.
+            self.task.cancel()
+        self._pending_audio = audio
+        self._pending_speech_end = speech_end
+        self.task = asyncio.create_task(self.process(audio, speech_end))
 
     async def process(self, audio, speech_end=None):
         start = time.monotonic()
@@ -392,24 +406,40 @@ class VoiceSession:
                 "type": "pipeline_event",
                 "event": make_pipeline_event(self.id, current_turn, "F2", "running", source="live"),
             })
-            text = await models.transcribe(audio) if len(audio) else ""
-            text = text.strip()
-            stt_ms = (time.monotonic() - start) * 1000
-
-            await self.emit({
-                "type": "pipeline_event",
-                "event": make_pipeline_event(
-                    self.id, current_turn, "F2", "completed",
-                    duration_ms=stt_ms,
-                    metrics={
-                        "char_count": len(text),
-                        "word_count": len(text.split()),
-                        "stt_unrecognized": not text,
-                    },
-                    intermediate_data={"raw_transcript": text},
-                    source="live",
-                ),
-            })
+            # Yeni bölüm ilk ASR çalışırken geldiyse birleşik PCM'yi yeniden çöz.
+            # F3'ten önce yalnız son birleşik transkript iş etkisine girebilir.
+            tracked = asyncio.current_task() is getattr(self, "task", None) and getattr(self, "_pending_audio", None) is not None
+            while True:
+                if tracked:
+                    audio = self._pending_audio
+                    speech_end = self._pending_speech_end
+                start = time.monotonic()
+                text = await models.transcribe(audio) if len(audio) else ""
+                text = text.strip()
+                stt_ms = (time.monotonic() - start) * 1000
+                if tracked and self._pending_audio is not audio:
+                    continue
+                await self.emit({
+                    "type": "pipeline_event",
+                    "event": make_pipeline_event(
+                        self.id, current_turn, "F2", "completed",
+                        duration_ms=stt_ms,
+                        metrics={
+                            "char_count": len(text),
+                            "word_count": len(text.split()),
+                            "stt_unrecognized": not text,
+                        },
+                        intermediate_data={"raw_transcript": text},
+                        source="live",
+                    ),
+                })
+                if tracked and self._pending_audio is not audio:
+                    continue
+                # Karar/iş etkisi başlamadan önce birleşik bölümü mühürle.
+                if tracked:
+                    self._pending_audio = None
+                    self._pending_speech_end = None
+                break
 
             if not text:
                 self.save("metric", "", {"stt_unrecognized": 1})
