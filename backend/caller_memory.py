@@ -47,6 +47,53 @@ def normalize_plate(plate: Optional[str]) -> str:
     return cleaned
 
 
+def find_caller_profile(db, phone: Optional[str] = None) -> Optional[CallerProfile]:
+    """Yalnız arayan numarasıyla profil arar; **oluşturmaz**, ad veya plakayla eşleştirmez.
+
+    H01.03 / ADR-F3-01: arayan numarası yalnızca eşleştirme ipucudur. Özel kayıt bu
+    profilden ancak ikinci bilgi (doğum yılı, yoksa plaka son 3–4 hanesi) doğrulandıktan
+    sonra okunur.
+    """
+    norm_phone = normalize_phone(phone)
+    if not norm_phone:
+        return None
+    return db.query(CallerProfile).filter(CallerProfile.phone == norm_phone).first()
+
+
+def verification_method(profile: Optional[CallerProfile]) -> str:
+    """ADR-F3-01: kayıtta doğum yılı varsa "birth_year", yoksa "plate_suffix"."""
+    if profile is not None and getattr(profile, "birth_year", None):
+        return "birth_year"
+    return "plate_suffix"
+
+
+def verify_caller_answer(profile: Optional[CallerProfile], method: str, answer: str) -> bool:
+    """Arayanın ikinci bilgisini sabit biçimde karşılaştırır. Profil yoksa her zaman False.
+
+    Değerler hiçbir yere yazılmaz ve günlüğe alınmaz.
+    """
+    if profile is None or not answer:
+        return False
+    if method == "birth_year":
+        expected = str(getattr(profile, "birth_year", "") or "").strip()
+        return bool(expected) and expected in re.findall(r"(?<!\d)(?:19|20)\d{2}(?!\d)", answer)
+    plate = re.sub(r"[^A-Za-z0-9]", "", str(profile.plate or "")).upper()
+    if len(plate) < 5:
+        return False
+    tokens = [re.sub(r"[^A-Za-z0-9]", "", t).upper() for t in str(answer).split()]
+    tokens = [t for t in tokens if t]
+    candidates = set(tokens)
+    if tokens:
+        candidates.add("".join(tokens))
+        candidates.add("".join(tokens[-2:]))
+    for cand in candidates:
+        if cand == plate:
+            return True
+        if len(cand) in (3, 4) and plate.endswith(cand) and any(ch.isdigit() for ch in cand):
+            return True
+    return False
+
+
 def get_or_create_caller_profile(
     db,
     phone: Optional[str] = None,

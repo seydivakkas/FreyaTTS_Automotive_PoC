@@ -179,17 +179,16 @@ async def test_caller_profile_and_reference_resolution(dispatch_db):
 
     d = dialogue.Dialogue("test-mem-ground", customer_phone="05321234567", mode="inbound")
 
-    # Müşteri adı otomatik yüklenmiş olmalı
-    assert d.customer == "Ahmet Yılmaz"
+    # H01.03 (ADR-F3-01): profil adı doğrulamasız yüklenmez; hafıza LLM durum mesajına girmez.
+    assert d.customer is None
+    state = d.build_state_message() or ""
+    assert "Peugeot 3008" not in state
+    assert "61 TS 061" not in state
 
-    # Durum mesajında hafıza yer almalı
-    state = d.build_state_message()
-    assert state is not None
-    assert "Peugeot 3008" in state
-    assert "61 TS 061" in state
-
-    # Garanti sorgusu
-    ans_war = await d.answer("Aracımın garantisi devam ediyor mu?")
+    # Garanti sorgusu: önce ikinci bilgi (plaka son 3 hanesi) istenir, sonra okunur.
+    challenge = await d.answer("Aracımın garantisi devam ediyor mu?")
+    assert "plaka" in challenge.lower() and "Peugeot" not in challenge
+    ans_war = await d.answer("061")
     assert "aktif" in ans_war.lower() or "devam etmektedir" in ans_war.lower()
 
     # Geçmiş bakım / balata sorgusu

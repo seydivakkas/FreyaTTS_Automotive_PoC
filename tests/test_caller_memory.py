@@ -225,12 +225,12 @@ async def test_dialogue_state_message_contains_memory_context(memory_db):
 
     d = dialogue.Dialogue("mem-test-state", customer_phone="05321234567")
     d.caller_profile = p
-    state_msg = d.build_state_message()
-    assert state_msg is not None
-    assert "Ahmet Yılmaz" in state_msg
-    assert "Peugeot 3008" in state_msg
-    assert "61 TS 061" in state_msg
-    assert "balata" in state_msg.lower()
+    state_msg = d.build_state_message() or ""
+    # H01.03 (kural 10, ADR-F3-01): arayan profili LLM durum mesajına girmez.
+    assert "Ahmet Yılmaz" not in state_msg
+    assert "Peugeot 3008" not in state_msg
+    assert "61 TS 061" not in state_msg
+    assert "balata" not in state_msg.lower()
 
 
 @pytest.mark.asyncio
@@ -248,7 +248,10 @@ async def test_dialogue_multi_turn_warranty_resolution(memory_db):
         db.commit()
 
     d = dialogue.Dialogue("mem-test-warranty", customer_phone="05321234567")
-    ans = await d.answer("Aracımın garantisi devam ediyor mu?")
+    # H01.03 (ADR-F3-01): numara eşleşmesi yetmez; plaka son 3 hanesiyle doğrulama sonrası okunur.
+    challenge = await d.answer("Aracımın garantisi devam ediyor mu?")
+    assert "plaka" in challenge.lower()
+    ans = await d.answer("061")
     assert "garanti" in ans.lower()
     assert "devam etmektedir" in ans or "aktif" in ans.lower()
 
@@ -274,6 +277,9 @@ async def test_dialogue_multi_turn_past_brake_pad_resolution(memory_db):
         db.commit()
 
     d = dialogue.Dialogue("mem-test-brake", customer_phone="05321234567")
-    ans = await d.answer("Geçen sefer konuştuğumuz balata değişimi yapılmış mıydı?")
+    # H01.03 (ADR-F3-01): numara eşleşmesi yetmez; plaka son 3 hanesiyle doğrulama sonrası okunur.
+    challenge = await d.answer("Geçen sefer konuştuğumuz balata değişimi yapılmış mıydı?")
+    assert "plaka" in challenge.lower()
+    ans = await d.answer("061")
     assert "balata" in ans.lower()
     assert "2026-09-12" in ans or "45000" in ans or "yapılmıştır" in ans
