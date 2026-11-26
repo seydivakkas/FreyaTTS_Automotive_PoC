@@ -1,0 +1,40 @@
+{
+  "package": "H01",
+  "package_status": "HOLD",
+  "tested_commit": "e7c26e212e4791dc81d7b92dc817d22a98022495",
+  "current_candidate": "0bf446df1b7e886c4697749c84f735a86299ad8f",
+  "gates": [
+    {
+      "id": "H01-G00",
+      "status": "HOLD",
+      "reason": "Scope deviations awaiting plan approval."
+    },
+    {
+      "id": "H01-G01",
+      "status": "PASS",
+      "reason": "HF01 and HF02 on tested e7c26e2: torch absent, 0 blocked live/external attempts, 1584 passed; latest candidate verification pending."
+    },
+    {
+      "id": "H01-G02",
+      "status": "HOLD",
+      "reason": "Final acceptance and full regression review incomplete."
+    },
+    {
+      "id": "H01-G03",
+      "status": "HOLD",
+      "reason": "Real Silero VAD API and ADR still pending."
+    },
+    {
+      "id": "H01-G04",
+      "status": "HOLD",
+      "reason": "Real seed-9 greeting evidence and review pending."
+    },
+    {
+      "id": "H01-G05",
+      "status": "HOLD",
+      "reason": "390px browser test failed on tested SHA; 0bf446d candidate CI in progress."
+    }
+  ],
+  "m01_ready": false,
+  "next_package_started": false
+}

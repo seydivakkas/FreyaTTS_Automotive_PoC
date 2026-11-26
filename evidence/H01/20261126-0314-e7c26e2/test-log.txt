@@ -1,0 +1,21 @@
+Job 139600410475 (filtered original result lines)
+2026-11-26T00:15:06.6561851Z HF02 Python socket audit: blocked_live_or_external_attempts=0; allowed_synthetic_connections=0
+2026-11-26T00:15:06.6570972Z 1590/1591 tests collected (1 deselected) in 8.36s
+2026-11-26T00:15:54.2750572Z HF02 Python socket audit: blocked_live_or_external_attempts=0; allowed_synthetic_connections=23
+2026-11-26T00:15:54.2759988Z 1584 passed, 8 skipped, 1 deselected, 1 warning, 44 subtests passed in 46.13s
+
+Job 139600410760 (filtered original result lines)
+2026-11-26T00:16:17.9495426Z 1585 passed, 6 skipped, 17 deselected, 1 warning, 44 subtests passed in 63.50s (0:01:03)
+2026-11-26T00:16:20.6119839Z No new upgrade operations detected.
+2026-11-26T00:16:57.9608032Z   ✓  1 tests/ui.spec.ts:31:3 › Yönetim ekranları 1440px (1.4s)
+2026-11-26T00:17:28.0340354Z   ✘  2 tests/ui.spec.ts:31:3 › Yönetim ekranları 390px (30.0s)
+2026-11-26T00:17:30.5521378Z   ✓  3 tests/ui.spec.ts:105:3 › Tüm sekmeler yatay taşma yapmaz 1440px (2.0s)
+2026-11-26T00:17:32.3293640Z   ✓  4 tests/ui.spec.ts:105:3 › Tüm sekmeler yatay taşma yapmaz 390px (1.8s)
+2026-11-26T00:17:32.5495206Z   ✓  5 tests/ui.spec.ts:126:1 › Yanlış parola Türkçe hata gösterir (203ms)
+2026-11-26T00:17:32.8787067Z   ✓  6 tests/ui.spec.ts:134:1 › Çıkış giriş ekranına döner ve parolayı temizler (318ms)
+2026-11-26T00:17:33.2720171Z   ✓  7 tests/ui.spec.ts:144:1 › İlk randevu rehberi panelden ilk randevuyu yönlendirir ve takvime bağlar (378ms)
+2026-11-26T00:17:33.3194169Z   1) tests/ui.spec.ts:31:3 › Yönetim ekranları 390px ───────────────────────────────────────────────
+2026-11-26T00:17:33.3201392Z     Test timeout of 30000ms exceeded.
+2026-11-26T00:17:33.3204366Z   1 failed
+2026-11-26T00:17:33.3205057Z     tests/ui.spec.ts:31:3 › Yönetim ekranları 390px ────────────────────────────────────────────────
+2026-11-26T00:17:33.3205571Z   6 passed (37.9s)
