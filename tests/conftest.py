@@ -58,21 +58,29 @@ if _NETWORK_GUARD:
 
     socket.socket.bind = _tracked_bind
 
-    def _deny():
+    def _deny(event):
+        import traceback
+
         _network_counts["blocked"] += 1
+        # Record only source coordinates; do not log network addresses or payloads.
+        frames = traceback.extract_stack(limit=24)[:-1]
+        coordinates = " -> ".join(
+            f"{Path(f.filename).name}:{f.lineno}:{f.name}" for f in frames
+        )
+        print(f"HF02 denied {event}; test={os.environ.get('PYTEST_CURRENT_TEST', '<collection>')}; stack={coordinates}", file=sys.stderr)
         raise RuntimeError("HF02: external/live network attempt blocked")
 
     def _audit_network(event, args):
         if event in ("socket.getaddrinfo", "socket.gethostbyname", "socket.gethostbyname_ex"):
             if not _loopback(args[0]):
-                _deny()
+                _deny(event)
         elif event in ("socket.connect", "socket.sendto"):
             address = args[1]
             if not isinstance(address, tuple) or not _loopback(address[0]):
-                _deny()
+                _deny(event)
             port = address[1]
             if port in _live_ports:
-                _deny()
+                _deny(event)
             # Only a still-open loopback socket bound by this test process.
             for listener in list(_synthetic_listeners):
                 try:
@@ -82,7 +90,7 @@ if _NETWORK_GUARD:
                         return
                 except OSError:
                     continue
-            _deny()
+            _deny(event)
 
     sys.addaudithook(_audit_network)
 
