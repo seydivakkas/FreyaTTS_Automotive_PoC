@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "baseline_commit": "6f5867af52dd8d3fd706dc6c9ddd4a42a2dd360f",
+  "source_class": "STATIC_CODE_REVIEW",
+  "sources": [
+    "UI_INVENTORY.json",
+    "UI_CONTROL_SUPPLEMENT_01.json",
+    "UI_CONTROL_SUPPLEMENT_02.json",
+    "UI_CONTROL_SUPPLEMENT_03.json",
+    "UI_CONTROL_SUPPLEMENT_04.json",
+    "API_INVENTORY.json",
+    "FEATURE_REGISTRY.json"
+  ],
+  "counts": {
+    "component_records": 43,
+    "control_records": 387,
+    "unique_ui_ids": 430,
+    "total_ui_records": 430,
+    "api_records": 232,
+    "unique_api_ids": 232,
+    "feature_records": 51,
+    "unique_feature_ids": 51,
+    "control_source_files": 32,
+    "control_bindings": {
+      "HANDLER_REQUIRES_TRACE": 349,
+      "API_CANDIDATE": 9,
+      "UNRESOLVED": 26,
+      "NAVIGATION_OR_DOWNLOAD": 1,
+      "UNRESOLVED_API": 2
+    },
+    "unresolved_target_owner_features": [
+      "FT-CORE-0001",
+      "FT-CORE-0002",
+      "FT-CORE-0003",
+      "FT-CORE-0004",
+      "FT-CORE-0005",
+      "FT-CORE-0006",
+      "FT-CORE-0007",
+      "FT-CORE-0008",
+      "FT-CORE-0009",
+      "FT-CORE-0010",
+      "FT-CORE-0011",
+      "FT-CORE-0012",
+      "FT-CORE-0013",
+      "FT-CORE-0014"
+    ]
+  },
+  "broken_candidate_references": [],
+  "gates": {
+    "M00-G03": {
+      "status": "HOLD",
+      "reason": "Kontrol kayıtları mevcut; olay işleyicisi -> API -> yetki/özellik eşlemesi ve dinamik kontrol envanteri tamamlanmadı."
+    },
+    "M00-G05": {
+      "status": "HOLD",
+      "reason": "PIPELINE_EDGE_SUPPLEMENT.md statik ana zinciri güçlendirdi; alternatif ve hata yollarının eksiksizliği doğrulanmadı."
+    },
+    "M00-G08": {
+      "status": "HOLD",
+      "reason": "Aday kimlik bağlantıları kontrol edildi; tüm kontrol/özellik eşlemeleri ve hedef sahipler kesinleşmedi."
+    }
+  },
+  "package_status": "HOLD",
+  "m01_ready": false,
+  "limitations": [
+    "Sayım JSX kaynak taramasıdır; tarayıcı DOM kapsamı değildir.",
+    "Kimlik bütünlüğü semantik bağlantı doğrulaması değildir.",
+    "Önceki M00 decision.json ve taban kanıtları değişmeden korunmuştur."
+  ]
+}
