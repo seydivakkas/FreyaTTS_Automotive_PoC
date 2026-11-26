@@ -1,0 +1,52 @@
+name: Isolated source review export
+on:
+  push:
+    branches: [audit/m00-source-review]
+permissions:
+  contents: read
+jobs:
+  source-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: e7c26e212e4791dc81d7b92dc817d22a98022495
+          fetch-depth: 0
+          persist-credentials: false
+          path: code
+      - uses: actions/checkout@v4
+        with:
+          repository: seydivakkas/FreyaOtomotivUltra
+          ref: e5bc38e447c0103487fe781e0484c66e675f8c77
+          persist-credentials: false
+          path: plan
+      - name: Export only tracked source and documentation
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/export"
+          python - <<'PY'
+          from pathlib import Path
+          import subprocess, zipfile
+          root = Path.cwd()
+          allowed = {".py", ".ts", ".tsx", ".js", ".css", ".html", ".json", ".md", ".toml", ".yaml", ".yml", ".sql", ".txt", ".ini", ".cfg", ".lock"}
+          def export(repo, ref, name, prefixes):
+              files = subprocess.check_output(["git", "-C", repo, "ls-tree", "-r", "--name-only", "-z", ref]).decode().split("\0")
+              with zipfile.ZipFile(root/"export"/name, "w", zipfile.ZIP_DEFLATED) as z:
+                  for path in files:
+                      p = Path(path)
+                      if not path or any(x.startswith(".env") for x in p.parts) or p.suffix.lower() not in allowed:
+                          continue
+                      if not any(path.startswith(x) for x in prefixes):
+                          continue
+                      content = subprocess.check_output(["git", "-C", repo, "show", ref+":"+path])
+                      if len(content) <= 3_000_000:
+                          z.writestr(path, content)
+          prefixes=("backend/","frontend/src/","frontend/tests/","frontend/public/","frontend/package","automotive_voice/","experimental/","tests/","contracts/","config/","migrations/","scripts/","docs/","pyproject.toml","uv.lock","alembic.ini","AGENTS.md","CLAUDE.md",".github/workflows/")
+          export("code","6f5867af52dd8d3fd706dc6c9ddd4a42a2dd360f","baseline.zip",prefixes)
+          export("code","e7c26e212e4791dc81d7b92dc817d22a98022495","candidate.zip",prefixes)
+          export("plan","e5bc38e447c0103487fe781e0484c66e675f8c77","plan.zip",("docs/","scripts/","CLAUDE.md","AGENTS.md","README.md"))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: source-review
+          path: export/*.zip
+          retention-days: 1
