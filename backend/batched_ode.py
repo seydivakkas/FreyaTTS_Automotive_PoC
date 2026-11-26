@@ -168,8 +168,10 @@ class BatchedODEEngine:
     - 12 ms mikro-pencerede (`micro_window_ms = 12.0`) farklı çağrıların yan cümlelerini biriktirir.
     - 8'li dinamik GPU yığınlama (`batch_size = 8`) ile 32 adımlı Euler ODE çözücüsünü
       tek GPU geçişinde çalıştırır.
-    - RTX 4090 / CUDA ortamında 3.8 GB VRAM ile saniyede 65+ saniye ses (RTF <= 0.015) üretir.
-    - İzole `LEYLA_SEED = 9` ve bağımsız Gauss başlangıç gürültüsü ile 2.3 Hz F0 ses kararlılığını korur.
+    - Performans (VRAM, RTF, saniyede üretilen ses) ÖLÇÜLMEDİ; hedef donanım RTX 4070
+      Laptop 8 GB. Önceki "RTX 4090 / RTF <= 0.015" ifadesi kaynaksızdı (H01.13).
+    - Her öğe kendi ses profili seed'iyle (varsayılan Leyla 9) ve bağımsız Gauss başlangıç
+      gürültüsüyle sentezlenir; F0 kararlılığı ölçülmedi (Ölçüm bekleniyor).
     - `check_voicedness >= 0.06` denetimi ile fısıltı çökmelerini yakalayıp otomatik telafi eder.
     """
 
@@ -257,8 +259,11 @@ class BatchedODEEngine:
         """
         Tüm cümleyi veya yan cümleyi mikro-yığınlayarak sentezler.
         """
+        if seed is None:
+            # H01.10 (N3): seed ses profilinden gelir; sessizce LEYLA_SEED'e dönülmez.
+            raise ValueError("Sentez için ses profili seed'i verilmeli")
         norm_text = normalize(text)["normalized"]
-        used_seed = seed if seed is not None else LEYLA_SEED
+        used_seed = seed
         clause_list = list(clauses(norm_text))
 
         if not clause_list:
@@ -290,7 +295,10 @@ class BatchedODEEngine:
     async def _process_queue_now(self) -> None:
         """Kuyruktaki en fazla batch_size elemanı çeker ve GPU Euler ODE çözücüsüne verir."""
         async with self._queue_lock:
+            # HF12: iptal edilen bekleyiciler GPU yığınına girmemeli.
+            self._queue = [item for item in self._queue if not item.future.done()]
             if not self._queue:
+                self._collector_task = None
                 return
             batch = self._queue[: self.batch_size]
             self._queue = self._queue[self.batch_size :]
@@ -318,6 +326,8 @@ class BatchedODEEngine:
                     batch[0].future.set_exception(batch_error)
                 return
             for item in batch:
+                if item.future.done():
+                    continue
                 try:
                     solve_start = time.monotonic()
                     single = await asyncio.to_thread(self._solve_ode_batch, [item])
@@ -340,17 +350,17 @@ class BatchedODEEngine:
         Tek GPU geçişinde 8'li masked 32-step Euler ODE integratörünü çalıştırır.
         Her çağrı için bağımsız Gauss başlangıç gürültüsü (x_0) oluşturur.
         """
-        import torch
-
-        # Gerçek GPU modeli yüklüyse
+        # Gerçek GPU modeli yüklüyse (H01.01: torch yalnızca bu durumda içe aktarılır)
         if (
             self.tts_model is not None
             and self.vae is not None
             and self.char_to_id
-            and torch.cuda.is_available()
             and self.device == "cuda"
         ):
-            return self._solve_pytorch_batch(batch)
+            import torch
+
+            if torch.cuda.is_available():
+                return self._solve_pytorch_batch(batch)
 
         # Fallback / CPU Test Modu (Mock veya FreyaTTS _synth_one fallback)
         results = []
@@ -379,10 +389,11 @@ class BatchedODEEngine:
             # Seslilik kontrolü
             v_score = check_voicedness(w, SAMPLE_RATE)
             if v_score < 0.06:
-                # Fısıltı çökmesi tespit edildi -> Leyla 9 ile hazırla ve yeniden sentezle
+                # Fısıltı çökmesi tespit edildi -> aynı ses profili seed'iyle yeniden sentezle
+                # (H01.10: yedek yol seed'i LEYLA_SEED'e çevirmez).
                 self.whisper_collapses_prevented += 1
                 if self.synth_fallback_fn is not None:
-                    w = self.synth_fallback_fn(prepare_tts_clause(item.text), seed=LEYLA_SEED)
+                    w = self.synth_fallback_fn(prepare_tts_clause(item.text), seed=item.seed)
 
             w_clean = apply_fade_and_comfort_noise(w)
             results.append(w_clean)

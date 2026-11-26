@@ -61,14 +61,15 @@ async def test_real_adapter_bridge_has_bounded_failure_budget(monkeypatch):
     models.tts = object()
     calls = []
 
-    def fail(text):
+    # H01.10: _synth artık seed'i anahtar sözcükle alır; TypeError'da seed'siz yeniden deneme yok.
+    def fail(text, seed=None):
         calls.append(text)
         raise RuntimeError("model unavailable")
 
     monkeypatch.setattr(models, "_synth", fail)
     for _ in range(3):
         with pytest.raises(RuntimeError):
-            await models.synth("Merhaba")
+            await models.synth("Merhaba", seed=9)
     with pytest.raises(RuntimeError, match="beklemede"):
-        await models.synth("Merhaba")
+        await models.synth("Merhaba", seed=9)
     assert len(calls) == 3

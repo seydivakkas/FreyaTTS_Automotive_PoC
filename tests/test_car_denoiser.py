@@ -279,6 +279,8 @@ def test_dsp_rest_endpoints():
 @pytest.mark.asyncio
 async def test_session_denoiser_integration(tmp_path, monkeypatch):
     """VoiceSession oturumunda CarDenoiser'ın devrede olduğunu ve çalıştığını doğrular."""
+    # H01.01: Endpoint.feed Silero VAD için torch kullanır; torch yoksa atlanır.
+    pytest.importorskip("torch")
     test_db = str(tmp_path / "session_dsp_test.db")
     engine = create_engine(f"sqlite:///{test_db}", connect_args={"check_same_thread": False})
     Base.metadata.create_all(engine)

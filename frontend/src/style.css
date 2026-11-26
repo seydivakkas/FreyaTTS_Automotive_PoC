@@ -2769,3 +2769,85 @@ button.primary {
   border: 1px solid rgba(52, 211, 153, 0.3);
 }
 
+
+/* Narrow viewport: navigation and workspace each remain reachable. The expanded
+   onboarding guide cannot consume the entire workspace. */
+@media (max-width: 768px) {
+  .cockpit-layout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 25dvh) minmax(0, 1fr);
+    height: 100dvh;
+    max-height: 100dvh;
+  }
+  .cockpit-sidebar {
+    height: auto;
+    max-height: 25dvh;
+    min-height: 0;
+    overflow-y: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .cockpit-main-workspace {
+    height: auto;
+    max-height: none;
+    min-height: 0;
+    min-width: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 8px;
+  }
+  .cockpit-header {
+    flex-wrap: wrap;
+    overflow-wrap: anywhere;
+  }
+  .first-appointment-guide-container {
+    max-height: 22dvh;
+    overflow: auto;
+    flex: 0 0 auto;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .cockpit-content-viewport {
+    flex: 1 0 50dvh;
+    min-height: 50dvh;
+    min-width: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .workbench-grid {
+    height: auto;
+    overflow: auto;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+  }
+  .workbench-col {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Lab has one vertical scroll owner, not nested grid/column scrollers. */
+  .cockpit-content-viewport > .lab-tab {
+    height: auto !important;
+    min-height: 0;
+    flex: 0 0 auto;
+    overflow: visible !important;
+  }
+  .lab-tab .workbench-grid {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 auto;
+    height: auto;
+    overflow: visible;
+  }
+  .lab-tab .workbench-col {
+    flex: 0 0 auto;
+    height: auto;
+    overflow: visible;
+  }
+  .lab-tab .workbench-col:nth-child(2) { order: -1; }
+  .lab-tab .workbench-card-header { flex-wrap: wrap; }
+  .lab-tab button { max-width: 100%; overflow-wrap: anywhere; }
+}

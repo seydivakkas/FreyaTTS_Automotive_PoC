@@ -32,8 +32,6 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Dict, Optional, Tuple, Union
 
-import torch
-
 logger = logging.getLogger("gpu_health_circuit_breaker")
 
 
@@ -163,7 +161,11 @@ class GpuHealthCircuitBreaker:
             return True, "simulated", None, None, None, occ_pct, self._sim_temp_c, None, True
 
         # 2. Gerçek donanım sorgusu
-        has_cuda = torch.cuda.is_available() and torch.cuda.device_count() > 0
+        try:  # H01.01: torch yalnızca gerçek donanım sorgusunda, tembel yüklenir
+            import torch
+        except ImportError:
+            torch = None
+        has_cuda = bool(torch is not None and torch.cuda.is_available() and torch.cuda.device_count() > 0)
         gpu_name = torch.cuda.get_device_name(0) if has_cuda else "unknown"
 
         # Ölçülemeyen her değer None kalır (0 / 35°C gibi uydurma varsayılan yok)

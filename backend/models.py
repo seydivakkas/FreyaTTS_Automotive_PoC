@@ -1,4 +1,5 @@
 import asyncio
+import copy
 import logging
 import sys
 import time
@@ -16,6 +17,9 @@ from sqlalchemy import select
 from sqlalchemy.exc import SQLAlchemyError
 from backend.db import Session, Vehicle
 
+# Leyla varsayılan ses profili (CLAUDE.md kural 7). Seed başka hiçbir yolda varsayılmaz.
+LEYLA_DEFAULT_SEED = 9
+
 logger = logging.getLogger("automotive_voice.models")
 
 # Sabit cümle önbelleği sınırı ve hotword önbelleği ömrü.
@@ -27,6 +31,74 @@ PREWARM_PHRASES = (
     "Adınızı ve soyadınızı söyler misiniz?",
     "Sizi anlayamadım. Tekrar söyler misiniz?",
 )
+
+
+# H01.06 / ADR-F1-01 candidate B: shared weights, session-local recurrent state.
+# Real pinned Silero JIT validation and ADR acceptance are required before merge.
+class SharedVadPool:
+    """Serialize model inference while transferring only session-local state.
+
+    The real streaming model must expose all four state fields. Unsupported
+    model interfaces fail explicitly rather than sharing state across calls.
+    """
+    STATE_FIELDS = ("_state", "_context", "_last_sr", "_last_batch_size")
+
+    def __init__(self, model):
+        self.model = model
+        self._lock = threading.RLock()
+        self._usable = True
+        missing = [name for name in self.STATE_FIELDS if not hasattr(model, name)]
+        if missing:
+            raise RuntimeError("Silero VAD oturum durum sözleşmesi desteklenmiyor: " + ", ".join(missing))
+        # Only once, on a newly loaded model, before any session exists.
+        with self._lock:
+            self.model.reset_states()
+            self._initial = self._capture()
+            # Verify state can be restored at initialization, not mid-call.
+            self._restore(self._initial)
+
+    @staticmethod
+    def _copy(value):
+        clone = getattr(value, "clone", None)
+        return clone() if callable(clone) else copy.deepcopy(value)
+
+    def _capture(self):
+        return {name: self._copy(getattr(self.model, name)) for name in self.STATE_FIELDS}
+
+    def _restore(self, state):
+        for name in self.STATE_FIELDS:
+            setattr(self.model, name, self._copy(state[name]))
+
+    def new_session(self):
+        return _VadSession(self, {name: self._copy(v) for name, v in self._initial.items()})
+
+    def infer(self, session, samples, rate):
+        with self._lock:
+            if not self._usable:
+                raise RuntimeError("Silero VAD durum geri yükleme başarısız; çıkarım durduruldu")
+            previous = self._capture()
+            try:
+                self._restore(session.state)
+                result = self.model(samples, rate)
+                updated = self._capture()
+            finally:
+                # Also restore on a failed inference; do not publish partial state.
+                try:
+                    self._restore(previous)
+                except Exception:
+                    self._usable = False
+                    raise
+            session.state = updated
+            return result
+
+
+class _VadSession:
+    def __init__(self, pool, state):
+        self.pool = pool
+        self.state = state
+
+    def __call__(self, samples, rate):
+        return self.pool.infer(self, samples, rate)
 
 
 class Models:
@@ -62,6 +134,22 @@ class Models:
     @last_llm_metrics.setter
     def last_llm_metrics(self, value):
         self._last_llm_metrics.set(value)
+
+    def new_vad_session(self):
+        """Create isolated VAD state; production Silero uses one shared model.
+
+        Existing injected/custom model objects are explicitly copied, never reset
+        in place. This compatibility path is not used by the Silero loader.
+        """
+        if self.vad is None:
+            raise RuntimeError("VAD hazır değil")
+        if isinstance(self.vad, SharedVadPool):
+            return self.vad.new_session()
+        private = copy.deepcopy(self.vad)
+        if private is self.vad:
+            raise RuntimeError("Enjekte edilen VAD modeli oturumdan yalıtılamıyor")
+        private.reset_states()
+        return private
 
     async def load(self):
         async with self.load_lock:
@@ -100,9 +188,12 @@ class Models:
 
     @staticmethod
     def _cache_key(text, seed):
+        # H01.10 (N3): seed'siz anahtar 9 varsayılmaz; seed yoksa önbellek kullanılmaz.
+        if seed is None:
+            return None
         try:
             prepared = prepare_tts_clause(text)
-            return normalize(prepared)["normalized"], seed if seed is not None else 9
+            return normalize(prepared)["normalized"], seed
         except ValueError:
             return None
 
@@ -144,7 +235,7 @@ class Models:
         başarısız kılmaz; ilk hatada ısıtma bırakılır (devre kesiciyi zorlamamak için).
         """
         try:
-            await self.synth("Merhaba.")  # yalnızca ısınma; önbelleğe girmez
+            await self.synth("Merhaba.", seed=LEYLA_DEFAULT_SEED)  # yalnızca ısınma; önbelleğe girmez
             from backend.text import clauses
 
             seen = set()
@@ -204,7 +295,7 @@ class Models:
                 compute_type=settings.stt_compute_type,
             )
         if self.vad is None:
-            self.vad = load_silero_vad()
+            self.vad = SharedVadPool(load_silero_vad())
         if self.batched_ode_engine is None:
             from backend.batched_ode import BatchedODEEngine
 
@@ -222,6 +313,9 @@ class Models:
         self.error = None
 
     async def synth(self, text, seed: int | None = None):
+        if seed is None:
+            # H01.10 (N3): seed her zaman ses profilinden gelir; sessizce 9'a dönülmez.
+            raise ValueError("Sentez için ses profili seed'i verilmeli")
         text = prepare_tts_clause(text)
         key = self._cache_key(text, seed)
         hit = self._synth_cache.get(key) if key is not None else None
@@ -267,10 +361,8 @@ class Models:
             if not breaker.allow(time.monotonic_ns()):
                 raise RuntimeError("TTS geçici hata sonrasında beklemede")
             try:
-                try:
-                    result = self._synth(text, seed=seed)
-                except TypeError:
-                    result = self._synth(text)
+                # H01.10: TypeError'da seed'siz yeniden deneme yok (seed sessizce düşmez).
+                result = self._synth(text, seed=seed)
             except ValueError:
                 breaker.abandon_probe()
                 raise
@@ -284,7 +376,9 @@ class Models:
     def _synth(self, text, seed: int | None = None):
         t = normalize(text)["normalized"]
         parts = []
-        used_seed = seed if seed is not None else 9
+        if seed is None:
+            raise ValueError("Sentez için ses profili seed'i verilmeli")
+        used_seed = seed
         for part, pause in clauses(t):
             missing = set(part) - set(self.tts.char_to_id)
             if missing:

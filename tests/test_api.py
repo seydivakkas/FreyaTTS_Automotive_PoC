@@ -106,7 +106,13 @@ def test_ws_busy_line_has_distinct_close_code(client, monkeypatch):
     assert closed.value.reason == "line_busy"
 
 
-def test_teardown_failure_releases_single_call_capacity(client, monkeypatch):
+async def test_teardown_failure_releases_single_call_capacity(client, monkeypatch):
+    """Deterministik ASGI sınırı: TestClient context iptali ile close() yarışmaz."""
+    import time
+    from backend.batched_ode import ConcurrentCallController
+
+    closed = []
+
     class BrokenClose:
         def __init__(self, channel, emit, send):
             self.emit = emit
@@ -116,17 +122,47 @@ def test_teardown_failure_releases_single_call_capacity(client, monkeypatch):
             await self.emit({"type": "session"})
 
         async def close(self):
+            closed.append(True)
             raise RuntimeError("close failed")
 
+    class Socket:
+        query_params = {"ticket": "synthetic-teardown"}
+
+        def __init__(self):
+            self.close_called = False
+
+        async def accept(self):
+            pass
+
+        async def receive_json(self):
+            return {"sample_rate": 48000, "encoding": "pcm_s16le", "channels": 1}
+
+        async def receive(self):
+            return {"type": "websocket.disconnect"}
+
+        async def send_json(self, event):
+            pass
+
+        async def close(self, **kwargs):
+            self.close_called = True
+
+    # Gerçek kapasite denetleyicisi, tek slot; sahte ASGI taşıyıcı.
+    controller = ConcurrentCallController(max_concurrent=1)
+    monkeypatch.setattr(main, "active", controller)
     monkeypatch.setattr(main, "VoiceSession", BrokenClose)
-    token = client.post("/api/session-ticket", auth=("admin", "test-password")).json()[
-        "ticket"
-    ]
+    monkeypatch.setattr(main.settings, "auto_load_models", False)
+    monkeypatch.setitem(main.tickets, "synthetic-teardown", time.monotonic() + 30)
+    ws = Socket()
     with pytest.raises(RuntimeError, match="close failed"):
-        with client.websocket_connect("/ws/voice?ticket=" + token) as ws:
-            ws.send_json({"sample_rate": 48000, "encoding": "pcm_s16le", "channels": 1})
-            assert ws.receive_json()["type"] == "session"
-    assert not main.active.locked()
+        await main.voice(ws)
+    assert closed == [True]
+    assert ws.close_called
+    assert controller.active_count == 0
+    assert not controller.locked()
+    await controller.acquire()
+    assert controller.locked()
+    controller.release()
+    assert not controller.locked()
 
 
 def test_vehicle_crud(client):
@@ -562,7 +598,9 @@ def test_lexicon_management(client, tmp_path, monkeypatch):
     assert reset_res.json()["reset"] is True
 
 
-def test_voice_chat_turn_endpoint(client):
+def test_voice_chat_turn_endpoint(client, fake_llm):
+    # H01.01: canlı Ollama yerine SAHTE LLM yanıtı (tests/fakes/fake_llm.py); ağ çağrısı yok.
+    fake_llm.reply({})
     auth = ("admin", "test-password")
     res = client.post(
         "/api/voice/chat-turn",

@@ -85,7 +85,24 @@ class VoiceSession:
         self.ab_experiment_id = variant_cfg.get("experiment_id")
         self.ab_variant_id = variant_cfg.get("variant_id")
         self.prompt_template = variant_cfg.get("prompt_template", "standard")
-        self.tts_seed = 9  # Leyla kadın sesi deterministik kilidi (Seed 9)
+        # H01.10 (N3): seed ses profilinden (A/B deney varyantı) gelir; varsayılan Leyla seed 9.
+        # 9 dışı profil seed'i sessizce 9'a çevrilmez ve geçersiz değer sessizce yutulmaz:
+        # her iki durum da olay olarak kaydedilir.
+        from backend.models import LEYLA_DEFAULT_SEED
+
+        profile_seed = variant_cfg.get("tts_seed", LEYLA_DEFAULT_SEED)
+        seed_event = None
+        if isinstance(profile_seed, bool) or not isinstance(profile_seed, int):
+            seed_event = {"event": "voice_seed_invalid_profile", "requested": repr(profile_seed),
+                          "seed": LEYLA_DEFAULT_SEED, "variant_id": self.ab_variant_id}
+            profile_seed = LEYLA_DEFAULT_SEED
+        elif profile_seed != LEYLA_DEFAULT_SEED:
+            seed_event = {"event": "voice_seed_profile", "seed": profile_seed,
+                          "source": "ab_variant", "variant_id": self.ab_variant_id}
+        self.tts_seed = profile_seed
+        if seed_event is not None:
+            logger.info("Ses profili seed olayı: %s", seed_event)
+            self.save("event", "", seed_event)
         self.greeting_template = variant_cfg.get("greeting_template", "standard")
         self.start_time = time.monotonic()
         self.first_audio_ms_val = None
@@ -105,7 +122,7 @@ class VoiceSession:
             from backend.supervisor.runtime import WebSupervisor
 
             self.supervisor = WebSupervisor(self.id, settings.supervisor_mode)
-        self.endpoint = Endpoint(models.vad)
+        self.endpoint = Endpoint(models.new_vad_session())
         from backend.dtmf import GoertzelDetector
         self.goertzel_detector = GoertzelDetector(sample_rate=16000)
         from backend.car_denoiser import InboundCarDenoiser
@@ -124,9 +141,11 @@ class VoiceSession:
         from backend.audiosocket_server import LookbackBuffer, TwoStageBargeInController
         self.lookback_buffer = LookbackBuffer(capacity_frames=15, frame_bytes=320)
         self.bargein_controller = TwoStageBargeInController()
-        models.vad.reset_states()
+        # HF07: a new session must never reset the shared model.
         self.generation = 0
         self.task = None
+        self._pending_audio = None
+        self._pending_speech_end = None
         self.playing = False
         self.generating = 0
         self.paused = False
@@ -190,8 +209,10 @@ class VoiceSession:
                 )
                 veh_str = veh.description if veh else "aracınız"
                 cust_str = app.customer if app else "Müşterimiz"
-                greeting_text = (
-                    f"İyi günler Sayın {cust_str}. Maslak Ekspertiz Merkezinden arıyorum. "
+                from backend.ab_testing import with_ai_disclosure
+
+                greeting_text = with_ai_disclosure(
+                    f"Sayın {cust_str}, Maslak Ekspertiz Merkezinden arıyorum. "
                     f"{veh_str} aracınız için {time_str} saatindeki ekspertiz randevunuzu teyit etmek amacıyla aradık. "
                     f"Randevunuza gelebilecek misiniz?"
                 )
@@ -228,8 +249,10 @@ class VoiceSession:
                     if diag
                     else "kritik motor arıza uyarısı"
                 )
-                greeting_text = (
-                    f"İyi günler Sayın {cust_str}. Maslak Otomotiv Ekspertiz ve Servis Merkezinden arıyorum. "
+                from backend.ab_testing import with_ai_disclosure
+
+                greeting_text = with_ai_disclosure(
+                    f"Sayın {cust_str}, Maslak Otomotiv Ekspertiz ve Servis Merkezinden arıyorum. "
                     f"OBD teşhis sistemimiz üzerinden {veh_str} aracınızda {dtc_str} algılandı. "
                     f"Sürüş güvenliğiniz için kontrol randevusu oluşturmak ister misiniz?"
                 )
@@ -253,6 +276,8 @@ class VoiceSession:
                 and time.monotonic() - self.last_input > 15
             ):
                 self.last_input = time.monotonic()
+                self._pending_audio = None
+                self._pending_speech_end = None
                 self.task = asyncio.create_task(self.process(np.zeros(0, np.float32)))
 
     async def recalibrate(self, duration_sec: float = 1.5):
@@ -297,7 +322,7 @@ class VoiceSession:
                 self.is_calibrating = False
                 self._calibration_event.set()
                 await self.emit({"type": "calibration_done", **info})
-            return
+            # HF08: Kalibrasyon sesin VAD/STT yoluna iletilmesini kesmez.
 
         # 8 kHz Araç İçi Gürültü Bastırma (120 Hz HPF, -18 dB Spektral Denoise, Soft AGC)
         if hasattr(self, "car_denoiser") and self.car_denoiser is not None and self.car_denoiser.enabled:
@@ -357,11 +382,21 @@ class VoiceSession:
                 )
         for utterance in utterances:
             self.last_input = time.monotonic()
-            if self.task and not self.task.done():
-                self.task.cancel()
-            self.task = asyncio.create_task(
-                self.process(utterance, self.endpoint.last_voice_at)
-            )
+            self._schedule_utterance(utterance, self.endpoint.last_voice_at)
+
+    def _schedule_utterance(self, audio, speech_end):
+        # HF06: F3'e teslim edilmemiş bölümü kaybetmeden yeni PCM ile birleştir.
+        if self.task and not self.task.done():
+            pending = getattr(self, "_pending_audio", None)
+            if pending is not None:
+                self._pending_audio = np.concatenate((pending, audio))
+                self._pending_speech_end = speech_end
+                return
+            # F3'e teslim edilmiş bir turda mevcut barge-in davranışı korunur.
+            self.task.cancel()
+        self._pending_audio = audio
+        self._pending_speech_end = speech_end
+        self.task = asyncio.create_task(self.process(audio, speech_end))
 
     async def process(self, audio, speech_end=None):
         start = time.monotonic()
@@ -371,24 +406,40 @@ class VoiceSession:
                 "type": "pipeline_event",
                 "event": make_pipeline_event(self.id, current_turn, "F2", "running", source="live"),
             })
-            text = await models.transcribe(audio) if len(audio) else ""
-            text = text.strip()
-            stt_ms = (time.monotonic() - start) * 1000
-
-            await self.emit({
-                "type": "pipeline_event",
-                "event": make_pipeline_event(
-                    self.id, current_turn, "F2", "completed",
-                    duration_ms=stt_ms,
-                    metrics={
-                        "char_count": len(text),
-                        "word_count": len(text.split()),
-                        "stt_unrecognized": not text,
-                    },
-                    intermediate_data={"raw_transcript": text},
-                    source="live",
-                ),
-            })
+            # Yeni bölüm ilk ASR çalışırken geldiyse birleşik PCM'yi yeniden çöz.
+            # F3'ten önce yalnız son birleşik transkript iş etkisine girebilir.
+            tracked = asyncio.current_task() is getattr(self, "task", None) and getattr(self, "_pending_audio", None) is not None
+            while True:
+                if tracked:
+                    audio = self._pending_audio
+                    speech_end = self._pending_speech_end
+                start = time.monotonic()
+                text = await models.transcribe(audio) if len(audio) else ""
+                text = text.strip()
+                stt_ms = (time.monotonic() - start) * 1000
+                if tracked and self._pending_audio is not audio:
+                    continue
+                await self.emit({
+                    "type": "pipeline_event",
+                    "event": make_pipeline_event(
+                        self.id, current_turn, "F2", "completed",
+                        duration_ms=stt_ms,
+                        metrics={
+                            "char_count": len(text),
+                            "word_count": len(text.split()),
+                            "stt_unrecognized": not text,
+                        },
+                        intermediate_data={"raw_transcript": text},
+                        source="live",
+                    ),
+                })
+                if tracked and self._pending_audio is not audio:
+                    continue
+                # Karar/iş etkisi başlamadan önce birleşik bölümü mühürle.
+                if tracked:
+                    self._pending_audio = None
+                    self._pending_speech_end = None
+                break
 
             if not text:
                 self.save("metric", "", {"stt_unrecognized": 1})
@@ -734,7 +785,14 @@ class VoiceSession:
             "type": "pipeline_event",
             "event": make_pipeline_event(self.id, turn, "F4", "running", source=source),
         })
-        norm_result = normalize(text)["normalized"]
+        # H01.08: seslendirme yolu esnek kipte; tablo dışı karakter yanıtı düşürmez,
+        # atılır ve olay olarak kaydedilir.
+        norm_full = normalize(text, lenient=True)
+        norm_result = norm_full["normalized"]
+        if norm_full.get("dropped_chars"):
+            dropped_event = {"event": "tts_chars_dropped", "chars": norm_full["dropped_chars"], "turn": turn}
+            logger.warning("Seslendirmede atılan karakterler: %s", norm_full["dropped_chars"])
+            self.save("event", "", dropped_event)
         clause_list = list(clauses(norm_result))
         f4_ms = (time.monotonic() - f4_start) * 1000
         await self.emit({
@@ -764,10 +822,8 @@ class VoiceSession:
                         break
                     began = time.monotonic()
                     cold = models.synth_count == 0
-                    try:
-                        w = await models.synth(part, seed=self.tts_seed)
-                    except TypeError:
-                        w = await models.synth(part)
+                    # H01.10: TypeError'da seed'siz yeniden deneme yok.
+                    w = await models.synth(part, seed=self.tts_seed)
                     if self.closed or turn != self.generation:
                         break
                     elapsed = time.monotonic() - began
@@ -822,10 +878,8 @@ class VoiceSession:
                 self.save("metric", "", metrics)
                 await self.emit({"type": "metrics", **metrics})
                 if await self.control.accepts(control_generation):
-                    try:
-                        await self.play_wave(w, turn, source=source)
-                    except TypeError:
-                        await self.play_wave(w, turn)
+                    # H01.10: TypeError'da ikinci çalma denemesi yok (çift ses riski).
+                    await self.play_wave(w, turn, source=source)
         finally:
             producer.cancel()
             await asyncio.gather(producer, return_exceptions=True)

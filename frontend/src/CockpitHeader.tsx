@@ -23,6 +23,13 @@ export function CockpitHeader({
   onLogout,
 }: Props) {
   const isDemo = Boolean(health.demo_mode);
+  // H01.13: "CANLI REEL MOD" yalnız gerçek modeller hazırken ve gerçek sentez/ölçüm akmışken.
+  const liveMeasured =
+    !isDemo &&
+    health.stt?.status === "READY" &&
+    health.ollama?.status === "READY" &&
+    health.tts?.status === "READY" &&
+    (health.synth_count ?? 0) > 0;
   const breakerState = health.circuit_breaker?.state || "CLOSED";
 
   return (
@@ -54,7 +61,7 @@ export function CockpitHeader({
               background: isDemo ? "#fbbf24" : "#34d399",
             }}
           />
-          {isDemo ? "DEMO MODU" : "CANLI REEL MOD"}
+          {isDemo ? "DEMO MODU" : liveMeasured ? "CANLI REEL MOD" : "GERÇEK MOD — ölçüm yok"}
         </span>
       </div>
 

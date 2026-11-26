@@ -88,6 +88,8 @@ def test_wrong_transcript_is_measured_as_error():
 
 
 def test_measure_f0_detects_pitch_and_silence():
+    # H01.01: librosa yalnızca `models` ekstrasında; hermetik ortamda atlanır.
+    pytest.importorskip("librosa")
     rate = 16000
     time_axis = np.arange(rate) / rate
     tone = 0.3 * np.sin(2 * np.pi * 200.0 * time_axis)

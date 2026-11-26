@@ -141,6 +141,7 @@ export function SidebarNav({ activeTab, onSelectTab, badgeCounts = {} }: Props) 
                           <button
                             type="button"
                             role="menuitem"
+                            aria-label={tab.label}
                             className={`nav-tab-btn ${isActive ? "active" : ""}`}
                             onClick={() => onSelectTab(tab.id)}
                             aria-current={isActive ? "page" : undefined}

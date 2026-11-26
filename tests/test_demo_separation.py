@@ -44,7 +44,28 @@ def test_readiness_reports_real_state_without_loaded_models(monkeypatch):
     monkeypatch.setattr(models, "load_ms", None)
     monkeypatch.setattr(models, "synth_count", 0)
     monkeypatch.setenv("DEMO_READY", "1")
+    # Real readiness handler, isolated Ollama transport: a missing service must
+    # not silently initiate network traffic in a hermetic test.
+    import httpx
+    from types import SimpleNamespace
+    from backend.routers import core_system
+
+    calls = []
+
+    def unavailable(request):
+        calls.append(request.url.path)
+        raise httpx.ConnectError("synthetic Ollama unavailable", request=request)
+
+    async_client = httpx.AsyncClient
+    monkeypatch.setattr(
+        core_system, "httpx",
+        SimpleNamespace(AsyncClient=lambda **kwargs: async_client(
+            transport=httpx.MockTransport(unavailable), **kwargs
+        )),
+    )
     body = TestClient(app).get("/api/readiness", auth=("admin", "secret")).json()
+    assert calls == ["/api/tags"]
+    assert body["ollama"]["status"] == "BLOCKED"
     assert body["demo_mode"] is False
     assert body["tts"]["status"] == "BLOCKED"
     assert body["stt"]["status"] == "BLOCKED"

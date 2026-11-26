@@ -1,0 +1,189 @@
+{
+  "template_only": false,
+  "package": "H01",
+  "run_id": "20261126-0255-47828bc",
+  "task_ids": [
+    "H01.01",
+    "H01.02",
+    "H01.03",
+    "H01.04",
+    "H01.05",
+    "H01.06",
+    "H01.07",
+    "H01.08",
+    "H01.09",
+    "H01.10",
+    "H01.11",
+    "H01.12",
+    "H01.13",
+    "H01.14",
+    "H01.15",
+    "H01.16"
+  ],
+  "started_at": null,
+  "finished_at": null,
+  "git": {
+    "branch": "paket/H01",
+    "commit": "47828bcfbc7f82a88c3b9128c5be3fc6588f758b",
+    "parent_accepted_commit": null,
+    "changed_paths": [
+      ".github/workflows/ci.yml",
+      "alembic.ini",
+      "backend/ab_testing.py",
+      "backend/audiosocket_server.py",
+      "backend/batched_ode.py",
+      "backend/caller_memory.py",
+      "backend/config.py",
+      "backend/dialogue.py",
+      "backend/gpu_health_circuit_breaker.py",
+      "backend/main.py",
+      "backend/models.py",
+      "backend/routers/text_speech.py",
+      "backend/session.py",
+      "backend/text.py",
+      "backend/websocket_adapter.py",
+      "frontend/src/CarDenoiserPanel.tsx",
+      "frontend/src/CockpitHeader.tsx",
+      "frontend/src/SidebarNav.tsx",
+      "frontend/src/tabs/LabTab.tsx",
+      "frontend/src/tabs/VoiceTab.tsx",
+      "frontend/tests/ui.spec.ts",
+      "migrations/versions/025_caller_profiles.py",
+      "pyproject.toml",
+      "tests/conftest.py",
+      "tests/fakes/__init__.py",
+      "tests/fakes/fake_llm.py",
+      "tests/h01/__init__.py",
+      "tests/h01/test_hf03_hf04_hf18_kimlik.py",
+      "tests/h01/test_hf05_coklu_arac.py",
+      "tests/h01/test_hf06_bolum_birlestirme.py",
+      "tests/h01/test_hf08_kalibrasyon.py",
+      "tests/h01/test_hf09_hf10_metin.py",
+      "tests/h01/test_hf11_seed.py",
+      "tests/h01/test_hf12_iptal_filtresi.py",
+      "tests/h01/test_hf13_ag_yazma_zaman_asimi.py",
+      "tests/h01/test_hf14_hf15_hf17_olcum_durustlugu.py",
+      "tests/h01/test_hf16_yapay_zeka_bildirimi.py",
+      "tests/test_acoustic_evaluation.py",
+      "tests/test_api.py",
+      "tests/test_automotive_dispatch.py",
+      "tests/test_batched_ode.py",
+      "tests/test_caller_memory.py",
+      "tests/test_car_denoiser.py",
+      "tests/test_e2e_automotive_cockpit.py",
+      "tests/test_isolation.py",
+      "tests/test_madde3_customer_experience.py",
+      "tests/test_milestone_integration.py",
+      "tests/test_p5_latency.py",
+      "tests/test_session.py",
+      "tests/test_sft_leyla.py",
+      "tests/test_voice_path_honesty.py",
+      "tests/test_workflow.py",
+      "uv.lock"
+    ],
+    "dirty": null
+  },
+  "environment": {
+    "os": "GitHub Actions ubuntu-latest",
+    "python": "3.11 (CI); local container Python 3.13.5 not used for project tests",
+    "device": "CPU",
+    "gpu_driver": null,
+    "cuda": null,
+    "models_present": []
+  },
+  "flags_and_profiles": {
+    "pytest_marker": "not llm and not gpu and not pbx",
+    "real_calls": false
+  },
+  "commands": [
+    {
+      "command": "uv run --no-sync pytest -q -m \"not llm and not gpu and not pbx\"",
+      "run": 45724337388,
+      "commit": "30aba457021c598503a3f24fb88e21441309a2f9",
+      "status": "PASS",
+      "passed": 1578,
+      "skipped": 6,
+      "deselected": 16,
+      "subtests_passed": 44,
+      "torch": "CPU installed"
+    },
+    {
+      "command": "uv run --no-sync alembic upgrade head; uv run --no-sync alembic check; uv run --no-sync python scripts/check_ui_routes.py; npm run build",
+      "run": 45724337388,
+      "commit": "30aba457021c598503a3f24fb88e21441309a2f9",
+      "status": "PASS"
+    },
+    {
+      "command": "npx playwright test tests/ui.spec.ts",
+      "run": 45724337388,
+      "commit": "30aba457021c598503a3f24fb88e21441309a2f9",
+      "status": "FAIL",
+      "passed": 2,
+      "failed": 5
+    },
+    {
+      "command": "uv run --no-sync pytest -q -m \"not llm and not gpu and not pbx\"",
+      "run": 45724724460,
+      "commit": "f7907e45767082abf30a104392fa3f4080a2328a",
+      "status": "FAIL",
+      "passed": 1579,
+      "failed": 1,
+      "skipped": 6,
+      "deselected": 16
+    },
+    {
+      "command": "assert torch import spec absent; pytest --collect-only -q",
+      "run": 45724942397,
+      "commit": "47828bcfbc7f82a88c3b9128c5be3fc6588f758b",
+      "status": "PASS",
+      "source": "completed CI logs",
+      "collected": 1588
+    },
+    {
+      "command": "uv run --no-sync pytest -q -m \"not llm and not gpu and not pbx\"",
+      "run": 45724942397,
+      "commit": "47828bcfbc7f82a88c3b9128c5be3fc6588f758b",
+      "status": "PASS",
+      "source": "completed CI logs",
+      "passed": 1582,
+      "skipped": 8,
+      "failed": 0,
+      "subtests_passed": 44,
+      "torch": "absent",
+      "live_network_call_count": null
+    }
+  ],
+  "evidence_class": "HISTORICAL_RECORD",
+  "fixtures": [
+    {
+      "id": "HF06",
+      "version": "synthetic fake ASR",
+      "sha256": null,
+      "seed": null
+    },
+    {
+      "id": "HF08",
+      "version": "synthetic PCM and fake endpoint",
+      "sha256": null,
+      "seed": null
+    },
+    {
+      "id": "HF12",
+      "version": "cancelled future and fake solver",
+      "sha256": null,
+      "seed": null
+    }
+  ],
+  "reports": [
+    {
+      "path": "test-log.txt",
+      "class": "HISTORICAL_RECORD",
+      "note": "Raw completed test command sections including no-torch job; environment headers excluded. Full job logs linked."
+    },
+    {
+      "path": "decision.json",
+      "class": "STATIC_CODE"
+    }
+  ],
+  "notes": "PARTIAL / HOLD. M00 PR #2 open HOLD; existing H01 PR #3 draft. Local Claude workspace not available; GitHub remote branch checked, seed and timeout commits recovered remotely. Direct git clone failed DNS; no local full suite. No real GPU, ASR/model, SIP or human experiment performed. H01.06 unresolved: ADR-F1-01 missing from plan main; choose shared weights + per-session state after model API/memory verification and ADR approval. CI workflow, alembic.ini, migration, pyproject, uv.lock, config, gpu_health_circuit_breaker, SidebarNav and existing test changes are scope exceptions; no blanket gate waiver. New tests authored with fixes; pre-fix red runs not independently executed. Latest workflow pending. UPDATE: hermetic-no-torch job completed SUCCESS; HF01 collected 1588, HF02 1582 passed / 8 skipped / 44 subtests. Exact network-call count was not separately instrumented. Other verify job still pending at capture."
+}

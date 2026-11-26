@@ -24,7 +24,8 @@ jobs:
       # Surum kilit dosyasindakiyle ayni tutulur: torch==2.8.0.
       - run: uv sync --frozen --extra test
       - run: uv pip install "torch==2.8.0" --index-url https://download.pytorch.org/whl/cpu --extra-index-url https://pypi.org/simple
-      - run: uv run --no-sync pytest -q
+      # Varsayilan hermetik calistirma (CLAUDE.md kural 1): GPU/model, canli LLM ve PBX testleri haric.
+      - run: uv run --no-sync pytest -q -m "not llm and not gpu and not pbx"
       - run: uv run --no-sync alembic upgrade head
       - run: uv run --no-sync alembic check
       - run: uv run --no-sync python scripts/check_ui_routes.py
@@ -38,7 +39,7 @@ jobs:
         run: |
           printf 'ADMIN_PASSWORD=%s\nLINK_SIGNING_KEY=%s\nAUDIO_ARCHIVE_MASTER_KEY=%s\nAMI_SECRET=%s\nWHATSAPP_WEBHOOK_TOKEN=%s\n' \
             "$ADMIN_PASSWORD" "$LINK_SIGNING_KEY" "$AUDIO_ARCHIVE_MASTER_KEY" "$AMI_SECRET" "$WHATSAPP_WEBHOOK_TOKEN" > .env
-          uv run --no-sync uvicorn backend.main:app --host 127.0.0.1 --port 8000 > /tmp/freya-server.log 2>&1 &
+          AUTO_LOAD_MODELS=0 uv run --no-sync uvicorn backend.main:app --host 127.0.0.1 --port 8000 > /tmp/freya-server.log 2>&1 &
           for i in $(seq 1 60); do
             if curl -fsS -o /dev/null http://127.0.0.1:8000/; then echo "Sunucu hazir"; exit 0; fi
             sleep 2
@@ -54,3 +55,24 @@ jobs:
         with:
           name: browser-failures
           path: frontend/test-results
+
+  hermetic-no-torch:
+    runs-on: ubuntu-latest
+    env:
+      FREYA_HERMETIC_NETWORK_GUARD: "1"
+      ADMIN_PASSWORD: ci-only-disposable
+      LINK_SIGNING_KEY: ci-only-link-signing-key
+      AUDIO_ARCHIVE_MASTER_KEY: ci-only-archive-master-key
+      AMI_SECRET: ci-only-ami-secret
+      WHATSAPP_WEBHOOK_TOKEN: ci-only-webhook-token
+      CUDA_VISIBLE_DEVICES: ""
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --frozen --extra test
+      - name: Confirm torch is absent
+        run: uv run --no-sync python -c "import importlib.util; assert importlib.util.find_spec('torch') is None, 'torch unexpectedly installed'"
+      - name: HF01 collect without torch
+        run: uv run --no-sync pytest --collect-only -q -m "not llm and not gpu and not pbx"
+      - name: HF02 hermetic suite without torch
+        run: uv run --no-sync pytest -q -m "not llm and not gpu and not pbx"

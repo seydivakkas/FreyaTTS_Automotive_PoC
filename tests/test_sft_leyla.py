@@ -23,9 +23,16 @@ YAZARIN AÇIK YAZILI İZNİ OLMAKSIZIN HİÇBİR KULLANIM HAKKI TANINMAZ.
 import json
 from pathlib import Path
 import pytest
-import torch
-import torch.nn as nn
-from fastapi.testclient import TestClient
+
+# H01.01 (HF01, bulgu X8): Bu modül FreyaTTS eğitim yığınını (torch, peft,
+# librosa, vendor/FreyaTTS eğitim betikleri) gerektirir; hermetik değildir.
+# torch yoksa toplanmadan atlanır; varsayılan çalıştırmada `gpu` işaretiyle
+# dışarıda kalır. Testler silinmedi; `-m gpu` ile model ortamında çalışır.
+torch = pytest.importorskip("torch")
+nn = torch.nn
+pytestmark = pytest.mark.gpu
+
+from fastapi.testclient import TestClient  # noqa: E402
 
 from backend.config import settings
 from backend.main import app

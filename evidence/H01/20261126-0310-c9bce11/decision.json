@@ -1,0 +1,44 @@
+{
+  "package": "H01",
+  "run_id": "20261126-0310-c9bce11",
+  "package_status": "HOLD",
+  "source_commit": "c9bce11e4f4729601720e96eeabc403b702c0b55",
+  "gates": [
+    {
+      "id": "H01-G00",
+      "status": "HOLD",
+      "reason": "Scope deviations documented; plan PR #3 awaiting review."
+    },
+    {
+      "id": "H01-G01",
+      "status": "FAIL",
+      "reason": "HF01 PASS; guarded HF02 recorded one denied live/external attempt despite all selected tests passing. Latest diagnostic-only commits pending verification."
+    },
+    {
+      "id": "H01-G02",
+      "status": "HOLD",
+      "reason": "Full regression/acceptance matrix and independent review incomplete."
+    },
+    {
+      "id": "H01-G03",
+      "status": "HOLD",
+      "reason": "VAD synthetic tests pass on prior commit; real pinned Silero ABI, parity/memory and ADR approval pending."
+    },
+    {
+      "id": "H01-G04",
+      "status": "HOLD",
+      "reason": "HF16 real seed-9 greeting audio, disclosure approval and mobile UI acceptance incomplete."
+    },
+    {
+      "id": "H01-G05",
+      "status": "HOLD",
+      "reason": "Latest full CI not accepted; last completed UI 6/7. M00 G03/G05/G08 HOLD."
+    }
+  ],
+  "next_package_started": false,
+  "m01_ready": false,
+  "reviewer": {
+    "independent": false,
+    "name_or_session": null
+  }
+}

@@ -69,27 +69,44 @@ GREETING_TEMPLATES: dict[str, dict] = {
         "id": "standard",
         "name": "Standart Karşılama",
         "description": "Dengeli, doğrudan ve resmi karşılama.",
-        "text": "Merhaba, ekspertiz randevusu için yardımcı olabilirim. Adınızı ve aracınızın marka modelini söyler misiniz?",
+        "body": "Ekspertiz randevusu için yardımcı olabilirim. Adınızı ve aracınızın marka modelini söyler misiniz?",
     },
     "concise": {
         "id": "concise",
         "name": "Kısa ve Net Karşılama",
         "description": "Zaman kazandıran, kompakt kurumsal karşılama.",
-        "text": "Maslak Ekspertiz'e hoş geldiniz. Randevu için adınızı ve araç modelinizi rica ederim.",
+        "body": "Maslak Ekspertiz'e hoş geldiniz. Randevu için adınızı ve araç modelinizi rica ederim.",
     },
     "friendly": {
         "id": "friendly",
         "name": "Sıcak ve Samimi Karşılama",
         "description": "Müşteri odaklı, güler yüzlü tonlama sunan karşılama.",
-        "text": "İyi günler! Maslak Ekspertiz randevu asistanıyım. Size en uygun randevuyu hemen planlayalım; adınızı ve araç bilginizi alabilir miyim?",
+        "body": "İyi günler! Size en uygun randevuyu hemen planlayalım; adınızı ve araç bilginizi alabilir miyim?",
     },
     "promotional": {
         "id": "promotional",
         "name": "Güven ve Kalite Vurgulu Karşılama",
         "description": "Garantili ve TSE onaylı hizmet vurgusu yapan kurumsal karşılama.",
-        "text": "Merhaba, Maslak Ekspertiz merkezine hoş geldiniz. Garantili muayene ve hızlı randevu için adınızı ve aracınızı öğrenebilir miyim?",
+        "body": "Maslak Ekspertiz merkezine hoş geldiniz. Garantili muayene ve hızlı randevu için adınızı ve aracınızı öğrenebilir miyim?",
     },
 }
+
+
+def with_ai_disclosure(body: str) -> str:
+    """ADR-X-03: karşılama metnini yapılandırmadaki yapay zekâ bildirimiyle başlatır (H01.14)."""
+    from backend.config import settings
+
+    disclosure = settings.ai_disclosure_text.strip()
+    body = (body or "").strip()
+    if not disclosure or body.startswith(disclosure):
+        return body
+    return f"{disclosure} {body}".strip()
+
+
+# Seslendirilen tam metin = bildirim + gövde. Önbellek anahtarı bu metindir; metin
+# değişince karşılama önbelleği ön ısıtmada seed 9 ile yeniden üretilir.
+for _tpl in GREETING_TEMPLATES.values():
+    _tpl["text"] = with_ai_disclosure(_tpl["body"])
 
 
 TTS_SEED_PRESETS: dict[int, dict] = {

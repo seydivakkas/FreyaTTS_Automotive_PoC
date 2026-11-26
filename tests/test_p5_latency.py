@@ -189,15 +189,19 @@ def _models_with_fake_synth():
 
 async def test_synth_cache_hit_miss_copy_and_seed_default():
     m, calls = _models_with_fake_synth()
-    key = m._cache_key("Merhaba, nasılsınız?", None)
+    # H01.10 (N3): seed'siz anahtar/sentez artık 9 varsaymaz (eski "None == 9" kaldırıldı).
+    assert m._cache_key("Merhaba, nasılsınız?", None) is None
+    key = m._cache_key("Merhaba, nasılsınız?", 9)
     m._cache_put(key, np.ones(5, np.float32))
-    a = await m.synth("Merhaba, nasılsınız?")
+    a = await m.synth("Merhaba, nasılsınız?", seed=9)
     assert calls == [] and a.tolist() == [1.0] * 5
     a[:] = 0  # çağıran önbelleği bozamaz
-    assert (await m.synth("Merhaba, nasılsınız?", seed=9)).tolist() == [1.0] * 5  # None == 9
+    assert (await m.synth("Merhaba, nasılsınız?", seed=9)).tolist() == [1.0] * 5
+    with pytest.raises(ValueError):
+        await m.synth("Merhaba, nasılsınız?")
     await m.synth("Merhaba, nasılsınız?", seed=42)  # farklı seed: ıskalama
     assert calls == [("Merhaba, nasılsınız?", 42)]
-    await m.synth("Başka cümle")
+    await m.synth("Başka cümle", seed=9)
     assert len(calls) == 2
 
 

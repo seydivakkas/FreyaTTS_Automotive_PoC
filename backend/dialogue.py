@@ -54,6 +54,10 @@ _PRICE_INQUIRY_RE = re.compile(
     r"\b(fiyat|fiyatı|fiyatlar|fiyatları|ücret|ücreti|ücretler|kaç\s*para|ne\s*kadar|paketler|paketleri|hizmetler|hizmetleri)\b",
     re.I,
 )
+_AI_IDENTITY_QUESTION_RE = re.compile(
+    r"\b(insan(?:la)?\s+m[ıi]\w*|gerçek\s+(?:bir\s+)?(?:kişi|insan)\w*\s+m[ıi]\w*|robot\s+mu\w*|bot\s+mu\w*|yapay\s+zek[aâ]\w*\s+m[ıi]\w*)",
+    re.I,
+)
 _MULTI_VEHICLE_RE = re.compile(
     r"\b(iki\s+ara[çc]\w*|2\s+ara[çc]\w*|iki\s+araba\w*|2\s+araba\w*|bir\s+ara[çc]\w*\s+daha|bir\s+araba\w*\s+daha|ikinci\s+ara[çc]\w*|ikinci\s+araba\w*|başka\s+(?:bir\s+)?ara[çc]\w*|başka\s+(?:bir\s+)?araba\w*|diğer\s+ara[çc]\w*|diğer\s+araba\w*)\b",
     re.I,
@@ -288,22 +292,24 @@ class Dialogue:
         self.transfer_id = None
         self.customer_phone = (customer_phone or "").strip()
         self.outbound_persisted: bool | None = None
+        # H01.03 / ADR-F3-01: arama başında profil oluşturulmaz ve profil adı doğrulamasız
+        # müşteriye atanmaz. Profil yalnız ikinci bilgi doğrulandıktan sonra bağlanır.
         self.caller_profile = None
-        if self.customer_phone:
-            try:
-                from backend.caller_memory import get_or_create_caller_profile
-                with Session() as db:
-                    self.caller_profile = get_or_create_caller_profile(db, phone=self.customer_phone)
-                    if self.caller_profile and self.caller_profile.name and not self.customer:
-                        self.customer = self.caller_profile.name
-            except Exception:
-                pass
+        self.identity_verified = False
+        self.identity_attempts = 0
+        self.identity_locked = False
+        self.awaiting_identity: str | None = None  # "birth_year" | "plate_suffix"
+        self._identity_candidate = None
+        self._pending_private: tuple[str, str] | None = None  # (tür, anahtar sözcük)
         self.assigned_lift: str | None = None
         self.detected_action_metadata: dict = {}
         self.history: list[dict[str, str]] = []
         self.max_history_turns = max_history_turns
         self.awaiting_multi_vehicle: bool = False
         self.multi_vehicle_planned: bool = False
+        # H01.04 (P7): her araç işlemine ayrı idempotency anahtarı; oluşan gerçek referanslar.
+        self.vehicle_seq: int = 0
+        self.booking_refs: list[str] = []
         self.awaiting_cancel_confirmation: bool = False
         self.inbound_intent: str | None = None
         self.target_appointment_id: str | None = None
@@ -318,8 +324,102 @@ class Dialogue:
         self.last_turn_trace: dict | None = None
         self.mutations_before_confirmation: int = 0
 
+    # ------------------------------------------------------------------
+    # H01.03 — arayan kimlik doğrulaması (ADR-F3-01)
+    # ------------------------------------------------------------------
+    _IDENTITY_LOCKED_MSG = (
+        "Bilgileri doğrulayamadım. Güvenliğiniz için bu görüşmede kayıt bilgisi paylaşamıyorum. "
+        "İsterseniz sizi bir müşteri temsilcimize aktarabilirim ya da şubemizden destek alabilirsiniz."
+    )
+
+    def _private_record_request(self, request: tuple[str, str]) -> str:
+        """Özel kayıt (garanti, bakım geçmişi) isteği: doğrulanmamışsa ikinci bilgi sorulur."""
+        if self.identity_locked:
+            return self._IDENTITY_LOCKED_MSG
+        if self.identity_verified and self.caller_profile is not None:
+            return self._answer_private(request)
+        from backend.caller_memory import find_caller_profile, verification_method
+
+        candidate = None
+        if self.customer_phone:
+            try:
+                with Session() as db:
+                    candidate = find_caller_profile(db, phone=self.customer_phone)
+            except Exception:
+                candidate = None
+        # Profil bulunmasa da aynı soru sorulur: kayıt varlığı ipucu olarak sızmaz.
+        self._identity_candidate = candidate
+        self._pending_private = request
+        self.awaiting_identity = verification_method(candidate)
+        lead = "Kayıt bilgilerinizi paylaşabilmem için kimliğinizi doğrulamam gerekiyor."
+        if self.awaiting_identity == "birth_year":
+            return f"{lead} Doğum yılınızı söyler misiniz?"
+        return f"{lead} Aracınızın plakasının son üç ya da dört hanesini söyler misiniz?"
+
+    _PRIVATE_HISTORY_MARK = "[doğrulanmış arayana özel kayıt bilgisi verildi]"
+
+    def _assistant_history_text(self, ans: str) -> str:
+        """Özel kayıt içeren yanıt LLM geçmişine değeriyle yazılmaz (kural 10)."""
+        if getattr(self, "_last_answer_private", False):
+            self._last_answer_private = False
+            return self._PRIVATE_HISTORY_MARK
+        return ans
+
+    def _answer_private(self, request: tuple[str, str]) -> str:
+        from backend.caller_memory import resolve_past_maintenance, resolve_warranty_inquiry
+
+        self._last_answer_private = True
+        kind, kw = request
+        if kind == "garanti":
+            return resolve_warranty_inquiry(self.caller_profile)["message"]
+        m_res = resolve_past_maintenance(self.caller_profile, kw)
+        if m_res:
+            return f"{m_res} Bu işlemle ilgili yeni bir kontrol veya randevu oluşturmak ister misiniz?"
+        return "Bu konuyla ilgili kayıtlı bir işlem bulamadım. Yeni bir kontrol randevusu oluşturmak ister misiniz?"
+
+    def _handle_identity_answer(self, text: str, turn_id: str, initial_status: str) -> str | None:
+        """Doğrulama yanıtını işler. Rakam içermeyen söz doğrulama girişimi sayılmaz (None)."""
+        from backend.caller_memory import verify_caller_answer
+
+        if not any(ch.isdigit() for ch in text):
+            self.awaiting_identity = None
+            self._pending_private = None
+            return None
+        method = self.awaiting_identity
+        ok = verify_caller_answer(self._identity_candidate, method, text)
+        redacted = "[kimlik doğrulama yanıtı]"  # değer geçmişe, LLM bağlamına ve izlere yazılmaz
+        if ok:
+            self.identity_verified = True
+            self.caller_profile = self._identity_candidate
+            request = self._pending_private
+            self.awaiting_identity = None
+            self._pending_private = None
+            ans = self._answer_private(request) if request else "Teşekkürler, kimliğiniz doğrulandı."
+            outcome = "identity_verified"
+        else:
+            self.identity_attempts += 1
+            if self.identity_attempts >= 3:
+                self.identity_locked = True
+                self.awaiting_identity = None
+                self._pending_private = None
+                self._identity_candidate = None
+                ans = self._IDENTITY_LOCKED_MSG
+                outcome = "identity_locked"
+            else:
+                ans = "Bilgiler eşleşmedi. Lütfen tekrar söyler misiniz?"
+                outcome = "identity_mismatch"
+        self.record_turn("user", redacted)
+        self.record_turn("assistant", self._assistant_history_text(ans))
+        self._record_turn_trace(turn_id, redacted, outcome, initial_status, db_mutations=0)
+        return ans
+
+    def _booking_key(self) -> str:
+        """Araç başına işlem anahtarı (H01.04). İlk araç geriye uyumlu olarak görüşme kimliğidir."""
+        return self.id if self.vehicle_seq == 0 else f"{self.id}:arac-{self.vehicle_seq + 1}"
+
     def reset_for_next_vehicle(self):
         """Aynı müşterinin ikinci veya sonraki aracı için randevu durumunu sıfırlar."""
+        self.vehicle_seq += 1
         self.vehicle = None
         self.slot = None
         self.plate = None
@@ -395,14 +495,8 @@ class Dialogue:
             additions.append(f"Bilinen müşteri adı: {self.customer}.")
         if self.corporate_account_name:
             additions.append(f"Tanımlı kurumsal galeri: {self.corporate_account_name}.")
-        if getattr(self, "caller_profile", None):
-            try:
-                from backend.caller_memory import format_caller_memory_context
-                mem_ctx = format_caller_memory_context(self.caller_profile)
-                if mem_ctx:
-                    additions.append(f"Müşteri ve Araç Hafıza Bilgisi: {mem_ctx}")
-            except Exception:
-                pass
+        # H01.03 (kural 10, ADR-F3-01): arayan profili (telefon, plaka, garanti, bakım
+        # geçmişi) LLM bağlamına girmez; LLM yalnız alan çıkarımı yapar.
         if self.options:
             opts_text = " ".join(
                 f"{i + 1}. seçenek {label}." for i, (_, label) in enumerate(self.options)
@@ -694,7 +788,7 @@ class Dialogue:
                         slot_id=self.slot,
                         vehicle_id=self.vehicle,
                         customer=self.customer,
-                        idempotency_key=self.id,
+                        idempotency_key=self._booking_key(),
                         confirmed=True,
                         corporate_account_id=self.corporate_account_id,
                         customer_phone=self.customer_phone,
@@ -935,6 +1029,13 @@ class Dialogue:
             if not matched_vehicle:
                 return None
 
+            # H01.04: hızlı yolda söylenen ad kaybolmasın ("Adım Leyla Güven. Duster …").
+            if not self.customer:
+                first_sentence = re.split(r"[.!?,;]+", text, maxsplit=1)[0].strip()
+                parsed_name = parse_name_sentence(first_sentence) if first_sentence else None
+                if parsed_name:
+                    self.customer = parsed_name
+
             self.vehicle = matched_vehicle.id
             quote = db.scalars(select(Quote).where(Quote.vehicle_id == matched_vehicle.id)).first()
             if quote:
@@ -1022,9 +1123,26 @@ class Dialogue:
         turn_id = f"{self.id}-{len(self.history) // 2 + 1}"
         initial_status = self.booking_status.value
 
+        if (
+            (self.confirmed or self.done)
+            and self.booking_refs
+            and settings.multi_vehicle_booking_enabled
+            and _MULTI_VEHICLE_RE.search(_tr_lower(text))
+        ):
+            # H01.04: randevudan sonra "bir aracım daha var" → ikinci araç akışı (aynı müşteri).
+            self.reset_for_next_vehicle()  # booking_status IDLE, done False
+            ans = "Tabii ki. Diğer aracınızın marka ve modelini söyler misiniz?"
+            self.record_turn("user", text)
+            self.record_turn("assistant", ans)
+            self._record_turn_trace(turn_id, text, "next_vehicle", initial_status, db_mutations=0)
+            return ans
+
         if self.confirmed or self.done:
-            ref = "TEST-001" if (self.id.startswith(("NEW-", "PLATE-", "PRICE-", "FULL-", "CAR-", "MOVE-", "CANCEL-", "INFO-", "POC-")) or "test" in self.id.lower() or "demo" in self.id.lower()) else "TEST-001"
-            ans = f"Randevunuz oluşturulmuştur. Referansınız {ref}."
+            # H01.04: yalnız gerçekten oluşan randevunun referansı söylenir; yoksa makbuz uydurulmaz.
+            if self.booking_refs:
+                ans = f"Randevunuz oluşturulmuştur. Referansınız {self.booking_refs[-1]}."
+            else:
+                ans = "Görüşmemiz tamamlandı. Yeni bir işlem için lütfen tekrar arayın. İyi günler dilerim."
             self.record_turn("user", text)
             self.record_turn("assistant", ans)
             self._record_turn_trace(turn_id, text, "already_confirmed", initial_status, db_mutations=0)
@@ -1040,32 +1158,34 @@ class Dialogue:
         norm = _tr_lower(text.strip())
         clean = re.sub(r"[.,!?;:]", " ", norm)
 
+        # ADR-X-03 (H01.14): "insanla mı konuşuyorum?" sorusuna dürüst yanıt + aktarım seçeneği.
+        # Durum değişmez (bekleyen onay "evet" ile yanlışlıkla tetiklenmesin diye açık komut istenir).
+        if _AI_IDENTITY_QUESTION_RE.search(clean):
+            ans = (
+                "Ben Freya, yapay zekâ destekli bir asistanım. Bir müşteri temsilcisiyle görüşmek "
+                "isterseniz 'operatöre bağla' demeniz yeterli; dilerseniz ben yardımcı olmaya devam edeyim."
+            )
+            self.record_turn("user", text)
+            self.record_turn("assistant", ans)
+            self._record_turn_trace(turn_id, text, "ai_identity_question", initial_status, db_mutations=0)
+            return ans
+
+        # H01.03: kimlik doğrulama yanıtı bekleniyorsa önce o işlenir (değer kaydedilmez).
+        if self.awaiting_identity:
+            verified_ans = self._handle_identity_answer(text, turn_id, initial_status)
+            if verified_ans is not None:
+                return verified_ans
+
         phone_in_text = extract_phone_number(text)
         if phone_in_text:
+            # Söylenen numara yalnızca iletişim bilgisidir; profil oluşturmaz/eşleştirmez (H01.03).
             self.customer_phone = phone_in_text
-            try:
-                from backend.caller_memory import get_or_create_caller_profile
-                with Session() as db:
-                    self.caller_profile = get_or_create_caller_profile(db, phone=self.customer_phone)
-                    if self.caller_profile and self.caller_profile.name and not self.customer:
-                        self.customer = self.caller_profile.name
-            except Exception:
-                pass
 
         plate_in_text = extract_plate(text)
         if plate_in_text:
             self.plate_draft = plate_in_text
             if not self.plate:
                 self.plate = plate_in_text
-            if not getattr(self, "caller_profile", None):
-                try:
-                    from backend.caller_memory import get_or_create_caller_profile
-                    with Session() as db:
-                        self.caller_profile = get_or_create_caller_profile(db, plate=plate_in_text)
-                        if self.caller_profile and self.caller_profile.name and not self.customer:
-                            self.customer = self.caller_profile.name
-                except Exception:
-                    pass
 
         # Hedefe yönelik plaka düzeltmesi (ör. "C değil, Denizli’nin D’si" / "sonu 124")
         active_plate = self.plate or self.plate_draft or getattr(self, "change_plate", None)
@@ -1278,7 +1398,7 @@ class Dialogue:
                             slot_id=self.slot,
                             vehicle_id=self.vehicle,
                             customer=self.customer or "Değerli Müşterimiz",
-                            idempotency_key=self.id,
+                            idempotency_key=self._booking_key(),
                             confirmed=True,
                             corporate_account_id=self.corporate_account_id,
                             customer_phone=self.customer_phone,
@@ -1308,12 +1428,14 @@ class Dialogue:
                 else:
                     self.done = True
                     ref = "TEST-001" if (self.id.startswith(("NEW-", "PLATE-", "PRICE-", "FULL-", "CAR-", "MOVE-", "CANCEL-", "INFO-", "POC-")) or "test" in self.id.lower() or "demo" in self.id.lower()) else f"FRY-{app.id[:6].upper()}"
+                    self.booking_refs.append(ref)
                     if self.corporate_account_name:
                         ans = f"Randevunuz {self.corporate_account_name} kurumsal cari hesabınıza işlenerek oluşturuldu. Referansınız {ref}.{self._sms_note('Onay ve randevu detaylarını SMS ve WhatsApp ile iletiyorum.')} İyi günler dilerim."
                     else:
                         ans = f"Randevunuz oluşturuldu. Referansınız {ref}."
                         if self._sms_note(""):
                             ans += self._sms_note("Onay ve randevu detaylarını SMS olarak telefonunuza iletiyorum.")
+                        ans += " İyi günler dilerim."
                 self.record_turn("user", text)
                 self.record_turn("assistant", ans)
                 self._record_turn_trace(turn_id, text, "booking_confirmed", initial_status, db_mutations=1)
@@ -1361,36 +1483,23 @@ class Dialogue:
 
         # Garanti Durumu Referans Çözümleme (Multi-turn warranty inquiry)
         if re.search(r"\b(garanti(?:m|si|min)?\s*(devam\s+ediyor\s*mu|bitti\s*mi|durumu|var\s*mı|geçerli\s*mi)|garantisi\s+var\s*mı|garantim\s+var\s*mı|garantim\s+devam\s+ediyor\s*mu|aracımın\s+garantisi)\b", clean):
-            from backend.caller_memory import resolve_warranty_inquiry, get_or_create_caller_profile
-            with Session() as db:
-                if not getattr(self, "caller_profile", None):
-                    self.caller_profile = get_or_create_caller_profile(db, phone=self.customer_phone, name=self.customer)
-                if self.caller_profile:
-                    self.inbound_intent = "garanti_sorgusu"
-                    w_res = resolve_warranty_inquiry(self.caller_profile)
-                    ans = w_res["message"]
-                    self.record_turn("user", text)
-                    self.record_turn("assistant", ans)
-                    return ans
+            self.inbound_intent = "garanti_sorgusu"
+            ans = self._private_record_request(("garanti", ""))
+            self.record_turn("user", text)
+            self.record_turn("assistant", self._assistant_history_text(ans))
+            return ans
 
         # Geçmiş Bakım ve Balata Değişimi Referans Çözümleme (Multi-turn maintenance inquiry)
         if (
             re.search(r"\b(geçen\s+sefer(?:ki)?|önceki\s+bakım(?:da)?|daha\s+önce(?:ki)?|geçmiş\s+bakım|son\s+bakım)\b", clean)
             or (any(kw in clean for kw in ("balata", "fren", "yağ", "filtre", "triger", "akü")) and any(w in clean for w in ("yapıldı", "değişti", "konuştuğumuz", "ne zaman", "geçen", "önceki", "yapılmış")))
         ):
-            from backend.caller_memory import resolve_past_maintenance, get_or_create_caller_profile
             kw = "balata" if ("balata" in clean or "fren" in clean) else ("yağ" if "yağ" in clean else ("akü" if "akü" in clean else ("triger" if "triger" in clean else "bakım")))
-            with Session() as db:
-                if not getattr(self, "caller_profile", None):
-                    self.caller_profile = get_or_create_caller_profile(db, phone=self.customer_phone, name=self.customer)
-                if self.caller_profile:
-                    m_res = resolve_past_maintenance(self.caller_profile, kw)
-                    if m_res:
-                        self.inbound_intent = "gecmis_bakim_sorgusu"
-                        ans = f"{m_res} Bu işlemle ilgili yeni bir kontrol veya randevu oluşturmak ister misiniz?"
-                        self.record_turn("user", text)
-                        self.record_turn("assistant", ans)
-                        return ans
+            self.inbound_intent = "gecmis_bakim_sorgusu"
+            ans = self._private_record_request(("bakim", kw))
+            self.record_turn("user", text)
+            self.record_turn("assistant", self._assistant_history_text(ans))
+            return ans
 
         # 2. Çoklu Araç Sorusu Yanıtı
         if getattr(self, "awaiting_multi_vehicle", False):

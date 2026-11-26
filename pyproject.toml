@@ -2,7 +2,7 @@
 name = "freya-automotive"
 version = "0.1.0"
 requires-python = ">=3.11,<3.12"
-dependencies = ["fastapi>=0.115,<1", "uvicorn[standard]>=0.34,<1", "sqlalchemy>=2,<3", "alembic>=1.14,<2", "pydantic-settings>=2,<3", "httpx>=0.28,<1", "numpy>=1.26,<3", "scipy>=1.12,<2", "soxr>=0.5,<2", "soundfile>=0.12,<1", "tzdata>=2025.1", "reportlab>=4.0.0"]
+dependencies = ["fastapi>=0.115,<1", "uvicorn[standard]>=0.34,<1", "sqlalchemy>=2,<3", "alembic>=1.14,<2", "pydantic-settings>=2,<3", "httpx>=0.28,<1", "numpy>=1.26,<3", "scipy>=1.12,<2", "soxr>=0.5,<2", "soundfile>=0.12,<1", "tzdata>=2025.1", "reportlab>=4.0.0", "python-multipart>=0.0.18"]
 
 [project.optional-dependencies]
 models = [
@@ -28,6 +28,11 @@ asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 testpaths = ["tests", "experimental/tests"]
 addopts = "--import-mode=importlib --basetemp=data/temp_pytest"
+markers = [
+    "gpu: GPU, gerçek model ağırlıkları veya torch tabanlı eğitim gerektirir (varsayılan çalıştırmada atlanır)",
+    "llm: canlı Ollama/LLM servisi gerektirir (varsayılan çalıştırmada atlanır)",
+    "pbx: gerçek Asterisk/PBX gerektirir (varsayılan çalıştırmada atlanır)",
+]
 
 [[tool.uv.index]]
 name = "pytorch-cu128"

@@ -22,7 +22,7 @@ from backend.ab_testing import (
     set_experiment_status,
     get_experiment_report,
 )
-from backend.models import models
+from backend.models import LEYLA_DEFAULT_SEED, models
 from backend.text import normalize
 from backend.normalizer_rules import (
     get_lexicon_entries,
@@ -32,10 +32,6 @@ from backend.normalizer_rules import (
 )
 from backend.session import active
 from backend.automotive_frontend import automotive_frontend
-from backend.sft_leyla import (
-    sft_manager,
-    lora_manager,
-)
 from backend import db as db_module
 from backend.schemas import (
     ABExperimentIn,
@@ -54,6 +50,35 @@ from backend.schemas import (
     VoiceChatTurnIn,
 )
 from backend.deps import auth
+
+class _LazySFTAttr:
+    """sft_leyla (torch) modülünü yalnızca SFT/LoRA uçları çağrıldığında yükler.
+
+    H01.01 (bulgu X8): modül düzeyindeki ``import torch`` uygulama ve test
+    toplamasını torch kurulu olmayan ortamlarda kırıyordu. Davranış aynıdır;
+    yalnızca içe aktarma zamanı değişir.
+    """
+
+    __slots__ = ("_name",)
+
+    def __init__(self, name: str) -> None:
+        object.__setattr__(self, "_name", name)
+
+    def _target(self):
+        from backend import sft_leyla  # torch burada, ilk kullanımda yüklenir
+
+        return getattr(sft_leyla, object.__getattribute__(self, "_name"))
+
+    def __getattr__(self, item):
+        return getattr(self._target(), item)
+
+    def __setattr__(self, item, value) -> None:
+        setattr(self._target(), item, value)
+
+
+sft_manager = _LazySFTAttr("sft_manager")
+lora_manager = _LazySFTAttr("lora_manager")
+
 
 router = APIRouter()
 
@@ -224,7 +249,7 @@ async def synth(body: TextIn):
     if active.active_count > 0:
         raise HTTPException(409, "Aktif görüşme var")
     try:
-        w = await models.synth(body.text)
+        w = await models.synth(body.text, seed=LEYLA_DEFAULT_SEED)  # H01.10: açık Leyla profili
     except Exception as e:
         raise HTTPException(503, str(e))
     buf = io.BytesIO()

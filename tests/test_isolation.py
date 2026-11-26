@@ -29,14 +29,16 @@ def test_runtime_file_defaults_are_outside_project_data():
     from backend.audio_archive_compliance import DEFAULT_ARCHIVE_DIR
     from backend.config import settings
     from backend.outbound_dialer import DEFAULT_SPOOL_BASE_DIR
-    from backend.sft_leyla import DEFAULT_MANIFEST_PATH
 
-    for path in (
-        settings.data_dir,
-        DEFAULT_ARCHIVE_DIR,
-        DEFAULT_SPOOL_BASE_DIR,
-        DEFAULT_MANIFEST_PATH,
-    ):
+    paths = [settings.data_dir, DEFAULT_ARCHIVE_DIR, DEFAULT_SPOOL_BASE_DIR]
+    # H01.01: sft_leyla torch gerektirir; torch yoksa yalnız bu yol atlanır.
+    import importlib.util
+
+    if importlib.util.find_spec("torch") is not None:
+        from backend.sft_leyla import DEFAULT_MANIFEST_PATH
+
+        paths.append(DEFAULT_MANIFEST_PATH)
+    for path in paths:
         assert _outside_project_data(path), path
 
 
