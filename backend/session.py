@@ -122,7 +122,7 @@ class VoiceSession:
             from backend.supervisor.runtime import WebSupervisor
 
             self.supervisor = WebSupervisor(self.id, settings.supervisor_mode)
-        self.endpoint = Endpoint(models.vad)
+        self.endpoint = Endpoint(models.new_vad_session())
         from backend.dtmf import GoertzelDetector
         self.goertzel_detector = GoertzelDetector(sample_rate=16000)
         from backend.car_denoiser import InboundCarDenoiser
@@ -141,7 +141,7 @@ class VoiceSession:
         from backend.audiosocket_server import LookbackBuffer, TwoStageBargeInController
         self.lookback_buffer = LookbackBuffer(capacity_frames=15, frame_bytes=320)
         self.bargein_controller = TwoStageBargeInController()
-        models.vad.reset_states()
+        # HF07: a new session must never reset the shared model.
         self.generation = 0
         self.task = None
         self._pending_audio = None
