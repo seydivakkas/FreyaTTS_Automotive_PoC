@@ -39,7 +39,7 @@ jobs:
         run: |
           printf 'ADMIN_PASSWORD=%s\nLINK_SIGNING_KEY=%s\nAUDIO_ARCHIVE_MASTER_KEY=%s\nAMI_SECRET=%s\nWHATSAPP_WEBHOOK_TOKEN=%s\n' \
             "$ADMIN_PASSWORD" "$LINK_SIGNING_KEY" "$AUDIO_ARCHIVE_MASTER_KEY" "$AMI_SECRET" "$WHATSAPP_WEBHOOK_TOKEN" > .env
-          uv run --no-sync uvicorn backend.main:app --host 127.0.0.1 --port 8000 > /tmp/freya-server.log 2>&1 &
+          AUTO_LOAD_MODELS=0 uv run --no-sync uvicorn backend.main:app --host 127.0.0.1 --port 8000 > /tmp/freya-server.log 2>&1 &
           for i in $(seq 1 60); do
             if curl -fsS -o /dev/null http://127.0.0.1:8000/; then echo "Sunucu hazir"; exit 0; fi
             sleep 2
