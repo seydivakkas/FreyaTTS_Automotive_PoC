@@ -69,15 +69,16 @@ def test_HF07_real_installed_silero_jit_interleaved_parity():
     silero = pytest.importorskip("silero_vad")
     assert importlib.metadata.version("silero-vad") == "6.2.3"
     raw = silero.load_silero_vad()
-    pool = SharedVadPool(raw)
     torch_gen = torch.Generator().manual_seed(711)
     a_blocks = [torch.randn(512, generator=torch_gen) * 0.03 for _ in range(8)]
     b_blocks = [torch.randn(512, generator=torch_gen) * 0.01 for _ in range(8)]
     with torch.inference_mode():
-        reference_a = pool.new_session()
-        expected_a = [float(reference_a(x, 16000)) for x in a_blocks]
-        reference_b = pool.new_session()
-        expected_b = [float(reference_b(x, 16000)) for x in b_blocks]
+        # Compare against stock streaming inference, not another pool session.
+        raw.reset_states()
+        expected_a = [float(raw(x, 16000)) for x in a_blocks]
+        raw.reset_states()
+        expected_b = [float(raw(x, 16000)) for x in b_blocks]
+        pool = SharedVadPool(raw)
         a = pool.new_session()
         actual_a = [float(a(a_blocks[0], 16000))]
         b = pool.new_session()

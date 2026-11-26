@@ -59,6 +59,7 @@ jobs:
   hermetic-no-torch:
     runs-on: ubuntu-latest
     env:
+      FREYA_HERMETIC_NETWORK_GUARD: "1"
       ADMIN_PASSWORD: ci-only-disposable
       LINK_SIGNING_KEY: ci-only-link-signing-key
       AUDIO_ARCHIVE_MASTER_KEY: ci-only-archive-master-key

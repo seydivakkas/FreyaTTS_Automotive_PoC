@@ -25,6 +25,79 @@ os.environ["AMI_SECRET"] = "test-ami-secret"
 os.environ["AUDIO_ARCHIVE_MASTER_KEY"] = "test-archive-master-key"
 os.environ["LINK_SIGNING_KEY"] = "test-link-signing-key"
 
+# HF02: independent CI-only Python socket audit. Internal TestClient/mocks
+# do not open network sockets; real service and external attempts are blocked.
+# Synthetic loopback listeners bound by this process are the only TCP exception.
+_NETWORK_GUARD = os.environ.get("FREYA_HERMETIC_NETWORK_GUARD") == "1"
+_network_counts = {"allowed_synthetic": 0, "blocked": 0}
+if _NETWORK_GUARD:
+    import ipaddress
+    import socket
+    import sys
+    import weakref
+
+    _original_bind = socket.socket.bind
+    _synthetic_listeners = weakref.WeakSet()
+    _live_ports = {5038, 5060, 5061, 8088, 9092, 11434}
+
+    def _loopback(host):
+        if host in (None, "", "localhost"):
+            return True
+        try:
+            return ipaddress.ip_address(host).is_loopback
+        except ValueError:
+            return False
+
+    def _tracked_bind(sock, address):
+        result = _original_bind(sock, address)
+        if isinstance(address, tuple) and _loopback(address[0]):
+            bound = sock.getsockname()
+            if isinstance(bound, tuple) and bound[1] not in _live_ports:
+                _synthetic_listeners.add(sock)
+        return result
+
+    socket.socket.bind = _tracked_bind
+
+    def _deny():
+        _network_counts["blocked"] += 1
+        raise RuntimeError("HF02: external/live network attempt blocked")
+
+    def _audit_network(event, args):
+        if event in ("socket.getaddrinfo", "socket.gethostbyname", "socket.gethostbyname_ex"):
+            if not _loopback(args[0]):
+                _deny()
+        elif event in ("socket.connect", "socket.sendto"):
+            address = args[1]
+            if not isinstance(address, tuple) or not _loopback(address[0]):
+                _deny()
+            port = address[1]
+            if port in _live_ports:
+                _deny()
+            # Only a still-open loopback socket bound by this test process.
+            for listener in list(_synthetic_listeners):
+                try:
+                    bound = listener.getsockname()
+                    if listener.fileno() >= 0 and isinstance(bound, tuple) and bound[1] == port:
+                        _network_counts["allowed_synthetic"] += 1
+                        return
+                except OSError:
+                    continue
+            _deny()
+
+    sys.addaudithook(_audit_network)
+
+
+def pytest_sessionfinish(session, exitstatus):
+    if _NETWORK_GUARD:
+        print(
+            "\nHF02 Python socket audit: "
+            f"blocked_live_or_external_attempts={_network_counts['blocked']}; "
+            f"allowed_synthetic_connections={_network_counts['allowed_synthetic']}"
+        )
+        if _network_counts["blocked"]:
+            session.exitstatus = pytest.ExitCode.TESTS_FAILED
+
+
 from backend.config import settings  # noqa: E402
 from backend.db import Base, engine  # noqa: E402
 
