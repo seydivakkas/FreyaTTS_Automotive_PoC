@@ -1,0 +1,30 @@
+JOB 139597904027 — original output, filtered to test results and diagnostics
+2026-11-26T00:08:58.5206511Z HF02 Python socket audit: blocked_live_or_external_attempts=0; allowed_synthetic_connections=0
+2026-11-26T00:08:58.5209914Z 1590/1591 tests collected (1 deselected) in 6.16s
+2026-11-26T00:09:46.0487152Z HF02 Python socket audit: blocked_live_or_external_attempts=1; allowed_synthetic_connections=23
+2026-11-26T00:09:46.0489926Z 1584 passed, 8 skipped, 1 deselected, 1 warning, 44 subtests passed in 46.00s
+2026-11-26T00:09:47.2356269Z ##[error]Process completed with exit code 1.
+
+JOB 139597534756 — original output, filtered to test results and diagnostics
+2026-11-26T00:08:02.5624914Z 1590/1591 tests collected (1 deselected) in 6.11s
+2026-11-26T00:08:48.7647844Z 1584 passed, 8 skipped, 1 deselected, 1 warning, 44 subtests passed in 44.50s
+
+JOB 139596984414 — original output, filtered to test results and diagnostics
+2026-11-26T00:08:43.4137251Z 1583 passed, 6 skipped, 16 deselected, 1 warning, 44 subtests passed in 88.00s (0:01:27)
+2026-11-26T00:08:46.0750366Z No new upgrade operations detected.
+2026-11-26T00:09:24.6426635Z Running 7 tests using 1 worker
+2026-11-26T00:09:27.5671168Z   ✓  1 tests/ui.spec.ts:31:3 › Yönetim ekranları 1440px (1.1s)
+2026-11-26T00:09:57.6284698Z   ✘  2 tests/ui.spec.ts:31:3 › Yönetim ekranları 390px (30.0s)
+2026-11-26T00:09:59.7164967Z   ✓  3 tests/ui.spec.ts:103:3 › Tüm sekmeler yatay taşma yapmaz 1440px (1.7s)
+2026-11-26T00:10:01.2968284Z   ✓  4 tests/ui.spec.ts:103:3 › Tüm sekmeler yatay taşma yapmaz 390px (1.6s)
+2026-11-26T00:10:01.4918083Z   ✓  5 tests/ui.spec.ts:124:1 › Yanlış parola Türkçe hata gösterir (186ms)
+2026-11-26T00:10:01.7782470Z   ✓  6 tests/ui.spec.ts:132:1 › Çıkış giriş ekranına döner ve parolayı temizler (276ms)
+2026-11-26T00:10:02.0985877Z   ✓  7 tests/ui.spec.ts:142:1 › İlk randevu rehberi panelden ilk randevuyu yönlendirir ve takvime bağlar (309ms)
+2026-11-26T00:10:02.1396782Z   1) tests/ui.spec.ts:31:3 › Yönetim ekranları 390px ───────────────────────────────────────────────
+2026-11-26T00:10:02.1397949Z     Test timeout of 30000ms exceeded.
+2026-11-26T00:10:02.1400314Z   1 failed
+2026-11-26T00:10:02.1401078Z     tests/ui.spec.ts:31:3 › Yönetim ekranları 390px ────────────────────────────────────────────────
+2026-11-26T00:10:02.1401783Z   6 passed (37.9s)
+2026-11-26T00:10:02.1633768Z ##[error]Process completed with exit code 1.
+2026-11-26T00:10:02.1797628Z     raise RuntimeError("CUDA kullanılamıyor")
+2026-11-26T00:10:02.1798124Z RuntimeError: CUDA kullanılamıyor
