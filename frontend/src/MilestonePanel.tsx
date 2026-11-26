@@ -47,7 +47,7 @@ export function MilestonePanel({ api }: Props) {
   const activeLocksCount = safetyLocks.filter((l) => l.active).length;
 
   return (
-    <div className="milestone-cockpit-layout" style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+    <div className="milestone-cockpit-layout" style={{ display: "flex", flexDirection: "column", gap: "20px", minWidth: 0, minHeight: 0, flex: 1, overflowY: "auto", overflowX: "hidden", overflowWrap: "anywhere" }}>
       {/* ÜST EMNİYET KİLİDİ ÖZET ŞERİDİ */}
       <div
         style={{
@@ -80,7 +80,7 @@ export function MilestonePanel({ api }: Props) {
               M01–M11 Deterministik Kalite & Güvenlik Emniyet Kilitleri
             </h2>
             <p style={{ margin: "4px 0 0", fontSize: "12px", color: "#94a3b8" }}>
-              Ses hattında olasılıksal (LLM/ASR) sapmaları engelleyen, deterministik iş kuralları matrisi ({activeLocksCount}/11 Aktif).
+              Emniyet kuralları yerel önizlemesi (SİMÜLASYON). {activeLocksCount}/11 seçili; bu seçimler sunucu politikasını değiştirmez.
             </p>
           </div>
         </div>
@@ -98,7 +98,7 @@ export function MilestonePanel({ api }: Props) {
               fontWeight: "bold",
             }}
           >
-            ✓ Toplam Gecikme Bütçesi: &lt; 2.1 ms
+            Toplam gecikme: — (ölçüm yok)
           </span>
         </div>
       </div>
@@ -113,7 +113,7 @@ export function MilestonePanel({ api }: Props) {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 360px), 1fr))",
           gap: "14px",
         }}
       >
@@ -132,9 +132,9 @@ export function MilestonePanel({ api }: Props) {
               transition: "all 0.2s ease",
             }}
           >
-            <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "10px" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-start", justifyContent: "space-between", gap: "10px" }}>
               <div>
-                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "8px" }}>
                   <span
                     style={{
                       fontFamily: "monospace",
@@ -181,7 +181,7 @@ export function MilestonePanel({ api }: Props) {
                   whiteSpace: "nowrap",
                 }}
               >
-                {lock.active ? "AKTİF" : "DEVRE DIŞI"}
+                {lock.active ? "ÖNİZLEME AÇIK" : "ÖNİZLEME KAPALI"}
               </button>
             </div>
 
@@ -199,11 +199,11 @@ export function MilestonePanel({ api }: Props) {
             >
               <span>
                 Engellenen İhlal:{" "}
-                <strong style={{ color: lock.trips > 0 ? "#f59e0b" : "#94a3b8" }}>
-                  {lock.trips} kez
+                <strong style={{ color: "#94a3b8" }}>
+                  —
                 </strong>
               </span>
-              <span>Ek Gecikme: {lock.latency}</span>
+              <span>Ek gecikme: — (ölçüm yok)</span>
             </div>
           </div>
         ))}
@@ -232,14 +232,17 @@ export function MilestonePanel({ api }: Props) {
           </div>
         </div>
 
-        <div style={{ display: "flex", gap: "10px" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", minWidth: 0 }}>
           <textarea
             rows={2}
             aria-label="Sözleşme metni"
             value={text}
             onChange={(e) => setText(e.target.value)}
             style={{
-              flex: 1,
+              flex: "1 1 180px",
+              minWidth: 0,
+              maxWidth: "100%",
+              boxSizing: "border-box",
               background: "#090d16",
               border: "1px solid #334155",
               borderRadius: "8px",
@@ -257,7 +260,9 @@ export function MilestonePanel({ api }: Props) {
               color: "#0f172a",
               fontWeight: "bold",
               fontSize: "12px",
-              padding: "0 20px",
+              padding: "10px 16px",
+              flex: "0 1 auto",
+              maxWidth: "100%",
               borderRadius: "8px",
               cursor: "pointer",
               border: 0,
@@ -292,7 +297,7 @@ export function MilestonePanel({ api }: Props) {
                   fontWeight: "bold",
                 }}
               >
-                {result.plan?.status || "M05_VERIFIED"}
+                {result.plan?.status ?? "Doğrulama durumu yok"}
               </span>
             </div>
             <p data-testid="contract-normalized-text" style={{ margin: 0, color: "#a7f3d0", fontWeight: "bold" }}>
@@ -313,7 +318,7 @@ export function MilestonePanel({ api }: Props) {
                       fontSize: "11px",
                     }}
                   >
-                    <strong>[Cümlecik #{c.index || idx + 1}]</strong> {c.text} ({c.pause_after_ms ?? 140}ms)
+                    <strong>[Cümlecik #{c.index || idx + 1}]</strong> {c.text} ({c.pause_after_ms == null ? "—" : `${c.pause_after_ms} ms`})
                   </span>
                 ))}
               </div>
