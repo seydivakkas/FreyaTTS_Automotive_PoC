@@ -2826,3 +2826,28 @@ button.primary {
     overflow: visible;
   }
 }
+
+@media (max-width: 768px) {
+  /* Lab has one vertical scroll owner, not nested grid/column scrollers. */
+  .cockpit-content-viewport > .lab-tab {
+    height: auto !important;
+    min-height: 0;
+    flex: 0 0 auto;
+    overflow: visible !important;
+  }
+  .lab-tab .workbench-grid {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 auto;
+    height: auto;
+    overflow: visible;
+  }
+  .lab-tab .workbench-col {
+    flex: 0 0 auto;
+    height: auto;
+    overflow: visible;
+  }
+  .lab-tab .workbench-col:nth-child(2) { order: -1; }
+  .lab-tab .workbench-card-header { flex-wrap: wrap; }
+  .lab-tab button { max-width: 100%; overflow-wrap: anywhere; }
+}

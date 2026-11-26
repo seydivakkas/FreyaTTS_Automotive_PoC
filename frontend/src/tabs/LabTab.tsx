@@ -161,7 +161,7 @@ export function LabTab({
   };
 
   return (
-    <div style={{ height: "100%", display: "flex", flexDirection: "column", minHeight: 0, padding: "2px 0", overflow: "hidden" }}>
+    <div className="lab-tab" style={{ height: "100%", display: "flex", flexDirection: "column", minHeight: 0, padding: "2px 0", overflow: "hidden" }}>
       {/* Panel Başlığı ve F5 Statik Rozeti */}
       <div
         style={{

@@ -60,7 +60,7 @@ for (const width of [1440, 390]) {
     await expect(page.getByText(/SİMÜLASYON.*sunucu politikasını değiştirmez/)).toBeVisible();
     await page.getByRole("textbox", { name: "Sözleşme metni", exact: true }).scrollIntoViewIfNeeded();
     await page.getByRole("textbox", { name: "Sözleşme metni", exact: true }).fill("Volkswagen Passat için tahmini değer 1.250.000 TL.");
-    await page.getByRole("button", { name: "Sözleşmeyi İncele", exact: true }).click();
+    await page.getByRole("button", { name: "Sözleşmeyi İncele", exact: true }).click({ timeout: 5000 });
     await expect(page.getByTestId("contract-normalized-text")).toContainText(
       "bir milyon iki yüz elli bin",
     );
@@ -71,7 +71,8 @@ for (const width of [1440, 390]) {
     await navItem(page, "Ses laboratuvarı").click();
     await page.getByRole("textbox", { name: "Sentez metni", exact: true }).scrollIntoViewIfNeeded();
     await page.getByRole("textbox", { name: "Sentez metni", exact: true }).fill("Volkswagen Passat için tahmini değer 1.250.000 TL.");
-    await page.getByRole("button", { name: "Normalizasyonu İncele", exact: true }).click();
+    await page.getByRole("button", { name: "Normalizasyonu İncele", exact: true }).scrollIntoViewIfNeeded({ timeout: 5000 });
+    await page.getByRole("button", { name: "Normalizasyonu İncele", exact: true }).click({ timeout: 5000 });
     await expect(page.getByTestId("lab-normalized-text")).toContainText(
       "bir milyon iki yüz elli bin",
     );
