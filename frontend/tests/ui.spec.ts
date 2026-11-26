@@ -56,8 +56,9 @@ for (const width of [1440, 390]) {
       ).toBeTruthy();
     }
     await navItem(page, "M01–M11").click();
-    await page.getByRole("button", { name: "Sözleşmeyi incele" }).click();
-    await expect(page.locator(".bubble")).toContainText(
+    await page.getByRole("textbox", { name: "Sözleşme metni", exact: true }).fill("Volkswagen Passat için tahmini değer 1.250.000 TL.");
+    await page.getByRole("button", { name: "Sözleşmeyi İncele", exact: true }).click();
+    await expect(page.getByTestId("contract-normalized-text")).toContainText(
       "bir milyon iki yüz elli bin",
     );
     await page.screenshot({
@@ -65,8 +66,9 @@ for (const width of [1440, 390]) {
       fullPage: true,
     });
     await navItem(page, "Ses laboratuvarı").click();
-    await page.getByRole("button", { name: "Normalizasyonu incele" }).click();
-    await expect(page.locator(".bubble")).toContainText(
+    await page.getByRole("textbox", { name: "Sentez metni", exact: true }).fill("Volkswagen Passat için tahmini değer 1.250.000 TL.");
+    await page.getByRole("button", { name: "Normalizasyonu İncele", exact: true }).click();
+    await expect(page.getByTestId("lab-normalized-text")).toContainText(
       "bir milyon iki yüz elli bin",
     );
     await page.screenshot({ path: `../data/ui-${width}.png`, fullPage: true });

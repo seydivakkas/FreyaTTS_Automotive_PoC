@@ -381,6 +381,7 @@ export function LabTab({
             </div>
 
             <textarea
+              aria-label="Sentez metni"
               value={text}
               onChange={(e) => setText(e.target.value)}
               rows={5}
@@ -450,7 +451,7 @@ export function LabTab({
                 </div>
                 <div className="diff-row">
                   <span className="diff-tag normalized">Normalleştirilmiş</span>
-                  <span style={{ color: "#34d399", fontWeight: 600, wordBreak: "break-word" }}>
+                  <span data-testid="lab-normalized-text" style={{ color: "#34d399", fontWeight: 600, wordBreak: "break-word" }}>
                     {normalized}
                   </span>
                 </div>

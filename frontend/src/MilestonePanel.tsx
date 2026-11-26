@@ -235,6 +235,7 @@ export function MilestonePanel({ api }: Props) {
         <div style={{ display: "flex", gap: "10px" }}>
           <textarea
             rows={2}
+            aria-label="Sözleşme metni"
             value={text}
             onChange={(e) => setText(e.target.value)}
             style={{
@@ -294,8 +295,8 @@ export function MilestonePanel({ api }: Props) {
                 {result.plan?.status || "M05_VERIFIED"}
               </span>
             </div>
-            <p style={{ margin: 0, color: "#a7f3d0", fontWeight: "bold" }}>
-              "{result.normalization?.spoken_text || text}"
+            <p data-testid="contract-normalized-text" style={{ margin: 0, color: "#a7f3d0", fontWeight: "bold" }}>
+              {result.normalization?.spoken_text ?? "Normalizasyon sonucu yok"}
             </p>
 
             {result.plan?.clauses && (
