@@ -30,6 +30,7 @@ os.environ["LINK_SIGNING_KEY"] = "test-link-signing-key"
 # Synthetic loopback listeners bound by this process are the only TCP exception.
 _NETWORK_GUARD = os.environ.get("FREYA_HERMETIC_NETWORK_GUARD") == "1"
 _network_counts = {"allowed_synthetic": 0, "blocked": 0}
+_network_denials = []
 if _NETWORK_GUARD:
     import ipaddress
     import socket
@@ -67,7 +68,7 @@ if _NETWORK_GUARD:
         coordinates = " -> ".join(
             f"{Path(f.filename).name}:{f.lineno}:{f.name}" for f in frames
         )
-        print(f"HF02 denied {event}; test={os.environ.get('PYTEST_CURRENT_TEST', '<collection>')}; stack={coordinates}", file=sys.stderr)
+        _network_denials.append(f"HF02 denied {event}; test={os.environ.get('PYTEST_CURRENT_TEST', '<collection>')}; stack={coordinates}")
         raise RuntimeError("HF02: external/live network attempt blocked")
 
     def _audit_network(event, args):
@@ -102,6 +103,8 @@ def pytest_sessionfinish(session, exitstatus):
             f"blocked_live_or_external_attempts={_network_counts['blocked']}; "
             f"allowed_synthetic_connections={_network_counts['allowed_synthetic']}"
         )
+        for denial in _network_denials:
+            print(denial)
         if _network_counts["blocked"]:
             session.exitstatus = pytest.ExitCode.TESTS_FAILED
 
