@@ -1,0 +1,3448 @@
+{
+  "schema_version": "m00.ui_controls_supplement.v1",
+  "run_id": "20261126-0133-6f5867a",
+  "baseline_commit": "6f5867af52dd8d3fd706dc6c9ddd4a42a2dd360f",
+  "evidence_class": "STATIC_CODE",
+  "records": [
+    {
+      "ui_id": "UI-0190",
+      "parent_ui_id": "UI-0010",
+      "file": "frontend/src/DatasetGeneratorPanel.tsx",
+      "line_start": 121,
+      "line_end": 127,
+      "control_type": "form",
+      "label": null,
+      "handlers": {
+        "onSubmit": "(e) => {\n          e.preventDefault();\n          handleGenerateDataset();\n        }"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0191",
+      "parent_ui_id": "UI-0010",
+      "file": "frontend/src/DatasetGeneratorPanel.tsx",
+      "line_start": 133,
+      "line_end": 149,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setDatasetCount(Math.max(1, parseInt(e.target.value) || 1))"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0192",
+      "parent_ui_id": "UI-0010",
+      "file": "frontend/src/DatasetGeneratorPanel.tsx",
+      "line_start": 155,
+      "line_end": 167,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setDatasetFormat(e.target.value as \"alpaca\" | \"sharegpt\")"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0193",
+      "parent_ui_id": "UI-0010",
+      "file": "frontend/src/DatasetGeneratorPanel.tsx",
+      "line_start": 213,
+      "line_end": 231,
+      "control_type": "button",
+      "label": null,
+      "handlers": {},
+      "binding": "UNRESOLVED",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0194",
+      "parent_ui_id": "UI-0010",
+      "file": "frontend/src/DatasetGeneratorPanel.tsx",
+      "line_start": 236,
+      "line_end": 255,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "handleExportDataset"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0195",
+      "parent_ui_id": "UI-0011",
+      "file": "frontend/src/DiagnosticPanel.tsx",
+      "line_start": 255,
+      "line_end": 261,
+      "control_type": "input",
+      "label": "DTC kodu, arıza tanımı, plaka veya müşteri ara...",
+      "handlers": {
+        "onChange": "(e) => setSearch(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0196",
+      "parent_ui_id": "UI-0011",
+      "file": "frontend/src/DiagnosticPanel.tsx",
+      "line_start": 262,
+      "line_end": 266,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setFilterResolved(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0197",
+      "parent_ui_id": "UI-0011",
+      "file": "frontend/src/DiagnosticPanel.tsx",
+      "line_start": 271,
+      "line_end": 275,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setFilterSeverity(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0198",
+      "parent_ui_id": "UI-0011",
+      "file": "frontend/src/DiagnosticPanel.tsx",
+      "line_start": 282,
+      "line_end": 286,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "() => setShowIngestForm(!showIngestForm)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0199",
+      "parent_ui_id": "UI-0011",
+      "file": "frontend/src/DiagnosticPanel.tsx",
+      "line_start": 304,
+      "line_end": 309,
+      "control_type": "button",
+      "label": "Örnek doldur",
+      "handlers": {
+        "onClick": "fillSample"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0200",
+      "parent_ui_id": "UI-0011",
+      "file": "frontend/src/DiagnosticPanel.tsx",
+      "line_start": 317,
+      "line_end": 317,
+      "control_type": "form",
+      "label": null,
+      "handlers": {
+        "onSubmit": "handleIngest"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0201",
+      "parent_ui_id": "UI-0011",
+      "file": "frontend/src/DiagnosticPanel.tsx",
+      "line_start": 330,
+      "line_end": 335,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setSelectedVehicleId(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0202",
+      "parent_ui_id": "UI-0011",
+      "file": "frontend/src/DiagnosticPanel.tsx",
+      "line_start": 349,
+      "line_end": 356,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setCurrentKm(e.target.value === \"\" ? \"\" : Number(e.target.value))"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0203",
+      "parent_ui_id": "UI-0011",
+      "file": "frontend/src/DiagnosticPanel.tsx",
+      "line_start": 363,
+      "line_end": 367,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setSource(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0204",
+      "parent_ui_id": "UI-0011",
+      "file": "frontend/src/DiagnosticPanel.tsx",
+      "line_start": 387,
+      "line_end": 394,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => {\n                    setSelectedDtc(e.target.value);\n                    setCustomDtc(\"\");\n                  }"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0205",
+      "parent_ui_id": "UI-0011",
+      "file": "frontend/src/DiagnosticPanel.tsx",
+      "line_start": 408,
+      "line_end": 414,
+      "control_type": "input",
+      "label": "Örn: P0305, P0133",
+      "handlers": {
+        "onChange": "(e) => setCustomDtc(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0206",
+      "parent_ui_id": "UI-0011",
+      "file": "frontend/src/DiagnosticPanel.tsx",
+      "line_start": 430,
+      "line_end": 435,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setOwnerName(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0207",
+      "parent_ui_id": "UI-0011",
+      "file": "frontend/src/DiagnosticPanel.tsx",
+      "line_start": 442,
+      "line_end": 448,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setOwnerPhone(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0208",
+      "parent_ui_id": "UI-0011",
+      "file": "frontend/src/DiagnosticPanel.tsx",
+      "line_start": 453,
+      "line_end": 458,
+      "control_type": "button",
+      "label": "İptal",
+      "handlers": {
+        "onClick": "() => setShowIngestForm(false)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0209",
+      "parent_ui_id": "UI-0011",
+      "file": "frontend/src/DiagnosticPanel.tsx",
+      "line_start": 461,
+      "line_end": 465,
+      "control_type": "button",
+      "label": null,
+      "handlers": {},
+      "binding": "UNRESOLVED",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0210",
+      "parent_ui_id": "UI-0011",
+      "file": "frontend/src/DiagnosticPanel.tsx",
+      "line_start": 540,
+      "line_end": 551,
+      "control_type": "button",
+      "label": "Asterisk AMI üzerinden araç sahibine proaktif sesli arama başlatır",
+      "handlers": {
+        "onClick": "() => handleTriggerCall(item)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0211",
+      "parent_ui_id": "UI-0011",
+      "file": "frontend/src/DiagnosticPanel.tsx",
+      "line_start": 554,
+      "line_end": 565,
+      "control_type": "button",
+      "label": "Müşteriye arıza detayını ve randevu önerisini SMS olarak gönderir",
+      "handlers": {
+        "onClick": "() => handleTriggerSms(item)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0212",
+      "parent_ui_id": "UI-0011",
+      "file": "frontend/src/DiagnosticPanel.tsx",
+      "line_start": 568,
+      "line_end": 579,
+      "control_type": "button",
+      "label": "Arızayı çözüldü olarak işaretle",
+      "handlers": {
+        "onClick": "() => handleResolve(item.id)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0213",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 336,
+      "line_end": 342,
+      "control_type": "input",
+      "label": "Plaka, teknisyen veya özete göre ara...",
+      "handlers": {
+        "onChange": "(e) => setSearch(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0214",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 343,
+      "line_end": 347,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "() => setShowForm(!showForm)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0215",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 365,
+      "line_end": 370,
+      "control_type": "button",
+      "label": "Örnek doldur",
+      "handlers": {
+        "onClick": "fillSample"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0216",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 377,
+      "line_end": 377,
+      "control_type": "form",
+      "label": null,
+      "handlers": {
+        "onSubmit": "handleCreateReport"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0217",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 390,
+      "line_end": 396,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setVehicleId(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0218",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 410,
+      "line_end": 415,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setAppointmentId(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0219",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 431,
+      "line_end": 438,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setTechnicianName(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0220",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 454,
+      "line_end": 462,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setMileage(e.target.value === \"\" ? \"\" : Number(e.target.value))"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0221",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 469,
+      "line_end": 478,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setScore(e.target.value === \"\" ? \"\" : Number(e.target.value))"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0222",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 488,
+      "line_end": 496,
+      "control_type": "textarea",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setSummary(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0223",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 516,
+      "line_end": 522,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "() => setFormCategory(c.id as any)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0224",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 553,
+      "line_end": 565,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) =>\n                          setFindings({\n                            ...findings,\n                            paint_body: {\n                              ...findings.paint_body,\n                              [key]: e.target.value,\n                            },\n                          })"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0225",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 576,
+      "line_end": 589,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) =>\n                        setFindings({\n                          ...findings,\n                          paint_body: {\n                            ...findings.paint_body,\n                            notlar: e.target.value,\n                          },\n                        })"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0226",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 606,
+      "line_end": 619,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) =>\n                        setFindings({\n                          ...findings,\n                          engine_mechanical: {\n                            ...findings.engine_mechanical,\n                            motor_performansi_yuzde: e.target.value,\n                          },\n                        })"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0227",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 623,
+      "line_end": 636,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) =>\n                        setFindings({\n                          ...findings,\n                          engine_mechanical: {\n                            ...findings.engine_mechanical,\n                            turbo_durumu: e.target.value,\n                          },\n                        })"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0228",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 640,
+      "line_end": 653,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) =>\n                        setFindings({\n                          ...findings,\n                          engine_mechanical: {\n                            ...findings.engine_mechanical,\n                            sanziman_vites: e.target.value,\n                          },\n                        })"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0229",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 657,
+      "line_end": 670,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) =>\n                        setFindings({\n                          ...findings,\n                          engine_mechanical: {\n                            ...findings.engine_mechanical,\n                            yag_sivi_kacaklari: e.target.value,\n                          },\n                        })"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0230",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 687,
+      "line_end": 700,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) =>\n                        setFindings({\n                          ...findings,\n                          chassis_frame: {\n                            ...findings.chassis_frame,\n                            on_podyeler: e.target.value,\n                          },\n                        })"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0231",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 704,
+      "line_end": 717,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) =>\n                        setFindings({\n                          ...findings,\n                          chassis_frame: {\n                            ...findings.chassis_frame,\n                            on_arka_travers: e.target.value,\n                          },\n                        })"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0232",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 721,
+      "line_end": 734,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) =>\n                        setFindings({\n                          ...findings,\n                          chassis_frame: {\n                            ...findings.chassis_frame,\n                            marspiyeller: e.target.value,\n                          },\n                        })"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0233",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 738,
+      "line_end": 751,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) =>\n                        setFindings({\n                          ...findings,\n                          chassis_frame: {\n                            ...findings.chassis_frame,\n                            fren_disk_balata: e.target.value,\n                          },\n                        })"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0234",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 768,
+      "line_end": 781,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) =>\n                        setFindings({\n                          ...findings,\n                          tires_wheels: {\n                            ...findings.tires_wheels,\n                            on_sol_dis_mm: e.target.value,\n                          },\n                        })"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0235",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 785,
+      "line_end": 798,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) =>\n                        setFindings({\n                          ...findings,\n                          tires_wheels: {\n                            ...findings.tires_wheels,\n                            arka_sol_dis_mm: e.target.value,\n                          },\n                        })"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0236",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 802,
+      "line_end": 815,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) =>\n                        setFindings({\n                          ...findings,\n                          tires_wheels: {\n                            ...findings.tires_wheels,\n                            dot_yili: e.target.value,\n                          },\n                        })"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0237",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 832,
+      "line_end": 845,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) =>\n                        setFindings({\n                          ...findings,\n                          interior_electronics: {\n                            ...findings.interior_electronics,\n                            airbag_guvenlik: e.target.value,\n                          },\n                        })"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0238",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 849,
+      "line_end": 862,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) =>\n                        setFindings({\n                          ...findings,\n                          interior_electronics: {\n                            ...findings.interior_electronics,\n                            obd_ariza_taramasi: e.target.value,\n                          },\n                        })"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0239",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 886,
+      "line_end": 890,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setUploadCategory(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0240",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 897,
+      "line_end": 903,
+      "control_type": "input",
+      "label": "Görsel açıklaması (Örn: Motor Bloğu)",
+      "handlers": {
+        "onChange": "(e) => setUploadCaption(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0241",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 915,
+      "line_end": 921,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "handleFileUpload"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0242",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 964,
+      "line_end": 983,
+      "control_type": "button",
+      "label": "✕",
+      "handlers": {
+        "onClick": "() =>\n                          setPhotos((prev) => prev.filter((_, i) => i !== idx))"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0243",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 1000,
+      "line_end": 1004,
+      "control_type": "button",
+      "label": "İptal",
+      "handlers": {
+        "onClick": "() => setShowForm(false)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0244",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 1007,
+      "line_end": 1012,
+      "control_type": "button",
+      "label": null,
+      "handlers": {},
+      "binding": "UNRESOLVED",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0245",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 1061,
+      "line_end": 1071,
+      "control_type": "button",
+      "label": "📥 PDF İndir",
+      "handlers": {
+        "onClick": "() => openPdf(r.id)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0246",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 1074,
+      "line_end": 1087,
+      "control_type": "button",
+      "label": "Müşteriye SMS, kurumsal hesaba WhatsApp ile dijital link gönderir",
+      "handlers": {
+        "onClick": "() => handleSendLink(r.id)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0247",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 1090,
+      "line_end": 1098,
+      "control_type": "button",
+      "label": "🔍 Detay",
+      "handlers": {
+        "onClick": "() => setViewReport(r)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0248",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 1157,
+      "line_end": 1161,
+      "control_type": "button",
+      "label": "Kapat",
+      "handlers": {
+        "onClick": "() => setViewReport(null)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0249",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 1201,
+      "line_end": 1206,
+      "control_type": "button",
+      "label": "📥 PDF Raporunu Görüntüle",
+      "handlers": {
+        "onClick": "() => openPdf(viewReport.id)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0250",
+      "parent_ui_id": "UI-0013",
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line_start": 1209,
+      "line_end": 1212,
+      "control_type": "button",
+      "label": "Kapat",
+      "handlers": {
+        "onClick": "() => setViewReport(null)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0251",
+      "parent_ui_id": "UI-0014",
+      "file": "frontend/src/LexiconPanel.tsx",
+      "line_start": 205,
+      "line_end": 219,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "() => setActiveSubTab(\"f4_engine\")"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [
+        "FT-F4-0004"
+      ],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0252",
+      "parent_ui_id": "UI-0014",
+      "file": "frontend/src/LexiconPanel.tsx",
+      "line_start": 222,
+      "line_end": 236,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "() => setActiveSubTab(\"db_lexicon\")"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [
+        "FT-F4-0004"
+      ],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0253",
+      "parent_ui_id": "UI-0014",
+      "file": "frontend/src/LexiconPanel.tsx",
+      "line_start": 297,
+      "line_end": 314,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "handlePlayF4Preview"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [
+        "FT-F4-0004"
+      ],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0254",
+      "parent_ui_id": "UI-0014",
+      "file": "frontend/src/LexiconPanel.tsx",
+      "line_start": 320,
+      "line_end": 335,
+      "control_type": "textarea",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setF4TestInput(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [
+        "FT-F4-0004"
+      ],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0255",
+      "parent_ui_id": "UI-0014",
+      "file": "frontend/src/LexiconPanel.tsx",
+      "line_start": 429,
+      "line_end": 429,
+      "control_type": "form",
+      "label": null,
+      "handlers": {
+        "onSubmit": "handleAddF4Rule"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [
+        "FT-F4-0004"
+      ],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0256",
+      "parent_ui_id": "UI-0014",
+      "file": "frontend/src/LexiconPanel.tsx",
+      "line_start": 430,
+      "line_end": 446,
+      "control_type": "input",
+      "label": "Desen (örn: Chery Tiggo)",
+      "handlers": {
+        "onChange": "(e) => setNewPattern(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [
+        "FT-F4-0004"
+      ],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0257",
+      "parent_ui_id": "UI-0014",
+      "file": "frontend/src/LexiconPanel.tsx",
+      "line_start": 447,
+      "line_end": 463,
+      "control_type": "input",
+      "label": "Okunuş (örn: Çeri Tigo)",
+      "handlers": {
+        "onChange": "(e) => setNewReplacement(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [
+        "FT-F4-0004"
+      ],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0258",
+      "parent_ui_id": "UI-0014",
+      "file": "frontend/src/LexiconPanel.tsx",
+      "line_start": 464,
+      "line_end": 479,
+      "control_type": "input",
+      "label": "Sezer Vurgusu (örn: çe'ri)",
+      "handlers": {
+        "onChange": "(e) => setNewSezer(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [
+        "FT-F4-0004"
+      ],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0259",
+      "parent_ui_id": "UI-0014",
+      "file": "frontend/src/LexiconPanel.tsx",
+      "line_start": 480,
+      "line_end": 491,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setNewCategory(e.target.value as any)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [
+        "FT-F4-0004"
+      ],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0260",
+      "parent_ui_id": "UI-0014",
+      "file": "frontend/src/LexiconPanel.tsx",
+      "line_start": 503,
+      "line_end": 515,
+      "control_type": "button",
+      "label": "+ Kural Ekle",
+      "handlers": {},
+      "binding": "UNRESOLVED",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [
+        "FT-F4-0004"
+      ],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0261",
+      "parent_ui_id": "UI-0014",
+      "file": "frontend/src/LexiconPanel.tsx",
+      "line_start": 535,
+      "line_end": 547,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "() => setF4CategoryFilter(\"all\")"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [
+        "FT-F4-0004"
+      ],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0262",
+      "parent_ui_id": "UI-0014",
+      "file": "frontend/src/LexiconPanel.tsx",
+      "line_start": 551,
+      "line_end": 564,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "() => setF4CategoryFilter(c)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [
+        "FT-F4-0004"
+      ],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0263",
+      "parent_ui_id": "UI-0014",
+      "file": "frontend/src/LexiconPanel.tsx",
+      "line_start": 570,
+      "line_end": 584,
+      "control_type": "input",
+      "label": "Kural ara...",
+      "handlers": {
+        "onChange": "(e) => setF4Search(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [
+        "FT-F4-0004"
+      ],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0264",
+      "parent_ui_id": "UI-0014",
+      "file": "frontend/src/LexiconPanel.tsx",
+      "line_start": 607,
+      "line_end": 624,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "() =>\n                            setF4Rules((prev) =>\n                              prev.map((r) => (r.id === rule.id ? { ...r, active: !r.active } : r))\n                            )"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [
+        "FT-F4-0004"
+      ],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0265",
+      "parent_ui_id": "UI-0014",
+      "file": "frontend/src/LexiconPanel.tsx",
+      "line_start": 629,
+      "line_end": 640,
+      "control_type": "button",
+      "label": "Kuralı Sil",
+      "handlers": {
+        "onClick": "() => setF4Rules((prev) => prev.filter((r) => r.id !== rule.id))"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [
+        "FT-F4-0004"
+      ],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0266",
+      "parent_ui_id": "UI-0014",
+      "file": "frontend/src/LexiconPanel.tsx",
+      "line_start": 674,
+      "line_end": 674,
+      "control_type": "form",
+      "label": null,
+      "handlers": {
+        "onSubmit": "handleDbSave"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [
+        "FT-F4-0004"
+      ],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0267",
+      "parent_ui_id": "UI-0014",
+      "file": "frontend/src/LexiconPanel.tsx",
+      "line_start": 675,
+      "line_end": 689,
+      "control_type": "input",
+      "label": "Terim (örn: TDI, Passat, BlueHDi)",
+      "handlers": {
+        "onChange": "(e) => setTerm(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [
+        "FT-F4-0004"
+      ],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0268",
+      "parent_ui_id": "UI-0014",
+      "file": "frontend/src/LexiconPanel.tsx",
+      "line_start": 690,
+      "line_end": 704,
+      "control_type": "input",
+      "label": "Okunuş (örn: ti di ay)",
+      "handlers": {
+        "onChange": "(e) => setSpoken(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [
+        "FT-F4-0004"
+      ],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0269",
+      "parent_ui_id": "UI-0014",
+      "file": "frontend/src/LexiconPanel.tsx",
+      "line_start": 705,
+      "line_end": 716,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setCategory(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [
+        "FT-F4-0004"
+      ],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0270",
+      "parent_ui_id": "UI-0014",
+      "file": "frontend/src/LexiconPanel.tsx",
+      "line_start": 723,
+      "line_end": 736,
+      "control_type": "button",
+      "label": null,
+      "handlers": {},
+      "binding": "UNRESOLVED",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [
+        "FT-F4-0004"
+      ],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0271",
+      "parent_ui_id": "UI-0014",
+      "file": "frontend/src/LexiconPanel.tsx",
+      "line_start": 755,
+      "line_end": 768,
+      "control_type": "input",
+      "label": "Terim ara...",
+      "handlers": {
+        "onChange": "(e) => setDbSearch(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [
+        "FT-F4-0004"
+      ],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0272",
+      "parent_ui_id": "UI-0017",
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line_start": 310,
+      "line_end": 315,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "() => setShowTestModal(!showTestModal)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0273",
+      "parent_ui_id": "UI-0017",
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line_start": 345,
+      "line_end": 349,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setTestChannel(e.target.value as \"sms\" | \"whatsapp\")"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0274",
+      "parent_ui_id": "UI-0017",
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line_start": 358,
+      "line_end": 364,
+      "control_type": "input",
+      "label": "+905xxxxxxxxx veya 05xxxxxxxxx",
+      "handlers": {
+        "onChange": "(e) => setTestPhone(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0275",
+      "parent_ui_id": "UI-0017",
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line_start": 370,
+      "line_end": 376,
+      "control_type": "textarea",
+      "label": "Test mesajınızı yazın...",
+      "handlers": {
+        "onChange": "(e) => setTestMessage(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0276",
+      "parent_ui_id": "UI-0017",
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line_start": 380,
+      "line_end": 385,
+      "control_type": "button",
+      "label": "Vazgeç",
+      "handlers": {
+        "onClick": "() => setShowTestModal(false)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0277",
+      "parent_ui_id": "UI-0017",
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line_start": 388,
+      "line_end": 393,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "handleSendTest"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0278",
+      "parent_ui_id": "UI-0017",
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line_start": 432,
+      "line_end": 442,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "() => setActiveTab(\"inbound\")"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0279",
+      "parent_ui_id": "UI-0017",
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line_start": 445,
+      "line_end": 455,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "() => setActiveTab(\"outbox\")"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0280",
+      "parent_ui_id": "UI-0017",
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line_start": 500,
+      "line_end": 506,
+      "control_type": "input",
+      "label": "+905551234567",
+      "handlers": {
+        "onChange": "(e) => setSimPhone(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0281",
+      "parent_ui_id": "UI-0017",
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line_start": 508,
+      "line_end": 516,
+      "control_type": "button",
+      "label": "Örnek doldur",
+      "handlers": {
+        "onClick": "() => {\n                    setSimPhone(\"+905551234567\");\n                    setSimText(\"Saati 16:00 yapalım lütfen\");\n                  }"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0282",
+      "parent_ui_id": "UI-0017",
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line_start": 526,
+      "line_end": 531,
+      "control_type": "button",
+      "label": "🕒 \"Saati 16:00 yapalım\"",
+      "handlers": {
+        "onClick": "() => setSimText(\"Saati 16:00 yapalım lütfen, işim uzadı.\")"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0283",
+      "parent_ui_id": "UI-0017",
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line_start": 534,
+      "line_end": 539,
+      "control_type": "button",
+      "label": "❌ \"Randevumu iptal edin\"",
+      "handlers": {
+        "onClick": "() => setSimText(\"Bugünkü ekspertiz randevumu iptal etmek istiyorum.\")"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0284",
+      "parent_ui_id": "UI-0017",
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line_start": 542,
+      "line_end": 547,
+      "control_type": "button",
+      "label": "✅ \"Onaylıyorum, geliyorum\"",
+      "handlers": {
+        "onClick": "() => setSimText(\"Evet onaylıyorum, saatinde orada olacağım.\")"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0285",
+      "parent_ui_id": "UI-0017",
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line_start": 550,
+      "line_end": 555,
+      "control_type": "button",
+      "label": "📍 \"Konum atar mısınız?\"",
+      "handlers": {
+        "onClick": "() => setSimText(\"Şubenizin açık adresi nedir, konum atar mısınız?\")"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0286",
+      "parent_ui_id": "UI-0017",
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line_start": 565,
+      "line_end": 571,
+      "control_type": "textarea",
+      "label": "Müşterinin yazacağı mesaj...",
+      "handlers": {
+        "onChange": "(e) => setSimText(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0287",
+      "parent_ui_id": "UI-0017",
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line_start": 575,
+      "line_end": 580,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "handleSimulateText"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0288",
+      "parent_ui_id": "UI-0017",
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line_start": 591,
+      "line_end": 596,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setSimVoiceFile(e.target.files?.[0] || null)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0289",
+      "parent_ui_id": "UI-0017",
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line_start": 599,
+      "line_end": 605,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "handleSimulateVoice"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0290",
+      "parent_ui_id": "UI-0017",
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line_start": 618,
+      "line_end": 623,
+      "control_type": "button",
+      "label": "Yenile ↻",
+      "handlers": {
+        "onClick": "() => act(refresh)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0291",
+      "parent_ui_id": "UI-0017",
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line_start": 760,
+      "line_end": 766,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "handleScanReminders"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0292",
+      "parent_ui_id": "UI-0017",
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line_start": 769,
+      "line_end": 774,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "handleDispatch"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0293",
+      "parent_ui_id": "UI-0017",
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line_start": 793,
+      "line_end": 796,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setChannelFilter(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0294",
+      "parent_ui_id": "UI-0017",
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line_start": 805,
+      "line_end": 808,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setTypeFilter(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0295",
+      "parent_ui_id": "UI-0017",
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line_start": 817,
+      "line_end": 820,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setStatusFilter(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0296",
+      "parent_ui_id": "UI-0017",
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line_start": 935,
+      "line_end": 940,
+      "control_type": "button",
+      "label": "Tekrar Gönder",
+      "handlers": {
+        "onClick": "() => handleRetry(item)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0297",
+      "parent_ui_id": "UI-0018",
+      "file": "frontend/src/OntologyPanel.tsx",
+      "line_start": 155,
+      "line_end": 160,
+      "control_type": "button",
+      "label": "🏷️ Sertifikalı Paket & Fiyatlar (Tek Kaynak)",
+      "handlers": {
+        "onClick": "() => setActiveSubTab(\"packages\")"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0298",
+      "parent_ui_id": "UI-0018",
+      "file": "frontend/src/OntologyPanel.tsx",
+      "line_start": 163,
+      "line_end": 168,
+      "control_type": "button",
+      "label": "⚡ OBD-II & Arıza Ontolojisi",
+      "handlers": {
+        "onClick": "() => setActiveSubTab(\"diagnostics\")"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0299",
+      "parent_ui_id": "UI-0018",
+      "file": "frontend/src/OntologyPanel.tsx",
+      "line_start": 171,
+      "line_end": 176,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "() => setActiveSubTab(\"graph\")"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0300",
+      "parent_ui_id": "UI-0018",
+      "file": "frontend/src/OntologyPanel.tsx",
+      "line_start": 179,
+      "line_end": 184,
+      "control_type": "button",
+      "label": "🛠️ MCP Araçları & Ajan Testi",
+      "handlers": {
+        "onClick": "() => setActiveSubTab(\"mcp\")"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0301",
+      "parent_ui_id": "UI-0018",
+      "file": "frontend/src/OntologyPanel.tsx",
+      "line_start": 317,
+      "line_end": 323,
+      "control_type": "input",
+      "label": "Örn: passat 1.5 tsi, megan 4...",
+      "handlers": {
+        "onChange": "(e) => setVehicleQuery(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0302",
+      "parent_ui_id": "UI-0018",
+      "file": "frontend/src/OntologyPanel.tsx",
+      "line_start": 324,
+      "line_end": 324,
+      "control_type": "button",
+      "label": "Çözümle",
+      "handlers": {
+        "onClick": "handleTestVehicle"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0303",
+      "parent_ui_id": "UI-0018",
+      "file": "frontend/src/OntologyPanel.tsx",
+      "line_start": 338,
+      "line_end": 344,
+      "control_type": "input",
+      "label": "Örn: motor lambası, airbag...",
+      "handlers": {
+        "onChange": "(e) => setSymptomQuery(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0304",
+      "parent_ui_id": "UI-0018",
+      "file": "frontend/src/OntologyPanel.tsx",
+      "line_start": 345,
+      "line_end": 345,
+      "control_type": "button",
+      "label": "Teşhis Et",
+      "handlers": {
+        "onClick": "handleTestSymptom"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0305",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 520,
+      "line_end": 524,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setAutoRefresh(e.target.checked)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0306",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 527,
+      "line_end": 542,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "() => {\n                if (activeTab === \"today\") setTodayRevision((n) => n + 1);\n                if (activeTab === \"sip_transfers\") loadTransfers();\n                if (activeTab === \"live_takeover\") loadLiveSessions();\n                if (activeTab === \"failed_calls\") loadUnclearCalls();\n                if (activeTab === \"kvkk_compliance\") {\n                  loadKvkkAudit();\n                  loadKvkkRequests();\n                }\n              }"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0307",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 556,
+      "line_end": 561,
+      "control_type": "button",
+      "label": "Bugün",
+      "handlers": {
+        "onClick": "() => { setPollError(\"\"); setActiveTab(\"today\"); }"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0308",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 562,
+      "line_end": 567,
+      "control_type": "button",
+      "label": "📞 SIP Warm Transfer (Dahili 6002)",
+      "handlers": {
+        "onClick": "() => { setActiveTab(\"sip_transfers\"); loadTransfers(); }"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0309",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 570,
+      "line_end": 578,
+      "control_type": "button",
+      "label": "⚡ Canlı Müdahale & Fısıltı",
+      "handlers": {
+        "onClick": "() => {\n              setActiveTab(\"live_takeover\");\n              loadLiveSessions();\n            }"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0310",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 581,
+      "line_end": 586,
+      "control_type": "button",
+      "label": "🎯 Kalite Kapısı 5 & Telemetri",
+      "handlers": {
+        "onClick": "() => setActiveTab(\"quality_gate\")"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0311",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 589,
+      "line_end": 597,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "() => {\n              setActiveTab(\"failed_calls\");\n              loadUnclearCalls();\n            }"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0312",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 600,
+      "line_end": 609,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "() => {\n              setActiveTab(\"kvkk_compliance\");\n              loadKvkkAudit();\n              loadKvkkRequests();\n            }"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0313",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 729,
+      "line_end": 748,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "() => handleAccept(activeIncoming.id)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0314",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 753,
+      "line_end": 771,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "() => handleDecline(activeIncoming.id)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0315",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 788,
+      "line_end": 798,
+      "control_type": "button",
+      "label": "Örnek doldur",
+      "handlers": {
+        "onClick": "() => {\n                  setFormCustomer(\"Ahmet Yılmaz\");\n                  setFormPlate(\"34 ABC 123\");\n                  setFormSummary(\"14:30 randevu teyidi / kaporta boya ekspertiz sorusu\");\n                  setFormExten(\"6002\");\n                }"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0316",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 802,
+      "line_end": 802,
+      "control_type": "form",
+      "label": null,
+      "handlers": {
+        "onSubmit": "handleCreateTestTransfer"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0317",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 805,
+      "line_end": 812,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setFormCustomer(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0318",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 816,
+      "line_end": 823,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setFormPlate(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0319",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 827,
+      "line_end": 834,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setFormExten(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0320",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 838,
+      "line_end": 845,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setFormSummary(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0321",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 848,
+      "line_end": 861,
+      "control_type": "button",
+      "label": null,
+      "handlers": {},
+      "binding": "UNRESOLVED",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0322",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 881,
+      "line_end": 887,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "() => setStatusFilter(f.id)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0323",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 982,
+      "line_end": 987,
+      "control_type": "button",
+      "label": "SIP / Detay",
+      "handlers": {
+        "onClick": "() => setSelectedTransfer(t)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0324",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1013,
+      "line_end": 1020,
+      "control_type": "input",
+      "label": "örn. op_1",
+      "handlers": {
+        "onChange": "(e) => setOperatorId(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0325",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1024,
+      "line_end": 1029,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setTakeoverReason(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0326",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1040,
+      "line_end": 1047,
+      "control_type": "input",
+      "label": "örn. 05XXXXXXXXX",
+      "handlers": {
+        "onChange": "(e) => setSimCallerId(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0327",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1049,
+      "line_end": 1055,
+      "control_type": "button",
+      "label": "+ Simülasyon: Yeni Çağrı Başlat",
+      "handlers": {
+        "onClick": "handleRegisterSimCall"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0328",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1122,
+      "line_end": 1136,
+      "control_type": "button",
+      "label": "⚡ Çağrıyı Devral (Takeover)",
+      "handlers": {
+        "onClick": "() => handleTakeover(s.session_id)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0329",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1140,
+      "line_end": 1154,
+      "control_type": "button",
+      "label": "🔁 Görüşmeyi AI'ya Geri Ver (Release)",
+      "handlers": {
+        "onClick": "() => handleRelease(s.session_id)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0330",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1163,
+      "line_end": 1178,
+      "control_type": "input",
+      "label": "Fısıltı notu",
+      "handlers": {
+        "onChange": "(e) => setWhisperMessage(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0331",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1179,
+      "line_end": 1185,
+      "control_type": "button",
+      "label": "🗣️ Fısılda (Whisper)",
+      "handlers": {
+        "onClick": "() => handleWhisper(s.session_id)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0332",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1221,
+      "line_end": 1227,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "handleRunQABenchmark"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0333",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1376,
+      "line_end": 1381,
+      "control_type": "button",
+      "label": "M11 Durumunu Sorgula",
+      "handlers": {
+        "onClick": "async () => setM11Status(await api(\"qa/m11-status\"))"
+      },
+      "binding": "API_CANDIDATE",
+      "api_path_candidates": [
+        "qa/m11-status"
+      ],
+      "api_id_candidates": [
+        "API-0142"
+      ],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0334",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1393,
+      "line_end": 1408,
+      "control_type": "input",
+      "label": "Tur kimliği",
+      "handlers": {
+        "onChange": "(e) => setTelemetryTurnId(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0335",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1409,
+      "line_end": 1415,
+      "control_type": "button",
+      "label": "Span Sorgula",
+      "handlers": {
+        "onClick": "handleFetchTelemetry"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0336",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1473,
+      "line_end": 1477,
+      "control_type": "button",
+      "label": "✕",
+      "handlers": {
+        "onClick": "() => setFeedbackMsg(\"\")"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0337",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1490,
+      "line_end": 1496,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "loadUnclearCalls"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0338",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1629,
+      "line_end": 1629,
+      "control_type": "form",
+      "label": null,
+      "handlers": {
+        "onSubmit": "handleFeedbackSubmit"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0339",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1634,
+      "line_end": 1641,
+      "control_type": "input",
+      "label": "Örn: Qashqai, EcoBoost",
+      "handlers": {
+        "onChange": "(e) => setFeedbackTerm(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0340",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1647,
+      "line_end": 1654,
+      "control_type": "input",
+      "label": "Örn: kaşkay, eko büst",
+      "handlers": {
+        "onChange": "(e) => setFeedbackSpoken(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0341",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1660,
+      "line_end": 1664,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setFeedbackCategory(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0342",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1672,
+      "line_end": 1686,
+      "control_type": "button",
+      "label": null,
+      "handlers": {},
+      "binding": "UNRESOLVED",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0343",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1739,
+      "line_end": 1745,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "() => loadKvkkAudit()"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0344",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1748,
+      "line_end": 1754,
+      "control_type": "button",
+      "label": "Önizleme (Dry Run)",
+      "handlers": {
+        "onClick": "() => handlePurgeTranscripts(true)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0345",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1757,
+      "line_end": 1763,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "() => handlePurgeTranscripts(false)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0346",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1842,
+      "line_end": 1842,
+      "control_type": "form",
+      "label": null,
+      "handlers": {
+        "onSubmit": "handleCreateErasureRequest"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0347",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1847,
+      "line_end": 1859,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e: any) => setNewReqType(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0348",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1871,
+      "line_end": 1893,
+      "control_type": "input",
+      "label": "newReqType === \"phone\"\n                        ? \"05321234567\"\n                        : newReqType === \"plate\"\n                        ? \"34ABC789\"\n                        : newReqType === \"customer_name\"\n                        ? \"Ahmet Yılmaz\"\n                        : \"uuid...\"",
+      "handlers": {
+        "onChange": "(e) => setNewReqVal(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0349",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1900,
+      "line_end": 1914,
+      "control_type": "input",
+      "label": "Başvuran kişi veya vekili",
+      "handlers": {
+        "onChange": "(e) => setNewReqName(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0350",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1921,
+      "line_end": 1934,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setNewReqReason(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0351",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1941,
+      "line_end": 1955,
+      "control_type": "textarea",
+      "label": "İç iletişim veya evrak referans notu",
+      "handlers": {
+        "onChange": "(e) => setNewReqNotes(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0352",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1972,
+      "line_end": 1977,
+      "control_type": "button",
+      "label": null,
+      "handlers": {},
+      "binding": "UNRESOLVED",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0353",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 1996,
+      "line_end": 2002,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "() => loadKvkkRequests()"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0354",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 2090,
+      "line_end": 2102,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "() => handleExecuteErasureRequest(req.id, impact.total_records_affected ?? 0)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0355",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 2106,
+      "line_end": 2116,
+      "control_type": "button",
+      "label": "📜 İmha Tutanağını Görüntüle (SHA-256)",
+      "handlers": {
+        "onClick": "() => handleViewCertificate(req.id)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0356",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 2169,
+      "line_end": 2174,
+      "control_type": "button",
+      "label": "✕",
+      "handlers": {
+        "onClick": "() => setSelectedCertificate(null)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0357",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 2201,
+      "line_end": 2209,
+      "control_type": "button",
+      "label": "📋 Tutanağı Kopyala",
+      "handlers": {
+        "onClick": "() => {\n                    navigator.clipboard?.writeText(selectedCertificate.certificate_text);\n                    alert(\"İmha tutanağı panoya kopyalandı!\");\n                  }"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0358",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 2212,
+      "line_end": 2217,
+      "control_type": "button",
+      "label": "Kapat",
+      "handlers": {
+        "onClick": "() => setSelectedCertificate(null)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0359",
+      "parent_ui_id": "UI-0019",
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line_start": 2264,
+      "line_end": 2270,
+      "control_type": "button",
+      "label": "Kapat",
+      "handlers": {
+        "onClick": "() => setSelectedTransfer(null)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0360",
+      "parent_ui_id": "UI-0020",
+      "file": "frontend/src/OperatorToday.tsx",
+      "line_start": 93,
+      "line_end": 93,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => { setPage(0); setPeriod(e.target.value as Period); }"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0361",
+      "parent_ui_id": "UI-0020",
+      "file": "frontend/src/OperatorToday.tsx",
+      "line_start": 98,
+      "line_end": 98,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => { setPage(0); setCategory(e.target.value as Category); }"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0362",
+      "parent_ui_id": "UI-0020",
+      "file": "frontend/src/OperatorToday.tsx",
+      "line_start": 124,
+      "line_end": 124,
+      "control_type": "button",
+      "label": "Görüşmeyi aç",
+      "handlers": {
+        "onClick": "() => onOpenConversation(conversationId)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0363",
+      "parent_ui_id": "UI-0020",
+      "file": "frontend/src/OperatorToday.tsx",
+      "line_start": 125,
+      "line_end": 125,
+      "control_type": "button",
+      "label": "Aktarımı aç",
+      "handlers": {
+        "onClick": "() => onOpenTransfer(item.id)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0364",
+      "parent_ui_id": "UI-0020",
+      "file": "frontend/src/OperatorToday.tsx",
+      "line_start": 131,
+      "line_end": 131,
+      "control_type": "button",
+      "label": "Önceki",
+      "handlers": {
+        "onClick": "() => setPage((n) => n - 1)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0365",
+      "parent_ui_id": "UI-0020",
+      "file": "frontend/src/OperatorToday.tsx",
+      "line_start": 133,
+      "line_end": 133,
+      "control_type": "button",
+      "label": "Sonraki",
+      "handlers": {
+        "onClick": "() => setPage((n) => n + 1)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    }
+  ],
+  "summary": {
+    "files_expected": 8,
+    "files_read": 8,
+    "controls": 176,
+    "next_ui_number": 366,
+    "by_binding": {
+      "HANDLER_REQUIRES_TRACE": 167,
+      "UNRESOLVED": 8,
+      "API_CANDIDATE": 1
+    },
+    "files": [
+      {
+        "file": "frontend/src/DatasetGeneratorPanel.tsx",
+        "parent_ui_id": "UI-0010",
+        "controls": 5,
+        "source_blob_sha": "0407c287abc5e574cf14485076e5a16b56f01fb9"
+      },
+      {
+        "file": "frontend/src/DiagnosticPanel.tsx",
+        "parent_ui_id": "UI-0011",
+        "controls": 18,
+        "source_blob_sha": "9dafb0ad11b29b33deecd88e0876a822a6e5045b"
+      },
+      {
+        "file": "frontend/src/InspectionPanel.tsx",
+        "parent_ui_id": "UI-0013",
+        "controls": 38,
+        "source_blob_sha": "535ce9237dfc26e920b64b88c07cb10a247fd74b"
+      },
+      {
+        "file": "frontend/src/LexiconPanel.tsx",
+        "parent_ui_id": "UI-0014",
+        "controls": 21,
+        "source_blob_sha": "e21836911bd4fa073e71f8bf71c75532ac1e7fe2"
+      },
+      {
+        "file": "frontend/src/NotificationPanel.tsx",
+        "parent_ui_id": "UI-0017",
+        "controls": 25,
+        "source_blob_sha": "3f693c6235f9c537c4ec3c2edaf4d42d15fc870b"
+      },
+      {
+        "file": "frontend/src/OntologyPanel.tsx",
+        "parent_ui_id": "UI-0018",
+        "controls": 8,
+        "source_blob_sha": "e2da4b950959ca48f9cba607d5c8d101ea74fe9a"
+      },
+      {
+        "file": "frontend/src/OperatorPanel.tsx",
+        "parent_ui_id": "UI-0019",
+        "controls": 55,
+        "source_blob_sha": "47735cf1c2c732bc75781ec6bf0e80c2cb5b389c"
+      },
+      {
+        "file": "frontend/src/OperatorToday.tsx",
+        "parent_ui_id": "UI-0020",
+        "controls": 6,
+        "source_blob_sha": "3906e47d60c00b99ac0bfcda6794c45e54d509e6"
+      }
+    ],
+    "errors": []
+  },
+  "limitations": [
+    "Prior component and supplement IDs preserved.",
+    "Lexical JSX scanner, not TypeScript AST or rendered DOM; candidate API and feature links not verified. Named handler, conditional, modal, custom controls, permissions and WS tracing remain open. G03/G08 HOLD."
+  ]
+}

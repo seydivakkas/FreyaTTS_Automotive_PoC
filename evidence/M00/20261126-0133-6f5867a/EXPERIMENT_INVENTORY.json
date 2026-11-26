@@ -1,0 +1,210 @@
+{
+ "schema_version": "m00.v1",
+ "run_id": "20261126-0133-6f5867a",
+ "baseline_commit": "6f5867af52dd8d3fd706dc6c9ddd4a42a2dd360f",
+ "generated_at_utc": "2026-11-25T22:33:21+00:00",
+ "records": [
+  {
+   "exp_id": "EXP-0001",
+   "path": "experimental/__init__.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0002",
+   "path": "experimental/asr_mapper.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0003",
+   "path": "experimental/five_cuts_bargein_controller.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0004",
+   "path": "experimental/legacy_src/asr_mapper.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0005",
+   "path": "experimental/legacy_src/audio_archive_compliance.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0006",
+   "path": "experimental/legacy_src/audiosocket_orchestrator.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0007",
+   "path": "experimental/legacy_src/automotive_frontend.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0008",
+   "path": "experimental/legacy_src/batched_ode_engine.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0009",
+   "path": "experimental/legacy_src/chan_websocket_adapter.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0010",
+   "path": "experimental/legacy_src/dynamic_valuation_calculator.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0011",
+   "path": "experimental/legacy_src/emotion_prosody_adapter.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0012",
+   "path": "experimental/legacy_src/five_cuts_bargein_controller.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0013",
+   "path": "experimental/legacy_src/gpu_health_circuit_breaker.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0014",
+   "path": "experimental/legacy_src/inbound_car_denoiser.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0015",
+   "path": "experimental/legacy_src/lift_bay_capacity_scheduler.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0016",
+   "path": "experimental/legacy_src/main_unified_server.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0017",
+   "path": "experimental/legacy_src/morphological_pre_checker.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0018",
+   "path": "experimental/legacy_src/normalizer.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0019",
+   "path": "experimental/legacy_src/outbound_campaign_dialer.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0020",
+   "path": "experimental/legacy_src/pause_breath_cleaner.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0021",
+   "path": "experimental/legacy_src/post_call_analytics.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0022",
+   "path": "experimental/legacy_src/prosody_wsola_streamer.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0023",
+   "path": "experimental/legacy_src/qa_telemetry_operator.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0024",
+   "path": "experimental/legacy_src/realtime_dashboard_metrics.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0025",
+   "path": "experimental/legacy_src/redaction_kvkk_guard.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0026",
+   "path": "experimental/legacy_src/semantic_turn_detector.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0027",
+   "path": "experimental/legacy_src/sft_automotive_leyla.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0028",
+   "path": "experimental/legacy_src/sip_trunk_failover.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0029",
+   "path": "experimental/legacy_src/streaming_chunker_guard.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0030",
+   "path": "experimental/legacy_src/vin_ruhsat_ocr_decoder.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0031",
+   "path": "experimental/normalizer.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0032",
+   "path": "experimental/prosody_wsola_streamer.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  },
+  {
+   "exp_id": "EXP-0033",
+   "path": "experimental/streaming_chunker_guard.py",
+   "imported_by_live_code": [],
+   "integration": "NOT_IMPORTED"
+  }
+ ],
+ "limitations": [
+  "Statik tarama (AST/regex); çalışma kanıtı değildir.",
+  "İçe aktarılması canlı yolda çağrıldığı anlamına gelmez; hiçbir deney çalıştırılmadı."
+ ]
+}

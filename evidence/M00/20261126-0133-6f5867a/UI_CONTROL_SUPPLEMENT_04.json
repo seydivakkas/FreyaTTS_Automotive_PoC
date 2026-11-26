@@ -1,0 +1,1302 @@
+{
+  "schema_version": "m00.ui_controls_supplement.v1",
+  "run_id": "20261126-0133-6f5867a",
+  "baseline_commit": "6f5867af52dd8d3fd706dc6c9ddd4a42a2dd360f",
+  "evidence_class": "STATIC_CODE",
+  "records": [
+    {
+      "ui_id": "UI-0366",
+      "parent_ui_id": "UI-0021",
+      "file": "frontend/src/OutboundPanel.tsx",
+      "line_start": 232,
+      "line_end": 232,
+      "control_type": "form",
+      "label": null,
+      "handlers": {
+        "onSubmit": "handleOriginateCall"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0367",
+      "parent_ui_id": "UI-0021",
+      "file": "frontend/src/OutboundPanel.tsx",
+      "line_start": 235,
+      "line_end": 248,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => {\n                const appId = e.target.value;\n                setSelectedAppointment(appId);\n                const app = appointments.find((a) => a.id === appId);\n                if (app && app.customer) {\n                  // If customer has phone digits, prefill phone\n                  const digits = app.customer.replace(/[^0-9+]/g, \"\");\n                  if (digits.length >= 7) setPhone(digits);\n                }\n              }"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0368",
+      "parent_ui_id": "UI-0021",
+      "file": "frontend/src/OutboundPanel.tsx",
+      "line_start": 260,
+      "line_end": 264,
+      "control_type": "input",
+      "label": "0532 123 45 67",
+      "handlers": {
+        "onChange": "(e) => setPhone(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0369",
+      "parent_ui_id": "UI-0021",
+      "file": "frontend/src/OutboundPanel.tsx",
+      "line_start": 269,
+      "line_end": 269,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setCallType(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0370",
+      "parent_ui_id": "UI-0021",
+      "file": "frontend/src/OutboundPanel.tsx",
+      "line_start": 275,
+      "line_end": 279,
+      "control_type": "button",
+      "label": null,
+      "handlers": {},
+      "binding": "UNRESOLVED",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0371",
+      "parent_ui_id": "UI-0021",
+      "file": "frontend/src/OutboundPanel.tsx",
+      "line_start": 298,
+      "line_end": 304,
+      "control_type": "button",
+      "label": "Yenile ↻",
+      "handlers": {
+        "onClick": "() => act(refresh)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0372",
+      "parent_ui_id": "UI-0021",
+      "file": "frontend/src/OutboundPanel.tsx",
+      "line_start": 322,
+      "line_end": 325,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setStatusFilter(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0373",
+      "parent_ui_id": "UI-0021",
+      "file": "frontend/src/OutboundPanel.tsx",
+      "line_start": 336,
+      "line_end": 339,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setOutcomeFilter(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0374",
+      "parent_ui_id": "UI-0021",
+      "file": "frontend/src/OutboundPanel.tsx",
+      "line_start": 425,
+      "line_end": 434,
+      "control_type": "button",
+      "label": "Teyit",
+      "handlers": {
+        "onClick": "() => handleCompleteOutcome(item.id, \"confirmed\")"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0375",
+      "parent_ui_id": "UI-0021",
+      "file": "frontend/src/OutboundPanel.tsx",
+      "line_start": 437,
+      "line_end": 446,
+      "control_type": "button",
+      "label": "İptal",
+      "handlers": {
+        "onClick": "() => handleCompleteOutcome(item.id, \"cancelled\")"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0376",
+      "parent_ui_id": "UI-0021",
+      "file": "frontend/src/OutboundPanel.tsx",
+      "line_start": 449,
+      "line_end": 454,
+      "control_type": "button",
+      "label": "Durdur",
+      "handlers": {
+        "onClick": "() => handleCancelCall(item.id)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0377",
+      "parent_ui_id": "UI-0022",
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line_start": 283,
+      "line_end": 288,
+      "control_type": "button",
+      "label": "➕ Yeni Lift Tanımla",
+      "handlers": {
+        "onClick": "() => setShowAddLift(!showAddLift)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0378",
+      "parent_ui_id": "UI-0022",
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line_start": 291,
+      "line_end": 303,
+      "control_type": "button",
+      "label": "🔄 Yenile",
+      "handlers": {
+        "onClick": "loadData"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0379",
+      "parent_ui_id": "UI-0022",
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line_start": 396,
+      "line_end": 396,
+      "control_type": "form",
+      "label": null,
+      "handlers": {
+        "onSubmit": "handleAddLift"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0380",
+      "parent_ui_id": "UI-0022",
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line_start": 399,
+      "line_end": 406,
+      "control_type": "input",
+      "label": "Örn: Lift-3 (Süspansiyon & Yanal Kayma)",
+      "handlers": {
+        "onChange": "(e) => setNewLiftName(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0381",
+      "parent_ui_id": "UI-0022",
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line_start": 410,
+      "line_end": 416,
+      "control_type": "input",
+      "label": "Örn: 3",
+      "handlers": {
+        "onChange": "(e) => setNewLiftNumber(e.target.value ? Number(e.target.value) : \"\")"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0382",
+      "parent_ui_id": "UI-0022",
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line_start": 420,
+      "line_end": 426,
+      "control_type": "input",
+      "label": "Örn: 4 ton hidrolik lift, Dyno donanımlı",
+      "handlers": {
+        "onChange": "(e) => setNewLiftNotes(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0383",
+      "parent_ui_id": "UI-0022",
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line_start": 429,
+      "line_end": 429,
+      "control_type": "button",
+      "label": "Kaydet",
+      "handlers": {},
+      "binding": "UNRESOLVED",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0384",
+      "parent_ui_id": "UI-0022",
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line_start": 432,
+      "line_end": 432,
+      "control_type": "button",
+      "label": "Vazgeç",
+      "handlers": {
+        "onClick": "() => setShowAddLift(false)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0385",
+      "parent_ui_id": "UI-0022",
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line_start": 446,
+      "line_end": 446,
+      "control_type": "form",
+      "label": null,
+      "handlers": {
+        "onSubmit": "handleManualAssign"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0386",
+      "parent_ui_id": "UI-0022",
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line_start": 449,
+      "line_end": 456,
+      "control_type": "input",
+      "label": "34 ABC 123",
+      "handlers": {
+        "onChange": "(e) => setAssignPlate(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0387",
+      "parent_ui_id": "UI-0022",
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line_start": 460,
+      "line_end": 464,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setAssignPackage(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0388",
+      "parent_ui_id": "UI-0022",
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line_start": 472,
+      "line_end": 472,
+      "control_type": "button",
+      "label": "Lifte Al ve Başlat",
+      "handlers": {},
+      "binding": "UNRESOLVED",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0389",
+      "parent_ui_id": "UI-0022",
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line_start": 475,
+      "line_end": 475,
+      "control_type": "button",
+      "label": "İptal",
+      "handlers": {
+        "onClick": "() => setAssigningLiftId(null)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0390",
+      "parent_ui_id": "UI-0022",
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line_start": 572,
+      "line_end": 586,
+      "control_type": "button",
+      "label": "⚡ Sıradakini Al",
+      "handlers": {
+        "onClick": "() => handleCallNext(lift.id)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0391",
+      "parent_ui_id": "UI-0022",
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line_start": 589,
+      "line_end": 597,
+      "control_type": "button",
+      "label": "Plaka Ata",
+      "handlers": {
+        "onClick": "() => {\n                          setAssigningLiftId(lift.id);\n                          setAssignPlate(\"\");\n                        }"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0392",
+      "parent_ui_id": "UI-0022",
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line_start": 604,
+      "line_end": 618,
+      "control_type": "button",
+      "label": "✅ Muayeneyi Tamamla",
+      "handlers": {
+        "onClick": "() => handleRelease(lift.id)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0393",
+      "parent_ui_id": "UI-0022",
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line_start": 623,
+      "line_end": 629,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "() => handleToggleMaintenance(lift)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0394",
+      "parent_ui_id": "UI-0022",
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line_start": 646,
+      "line_end": 646,
+      "control_type": "form",
+      "label": null,
+      "handlers": {
+        "onSubmit": "handleAddQueue"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0395",
+      "parent_ui_id": "UI-0022",
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line_start": 651,
+      "line_end": 658,
+      "control_type": "input",
+      "label": "Örn: 34 EKP 2026",
+      "handlers": {
+        "onChange": "(e) => setNewPlate(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0396",
+      "parent_ui_id": "UI-0022",
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line_start": 665,
+      "line_end": 672,
+      "control_type": "input",
+      "label": "Örn: Ahmet Yılmaz / Galeri A.Ş.",
+      "handlers": {
+        "onChange": "(e) => setNewCustomer(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0397",
+      "parent_ui_id": "UI-0022",
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line_start": 679,
+      "line_end": 683,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setNewPackage(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0398",
+      "parent_ui_id": "UI-0022",
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line_start": 692,
+      "line_end": 705,
+      "control_type": "button",
+      "label": "🎟️ Sıra Fişi Ver & Kuyruğa Ekle",
+      "handlers": {},
+      "binding": "UNRESOLVED",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0399",
+      "parent_ui_id": "UI-0022",
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line_start": 770,
+      "line_end": 775,
+      "control_type": "button",
+      "label": "İptal",
+      "handlers": {
+        "onClick": "() => handleCancelQueue(item.id)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0400",
+      "parent_ui_id": "UI-0024",
+      "file": "frontend/src/SupervisorPanel.tsx",
+      "line_start": 147,
+      "line_end": 147,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(event) => setQueue(event.target.value as typeof queue)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0401",
+      "parent_ui_id": "UI-0024",
+      "file": "frontend/src/SupervisorPanel.tsx",
+      "line_start": 153,
+      "line_end": 153,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(event) => setFilter(event.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0402",
+      "parent_ui_id": "UI-0024",
+      "file": "frontend/src/SupervisorPanel.tsx",
+      "line_start": 155,
+      "line_end": 155,
+      "control_type": "button",
+      "label": "Yenile",
+      "handlers": {
+        "onClick": "() => void action(load)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0403",
+      "parent_ui_id": "UI-0024",
+      "file": "frontend/src/SupervisorPanel.tsx",
+      "line_start": 156,
+      "line_end": 156,
+      "control_type": "button",
+      "label": "Onaylı veri setini indir",
+      "handlers": {
+        "onClick": "() => void action(downloadDataset)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0404",
+      "parent_ui_id": "UI-0024",
+      "file": "frontend/src/SupervisorPanel.tsx",
+      "line_start": 187,
+      "line_end": 187,
+      "control_type": "button",
+      "label": "İncele",
+      "handlers": {
+        "onClick": "() => selectTrace(trace)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0405",
+      "parent_ui_id": "UI-0024",
+      "file": "frontend/src/SupervisorPanel.tsx",
+      "line_start": 190,
+      "line_end": 190,
+      "control_type": "form",
+      "label": null,
+      "handlers": {
+        "onSubmit": "(event) => { event.preventDefault(); void action(saveReview); }"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0406",
+      "parent_ui_id": "UI-0024",
+      "file": "frontend/src/SupervisorPanel.tsx",
+      "line_start": 193,
+      "line_end": 193,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(event) => setVerdict(event.target.value as Verdict)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0407",
+      "parent_ui_id": "UI-0024",
+      "file": "frontend/src/SupervisorPanel.tsx",
+      "line_start": 198,
+      "line_end": 199,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(event) =>\n              setLabels(Array.from(event.target.selectedOptions, (option) => option.value))"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0408",
+      "parent_ui_id": "UI-0024",
+      "file": "frontend/src/SupervisorPanel.tsx",
+      "line_start": 206,
+      "line_end": 206,
+      "control_type": "textarea",
+      "label": null,
+      "handlers": {
+        "onChange": "(event) => setText(event.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0409",
+      "parent_ui_id": "UI-0024",
+      "file": "frontend/src/SupervisorPanel.tsx",
+      "line_start": 207,
+      "line_end": 207,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(event) => setGroup(event.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0410",
+      "parent_ui_id": "UI-0024",
+      "file": "frontend/src/SupervisorPanel.tsx",
+      "line_start": 208,
+      "line_end": 208,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(event) => setSplit(event.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0411",
+      "parent_ui_id": "UI-0024",
+      "file": "frontend/src/SupervisorPanel.tsx",
+      "line_start": 211,
+      "line_end": 211,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(event) => setAnonymity(event.target.checked)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0412",
+      "parent_ui_id": "UI-0024",
+      "file": "frontend/src/SupervisorPanel.tsx",
+      "line_start": 212,
+      "line_end": 212,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(event) => setConsent(event.target.checked)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0413",
+      "parent_ui_id": "UI-0024",
+      "file": "frontend/src/SupervisorPanel.tsx",
+      "line_start": 214,
+      "line_end": 214,
+      "control_type": "button",
+      "label": "Kaydet",
+      "handlers": {},
+      "binding": "UNRESOLVED",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0414",
+      "parent_ui_id": "UI-0024",
+      "file": "frontend/src/SupervisorPanel.tsx",
+      "line_start": 215,
+      "line_end": 215,
+      "control_type": "button",
+      "label": "Kapat",
+      "handlers": {
+        "onClick": "() => setSelected(null)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0415",
+      "parent_ui_id": "UI-0025",
+      "file": "frontend/src/TechnicianDictationPanel.tsx",
+      "line_start": 272,
+      "line_end": 288,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "toggleSpeechRecognition"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0416",
+      "parent_ui_id": "UI-0025",
+      "file": "frontend/src/TechnicianDictationPanel.tsx",
+      "line_start": 292,
+      "line_end": 298,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "handleAudioUpload"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0417",
+      "parent_ui_id": "UI-0025",
+      "file": "frontend/src/TechnicianDictationPanel.tsx",
+      "line_start": 299,
+      "line_end": 305,
+      "control_type": "button",
+      "label": "📁 Ses Dosyası Yükle",
+      "handlers": {
+        "onClick": "() => fileInputRef.current?.click()"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0418",
+      "parent_ui_id": "UI-0025",
+      "file": "frontend/src/TechnicianDictationPanel.tsx",
+      "line_start": 339,
+      "line_end": 347,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => {\n                setSelectedVehicleId(e.target.value);\n                setSelectedReportId(\"\");\n              }"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0419",
+      "parent_ui_id": "UI-0025",
+      "file": "frontend/src/TechnicianDictationPanel.tsx",
+      "line_start": 361,
+      "line_end": 366,
+      "control_type": "select",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setSelectedReportId(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0420",
+      "parent_ui_id": "UI-0025",
+      "file": "frontend/src/TechnicianDictationPanel.tsx",
+      "line_start": 380,
+      "line_end": 386,
+      "control_type": "input",
+      "label": null,
+      "handlers": {
+        "onChange": "(e) => setTechnicianName(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0421",
+      "parent_ui_id": "UI-0025",
+      "file": "frontend/src/TechnicianDictationPanel.tsx",
+      "line_start": 400,
+      "line_end": 406,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "() => setDictationText(SAMPLE_DICTATIONS[idx])"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0422",
+      "parent_ui_id": "UI-0025",
+      "file": "frontend/src/TechnicianDictationPanel.tsx",
+      "line_start": 413,
+      "line_end": 420,
+      "control_type": "textarea",
+      "label": "Dikte metni",
+      "handlers": {
+        "onChange": "(e) => setDictationText(e.target.value)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0423",
+      "parent_ui_id": "UI-0025",
+      "file": "frontend/src/TechnicianDictationPanel.tsx",
+      "line_start": 423,
+      "line_end": 429,
+      "control_type": "button",
+      "label": "🔍 Yalnızca Ayrıştır ve İncele",
+      "handlers": {
+        "onClick": "handleParseOnly"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0424",
+      "parent_ui_id": "UI-0025",
+      "file": "frontend/src/TechnicianDictationPanel.tsx",
+      "line_start": 433,
+      "line_end": 438,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "handleApplyToReport"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0425",
+      "parent_ui_id": "UI-0025",
+      "file": "frontend/src/TechnicianDictationPanel.tsx",
+      "line_start": 480,
+      "line_end": 498,
+      "control_type": "button",
+      "label": "📄 PDF Raporu Görüntüle",
+      "handlers": {
+        "onClick": "async () => {\n                    try {\n                      const { url } = await api(\"inspections/\" + parsedData.report.id + \"/signed-link\");\n                      window.open(url, \"_blank\", \"noopener\");\n                    } catch (e) {\n                      setError(\"PDF bağlantısı alınamadı: \" + errorMessage(e));\n                    }\n                  }"
+      },
+      "binding": "UNRESOLVED_API",
+      "api_path_candidates": [
+        "inspections/"
+      ],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0426",
+      "parent_ui_id": "UI-0037",
+      "file": "frontend/src/tabs/HistoryTab.tsx",
+      "line_start": 40,
+      "line_end": 45,
+      "control_type": "button",
+      "label": "`Görüşme ${formatDate(c.created_at)}`",
+      "handlers": {
+        "onClick": "() => onSelect(c.id)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0427",
+      "parent_ui_id": "UI-0037",
+      "file": "frontend/src/tabs/HistoryTab.tsx",
+      "line_start": 51,
+      "line_end": 60,
+      "control_type": "button",
+      "label": "Sil",
+      "handlers": {
+        "onClick": "() =>\n                action(async () => {\n                  await api(\"conversations/\" + c.id, \"DELETE\");\n                  if (selectedId === c.id) onSelect(null);\n                  await refresh();\n                })"
+      },
+      "binding": "UNRESOLVED_API",
+      "api_path_candidates": [
+        "conversations/"
+      ],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0428",
+      "parent_ui_id": "UI-0037",
+      "file": "frontend/src/tabs/HistoryTab.tsx",
+      "line_start": 70,
+      "line_end": 70,
+      "control_type": "button",
+      "label": "Detayı yenile",
+      "handlers": {
+        "onClick": "() => setRevision((n) => n + 1)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0429",
+      "parent_ui_id": "UI-0037",
+      "file": "frontend/src/tabs/HistoryTab.tsx",
+      "line_start": 116,
+      "line_end": 116,
+      "control_type": "button",
+      "label": "Supervisor kararlarını aç",
+      "handlers": {
+        "onClick": "() => onOpenQuality(detail.conversation.id)"
+      },
+      "binding": "HANDLER_REQUIRES_TRACE",
+      "api_path_candidates": [],
+      "api_id_candidates": [],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    },
+    {
+      "ui_id": "UI-0430",
+      "parent_ui_id": "UI-0039",
+      "file": "frontend/src/tabs/SystemTab.tsx",
+      "line_start": 42,
+      "line_end": 50,
+      "control_type": "button",
+      "label": null,
+      "handlers": {
+        "onClick": "() =>\n          action(async () => {\n            await api(\"models/load\", \"POST\");\n            await refresh();\n          })"
+      },
+      "binding": "API_CANDIDATE",
+      "api_path_candidates": [
+        "models/load"
+      ],
+      "api_id_candidates": [
+        "API-0050"
+      ],
+      "visibility_condition": "UNRESOLVED_STATIC",
+      "authorization": "UNRESOLVED_STATIC",
+      "feature_id_candidates": [],
+      "verification_status": "NOT_RUN"
+    }
+  ],
+  "summary": {
+    "files_expected": 7,
+    "files_read": 7,
+    "controls": 65,
+    "next_ui_number": 431,
+    "by_binding": {
+      "HANDLER_REQUIRES_TRACE": 57,
+      "UNRESOLVED": 5,
+      "UNRESOLVED_API": 2,
+      "API_CANDIDATE": 1
+    },
+    "files": [
+      {
+        "file": "frontend/src/OutboundPanel.tsx",
+        "parent_ui_id": "UI-0021",
+        "controls": 11,
+        "source_blob_sha": "1f4aa341e2e40b2ef8514b5240be1c17f25f1dee"
+      },
+      {
+        "file": "frontend/src/QueueLiftPanel.tsx",
+        "parent_ui_id": "UI-0022",
+        "controls": 23,
+        "source_blob_sha": "493566ccac87fa51abf5a540ec7c08ca3372e238"
+      },
+      {
+        "file": "frontend/src/SupervisorPanel.tsx",
+        "parent_ui_id": "UI-0024",
+        "controls": 15,
+        "source_blob_sha": "ce150fad71e7837ead06283d9b4aad35f393566d"
+      },
+      {
+        "file": "frontend/src/TechnicianDictationPanel.tsx",
+        "parent_ui_id": "UI-0025",
+        "controls": 11,
+        "source_blob_sha": "abfe8d858295edfadd5782460f4813c6ebeab32b"
+      },
+      {
+        "file": "frontend/src/VoiceWaveformBar.tsx",
+        "parent_ui_id": "UI-0026",
+        "controls": 0,
+        "source_blob_sha": "fdd37468d7b65efbf43d5a822f49a44c23e1e9a5"
+      },
+      {
+        "file": "frontend/src/tabs/HistoryTab.tsx",
+        "parent_ui_id": "UI-0037",
+        "controls": 4,
+        "source_blob_sha": "92c7ce82e5f7d381c6d46c0592878ae316df711b"
+      },
+      {
+        "file": "frontend/src/tabs/SystemTab.tsx",
+        "parent_ui_id": "UI-0039",
+        "controls": 1,
+        "source_blob_sha": "307013f8fa3c2ff5cbdaba85e80cf213f6c88385"
+      }
+    ],
+    "errors": []
+  },
+  "limitations": [
+    "Prior component and supplement IDs preserved.",
+    "Lexical JSX scanner, not TypeScript AST or rendered DOM; candidate API and feature links not verified. Named handler, conditional, modal, custom controls, permissions and WS tracing remain open. G03/G08 HOLD."
+  ]
+}
