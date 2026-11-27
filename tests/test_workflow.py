@@ -88,7 +88,7 @@ async def test_synthesis_bounded_and_cancellation(monkeypatch):
     release = threading.Event()
     executed = []
 
-    def slow(text):
+    def slow(text, *, seed):
         started.set()
         release.wait(5)
         executed.append(text)

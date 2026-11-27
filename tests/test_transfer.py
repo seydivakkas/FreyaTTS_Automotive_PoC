@@ -163,6 +163,43 @@ async def test_accept_operator_transfer_bridge():
 
 
 @pytest.mark.asyncio
+async def test_accept_operator_transfer_ami_failure():
+    mock_ami = MockAMIClient()
+    with Session() as db:
+        conv = Conversation(channel="asterisk")
+        db.add(conv)
+        db.commit()
+
+        transfer = await initiate_operator_transfer(
+            db,
+            conversation_id=conv.id,
+            caller_channel="PJSIP/trunk-0002",
+            customer_name="Canan Demir",
+            vehicle_plate="16 JKL 012",
+            summary="Usta ile görüşme talebi",
+            ami_client=mock_ami,
+        )
+
+        mock_ami.fail_next = True
+        with pytest.raises(RuntimeError) as exc_info:
+            await accept_operator_transfer(
+                db,
+                transfer.id,
+                operator_channel="PJSIP/6002-000abc",
+                ami_client=mock_ami,
+            )
+
+        assert "Çağrı köprüleme başarısız oldu" in str(exc_info.value)
+        db.refresh(transfer)
+        assert transfer.status == "failed"
+        assert transfer.completed_at is not None
+
+        db.refresh(conv)
+        assert conv.status == "failed"
+        assert "Operatör aktarımı AMI hatası nedeniyle başarısız oldu" in conv.operator_notes
+
+
+@pytest.mark.asyncio
 async def test_decline_operator_transfer_and_fallback():
     mock_ami = MockAMIClient()
     with Session() as db:

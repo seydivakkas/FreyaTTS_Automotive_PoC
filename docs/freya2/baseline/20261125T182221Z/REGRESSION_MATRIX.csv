@@ -1,0 +1,8 @@
+feature_id,sources,exercised_subset
+F0,backend/car_denoiser.py | backend/dsp.py,
+F1,backend/audio.py | backend/session.py | backend/semantic_turn_detector.py,
+F2,backend/models.py | backend/automotive_terminology.py | backend/turkish_plate.py,tests/test_automotive_terminology.py
+F3,backend/dialogue.py | backend/appointment_reschedule.py | backend/automotive_dispatch.py | backend/queue_lift.py | backend/caller_memory.py | backend/transfer.py | backend/dtmf.py,
+F4,backend/text.py | backend/normalizer_rules.py | backend/automotive_frontend.py,tests/test_automotive_terminology.py
+F5,backend/models.py | backend/batched_ode.py,
+F6,backend/main.py | backend/audiosocket_server.py | backend/telephony.py | backend/websocket_adapter.py,

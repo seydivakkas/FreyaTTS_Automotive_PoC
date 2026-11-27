@@ -1,0 +1,1590 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261125T182221Z",
+  "baseline_commit": "6273981e1684686ae85f9458b608764e85a4552c",
+  "records": {
+    "orm": [
+      {
+        "path": "backend/db.py",
+        "line": 38,
+        "table": "'vehicles'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "plate",
+            "declaration": "plate: Mapped[str] = mapped_column(default='')"
+          },
+          {
+            "name": "vin",
+            "declaration": "vin: Mapped[str] = mapped_column(default='', server_default='')"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 46,
+        "table": "'inspection_reports'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "vehicle_id",
+            "declaration": "vehicle_id: Mapped[str] = mapped_column(ForeignKey('vehicles.id', ondelete='CASCADE'))"
+          },
+          {
+            "name": "appointment_id",
+            "declaration": "appointment_id: Mapped[str | None] = mapped_column(ForeignKey('appointments.id', ondelete='SET NULL'), nullable=True)"
+          },
+          {
+            "name": "technician_name",
+            "declaration": "technician_name: Mapped[str] = mapped_column(String(120), default='Uzman Teknisyen', server_default='Uzman Teknisyen')"
+          },
+          {
+            "name": "summary",
+            "declaration": "summary: Mapped[str] = mapped_column(Text)"
+          },
+          {
+            "name": "mileage_km",
+            "declaration": "mileage_km: Mapped[int] = mapped_column(default=0, server_default='0')"
+          },
+          {
+            "name": "score",
+            "declaration": "score: Mapped[int] = mapped_column(default=100, server_default='100')"
+          },
+          {
+            "name": "findings_json",
+            "declaration": "findings_json: Mapped[str] = mapped_column(Text, default='{}', server_default='{}')"
+          },
+          {
+            "name": "photos_json",
+            "declaration": "photos_json: Mapped[str] = mapped_column(Text, default='[]', server_default='[]')"
+          },
+          {
+            "name": "pdf_path",
+            "declaration": "pdf_path: Mapped[str | None] = mapped_column(String(255), nullable=True)"
+          },
+          {
+            "name": "delivered_at",
+            "declaration": "delivered_at: Mapped[str | None] = mapped_column(String(40), nullable=True)"
+          },
+          {
+            "name": "inspected_at",
+            "declaration": "inspected_at: Mapped[str] = mapped_column(default=now)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 73,
+        "table": "'vehicle_diagnostics'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "vehicle_id",
+            "declaration": "vehicle_id: Mapped[str] = mapped_column(ForeignKey('vehicles.id', ondelete='CASCADE'))"
+          },
+          {
+            "name": "dtc_code",
+            "declaration": "dtc_code: Mapped[str] = mapped_column(String(16))"
+          },
+          {
+            "name": "severity",
+            "declaration": "severity: Mapped[str] = mapped_column(String(32), default='warning', server_default='warning')"
+          },
+          {
+            "name": "system_category",
+            "declaration": "system_category: Mapped[str] = mapped_column(String(64), default='engine', server_default='engine')"
+          },
+          {
+            "name": "description_tr",
+            "declaration": "description_tr: Mapped[str] = mapped_column(String(255))"
+          },
+          {
+            "name": "recommended_action",
+            "declaration": "recommended_action: Mapped[str] = mapped_column(Text)"
+          },
+          {
+            "name": "current_mileage_km",
+            "declaration": "current_mileage_km: Mapped[int] = mapped_column(default=0, server_default='0')"
+          },
+          {
+            "name": "next_service_km",
+            "declaration": "next_service_km: Mapped[int] = mapped_column(default=0, server_default='0')"
+          },
+          {
+            "name": "maintenance_status",
+            "declaration": "maintenance_status: Mapped[str] = mapped_column(String(32), default='normal', server_default='normal')"
+          },
+          {
+            "name": "source",
+            "declaration": "source: Mapped[str] = mapped_column(String(64), default='obd_dongle', server_default='obd_dongle')"
+          },
+          {
+            "name": "is_resolved",
+            "declaration": "is_resolved: Mapped[bool] = mapped_column(default=False, server_default='0')"
+          },
+          {
+            "name": "owner_phone",
+            "declaration": "owner_phone: Mapped[str] = mapped_column(String(40), default='', server_default='')"
+          },
+          {
+            "name": "owner_name",
+            "declaration": "owner_name: Mapped[str] = mapped_column(String(120), default='', server_default='')"
+          },
+          {
+            "name": "last_notified_at",
+            "declaration": "last_notified_at: Mapped[str | None] = mapped_column(String(40), nullable=True)"
+          },
+          {
+            "name": "created_at",
+            "declaration": "created_at: Mapped[str] = mapped_column(default=now)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 113,
+        "table": "'quotes'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "vehicle_id",
+            "declaration": "vehicle_id: Mapped[str] = mapped_column(ForeignKey('vehicles.id'), unique=True)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 120,
+        "table": "'slots'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "starts_at",
+            "declaration": "starts_at: Mapped[str] = mapped_column(unique=True)"
+          },
+          {
+            "name": "duration_minutes",
+            "declaration": "duration_minutes: Mapped[int] = mapped_column(default=30, server_default='30')"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 127,
+        "table": "'appointments'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "slot_id",
+            "declaration": "slot_id: Mapped[str | None] = mapped_column(ForeignKey('slots.id'), unique=True)"
+          },
+          {
+            "name": "vehicle_id",
+            "declaration": "vehicle_id: Mapped[str] = mapped_column(ForeignKey('vehicles.id'))"
+          },
+          {
+            "name": "idempotency_key",
+            "declaration": "idempotency_key: Mapped[str] = mapped_column(unique=True)"
+          },
+          {
+            "name": "status",
+            "declaration": "status: Mapped[str] = mapped_column(default='confirmed')"
+          },
+          {
+            "name": "corporate_account_id",
+            "declaration": "corporate_account_id: Mapped[str | None] = mapped_column(ForeignKey('corporate_accounts.id', ondelete='SET NULL'), nullable=True)"
+          },
+          {
+            "name": "billed_amount_kurus",
+            "declaration": "billed_amount_kurus: Mapped[int] = mapped_column(default=0, server_default='0')"
+          },
+          {
+            "name": "package_type",
+            "declaration": "package_type: Mapped[str] = mapped_column(String(64), default='standart_ekspertiz', server_default='standart_ekspertiz')"
+          },
+          {
+            "name": "customer_phone",
+            "declaration": "customer_phone: Mapped[str] = mapped_column(String(40), default='', server_default='')"
+          },
+          {
+            "name": "created_at",
+            "declaration": "created_at: Mapped[str] = mapped_column(default=now)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 156,
+        "table": "'inspection_lifts'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "name",
+            "declaration": "name: Mapped[str] = mapped_column(String(120))"
+          },
+          {
+            "name": "lift_number",
+            "declaration": "lift_number: Mapped[int] = mapped_column(unique=True)"
+          },
+          {
+            "name": "status",
+            "declaration": "status: Mapped[str] = mapped_column(String(32), default='idle', server_default='idle')"
+          },
+          {
+            "name": "current_appointment_id",
+            "declaration": "current_appointment_id: Mapped[str | None] = mapped_column(ForeignKey('appointments.id', ondelete='SET NULL'), nullable=True)"
+          },
+          {
+            "name": "current_vehicle_plate",
+            "declaration": "current_vehicle_plate: Mapped[str] = mapped_column(String(32), default='', server_default='')"
+          },
+          {
+            "name": "package_type",
+            "declaration": "package_type: Mapped[str] = mapped_column(String(64), default='standart_ekspertiz', server_default='standart_ekspertiz')"
+          },
+          {
+            "name": "started_at",
+            "declaration": "started_at: Mapped[str | None] = mapped_column(String(40), nullable=True)"
+          },
+          {
+            "name": "estimated_duration_min",
+            "declaration": "estimated_duration_min: Mapped[int] = mapped_column(default=45, server_default='45')"
+          },
+          {
+            "name": "notes",
+            "declaration": "notes: Mapped[str] = mapped_column(Text, default='', server_default='')"
+          },
+          {
+            "name": "created_at",
+            "declaration": "created_at: Mapped[str] = mapped_column(default=now)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 186,
+        "table": "'inspection_queues'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "appointment_id",
+            "declaration": "appointment_id: Mapped[str | None] = mapped_column(ForeignKey('appointments.id', ondelete='SET NULL'), nullable=True)"
+          },
+          {
+            "name": "vehicle_id",
+            "declaration": "vehicle_id: Mapped[str | None] = mapped_column(ForeignKey('vehicles.id', ondelete='SET NULL'), nullable=True)"
+          },
+          {
+            "name": "plate",
+            "declaration": "plate: Mapped[str] = mapped_column(String(32))"
+          },
+          {
+            "name": "customer",
+            "declaration": "customer: Mapped[str] = mapped_column(String(120))"
+          },
+          {
+            "name": "package_type",
+            "declaration": "package_type: Mapped[str] = mapped_column(String(64), default='standart_ekspertiz', server_default='standart_ekspertiz')"
+          },
+          {
+            "name": "duration_minutes",
+            "declaration": "duration_minutes: Mapped[int] = mapped_column(default=45, server_default='45')"
+          },
+          {
+            "name": "status",
+            "declaration": "status: Mapped[str] = mapped_column(String(32), default='waiting', server_default='waiting')"
+          },
+          {
+            "name": "lift_id",
+            "declaration": "lift_id: Mapped[str | None] = mapped_column(ForeignKey('inspection_lifts.id', ondelete='SET NULL'), nullable=True)"
+          },
+          {
+            "name": "check_in_at",
+            "declaration": "check_in_at: Mapped[str] = mapped_column(default=now)"
+          },
+          {
+            "name": "started_at",
+            "declaration": "started_at: Mapped[str | None] = mapped_column(String(40), nullable=True)"
+          },
+          {
+            "name": "completed_at",
+            "declaration": "completed_at: Mapped[str | None] = mapped_column(String(40), nullable=True)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 220,
+        "table": "'corporate_accounts'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "tax_id",
+            "declaration": "tax_id: Mapped[str] = mapped_column(unique=True)"
+          },
+          {
+            "name": "phone",
+            "declaration": "phone: Mapped[str] = mapped_column(default='', server_default='')"
+          },
+          {
+            "name": "credit_limit_kurus",
+            "declaration": "credit_limit_kurus: Mapped[int] = mapped_column(default=5000000, server_default='5000000')"
+          },
+          {
+            "name": "balance_kurus",
+            "declaration": "balance_kurus: Mapped[int] = mapped_column(default=0, server_default='0')"
+          },
+          {
+            "name": "discount_percent",
+            "declaration": "discount_percent: Mapped[int] = mapped_column(default=10, server_default='10')"
+          },
+          {
+            "name": "active",
+            "declaration": "active: Mapped[bool] = mapped_column(default=True, server_default='1')"
+          },
+          {
+            "name": "created_at",
+            "declaration": "created_at: Mapped[str] = mapped_column(default=now)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 235,
+        "table": "'corporate_ledger'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "account_id",
+            "declaration": "account_id: Mapped[str] = mapped_column(ForeignKey('corporate_accounts.id', ondelete='CASCADE'))"
+          },
+          {
+            "name": "appointment_id",
+            "declaration": "appointment_id: Mapped[str | None] = mapped_column(ForeignKey('appointments.id', ondelete='SET NULL'), nullable=True)"
+          },
+          {
+            "name": "description",
+            "declaration": "description: Mapped[str] = mapped_column(default='', server_default='')"
+          },
+          {
+            "name": "created_at",
+            "declaration": "created_at: Mapped[str] = mapped_column(default=now)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 253,
+        "table": "'conversations'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "status",
+            "declaration": "status: Mapped[str] = mapped_column(default='active', server_default='active')"
+          },
+          {
+            "name": "operator_notes",
+            "declaration": "operator_notes: Mapped[str] = mapped_column(Text, default='', server_default='')"
+          },
+          {
+            "name": "resolved_at",
+            "declaration": "resolved_at: Mapped[str | None] = mapped_column(String(40), nullable=True)"
+          },
+          {
+            "name": "follow_up_kind",
+            "declaration": "follow_up_kind: Mapped[str | None] = mapped_column(String(24))"
+          },
+          {
+            "name": "follow_up_at",
+            "declaration": "follow_up_at: Mapped[str | None] = mapped_column(String(40))"
+          },
+          {
+            "name": "created_at",
+            "declaration": "created_at: Mapped[str] = mapped_column(default=now)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 270,
+        "table": "'turns'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "conversation_id",
+            "declaration": "conversation_id: Mapped[str] = mapped_column(ForeignKey('conversations.id', ondelete='CASCADE'))"
+          },
+          {
+            "name": "text",
+            "declaration": "text: Mapped[str] = mapped_column(Text)"
+          },
+          {
+            "name": "metrics",
+            "declaration": "metrics: Mapped[str] = mapped_column(Text, default='{}')"
+          },
+          {
+            "name": "created_at",
+            "declaration": "created_at: Mapped[str] = mapped_column(default=now)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 284,
+        "table": "'supervisor_traces'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String(36), primary_key=True)"
+          },
+          {
+            "name": "conversation_id",
+            "declaration": "conversation_id: Mapped[str] = mapped_column(ForeignKey('conversations.id', ondelete='CASCADE'), index=True)"
+          },
+          {
+            "name": "payload",
+            "declaration": "payload: Mapped[str] = mapped_column(Text)"
+          },
+          {
+            "name": "review_status",
+            "declaration": "review_status: Mapped[str] = mapped_column(String(24), default='PENDING')"
+          },
+          {
+            "name": "review_labels",
+            "declaration": "review_labels: Mapped[str | None] = mapped_column(Text, nullable=True)"
+          },
+          {
+            "name": "created_at",
+            "declaration": "created_at: Mapped[str] = mapped_column(String(40), default=now, index=True)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 296,
+        "table": "'fqici_scopes'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(ForeignKey('conversations.id', ondelete='CASCADE'), primary_key=True)"
+          },
+          {
+            "name": "transport",
+            "declaration": "transport: Mapped[str] = mapped_column(String(12))"
+          },
+          {
+            "name": "origin",
+            "declaration": "origin: Mapped[str] = mapped_column(String(12))"
+          },
+          {
+            "name": "transport_id",
+            "declaration": "transport_id: Mapped[str | None] = mapped_column(String(36))"
+          },
+          {
+            "name": "terminal_seen",
+            "declaration": "terminal_seen: Mapped[bool] = mapped_column(default=False, index=True)"
+          },
+          {
+            "name": "dirty_since_ms",
+            "declaration": "dirty_since_ms: Mapped[int | None] = mapped_column(BigInteger)"
+          },
+          {
+            "name": "ready_at_ms",
+            "declaration": "ready_at_ms: Mapped[int | None] = mapped_column(BigInteger, index=True)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 307,
+        "table": "'fqici_events'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String(36), primary_key=True)"
+          },
+          {
+            "name": "scope_id",
+            "declaration": "scope_id: Mapped[str] = mapped_column(ForeignKey('fqici_scopes.id', ondelete='CASCADE'), index=True)"
+          },
+          {
+            "name": "producer",
+            "declaration": "producer: Mapped[str] = mapped_column(String(24))"
+          },
+          {
+            "name": "source_event_id",
+            "declaration": "source_event_id: Mapped[str] = mapped_column(String(36))"
+          },
+          {
+            "name": "evidence",
+            "declaration": "evidence: Mapped[str] = mapped_column(Text)"
+          },
+          {
+            "name": "observed_at",
+            "declaration": "observed_at: Mapped[str] = mapped_column(String(40), default=now)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 318,
+        "table": "'fqici_runs'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)"
+          },
+          {
+            "name": "scope_id",
+            "declaration": "scope_id: Mapped[str] = mapped_column(ForeignKey('fqici_scopes.id', ondelete='CASCADE'), index=True)"
+          },
+          {
+            "name": "evidence_hash",
+            "declaration": "evidence_hash: Mapped[str] = mapped_column(String(64))"
+          },
+          {
+            "name": "rule_version",
+            "declaration": "rule_version: Mapped[str] = mapped_column(String(32))"
+          },
+          {
+            "name": "event_ids",
+            "declaration": "event_ids: Mapped[str] = mapped_column(Text)"
+          },
+          {
+            "name": "state",
+            "declaration": "state: Mapped[str] = mapped_column(String(24), index=True)"
+          },
+          {
+            "name": "created_at_ms",
+            "declaration": "created_at_ms: Mapped[int] = mapped_column(BigInteger)"
+          },
+          {
+            "name": "available_at_ms",
+            "declaration": "available_at_ms: Mapped[int] = mapped_column(BigInteger)"
+          },
+          {
+            "name": "fence",
+            "declaration": "fence: Mapped[int] = mapped_column(default=0)"
+          },
+          {
+            "name": "lease_until_ms",
+            "declaration": "lease_until_ms: Mapped[int | None] = mapped_column(BigInteger)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 333,
+        "table": "'intent_training_candidates'",
+        "columns": [
+          {
+            "name": "trace_id",
+            "declaration": "trace_id: Mapped[str] = mapped_column(ForeignKey('supervisor_traces.id', ondelete='CASCADE'), primary_key=True)"
+          },
+          {
+            "name": "text_digest",
+            "declaration": "text_digest: Mapped[str] = mapped_column(String(64), unique=True)"
+          },
+          {
+            "name": "group_id",
+            "declaration": "group_id: Mapped[str] = mapped_column(String(36), index=True)"
+          },
+          {
+            "name": "split",
+            "declaration": "split: Mapped[str] = mapped_column(String(12))"
+          },
+          {
+            "name": "example",
+            "declaration": "example: Mapped[str] = mapped_column(Text)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 344,
+        "table": "'supervisor_write_receipts'",
+        "columns": [
+          {
+            "name": "key",
+            "declaration": "key: Mapped[str] = mapped_column(String(36), primary_key=True)"
+          },
+          {
+            "name": "action",
+            "declaration": "action: Mapped[str] = mapped_column(String(64))"
+          },
+          {
+            "name": "request_digest",
+            "declaration": "request_digest: Mapped[str] = mapped_column(String(64))"
+          },
+          {
+            "name": "created_at",
+            "declaration": "created_at: Mapped[str] = mapped_column(String(40), default=now)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 352,
+        "table": "'ab_experiments'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "name",
+            "declaration": "name: Mapped[str] = mapped_column(String(120))"
+          },
+          {
+            "name": "description",
+            "declaration": "description: Mapped[str] = mapped_column(Text, default='', server_default='')"
+          },
+          {
+            "name": "experiment_type",
+            "declaration": "experiment_type: Mapped[str] = mapped_column(String(40), default='composite', server_default='composite')"
+          },
+          {
+            "name": "status",
+            "declaration": "status: Mapped[str] = mapped_column(String(20), default='active', server_default='active')"
+          },
+          {
+            "name": "variants_json",
+            "declaration": "variants_json: Mapped[str] = mapped_column(Text, default='[]', server_default='[]')"
+          },
+          {
+            "name": "target_metric",
+            "declaration": "target_metric: Mapped[str] = mapped_column(String(40), default='conversion_rate', server_default='conversion_rate')"
+          },
+          {
+            "name": "created_at",
+            "declaration": "created_at: Mapped[str] = mapped_column(default=now)"
+          },
+          {
+            "name": "updated_at",
+            "declaration": "updated_at: Mapped[str] = mapped_column(default=now)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 375,
+        "table": "'ab_assignments'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "conversation_id",
+            "declaration": "conversation_id: Mapped[str] = mapped_column(ForeignKey('conversations.id', ondelete='CASCADE'), unique=True)"
+          },
+          {
+            "name": "experiment_id",
+            "declaration": "experiment_id: Mapped[str] = mapped_column(ForeignKey('ab_experiments.id', ondelete='CASCADE'))"
+          },
+          {
+            "name": "variant_id",
+            "declaration": "variant_id: Mapped[str] = mapped_column(String(64))"
+          },
+          {
+            "name": "outcome",
+            "declaration": "outcome: Mapped[str] = mapped_column(String(32), default='pending', server_default='pending')"
+          },
+          {
+            "name": "first_audio_ms",
+            "declaration": "first_audio_ms: Mapped[float | None] = mapped_column(Float, nullable=True)"
+          },
+          {
+            "name": "tts_total_ms",
+            "declaration": "tts_total_ms: Mapped[float | None] = mapped_column(Float, nullable=True)"
+          },
+          {
+            "name": "llm_total_ms",
+            "declaration": "llm_total_ms: Mapped[float | None] = mapped_column(Float, nullable=True)"
+          },
+          {
+            "name": "duration_seconds",
+            "declaration": "duration_seconds: Mapped[float | None] = mapped_column(Float, nullable=True)"
+          },
+          {
+            "name": "turns_count",
+            "declaration": "turns_count: Mapped[int] = mapped_column(default=0, server_default='0')"
+          },
+          {
+            "name": "created_at",
+            "declaration": "created_at: Mapped[str] = mapped_column(default=now)"
+          },
+          {
+            "name": "completed_at",
+            "declaration": "completed_at: Mapped[str | None] = mapped_column(String(40), nullable=True)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 403,
+        "table": "'notifications'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "appointment_id",
+            "declaration": "appointment_id: Mapped[str] = mapped_column(ForeignKey('appointments.id', ondelete='CASCADE'))"
+          },
+          {
+            "name": "recipient_type",
+            "declaration": "recipient_type: Mapped[str] = mapped_column(String(32))"
+          },
+          {
+            "name": "recipient",
+            "declaration": "recipient: Mapped[str] = mapped_column(String(120))"
+          },
+          {
+            "name": "channel",
+            "declaration": "channel: Mapped[str] = mapped_column(String(32), default='sms', server_default='sms')"
+          },
+          {
+            "name": "message",
+            "declaration": "message: Mapped[str] = mapped_column(Text)"
+          },
+          {
+            "name": "status",
+            "declaration": "status: Mapped[str] = mapped_column(String(32), default='pending', server_default='pending')"
+          },
+          {
+            "name": "idempotency_key",
+            "declaration": "idempotency_key: Mapped[str] = mapped_column(String(128), unique=True)"
+          },
+          {
+            "name": "attempts",
+            "declaration": "attempts: Mapped[int] = mapped_column(default=0, server_default='0')"
+          },
+          {
+            "name": "last_error",
+            "declaration": "last_error: Mapped[str | None] = mapped_column(Text, nullable=True)"
+          },
+          {
+            "name": "created_at",
+            "declaration": "created_at: Mapped[str] = mapped_column(default=now)"
+          },
+          {
+            "name": "sent_at",
+            "declaration": "sent_at: Mapped[str | None] = mapped_column(String, nullable=True)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 430,
+        "table": "'outbound_calls'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "appointment_id",
+            "declaration": "appointment_id: Mapped[str] = mapped_column(ForeignKey('appointments.id', ondelete='CASCADE'))"
+          },
+          {
+            "name": "phone",
+            "declaration": "phone: Mapped[str] = mapped_column(String(40))"
+          },
+          {
+            "name": "customer",
+            "declaration": "customer: Mapped[str] = mapped_column(String(120))"
+          },
+          {
+            "name": "call_type",
+            "declaration": "call_type: Mapped[str] = mapped_column(String(32), default='reminder', server_default='reminder')"
+          },
+          {
+            "name": "status",
+            "declaration": "status: Mapped[str] = mapped_column(String(32), default='queued', server_default='queued')"
+          },
+          {
+            "name": "outcome",
+            "declaration": "outcome: Mapped[str] = mapped_column(String(32), default='pending', server_default='pending')"
+          },
+          {
+            "name": "action_id",
+            "declaration": "action_id: Mapped[str] = mapped_column(String(64), default='', server_default='')"
+          },
+          {
+            "name": "attempts",
+            "declaration": "attempts: Mapped[int] = mapped_column(default=0, server_default='0')"
+          },
+          {
+            "name": "last_error",
+            "declaration": "last_error: Mapped[str | None] = mapped_column(Text, nullable=True)"
+          },
+          {
+            "name": "created_at",
+            "declaration": "created_at: Mapped[str] = mapped_column(default=now)"
+          },
+          {
+            "name": "completed_at",
+            "declaration": "completed_at: Mapped[str | None] = mapped_column(String, nullable=True)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 459,
+        "table": "'operator_transfers'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "conversation_id",
+            "declaration": "conversation_id: Mapped[str | None] = mapped_column(ForeignKey('conversations.id', ondelete='SET NULL'), nullable=True)"
+          },
+          {
+            "name": "caller_channel",
+            "declaration": "caller_channel: Mapped[str] = mapped_column(String(120), default='', server_default='')"
+          },
+          {
+            "name": "operator_extension",
+            "declaration": "operator_extension: Mapped[str] = mapped_column(String(32), default='6002', server_default='6002')"
+          },
+          {
+            "name": "customer_name",
+            "declaration": "customer_name: Mapped[str] = mapped_column(String(120), default='', server_default='')"
+          },
+          {
+            "name": "vehicle_plate",
+            "declaration": "vehicle_plate: Mapped[str] = mapped_column(String(32), default='', server_default='')"
+          },
+          {
+            "name": "summary",
+            "declaration": "summary: Mapped[str] = mapped_column(Text, default='', server_default='')"
+          },
+          {
+            "name": "whisper_text",
+            "declaration": "whisper_text: Mapped[str] = mapped_column(Text, default='', server_default='')"
+          },
+          {
+            "name": "status",
+            "declaration": "status: Mapped[str] = mapped_column(String(32), default='initiated', server_default='initiated')"
+          },
+          {
+            "name": "sip_headers_json",
+            "declaration": "sip_headers_json: Mapped[str] = mapped_column(Text, default='{}', server_default='{}')"
+          },
+          {
+            "name": "duration_seconds",
+            "declaration": "duration_seconds: Mapped[float | None] = mapped_column(Float, nullable=True)"
+          },
+          {
+            "name": "created_at",
+            "declaration": "created_at: Mapped[str] = mapped_column(default=now)"
+          },
+          {
+            "name": "completed_at",
+            "declaration": "completed_at: Mapped[str | None] = mapped_column(String(40), nullable=True)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 496,
+        "table": "'whatsapp_messages'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "message_sid",
+            "declaration": "message_sid: Mapped[str] = mapped_column(String(128), default='', server_default='')"
+          },
+          {
+            "name": "from_phone",
+            "declaration": "from_phone: Mapped[str] = mapped_column(String(40), default='', server_default='')"
+          },
+          {
+            "name": "customer_name",
+            "declaration": "customer_name: Mapped[str] = mapped_column(String(120), default='', server_default='')"
+          },
+          {
+            "name": "message_type",
+            "declaration": "message_type: Mapped[str] = mapped_column(String(32), default='text', server_default='text')"
+          },
+          {
+            "name": "raw_content",
+            "declaration": "raw_content: Mapped[str] = mapped_column(Text, default='', server_default='')"
+          },
+          {
+            "name": "transcription",
+            "declaration": "transcription: Mapped[str] = mapped_column(Text, default='', server_default='')"
+          },
+          {
+            "name": "extracted_intent",
+            "declaration": "extracted_intent: Mapped[str] = mapped_column(String(40), default='unknown', server_default='unknown')"
+          },
+          {
+            "name": "extracted_time",
+            "declaration": "extracted_time: Mapped[str] = mapped_column(String(40), default='', server_default='')"
+          },
+          {
+            "name": "appointment_id",
+            "declaration": "appointment_id: Mapped[str | None] = mapped_column(ForeignKey('appointments.id', ondelete='SET NULL'), nullable=True)"
+          },
+          {
+            "name": "reply_text",
+            "declaration": "reply_text: Mapped[str] = mapped_column(Text, default='', server_default='')"
+          },
+          {
+            "name": "outbound_calls_cancelled",
+            "declaration": "outbound_calls_cancelled: Mapped[int] = mapped_column(default=0, server_default='0')"
+          },
+          {
+            "name": "processed",
+            "declaration": "processed: Mapped[bool] = mapped_column(default=True, server_default='1')"
+          },
+          {
+            "name": "created_at",
+            "declaration": "created_at: Mapped[str] = mapped_column(default=now)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 536,
+        "table": "'call_analytics'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "conversation_id",
+            "declaration": "conversation_id: Mapped[str] = mapped_column(ForeignKey('conversations.id', ondelete='CASCADE'))"
+          },
+          {
+            "name": "appointment_id",
+            "declaration": "appointment_id: Mapped[str | None] = mapped_column(ForeignKey('appointments.id', ondelete='SET NULL'), nullable=True)"
+          },
+          {
+            "name": "caller_phone",
+            "declaration": "caller_phone: Mapped[str] = mapped_column(String(40), default='', server_default='')"
+          },
+          {
+            "name": "caller_name",
+            "declaration": "caller_name: Mapped[str] = mapped_column(String(120), default='', server_default='')"
+          },
+          {
+            "name": "executive_summary",
+            "declaration": "executive_summary: Mapped[str] = mapped_column(Text, default='', server_default='')"
+          },
+          {
+            "name": "intent",
+            "declaration": "intent: Mapped[str] = mapped_column(String(64), default='unknown', server_default='unknown')"
+          },
+          {
+            "name": "csat_score",
+            "declaration": "csat_score: Mapped[float] = mapped_column(Float, default=3.0, server_default='3.0')"
+          },
+          {
+            "name": "sentiment",
+            "declaration": "sentiment: Mapped[str] = mapped_column(String(32), default='neutral', server_default='neutral')"
+          },
+          {
+            "name": "lead_score",
+            "declaration": "lead_score: Mapped[int] = mapped_column(default=50, server_default='50')"
+          },
+          {
+            "name": "lead_tier",
+            "declaration": "lead_tier: Mapped[str] = mapped_column(String(16), default='WARM', server_default='WARM')"
+          },
+          {
+            "name": "objections_json",
+            "declaration": "objections_json: Mapped[str] = mapped_column(Text, default='[]', server_default='[]')"
+          },
+          {
+            "name": "topics_json",
+            "declaration": "topics_json: Mapped[str] = mapped_column(Text, default='[]', server_default='[]')"
+          },
+          {
+            "name": "recommended_action",
+            "declaration": "recommended_action: Mapped[str] = mapped_column(Text, default='', server_default='')"
+          },
+          {
+            "name": "duration_sec",
+            "declaration": "duration_sec: Mapped[float | None] = mapped_column(Float, nullable=True)"
+          },
+          {
+            "name": "created_at",
+            "declaration": "created_at: Mapped[str] = mapped_column(default=now)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 576,
+        "table": "'ruhsat_scans'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "vehicle_id",
+            "declaration": "vehicle_id: Mapped[str | None] = mapped_column(ForeignKey('vehicles.id', ondelete='SET NULL'), nullable=True)"
+          },
+          {
+            "name": "appointment_id",
+            "declaration": "appointment_id: Mapped[str | None] = mapped_column(ForeignKey('appointments.id', ondelete='SET NULL'), nullable=True)"
+          },
+          {
+            "name": "from_phone",
+            "declaration": "from_phone: Mapped[str] = mapped_column(String(40), default='', server_default='')"
+          },
+          {
+            "name": "plate",
+            "declaration": "plate: Mapped[str] = mapped_column(String(32), default='', server_default='')"
+          },
+          {
+            "name": "vin",
+            "declaration": "vin: Mapped[str] = mapped_column(String(32), default='', server_default='')"
+          },
+          {
+            "name": "engine_code",
+            "declaration": "engine_code: Mapped[str] = mapped_column(String(32), default='', server_default='')"
+          },
+          {
+            "name": "model_year",
+            "declaration": "model_year: Mapped[int | None] = mapped_column(nullable=True)"
+          },
+          {
+            "name": "brand_model",
+            "declaration": "brand_model: Mapped[str] = mapped_column(String(120), default='', server_default='')"
+          },
+          {
+            "name": "document_serial",
+            "declaration": "document_serial: Mapped[str] = mapped_column(String(32), default='', server_default='')"
+          },
+          {
+            "name": "owner_name",
+            "declaration": "owner_name: Mapped[str] = mapped_column(String(120), default='', server_default='')"
+          },
+          {
+            "name": "confidence",
+            "declaration": "confidence: Mapped[float] = mapped_column(Float, default=0.0, server_default='0.0')"
+          },
+          {
+            "name": "raw_extracted_text",
+            "declaration": "raw_extracted_text: Mapped[str] = mapped_column(Text, default='', server_default='')"
+          },
+          {
+            "name": "created_at",
+            "declaration": "created_at: Mapped[str] = mapped_column(default=now)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 617,
+        "table": "'vehicle_valuations'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "conversation_id",
+            "declaration": "conversation_id: Mapped[str | None] = mapped_column(ForeignKey('conversations.id', ondelete='SET NULL'), nullable=True)"
+          },
+          {
+            "name": "appointment_id",
+            "declaration": "appointment_id: Mapped[str | None] = mapped_column(ForeignKey('appointments.id', ondelete='SET NULL'), nullable=True)"
+          },
+          {
+            "name": "plate",
+            "declaration": "plate: Mapped[str] = mapped_column(String(32), default='', server_default='')"
+          },
+          {
+            "name": "brand",
+            "declaration": "brand: Mapped[str] = mapped_column(String(64), default='', server_default='')"
+          },
+          {
+            "name": "model",
+            "declaration": "model: Mapped[str] = mapped_column(String(64), default='', server_default='')"
+          },
+          {
+            "name": "model_year",
+            "declaration": "model_year: Mapped[int] = mapped_column(default=2020, server_default='2020')"
+          },
+          {
+            "name": "fuel_type",
+            "declaration": "fuel_type: Mapped[str] = mapped_column(String(32), default='benzin', server_default='benzin')"
+          },
+          {
+            "name": "transmission",
+            "declaration": "transmission: Mapped[str] = mapped_column(String(32), default='otomatik', server_default='otomatik')"
+          },
+          {
+            "name": "mileage_km",
+            "declaration": "mileage_km: Mapped[int] = mapped_column(default=0, server_default='0')"
+          },
+          {
+            "name": "body_condition_json",
+            "declaration": "body_condition_json: Mapped[str] = mapped_column(Text, default='{}', server_default='{}')"
+          },
+          {
+            "name": "tramer_amount_tl",
+            "declaration": "tramer_amount_tl: Mapped[float] = mapped_column(Float, default=0.0, server_default='0.0')"
+          },
+          {
+            "name": "is_heavy_damage",
+            "declaration": "is_heavy_damage: Mapped[bool] = mapped_column(default=False, server_default='0')"
+          },
+          {
+            "name": "base_benchmark_tl",
+            "declaration": "base_benchmark_tl: Mapped[float] = mapped_column(Float, default=0.0, server_default='0.0')"
+          },
+          {
+            "name": "estimated_market_value_tl",
+            "declaration": "estimated_market_value_tl: Mapped[float] = mapped_column(Float, default=0.0, server_default='0.0')"
+          },
+          {
+            "name": "cash_buy_offer_tl",
+            "declaration": "cash_buy_offer_tl: Mapped[float] = mapped_column(Float, default=0.0, server_default='0.0')"
+          },
+          {
+            "name": "trade_in_offer_tl",
+            "declaration": "trade_in_offer_tl: Mapped[float] = mapped_column(Float, default=0.0, server_default='0.0')"
+          },
+          {
+            "name": "valuation_range_min_tl",
+            "declaration": "valuation_range_min_tl: Mapped[float] = mapped_column(Float, default=0.0, server_default='0.0')"
+          },
+          {
+            "name": "valuation_range_max_tl",
+            "declaration": "valuation_range_max_tl: Mapped[float] = mapped_column(Float, default=0.0, server_default='0.0')"
+          },
+          {
+            "name": "status",
+            "declaration": "status: Mapped[str] = mapped_column(String(32), default='quoted', server_default='quoted')"
+          },
+          {
+            "name": "created_at",
+            "declaration": "created_at: Mapped[str] = mapped_column(default=now)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 676,
+        "table": "'inspection_bays'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "name",
+            "declaration": "name: Mapped[str] = mapped_column(String(120))"
+          },
+          {
+            "name": "bay_number",
+            "declaration": "bay_number: Mapped[int] = mapped_column(unique=True)"
+          },
+          {
+            "name": "bay_type",
+            "declaration": "bay_type: Mapped[str] = mapped_column(String(64), default='mechanic_underbody', server_default='mechanic_underbody')"
+          },
+          {
+            "name": "status",
+            "declaration": "status: Mapped[str] = mapped_column(String(32), default='idle', server_default='idle')"
+          },
+          {
+            "name": "current_appointment_id",
+            "declaration": "current_appointment_id: Mapped[str | None] = mapped_column(ForeignKey('appointments.id', ondelete='SET NULL'), nullable=True)"
+          },
+          {
+            "name": "current_vehicle_plate",
+            "declaration": "current_vehicle_plate: Mapped[str] = mapped_column(String(32), default='', server_default='')"
+          },
+          {
+            "name": "notes",
+            "declaration": "notes: Mapped[str] = mapped_column(Text, default='', server_default='')"
+          },
+          {
+            "name": "created_at",
+            "declaration": "created_at: Mapped[str] = mapped_column(default=now)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 703,
+        "table": "'technicians'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "name",
+            "declaration": "name: Mapped[str] = mapped_column(String(120))"
+          },
+          {
+            "name": "title",
+            "declaration": "title: Mapped[str] = mapped_column(String(120), default='Uzman Teknisyen', server_default='Uzman Teknisyen')"
+          },
+          {
+            "name": "specialties_json",
+            "declaration": "specialties_json: Mapped[str] = mapped_column(Text, default='[]', server_default='[]')"
+          },
+          {
+            "name": "is_active",
+            "declaration": "is_active: Mapped[bool] = mapped_column(default=True, server_default='1')"
+          },
+          {
+            "name": "daily_capacity",
+            "declaration": "daily_capacity: Mapped[int] = mapped_column(default=8, server_default='8')"
+          },
+          {
+            "name": "notes",
+            "declaration": "notes: Mapped[str] = mapped_column(Text, default='', server_default='')"
+          },
+          {
+            "name": "created_at",
+            "declaration": "created_at: Mapped[str] = mapped_column(default=now)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 721,
+        "table": "'bay_schedules'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "appointment_id",
+            "declaration": "appointment_id: Mapped[str | None] = mapped_column(ForeignKey('appointments.id', ondelete='SET NULL'), nullable=True)"
+          },
+          {
+            "name": "bay_id",
+            "declaration": "bay_id: Mapped[str] = mapped_column(ForeignKey('inspection_bays.id', ondelete='CASCADE'))"
+          },
+          {
+            "name": "technician_id",
+            "declaration": "technician_id: Mapped[str | None] = mapped_column(ForeignKey('technicians.id', ondelete='SET NULL'), nullable=True)"
+          },
+          {
+            "name": "package_type",
+            "declaration": "package_type: Mapped[str] = mapped_column(String(64), default='standart_ekspertiz', server_default='standart_ekspertiz')"
+          },
+          {
+            "name": "stage_name",
+            "declaration": "stage_name: Mapped[str] = mapped_column(String(120))"
+          },
+          {
+            "name": "stage_index",
+            "declaration": "stage_index: Mapped[int] = mapped_column(default=1, server_default='1')"
+          },
+          {
+            "name": "starts_at",
+            "declaration": "starts_at: Mapped[str] = mapped_column(String(40))"
+          },
+          {
+            "name": "ends_at",
+            "declaration": "ends_at: Mapped[str] = mapped_column(String(40))"
+          },
+          {
+            "name": "duration_minutes",
+            "declaration": "duration_minutes: Mapped[int] = mapped_column(default=15, server_default='15')"
+          },
+          {
+            "name": "status",
+            "declaration": "status: Mapped[str] = mapped_column(String(32), default='scheduled', server_default='scheduled')"
+          },
+          {
+            "name": "notes",
+            "declaration": "notes: Mapped[str] = mapped_column(Text, default='', server_default='')"
+          },
+          {
+            "name": "created_at",
+            "declaration": "created_at: Mapped[str] = mapped_column(default=now)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 755,
+        "table": "'audio_archives'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "conversation_id",
+            "declaration": "conversation_id: Mapped[str | None] = mapped_column(ForeignKey('conversations.id', ondelete='SET NULL'), nullable=True)"
+          },
+          {
+            "name": "call_session_id",
+            "declaration": "call_session_id: Mapped[str] = mapped_column(String(80), default='', server_default='')"
+          },
+          {
+            "name": "caller_phone",
+            "declaration": "caller_phone: Mapped[str] = mapped_column(String(40), default='', server_default='')"
+          },
+          {
+            "name": "codec",
+            "declaration": "codec: Mapped[str] = mapped_column(String(20), default='opus', server_default='opus')"
+          },
+          {
+            "name": "channels",
+            "declaration": "channels: Mapped[int] = mapped_column(default=1, server_default='1')"
+          },
+          {
+            "name": "sample_rate",
+            "declaration": "sample_rate: Mapped[int] = mapped_column(default=8000, server_default='8000')"
+          },
+          {
+            "name": "duration_sec",
+            "declaration": "duration_sec: Mapped[float] = mapped_column(Float, default=0.0, server_default='0.0')"
+          },
+          {
+            "name": "raw_size_bytes",
+            "declaration": "raw_size_bytes: Mapped[int] = mapped_column(default=0, server_default='0')"
+          },
+          {
+            "name": "compressed_size_bytes",
+            "declaration": "compressed_size_bytes: Mapped[int] = mapped_column(default=0, server_default='0')"
+          },
+          {
+            "name": "compression_ratio_percent",
+            "declaration": "compression_ratio_percent: Mapped[float] = mapped_column(Float, default=0.0, server_default='0.0')"
+          },
+          {
+            "name": "sha256_hash",
+            "declaration": "sha256_hash: Mapped[str] = mapped_column(String(64), default='', server_default='')"
+          },
+          {
+            "name": "raw_sha256_hash",
+            "declaration": "raw_sha256_hash: Mapped[str] = mapped_column(String(64), default='', server_default='')"
+          },
+          {
+            "name": "hmac_signature",
+            "declaration": "hmac_signature: Mapped[str] = mapped_column(String(64), default='', server_default='')"
+          },
+          {
+            "name": "file_path",
+            "declaration": "file_path: Mapped[str] = mapped_column(String(255), default='', server_default='')"
+          },
+          {
+            "name": "retention_years",
+            "declaration": "retention_years: Mapped[int] = mapped_column(default=2, server_default='2')"
+          },
+          {
+            "name": "expires_at",
+            "declaration": "expires_at: Mapped[str | None] = mapped_column(String(40), nullable=True)"
+          },
+          {
+            "name": "is_redacted",
+            "declaration": "is_redacted: Mapped[bool] = mapped_column(default=False, server_default='0')"
+          },
+          {
+            "name": "status",
+            "declaration": "status: Mapped[str] = mapped_column(String(32), default='active', server_default='active')"
+          },
+          {
+            "name": "created_at",
+            "declaration": "created_at: Mapped[str] = mapped_column(default=now)"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 807,
+        "table": "'kvkk_erasure_requests'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "identifier_type",
+            "declaration": "identifier_type: Mapped[str] = mapped_column(String(32))"
+          },
+          {
+            "name": "identifier_value",
+            "declaration": "identifier_value: Mapped[str] = mapped_column(String(120))"
+          },
+          {
+            "name": "requester_name",
+            "declaration": "requester_name: Mapped[str] = mapped_column(String(120), default='', server_default='')"
+          },
+          {
+            "name": "reason",
+            "declaration": "reason: Mapped[str] = mapped_column(String(255), default='KVKK Madde 11 uyarınca silme talebi', server_default='KVKK Madde 11 uyarınca silme talebi')"
+          },
+          {
+            "name": "status",
+            "declaration": "status: Mapped[str] = mapped_column(String(32), default='pending', server_default='pending')"
+          },
+          {
+            "name": "impact_summary_json",
+            "declaration": "impact_summary_json: Mapped[str] = mapped_column(Text, default='{}', server_default='{}')"
+          },
+          {
+            "name": "certificate_sha256",
+            "declaration": "certificate_sha256: Mapped[str] = mapped_column(String(64), default='', server_default='')"
+          },
+          {
+            "name": "notes",
+            "declaration": "notes: Mapped[str] = mapped_column(Text, default='', server_default='')"
+          },
+          {
+            "name": "created_at",
+            "declaration": "created_at: Mapped[str] = mapped_column(default=now)"
+          },
+          {
+            "name": "executed_at",
+            "declaration": "executed_at: Mapped[str | None] = mapped_column(String(40), nullable=True)"
+          },
+          {
+            "name": "executed_by",
+            "declaration": "executed_by: Mapped[str] = mapped_column(String(80), default='admin', server_default='admin')"
+          }
+        ]
+      },
+      {
+        "path": "backend/db.py",
+        "line": 845,
+        "table": "'caller_profiles'",
+        "columns": [
+          {
+            "name": "id",
+            "declaration": "id: Mapped[str] = mapped_column(String, primary_key=True, default=uid)"
+          },
+          {
+            "name": "phone",
+            "declaration": "phone: Mapped[str] = mapped_column(String(40), default='', server_default='')"
+          },
+          {
+            "name": "plate",
+            "declaration": "plate: Mapped[str] = mapped_column(String(32), default='', server_default='')"
+          },
+          {
+            "name": "name",
+            "declaration": "name: Mapped[str] = mapped_column(String(120), default='', server_default='')"
+          },
+          {
+            "name": "vehicle_model",
+            "declaration": "vehicle_model: Mapped[str] = mapped_column(String(120), default='', server_default='')"
+          },
+          {
+            "name": "warranty_expires_at",
+            "declaration": "warranty_expires_at: Mapped[str | None] = mapped_column(String(40), nullable=True)"
+          },
+          {
+            "name": "warranty_status",
+            "declaration": "warranty_status: Mapped[str] = mapped_column(String(32), default='active', server_default='active')"
+          },
+          {
+            "name": "maintenance_history_json",
+            "declaration": "maintenance_history_json: Mapped[str] = mapped_column(Text, default='[]', server_default='[]')"
+          },
+          {
+            "name": "inspection_scores_json",
+            "declaration": "inspection_scores_json: Mapped[str] = mapped_column(Text, default='[]', server_default='[]')"
+          },
+          {
+            "name": "notes",
+            "declaration": "notes: Mapped[str] = mapped_column(Text, default='', server_default='')"
+          },
+          {
+            "name": "user_preferences_json",
+            "declaration": "user_preferences_json: Mapped[str] = mapped_column(Text, default='{}', server_default='{}')"
+          },
+          {
+            "name": "created_at",
+            "declaration": "created_at: Mapped[str] = mapped_column(default=now)"
+          },
+          {
+            "name": "updated_at",
+            "declaration": "updated_at: Mapped[str] = mapped_column(default=now)"
+          }
+        ]
+      }
+    ],
+    "migrations": [
+      "migrations/env.py",
+      "migrations/versions/001_initial.py",
+      "migrations/versions/002_quote_unique.py",
+      "migrations/versions/003_slot_duration.py",
+      "migrations/versions/004_vin_and_inspections.py",
+      "migrations/versions/005_corporate_accounts.py",
+      "migrations/versions/006_notifications_outbox.py",
+      "migrations/versions/007_outbound_calls.py",
+      "migrations/versions/008_inspection_templates_and_digital_delivery.py",
+      "migrations/versions/009_analytics_and_conversation_resolution.py",
+      "migrations/versions/010_proactive_diagnostics_and_telemetry.py",
+      "migrations/versions/011_lift_and_queue_management.py",
+      "migrations/versions/012_ab_testing_infrastructure.py",
+      "migrations/versions/013_operator_transfers.py",
+      "migrations/versions/014_whatsapp_inbound.py",
+      "migrations/versions/015_call_analytics_and_ruhsat.py",
+      "migrations/versions/016_vehicle_valuations.py",
+      "migrations/versions/017_lift_bay_capacity_scheduler.py",
+      "migrations/versions/018_audio_archives.py",
+      "migrations/versions/019_latency_indexes.py",
+      "migrations/versions/020_appointment_customer_phone.py",
+      "migrations/versions/021_kvkk_erasure_requests.py",
+      "migrations/versions/022_supervisor_quality.py",
+      "migrations/versions/023_fqici_queue.py",
+      "migrations/versions/024_operator_follow_up.py"
+    ]
+  },
+  "limitations": [
+    "Runtime database not opened."
+  ]
+}

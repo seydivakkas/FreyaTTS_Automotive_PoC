@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "gate_id": "W2_VERTICAL_SLICE_INTEGRATION",
+  "run_id": "20261126T032114Z",
+  "baseline_run_id": "20261126T001600Z",
+  "core_integration_run_id": "20261126T004342Z",
+  "head_sha": "6273981e1684686ae85f9458b608764e85a4552c",
+  "branch": "master",
+  "source_scope_hash": "bddb7ac19267e378dcdbbddb4abc45e9674d8aefa39d31adc4ee831eb701a254",
+  "scope": "T0_T1_STRUCTURAL_OFFLINE_WINDOWS",
+  "overall": "PASS",
+  "w2_vertical_slice_accepted": true,
+  "f1_b_ready": true,
+  "synthetic_product_acceptance_status": "NOT_RUN",
+  "hardware_acceptance_status": "NOT_RUN",
+  "human_sip_status": "NOT_RUN",
+  "measured_audible_ttfa_ms": null,
+  "gates": {
+    "WG00": "PASS",
+    "WG01": "PASS",
+    "WG02": "PASS",
+    "WG03": "PASS",
+    "WG04": "PASS",
+    "WG05": "PASS",
+    "WG06": "PASS",
+    "WG07": "PASS",
+    "WG08": "PASS",
+    "WG09": "PASS",
+    "WG10": "PASS",
+    "WG11": "PASS"
+  },
+  "gate_reasons": {
+    "WG00": "M00, M08, Core CG00-CG11, and F0-A..F6-A acceptances verified",
+    "WG01": "Real F0-A..F6-A + M01..M08 composed with M08 fake boundaries only and passive imports (THREADS_DELTA=0)",
+    "WG02": "Full foundation, core gate, M08, and F0-A..F6-A + W2 suite passed (742 passed, 0 failed, 0 skipped)",
+    "WG03": "Web 16k (640B frames) and Phone AudioSocket 8k (0x10 323B wire packets + DTMF) full paths verified (WI02-WI03)",
+    "WG04": "F0/F1/F2 partition/preroll, false-onset rejection, M06 P1 lease, NO_SPEECH/ERROR, and M05 candidates verified (WI04-WI08)",
+    "WG05": "F3 deterministic/LLM M06 P3, M07 booking/confirmation/slot-invalidation/UNKNOWN_HOLD/denial verified (WI09-WI14)",
+    "WG06": "F4 protected atoms, normalization_passes=1, seed 9 pinning, and F5 M06 P2/P4 48k Float32 verified (WI15-WI17)",
+    "WG07": "F6 stateful resampling, once-only post_pause_ms, idempotent EOS, pacing reanchor, and SERVER scope verified (WI17-WI18, WI22)",
+    "WG08": "M02 cancel-during-ODE lease retention, cancel-before vs submit-first barriers, and 2-session isolation verified (WI19-WI22)",
+    "WG09": "CompatibilityChecker API/UI/DB/config PASS and 18 M00 features show 0 new regressions (WI23)",
+    "WG10": "WI01-WI24 + WG00-WG11 all passed (25/25); M04 TraceStore/Projection and PIISecretScanner clean (WI24)",
+    "WG11": "W2 gate accepted (w2_vertical_slice_accepted=true, f1_b_ready=true); T2-T5 product/hardware/SIP remain NOT_RUN"
+  },
+  "independent_review": {
+    "reviewer": "verifier",
+    "status": "PENDING_VERIFIER_SIGN_OFF"
+  },
+  "blocking_reasons": []
+}

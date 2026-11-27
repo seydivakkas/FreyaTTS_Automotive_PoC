@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "package_id": "M08",
+  "run_id": "20261126T004342Z",
+  "baseline_run_id": "20261126T001600Z",
+  "head_sha": "6273981e1684686ae85f9458b608764e85a4552c",
+  "branch": "master",
+  "source_scope_hash": "bddb7ac19267e378dcdbbddb4abc45e9674d8aefa39d31adc4ee831eb701a254",
+  "scope": "T0_T1_STRUCTURAL_OFFLINE_WINDOWS",
+  "limitations": [
+    "Product T2/T3/T4-stress/T5-human-SIP benchmarks remain NOT_RUN.",
+    "M01-M07 verified via live workspace packages and executable foundation pytest suites; separate historical docs/freya2/m01..m07 folders were not pre-emitted.",
+    "4 pre-existing baseline failures in legacy tests/test_madde3_customer_experience.py and tests/test_voice_path_honesty.py remain documented in M00 RISK_REGISTER.md."
+  ],
+  "privacy_class": "SYNTHETIC_NO_PII",
+  "fixture_files_sha256": {
+    "tests/harness/fixtures/audio_manifest.json": "ab3a8a5aca8e0b050454cc979e81b64b5a22bbd1e2f3c97272836ad53bae5faa",
+    "tests/harness/fixtures/contract_cases.json": "39fc37f8b054b3d30ae9654971bf2e33d2301d79e1494611cce638327dbd0d0a",
+    "tests/harness/fixtures/policy_cases.json": "efa16bdfe83286564d968586ee0eb9968c744ac726655fc8237a4157e6ad0a3b",
+    "tests/harness/fixtures/scenario_manifest.json": "c3f1c31e38d49ae8e6e738d6192e1961f6ef7bc0406a163cfb25d1951e513656",
+    "tests/harness/fixtures/transport_cases.json": "98acedc676e959cd217148e3ddc1831a7df0c276a99473cb93ffca7d22363cc1"
+  }
+}

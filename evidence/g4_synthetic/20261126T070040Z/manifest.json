@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "gate_id": "G4_SYNTHETIC_PRODUCT_ACCEPTANCE",
+  "run_id": "20261126T070040Z",
+  "g2_run_id": "20261126T064418Z",
+  "g3_run_id": "20261126T064550Z",
+  "head_sha": "6273981e1684686ae85f9458b608764e85a4552c",
+  "branch": "master",
+  "scope": "T0_T1_T3_MOCK_T4_FAULT_OFFLINE_WINDOWS",
+  "command": [
+    ".venv/Scripts/python.exe",
+    "-m",
+    "pytest",
+    "-q",
+    "--basetemp=data/temp_pytest_g4"
+  ],
+  "exit_code": 1,
+  "passed": 2523,
+  "failed": 2,
+  "skipped": 0,
+  "subtests_passed": 44,
+  "g4_suite_passed": 8,
+  "g4_suite_failed": 0,
+  "report_dir": "docs/freya2/g4_synthetic/20261126T070040Z",
+  "evidence_dir": "evidence/g4_synthetic/20261126T070040Z",
+  "logs": [
+    "evidence/g4_synthetic/20261126T070040Z/logs/pytest_full.log"
+  ]
+}

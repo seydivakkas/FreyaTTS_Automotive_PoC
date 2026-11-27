@@ -28,11 +28,31 @@ const STATUS_LABELS: Record<string, string> = {
   speaking: "Konuşuyor",
 };
 
+export interface DialogueStateData {
+  state?: string;
+  booking_status?: string;
+  plate?: string | null;
+  plate_confirmed?: boolean;
+  customer?: string | null;
+  vehicle?: string | null;
+  vehicle_id?: string | null;
+  slot_id?: string | null;
+  slot_time?: string | null;
+  price?: string | null;
+  appointment_id?: string | null;
+  reference_code?: string | null;
+  transfer_requested?: boolean;
+  inbound_intent?: string | null;
+  canonical?: Record<string, unknown> | null;
+  eos_to_first_audio_ms?: number | null;
+}
+
 /** Sesli görüşme: WebSocket, AudioWorklet yakalama, oynatma kuyruğu, DTMF ve metrikler. */
 export function useVoiceSession(api: ApiFn, setError: (msg: string) => void) {
   const [messages, setMessages] = useState<VoiceMessage[]>([]),
     [status, setStatus] = useState("Hazır"),
     [connected, setConnected] = useState(false),
+    [dialogueState, setDialogueState] = useState<DialogueStateData | null>(null),
     [metrics, setMetrics] = useState<VoiceMetrics | null>(null),
     [calibrating, setCalibrating] = useState(false),
     [calibrationInfo, setCalibrationInfo] = useState<{
@@ -45,6 +65,13 @@ export function useVoiceSession(api: ApiFn, setError: (msg: string) => void) {
       createInitialTurnState(1, "", "live")
     ),
     [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
+  const [partialText, setPartialText] = useState("");
+  const [transmitting, setTransmitting] = useState(false);
+  function talk(active: boolean) {
+    const tracks = stream.current?.getAudioTracks() ?? [];
+    tracks.forEach(track => { track.enabled = active; });
+    setTransmitting(active && tracks.some(track => track.readyState === "live"));
+  }
   const playback = useRef<AudioContext | null>(null);
   const sock = useRef<WebSocket | null>(null),
     ctx = useRef<AudioContext | null>(null),
@@ -71,6 +98,8 @@ export function useVoiceSession(api: ApiFn, setError: (msg: string) => void) {
     next.current = 0;
   }
   function stop() {
+    setPartialText("");
+    talk(false);
     closing.current = true;
     sock.current?.close();
     sock.current = null;
@@ -85,8 +114,27 @@ export function useVoiceSession(api: ApiFn, setError: (msg: string) => void) {
     playback.current = null;
     setConnected(false);
     setStatus(failed.current ? "Hata" : "Görüşme sonlandı");
+    setDialogueState(null);
   }
-  useEffect(() => () => stop(), []);
+  useEffect(() => {
+    function mute() { talk(false); }
+    function press(event: KeyboardEvent) {
+      if (!stream.current || event.code !== "Space" || event.altKey || event.ctrlKey || event.metaKey ||
+          (event.target instanceof Element && event.target.closest("input,textarea,select,[contenteditable=true]"))) return;
+      event.preventDefault();
+      talk(true);
+    }
+    function release(event: KeyboardEvent) { if (event.code === "Space") mute(); }
+    window.addEventListener("keydown", press);
+    window.addEventListener("keyup", release);
+    window.addEventListener("blur", mute);
+    return () => {
+      window.removeEventListener("keydown", press);
+      window.removeEventListener("keyup", release);
+      window.removeEventListener("blur", mute);
+      stop();
+    };
+  }, []);
   async function start() {
     failed.current = false;
     closing.current = false;
@@ -114,9 +162,22 @@ export function useVoiceSession(api: ApiFn, setError: (msg: string) => void) {
           console.warn("useVoiceSession: DSP kısıtlı mikrofon açılamadı, basit audio:true deneniyor...", firstErr);
           s = await navigator.mediaDevices.getUserMedia({ audio: true });
         }
+        // After permission, labels are available even when Windows defaults to loopback.
+        if (/stereo (mix|karışımı)|what u hear/i.test(s.getAudioTracks()[0]?.label ?? "")) {
+          const inputs = await navigator.mediaDevices.enumerateDevices();
+          const mic = inputs.find(d => d.kind === "audioinput" && !["default", "communications"].includes(d.deviceId) && /microphone|mikrofon/i.test(d.label));
+          if (mic) {
+            const capture = await navigator.mediaDevices.getUserMedia({audio: {deviceId: {exact: mic.deviceId}, echoCancellation: true}});
+            s.getTracks().forEach(t => t.stop());
+            s = capture;
+          }
+        }
+        s.getAudioTracks().forEach(track => { track.enabled = false; });
         stream.current = s;
         setMediaStream(s);
       } catch (e) {
+        s?.getTracks().forEach(track => track.stop());
+        s = null;
         console.warn("Mikrofon donanım hatası (metin modu devreye alındı):", e);
         const m = micError(e);
         setError(m || "Mikrofon başlatılamadı. Metin kutusundan yazarak görüşmeyi sürdürebilirsiniz.");
@@ -165,7 +226,7 @@ export function useVoiceSession(api: ApiFn, setError: (msg: string) => void) {
         }
         wasConnected.current = true;
         setConnected(true);
-        setStatus(stream.current ? "Bağlandı (Mikrofon Aktif)" : "Bağlandı (Metin Modu)");
+        setStatus(stream.current ? "Konuşmak için boşluk tuşunu basılı tutun" : "Bağlandı (Metin Modu)");
       };
       ws.onmessage = async (e) => {
         if (typeof e.data === "string") {
@@ -191,7 +252,11 @@ export function useVoiceSession(api: ApiFn, setError: (msg: string) => void) {
           if (m.type === "pipeline_event" && m.event) {
             const ev = m.event as PipelineTelemetryEvent;
             setPipelineState((prev) => {
-              const updatedStages = { ...prev.stages };
+              const isNewTurn = ev.turn_id > prev.turnId;
+              const baseStages = isNewTurn
+                ? createInitialTurnState(ev.turn_id, ev.session_id, (ev.source as any) || "live").stages
+                : { ...prev.stages };
+              const updatedStages = { ...baseStages };
               updatedStages[ev.stage] = {
                 stage: ev.stage,
                 status: ev.status,
@@ -218,11 +283,20 @@ export function useVoiceSession(api: ApiFn, setError: (msg: string) => void) {
                 turnId: ev.turn_id,
                 sessionId: ev.session_id,
                 source: ev.source || "live",
-                activeStage: ev.status === "running" ? ev.stage : prev.activeStage,
+                activeStage:
+                  ev.status === "running"
+                    ? ev.stage
+                    : ev.status === "completed" && prev.activeStage === ev.stage
+                    ? null
+                    : prev.activeStage,
                 stages: updatedStages,
                 traces: [ev, ...prev.traces.slice(0, 49)],
               };
             });
+          }
+          if (m.type === "partial_transcript" && sock.current === ws) setPartialText(m.text);
+          if (m.type === "dialogue_state" && m.data) {
+            setDialogueState(m.data);
           }
           if (m.type === "transcript") {
             if (m.role === "user") setMetrics(null);
@@ -358,6 +432,7 @@ export function useVoiceSession(api: ApiFn, setError: (msg: string) => void) {
     stop();
     setMessages([]);
     setMediaStream(null);
+    setDialogueState(null);
     setMetrics(null);
     setCalibrating(false);
     setCalibrationInfo(null);
@@ -368,7 +443,9 @@ export function useVoiceSession(api: ApiFn, setError: (msg: string) => void) {
     messages,
     status,
     connected,
+    dialogueState,
     mediaStream,
+    partialText, transmitting, talk,
     metrics,
     calibrating,
     calibrationInfo,

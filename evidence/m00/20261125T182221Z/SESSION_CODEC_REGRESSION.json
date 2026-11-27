@@ -1,0 +1,6 @@
+{
+  "command": "python -m pytest -q --tb=short tests/test_telephony_codec_and_pjsip_honesty.py -k media_format or packet_framing --basetemp scratch",
+  "initial_attempt": "Combined session and codec regression exceeded 75 seconds. No suite verdict.",
+  "exit_code": 0,
+  "output": "..                                                                       [100%]\n2 passed, 3 deselected in 21.91s\n"
+}

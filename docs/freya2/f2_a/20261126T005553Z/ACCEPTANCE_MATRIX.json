@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "package_id": "F2_A",
+  "run_id": "20261126T005553Z",
+  "baseline_run_id": "20261126T001600Z",
+  "core_integration_run_id": "20261126T004342Z",
+  "head_sha": "6273981e1684686ae85f9458b608764e85a4552c",
+  "branch": "master",
+  "source_scope_hash": "bddb7ac19267e378dcdbbddb4abc45e9674d8aefa39d31adc4ee831eb701a254",
+  "scope": "T0_T1_STRUCTURAL_OFFLINE_WINDOWS",
+  "overall": "PASS",
+  "f2_a_ready": true,
+  "f2_a_accepted": true,
+  "hardware_benchmark_status": "NOT_RUN",
+  "human_sip_status": "NOT_RUN",
+  "gates": {
+    "G00": "PASS",
+    "G01": "PASS",
+    "G02": "PASS",
+    "G03": "PASS",
+    "G04": "PASS",
+    "G05": "PASS",
+    "G06": "PASS",
+    "G07": "PASS",
+    "G08": "PASS",
+    "G09": "PASS",
+    "G10": "PASS",
+    "G11": "PASS",
+    "G12": "PASS",
+    "G13": "PASS",
+    "G14": "PASS",
+    "G15": "PASS",
+    "G16": "PASS",
+    "G17": "PASS"
+  },
+  "blocking_reasons": [],
+  "limitations": [
+    "T2 real Faster-Whisper GPU benchmark and T5 human/SIP acceptance remain NOT_RUN until authorized hardware stage.",
+    "Structural acceptance verified against real M01-M06/M08 modules with FakeWhisperModel and FakeGPUProbeAdapter at provider boundary."
+  ]
+}

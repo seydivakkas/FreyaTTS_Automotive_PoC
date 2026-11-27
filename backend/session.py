@@ -18,7 +18,7 @@ from backend.dialogue import Dialogue
 from backend.config import settings
 from backend.milestones import LiveControl
 from automotive_voice.audio.contracts import MediaFormat, Codec
-from backend.batched_ode import ConcurrentCallController
+from backend.batched_ode import ConcurrentCallController, LEYLA_SEED
 from backend.pipeline_telemetry import make_pipeline_event
 
 logger = logging.getLogger("automotive_voice.session")
@@ -51,8 +51,7 @@ class VoiceSession:
         customer_phone="",
         synthetic_audiosocket_id=None,
     ):
-        if not models.vad:
-            raise RuntimeError("Modeller hazır değil")
+        detector = models.new_vad()
         self.emit = emit
         self.send_audio = send_audio
         self.output_rate = output_rate
@@ -85,7 +84,7 @@ class VoiceSession:
         self.ab_experiment_id = variant_cfg.get("experiment_id")
         self.ab_variant_id = variant_cfg.get("variant_id")
         self.prompt_template = variant_cfg.get("prompt_template", "standard")
-        self.tts_seed = 9  # Leyla kadın sesi deterministik kilidi (Seed 9)
+        self.tts_seed = variant_cfg.get("tts_seed", LEYLA_SEED)
         self.greeting_template = variant_cfg.get("greeting_template", "standard")
         self.start_time = time.monotonic()
         self.first_audio_ms_val = None
@@ -105,7 +104,11 @@ class VoiceSession:
             from backend.supervisor.runtime import WebSupervisor
 
             self.supervisor = WebSupervisor(self.id, settings.supervisor_mode)
-        self.endpoint = Endpoint(models.vad)
+        self.live_captions = channel == "web"
+        self.caption_task = None
+        self.caption_blocks = 0
+        self.caption_epoch = 0
+        self.endpoint = Endpoint(detector)
         from backend.dtmf import GoertzelDetector
         self.goertzel_detector = GoertzelDetector(sample_rate=16000)
         from backend.car_denoiser import InboundCarDenoiser
@@ -124,9 +127,9 @@ class VoiceSession:
         from backend.audiosocket_server import LookbackBuffer, TwoStageBargeInController
         self.lookback_buffer = LookbackBuffer(capacity_frames=15, frame_bytes=320)
         self.bargein_controller = TwoStageBargeInController()
-        models.vad.reset_states()
         self.generation = 0
         self.task = None
+        self._pending_utterances: list[tuple[np.ndarray, float | None]] | None = None
         self.playing = False
         self.generating = 0
         self.paused = False
@@ -136,6 +139,9 @@ class VoiceSession:
         self.input_buffer = b""
         self.resampler = None
         self.watchdog = None
+        self.last_f0_ms: float | None = None
+        self.last_f1_ms: float | None = None
+        self.last_eos_to_first_audio_ms: float | None = None
         # DTMF görevleri: referans tutulur (GC'ye karşı), hataları loglanır, oturum başına sıralanır.
         self._dtmf_lock = asyncio.Lock()
         self._dtmf_tasks: set[asyncio.Task] = set()
@@ -161,6 +167,75 @@ class VoiceSession:
                 )
             )
             db.commit()
+
+    def _build_dialogue_state_payload(self) -> dict:
+        """Görüşme durum makinesinden 5-soru kartı ve kabul protokolü için tek kaynaklı özet üretir."""
+        diag = self.dialogue
+        vehicle_id = None
+        vehicle_desc = None
+        price_label = None
+        slot_id = getattr(diag, "slot", None)
+        slot_time_label = None
+
+        raw_veh = getattr(diag, "vehicle", None)
+        if raw_veh:
+            if isinstance(raw_veh, str):
+                vehicle_id = raw_veh
+                try:
+                    from backend.db import Quote, Vehicle
+
+                    with Session() as db:
+                        veh_obj = db.get(Vehicle, raw_veh)
+                        vehicle_desc = veh_obj.description if veh_obj else raw_veh
+                        q_obj = db.scalars(select(Quote).where(Quote.vehicle_id == raw_veh)).first()
+                        if q_obj and q_obj.amount_kurus:
+                            price_label = f"{q_obj.amount_kurus // 100:,}".replace(",", ".") + " TL"
+                except Exception:
+                    vehicle_desc = raw_veh
+            else:
+                vehicle_id = getattr(raw_veh, "id", None)
+                vehicle_desc = getattr(raw_veh, "description", str(raw_veh))
+
+        opts = getattr(diag, "options", None) or []
+        if slot_id and opts:
+            for opt_id, opt_label in opts:
+                if opt_id == slot_id:
+                    slot_time_label = str(opt_label)
+                    break
+
+        if getattr(diag, "transfer_requested", False):
+            ui_state = "operator_transfer"
+        elif getattr(diag, "confirmed", False) or (getattr(diag, "done", False) and getattr(diag, "appointment_id", None)):
+            ui_state = "booked"
+        elif getattr(diag, "awaiting", False):
+            ui_state = "confirmation"
+        elif slot_id or opts:
+            ui_state = "slot_selection"
+        elif vehicle_id or vehicle_desc:
+            ui_state = "car_type"
+        else:
+            ui_state = "greeting"
+
+        b_status = getattr(diag, "booking_status", None)
+        return {
+            "state": ui_state,
+            "booking_status": getattr(b_status, "value", str(b_status or "idle")),
+            "plate": getattr(diag, "plate", None) or getattr(diag, "plate_draft", None),
+            "plate_confirmed": bool(getattr(diag, "plate_confirmed", False)),
+            "customer": getattr(diag, "customer", None),
+            "vehicle": vehicle_desc,
+            "vehicle_id": vehicle_id,
+            "slot_id": slot_id,
+            "slot_time": slot_time_label,
+            "price": price_label,
+            "appointment_id": getattr(diag, "appointment_id", None),
+            "reference_code": getattr(diag, "reference_code", None),
+            "transfer_requested": bool(getattr(diag, "transfer_requested", False)),
+            "inbound_intent": getattr(diag, "inbound_intent", None),
+            "canonical": getattr(diag, "last_asr_canonical", None),
+            "trace": getattr(diag, "last_turn_trace", None),
+            "eos_to_first_audio_ms": self.last_eos_to_first_audio_ms,
+        }
 
     async def start(self):
         await self.emit(
@@ -253,15 +328,17 @@ class VoiceSession:
                 and time.monotonic() - self.last_input > 15
             ):
                 self.last_input = time.monotonic()
+                self._pending_utterances = None
                 self.task = asyncio.create_task(self.process(np.zeros(0, np.float32)))
 
     async def recalibrate(self, duration_sec: float = 1.5):
         """Kullanıcının isteğiyle ortam gürültü kalkanını yeniden kalibre eder."""
-        if self.closed or not hasattr(self, "car_denoiser") or not self.car_denoiser.enabled:
+        denoiser = getattr(self, "car_denoiser", None)
+        if self.closed or self.is_calibrating or denoiser is None or not denoiser.enabled:
             return
         self.is_calibrating = True
         self._calibration_event.clear()
-        self.car_denoiser.start_calibration(duration_sec=duration_sec)
+        denoiser.start_calibration(duration_sec=duration_sec)
         await self.emit(
             {
                 "type": "calibration_start",
@@ -273,7 +350,7 @@ class VoiceSession:
             await asyncio.wait_for(self._calibration_event.wait(), timeout=duration_sec + 1.0)
         except asyncio.TimeoutError:
             if self.is_calibrating:
-                info = self.car_denoiser.finish_calibration()
+                info = denoiser.finish_calibration()
                 self.is_calibrating = False
                 await self.emit({"type": "calibration_done", **info})
 
@@ -289,16 +366,8 @@ class VoiceSession:
         count = len(self.input_buffer) // size * size
         raw, self.input_buffer = self.input_buffer[:count], self.input_buffer[count:]
 
-        # Kalibrasyon aşaması: Mikrofon sesini oda gürültüsü profili için topla
-        if self.is_calibrating and hasattr(self, "car_denoiser") and self.car_denoiser is not None:
-            done = self.car_denoiser.feed_calibration_bytes(raw, sample_rate=rate)
-            if done:
-                info = self.car_denoiser.finish_calibration()
-                self.is_calibrating = False
-                self._calibration_event.set()
-                await self.emit({"type": "calibration_done", **info})
-            return
-
+        calibration_pcm = raw if self.is_calibrating else None
+        f0_start = time.monotonic()
         # 8 kHz Araç İçi Gürültü Bastırma (120 Hz HPF, -18 dB Spektral Denoise, Soft AGC)
         if hasattr(self, "car_denoiser") and self.car_denoiser is not None and self.car_denoiser.enabled:
             raw = self.car_denoiser.process_bytes(raw, sample_rate=rate)
@@ -318,14 +387,39 @@ class VoiceSession:
         )
         # In-Band Goertzel DTMF tespiti ve tuş seslerini STT'den sessizleştirme (Audio Notch)
         feed_samples = samples
+        detected_digits = ()
         if hasattr(self, "goertzel_detector") and self.goertzel_detector is not None:
             detected_digits, feed_samples = self.goertzel_detector.process_samples(samples)
             for d in detected_digits:
                 self.schedule_dtmf(d)
 
+        f0_ms = (time.monotonic() - f0_start) * 1000
+        self.last_f0_ms = f0_ms
+
         if self.recording:
             self.recording.writeframes(pcm(feed_samples))
+
+        f1_start = time.monotonic()
+        was_speaking = self.endpoint.active if calibration_pcm is not None else False
         started, utterances = self.endpoint.feed(feed_samples)
+        f1_ms = (time.monotonic() - f1_start) * 1000
+        self.last_f1_ms = f1_ms
+
+        # Only use batches the endpoint observed as quiet. Playback can leak into the mic.
+        if (
+            calibration_pcm is not None
+            and len(feed_samples)
+            and not (was_speaking or started or utterances or self.endpoint.active)
+            and not (self.playing or detected_digits)
+            and self.car_denoiser.feed_calibration_bytes(calibration_pcm, sample_rate=rate)
+        ):
+            info = self.car_denoiser.finish_calibration()
+            self.is_calibrating = False
+            self._calibration_event.set()
+            await self.emit({"type": "calibration_done", **info})
+
+        if self.live_captions:
+            await self.update_live_caption(bool(utterances))
         if started:
             signal_started = time.monotonic()
             self.last_input = time.monotonic()
@@ -335,10 +429,20 @@ class VoiceSession:
             await self.emit(
                 {"type": "playback", "action": "pause", "turn_id": self.generation}
             )
+            rms = float(np.sqrt(np.mean(feed_samples**2))) if len(feed_samples) else 0.0
+            dbfs = float(20 * np.log10(max(rms, 1e-5)))
             await self.emit({
                 "type": "pipeline_event",
                 "event": make_pipeline_event(
                     self.id, self.generation + 1, "F0", "completed",
+                    duration_ms=round(f0_ms, 2),
+                    metrics={
+                        "input_rate": rate,
+                        "resampled_rate": 16000,
+                        "rms": round(rms, 4),
+                        "dbfs": round(dbfs, 1),
+                        "denoiser_active": bool(getattr(self, "car_denoiser", None) and self.car_denoiser.enabled),
+                    },
                     source="live",
                 ),
             })
@@ -346,7 +450,9 @@ class VoiceSession:
                 "type": "pipeline_event",
                 "event": make_pipeline_event(
                     self.id, self.generation + 1, "F1", "completed",
-                    metrics={"speech_detected": True, "barge_in": self.playing}, source="live",
+                    duration_ms=round(f1_ms, 2),
+                    metrics={"speech_detected": True, "barge_in": self.playing},
+                    source="live",
                 ),
             })
             if self.playing:
@@ -357,23 +463,63 @@ class VoiceSession:
                 )
         for utterance in utterances:
             self.last_input = time.monotonic()
+            speech_end = self.endpoint.last_voice_at
             if self.task and not self.task.done():
+                if self._pending_utterances is not None and not self.task.cancelling():
+                    self._pending_utterances.append((utterance, speech_end))
+                    continue
                 self.task.cancel()
-            self.task = asyncio.create_task(
-                self.process(utterance, self.endpoint.last_voice_at)
-            )
+            self._pending_utterances = [(utterance, speech_end)]
+            self.task = asyncio.create_task(self.process(utterance, speech_end))
+
+    async def update_live_caption(self, ended):
+        if ended:
+            self.caption_epoch += 1
+            self.caption_blocks = 0
+            await self.emit({"type": "partial_transcript", "text": ""})
+        blocks = len(self.endpoint.speech)
+        if not self.endpoint.active or blocks - self.caption_blocks < 32:
+            return
+        if self.caption_task and not self.caption_task.done():
+            return
+        self.caption_blocks = blocks
+        audio = np.concatenate(self.endpoint.speech)
+        epoch = self.caption_epoch
+
+        async def preview():
+            try:
+                text = await models.transcribe(audio)
+                if text and not self.closed and epoch == self.caption_epoch:
+                    await self.emit({"type": "partial_transcript", "text": text.strip()})
+            except Exception:
+                logger.warning("Ara konuşma metni alınamadı", exc_info=True)
+
+        self.caption_task = asyncio.create_task(preview())
 
     async def process(self, audio, speech_end=None):
         start = time.monotonic()
+        stt_start = time.perf_counter()
+        pending = self._pending_utterances if asyncio.current_task() is self.task else None
         try:
             current_turn = self.generation + 1
             await self.emit({
                 "type": "pipeline_event",
                 "event": make_pipeline_event(self.id, current_turn, "F2", "running", source="live"),
             })
-            text = await models.transcribe(audio) if len(audio) else ""
-            text = text.strip()
-            stt_ms = (time.monotonic() - start) * 1000
+            while True:
+                segment_count = len(pending) if pending is not None else 0
+                if pending:
+                    audio, speech_end = pending[-1]
+                    if segment_count > 1:
+                        audio = np.concatenate([segment for segment, _ in pending])
+                decode_start = time.monotonic()
+                text = (await models.transcribe(audio)).strip() if len(audio) else ""
+                if pending is None or len(pending) == segment_count:
+                    break
+            stt_ms = (time.perf_counter() - stt_start) * 1000
+            # Finalize before publishing the transcript and starting the dialogue.
+            if pending is not None and self._pending_utterances is pending:
+                self._pending_utterances = None
 
             await self.emit({
                 "type": "pipeline_event",
@@ -420,14 +566,14 @@ class VoiceSession:
                     text,
                     {
                         "stt_ms": stt_ms,
-                        "endpoint_ms": (start - speech_end) * 1000 if speech_end else None,
+                        "endpoint_ms": (decode_start - speech_end) * 1000 if speech_end else None,
                     },
                 )
                 await self.emit({"type": "transcript", "role": "user", "text": text})
             models.last_llm_metrics = {}
 
             # F3: Supervisor Intent & LLM Çıkarımı
-            f3_start = time.monotonic()
+            f3_start = time.perf_counter()
             await self.emit({
                 "type": "pipeline_event",
                 "event": make_pipeline_event(self.id, self.generation, "F3", "running", source="live"),
@@ -442,16 +588,16 @@ class VoiceSession:
                         answer = "Talebinizi güvenle doğrulayamıyorum. Lütfen tekrar söyler misiniz?"
             if answer is None:
                 answer = await self.dialogue.answer(text)
-            f3_ms = (time.monotonic() - f3_start) * 1000
-            llm_metrics = models.last_llm_metrics
+            f3_ms = (time.perf_counter() - f3_start) * 1000
+            llm_metrics = models.last_llm_metrics or {}
             if llm_metrics:
                 self.save("metric", "", llm_metrics)
             # Arayüzün gecikme şeridi bu alanları bekler (tur başına tek metrics olayı).
-            turn_metrics = {"stt_ms": stt_ms}
+            turn_metrics = {"stt_ms": round(stt_ms, 1)}
             for key in ("llm_first_token_ms", "llm_total_ms"):
                 value = llm_metrics.get(key)
                 if value is not None:
-                    turn_metrics[key] = value
+                    turn_metrics[key] = round(float(value), 1)
             await self.emit({"type": "metrics", **turn_metrics})
             await self.emit({
                 "type": "pipeline_event",
@@ -463,6 +609,20 @@ class VoiceSession:
                 ),
             })
             await self.reply(answer, speech_end or start)
+
+            # Diyalog durumunu ve çıkarılan parametreleri tek yardımcıyla yayınla + kalıcı iz kaydet
+            dialogue_info = self._build_dialogue_state_payload()
+            self.save(
+                "metric",
+                "",
+                {
+                    "dialogue_state": dialogue_info,
+                    "eos_to_first_audio_ms": self.last_eos_to_first_audio_ms,
+                    "last_turn_trace": dialogue_info.get("trace"),
+                },
+            )
+            await self.emit({"type": "dialogue_state", "data": dialogue_info})
+
             if getattr(self.dialogue, "transfer_requested", False):
                 ok = await self.trigger_operator_transfer()
                 await self.emit(
@@ -491,6 +651,9 @@ class VoiceSession:
                 {"type": "playback", "action": "flush", "turn_id": self.generation}
             )
             await self.emit({"type": "error", "message": str(e)})
+        finally:
+            if pending is not None and self._pending_utterances is pending:
+                self._pending_utterances = None
 
     async def handle_text_input(self, text: str):
         """Web arayüzünden doğrudan metin şeklinde gelen kullanıcı mesajını işler."""
@@ -558,11 +721,11 @@ class VoiceSession:
 
             f3_ms = (time.monotonic() - f3_start) * 1000
             llm_metrics = models.last_llm_metrics or {}
-            turn_metrics = {
-                "stt_ms": 0,
-                "llm_total_ms": llm_metrics.get("llm_total_ms", f3_ms),
-                "llm_first_token_ms": llm_metrics.get("llm_first_token_ms", 120),
-            }
+            turn_metrics = {"stt_ms": 0}
+            for key in ("llm_first_token_ms", "llm_total_ms"):
+                value = llm_metrics.get(key)
+                if value is not None:
+                    turn_metrics[key] = round(float(value), 1)
             await self.emit({"type": "metrics", **turn_metrics})
             await self.emit({
                 "type": "pipeline_event",
@@ -579,6 +742,19 @@ class VoiceSession:
             })
 
             await self.reply(answer, source="text_input")
+
+            # Diyalog durumunu ve çıkarılan parametreleri tek yardımcıyla yayınla + kalıcı iz kaydet
+            dialogue_info = self._build_dialogue_state_payload()
+            self.save(
+                "metric",
+                "",
+                {
+                    "dialogue_state": dialogue_info,
+                    "eos_to_first_audio_ms": self.last_eos_to_first_audio_ms,
+                    "last_turn_trace": dialogue_info.get("trace"),
+                },
+            )
+            await self.emit({"type": "dialogue_state", "data": dialogue_info})
 
             # 6. Tamamlanma veya operatöre aktarım kontrolleri
             if getattr(self.dialogue, "transfer_requested", False):
@@ -721,6 +897,7 @@ class VoiceSession:
     async def reply(self, text, start=None, source="live"):
         turn = self.generation
         control_generation = int((await self.control.move("speaking")).generation_id)
+        has_voice_eos = source == "live" and start is not None
         start = start or time.monotonic()
         self.save("assistant", text)
         await self.emit({"type": "transcript", "role": "assistant", "text": text})
@@ -764,10 +941,7 @@ class VoiceSession:
                         break
                     began = time.monotonic()
                     cold = models.synth_count == 0
-                    try:
-                        w = await models.synth(part, seed=self.tts_seed)
-                    except TypeError:
-                        w = await models.synth(part)
+                    w = await models.synth(part, seed=self.tts_seed)
                     if self.closed or turn != self.generation:
                         break
                     elapsed = time.monotonic() - began
@@ -805,16 +979,27 @@ class VoiceSession:
                     return
                 w, metrics = item
                 if first:
-                    ms_val = (time.monotonic() - start) * 1000
-                    f5_ms = (time.monotonic() - f5_start) * 1000
+                    ms_val = round((time.monotonic() - start) * 1000, 1)
+                    f5_ms = round((time.monotonic() - f5_start) * 1000, 1)
                     metrics["first_audio_ms"] = ms_val
+                    if has_voice_eos:
+                        metrics["eos_to_first_audio_ms"] = ms_val
+                        self.last_eos_to_first_audio_ms = ms_val
+                    else:
+                        self.last_eos_to_first_audio_ms = None
                     if self.first_audio_ms_val is None:
                         self.first_audio_ms_val = ms_val
                     await self.emit({
                         "type": "pipeline_event",
                         "event": make_pipeline_event(
                             self.id, turn, "F5", "completed", duration_ms=f5_ms,
-                            metrics={"ttfa_ms": ms_val, "voice_seed": self.tts_seed, "persona": "Leyla"},
+                            metrics={
+                                "ttfa_ms": ms_val,
+                                "eos_to_first_audio_ms": ms_val if has_voice_eos else None,
+                                "cold_synthesis": metrics.get("cold_synthesis"),
+                                "voice_seed": self.tts_seed,
+                                "persona": "Leyla",
+                            },
                             source=source,
                         ),
                     })
@@ -883,14 +1068,21 @@ class VoiceSession:
                 turn,
                 "F6",
                 "completed",
-                duration_ms=f6_ms,
-                metrics={"audio_bytes": len(data), "sample_rate": self.output_rate},
+                duration_ms=round(f6_ms, 1),
+                metrics={"audio_bytes": len(data), "sample_rate": self.output_rate, "playback_ms": round(f6_ms, 1)},
                 source=source,
             ),
+        })
+        await self.emit({
+            "type": "metrics",
+            "playback_ms": round(f6_ms, 1),
         })
 
     async def close(self):
         self.closed = True
+        if self.caption_task:
+            self.caption_task.cancel()
+            await asyncio.gather(self.caption_task, return_exceptions=True)
         self.generation += 1
         for t in list(self._dtmf_tasks):
             t.cancel()

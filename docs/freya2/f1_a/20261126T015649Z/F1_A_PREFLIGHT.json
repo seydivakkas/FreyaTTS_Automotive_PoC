@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "package_id": "F1_A",
+  "run_id": "20261126T015649Z",
+  "core_integration_run_id": "20261126T004342Z",
+  "f0_a_run_id": "20261126T015537Z",
+  "status": "ACCEPTED",
+  "passive_imports_verified": true,
+  "passive_import_output": "PASSIVE_OK THREADS_DELTA 0 BAD_MODS []",
+  "silero_isolation_strategy": "ADR-F1-01 ISOLATED_CLONE (SileroTemplateAdapter) + STATE_PASSING (StatePassingVADBackend); UNSUPPORTED_HOLD on unsafe shared mutable backends"
+}

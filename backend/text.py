@@ -1,7 +1,9 @@
-"""Domain front-end; preserve source spans and reject unsupported characters."""
+"""Domain front-end for Turkish speech and Freya's character vocabulary."""
 
 import json
+import logging
 import re
+import unicodedata
 from pathlib import Path
 from backend.normalizer_rules import (
     normalize_automotive_turkish,
@@ -10,6 +12,21 @@ from backend.normalizer_rules import (
 )
 
 LEXICON = Path("config/lexicon.json")
+_VOCAB_CACHE: dict[str, set[str]] = {}
+logger = logging.getLogger(__name__)
+_FREYA_ACCENT_FALLBACK = str.maketrans("éèëâÉÈËÂ", "eeeaEEEA")
+_FREYA_SYMBOL_FALLBACK = str.maketrans({"−": " eksi ", "°": " derece ", "&": " ve "})
+
+
+def _get_freya_vocab(path: str = "config/freya_vocab.json") -> set[str]:
+    cached = _VOCAB_CACHE.get(path)
+    if cached is not None:
+        return cached
+    p = Path(path)
+    data = set(json.loads(p.read_text(encoding="utf8")).keys())
+    _VOCAB_CACHE[path] = data
+    return data
+
 # Süre tahmininin şiştiği ve tek başına sentezin bozulduğu parça uzunluğu (karakter).
 SHORT_CLAUSE_MAX_CHARS = 15
 MONTHS = [
@@ -67,11 +84,11 @@ LETTERS = dict(
 def normalize(text: str):
     if not text.strip() or len(text) > 4000:
         raise ValueError("Metin uzunluğu 1–4000 olmalı")
-    # Reject rather than silently discard meaningful unsupported symbols.
-    unsupported = sorted(set(re.findall(r"[^\w\s.,:;?!%\'’₺€+()\-–—/]", text)))
+    t = re.sub(r"\s*°\s*[Cc]\b", " derece santigrat", unicodedata.normalize("NFC", text))
+    t = t.translate(_FREYA_SYMBOL_FALLBACK)
+    unsupported = set(re.findall(r"[^\w\s.,:;?!%\'’₺€+()\-–—/]", t))
     if unsupported:
-        raise ValueError("Desteklenmeyen karakterler: " + " ".join(unsupported))
-    t = text
+        t = t.translate({ord(char): " " for char in unsupported})
     t = re.sub(
         r"(?<!\w)(?:\+90|0)\s*\(?[2-5]\d{2}\)?[ -]*\d{3}[ -]*\d{2}[ -]*\d{2}(?!\d)",
         lambda m: (
@@ -160,17 +177,23 @@ def normalize(text: str):
     )
     # Otomotiv sozlugu normalize_automotive_turkish icinde dinamik isletilir
     t = normalize_automotive_turkish(t).replace("x", "ks").replace("X", "Ks")
-    vocab = json.loads(Path("config/freya_vocab.json").read_text(encoding="utf8"))
-    t = t.replace("Ğ", "ğ")
-    missing = sorted(set(t) - set(vocab))
+    vocab = _get_freya_vocab()
+    # Give the automotive lexicon the original accented spelling first.
+    t = t.replace("Ğ", "ğ").translate(_FREYA_ACCENT_FALLBACK)
+    missing = set(t) - vocab
     if missing:
-        raise ValueError("Model karakter sözlüğü desteklemiyor: " + " ".join(missing))
+        t = re.sub(r"\s+", " ", t.translate({ord(char): " " for char in missing})).strip()
+    warnings = ["Telefon bandı ses kalitesi ayrıca dinlenerek değerlendirilmelidir."]
+    if dropped := unsupported | missing:
+        codepoints = " ".join(f"U+{ord(char):04X}" for char in sorted(dropped))
+        logger.warning("f4.char_dropped codepoints=%s", codepoints)
+        warnings.append(f"Seslendirmede atlanan karakterler: {codepoints}")
+    if not any(char.isalnum() for char in t):
+        raise ValueError("Seslendirilebilir metin bulunamadı")
     return {
         "source": text,
         "normalized": t,
-        "warnings": [
-            "Telefon bandı ses kalitesi ayrıca dinlenerek değerlendirilmelidir."
-        ],
+        "warnings": warnings,
     }
 
 

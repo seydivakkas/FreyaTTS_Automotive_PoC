@@ -189,7 +189,7 @@ def _models_with_fake_synth():
 
 async def test_synth_cache_hit_miss_copy_and_seed_default():
     m, calls = _models_with_fake_synth()
-    key = m._cache_key("Merhaba, nasılsınız?", None)
+    key = m._cache_key("Merhaba, nasılsınız?", 9)
     m._cache_put(key, np.ones(5, np.float32))
     a = await m.synth("Merhaba, nasılsınız?")
     assert calls == [] and a.tolist() == [1.0] * 5
@@ -199,6 +199,20 @@ async def test_synth_cache_hit_miss_copy_and_seed_default():
     assert calls == [("Merhaba, nasılsınız?", 42)]
     await m.synth("Başka cümle")
     assert len(calls) == 2
+
+
+async def test_synth_type_error_does_not_retry_with_default_seed(monkeypatch):
+    model, _ = _models_with_fake_synth()
+    seeds = []
+
+    def fail(text, seed=None):
+        seeds.append(seed)
+        raise TypeError("synthesis rejected input")
+
+    monkeypatch.setattr(model, "_synth", fail)
+    with pytest.raises(TypeError, match="synthesis rejected input"):
+        await model.synth("Merhaba.", seed=77)
+    assert seeds == [77]
 
 
 async def test_synth_cache_is_bounded():

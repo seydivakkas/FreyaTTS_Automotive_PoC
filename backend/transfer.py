@@ -200,6 +200,7 @@ async def accept_operator_transfer(
 
     client = ami_client or get_ami_client()
 
+    ami_error = None
     try:
         if operator_channel:
             # İki canlı kanalı doğrudan köprüle (AMI Bridge)
@@ -214,8 +215,32 @@ async def accept_operator_transfer(
             )
     except Exception as e:
         logger.error("Çağrı köprüleme hatası: %s", e)
+        ami_error = str(e)
 
     now_iso = datetime.now(timezone.utc).isoformat()
+
+    if ami_error:
+        transfer.status = "failed"
+        transfer.completed_at = now_iso
+        try:
+            created_dt = datetime.fromisoformat(transfer.created_at)
+            completed_dt = datetime.fromisoformat(now_iso)
+            transfer.duration_seconds = max(0.0, (completed_dt - created_dt).total_seconds())
+        except Exception:
+            transfer.duration_seconds = 0.0
+
+        if transfer.conversation_id:
+            conv = db.get(Conversation, transfer.conversation_id)
+            if conv:
+                conv.status = "failed"
+                notes = conv.operator_notes or ""
+                note_line = f"[{now_iso}] Operatör aktarımı AMI hatası nedeniyle başarısız oldu: {ami_error}"
+                conv.operator_notes = f"{notes}\n{note_line}".strip()
+
+        db.commit()
+        db.refresh(transfer)
+        raise RuntimeError(f"Çağrı köprüleme başarısız oldu: {ami_error}")
+
     transfer.status = "accepted"
     transfer.completed_at = now_iso
 
@@ -306,10 +331,14 @@ async def handle_operator_dtmf(
     """
     d = str(digit).strip()
     if d == "1":
-        tr = await accept_operator_transfer(
-            db, transfer_id, operator_channel=operator_channel, ami_client=ami_client
-        )
-        return {"action": "accepted", "status": tr.status, "transfer_id": tr.id}
+        try:
+            tr = await accept_operator_transfer(
+                db, transfer_id, operator_channel=operator_channel, ami_client=ami_client
+            )
+            return {"action": "accepted", "status": tr.status, "transfer_id": tr.id}
+        except RuntimeError as e:
+            logger.error("Operatör aktarım kabul hatası: %s", e)
+            return {"action": "failed", "status": "failed", "transfer_id": transfer_id, "error": str(e)}
     elif d == "2":
         tr = await decline_operator_transfer(
             db,

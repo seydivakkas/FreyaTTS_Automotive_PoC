@@ -1,0 +1,20 @@
+{
+  "backend/neural_synthesis/__init__.py": "5ba9463e5b09e315d30f20e3a2bec4b67f00ddd0750d4f272b153951bc97efc5",
+  "backend/neural_synthesis/cache_adapter.py": "f23a4ebb4dc4c9d8b314b8436a791c47247385948b768dd88861149f3a49b817",
+  "backend/neural_synthesis/decoder_adapter.py": "0aabeff7d355a03b077c874f0cca65b7ebe681f2d0f25ab050725cec917acdec",
+  "backend/neural_synthesis/pipeline.py": "8afa6f07833dbe3271150bb806af7a747f2b1ea77c317991a659b8ae3bbb6118",
+  "backend/neural_synthesis/solver_adapter.py": "aca05f12ae2bc82b13f9b93a68f84193b1415419fd6d491d822ebff5c361c007",
+  "backend/neural_synthesis/f5_bc/__init__.py": "612833e577682064ef462ec689af357b367672dd1c2cea53e67c9e13924ab3b4",
+  "backend/neural_synthesis/f5_bc/adaptive_profiles.py": "4179707b7e0916b1876996b13b72007a8f9954a54b4b6b77bd8570159b149025",
+  "backend/neural_synthesis/f5_bc/batch_layout.py": "635a8b44502667b274b6b428df55d04b1ecb1bab217a97499afd7f3107db9e3a",
+  "backend/neural_synthesis/f5_bc/batch_policy.py": "c6b441a19f2fc3982d345bee4be28824a1e53a3427d4c96c981c9c79d5f7f7e5",
+  "backend/neural_synthesis/f5_bc/cache_store.py": "2dc5b0c8c4dd41c69edcdb88e6acc8de27c4a59f626dc44c5f09dd7c8e6cef71",
+  "backend/neural_synthesis/f5_bc/quality_guard.py": "c3c4a3be83c80ece3a00c4a1881413c750801bbfcae885687141b38a942f6e61",
+  "backend/neural_synthesis/f5_bc/recovery_policy.py": "130ea79b1391ac14dd43505c31cef3042bcc0b7c79a06b7fe86a4bbffdb1a91a",
+  "backend/neural_synthesis/f5_bc/rng_adapter.py": "0cfce3d37c71a284d8e55cb3927b055d914abae657ebde9b62b3c252d242fcc5",
+  "backend/neural_synthesis/f5_bc/speaker_intelligence.py": "6119e7b6b8dfd46678dfbd371e9c89c8e420c3393730df81bea82bf98e83306e",
+  "tests/neural_synthesis/test_f5_a_neural_synthesis.py": "a148565bc3d1f1e61064d2bea515b7fe7c33903bbb4435cd228d96d4e595c0f6",
+  "tests/neural_synthesis/test_f5_bc_cache_ode.py": "ab92efd510a32b28acd536b903cf3d5af8f352aad6ffacacbf3eda1959d42746",
+  "docs/freya2/f5_bc/20261126T033700Z/ACCEPTANCE_MATRIX.json": "811de83cba8eda368610886431c69fd6ff1bef31043733ce59e3f8114091e464",
+  "evidence/f5_bc/20261126T033700Z/manifest.json": "57cf8054b9777a3f85c4282192ac62362d393ceaf69a9e534c066fcbffe566ce"
+}

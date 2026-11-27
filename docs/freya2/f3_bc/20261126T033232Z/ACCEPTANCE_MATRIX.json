@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "gate_id": "F3_BC_ROUTING_RAG_WORKFLOW",
+  "run_id": "20261126T033232Z",
+  "w2_integration_run_id": "20261126T032114Z",
+  "head_sha": "6273981e1684686ae85f9458b608764e85a4552c",
+  "branch": "master",
+  "scope": "T0_T1_STRUCTURAL_OFFLINE_WINDOWS",
+  "overall": "PASS",
+  "f3_b_ready": true,
+  "f3_c_ready": true,
+  "synthetic_product_acceptance_status": "NOT_RUN",
+  "hardware_acceptance_status": "NOT_RUN",
+  "human_sip_status": "NOT_RUN",
+  "live_provider_status": "NOT_RUN",
+  "gates": {
+    "F3B_PREFLIGHT_W2_LINEAGE": "PASS",
+    "F3B_HIERARCHICAL_ROUTER_L0_L5": "PASS",
+    "F3B_SPECIALIST_REGISTRY_PROPOSALS": "PASS",
+    "F3B_QUALITY_EVALUATOR_READ_ONLY": "PASS",
+    "F3C_OFFLINE_RAG_BM25_RRF_ACL": "PASS",
+    "F3C_CONFLICT_ABSTENTION_GATE": "PASS",
+    "F3C_MULTI_INTENT_DAG_M07": "PASS",
+    "F3A_REGRESSION_PRESERVED": "PASS"
+  },
+  "test_summary": {
+    "command": "pytest tests/dialogue_foundation/ --basetemp=data/temp_pytest_w34_f3 -q",
+    "exit_code": 0,
+    "passed": 92,
+    "failed": 0,
+    "skipped": 0
+  },
+  "owned_files": [
+    "backend/supervisor/intent_router.py",
+    "backend/supervisor/specialist_registry.py",
+    "backend/supervisor/rag_retriever.py",
+    "backend/supervisor/workflow_dag.py",
+    "backend/supervisor/workflow_adapter.py",
+    "backend/supervisor/dialogue_facade.py",
+    "tests/dialogue_foundation/test_f3_bc_routing_rag.py"
+  ],
+  "independent_review": {
+    "reviewer": "verifier",
+    "status": "PENDING_VERIFIER_SIGN_OFF"
+  },
+  "blocking_reasons": []
+}

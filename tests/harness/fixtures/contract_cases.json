@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "fixture_group": "foundation_contract_families",
+  "families": [
+    {"family": "CT", "owner_package": "M01", "prefix": "CT", "planned_start": 1, "planned_end": 36, "test_file": "tests/contracts/test_m01_contracts.py"},
+    {"family": "RT", "owner_package": "M02", "prefix": "RT", "planned_start": 1, "planned_end": 48, "test_file": "tests/runtime/test_m02_runtime.py"},
+    {"family": "CR", "owner_package": "M03", "prefix": "CR", "planned_start": 1, "planned_end": 48, "test_file": "tests/configuration/test_m03_config_registry.py"},
+    {"family": "OB", "owner_package": "M04", "prefix": "OB", "planned_start": 1, "planned_end": 56, "test_file": "tests/observability/test_m04_observability.py"},
+    {"family": "LX", "owner_package": "M05", "prefix": "LX", "planned_start": 1, "planned_end": 56, "test_file": "tests/lexicon/test_m05_lexicon.py"},
+    {"family": "GPU", "owner_package": "M06", "prefix": "GPU", "planned_start": 1, "planned_end": 64, "test_file": "tests/runtime_resources/test_m06_scheduler.py"},
+    {"family": "SEC", "owner_package": "M07", "prefix": "SEC", "planned_start": 1, "planned_end": 72, "test_file": "tests/security/test_m07_security.py"},
+    {"family": "TH", "owner_package": "M08", "prefix": "TH", "planned_start": 1, "planned_end": 80, "test_file": "tests/harness_tests/test_m08_harness.py"}
+  ]
+}

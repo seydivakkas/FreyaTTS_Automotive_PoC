@@ -1,0 +1,2865 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261126T001600Z",
+  "baseline_commit": "6273981e1684686ae85f9458b608764e85a4552c",
+  "records": [
+    {
+      "database_id": "DB-0001",
+      "engine": "sqlite_sqlalchemy",
+      "table": "ab_assignments",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "conversation_id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "experiment_id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "variant_id",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "outcome",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "first_audio_ms",
+          "type": "FLOAT",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "tts_total_ms",
+          "type": "FLOAT",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "llm_total_ms",
+          "type": "FLOAT",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "duration_seconds",
+          "type": "FLOAT",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "turns_count",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "completed_at",
+          "type": "VARCHAR(40)",
+          "nullable": true,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "column": "experiment_id",
+          "target": "ab_experiments.id"
+        },
+        {
+          "column": "conversation_id",
+          "target": "conversations.id"
+        }
+      ],
+      "unique_constraints": [
+        [
+          "conversation_id"
+        ]
+      ],
+      "indexes": [
+        "ix_ab_assignments_outcome",
+        "ix_ab_assignments_experiment_id",
+        "ix_ab_assignments_variant_id"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0002",
+      "engine": "sqlite_sqlalchemy",
+      "table": "ab_experiments",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR(120)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "description",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "experiment_type",
+          "type": "VARCHAR(40)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(20)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "variants_json",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "target_metric",
+          "type": "VARCHAR(40)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "updated_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [],
+      "unique_constraints": [],
+      "indexes": [
+        "ix_ab_experiments_status"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0003",
+      "engine": "sqlite_sqlalchemy",
+      "table": "appointments",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "slot_id",
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "vehicle_id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "customer",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "idempotency_key",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "confirmed",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "corporate_account_id",
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "billed_amount_kurus",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "package_type",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "customer_phone",
+          "type": "VARCHAR(40)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "column": "vehicle_id",
+          "target": "vehicles.id"
+        },
+        {
+          "column": "slot_id",
+          "target": "slots.id"
+        },
+        {
+          "column": "corporate_account_id",
+          "target": "corporate_accounts.id"
+        }
+      ],
+      "unique_constraints": [
+        [
+          "slot_id"
+        ],
+        [
+          "idempotency_key"
+        ]
+      ],
+      "indexes": [
+        "ix_appointments_status",
+        "ix_appointments_customer_phone",
+        "ix_appointments_vehicle_id",
+        "ix_appointments_created_at"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0004",
+      "engine": "sqlite_sqlalchemy",
+      "table": "audio_archives",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "conversation_id",
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "call_session_id",
+          "type": "VARCHAR(80)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "caller_phone",
+          "type": "VARCHAR(40)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "codec",
+          "type": "VARCHAR(20)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "channels",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "sample_rate",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "duration_sec",
+          "type": "FLOAT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "raw_size_bytes",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "compressed_size_bytes",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "compression_ratio_percent",
+          "type": "FLOAT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "sha256_hash",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "raw_sha256_hash",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "hmac_signature",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "file_path",
+          "type": "VARCHAR(255)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "retention_years",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "expires_at",
+          "type": "VARCHAR(40)",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "is_redacted",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "column": "conversation_id",
+          "target": "conversations.id"
+        }
+      ],
+      "unique_constraints": [],
+      "indexes": [
+        "ix_audio_archives_status",
+        "ix_audio_archives_created_at",
+        "ix_audio_archives_expires_at",
+        "ix_audio_archives_conversation_id",
+        "ix_audio_archives_call_session_id"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0005",
+      "engine": "sqlite_sqlalchemy",
+      "table": "bay_schedules",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "appointment_id",
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "bay_id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "technician_id",
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "package_type",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "stage_name",
+          "type": "VARCHAR(120)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "stage_index",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "starts_at",
+          "type": "VARCHAR(40)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "ends_at",
+          "type": "VARCHAR(40)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "duration_minutes",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "notes",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "column": "bay_id",
+          "target": "inspection_bays.id"
+        },
+        {
+          "column": "appointment_id",
+          "target": "appointments.id"
+        },
+        {
+          "column": "technician_id",
+          "target": "technicians.id"
+        }
+      ],
+      "unique_constraints": [],
+      "indexes": [
+        "ix_bay_schedules_appointment_id",
+        "ix_bay_schedules_starts_at",
+        "ix_bay_schedules_bay_id",
+        "ix_bay_schedules_status"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0006",
+      "engine": "sqlite_sqlalchemy",
+      "table": "call_analytics",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "conversation_id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "appointment_id",
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "caller_phone",
+          "type": "VARCHAR(40)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "caller_name",
+          "type": "VARCHAR(120)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "executive_summary",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "intent",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "csat_score",
+          "type": "FLOAT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "sentiment",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "lead_score",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "lead_tier",
+          "type": "VARCHAR(16)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "objections_json",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "topics_json",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "recommended_action",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "duration_sec",
+          "type": "FLOAT",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "column": "appointment_id",
+          "target": "appointments.id"
+        },
+        {
+          "column": "conversation_id",
+          "target": "conversations.id"
+        }
+      ],
+      "unique_constraints": [],
+      "indexes": [
+        "ix_call_analytics_lead_tier",
+        "ix_call_analytics_conversation_id",
+        "ix_call_analytics_created_at"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0007",
+      "engine": "sqlite_sqlalchemy",
+      "table": "caller_profiles",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "phone",
+          "type": "VARCHAR(40)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "plate",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR(120)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "vehicle_model",
+          "type": "VARCHAR(120)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "warranty_expires_at",
+          "type": "VARCHAR(40)",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "warranty_status",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "maintenance_history_json",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "inspection_scores_json",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "notes",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "user_preferences_json",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "updated_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [],
+      "unique_constraints": [],
+      "indexes": [
+        "ix_caller_profiles_plate",
+        "ix_caller_profiles_phone",
+        "ix_caller_profiles_name"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0008",
+      "engine": "sqlite_sqlalchemy",
+      "table": "conversations",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "channel",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "operator_notes",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "resolved_at",
+          "type": "VARCHAR(40)",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "follow_up_kind",
+          "type": "VARCHAR(24)",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "follow_up_at",
+          "type": "VARCHAR(40)",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [],
+      "unique_constraints": [],
+      "indexes": [
+        "ix_conversations_status",
+        "ix_conversations_created_at"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0009",
+      "engine": "sqlite_sqlalchemy",
+      "table": "corporate_accounts",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "tax_id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "phone",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "credit_limit_kurus",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "balance_kurus",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "discount_percent",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "active",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [],
+      "unique_constraints": [
+        [
+          "tax_id"
+        ]
+      ],
+      "indexes": [],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0010",
+      "engine": "sqlite_sqlalchemy",
+      "table": "corporate_ledger",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "account_id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "appointment_id",
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "entry_type",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "amount_kurus",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "balance_after_kurus",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "description",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "column": "account_id",
+          "target": "corporate_accounts.id"
+        },
+        {
+          "column": "appointment_id",
+          "target": "appointments.id"
+        }
+      ],
+      "unique_constraints": [],
+      "indexes": [
+        "ix_corporate_ledger_account_id"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0011",
+      "engine": "sqlite_sqlalchemy",
+      "table": "fqici_events",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR(36)",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "scope_id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "producer",
+          "type": "VARCHAR(24)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "source_event_id",
+          "type": "VARCHAR(36)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "evidence",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "observed_at",
+          "type": "VARCHAR(40)",
+          "nullable": false,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "column": "scope_id",
+          "target": "fqici_scopes.id"
+        }
+      ],
+      "unique_constraints": [
+        [
+          "producer",
+          "source_event_id"
+        ]
+      ],
+      "indexes": [
+        "ix_fqici_events_scope_id"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0012",
+      "engine": "sqlite_sqlalchemy",
+      "table": "fqici_runs",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR(36)",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "scope_id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "evidence_hash",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "rule_version",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "event_ids",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "state",
+          "type": "VARCHAR(24)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "created_at_ms",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "available_at_ms",
+          "type": "BIGINT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "fence",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "lease_until_ms",
+          "type": "BIGINT",
+          "nullable": true,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "column": "scope_id",
+          "target": "fqici_scopes.id"
+        }
+      ],
+      "unique_constraints": [
+        [
+          "scope_id",
+          "evidence_hash",
+          "rule_version"
+        ]
+      ],
+      "indexes": [
+        "ix_fqici_runs_scope_id",
+        "ix_fqici_runs_state"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0013",
+      "engine": "sqlite_sqlalchemy",
+      "table": "fqici_scopes",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "transport",
+          "type": "VARCHAR(12)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "origin",
+          "type": "VARCHAR(12)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "transport_id",
+          "type": "VARCHAR(36)",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "terminal_seen",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "dirty_since_ms",
+          "type": "BIGINT",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "ready_at_ms",
+          "type": "BIGINT",
+          "nullable": true,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "column": "id",
+          "target": "conversations.id"
+        }
+      ],
+      "unique_constraints": [],
+      "indexes": [
+        "ix_fqici_scopes_ready_at_ms",
+        "ix_fqici_scopes_terminal_seen"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0014",
+      "engine": "sqlite_sqlalchemy",
+      "table": "inspection_bays",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR(120)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "bay_number",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "bay_type",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "current_appointment_id",
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "current_vehicle_plate",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "notes",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "column": "current_appointment_id",
+          "target": "appointments.id"
+        }
+      ],
+      "unique_constraints": [
+        [
+          "bay_number"
+        ]
+      ],
+      "indexes": [
+        "ix_inspection_bays_bay_type",
+        "ix_inspection_bays_bay_number",
+        "ix_inspection_bays_status"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0015",
+      "engine": "sqlite_sqlalchemy",
+      "table": "inspection_lifts",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR(120)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "lift_number",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "current_appointment_id",
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "current_vehicle_plate",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "package_type",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "started_at",
+          "type": "VARCHAR(40)",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "estimated_duration_min",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "notes",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "column": "current_appointment_id",
+          "target": "appointments.id"
+        }
+      ],
+      "unique_constraints": [
+        [
+          "lift_number"
+        ]
+      ],
+      "indexes": [
+        "ix_inspection_lifts_lift_number",
+        "ix_inspection_lifts_status"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0016",
+      "engine": "sqlite_sqlalchemy",
+      "table": "inspection_queues",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "queue_number",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "appointment_id",
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "vehicle_id",
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "plate",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "customer",
+          "type": "VARCHAR(120)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "package_type",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "duration_minutes",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "lift_id",
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "check_in_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "started_at",
+          "type": "VARCHAR(40)",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "completed_at",
+          "type": "VARCHAR(40)",
+          "nullable": true,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "column": "vehicle_id",
+          "target": "vehicles.id"
+        },
+        {
+          "column": "lift_id",
+          "target": "inspection_lifts.id"
+        },
+        {
+          "column": "appointment_id",
+          "target": "appointments.id"
+        }
+      ],
+      "unique_constraints": [],
+      "indexes": [
+        "ix_inspection_queues_check_in_at",
+        "ix_inspection_queues_status"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0017",
+      "engine": "sqlite_sqlalchemy",
+      "table": "inspection_reports",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "vehicle_id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "appointment_id",
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "technician_name",
+          "type": "VARCHAR(120)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "summary",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "mileage_km",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "score",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "findings_json",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "photos_json",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "pdf_path",
+          "type": "VARCHAR(255)",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "delivered_at",
+          "type": "VARCHAR(40)",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "inspected_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "column": "appointment_id",
+          "target": "appointments.id"
+        },
+        {
+          "column": "vehicle_id",
+          "target": "vehicles.id"
+        }
+      ],
+      "unique_constraints": [],
+      "indexes": [
+        "ix_inspection_reports_vehicle_id",
+        "ix_inspection_reports_appointment_id"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0018",
+      "engine": "sqlite_sqlalchemy",
+      "table": "intent_training_candidates",
+      "columns": [
+        {
+          "name": "trace_id",
+          "type": "VARCHAR(36)",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "text_digest",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "group_id",
+          "type": "VARCHAR(36)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "split",
+          "type": "VARCHAR(12)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "example",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "trace_id"
+      ],
+      "foreign_keys": [
+        {
+          "column": "trace_id",
+          "target": "supervisor_traces.id"
+        }
+      ],
+      "unique_constraints": [
+        [
+          "text_digest"
+        ]
+      ],
+      "indexes": [
+        "ix_intent_training_candidates_group_id"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0019",
+      "engine": "sqlite_sqlalchemy",
+      "table": "kvkk_erasure_requests",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "identifier_type",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "identifier_value",
+          "type": "VARCHAR(120)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "requester_name",
+          "type": "VARCHAR(120)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "reason",
+          "type": "VARCHAR(255)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "impact_summary_json",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "certificate_sha256",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "notes",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "executed_at",
+          "type": "VARCHAR(40)",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "executed_by",
+          "type": "VARCHAR(80)",
+          "nullable": false,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [],
+      "unique_constraints": [],
+      "indexes": [
+        "ix_kvkk_erasure_requests_identifier_value",
+        "ix_kvkk_erasure_requests_status",
+        "ix_kvkk_erasure_requests_created_at"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0020",
+      "engine": "sqlite_sqlalchemy",
+      "table": "notifications",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "appointment_id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "recipient_type",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "recipient",
+          "type": "VARCHAR(120)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "channel",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "message",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "idempotency_key",
+          "type": "VARCHAR(128)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "attempts",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "last_error",
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "sent_at",
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "column": "appointment_id",
+          "target": "appointments.id"
+        }
+      ],
+      "unique_constraints": [
+        [
+          "idempotency_key"
+        ]
+      ],
+      "indexes": [
+        "ix_notifications_status_created_at",
+        "ix_notifications_appointment_id"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0021",
+      "engine": "sqlite_sqlalchemy",
+      "table": "operator_transfers",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "conversation_id",
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "caller_channel",
+          "type": "VARCHAR(120)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "operator_extension",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "customer_name",
+          "type": "VARCHAR(120)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "vehicle_plate",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "summary",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "whisper_text",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "sip_headers_json",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "duration_seconds",
+          "type": "FLOAT",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "completed_at",
+          "type": "VARCHAR(40)",
+          "nullable": true,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "column": "conversation_id",
+          "target": "conversations.id"
+        }
+      ],
+      "unique_constraints": [],
+      "indexes": [
+        "ix_operator_transfers_status",
+        "ix_operator_transfers_created_at",
+        "ix_operator_transfers_conversation_id"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0022",
+      "engine": "sqlite_sqlalchemy",
+      "table": "outbound_calls",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "appointment_id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "phone",
+          "type": "VARCHAR(40)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "customer",
+          "type": "VARCHAR(120)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "call_type",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "outcome",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "action_id",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "attempts",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "last_error",
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "completed_at",
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "column": "appointment_id",
+          "target": "appointments.id"
+        }
+      ],
+      "unique_constraints": [],
+      "indexes": [
+        "ix_outbound_calls_status_created_at",
+        "ix_outbound_calls_appointment_id"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0023",
+      "engine": "sqlite_sqlalchemy",
+      "table": "quotes",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "vehicle_id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "amount_kurus",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "column": "vehicle_id",
+          "target": "vehicles.id"
+        }
+      ],
+      "unique_constraints": [
+        [
+          "vehicle_id"
+        ]
+      ],
+      "indexes": [],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0024",
+      "engine": "sqlite_sqlalchemy",
+      "table": "ruhsat_scans",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "vehicle_id",
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "appointment_id",
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "from_phone",
+          "type": "VARCHAR(40)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "plate",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "vin",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "engine_code",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "model_year",
+          "type": "INTEGER",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "brand_model",
+          "type": "VARCHAR(120)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "document_serial",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "owner_name",
+          "type": "VARCHAR(120)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "confidence",
+          "type": "FLOAT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "raw_extracted_text",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "column": "vehicle_id",
+          "target": "vehicles.id"
+        },
+        {
+          "column": "appointment_id",
+          "target": "appointments.id"
+        }
+      ],
+      "unique_constraints": [],
+      "indexes": [
+        "ix_ruhsat_scans_from_phone",
+        "ix_ruhsat_scans_vin",
+        "ix_ruhsat_scans_plate",
+        "ix_ruhsat_scans_created_at"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0025",
+      "engine": "sqlite_sqlalchemy",
+      "table": "slots",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "starts_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "duration_minutes",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [],
+      "unique_constraints": [
+        [
+          "starts_at"
+        ]
+      ],
+      "indexes": [],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0026",
+      "engine": "sqlite_sqlalchemy",
+      "table": "supervisor_traces",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR(36)",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "conversation_id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "payload",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "review_status",
+          "type": "VARCHAR(24)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "review_labels",
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "VARCHAR(40)",
+          "nullable": false,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "column": "conversation_id",
+          "target": "conversations.id"
+        }
+      ],
+      "unique_constraints": [],
+      "indexes": [
+        "ix_supervisor_traces_created_at",
+        "ix_supervisor_traces_conversation_id"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0027",
+      "engine": "sqlite_sqlalchemy",
+      "table": "supervisor_write_receipts",
+      "columns": [
+        {
+          "name": "key",
+          "type": "VARCHAR(36)",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "action",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "request_digest",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "VARCHAR(40)",
+          "nullable": false,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "key"
+      ],
+      "foreign_keys": [],
+      "unique_constraints": [],
+      "indexes": [],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0028",
+      "engine": "sqlite_sqlalchemy",
+      "table": "technicians",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR(120)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "title",
+          "type": "VARCHAR(120)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "specialties_json",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "is_active",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "daily_capacity",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "notes",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [],
+      "unique_constraints": [],
+      "indexes": [
+        "ix_technicians_is_active"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0029",
+      "engine": "sqlite_sqlalchemy",
+      "table": "turns",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "conversation_id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "role",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "text",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "metrics",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "column": "conversation_id",
+          "target": "conversations.id"
+        }
+      ],
+      "unique_constraints": [],
+      "indexes": [
+        "ix_turns_conversation_id"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0030",
+      "engine": "sqlite_sqlalchemy",
+      "table": "vehicle_diagnostics",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "vehicle_id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "dtc_code",
+          "type": "VARCHAR(16)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "severity",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "system_category",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "description_tr",
+          "type": "VARCHAR(255)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "recommended_action",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "current_mileage_km",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "next_service_km",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "maintenance_status",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "source",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "is_resolved",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "owner_phone",
+          "type": "VARCHAR(40)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "owner_name",
+          "type": "VARCHAR(120)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "last_notified_at",
+          "type": "VARCHAR(40)",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "column": "vehicle_id",
+          "target": "vehicles.id"
+        }
+      ],
+      "unique_constraints": [],
+      "indexes": [
+        "ix_vehicle_diagnostics_vehicle_id",
+        "ix_vehicle_diagnostics_severity",
+        "ix_vehicle_diagnostics_dtc_code"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0031",
+      "engine": "sqlite_sqlalchemy",
+      "table": "vehicle_valuations",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "conversation_id",
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "appointment_id",
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "plate",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "brand",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "model",
+          "type": "VARCHAR(64)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "model_year",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "fuel_type",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "transmission",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "mileage_km",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "body_condition_json",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "tramer_amount_tl",
+          "type": "FLOAT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "is_heavy_damage",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "base_benchmark_tl",
+          "type": "FLOAT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "estimated_market_value_tl",
+          "type": "FLOAT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "cash_buy_offer_tl",
+          "type": "FLOAT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "trade_in_offer_tl",
+          "type": "FLOAT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "valuation_range_min_tl",
+          "type": "FLOAT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "valuation_range_max_tl",
+          "type": "FLOAT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "column": "conversation_id",
+          "target": "conversations.id"
+        },
+        {
+          "column": "appointment_id",
+          "target": "appointments.id"
+        }
+      ],
+      "unique_constraints": [],
+      "indexes": [
+        "ix_vehicle_valuations_conversation_id",
+        "ix_vehicle_valuations_plate",
+        "ix_vehicle_valuations_created_at"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0032",
+      "engine": "sqlite_sqlalchemy",
+      "table": "vehicles",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "description",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "plate",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "vin",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [],
+      "unique_constraints": [],
+      "indexes": [],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    },
+    {
+      "database_id": "DB-0033",
+      "engine": "sqlite_sqlalchemy",
+      "table": "whatsapp_messages",
+      "columns": [
+        {
+          "name": "id",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": true
+        },
+        {
+          "name": "message_sid",
+          "type": "VARCHAR(128)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "from_phone",
+          "type": "VARCHAR(40)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "customer_name",
+          "type": "VARCHAR(120)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "message_type",
+          "type": "VARCHAR(32)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "raw_content",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "transcription",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "extracted_intent",
+          "type": "VARCHAR(40)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "extracted_time",
+          "type": "VARCHAR(40)",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "appointment_id",
+          "type": "VARCHAR",
+          "nullable": true,
+          "primary_key": false
+        },
+        {
+          "name": "reply_text",
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "outbound_calls_cancelled",
+          "type": "INTEGER",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "processed",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "primary_key": false
+        },
+        {
+          "name": "created_at",
+          "type": "VARCHAR",
+          "nullable": false,
+          "primary_key": false
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "column": "appointment_id",
+          "target": "appointments.id"
+        }
+      ],
+      "unique_constraints": [],
+      "indexes": [
+        "ix_whatsapp_messages_from_phone",
+        "ix_whatsapp_messages_created_at",
+        "ix_whatsapp_messages_appointment_id"
+      ],
+      "source_ref": "backend/db.py",
+      "runtime_schema_verified": true
+    }
+  ],
+  "limitations": [
+    "Verified against isolated temp SQLite DDL via Base.metadata; production assistant.db was not opened."
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "gate_id": "F4_BC_MORPHOLOGY_PROSODY_CHUNKING",
+  "run_id": "20261126T033400Z",
+  "w2_integration_run_id": "20261126T032114Z",
+  "head_sha": "6273981e1684686ae85f9458b608764e85a4552c",
+  "branch": "master",
+  "scope": "T0_T1_STRUCTURAL_OFFLINE_WINDOWS_CPU_ONLY",
+  "command": [
+    "pytest",
+    "tests/linguistic_frontend/test_f4_a_linguistic_frontend.py",
+    "tests/linguistic_frontend/test_f4_bc_morphology_prosody.py",
+    "--basetemp=data/temp_pytest_w34_f4",
+    "-q"
+  ],
+  "exit_code": 0,
+  "collected": 90,
+  "passed": 90,
+  "failed": 0,
+  "skipped": 0,
+  "report_dir": "docs/freya2/f4_bc/20261126T033400Z",
+  "evidence_dir": "evidence/f4_bc/20261126T033400Z",
+  "owned_files": [
+    "backend/linguistic_frontend/__init__.py",
+    "backend/linguistic_frontend/f4_b_morphology.py",
+    "backend/linguistic_frontend/f4_c_prosody.py",
+    "backend/linguistic_frontend/pipeline.py",
+    "tests/linguistic_frontend/test_f4_bc_morphology_prosody.py",
+    "docs/freya2/f4_bc/20261126T033400Z/ACCEPTANCE_MATRIX.json",
+    "evidence/f4_bc/20261126T033400Z/manifest.json",
+    "evidence/f4_bc/20261126T033400Z/artifact_hashes.json"
+  ]
+}

@@ -1,0 +1,400 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261126T001600Z",
+  "baseline_commit": "6273981e1684686ae85f9458b608764e85a4552c",
+  "records": [
+    {
+      "feature_id": "FT-CORE-0001",
+      "name": "FastAPI Lifecycle, Health, Readiness & Single-Use WS Ticket",
+      "domain": "CORE",
+      "current_owner": "CORE",
+      "target_owner": "CORE",
+      "implementation_state": "LIVE_PATH",
+      "source_refs": [
+        "backend/main.py",
+        "backend/routers/core_system.py"
+      ],
+      "existing_test_ids": [
+        "tests/test_api.py",
+        "tests/test_core.py"
+      ],
+      "side_effect": "READ",
+      "verification_status": "PASS",
+      "preserve_behavior": "Preserve /api/health, /api/readiness, /api/models/load, /api/session-ticket and /ws/voice",
+      "future_regression_required": true
+    },
+    {
+      "feature_id": "FT-CORE-0002",
+      "name": "Existing Core Contracts, Identifiers, Events & Durable Session Authority",
+      "domain": "CORE",
+      "current_owner": "CORE",
+      "target_owner": "CORE",
+      "implementation_state": "LIVE_PATH",
+      "source_refs": [
+        "automotive_voice/core/identifiers.py",
+        "automotive_voice/core/events.py",
+        "automotive_voice/core/session_manager.py",
+        "backend/milestones.py"
+      ],
+      "existing_test_ids": [
+        "tests/milestones/test_m01.py",
+        "tests/milestones/test_m02.py"
+      ],
+      "side_effect": "WRITE",
+      "verification_status": "PASS",
+      "preserve_behavior": "Preserve automotive_voice.core compatibility and M01-M11 durable session bridge",
+      "future_regression_required": true
+    },
+    {
+      "feature_id": "FT-CORE-0003",
+      "name": "Typed Settings & Environment Configuration",
+      "domain": "CORE",
+      "current_owner": "CORE",
+      "target_owner": "CORE",
+      "implementation_state": "LIVE_PATH",
+      "source_refs": [
+        "backend/config.py",
+        ".env.example"
+      ],
+      "existing_test_ids": [
+        "tests/test_core.py",
+        "tests/test_security_hardening.py"
+      ],
+      "side_effect": "NONE",
+      "verification_status": "PASS",
+      "preserve_behavior": "Preserve all 77 Settings keys, env aliases, defaults and demo isolation",
+      "future_regression_required": true
+    },
+    {
+      "feature_id": "FT-CORE-0004",
+      "name": "Observability, Pipeline Telemetry & FQICI Journal",
+      "domain": "CORE",
+      "current_owner": "CORE",
+      "target_owner": "CORE",
+      "implementation_state": "LIVE_PATH",
+      "source_refs": [
+        "backend/pipeline_telemetry.py",
+        "backend/realtime_dashboard_metrics.py",
+        "backend/fqici/journal.py",
+        "backend/routers/observability.py"
+      ],
+      "existing_test_ids": [
+        "tests/test_pipeline_telemetry.py",
+        "tests/test_fqici_queue.py"
+      ],
+      "side_effect": "WRITE",
+      "verification_status": "PASS",
+      "preserve_behavior": "Preserve Schema v3.0 pipeline events and FQICI durability",
+      "future_regression_required": true
+    },
+    {
+      "feature_id": "FT-F0-0001",
+      "name": "Inbound Car Denoiser (HPF 120Hz, Spectral Subtraction, Soft AGC, Noise Gate)",
+      "domain": "F0",
+      "current_owner": "F0",
+      "target_owner": "F0",
+      "implementation_state": "LIVE_PATH",
+      "source_refs": [
+        "backend/car_denoiser.py",
+        "backend/routers/audio_dsp.py"
+      ],
+      "existing_test_ids": [
+        "tests/test_car_denoiser.py"
+      ],
+      "side_effect": "NONE",
+      "verification_status": "PASS",
+      "preserve_behavior": "Preserve 120Hz 4th-order Butterworth HPF, overlap-add denoiser, soft AGC and API preview",
+      "future_regression_required": true
+    },
+    {
+      "feature_id": "FT-F0-0002",
+      "name": "Input Resampling & Raw DTMF Goertzel Detection Path",
+      "domain": "F0",
+      "current_owner": "F0",
+      "target_owner": "F0",
+      "implementation_state": "LIVE_PATH",
+      "source_refs": [
+        "backend/audio.py",
+        "backend/dtmf.py",
+        "backend/session.py"
+      ],
+      "existing_test_ids": [
+        "tests/test_dtmf.py",
+        "tests/test_dtmf_false_positive.py"
+      ],
+      "side_effect": "NONE",
+      "verification_status": "PASS",
+      "preserve_behavior": "Preserve 8/16/24/44.1/48 kHz mono input validation and raw pre-DSP DTMF tap",
+      "future_regression_required": true
+    },
+    {
+      "feature_id": "FT-F1-0001",
+      "name": "Silero VAD Per-Session Isolation & Acoustic Endpointing",
+      "domain": "F1",
+      "current_owner": "F1",
+      "target_owner": "F1",
+      "implementation_state": "LIVE_PATH",
+      "source_refs": [
+        "backend/models.py",
+        "backend/audio.py",
+        "backend/session.py"
+      ],
+      "existing_test_ids": [
+        "tests/test_session.py",
+        "tests/test_voice_path_honesty.py"
+      ],
+      "side_effect": "NONE",
+      "verification_status": "PASS",
+      "preserve_behavior": "Preserve models.new_vad() per-session CPU deepcopy isolation and 512-sample 16kHz windowing",
+      "future_regression_required": true
+    },
+    {
+      "feature_id": "FT-F1-0002",
+      "name": "Semantic Turn Detector & Two-Stage Barge-In Lookback",
+      "domain": "F1",
+      "current_owner": "F1",
+      "target_owner": "F1",
+      "implementation_state": "LIVE_PATH",
+      "source_refs": [
+        "backend/semantic_turn_detector.py",
+        "backend/audiosocket_server.py"
+      ],
+      "existing_test_ids": [
+        "tests/test_semantic_turn_detector.py",
+        "tests/test_audiosocket_server.py"
+      ],
+      "side_effect": "NONE",
+      "verification_status": "PASS",
+      "preserve_behavior": "Preserve SemanticTurnDetector endpoints, LookbackBuffer and TwoStageBargeInController",
+      "future_regression_required": true
+    },
+    {
+      "feature_id": "FT-F2-0001",
+      "name": "Faster-Whisper Large-V3-Turbo STT & Hotwords",
+      "domain": "F2",
+      "current_owner": "F2",
+      "target_owner": "F2",
+      "implementation_state": "LIVE_PATH",
+      "source_refs": [
+        "backend/models.py",
+        "backend/routers/text_speech.py"
+      ],
+      "existing_test_ids": [
+        "tests/test_session.py",
+        "tests/test_p5_latency.py"
+      ],
+      "side_effect": "NONE",
+      "verification_status": "PASS",
+      "preserve_behavior": "Preserve Turkish beam=1 transcription, catalog+custom hotwords, and RMS/logprob guards",
+      "future_regression_required": true
+    },
+    {
+      "feature_id": "FT-F2-0002",
+      "name": "Automotive Terminology Canonicalization, Plate Parser & Experimental Mapper",
+      "domain": "F2",
+      "current_owner": "F2",
+      "target_owner": "F2",
+      "implementation_state": "LIVE_PATH",
+      "source_refs": [
+        "backend/automotive_terminology.py",
+        "backend/turkish_plate.py",
+        "experimental/asr_mapper.py"
+      ],
+      "existing_test_ids": [
+        "tests/test_automotive_terminology.py",
+        "tests/test_poc_spoken_plate_and_intent.py"
+      ],
+      "side_effect": "NONE",
+      "verification_status": "PASS",
+      "preserve_behavior": "Preserve canonicalize_asr_text, TurkishPlateParser and match_catalog_vehicle",
+      "future_regression_required": true
+    },
+    {
+      "feature_id": "FT-F3-0001",
+      "name": "Rule-First + Ollama LLM Inbound/Outbound Dialogue Engine",
+      "domain": "F3",
+      "current_owner": "F3",
+      "target_owner": "F3",
+      "implementation_state": "LIVE_PATH",
+      "source_refs": [
+        "backend/dialogue.py",
+        "backend/caller_memory.py",
+        "backend/appointment_reschedule.py"
+      ],
+      "existing_test_ids": [
+        "tests/test_workflow.py",
+        "tests/test_madde3_customer_experience.py"
+      ],
+      "side_effect": "WRITE",
+      "verification_status": "FAIL",
+      "preserve_behavior": "Preserve Turkish dialogue state machine, explicit confirmation, reschedule/cancel and caller memory",
+      "future_regression_required": true
+    },
+    {
+      "feature_id": "FT-F3-0002",
+      "name": "Supervisor Intent Router, Policy, ToolGateway & Quality Review",
+      "domain": "F3",
+      "current_owner": "F3",
+      "target_owner": "F3",
+      "implementation_state": "FLAGGED",
+      "source_refs": [
+        "backend/supervisor/runtime.py",
+        "backend/supervisor/gateway.py",
+        "backend/supervisor/policy.py",
+        "backend/routers/supervisor.py"
+      ],
+      "existing_test_ids": [
+        "tests/test_supervisor.py",
+        "tests/test_supervisor_views.py"
+      ],
+      "side_effect": "WRITE",
+      "verification_status": "PASS",
+      "preserve_behavior": "Preserve OFF/SHADOW/GUARDED modes, ConfirmedWrite idempotency and SupervisorTrace review",
+      "future_regression_required": true
+    },
+    {
+      "feature_id": "FT-F3-0003",
+      "name": "Automotive Dispatch, Queue/Lift, Valuation, Diagnostics, Dictation & Ontology",
+      "domain": "F3",
+      "current_owner": "F3",
+      "target_owner": "F3",
+      "implementation_state": "LIVE_PATH",
+      "source_refs": [
+        "backend/automotive_dispatch.py",
+        "backend/queue_lift.py",
+        "backend/dynamic_valuation_calculator.py",
+        "backend/technician_dictation.py",
+        "backend/ontology/router.py"
+      ],
+      "existing_test_ids": [
+        "tests/test_automotive_dispatch.py",
+        "tests/test_queue_lift.py",
+        "tests/test_automotive_ontology.py"
+      ],
+      "side_effect": "WRITE",
+      "verification_status": "PASS",
+      "preserve_behavior": "Preserve all automotive domain routers and dispatchers",
+      "future_regression_required": true
+    },
+    {
+      "feature_id": "FT-F3-0004",
+      "name": "CRM, Corporate Accounts, Outbound Dialer, Notifications & KVKK Compliance",
+      "domain": "F3",
+      "current_owner": "F3",
+      "target_owner": "F3",
+      "implementation_state": "LIVE_PATH",
+      "source_refs": [
+        "backend/routers/crm.py",
+        "backend/outbound_dialer.py",
+        "backend/notifications.py",
+        "backend/kvkk_compliance.py",
+        "backend/audio_archive_compliance.py"
+      ],
+      "existing_test_ids": [
+        "tests/test_madde5_kvkk_compliance.py",
+        "tests/test_outbound_dialer.py",
+        "tests/test_audio_archive_compliance.py"
+      ],
+      "side_effect": "WRITE",
+      "verification_status": "PASS",
+      "preserve_behavior": "Preserve BEGIN IMMEDIATE CRM transactions, outbound campaigns and KVKK/HMAC archive",
+      "future_regression_required": true
+    },
+    {
+      "feature_id": "FT-F4-0001",
+      "name": "Turkish Automotive Normalization, Lexicon & Morphology Pre-Checker",
+      "domain": "F4",
+      "current_owner": "F4",
+      "target_owner": "F4",
+      "implementation_state": "LIVE_PATH",
+      "source_refs": [
+        "backend/text.py",
+        "backend/normalizer_rules.py",
+        "backend/automotive_frontend.py",
+        "backend/morphology/contracts.py",
+        "backend/morphological_pre_checker.py"
+      ],
+      "existing_test_ids": [
+        "tests/test_automotive_frontend.py",
+        "tests/test_morphological_pre_checker.py",
+        "experimental/tests/test_tts_normalization.py"
+      ],
+      "side_effect": "NONE",
+      "verification_status": "PASS",
+      "preserve_behavior": "Preserve single normalization semantics, 92-char Freya vocab guard and lexicon API",
+      "future_regression_required": true
+    },
+    {
+      "feature_id": "FT-F5-0001",
+      "name": "FreyaTTS Synthesis, Leyla Seed 9, Warmup Cache & Batched ODE Engine",
+      "domain": "F5",
+      "current_owner": "F5",
+      "target_owner": "F5",
+      "implementation_state": "LIVE_PATH",
+      "source_refs": [
+        "backend/models.py",
+        "backend/batched_ode.py",
+        "backend/sft_leyla.py",
+        "backend/ab_testing.py"
+      ],
+      "existing_test_ids": [
+        "tests/test_batched_ode.py",
+        "tests/test_ab_testing.py",
+        "tests/test_sft_leyla.py"
+      ],
+      "side_effect": "NONE",
+      "verification_status": "PASS",
+      "preserve_behavior": "Preserve LEYLA_SEED=9, 32-step Euler baseline, voicedness collapse guard and A/B seeds",
+      "future_regression_required": true
+    },
+    {
+      "feature_id": "FT-F6-0001",
+      "name": "Output Rendering, Fade, Telephony EQ, 8kHz/16kHz Pacing & Transport",
+      "domain": "F6",
+      "current_owner": "F6",
+      "target_owner": "F6",
+      "implementation_state": "LIVE_PATH",
+      "source_refs": [
+        "backend/dsp.py",
+        "backend/audio.py",
+        "backend/audiosocket_server.py",
+        "backend/telephony.py",
+        "backend/websocket_adapter.py"
+      ],
+      "existing_test_ids": [
+        "tests/test_telephony_codec_and_pjsip_honesty.py",
+        "tests/test_chan_websocket.py",
+        "tests/test_transfer.py"
+      ],
+      "side_effect": "EXTERNAL",
+      "verification_status": "PASS",
+      "preserve_behavior": "Preserve 10ms cosine fade, 120Hz+3.2kHz EQ, 20ms pacing, AudioSocket BE framing and ChanWS",
+      "future_regression_required": true
+    },
+    {
+      "feature_id": "FT-UI-0001",
+      "name": "Freya Cockpit V3 Frontend & Acceptance Protocol UI",
+      "domain": "UI",
+      "current_owner": "UI",
+      "target_owner": "UI",
+      "implementation_state": "LIVE_PATH",
+      "source_refs": [
+        "frontend/src/main.tsx",
+        "frontend/src/nav.ts",
+        "frontend/src/tabs/VoiceTab.tsx",
+        "frontend/src/AcceptanceProtocolPanel.tsx"
+      ],
+      "existing_test_ids": [
+        "frontend/tests/operator_today.spec.ts",
+        "frontend/tests/supervisor.spec.ts"
+      ],
+      "side_effect": "NONE",
+      "verification_status": "PASS",
+      "preserve_behavior": "Preserve all 29 nav items, 4 cockpit areas, honest metric display and demo banner",
+      "future_regression_required": true
+    }
+  ],
+  "limitations": [
+    "FT-F3-0001 has 4 baseline test failures on dirty working tree (multi-vehicle & empty vehicle match)."
+  ]
+}

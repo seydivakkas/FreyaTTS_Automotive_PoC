@@ -1,0 +1,137 @@
+{
+  "schema_version": "1.0",
+  "package_id": "CORE_INTEGRATION",
+  "run_id": "20261126T004342Z",
+  "baseline_run_id": "20261126T001600Z",
+  "head_sha": "6273981e1684686ae85f9458b608764e85a4552c",
+  "branch": "master",
+  "source_scope_hash": "bddb7ac19267e378dcdbbddb4abc45e9674d8aefa39d31adc4ee831eb701a254",
+  "scope": "T0_T1_STRUCTURAL_OFFLINE_WINDOWS",
+  "limitations": [
+    "Product T2/T3/T4-stress/T5-human-SIP benchmarks remain NOT_RUN.",
+    "M01-M07 verified via live workspace packages and executable foundation pytest suites; separate historical docs/freya2/m01..m07 folders were not pre-emitted.",
+    "4 pre-existing baseline failures in legacy tests/test_madde3_customer_experience.py and tests/test_voice_path_honesty.py remain documented in M00 RISK_REGISTER.md."
+  ],
+  "cases": [
+    {
+      "case_id": "CI01",
+      "actual_selector": "tests/integration/test_core_gate.py::test_ci01_m00_baseline_lineage_and_feature_denominator",
+      "mandatory": true
+    },
+    {
+      "case_id": "CI02",
+      "actual_selector": "tests/integration/test_core_gate.py::test_ci02_m01_to_m02_identity_and_generation_fencing",
+      "mandatory": true
+    },
+    {
+      "case_id": "CI03",
+      "actual_selector": "tests/integration/test_core_gate.py::test_ci03_m02_to_m04_trace_and_cancel_correlation",
+      "mandatory": true
+    },
+    {
+      "case_id": "CI04",
+      "actual_selector": "tests/integration/test_core_gate.py::test_ci04_m02_to_m04_cancel_authoritative_under_bus_saturation",
+      "mandatory": true
+    },
+    {
+      "case_id": "CI05",
+      "actual_selector": "tests/integration/test_core_gate.py::test_ci05_m03_to_m02_session_pins_immutable_config_revision",
+      "mandatory": true
+    },
+    {
+      "case_id": "CI06",
+      "actual_selector": "tests/integration/test_core_gate.py::test_ci06_m03_to_m05_lexicon_revision_with_config_snapshot",
+      "mandatory": true
+    },
+    {
+      "case_id": "CI07",
+      "actual_selector": "tests/integration/test_core_gate.py::test_ci07_m05_to_m01_lexicon_maps_to_unverified_entity_candidate",
+      "mandatory": true
+    },
+    {
+      "case_id": "CI08",
+      "actual_selector": "tests/integration/test_core_gate.py::test_ci08_m05_to_m04_safe_counters_no_raw_text_leakage",
+      "mandatory": true
+    },
+    {
+      "case_id": "CI09",
+      "actual_selector": "tests/integration/test_core_gate.py::test_ci09_m03_to_m06_model_descriptor_and_preflight",
+      "mandatory": true
+    },
+    {
+      "case_id": "CI10",
+      "actual_selector": "tests/integration/test_core_gate.py::test_ci10_m06_to_m04_scheduler_metrics_and_mock_evidence",
+      "mandatory": true
+    },
+    {
+      "case_id": "CI11",
+      "actual_selector": "tests/integration/test_core_gate.py::test_ci11_m02_to_m06_queued_cancel_prevents_dispatch",
+      "mandatory": true
+    },
+    {
+      "case_id": "CI12",
+      "actual_selector": "tests/integration/test_core_gate.py::test_ci12_m02_to_m06_running_cancel_fences_and_holds_lease",
+      "mandatory": true
+    },
+    {
+      "case_id": "CI13",
+      "actual_selector": "tests/integration/test_core_gate.py::test_ci13_m06_stale_probe_and_oom_refusal",
+      "mandatory": true
+    },
+    {
+      "case_id": "CI14",
+      "actual_selector": "tests/integration/test_core_gate.py::test_ci14_m01_to_m07_partial_asr_cannot_authorize_mutation",
+      "mandatory": true
+    },
+    {
+      "case_id": "CI15",
+      "actual_selector": "tests/integration/test_core_gate.py::test_ci15_m05_to_m07_candidate_boundary_cannot_authorize",
+      "mandatory": true
+    },
+    {
+      "case_id": "CI16",
+      "actual_selector": "tests/integration/test_core_gate.py::test_ci16_m02_to_m07_cancellation_fence_and_idempotency",
+      "mandatory": true
+    },
+    {
+      "case_id": "CI17",
+      "actual_selector": "tests/integration/test_core_gate.py::test_ci17_m07_isolated_db_idempotency_and_reopen",
+      "mandatory": true
+    },
+    {
+      "case_id": "CI18",
+      "actual_selector": "tests/integration/test_core_gate.py::test_ci18_m07_to_m04_durable_audit_independent_of_lossy_bus",
+      "mandatory": true
+    },
+    {
+      "case_id": "CI19",
+      "actual_selector": "tests/integration/test_core_gate.py::test_ci19_m03_to_m07_supervisor_modes_preserved",
+      "mandatory": true
+    },
+    {
+      "case_id": "CI20",
+      "actual_selector": "tests/integration/test_core_gate.py::test_ci20_two_session_cross_package_isolation",
+      "mandatory": true
+    },
+    {
+      "case_id": "CI21",
+      "actual_selector": "tests/integration/test_core_gate.py::test_ci21_m01_to_m02_mock_media_wrong_generation_and_no_recall",
+      "mandatory": true
+    },
+    {
+      "case_id": "CI22",
+      "actual_selector": "tests/integration/test_core_gate.py::test_ci22_m00_m08_public_compatibility_snapshot",
+      "mandatory": true
+    },
+    {
+      "case_id": "CI23",
+      "actual_selector": "tests/integration/test_core_gate.py::test_ci23_m08_integrated_failure_replay_reproducible",
+      "mandatory": true
+    },
+    {
+      "case_id": "CI24",
+      "actual_selector": "tests/integration/test_core_gate.py::test_ci24_all_packages_gate_validator_and_product_limits",
+      "mandatory": true
+    }
+  ]
+}

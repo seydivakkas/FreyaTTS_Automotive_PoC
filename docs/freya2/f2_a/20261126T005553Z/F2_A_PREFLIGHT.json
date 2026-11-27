@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "package_id": "F2_A",
+  "run_id": "20261126T005553Z",
+  "head_sha": "6273981e1684686ae85f9458b608764e85a4552c",
+  "source_scope_hash": "bddb7ac19267e378dcdbbddb4abc45e9674d8aefa39d31adc4ee831eb701a254",
+  "core_integration_run_id": "20261126T004342Z",
+  "core_integration_ready": true,
+  "vertical_slice_ready": true,
+  "prerequisites": {
+    "CORE_INTEGRATION": "PASS",
+    "M01_CONTRACTS": "PASS",
+    "M02_RUNTIME": "PASS",
+    "M03_CONFIG_MODEL_REGISTRY": "PASS",
+    "M04_OBSERVABILITY": "PASS",
+    "M05_SHARED_LEXICON": "PASS",
+    "M06_RUNTIME_RESOURCES": "PASS",
+    "M08_TEST_HARNESS": "PASS"
+  },
+  "status": "PASS"
+}

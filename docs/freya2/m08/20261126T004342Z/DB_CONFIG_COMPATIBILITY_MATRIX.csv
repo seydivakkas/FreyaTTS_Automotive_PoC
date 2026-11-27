@@ -1,0 +1,3 @@
+domain,baseline_count,matched_count,drift_count,status,observation_scope
+DATABASE_SCHEMA,33,33,0,PASS,STATIC_AST_SCHEMA_CHECK
+CONFIG_AND_MODELS,81,81,0,PASS,PASSIVE_CATALOG_AND_REGISTRY_CHECK

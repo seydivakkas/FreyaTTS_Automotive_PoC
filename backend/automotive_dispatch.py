@@ -20,7 +20,8 @@ import re
 from typing import Any, Dict, Optional
 from backend.db import Session
 from backend.diagnostics import lookup_dtc
-from backend.queue_lift import get_lift_capacity_status, PACKAGE_DEFINITIONS
+from backend.queue_lift import get_lift_capacity_status
+from backend import queue_lift
 from backend.technician_dictation import parse_technician_dictation
 from backend.dynamic_valuation_calculator import (
     parse_spoken_valuation_query,
@@ -288,7 +289,7 @@ def dispatch_valuation_or_pricing(text: str) -> Optional[Dict[str, Any]]:
     # Paket Fiyat Sorgusu
     if any(w in lowered for w in ("fiyat", "ücret", "kaç para", "ne kadar", "paket")):
         matched_pkg = None
-        for k, p in PACKAGE_DEFINITIONS.items():
+        for k, p in queue_lift.PACKAGE_DEFINITIONS.items():
             if any(kw in lowered for kw in p.get("keywords", [])):
                 matched_pkg = p
                 break
@@ -315,7 +316,7 @@ def dispatch_valuation_or_pricing(text: str) -> Optional[Dict[str, Any]]:
                 "intent": "fiyat_parca_sorgusu",
                 "sub_type": "service_packages",
                 "message": msg,
-                "data": {"packages": list(PACKAGE_DEFINITIONS.keys())},
+                "data": {"packages": list(queue_lift.PACKAGE_DEFINITIONS.keys())},
             }
 
     return None

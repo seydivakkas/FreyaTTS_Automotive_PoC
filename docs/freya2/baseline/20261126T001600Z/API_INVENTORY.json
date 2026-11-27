@@ -1,0 +1,4145 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261126T001600Z",
+  "baseline_commit": "6273981e1684686ae85f9458b608764e85a4552c",
+  "records": [
+    {
+      "api_id": "API-0001",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/health",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.core_system.health",
+      "auth_requirement": "PUBLIC_OR_SIGNED",
+      "dependencies": [],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0002",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/health",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.core_system.health",
+      "auth_requirement": "PUBLIC_OR_SIGNED",
+      "dependencies": [],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0003",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/readiness",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.core_system.readiness",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/LoginGate.tsx:27"
+      ]
+    },
+    {
+      "api_id": "API-0004",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/models/load",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.core_system.load",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/FirstAppointmentGuide.tsx:94",
+        "frontend/src/tabs/SystemTab.tsx:46"
+      ]
+    },
+    {
+      "api_id": "API-0005",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/system/unified-status",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.core_system.get_unified_system_status_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0006",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/normalize",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.normal",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/TextIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/tabs/LabTab.tsx:100"
+      ]
+    },
+    {
+      "api_id": "API-0007",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/frontend/normalize-prosody",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.frontend_normalize_prosody",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/TextIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0008",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/frontend/dsp-telephony",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.frontend_dsp_telephony",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/DSPProcessIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0009",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/frontend/status",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.frontend_status",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0010",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/frontend/morphological-check",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.frontend_morphological_check",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/MorphologicalCheckIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0011",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/sft/prepare-corpus",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.sft_prepare_corpus",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/SFTCorpusIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0012",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/sft/configure",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.sft_configure",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/SFTConfigureIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0013",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/sft/train-step",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.sft_train_step",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/SFTTrainIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0014",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/sft/status",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.sft_status",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0015",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/sft/verify-identity",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.sft_verify_identity",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0016",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/sft/lora/configure",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.sft_lora_configure",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/SFTLoRAConfigureIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0017",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/sft/lora/status",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.sft_lora_status",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0018",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/sft/lora/benchmark-step",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.sft_lora_benchmark_step",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/SFTLoRABenchmarkIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0019",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/synthesize",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.synth",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/TextIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0020",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/hotwords",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.get_hotwords",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0021",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/hotwords",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.update_hotwords",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/HotwordsIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0022",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/lexicon",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.get_lexicon",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/LexiconPanel.tsx:138",
+        "frontend/src/LexiconPanel.tsx:81"
+      ]
+    },
+    {
+      "api_id": "API-0023",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/lexicon",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.update_lexicon",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/LexiconTermIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/LexiconPanel.tsx:138",
+        "frontend/src/LexiconPanel.tsx:81"
+      ]
+    },
+    {
+      "api_id": "API-0024",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/lexicon/reset",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.reset_lexicon",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0025",
+      "protocol": "HTTP",
+      "method": "DELETE",
+      "path_template": "/api/lexicon/{term:path}",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.delete_lexicon",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0026",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/ab/templates",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.get_ab_templates",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/ABTestingPanel.tsx:128"
+      ]
+    },
+    {
+      "api_id": "API-0027",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/ab/experiments",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.list_ab_experiments",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/ABTestingPanel.tsx:127",
+        "frontend/src/ABTestingPanel.tsx:203"
+      ]
+    },
+    {
+      "api_id": "API-0028",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/ab/experiments",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.create_ab_experiment_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/ABExperimentIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/ABTestingPanel.tsx:127",
+        "frontend/src/ABTestingPanel.tsx:203"
+      ]
+    },
+    {
+      "api_id": "API-0029",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/ab/experiments/{id}",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.get_ab_experiment_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0030",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/ab/experiments/{id}/status",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.update_ab_experiment_status_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/ABStatusIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/ABTestingPanel.tsx:165"
+      ]
+    },
+    {
+      "api_id": "API-0031",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/ab/experiments/{id}/report",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.get_ab_experiment_report_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/ABTestingPanel.tsx:145"
+      ]
+    },
+    {
+      "api_id": "API-0032",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/ab/preview-synth",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.ab_preview_synth",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/ABPreviewSynthIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0033",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/voice/chat-turn",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.text_speech.voice_chat_turn_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/VoiceChatTurnIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/tabs/VoiceTab.tsx:336"
+      ]
+    },
+    {
+      "api_id": "API-0034",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/operator/today",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.operator_qa.operator_today",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/OperatorToday.tsx:60"
+      ]
+    },
+    {
+      "api_id": "API-0035",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/operator/register-call",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.operator_qa.operator_register_call",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/OperatorRegisterCallIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/OperatorPanel.tsx:392"
+      ]
+    },
+    {
+      "api_id": "API-0036",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/operator/takeover",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.operator_qa.operator_takeover",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/OperatorTakeoverIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/OperatorPanel.tsx:412"
+      ]
+    },
+    {
+      "api_id": "API-0037",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/operator/whisper",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.operator_qa.operator_whisper",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/OperatorWhisperIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/OperatorPanel.tsx:429"
+      ]
+    },
+    {
+      "api_id": "API-0038",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/operator/release",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.operator_qa.operator_release",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/OperatorReleaseIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/OperatorPanel.tsx:446"
+      ]
+    },
+    {
+      "api_id": "API-0039",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/operator/live-sessions",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.operator_qa.operator_live_sessions",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/OperatorPanel.tsx:177"
+      ]
+    },
+    {
+      "api_id": "API-0040",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/qa/evaluate-variants",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.operator_qa.qa_evaluate_variants",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/QAEvaluateVariantsIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/OperatorPanel.tsx:462"
+      ]
+    },
+    {
+      "api_id": "API-0041",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/qa/telemetry/{turn_id}",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.operator_qa.qa_get_telemetry",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/OperatorPanel.tsx:477"
+      ]
+    },
+    {
+      "api_id": "API-0042",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/qa/m11-status",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.operator_qa.qa_m11_status",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/OperatorPanel.tsx:1423",
+        "frontend/src/OperatorPanel.tsx:464"
+      ]
+    },
+    {
+      "api_id": "API-0043",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/acceptance/prerequisites",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.acceptance.acceptance_prerequisites",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/AcceptanceProtocolPanel.tsx:121"
+      ]
+    },
+    {
+      "api_id": "API-0044",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/acceptance/prepare-fixtures",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.acceptance.acceptance_prepare_fixtures",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/AcceptancePrepareIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/AcceptanceProtocolPanel.tsx:155"
+      ]
+    },
+    {
+      "api_id": "API-0045",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/acceptance/scenarios",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.acceptance.acceptance_scenarios",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/AcceptanceProtocolPanel.tsx:122"
+      ]
+    },
+    {
+      "api_id": "API-0046",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/acceptance/runs",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.acceptance.acceptance_list_runs",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/AcceptanceProtocolPanel.tsx:123"
+      ]
+    },
+    {
+      "api_id": "API-0047",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/acceptance/runs/start",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.acceptance.acceptance_start_run",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/AcceptanceStartIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/AcceptanceProtocolPanel.tsx:166"
+      ]
+    },
+    {
+      "api_id": "API-0048",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/acceptance/runs/{run_id}/verify",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.acceptance.acceptance_verify_run",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/AcceptanceProtocolPanel.tsx:187"
+      ]
+    },
+    {
+      "api_id": "API-0049",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/acceptance/runs/{run_id}",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.acceptance.acceptance_get_run",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/AcceptanceProtocolPanel.tsx:135",
+        "frontend/src/AcceptanceProtocolPanel.tsx:205",
+        "frontend/src/AcceptanceProtocolPanel.tsx:633"
+      ]
+    },
+    {
+      "api_id": "API-0050",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/acceptance/terminology/audit",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.acceptance.acceptance_terminology_audit",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/AcceptanceProtocolPanel.tsx:124"
+      ]
+    },
+    {
+      "api_id": "API-0051",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/acceptance/terminology/test",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.acceptance.acceptance_terminology_test",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/TerminologyTestIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/AcceptanceProtocolPanel.tsx:213"
+      ]
+    },
+    {
+      "api_id": "API-0052",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/notifications",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.list_notifications",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/NotificationPanel.tsx:95"
+      ]
+    },
+    {
+      "api_id": "API-0053",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/notifications/dispatch",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.dispatch_notifications",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/NotificationPanel.tsx:113"
+      ]
+    },
+    {
+      "api_id": "API-0054",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/notifications/{id}/retry",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.retry_single_notification",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/NotificationPanel.tsx:123"
+      ]
+    },
+    {
+      "api_id": "API-0055",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/notifications/status",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.notification_provider_status",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/NotificationPanel.tsx:97"
+      ]
+    },
+    {
+      "api_id": "API-0056",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/notifications/test-send",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.test_send_notification",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/TestNotificationIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/NotificationPanel.tsx:156"
+      ]
+    },
+    {
+      "api_id": "API-0057",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/notifications/reminders/scan",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.scan_appointment_reminders_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/NotificationPanel.tsx:138"
+      ]
+    },
+    {
+      "api_id": "API-0058",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/notifications/reminders/pending",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.list_pending_reminders_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0059",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/telephony/inbound-metadata",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.record_inbound_metadata_endpoint",
+      "auth_requirement": "PUBLIC_OR_SIGNED",
+      "dependencies": [],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0060",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/outbound/call",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.create_outbound_call",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/OutboundCallIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/OutboundPanel.tsx:76"
+      ]
+    },
+    {
+      "api_id": "API-0061",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/outbound/calls",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.list_outbound_calls",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/OutboundPanel.tsx:54"
+      ]
+    },
+    {
+      "api_id": "API-0062",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/outbound/calls/{id}/cancel",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.cancel_call",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/OutboundPanel.tsx:110"
+      ]
+    },
+    {
+      "api_id": "API-0063",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/outbound/calls/{id}/complete",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.complete_call",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/CallOutcomeIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/OutboundPanel.tsx:95"
+      ]
+    },
+    {
+      "api_id": "API-0064",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/outbound/ami-status",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.get_ami_status",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/OperatorPanel.tsx:163",
+        "frontend/src/OutboundPanel.tsx:57"
+      ]
+    },
+    {
+      "api_id": "API-0065",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/outbound/campaign-dial",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.campaign_dial",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/CampaignDialIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0066",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/outbound/amd-analyze",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.amd_analyze",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/AMDAnalyzeIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0067",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/outbound/amd-evaluate-call",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.amd_evaluate_call",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/AMDEvaluateCallIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0068",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/outbound/retry-queue",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.get_retry_queue",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0069",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/outbound/retry-process",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.trigger_retry_process",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0070",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/outbound/campaign-stats",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.get_campaign_stats",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0071",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/audiosocket/stats",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.get_audiosocket_stats_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0072",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/audiosocket/simulate-bargein",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.simulate_barge_in_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/SimulateBargeInIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0073",
+      "protocol": "WS",
+      "method": "WEBSOCKET",
+      "path_template": "/ws/asterisk",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.asterisk_chan_websocket_endpoint",
+      "auth_requirement": "PUBLIC_OR_SIGNED",
+      "dependencies": [],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WS_SESSION",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0074",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/chan-websocket/stats",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.get_chan_websocket_stats_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0075",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/chan-websocket/flush",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.trigger_chan_websocket_flush_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0076",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/transfers",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.get_transfers_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/OperatorPanel.tsx:162"
+      ]
+    },
+    {
+      "api_id": "API-0077",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/transfers/{id}",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.get_transfer_detail_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/OperatorPanel.tsx:628"
+      ]
+    },
+    {
+      "api_id": "API-0078",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/transfers/initiate",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.initiate_transfer_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/TransferInitiateIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/OperatorPanel.tsx:372"
+      ]
+    },
+    {
+      "api_id": "API-0079",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/transfers/{id}/accept",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.accept_transfer_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/TransferAcceptIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/OperatorPanel.tsx:347"
+      ]
+    },
+    {
+      "api_id": "API-0080",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/transfers/{id}/decline",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.decline_transfer_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/TransferDeclineIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/OperatorPanel.tsx:359"
+      ]
+    },
+    {
+      "api_id": "API-0081",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/transfers/{id}/dtmf",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.transfer_dtmf_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/TransferDTMFIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0082",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/whatsapp/messages",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.get_whatsapp_messages_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/NotificationPanel.tsx:96"
+      ]
+    },
+    {
+      "api_id": "API-0083",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/whatsapp/inbound",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.whatsapp_inbound_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/WhatsAppInboundIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/NotificationPanel.tsx:180"
+      ]
+    },
+    {
+      "api_id": "API-0084",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/whatsapp/inbound-voice",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.whatsapp_inbound_voice_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0085",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/webhooks/whatsapp",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.whatsapp_webhook_endpoint",
+      "auth_requirement": "WHATSAPP_TOKEN",
+      "dependencies": [],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0086",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/whatsapp/inbound-image",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.whatsapp_inbound_image_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0087",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/analytics/evaluate-call",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.evaluate_call_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/CallAnalyticsIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0088",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/analytics/calls",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.get_analytics_calls_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0089",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/analytics/call-stats",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.telephony.get_analytics_call_stats_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0090",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/vehicles/{id}",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.get_vehicle",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0091",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/inspections",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.list_inspections",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/InspectionPanel.tsx:172",
+        "frontend/src/TechnicianDictationPanel.tsx:80"
+      ]
+    },
+    {
+      "api_id": "API-0092",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/inspections/{id}",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.get_inspection",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0093",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/analytics/overview",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.analytics_overview",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/AnalyticsPanel.tsx:165"
+      ]
+    },
+    {
+      "api_id": "API-0094",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/analytics/follow-ups",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.list_follow_ups",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/AnalyticsPanel.tsx:166"
+      ]
+    },
+    {
+      "api_id": "API-0095",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/analytics/conversations/{id}/resolve",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.resolve_conv",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/ConversationResolveIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/AnalyticsPanel.tsx:194"
+      ]
+    },
+    {
+      "api_id": "API-0096",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/analytics/conversations/{id}/reopen",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.reopen_conv",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/AnalyticsPanel.tsx:206"
+      ]
+    },
+    {
+      "api_id": "API-0097",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/diagnostics/dtc-registry",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.get_dtc_registry",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/DiagnosticPanel.tsx:75"
+      ]
+    },
+    {
+      "api_id": "API-0098",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/diagnostics",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.list_all_diagnostics",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/DiagnosticPanel.tsx:73"
+      ]
+    },
+    {
+      "api_id": "API-0099",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/vehicles/{id}/diagnostics",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.list_vehicle_diagnostics",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/DiagnosticPanel.tsx:141"
+      ]
+    },
+    {
+      "api_id": "API-0100",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/vehicles/{id}/diagnostics",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.add_vehicle_telemetry",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/TelemetryIngestIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/DiagnosticPanel.tsx:141"
+      ]
+    },
+    {
+      "api_id": "API-0101",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/diagnostics/{id}/call",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.call_diagnostic_owner",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/ProactiveActionIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/DiagnosticPanel.tsx:152"
+      ]
+    },
+    {
+      "api_id": "API-0102",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/diagnostics/{id}/sms",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.sms_diagnostic_owner",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/ProactiveActionIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/DiagnosticPanel.tsx:165"
+      ]
+    },
+    {
+      "api_id": "API-0103",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/diagnostics/{id}/resolve",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.resolve_diag",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/DiagnosticPanel.tsx:178"
+      ]
+    },
+    {
+      "api_id": "API-0104",
+      "protocol": "HTTP",
+      "method": "PUT",
+      "path_template": "/api/packages/{key}",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.save_package",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/PackageEdit",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/QueueLiftPanel.tsx:801",
+        "frontend/src/QueueLiftPanel.tsx:816"
+      ]
+    },
+    {
+      "api_id": "API-0105",
+      "protocol": "HTTP",
+      "method": "DELETE",
+      "path_template": "/api/packages/{key}",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.delete_package",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/QueueLiftPanel.tsx:801",
+        "frontend/src/QueueLiftPanel.tsx:816"
+      ]
+    },
+    {
+      "api_id": "API-0106",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/packages",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.list_packages",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/QueueLiftPanel.tsx:95"
+      ]
+    },
+    {
+      "api_id": "API-0107",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/ruhsat/decode-image",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.ruhsat_decode_image_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0108",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/ruhsat/decode-text",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.ruhsat_decode_text_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/RuhsatTextDecodeIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0109",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/ruhsat/decode-phonetic",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.ruhsat_decode_phonetic_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/PhoneticDecodeIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0110",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/ruhsat/apply-to-crm",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.ruhsat_apply_crm_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/RuhsatApplyIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0111",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/ruhsat/scans",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.get_ruhsat_scans_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0112",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/valuation/calculate",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.valuation_calculate_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/VehicleValuationIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0113",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/valuation/save",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.valuation_save_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/VehicleValuationIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0114",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/valuation/parse-spoken",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.valuation_parse_spoken_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/SpokenValuationIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0115",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/valuation/valuations",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.valuation_list_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0116",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/corporate-accounts",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.create_corporate_account",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/CorporateAccountIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0117",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/corporate-accounts/{id}",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.get_corporate_account",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0118",
+      "protocol": "HTTP",
+      "method": "PUT",
+      "path_template": "/api/corporate-accounts/{id}",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.update_corporate_account",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/CorporateAccountUpdateIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0119",
+      "protocol": "HTTP",
+      "method": "DELETE",
+      "path_template": "/api/corporate-accounts/{id}",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.delete_corporate_account",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0120",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/corporate-accounts/{id}/ledger",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.get_corporate_ledger",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0121",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/corporate-accounts/{id}/payments",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.add_corporate_payment",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/PaymentIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0122",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/vehicles",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.vehicle",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/VehicleIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/DiagnosticPanel.tsx:74",
+        "frontend/src/FirstAppointmentGuide.tsx:56",
+        "frontend/src/InspectionPanel.tsx:173",
+        "frontend/src/TechnicianDictationPanel.tsx:79",
+        "frontend/src/tabs/VehiclesTab.tsx:25"
+      ]
+    },
+    {
+      "api_id": "API-0123",
+      "protocol": "HTTP",
+      "method": "PUT",
+      "path_template": "/api/vehicles/{id}",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.update_vehicle",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/VehicleUpdateIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0124",
+      "protocol": "HTTP",
+      "method": "DELETE",
+      "path_template": "/api/vehicles/{id}",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.delete_vehicle",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0125",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/vehicles/by-vin/{vin}",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.get_vehicle_by_vin",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0126",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/vehicles/{id}/inspections",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.get_vehicle_inspections",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/InspectionPanel.tsx:259"
+      ]
+    },
+    {
+      "api_id": "API-0127",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/vehicles/{id}/inspections",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.add_vehicle_inspection",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/InspectionReportIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/InspectionPanel.tsx:259"
+      ]
+    },
+    {
+      "api_id": "API-0128",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/inspections/{id}/pdf",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.get_inspection_pdf",
+      "auth_requirement": "PUBLIC_OR_SIGNED",
+      "dependencies": [],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0129",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/inspections/{id}/signed-link",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.get_inspection_signed_link",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/InspectionPanel.tsx:139",
+        "frontend/src/TechnicianDictationPanel.tsx:484"
+      ]
+    },
+    {
+      "api_id": "API-0130",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/inspections/{id}/send-link",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.send_inspection_link",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/InspectionPanel.tsx:276"
+      ]
+    },
+    {
+      "api_id": "API-0131",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/inspections/photos",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.upload_inspection_photo",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/InspectionPanel.tsx:214"
+      ]
+    },
+    {
+      "api_id": "API-0132",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/inspections/photos/{filename}",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.get_inspection_photo",
+      "auth_requirement": "PUBLIC_OR_SIGNED",
+      "dependencies": [],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0133",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/technician/dictate-text",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.technician_dictate_text",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/DictationTextIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/TechnicianDictationPanel.tsx:163",
+        "frontend/src/TechnicianDictationPanel.tsx:195"
+      ]
+    },
+    {
+      "api_id": "API-0134",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/technician/dictate-audio",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.technician_dictate_audio",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/TechnicianDictationPanel.tsx:229"
+      ]
+    },
+    {
+      "api_id": "API-0135",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/quotes",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.quote",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/QuoteIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/FirstAppointmentGuide.tsx:62",
+        "frontend/src/tabs/VehiclesTab.tsx:56"
+      ]
+    },
+    {
+      "api_id": "API-0136",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/slots",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.slot",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/SlotIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/FirstAppointmentGuide.tsx:84",
+        "frontend/src/OutboundPanel.tsx:56",
+        "frontend/src/tabs/AppointmentsTab.tsx:169"
+      ]
+    },
+    {
+      "api_id": "API-0137",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/appointments",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.appointment",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/BookingIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/InspectionPanel.tsx:174",
+        "frontend/src/OutboundPanel.tsx:55"
+      ]
+    },
+    {
+      "api_id": "API-0138",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/appointments/{id}/cancel",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.cancel",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/tabs/AppointmentsTab.tsx:311",
+        "frontend/src/tabs/AppointmentsTab.tsx:367"
+      ]
+    },
+    {
+      "api_id": "API-0139",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/appointments/{id}/reschedule-preview",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.preview_appointment_reschedule",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/AppointmentMoveDialog.tsx:47"
+      ]
+    },
+    {
+      "api_id": "API-0140",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/appointments/{id}/reschedule",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.reschedule_appointment",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/RescheduleIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/AppointmentMoveDialog.tsx:73"
+      ]
+    },
+    {
+      "api_id": "API-0141",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/appointments/calendar",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.get_calendar_events",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0142",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/conversations/unclear",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.list_unclear_conversations",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/OperatorPanel.tsx:188"
+      ]
+    },
+    {
+      "api_id": "API-0143",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/conversations/{id}",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.detail",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/AnalyticsPanel.tsx:216",
+        "frontend/src/tabs/HistoryTab.tsx:55"
+      ]
+    },
+    {
+      "api_id": "API-0144",
+      "protocol": "HTTP",
+      "method": "DELETE",
+      "path_template": "/api/conversations/{id}",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.delete",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/AnalyticsPanel.tsx:216",
+        "frontend/src/tabs/HistoryTab.tsx:55"
+      ]
+    },
+    {
+      "api_id": "API-0145",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/conversations/{id}/export",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.export_conversation",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0146",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/conversations/{id}/audio",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.stream_conversation_audio",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0147",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/conversations/{id}/feedback-lexicon",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.feedback_lexicon",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/FeedbackLexiconIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/OperatorPanel.tsx:209"
+      ]
+    },
+    {
+      "api_id": "API-0148",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/reports/weekly/summary",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.get_weekly_summary_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/AnalyticsPanel.tsx:175"
+      ]
+    },
+    {
+      "api_id": "API-0149",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/reports/weekly/excel",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.crm.get_weekly_excel_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0150",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/lifts",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.scheduling.list_lifts",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/QueueLiftPanel.tsx:145",
+        "frontend/src/QueueLiftPanel.tsx:92"
+      ]
+    },
+    {
+      "api_id": "API-0151",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/lifts",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.scheduling.create_lift",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/LiftIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/QueueLiftPanel.tsx:145",
+        "frontend/src/QueueLiftPanel.tsx:92"
+      ]
+    },
+    {
+      "api_id": "API-0152",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/lifts/capacity",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.scheduling.lift_capacity",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/QueueLiftPanel.tsx:94"
+      ]
+    },
+    {
+      "api_id": "API-0153",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/lifts/{id}/status",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.scheduling.update_lift_status",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/LiftStatusIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/QueueLiftPanel.tsx:205"
+      ]
+    },
+    {
+      "api_id": "API-0154",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/lifts/{id}/assign",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.scheduling.assign_vehicle_to_lift",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/LiftAssignIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/QueueLiftPanel.tsx:232"
+      ]
+    },
+    {
+      "api_id": "API-0155",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/lifts/{id}/release",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.scheduling.release_vehicle_from_lift",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/QueueLiftPanel.tsx:189"
+      ]
+    },
+    {
+      "api_id": "API-0156",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/lifts/{id}/call-next",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.scheduling.call_next_for_lift",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/QueueLiftPanel.tsx:168"
+      ]
+    },
+    {
+      "api_id": "API-0157",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/queue",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.scheduling.list_queue",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/QueueLiftPanel.tsx:117",
+        "frontend/src/QueueLiftPanel.tsx:93"
+      ]
+    },
+    {
+      "api_id": "API-0158",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/queue",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.scheduling.add_to_queue",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/QueueEntryIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/QueueLiftPanel.tsx:117",
+        "frontend/src/QueueLiftPanel.tsx:93"
+      ]
+    },
+    {
+      "api_id": "API-0159",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/queue/{id}/cancel",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.scheduling.cancel_queue",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/QueueLiftPanel.tsx:252"
+      ]
+    },
+    {
+      "api_id": "API-0160",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/bay-scheduler/check-capacity",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.scheduling.bay_check_capacity_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/BayCapacityCheckIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0161",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/bay-scheduler/book-stages",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.scheduling.bay_book_stages_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/BayBookingIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0162",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/bay-scheduler/bays",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.scheduling.bay_list_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0163",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/bay-scheduler/technicians",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.scheduling.technician_list_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0164",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/bay-scheduler/schedules",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.scheduling.bay_schedules_list_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0165",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/bay-scheduler/analytics",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.scheduling.bay_analytics_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0166",
+      "protocol": "HTTP",
+      "method": "PUT",
+      "path_template": "/api/bay-scheduler/bays/{bay_id}/status",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.scheduling.bay_set_status_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/BayStatusIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0167",
+      "protocol": "HTTP",
+      "method": "PUT",
+      "path_template": "/api/bay-scheduler/technicians/{technician_id}/status",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.scheduling.technician_set_status_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/TechnicianStatusIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0168",
+      "protocol": "HTTP",
+      "method": "DELETE",
+      "path_template": "/api/bay-scheduler/appointments/{appointment_id}",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.scheduling.cancel_appointment_schedules_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0169",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/dtmf/generate-tone",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.audio_dsp.get_dtmf_tone_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/DTMFIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0170",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/dsp/config",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.audio_dsp.get_dsp_config",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/CarDenoiserPanel.tsx:79",
+        "frontend/src/CarDenoiserPanel.tsx:93"
+      ]
+    },
+    {
+      "api_id": "API-0171",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/dsp/config",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.audio_dsp.update_dsp_config",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/DSPConfigIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/CarDenoiserPanel.tsx:79",
+        "frontend/src/CarDenoiserPanel.tsx:93"
+      ]
+    },
+    {
+      "api_id": "API-0172",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/dsp/denoise-preview",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.audio_dsp.denoise_audio_preview",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0173",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/batched-ode/config",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.audio_dsp.get_batched_ode_config_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0174",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/batched-ode/config",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.audio_dsp.update_batched_ode_config_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/BatchedODEConfigIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0175",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/batched-ode/metrics",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.audio_dsp.get_batched_ode_metrics_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0176",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/batched-ode/benchmark",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.audio_dsp.run_batched_ode_benchmark",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/BatchedBenchmarkIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0177",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/turn-detector/evaluate",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.audio_dsp.turn_evaluate_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/TurnEvaluateIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0178",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/turn-detector/analyze-text",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.audio_dsp.turn_analyze_text_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/TurnAnalyzeTextIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0179",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/turn-detector/config",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.audio_dsp.turn_config_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0180",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/emotion-prosody/analyze",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.audio_dsp.emotion_analyze_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/EmotionAnalyzeIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0181",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/emotion-prosody/adapt",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.audio_dsp.emotion_adapt_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/EmotionAdaptIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0182",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/emotion-prosody/config",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.audio_dsp.emotion_config_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0183",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/pause-cleaner/clean-audio",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.audio_dsp.clean_audio_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/PauseCleanIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0184",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/audio-cache/metrics",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.audio_dsp.audio_cache_metrics_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0185",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/audio-cache/phrases",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.audio_dsp.audio_cache_phrases_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0186",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/audio-cache/lookup",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.audio_dsp.audio_cache_lookup_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/AudioCacheLookupIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0187",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/audio-cache/warmup",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.audio_dsp.audio_cache_warmup_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0188",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/kvkk/redact-text",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.compliance.kvkk_redact_text_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/KVKKRedactIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0189",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/kvkk/validate-tckn",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.compliance.kvkk_validate_tckn_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/TCKNValidateIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0190",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/kvkk/validate-card",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.compliance.kvkk_validate_card_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/CardValidateIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0191",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/kvkk/policy",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.compliance.kvkk_get_policy_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0192",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/kvkk/redact-audio",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.compliance.kvkk_redact_audio_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0193",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/archive/call-session",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.compliance.archive_call_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/ArchiveCallIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0194",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/archive/retention-audit",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.compliance.retention_audit_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0195",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/archive/retention-purge",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.compliance.retention_purge_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/ArchivePurgeIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0196",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/archive/{archive_id}/verify",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.compliance.verify_archive_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0197",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/archive/{archive_id}/download",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.compliance.download_archive_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0198",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/kvkk/transcript-retention-audit",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.compliance.kvkk_transcript_retention_audit_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/OperatorPanel.tsx:228"
+      ]
+    },
+    {
+      "api_id": "API-0199",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/kvkk/transcript-retention-purge",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.compliance.kvkk_transcript_retention_purge_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/TranscriptRetentionPurgeIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/OperatorPanel.tsx:253"
+      ]
+    },
+    {
+      "api_id": "API-0200",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/kvkk/erasure-requests",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.compliance.kvkk_create_erasure_request_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/KVKKErasureRequestIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/OperatorPanel.tsx:240",
+        "frontend/src/OperatorPanel.tsx:276"
+      ]
+    },
+    {
+      "api_id": "API-0201",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/kvkk/erasure-requests",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.compliance.kvkk_list_erasure_requests_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/OperatorPanel.tsx:240",
+        "frontend/src/OperatorPanel.tsx:276"
+      ]
+    },
+    {
+      "api_id": "API-0202",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/kvkk/erasure-requests/{request_id}",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.compliance.kvkk_get_erasure_request_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0203",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/kvkk/erasure-requests/{request_id}/execute",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.compliance.kvkk_execute_erasure_request_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/KVKKErasureExecuteIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/OperatorPanel.tsx:302"
+      ]
+    },
+    {
+      "api_id": "API-0204",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/kvkk/erasure-requests/{request_id}/certificate",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.compliance.kvkk_get_certificate_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/OperatorPanel.tsx:315"
+      ]
+    },
+    {
+      "api_id": "API-0205",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/gpu-health/telemetry",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.observability.gpu_telemetry_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0206",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/gpu-health/circuit-status",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.observability.gpu_circuit_status_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0207",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/gpu-health/configure",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.observability.gpu_configure_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/GPUConfigureIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0208",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/gpu-health/simulate-oom",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.observability.gpu_simulate_oom_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/GPUSimulateIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0209",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/gpu-health/reset",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.observability.gpu_reset_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0210",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/sip-trunks",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.observability.list_sip_trunks_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0211",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/sip-trunks/{trunk_id}/ping",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.observability.ping_sip_trunk_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0212",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/sip-trunks/select",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.observability.select_sip_trunk_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/TrunkSelectIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0213",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/sip-trunks/simulate-outage",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.observability.simulate_trunk_outage_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/TrunkSimulateIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0214",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/sip-trunks/maintenance",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.observability.trunk_maintenance_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/TrunkMaintenanceIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0215",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/sip-trunks/configure",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.observability.configure_sip_trunk_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/TrunkConfigIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0216",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/metrics",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.observability.prometheus_metrics_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0217",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/sla/status",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.observability.sla_status_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0218",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/dashboard/live-summary",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.observability.dashboard_live_summary_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0219",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/metrics/record-call",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.observability.record_call_metrics_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/SLARecordCallIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0220",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/sla/configure",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.observability.configure_sla_endpoint",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/SLAConfigureIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0221",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/milestones/overview",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.observability.milestone_overview",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/MilestonePanel.tsx:22"
+      ]
+    },
+    {
+      "api_id": "API-0222",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/milestones/inspect",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.observability.milestone_inspect",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/TextIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/MilestonePanel.tsx:36"
+      ]
+    },
+    {
+      "api_id": "API-0223",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/milestones/pronunciation",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.observability.pronunciation_items",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/MilestonePanel.tsx:23"
+      ]
+    },
+    {
+      "api_id": "API-0224",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/milestones/pronunciation",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.observability.pronunciation_review",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/ReviewIn",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/MilestonePanel.tsx:23"
+      ]
+    },
+    {
+      "api_id": "API-0225",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/milestones/timeline/{id}",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.observability.milestone_timeline",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0226",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/supervisor/fqici-queue",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.supervisor.fqici_queue",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/AnalysisQueuePanel.tsx:46"
+      ]
+    },
+    {
+      "api_id": "API-0227",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/supervisor/conversations/{conversation_id}/detail",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.supervisor.conversation_detail",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/tabs/HistoryTab.tsx:24"
+      ]
+    },
+    {
+      "api_id": "API-0228",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/supervisor/quality",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.supervisor.quality",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/SupervisorPanel.tsx:77"
+      ]
+    },
+    {
+      "api_id": "API-0229",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/supervisor/review/{trace_id}",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.supervisor.review",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/SupervisorPanel.tsx:114"
+      ]
+    },
+    {
+      "api_id": "API-0230",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/supervisor/dataset",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.supervisor.export_dataset",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0231",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/ontology/schema",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.ontology.router.get_ontology_schema",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": "#/components/schemas/OntologySchemaGraph",
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/OntologyPanel.tsx:73"
+      ]
+    },
+    {
+      "api_id": "API-0232",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/ontology/packages",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.ontology.router.get_certified_packages",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/OntologyPanel.tsx:74"
+      ]
+    },
+    {
+      "api_id": "API-0233",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/ontology/diagnostics",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.ontology.router.get_certified_diagnostics",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/OntologyPanel.tsx:102",
+        "frontend/src/OntologyPanel.tsx:75"
+      ]
+    },
+    {
+      "api_id": "API-0234",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/ontology/vehicles",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.ontology.router.get_certified_vehicles",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0235",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/ontology/resolve-vehicle",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.ontology.router.resolve_vehicle",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/OntologyPanel.tsx:93"
+      ]
+    },
+    {
+      "api_id": "API-0236",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/ontology/validate-action",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.ontology.router.validate_action",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/OntologyValidationRequest",
+      "response_schema_ref": "#/components/schemas/OntologyValidationResult",
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0237",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/ontology/mcp/tools",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.ontology.router.get_mcp_tools",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/OntologyPanel.tsx:76"
+      ]
+    },
+    {
+      "api_id": "API-0238",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/ontology/mcp/execute",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.ontology.router.execute_mcp_tool",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0239",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/{resource}",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.generic_resources.listing",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0240",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/dataset/generate",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.dataset.api_generate_dataset",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": "#/components/schemas/DatasetGenerateRequest",
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": [
+        "frontend/src/DatasetGeneratorPanel.tsx:37",
+        "frontend/src/DatasetGeneratorPanel.tsx:47"
+      ]
+    },
+    {
+      "api_id": "API-0241",
+      "protocol": "HTTP",
+      "method": "GET",
+      "path_template": "/api/dataset/export",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.routers.dataset.api_export_dataset",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "READ",
+      "caller_ui_refs": [
+        "frontend/src/DatasetGeneratorPanel.tsx:76"
+      ]
+    },
+    {
+      "api_id": "API-0242",
+      "protocol": "HTTP",
+      "method": "POST",
+      "path_template": "/api/session-ticket",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.main.ticket",
+      "auth_requirement": "HTTPBasic(auth)",
+      "dependencies": [
+        "auth"
+      ],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WRITE",
+      "caller_ui_refs": []
+    },
+    {
+      "api_id": "API-0243",
+      "protocol": "WS",
+      "method": "WEBSOCKET",
+      "path_template": "/ws/voice",
+      "registration_status": "REGISTERED_STATIC",
+      "handler": "backend.main.voice",
+      "auth_requirement": "ONE_TIME_TICKET",
+      "dependencies": [],
+      "request_schema_ref": null,
+      "response_schema_ref": null,
+      "side_effect": "WS_SESSION",
+      "caller_ui_refs": []
+    }
+  ],
+  "limitations": [
+    "Extracted directly from FastAPI app.routes and OpenAPI without starting lifespan/models."
+  ]
+}

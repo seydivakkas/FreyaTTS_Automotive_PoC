@@ -1,3 +1,25 @@
+"""
+ÖZEL LİSANS — TÜM HAKLAR SAKLIDIR
+
+Telif Hakkı (c) 2026 Seydi Eryılmaz (@seydivakkas)
+
+Bu yazılım ve ilgili tüm dosyalar ("Yazılım") yalnızca görüntüleme ve eğitim
+amaçlı olarak paylaşılmıştır.
+
+YASAKLAR:
+  1. Kopyalanamaz, çoğaltılamaz, dağıtılamaz veya yeniden yayınlanamaz.
+  2. Ticari veya ticari olmayan hiçbir projede kullanılamaz, değiştirilemez.
+  3. Alt lisanslanamaz, satılamaz veya devredilemez.
+  4. Tersine mühendislik yapılamaz.
+
+İZİN VERİLEN KULLANIM:
+  - GitHub üzerinde görüntüleme ve okuma.
+  - Kişisel öğrenim amacıyla kodu inceleme (kopyalamadan).
+
+YAZARIN AÇIK YAZILI İZNİ OLMAKSIZIN HİÇBİR KULLANIM HAKKI TANINMAZ.
+İzin talepleri için: GitHub @seydivakkas
+"""
+
 import asyncio
 import logging
 import re
@@ -8,6 +30,7 @@ from pydantic import BaseModel, ConfigDict, ValidationError
 from sqlalchemy import func, select
 from sqlalchemy.exc import IntegrityError
 from backend.appointment_reschedule import MoveCheck, slot_instant, version_for
+from backend.automotive_terminology import canonicalize_asr_text, match_catalog_vehicle
 from backend.turkish_plate import TurkishPlateParser, extract_plate
 from backend.db import (
     Session,
@@ -64,11 +87,88 @@ _MULTI_VEHICLE_RE = re.compile(
 
 
 _CHANGE_DECLINED = re.compile(
-    r"\b(hayır|kalsın|vazgeçtim|istemiyorum|onaylamıyorum)\b"
-    r"|\b(uygun|müsait)\s+değil\w*\b"
-    r"|\b(iptal|değişiklik)\s+(?:etme(?:yin|niz|yelim|sin)?|yapma(?:yın|nız|yalım|sın)?)\b"
-    r"|\b(erteleme\w*|değiştirme\w*)\s+istemiyorum\b"
+    r"\b(hayır|kalsın|istemiyorum|onaylamıyorum|olmaz|asla)\b"
+    r"|\b(?:uygun|müsait)\s+(?:\w+\s+){0,3}değil\w*\b"
+    r"|\b(?:iptal|değişiklik|erteleme)\s+(?:etmey\w*|yapmay\w*|olmasın|istemiy\w*)\b"
+    r"|\b(?:iptalden|vazgeçmekten)\s+vazgeç\w*\b"
+    r"|\bonay\s+(?:vermiyorum|vermem)\b"
+    r"|\bdeğil\w*\b"
 )
+
+
+def _has_negation(clean: str) -> bool:
+    """Metin içinde olumsuzluk bildiren kalıpları tespit eder."""
+    return bool(
+        re.search(
+            r"\b(hayır|değil\w*|istemiy\w*|onaylam\w*|olmaz|asla|kalsın|etmey\w*|yapmay\w*|olmasın)\b"
+            r"|\bonay\s+(?:vermiyorum|vermem)\b",
+            clean,
+        )
+    )
+
+
+_HOUR_MAP = {
+    "dokuz": 9,
+    "on": 10,
+    "on bir": 11,
+    "onbir": 11,
+    "on iki": 12,
+    "oniki": 12,
+    "bir": 13,
+    "iki": 14,
+    "üç": 15,
+    "dört": 16,
+    "beş": 17,
+}
+
+
+def _parse_requested_time(clean: str) -> tuple[int, int] | None:
+    """Müşteri ifadesinden talep edilen saat ve dakikayı ayrıştırır."""
+    m = re.search(r"\b([012]?\d)[:.]([0-5]\d)\b", clean)
+    if m:
+        h = int(m.group(1))
+        minute = int(m.group(2))
+        if 8 <= h <= 18:
+            return (h, minute)
+
+    m = re.search(r"\bsaat\s+([012]?\d)(?:'?[dft][ae]|da|de|ta|te)?\b", clean)
+    if m:
+        h = int(m.group(1))
+        if 1 <= h <= 6:
+            h += 12
+        if 8 <= h <= 18:
+            return (h, 0)
+
+    # Sözlü saat ifadeleri ("saat dokuzda", "dokuzda", "on birde")
+    for word, h in sorted(_HOUR_MAP.items(), key=lambda x: -len(x[0])):
+        if re.search(rf"\b(?:saat\s+)?{word}(?:'?[dft][ae]|da|de|ta|te)?\b", clean):
+            return (h, 0)
+
+    return None
+
+
+def _parse_slot_datetime(ts_str: str | None) -> datetime | None:
+    """Slot starts_at ISO dizesini güvenli ve timezone-aware datetime nesnesine dönüştürür."""
+    if not ts_str:
+        return None
+    try:
+        normalized = ts_str.replace("Z", "+00:00") if ts_str.endswith("Z") else ts_str
+        dt = datetime.fromisoformat(normalized)
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=ZoneInfo("UTC"))
+        return dt
+    except Exception:
+        return None
+
+
+def _get_vehicle_quote_str(db, vehicle_id: str | None) -> str | None:
+    """Veritabanındaki quotes tablosundan araca ait ekspertiz fiyatını dinamik çeker."""
+    if not vehicle_id:
+        return None
+    quote = db.scalars(select(Quote).where(Quote.vehicle_id == vehicle_id)).first()
+    if quote and quote.amount_kurus:
+        return f"{quote.amount_kurus // 100:,}".replace(",", ".") + " TL"
+    return None
 
 
 def _find_active_appointment(db, phone: str, plate: str) -> Appointment | None:
@@ -161,6 +261,16 @@ def parse_name_sentence(sentence: str) -> str | None:
 
 def _squash(s: str) -> str:
     return re.sub(r"\W+", " ", s).strip()
+
+
+def _normalize_for_match(text: str) -> str:
+    """Eşleştirme için metni normalize eder; seslendirilemeyen metinde boş dize döner."""
+    if not text or not text.strip():
+        return ""
+    try:
+        return normalize(text)["normalized"]
+    except ValueError:
+        return ""
 
 
 def parse_selected_option(text: str) -> int | None:
@@ -304,6 +414,8 @@ class Dialogue:
         self.max_history_turns = max_history_turns
         self.awaiting_multi_vehicle: bool = False
         self.multi_vehicle_planned: bool = False
+        self.awaiting_next_vehicle: bool = False
+        self.booking_count: int = 0
         self.awaiting_cancel_confirmation: bool = False
         self.inbound_intent: str | None = None
         self.target_appointment_id: str | None = None
@@ -315,8 +427,50 @@ class Dialogue:
         self.plate: str | None = None
         self.plate_draft: str | None = None
         self.plate_confirmed: bool = False
+        self.reference_code: str | None = None
+        self.last_asr_canonical: dict | None = None
         self.last_turn_trace: dict | None = None
         self.mutations_before_confirmation: int = 0
+
+    def _next_booking_idempotency_key(self) -> str:
+        """Aynı görüşmede birden fazla araç için benzersiz idempotency anahtarı üretir."""
+        return self.id if self.booking_count == 0 else f"{self.id}-v{self.booking_count + 1}"
+
+    def _confirm_booking(self, db) -> Appointment | None:
+        """Seçili araç ve saat için randevuyu onaylar ve durum alanlarını günceller."""
+        self.booking_status = BookingStateMachine.transition(
+            self.booking_status, BookingStatus.CONFIRMING
+        )
+        try:
+            app = book(
+                db,
+                slot_id=self.slot,
+                vehicle_id=self.vehicle,
+                customer=self.customer or "Değerli Müşterimiz",
+                idempotency_key=self._next_booking_idempotency_key(),
+                confirmed=True,
+                corporate_account_id=self.corporate_account_id,
+                customer_phone=self.customer_phone,
+                package_type=getattr(self, "package_type", "standart_ekspertiz"),
+                plate=self.plate or self.plate_draft or "",
+            )
+        except Exception:
+            db.rollback()
+            self.booking_status = BookingStateMachine.transition(
+                self.booking_status, BookingStatus.UNKNOWN
+            )
+            self.done = True
+            self.slot = None
+            return None
+        self.booking_status = BookingStateMachine.transition(
+            self.booking_status, BookingStatus.CONFIRMED
+        )
+        self.plate_confirmed = True
+        self.retries = 0
+        self.booking_count += 1
+        self.appointment_id = app.id
+        self.reference_code = f"FRY-{app.id[:6].upper()}"
+        return app
 
     def reset_for_next_vehicle(self):
         """Aynı müşterinin ikinci veya sonraki aracı için randevu durumunu sıfırlar."""
@@ -329,6 +483,10 @@ class Dialogue:
         self.booking_status = BookingStatus.IDLE
         self.package_type = "standart_ekspertiz"
         self.awaiting_multi_vehicle = False
+        self.multi_vehicle_planned = False
+        self.awaiting_next_vehicle = True
+        self.appointment_id = None
+        self.reference_code = None
         self._clear_appointment_change()
         self.done = False
 
@@ -348,6 +506,8 @@ class Dialogue:
             "turn_id": turn_id,
             "timestamp": datetime.now(ZoneInfo("UTC")).isoformat(),
             "input_text": text,
+            "canonical_text": (self.last_asr_canonical or {}).get("canonical_text", text),
+            "applied_term_fixes": (self.last_asr_canonical or {}).get("applied_mappings", []),
             "intent": intent,
             "plate_candidate": plate_candidate or self.plate or self.plate_draft,
             "state_before": state_before,
@@ -685,37 +845,13 @@ class Dialogue:
         # 3. Randevu Onayı Beklenirken (Awaiting Confirmation)
         if self.awaiting:
             if d == "1":
-                self.booking_status = BookingStateMachine.transition(
-                    self.booking_status, BookingStatus.CONFIRMING
-                )
-                try:
-                    book(
-                        db,
-                        slot_id=self.slot,
-                        vehicle_id=self.vehicle,
-                        customer=self.customer,
-                        idempotency_key=self.id,
-                        confirmed=True,
-                        corporate_account_id=self.corporate_account_id,
-                        customer_phone=self.customer_phone,
-                        package_type=getattr(self, "package_type", "standart_ekspertiz"),
-                    )
-                except Exception:
-                    db.rollback()
-                    self.booking_status = BookingStateMachine.transition(
-                        self.booking_status, BookingStatus.UNKNOWN
-                    )
-                    self.done = True
-                    self.slot = None
+                app = self._confirm_booking(db)
+                if app is None:
                     ans = "Randevu sonucunu doğrulayamadım. Tekrar kayıt oluşturmadan önce operatör kontrolü gerekiyor."
                     self.record_turn("user", f"[DTMF: {d}]")
                     self.record_turn("assistant", ans)
                     return ans
 
-                self.booking_status = BookingStateMachine.transition(
-                    self.booking_status, BookingStatus.CONFIRMED
-                )
-                self.retries = 0
                 if getattr(self, "multi_vehicle_planned", False):
                     ans = f"1'i tuşladınız. İlk aracınız için randevunuz oluşturuldu.{self._sms_note('Onay ve randevu detaylarını SMS olarak telefonunuza iletiyorum.')} Şimdi ikinci aracınızın marka ve modelini söyler misiniz?"
                     self.reset_for_next_vehicle()
@@ -774,16 +910,20 @@ class Dialogue:
         self.move_choice = None
 
     def _appointment_change(self, text: str, clean: str) -> str | None:
-        if _CHANGE_DECLINED.search(clean):
-            if self.inbound_intent:
-                self._clear_appointment_change()
-                return "Mevcut randevunuz geçerlidir."
-            return None
+        if self.inbound_intent and (_CHANGE_DECLINED.search(clean) or _has_negation(clean)):
+            self._clear_appointment_change()
+            return "Mevcut randevunuz geçerlidir."
 
         if self.awaiting_cancel_confirmation or self.move_choice:
-            if not _POSITIVE_RE.search(clean) and not (
+            is_cancel_explicit = bool(
                 self.awaiting_cancel_confirmation and re.search(r"\biptal\s+(?:edin|edilsin)\b", clean)
-            ):
+            )
+            is_pos = (
+                not _has_negation(clean)
+                and not _CHANGE_DECLINED.search(clean)
+                and (_POSITIVE_RE.search(clean) or is_cancel_explicit)
+            )
+            if not is_pos:
                 return "İşlemi onaylıyor musunuz? Evet veya hayır diyebilirsiniz."
             return self._commit_appointment_change()
 
@@ -896,98 +1036,136 @@ class Dialogue:
         self, text: str, clean: str, turn_id: str, initial_status: str
     ) -> str | None:
         """PoC Çekirdek Akış: Doğal dille ekspertiz randevusu, plaka ve takvim entegrasyonu."""
+        canon_info = getattr(self, "last_asr_canonical", None) or canonicalize_asr_text(text)
+        canon_clean = re.sub(r"[.,!?;:]", " ", _tr_lower(canon_info.get("canonical_text", text)))
         is_poc_trigger = bool(
             re.search(
                 r"\b(yarın|yarına|ekspertiz|randevu|randevusu|fiyat|fiyatı|ücret|ücreti|kaç\s*lira|kaç\s*para|ne\s*kadar|paket)\b",
                 clean,
             )
             or any("modeli nedir" in m.get("content", "").lower() for m in self.history)
-            or (extract_plate(text) is not None and any(w in clean for w in ("corolla", "passat", "peugeot", "egea", "megane", "toyota")))
+            or (
+                extract_plate(text) is not None
+                and (
+                    bool(canon_info.get("detected_brands") or canon_info.get("detected_models"))
+                    or any(w in clean or w in canon_clean for w in ("corolla", "passat", "peugeot", "egea", "megane", "toyota"))
+                )
+            )
         )
         if not is_poc_trigger:
             return None
 
-        norm_text = normalize(text)["normalized"].lower()
-
         with Session() as db:
             vehicles = db.scalars(select(Vehicle)).all()
-            matched_vehicle = None
-
-            # Sadece marka söylendiyse (ör. "Toyota için yarına ekspertiz istiyorum")
-            has_toyota = "toyota" in clean or "toyota" in norm_text
-            has_corolla = "corolla" in clean or "korolla" in norm_text or "corolla" in norm_text
-            if has_toyota and not has_corolla:
-                ans = "Toyota’nın modeli nedir?"
-                self.record_turn("user", text)
-                self.record_turn("assistant", ans)
-                self._record_turn_trace(turn_id, text, "car_model_inquiry", initial_status, db_mutations=0)
-                return ans
-
-            for v in vehicles:
-                raw_lower = _tr_lower(v.description)
-                norm_lower = _tr_lower(_squash(normalize(v.description)["normalized"]))
-                words = set(raw_lower.split() + norm_lower.split())
-                model_words = [w for w in words if len(w) >= 3 and w not in ("toyota", "renault", "volkswagen", "fiat")]
-                if raw_lower in clean or norm_lower in norm_text or any(w in clean or w in norm_text for w in model_words):
-                    matched_vehicle = v
-                    break
+            match_res = match_catalog_vehicle(vehicles, text)
+            matched_vehicle = match_res["matched_vehicle"]
+            if matched_vehicle is None and not match_res["candidates"]:
+                brand_only = match_res.get("brand_only_detected")
+                if brand_only and any(_tr_lower(brand_only) in _tr_lower(v.description) for v in vehicles):
+                    ans = f"{brand_only}’nın modeli nedir?"
+                    self.record_turn("user", text)
+                    self.record_turn("assistant", ans)
+                    self._record_turn_trace(turn_id, text, "car_model_inquiry", initial_status, db_mutations=0)
+                    return ans
 
             if not matched_vehicle:
                 return None
 
             self.vehicle = matched_vehicle.id
-            quote = db.scalars(select(Quote).where(Quote.vehicle_id == matched_vehicle.id)).first()
-            if quote:
-                price_str = f"{quote.amount_kurus // 100:,}".replace(",", ".") + " TL"
-            else:
-                price_str = "2.500 TL"
+            self.awaiting_next_vehicle = False
+            price_str = _get_vehicle_quote_str(db, matched_vehicle.id)
 
             # 1. Sadece Bilgi / Fiyat Sorgusu (Randevu istemiyorum)
             if re.search(r"\b(randevu\s+istemiyorum|şimdi(?:lik)?\s+randevu\s+istemiyorum|sadece\s+fiyat|bilgi\s+almak)\b", clean):
-                ans = f"Standart paket {price_str}. Başka bir sorunuz var mı?"
+                if price_str:
+                    ans = f"Standart paket {price_str}. Başka bir sorunuz var mı?"
+                else:
+                    ans = "Aracınız için kayıtlı bir fiyat bulunmuyor. Servis danışmanımıza aktarmamı ister misiniz?"
                 self.record_turn("user", text)
                 self.record_turn("assistant", ans)
                 self._record_turn_trace(turn_id, text, "info_quote", initial_status, db_mutations=0)
                 return ans
 
-            # Uygun saatleri takvimden bul
-            occupied = select(Appointment.slot_id).where(Appointment.slot_id.is_not(None))
-            slots = db.scalars(
-                select(Slot).where(Slot.id.not_in(occupied)).order_by(Slot.starts_at)
-            ).all()
-            future_slots = [
-                s for s in slots if datetime.fromisoformat(s.starts_at) > datetime.now(ZoneInfo("UTC"))
-            ]
-            if not future_slots:
+            # Uygun ve dolu saatleri doğrudan veritabanından dinamik sorgula
+            occupied_subq = select(Appointment.slot_id).where(
+                Appointment.slot_id.is_not(None),
+                Appointment.status.in_(("confirmed", "pending")),
+            )
+            occupied_slot_ids = set(db.scalars(occupied_subq).all())
+
+            now_utc = datetime.now(ZoneInfo("UTC"))
+            all_future_slots = []
+            for s in db.scalars(select(Slot).order_by(Slot.starts_at)).all():
+                s_dt = _parse_slot_datetime(s.starts_at)
+                if s_dt and s_dt > now_utc:
+                    all_future_slots.append(s)
+            available_slots = [s for s in all_future_slots if s.id not in occupied_slot_ids]
+
+            if not available_slots:
                 ans = "Şu anda müsait saat bulunmuyor. Daha sonra tekrar arayabilirsiniz."
                 self.record_turn("user", text)
                 self.record_turn("assistant", ans)
                 self._record_turn_trace(turn_id, text, "no_slots", initial_status, db_mutations=0)
                 return ans
 
-            target_slot = future_slots[0]
-            dt = datetime.fromisoformat(target_slot.starts_at)
-            if dt.tzinfo is None:
-                dt = dt.replace(tzinfo=ZoneInfo("Europe/Istanbul"))
+            first_avail = available_slots[0]
+            dt_avail = _parse_slot_datetime(first_avail.starts_at) or now_utc
+            dt_avail_local = dt_avail.astimezone(ZoneInfo("Europe/Istanbul"))
+            default_slot_time = dt_avail_local.strftime("%H.%M")
+
+            # Müşterinin talep ettiği belirli bir saat var mı?
+            req_time = _parse_requested_time(clean)
+            if req_time:
+                req_h, req_m = req_time
+                req_str = f"{req_h:02d}.{req_m:02d}"
+
+                matching_slot = None
+                for s in all_future_slots:
+                    s_dt = _parse_slot_datetime(s.starts_at)
+                    if not s_dt:
+                        continue
+                    s_loc = s_dt.astimezone(ZoneInfo("Europe/Istanbul"))
+                    if s_loc.hour == req_h and abs(s_loc.minute - req_m) < 15:
+                        matching_slot = s
+                        break
+
+                if matching_slot and matching_slot.id in occupied_slot_ids:
+                    # Talep edilen saat DOLU! Alternatif müsait saati sun
+                    self.slot = first_avail.id
+                    self.options = [(first_avail.id, f"yarın saat {default_slot_time}")]
+                    ans = f"{req_str} dolu, {default_slot_time} müsait. Uygun mu?"
+                    self.record_turn("user", text)
+                    self.record_turn("assistant", ans)
+                    self._record_turn_trace(turn_id, text, "slot_full_alternative", initial_status, db_mutations=0)
+                    return ans
+                elif matching_slot and matching_slot.id not in occupied_slot_ids:
+                    # Talep edilen saat MÜSAİT!
+                    target_slot = matching_slot
+                    slot_time = req_str
+                else:
+                    # Bu saatte hizmet yok, en yakın müsait saati sun
+                    self.slot = first_avail.id
+                    self.options = [(first_avail.id, f"yarın saat {default_slot_time}")]
+                    ans = f"{req_str} saatinde randevu bulunmuyor, {default_slot_time} müsait. Uygun mu?"
+                    self.record_turn("user", text)
+                    self.record_turn("assistant", ans)
+                    self._record_turn_trace(turn_id, text, "slot_full_alternative", initial_status, db_mutations=0)
+                    return ans
             else:
-                dt = dt.astimezone(ZoneInfo("Europe/Istanbul"))
-            slot_time = dt.strftime("%H.%M")
+                target_slot = first_avail
+                slot_time = default_slot_time
+
             self.slot = target_slot.id
             self.options = [(target_slot.id, f"yarın saat {slot_time}")]
-
-            # 2. Dolu Saat Talebi ("saat dokuzda", "09.00", vb.)
-            if re.search(r"\b(saat\s+(?:dokuz|09|9)|dokuzda|09\.00|09:00)\b", clean):
-                ans = f"09.00 dolu, {slot_time} müsait. Uygun mu?"
-                self.record_turn("user", text)
-                self.record_turn("assistant", ans)
-                self._record_turn_trace(turn_id, text, "slot_full_alternative", initial_status, db_mutations=0)
-                return ans
 
             # 3. Fiyat Sorgusu + Randevu İstemi ("kaç lira? Uygunsa yarın geleyim")
             if re.search(r"\b(kaç\s*lira|kaç\s*para|ne\s*kadar|fiyat|fiyatı|ücret|ücreti)\b", clean) and any(
                 w in clean for w in ("uygunsa", "geleyim", "gelelim", "yaparız", "yarın")
             ):
-                ans = f"Standart paket {price_str}. Yarın {slot_time} müsait. Devam edelim mi?"
+                if price_str:
+                    ans = f"Standart paket {price_str}. Yarın {slot_time} müsait. Devam edelim mi?"
+                else:
+                    ans = f"Yarın {slot_time} müsait. Fiyat bilgisiyle birlikte devam edelim mi?"
                 self.record_turn("user", text)
                 self.record_turn("assistant", ans)
                 self._record_turn_trace(turn_id, text, "price_quote_offer", initial_status, db_mutations=0)
@@ -998,9 +1176,10 @@ class Dialogue:
             if plate_candidate:
                 self.plate_draft = plate_candidate
                 self.plate = plate_candidate
+                price_clause = f", {price_str} tutarında" if price_str else ""
                 if any("modeli nedir" in m.get("content", "").lower() for m in self.history):
                     self.awaiting = True
-                    ans = f"{self.plate} plakalı {matched_vehicle.description} için yarın {slot_time}’da, {price_str} tutarında standart ekspertiz randevusunu onaylıyor musunuz?"
+                    ans = f"{self.plate} plakalı {matched_vehicle.description} için yarın {slot_time}’da{price_clause} standart ekspertiz randevusunu onaylıyor musunuz?"
                     self.record_turn("user", text)
                     self.record_turn("assistant", ans)
                     self._record_turn_trace(turn_id, text, "car_model_provided_ask_confirm", initial_status, db_mutations=0)
@@ -1021,9 +1200,61 @@ class Dialogue:
     async def answer(self, text):
         turn_id = f"{self.id}-{len(self.history) // 2 + 1}"
         initial_status = self.booking_status.value
+        canon_info = canonicalize_asr_text(text) if text and text.strip() else canonicalize_asr_text("")
+        self.last_asr_canonical = canon_info
+        canon_text = canon_info.get("canonical_text") or text
+
+        if _MULTI_VEHICLE_RE.search(clean := re.sub(r"[.,!?;:]", " ", _tr_lower(text.strip()))):
+            if not settings.multi_vehicle_booking_enabled:
+                ans = "Bu görüşmede bir araç için randevu oluşturabilirim. Hangi araçla devam edelim?"
+                self.record_turn("user", text)
+                self.record_turn("assistant", ans)
+                return ans
+            has_vehicle_mention = bool(
+                canon_info.get("detected_brands")
+                or canon_info.get("detected_models")
+                or extract_plate(text)
+            )
+            has_two_count = bool(re.search(r"\b(iki|2)\b", clean))
+            awaiting_vehicle_entry = (
+                (self.multi_vehicle_planned or getattr(self, "awaiting_next_vehicle", False))
+                and self.vehicle is None
+                and not self.done
+                and not self.confirmed
+            )
+            if has_two_count and not self.multi_vehicle_planned and not getattr(self, "awaiting_next_vehicle", False) and not has_vehicle_mention:
+                self.multi_vehicle_planned = True
+                if not self.customer:
+                    ans = "Memnuniyetle, iki aracınız için de sırayla randevu oluşturalım. Öncelikle adınızı ve soyadınızı söyler misiniz?"
+                    self.record_turn("user", text)
+                    self.record_turn("assistant", ans)
+                    return ans
+                elif not self.vehicle:
+                    ans = "Memnuniyetle. İlk aracınızın marka ve modelini söyler misiniz?"
+                    self.record_turn("user", text)
+                    self.record_turn("assistant", ans)
+                    return ans
+            elif not awaiting_vehicle_entry and not has_vehicle_mention:
+                self.reset_for_next_vehicle()
+                ans = "Tabii ki. Diğer aracınızın marka ve modelini söyler misiniz?"
+                self.record_turn("user", text)
+                self.record_turn("assistant", ans)
+                return ans
 
         if self.confirmed or self.done:
-            ref = "TEST-001" if (self.id.startswith(("NEW-", "PLATE-", "PRICE-", "FULL-", "CAR-", "MOVE-", "CANCEL-", "INFO-", "POC-")) or "test" in self.id.lower() or "demo" in self.id.lower()) else "TEST-001"
+            ref = getattr(self, "reference_code", None)
+            if not ref and getattr(self, "appointment_id", None):
+                ref = f"FRY-{self.appointment_id[:6].upper()}"
+            if not ref:
+                with Session() as db:
+                    existing = db.scalars(
+                        select(Appointment).where(Appointment.idempotency_key == self.id)
+                    ).first()
+                    if existing:
+                        self.appointment_id = existing.id
+                        self.reference_code = f"FRY-{existing.id[:6].upper()}"
+                        ref = self.reference_code
+            ref = ref or "FRY-000000"
             ans = f"Randevunuz oluşturulmuştur. Referansınız {ref}."
             self.record_turn("user", text)
             self.record_turn("assistant", ans)
@@ -1052,7 +1283,7 @@ class Dialogue:
             except Exception:
                 pass
 
-        plate_in_text = extract_plate(text)
+        plate_in_text = extract_plate(text) or (extract_plate(canon_text) if canon_text != text else None)
         if plate_in_text:
             self.plate_draft = plate_in_text
             if not self.plate:
@@ -1084,17 +1315,13 @@ class Dialogue:
                     v_desc = vehicle.description if vehicle else "aracınız"
                     slot = db.get(Slot, self.slot)
                     if slot:
-                        dt = datetime.fromisoformat(slot.starts_at)
-                        if dt.tzinfo is None:
-                            dt = dt.replace(tzinfo=ZoneInfo("Europe/Istanbul"))
-                        else:
-                            dt = dt.astimezone(ZoneInfo("Europe/Istanbul"))
-                        slot_time = dt.strftime("%H.%M")
+                        dt = _parse_slot_datetime(slot.starts_at)
+                        slot_time = dt.astimezone(ZoneInfo("Europe/Istanbul")).strftime("%H.%M") if dt else "10.00"
                     else:
                         slot_time = "10.00"
-                    quote = db.scalars(select(Quote).where(Quote.vehicle_id == self.vehicle)).first()
-                    price_str = f"{quote.amount_kurus // 100:,}".replace(",", ".") + " TL" if quote else "2.500 TL"
-                    ans = f"{self.plate} plakalı {v_desc} için yarın {slot_time}’da, {price_str} tutarında standart ekspertiz randevusunu onaylıyor musunuz?"
+                    price_str = _get_vehicle_quote_str(db, self.vehicle)
+                    price_clause = f", {price_str} tutarında" if price_str else ""
+                    ans = f"{self.plate} plakalı {v_desc} için yarın {slot_time}’da{price_clause} standart ekspertiz randevusunu onaylıyor musunuz?"
                     self.record_turn("user", text)
                     self.record_turn("assistant", ans)
                     self._record_turn_trace(turn_id, text, "plate_correction", initial_status, db_mutations=0)
@@ -1263,68 +1490,66 @@ class Dialogue:
                 return change
 
         if self.awaiting:
-            if re.fullmatch(
-                r"\s*(evet|(?:evet\s+){0,2}onaylıyorum|tamam\s+onaylıyorum|onaylıyorum)\s*",
-                re.sub(r"[.,!?;:]", " ", text),
-                re.I,
-            ) or re.search(r"\b(evet\s+onaylıyorum|onaylıyorum)\b", clean):
-                self.booking_status = BookingStateMachine.transition(
-                    self.booking_status, BookingStatus.CONFIRMING
+            # Ses teyidi / bağlantı kontrolü ("Evet, sizi duyuyorum") randevuyu onaylamaz veya reddetmez
+            if re.search(r"\b(sizi\s+duyuyorum|sesinizi\s+(?:net\s+)?al[ıi]yorum|duyuyorum|buraday[ıi]m|dinliyorum)\b", clean):
+                ans = "Peki, randevunuzu onaylıyor musunuz?"
+                self.record_turn("user", text)
+                self.record_turn("assistant", ans)
+                self._record_turn_trace(turn_id, text, "presence_ack_keep_awaiting", initial_status, db_mutations=0)
+                return ans
+
+            has_neg = _has_negation(clean) or bool(_CHANGE_DECLINED.search(clean))
+            is_explicit_confirm = bool(
+                not has_neg
+                and (
+                    re.fullmatch(
+                        r"\s*(evet|(?:evet\s+){0,2}onaylıyorum|tamam\s+onaylıyorum|onaylıyorum|uygundur|onay veriyorum)\s*",
+                        re.sub(r"[.,!?;:]", " ", text),
+                        re.I,
+                    )
+                    or re.search(r"\b(evet\s+onaylıyorum|onaylıyorum|onay\s+veriyorum)\b", clean)
                 )
+            )
+
+            if is_explicit_confirm:
                 with Session() as db:
-                    try:
-                        app = book(
-                            db,
-                            slot_id=self.slot,
-                            vehicle_id=self.vehicle,
-                            customer=self.customer or "Değerli Müşterimiz",
-                            idempotency_key=self.id,
-                            confirmed=True,
-                            corporate_account_id=self.corporate_account_id,
-                            customer_phone=self.customer_phone,
-                            package_type=getattr(self, "package_type", "standart_ekspertiz"),
-                            plate=self.plate or self.plate_draft or "",
-                        )
-                    except Exception:
-                        db.rollback()
-                        self.booking_status = BookingStateMachine.transition(
-                            self.booking_status, BookingStatus.UNKNOWN
-                        )
-                        self.done = True
-                        self.slot = None
-                        ans = "Randevu sonucunu doğrulayamadım. Tekrar kayıt oluşturmadan önce operatör kontrolü gerekiyor."
-                        self.record_turn("user", text)
-                        self.record_turn("assistant", ans)
-                        self._record_turn_trace(turn_id, text, "confirm_error", initial_status, db_mutations=0)
-                        return ans
-                self.booking_status = BookingStateMachine.transition(
-                    self.booking_status, BookingStatus.CONFIRMED
-                )
-                self.plate_confirmed = True
-                self.retries = 0
+                    app = self._confirm_booking(db)
+                if app is None:
+                    ans = "Randevu sonucunu doğrulayamadım. Tekrar kayıt oluşturmadan önce operatör kontrolü gerekiyor."
+                    self.record_turn("user", text)
+                    self.record_turn("assistant", ans)
+                    self._record_turn_trace(turn_id, text, "confirm_error", initial_status, db_mutations=0)
+                    return ans
                 if getattr(self, "multi_vehicle_planned", False):
                     ans = f"İlk aracınız için randevunuz oluşturuldu.{self._sms_note('Onay ve randevu detaylarını SMS olarak telefonunuza iletiyorum.')} Şimdi ikinci aracınızın marka ve modelini söyler misiniz?"
                     self.reset_for_next_vehicle()
                 else:
                     self.done = True
-                    ref = "TEST-001" if (self.id.startswith(("NEW-", "PLATE-", "PRICE-", "FULL-", "CAR-", "MOVE-", "CANCEL-", "INFO-", "POC-")) or "test" in self.id.lower() or "demo" in self.id.lower()) else f"FRY-{app.id[:6].upper()}"
+                    ref = self.reference_code
+                    sms_note = self._sms_note("Onay ve randevu detaylarını SMS olarak telefonunuza iletiyorum.")
                     if self.corporate_account_name:
-                        ans = f"Randevunuz {self.corporate_account_name} kurumsal cari hesabınıza işlenerek oluşturuldu. Referansınız {ref}.{self._sms_note('Onay ve randevu detaylarını SMS ve WhatsApp ile iletiyorum.')} İyi günler dilerim."
+                        corp_sms = self._sms_note("Onay ve randevu detaylarını SMS ve WhatsApp ile iletiyorum.")
+                        ans = f"Randevunuz {self.corporate_account_name} kurumsal cari hesabınıza işlenerek oluşturuldu. Referansınız {ref}.{corp_sms} İyi günler dilerim."
                     else:
-                        ans = f"Randevunuz oluşturuldu. Referansınız {ref}."
-                        if self._sms_note(""):
-                            ans += self._sms_note("Onay ve randevu detaylarını SMS olarak telefonunuza iletiyorum.")
+                        ans = f"Randevunuz oluşturuldu. Referansınız {ref}.{sms_note} İyi günler dilerim."
                 self.record_turn("user", text)
                 self.record_turn("assistant", ans)
                 self._record_turn_trace(turn_id, text, "booking_confirmed", initial_status, db_mutations=1)
                 return ans
-            self.awaiting = False
-            self.slot = None
-            ans = "Randevu oluşturmadım. Başka bir saat seçmek ister misiniz?"
-            self.record_turn("user", text)
-            self.record_turn("assistant", ans)
-            self._record_turn_trace(turn_id, text, "booking_declined", initial_status, db_mutations=0)
-            return ans
+            elif has_neg or re.search(r"\b(istemiyorum|vazgeçtim|onaylamıyorum|hayır|iptal)\b", clean):
+                self.awaiting = False
+                self.slot = None
+                ans = "Randevu oluşturmadım. Başka bir saat seçmek ister misiniz?"
+                self.record_turn("user", text)
+                self.record_turn("assistant", ans)
+                self._record_turn_trace(turn_id, text, "booking_declined", initial_status, db_mutations=0)
+                return ans
+            else:
+                ans = "Randevuyu onaylıyor musunuz? Evet veya hayır şeklinde yanıtlayabilirsiniz."
+                self.record_turn("user", text)
+                self.record_turn("assistant", ans)
+                self._record_turn_trace(turn_id, text, "booking_awaiting_clarification", initial_status, db_mutations=0)
+                return ans
 
         # Eğer araç ve saat önceden belirlenmişse ve kullanıcı bu turda plaka verdiyse özet sunup açık onay iste
         if self.vehicle and self.slot and (self.plate or plate_in_text):
@@ -1337,17 +1562,13 @@ class Dialogue:
                 v_desc = vehicle.description if vehicle else "aracınız"
                 slot = db.get(Slot, self.slot)
                 if slot:
-                    dt = datetime.fromisoformat(slot.starts_at)
-                    if dt.tzinfo is None:
-                        dt = dt.replace(tzinfo=ZoneInfo("Europe/Istanbul"))
-                    else:
-                        dt = dt.astimezone(ZoneInfo("Europe/Istanbul"))
-                    slot_time = dt.strftime("%H.%M")
+                    dt = _parse_slot_datetime(slot.starts_at)
+                    slot_time = dt.astimezone(ZoneInfo("Europe/Istanbul")).strftime("%H.%M") if dt else "10.00"
                 else:
                     slot_time = "10.00"
-                quote = db.scalars(select(Quote).where(Quote.vehicle_id == self.vehicle)).first()
-                price_str = f"{quote.amount_kurus // 100:,}".replace(",", ".") + " TL" if quote else "2.500 TL"
-                ans = f"{self.plate} plakalı {v_desc} için yarın {slot_time}’da, {price_str} tutarında standart ekspertiz randevusunu onaylıyor musunuz?"
+                price_str = _get_vehicle_quote_str(db, self.vehicle)
+                price_clause = f", {price_str} tutarında" if price_str else ""
+                ans = f"{self.plate} plakalı {v_desc} için yarın {slot_time}’da{price_clause} standart ekspertiz randevusunu onaylıyor musunuz?"
                 self.record_turn("user", text)
                 self.record_turn("assistant", ans)
                 self._record_turn_trace(turn_id, text, "plate_provided_ask_confirm", initial_status, db_mutations=0)
@@ -1404,32 +1625,6 @@ class Dialogue:
                 self.done = True
                 self.awaiting_multi_vehicle = False
                 ans = "Teşekkür eder, iyi günler dileriz."
-                self.record_turn("user", text)
-                self.record_turn("assistant", ans)
-                return ans
-
-        # 3. Görüşme İçinde Çoklu Araç Bildirimi
-        if _MULTI_VEHICLE_RE.search(clean):
-            if not settings.multi_vehicle_booking_enabled:
-                ans = "Bu görüşmede bir araç için randevu oluşturabilirim. Hangi araçla devam edelim?"
-                self.record_turn("user", text)
-                self.record_turn("assistant", ans)
-                return ans
-            if any(w in clean for w in ("iki", "2")):
-                self.multi_vehicle_planned = True
-                if not self.customer:
-                    ans = "Memnuniyetle, iki aracınız için de sırayla randevu oluşturalım. Öncelikle adınızı ve soyadınızı söyler misiniz?"
-                    self.record_turn("user", text)
-                    self.record_turn("assistant", ans)
-                    return ans
-                elif not self.vehicle:
-                    ans = "Memnuniyetle. İlk aracınızın marka ve modelini söyler misiniz?"
-                    self.record_turn("user", text)
-                    self.record_turn("assistant", ans)
-                    return ans
-            else:
-                self.reset_for_next_vehicle()
-                ans = "Tabii ki. Diğer aracınızın marka ve modelini söyler misiniz?"
                 self.record_turn("user", text)
                 self.record_turn("assistant", ans)
                 return ans
@@ -1544,7 +1739,8 @@ class Dialogue:
                     "saat",
                 )
             )
-            or extract_plate(text) is not None
+            or bool(canon_info.get("detected_brands") or canon_info.get("detected_models"))
+            or plate_in_text is not None
         )
 
         if not self.awaiting and not self.options and not has_slot_hints:
@@ -1664,11 +1860,12 @@ class Dialogue:
                     catalog_words = {
                         w
                         for v in db.scalars(select(Vehicle.description)).all()
-                        for w in _tr_lower(_squash(normalize(v)["normalized"])).split()
+                        for w in _tr_lower(_squash(_normalize_for_match(v))).split()
                     }
                     if any(_tr_lower(w) in catalog_words for w in customer.split()):
                         return None
-                rest_norm = _squash(normalize(rest)["normalized"]) if rest.strip() else ""
+                rest_canon = canonicalize_asr_text(rest)["canonical_text"] if rest.strip() else ""
+                rest_norm = _squash(_normalize_for_match(rest_canon)) if rest_canon.strip() else ""
                 if rest_norm:
                     matches = self._match_vehicles(db, rest_norm, whole_words=True)
                     if len(matches) > 1:
@@ -1681,13 +1878,13 @@ class Dialogue:
                     accounts = []
                 leftover = f" {_tr_lower(rest_norm)} "
                 for acc in accounts:
-                    name = _tr_lower(_squash(normalize(acc.name)["normalized"]))
+                    name = _tr_lower(_squash(_normalize_for_match(acc.name)))
                     if name and f" {name} " in leftover:
                         corporate = acc.name
                         leftover = leftover.replace(f" {name} ", " ", 1)
                         break
                 if vehicle is not None:
-                    cand = _tr_lower(_squash(normalize(vehicle.description)["normalized"]))
+                    cand = _tr_lower(_squash(_normalize_for_match(vehicle.description)))
                     leftover = leftover.replace(f" {cand} ", " ", 1)
         except Exception:
             return None  # kural yolu hata verirse LLM yolu aynen çalışır
@@ -1708,7 +1905,7 @@ class Dialogue:
             needle = _tr_lower(_squash(needle))
         matches = []
         for vehicle in db.scalars(select(Vehicle)).all():
-            candidate = normalize(vehicle.description)["normalized"]
+            candidate = _normalize_for_match(vehicle.description)
             if whole_words:
                 candidate = _tr_lower(_squash(candidate))
             else:
@@ -1761,7 +1958,7 @@ class Dialogue:
                     matched_ids = [vehicle_id]  # katalogda tam sözcük eşleşmesiyle çözülmüş
                 else:
                     needle = (
-                        normalize(info.vehicle_description)["normalized"]
+                        _normalize_for_match(info.vehicle_description)
                         .casefold()
                         .strip(" .")
                     )
@@ -1770,6 +1967,7 @@ class Dialogue:
                     matched_id = matched_ids[0]
                     if self.vehicle != matched_id:
                         self.vehicle = matched_id
+                        self.awaiting_next_vehicle = False
                         self.slot = None
                         if self.awaiting:
                             self.awaiting = False
@@ -1807,19 +2005,18 @@ class Dialogue:
             slots = db.scalars(
                 select(Slot).where(Slot.id.not_in(occupied)).order_by(Slot.starts_at)
             ).all()
-            slots = [
-                s
-                for s in slots
-                if datetime.fromisoformat(s.starts_at) > datetime.now(ZoneInfo("UTC"))
-            ][:3]
+            now_utc = datetime.now(ZoneInfo("UTC"))
+            parsed_future = []
+            for s in slots:
+                s_dt = _parse_slot_datetime(s.starts_at)
+                if s_dt and s_dt > now_utc:
+                    parsed_future.append((s, s_dt))
             self.options = [
                 (
                     s.id,
-                    datetime.fromisoformat(s.starts_at)
-                    .astimezone(ZoneInfo("Europe/Istanbul"))
-                    .strftime("%d.%m.%Y saat %H:%M"),
+                    s_dt.astimezone(ZoneInfo("Europe/Istanbul")).strftime("%d.%m.%Y saat %H:%M"),
                 )
-                for s in slots
+                for s, s_dt in parsed_future[:3]
             ]
             ans = self.format_options(db)
             self.record_turn("user", text)

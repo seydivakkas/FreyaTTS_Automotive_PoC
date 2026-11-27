@@ -61,7 +61,7 @@ async def test_real_adapter_bridge_has_bounded_failure_budget(monkeypatch):
     models.tts = object()
     calls = []
 
-    def fail(text):
+    def fail(text, *, seed):
         calls.append(text)
         raise RuntimeError("model unavailable")
 

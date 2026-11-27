@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "package_id": "F3_A",
+  "run_id": "20261126T015730Z",
+  "head_sha": "6273981e1684686ae85f9458b608764e85a4552c",
+  "branch": "master",
+  "prerequisites": {
+    "core_integration": {
+      "run_id": "20261126T004342Z",
+      "path": "docs/freya2/core_integration/20261126T004342Z/CORE_ACCEPTANCE_MATRIX.json",
+      "core_integration_ready": true,
+      "gates_passed": ["CG00", "CG01", "CG02", "CG03", "CG04", "CG05", "CG06", "CG07", "CG08", "CG09", "CG10", "CG11"]
+    },
+    "f2_a": {
+      "run_id": "20261126T005553Z",
+      "path": "docs/freya2/f2_a/20261126T005553Z/ACCEPTANCE_MATRIX.json",
+      "f2_a_ready": true
+    },
+    "m00_baseline": {
+      "run_id": "20261126T001600Z",
+      "path": "docs/freya2/baseline/20261126T001600Z/FEATURE_REGISTRY.json"
+    }
+  },
+  "owned_paths": [
+    "backend/supervisor/dialogue_facade.py",
+    "backend/supervisor/context_manager.py",
+    "backend/supervisor/slot_manager.py",
+    "backend/supervisor/input_admission.py",
+    "backend/supervisor/state_adapter.py",
+    "backend/supervisor/llm_adapter.py",
+    "backend/supervisor/workflow_adapter.py",
+    "backend/supervisor/response_composer.py",
+    "backend/supervisor/response_validator.py",
+    "backend/supervisor/telemetry.py",
+    "backend/supervisor/legacy_adapter.py",
+    "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py"
+  ],
+  "forbidden_paths_modified": []
+}

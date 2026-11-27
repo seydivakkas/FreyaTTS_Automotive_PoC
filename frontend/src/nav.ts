@@ -19,6 +19,7 @@ export const TABS = [
   "Ses laboratuvarı",
   "Sistem",
   "M01–M11",
+  "Kabul & Terim",
 ] as const;
 
 export type TabName = (typeof TABS)[number];
@@ -214,6 +215,15 @@ export const TAB_METADATA: Record<TabName, TabMeta> = {
     description: "11 deterministik mühendislik kalite kapısı ve test kanıtları",
     keywords: ["m01", "m11", "milestone", "kalite kapısı", "kabul", "test"],
   },
+  "Kabul & Terim": {
+    id: "Kabul & Terim",
+    label: "Kabul & Terim Protokolü",
+    category: "governance",
+    icon: "✅",
+    description: "Canlı mikrofon kabul koşuları, DB diff ve çift yönlü otomotiv terim doğrulama",
+    pipelineStage: "F0–F6",
+    keywords: ["kabul", "mikrofon", "terim", "plaka", "doğrulama", "qa", "acceptance", "f0", "f6"],
+  },
 };
 
 export const NAV_CATEGORIES: NavCategory[] = [
@@ -266,6 +276,7 @@ export const NAV_CATEGORIES: NavCategory[] = [
       TAB_METADATA["Analitik & KPI"],
       TAB_METADATA["Sistem"],
       TAB_METADATA["M01–M11"],
+      TAB_METADATA["Kabul & Terim"],
     ],
   },
 ];
@@ -278,3 +289,79 @@ export const MAIN_DATA_TABS: readonly string[] = [
   "Geçmiş",
   "Sistem",
 ];
+
+export type RolePerspective = "operator" | "manager" | "engineer" | "all";
+
+export interface PerspectiveMeta {
+  id: RolePerspective;
+  label: string;
+  icon: string;
+  badge: string;
+  description: string;
+  defaultTab: TabName;
+  tabs: TabName[];
+}
+
+export const ROLE_PERSPECTIVES: Record<RolePerspective, PerspectiveMeta> = {
+  operator: {
+    id: "operator",
+    label: "Operatör",
+    icon: "🎧",
+    badge: "Canlı Çağrı Masası",
+    description: "Canlı konuşmalar, müşteri bilgisi, randevu onayı ve hızlı müdahale masası",
+    defaultTab: "Görüşme",
+    tabs: [
+      "Görüşme",
+      "Operatör (6002)",
+      "Geçmiş",
+    ],
+  },
+  manager: {
+    id: "manager",
+    label: "Yönetici",
+    icon: "📊",
+    badge: "Takvim & Kapasite",
+    description: "Randevu takvimi, lift kapasitesi, araç kataloğu, fiyatlar, raporlar ve bildirimler",
+    defaultTab: "Randevular",
+    tabs: [
+      "Randevular",
+      "Sıra & Lift Durumu",
+      "Araçlar ve fiyatlar",
+      "Ekspertiz Raporları",
+      "Bildirimler",
+      "Giden Çağrılar",
+      "Analitik & KPI",
+    ],
+  },
+  engineer: {
+    id: "engineer",
+    label: "AI Mühendisi",
+    icon: "🔬",
+    badge: "F0–F6 & Kalite Kapıları",
+    description: "F0–F6 telemetrisi, VAD, ASR, FreyaTTS ODE, Sözlük, Ontoloji, M01–M11 ve sistem sağlığı",
+    defaultTab: "Görüşme",
+    tabs: [
+      "Görüşme",
+      "Araç İçi DSP & Gürültü",
+      "A/B Test & İnce Ayar",
+      "Supervisor Kalite",
+      "Sözlük",
+      "Otomotiv Ontolojisi",
+      "Ses laboratuvarı",
+      "Araç Teşhis & OBD-II",
+      "Teknisyen Dikte",
+      "M01–M11",
+      "Kabul & Terim",
+      "Sistem",
+    ],
+  },
+  all: {
+    id: "all",
+    label: "Tümü",
+    icon: "🌐",
+    badge: "Tüm 21 Sekme",
+    description: "FreyaTTS Automotive sistemindeki tüm ekranlar ve yönetim panelleri",
+    defaultTab: "Görüşme",
+    tabs: [...TABS],
+  },
+};

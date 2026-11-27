@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "gate_id": "W2_VERTICAL_SLICE_INTEGRATION",
+  "run_id": "20261126T032114Z",
+  "baseline_run_id": "20261126T001600Z",
+  "core_integration_run_id": "20261126T004342Z",
+  "head_sha": "6273981e1684686ae85f9458b608764e85a4552c",
+  "branch": "master",
+  "source_scope_hash": "bddb7ac19267e378dcdbbddb4abc45e9674d8aefa39d31adc4ee831eb701a254",
+  "owner_authorization": {
+    "authorized": true,
+    "authority_ref": "swarm-board-brief:#49,#51",
+    "scope": "T0_T1_STRUCTURAL_OFFLINE_WINDOWS"
+  },
+  "prerequisites": {
+    "M00": {"run_id": "20261126T001600Z", "status": "ACCEPTED"},
+    "M08": {"run_id": "20261126T004342Z", "status": "PASS", "m08_ready": true},
+    "CORE_INTEGRATION": {"run_id": "20261126T004342Z", "status": "PASS", "core_integration_ready": true, "vertical_slice_ready": true},
+    "F0_A": {"run_id": "20261126T015537Z", "status": "PASS", "f0_a_ready": true},
+    "F1_A": {"run_id": "20261126T015649Z", "status": "PASS", "f1_a_ready": true, "f1_a_accepted": true},
+    "F2_A": {"run_id": "20261126T005553Z", "status": "PASS", "f2_a_ready": true, "f2_a_accepted": true},
+    "F3_A": {"run_id": "20261126T015730Z", "status": "PASS", "f3_a_ready": true, "f3_a_accepted": true, "note": "All G00-G19 PASS; top-level overall field omitted in historical F3_A matrix"},
+    "F4_A": {"run_id": "20261126T010032Z", "status": "PASS", "f4_a_ready": true, "f4_a_accepted": true},
+    "F5_A": {"run_id": "20261126T005606Z", "status": "PASS", "f5_a_ready": true, "f5_a_accepted": true},
+    "F6_A": {"run_id": "20261126T020010Z", "status": "PASS", "f6_a_ready": true, "f6_a_accepted": true, "w2_gate_ready": true}
+  },
+  "passive_import_check": {
+    "threads_delta": 0,
+    "torch_loaded": false
+  },
+  "blockers": []
+}

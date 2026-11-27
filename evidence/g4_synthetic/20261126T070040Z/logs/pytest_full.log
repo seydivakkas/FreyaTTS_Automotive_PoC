@@ -1,0 +1,100 @@
+........................................................................ [  2%]
+........................................................................ [  5%]
+.............................................F.......................... [  8%]
+........................................................................ [ 11%]
+........................................................................ [ 14%]
+........................................................................ [ 17%]
+........................................................................ [ 19%]
+........................................................................ [ 22%]
+........................................................................................................................ [ 27%]
+........................................................................ [ 30%]
+........................................................................ [ 33%]
+........................................................................ [ 36%]
+........................................................................ [ 38%]
+........................................................................ [ 41%]
+.................................................... [ 43%]
+........................................................................ [ 46%]
+........................................................................ [ 49%]
+........................................................................ [ 52%]
+............F........................................................... [ 55%]
+........................................................................ [ 58%]
+........................................................................ [ 60%]
+........................................................................ [ 63%]
+........................................................................ [ 66%]
+........................................................................ [ 69%]
+........................................................................ [ 72%]
+........................................................................ [ 75%]
+........................................................................ [ 78%]
+........................................................................ [ 80%]
+........................................................................ [ 83%]
+........................................................................ [ 86%]
+........................................................................ [ 89%]
+........................................................................ [ 92%]
+........................................................................ [ 95%]
+........................................................................ [ 98%]
+.................................................                        [100%]
+================================== FAILURES ===================================
+__________ test_offline_preflight_read_only_without_loading_weights ___________
+
+tmp_path = WindowsPath('D:/Masaüstü/FreyaTTS_Automotive_PoC/data/temp_pytest_g4/test_offline_preflight_read_on0')
+
+    def test_offline_preflight_read_only_without_loading_weights(tmp_path: Path):
+        # Create fake FreyaTTS directory and verified supervisor artifact without any ML libraries
+        (tmp_path / "vendor" / "FreyaTTS" / "freyatts").mkdir(parents=True)
+        sup_file = tmp_path / "data" / "supervisor" / "model.bin"
+        sup_file.parent.mkdir(parents=True)
+        sup_bytes = b"not-even-pickle-bytes-never-loaded"
+        sup_file.write_bytes(sup_bytes)
+        sup_sha = hashlib.sha256(sup_bytes).hexdigest()
+    
+        snap = resolve_configuration(
+            overrides={
+                "freya_path": "vendor/FreyaTTS",
+                "supervisor_mode": "guarded",
+                "supervisor_model_path": Path("data/supervisor/model.bin"),
+                "supervisor_model_sha256": sup_sha,
+            }
+        ).snapshot
+        reg = ModelRegistry.from_snapshot(snap)
+        assert reg.get("tts-freya") is not None
+        assert reg.get("supervisor-ranker") is not None
+        assert len(reg.model_registry_revision) == 64
+    
+        report = run_offline_preflight(snap, reg, base_dir=tmp_path, check_packages=False)
+        assert report.checked_offline is True
+        assert report.weights_loaded is False
+        assert report.overall_state == PreflightState.READY
+>       assert "torch" not in sys.modules
+E       AssertionError: assert 'torch' not in {'sys': <module 'sys' (built-in)>, 'builtins': <module 'builtins' (built-in)>, '_frozen_importlib': <module '_frozen_importlib' (frozen)>, '_imp': <module '_imp' (built-in)>, ...}
+E        +  where {'sys': <module 'sys' (built-in)>, 'builtins': <module 'builtins' (built-in)>, '_frozen_importlib': <module '_frozen_importlib' (frozen)>, '_imp': <module '_imp' (built-in)>, ...} = sys.modules
+
+tests\configuration\test_m03_config_registry.py:442: AssertionError
+_____________ test_teardown_failure_releases_single_call_capacity _____________
+
+client = <starlette.testclient.TestClient object at 0x0000027DB4626F90>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000027DB5F93B10>
+
+    def test_teardown_failure_releases_single_call_capacity(client, monkeypatch):
+        class BrokenClose:
+            def __init__(self, channel, emit, send):
+                self.emit = emit
+                self.closed = False
+    
+            async def start(self):
+                await self.emit({"type": "session"})
+    
+            async def close(self):
+                raise RuntimeError("close failed")
+    
+        monkeypatch.setattr(main, "VoiceSession", BrokenClose)
+        token = client.post("/api/session-ticket", auth=("admin", "test-password")).json()[
+            "ticket"
+        ]
+>       with pytest.raises(RuntimeError, match="close failed"):
+E       Failed: DID NOT RAISE RuntimeError
+
+tests\test_api.py:125: Failed
+=========================== short test summary info ===========================
+FAILED tests/configuration/test_m03_config_registry.py::test_offline_preflight_read_only_without_loading_weights
+FAILED tests/test_api.py::test_teardown_failure_releases_single_call_capacity
+2 failed, 2523 passed, 44 subtests passed in 571.43s (0:09:31)

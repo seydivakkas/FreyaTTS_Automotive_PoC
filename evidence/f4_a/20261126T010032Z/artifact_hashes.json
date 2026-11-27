@@ -1,0 +1,23 @@
+{
+  "backend/linguistic_frontend/__init__.py": "49d31a6194ac7748eab21348b156c8e73146ac319f64833f07a5e23ce17264c6",
+  "backend/linguistic_frontend/chunking_adapter.py": "55ade9c77d07ddd2d951154f22113c5bd15b06fcbafe0d6b07f93d942bdcf08d",
+  "backend/linguistic_frontend/config_adapter.py": "9590b74837d758b58e316e5df965a054c60408628382111be8456a10c8afe97a",
+  "backend/linguistic_frontend/freya_adapter.py": "cdb76064417d00e8743bdeba75cd5a3c23181299f0164c3e4fb13d5e63d70add",
+  "backend/linguistic_frontend/input_validator.py": "c9cd066948c6209be165f097751f6c3e9ff53cf4b70d273e3fcf76c599fbb905",
+  "backend/linguistic_frontend/legacy_adapter.py": "9374bad221904a019f24c9d37a2de03914f745dc8e35d3993a1445da1ec2ab97",
+  "backend/linguistic_frontend/lexicon_adapter.py": "c82aae3fe8f8dfff7aba1b6786db3d6d89ef32d6693cee80daf5efeee2138ecc",
+  "backend/linguistic_frontend/lifecycle.py": "9440d81e294c268115728a346b86b68d69b761ee478db11968d263cd98141432",
+  "backend/linguistic_frontend/morphology_adapter.py": "0fc47a3cfbcbd7668a400cfa4f7793aa061d69db4deda070ba8fee649882972f",
+  "backend/linguistic_frontend/pipeline.py": "851a184eeb2e51ffa954e1ea5557322b6ffc9e4e8febd4e6afbedfa62f0779c5",
+  "backend/linguistic_frontend/plan_builder.py": "b56124b3f7c2af4b7905d5c8bb623ade3cc19f956788eacf10ae368d25da65c0",
+  "backend/linguistic_frontend/protected_atoms.py": "72d5d683dd118f520196bad9939cf28e917e54e5c56ea15d0f11687defa92787",
+  "backend/linguistic_frontend/quality_gate.py": "211bb3df444fe75f0c161ce672277e36c7697c0ffaf2f08b7a1e1d405db35a23",
+  "backend/linguistic_frontend/semantic_tokenizer.py": "1ada016945128d236c4fb04350acb2028e4aa279b31d760190e99821f3d86fa5",
+  "backend/linguistic_frontend/telemetry.py": "f712034c7f550149bdd4d90bc4bd46b943d93b42a44e98011d26fb5ab58db5b3",
+  "backend/linguistic_frontend/text_mapping.py": "159f628e0d36387eb75f42349bd995bb68c4c5336a92046415768aee2430f268",
+  "backend/linguistic_frontend/text_normalizer.py": "309002cf41fa315a792df08b04f39946bf3614ffdf45dcc986afa6ffa84986bf",
+  "docs/freya2/f4_a/20261126T010032Z/ACCEPTANCE_MATRIX.json": "52aa0ca6eedcf83725353adb6e95d2d2108c1050700b7b5984a5e7a1d8f784d8",
+  "evidence/f4_a/20261126T010032Z/logs/pytest_f4_a.log": "12d49ab3411f955e4351c7595db47e9ea7e7a772abb4706172c7364fd04c89ab",
+  "evidence/f4_a/20261126T010032Z/manifest.json": "5d9cd1bfe57f43ad813c0939300cb19442467c7d23973b45894d108b58415e06",
+  "tests/linguistic_frontend/test_f4_a_linguistic_frontend.py": "0b01ac691d5303c0bde3745847d14b1e5991e3aea37973eebc006c1f54cc23a8"
+}

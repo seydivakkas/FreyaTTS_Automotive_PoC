@@ -1,0 +1,155 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261125T182221Z",
+  "baseline_commit": "6273981e1684686ae85f9458b608764e85a4552c",
+  "records": [
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 49,
+      "label": "Görüşme"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 58,
+      "label": "Araç İçi DSP & Gürültü"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 67,
+      "label": "A/B Test & İnce Ayar"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 76,
+      "label": "Sözlük"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 85,
+      "label": "Otomotiv Ontolojisi"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 94,
+      "label": "Ses laboratuvarı"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 104,
+      "label": "Ekspertiz Raporları"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 112,
+      "label": "Randevular"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 120,
+      "label": "Sıra & Lift Durumu"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 128,
+      "label": "Araç Teşhis & OBD-II"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 136,
+      "label": "Araçlar ve fiyatlar"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 144,
+      "label": "Teknisyen Dikte"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 153,
+      "label": "Operatör (6002)"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 161,
+      "label": "Giden Çağrılar"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 169,
+      "label": "Geçmiş"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 177,
+      "label": "Bildirimler"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 186,
+      "label": "Supervisor Kalite"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 195,
+      "label": "Analitik & KPI"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 203,
+      "label": "Sistem"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 211,
+      "label": "M01–M11"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 219,
+      "label": "Kabul & Terim"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 231,
+      "label": "workshop"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 246,
+      "label": "telephony"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 258,
+      "label": "audio_ai"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 270,
+      "label": "governance"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 307,
+      "label": "operator"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 320,
+      "label": "manager"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 337,
+      "label": "engineer"
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "line": 359,
+      "label": "all"
+    }
+  ],
+  "limitations": [
+    "Navigation identifiers. Control-to-handler mapping pending."
+  ]
+}

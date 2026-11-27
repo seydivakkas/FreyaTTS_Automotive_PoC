@@ -1,0 +1,7 @@
+{
+  "docs/freya2/g4_synthetic/20261126T070040Z/G4_ACCEPTANCE_MATRIX.json": "3d31ffd6e1445a1efd071dbb1d51da11ce498a1f840a353e1f138a10b3dcceb7",
+  "docs/freya2/g4_synthetic/20261126T070040Z/G4_SYNTHETIC_REPORT.md": "4b5ff6deeb024912eea54f66229fcd46e63866f812f438bb617ea200d60ee20f",
+  "evidence/g4_synthetic/20261126T070040Z/logs/pytest_full.log": "bb691bed0dfe54ef7906c35257a90faa09673c698cb9476441e4a81d3d09b5aa",
+  "evidence/g4_synthetic/20261126T070040Z/manifest.json": "d9bb35cb6124e4f6c29883e4bca52964c6be336d306e3c128578c1792fe47bf4",
+  "tests/integration/test_g4_synthetic_acceptance.py": "9b280119488c9b2ab34ed8baf811c1c88031b0f58484c9671ff1411d9a7ba63e"
+}

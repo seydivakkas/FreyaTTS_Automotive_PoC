@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "gate_id": "W2_VERTICAL_SLICE_INTEGRATION",
+  "run_id": "20261126T032114Z",
+  "suite": "tests/integration/test_w2_gate.py",
+  "cases": [
+    {"case_id": "WI01", "node_id": "tests/integration/test_w2_gate.py::test_wi01_prereqs_core_and_all_seven_a_packages_accepted", "expected": "Core + all 7 A-package acceptances valid; missing prerequisite blocks cleanly"},
+    {"case_id": "WI02", "node_id": "tests/integration/test_w2_gate.py::test_wi02_real_f0_to_f6_strict_web_16k_path", "expected": "Real F0->F6 strict web 16k PCM16 320-sample / 640-byte frames with monotonic sequence and SERVER scope"},
+    {"case_id": "WI03", "node_id": "tests/integration/test_w2_gate.py::test_wi03_real_f0_to_f6_strict_phone_audiosocket_8k_path", "expected": "Real F0->F6 strict phone 8k path with DTMF separation and 0x10 320-byte AudioSocket BE wire framing"},
+    {"case_id": "WI04", "node_id": "tests/integration/test_w2_gate.py::test_wi04_irregular_ingress_partitions_and_preroll_markers", "expected": "Irregular ingress partitions retain pre-roll sample markers through F0/F1 without treating padding as speech"},
+    {"case_id": "WI05", "node_id": "tests/integration/test_w2_gate.py::test_wi05_short_false_onset_rejected_then_valid_speech", "expected": "Short 1-window spike rejected before onset confirmation; single finalized Utterance for valid speech"},
+    {"case_id": "WI06", "node_id": "tests/integration/test_w2_gate.py::test_wi06_fake_whisper_lazy_segments_and_m06_lease_retained", "expected": "P1 ASR inference retains M06 execution lease throughout lazy segment iteration"},
+    {"case_id": "WI07", "node_id": "tests/integration/test_w2_gate.py::test_wi07_asr_non_ok_no_speech_or_error_never_executes_business", "expected": "ASR NO_SPEECH/ERROR triggers safe clarification without business tool execution"},
+    {"case_id": "WI08", "node_id": "tests/integration/test_w2_gate.py::test_wi08_automotive_ambiguous_candidate_from_f2_through_f3", "expected": "M05 candidate entities stay UNVERIFIED/CANDIDATE through F2->F3 with safe clarification"},
+    {"case_id": "WI09", "node_id": "tests/integration/test_w2_gate.py::test_wi09_deterministic_greeting_no_llm_through_f4_f5_f6", "expected": "Deterministic greeting skips Qwen/DB mutation and completes F4/F5/F6"},
+    {"case_id": "WI10", "node_id": "tests/integration/test_w2_gate.py::test_wi10_llm_assisted_path_via_m06_p3_and_m07_validation", "expected": "LLM-assisted path uses M06 P3 worker and M07 validation with no direct DB bypass"},
+    {"case_id": "WI11", "node_id": "tests/integration/test_w2_gate.py::test_wi11_authorized_booking_flow_with_confirmation_and_mock_receipt", "expected": "Verified actor availability + explicit confirmation yields single COMMITTED MOCK receipt (verified_result=False)"},
+    {"case_id": "WI12", "node_id": "tests/integration/test_w2_gate.py::test_wi12_slot_change_invalidates_confirmation_and_duplicate_blocked", "expected": "Slot modification invalidates pending confirmation challenge and blocks stale affirmative"},
+    {"case_id": "WI13", "node_id": "tests/integration/test_w2_gate.py::test_wi13_unknown_provider_and_cancelled_generation_fenced", "expected": "Idempotency UNKNOWN_HOLD prevents blind retry; cancelled generation fences F6 chunk admission"},
+    {"case_id": "WI14", "node_id": "tests/integration/test_w2_gate.py::test_wi14_untrusted_text_requests_unauthorized_action_denied", "expected": "Untrusted request for unauthorized CRM records denied deterministically by M07"},
+    {"case_id": "WI15", "node_id": "tests/integration/test_w2_gate.py::test_wi15_f4_preserves_protected_atoms_single_normalization", "expected": "F4 preserves protected atoms (currency/time/model) with normalization_passes=1"},
+    {"case_id": "WI16", "node_id": "tests/integration/test_w2_gate.py::test_wi16_mid_session_seed_and_profile_pinning_enforced", "expected": "Seed 9 baseline allowed; gated experimental seed 42 rejected when disabled"},
+    {"case_id": "WI17", "node_id": "tests/integration/test_w2_gate.py::test_wi17_f5_raw_generation_m06_p2_p4_to_f6_rendering", "expected": "F5 raw 48k Float32 output via M06 P2/P4 feeds real F6 rendering with sample accounting"},
+    {"case_id": "WI18", "node_id": "tests/integration/test_w2_gate.py::test_wi18_irregular_f5_chunks_eos_pause_and_accounting", "expected": "Irregular F5 chunks, single post_pause_ms silence render (320 samples @ 8k), and idempotent EOS"},
+    {"case_id": "WI19", "node_id": "tests/integration/test_w2_gate.py::test_wi19_cancel_during_f5_job_retains_lease_until_completion", "expected": "M02 cancel during F5 ODE retains M06 lease until fake provider completion and releases cleanly"},
+    {"case_id": "WI20", "node_id": "tests/integration/test_w2_gate.py::test_wi20_cancel_barrier_before_vs_after_f6_submit", "expected": "Cancel-first blocks submission (BLOCKED_CANCELED); submit-first records IN_FLIGHT_POSSIBLE"},
+    {"case_id": "WI21", "node_id": "tests/integration/test_w2_gate.py::test_wi21_interleaved_two_sessions_isolated", "expected": "Concurrent Web 16k and AudioSocket 8k sessions remain isolated across all layers"},
+    {"case_id": "WI22", "node_id": "tests/integration/test_w2_gate.py::test_wi22_slow_sink_late_clock_and_disconnect_bounded", "expected": "Disconnected sink yields bounded IN_FLIGHT_POSSIBLE; late wake reanchors without <20ms burst"},
+    {"case_id": "WI23", "node_id": "tests/integration/test_w2_gate.py::test_wi23_compatibility_and_regression_preservation", "expected": "API/UI/DB/config compatibility PASS and 18 M00 features show 0 new regressions"},
+    {"case_id": "WI24", "node_id": "tests/integration/test_w2_gate.py::test_wi24_trace_privacy_and_wg_aggregation_honest", "expected": "M04 TraceStore/Projection + PIISecretScanner clean and WG00-WG11 aggregation honest"},
+    {"case_id": "WG00_WG11", "node_id": "tests/integration/test_w2_gate.py::test_wg00_to_wg11_gate_matrix", "expected": "All 12 mandatory W2 gates evaluate PASS under conservative policy"}
+  ]
+}

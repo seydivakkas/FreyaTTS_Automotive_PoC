@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "gate_id": "F3_BC_ROUTING_RAG_WORKFLOW",
+  "run_id": "20261126T033232Z",
+  "w2_integration_run_id": "20261126T032114Z",
+  "head_sha": "6273981e1684686ae85f9458b608764e85a4552c",
+  "branch": "master",
+  "scope": "T0_T1_STRUCTURAL_OFFLINE_WINDOWS",
+  "command": [
+    "pytest",
+    "tests/dialogue_foundation/",
+    "--basetemp=data/temp_pytest_w34_f3",
+    "-q"
+  ],
+  "exit_code": 0,
+  "collected": 92,
+  "passed": 92,
+  "failed": 0,
+  "skipped": 0,
+  "report_dir": "docs/freya2/f3_bc/20261126T033232Z",
+  "evidence_dir": "evidence/f3_bc/20261126T033232Z"
+}

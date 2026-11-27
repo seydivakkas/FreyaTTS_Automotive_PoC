@@ -44,6 +44,7 @@ from backend.websocket_adapter import (
     FRAME_SIZE_BYTES,
 )
 from backend.main import app
+from backend.config import settings
 from backend.session import active
 
 
@@ -61,6 +62,44 @@ def test_build_command_and_parse_event():
 
     parsed_invalid = parse_event("not-a-json")
     assert "raw" in parsed_invalid
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("control", [False, True])
+async def test_blocked_chan_websocket_write_closes_idle_connection(monkeypatch, control):
+    monkeypatch.setattr(settings, "media_write_timeout_sec", 0.02)
+    adapter = ChanWebSocketAdapter(allowed_ips=["127.0.0.1"])
+    ended = []
+
+    class FakeVoiceSession:
+        def __init__(self, *, emit, send_audio, **kwargs):
+            self.emit = emit
+            self.send_audio = send_audio
+
+        async def start(self):
+            if control:
+                await self.emit({"type": "playback", "action": "flush"})
+            else:
+                await self.send_audio(bytes(FRAME_SIZE_BYTES))
+
+        async def close(self):
+            ended.append(self.fqici_close_reason)
+
+    async def blocked(*args):
+        await asyncio.Future()
+
+    async def close_connection():
+        ended.append("closed")
+
+    monkeypatch.setattr("backend.websocket_adapter.VoiceSession", FakeVoiceSession)
+    await asyncio.wait_for(
+        adapter.process_connection(blocked, blocked, blocked, "127.0.0.1", close_connection),
+        timeout=1.0,
+    )
+    assert ended == ["transport_error", "closed"]
+    assert not adapter.active_sessions
+    assert not active.locked()
+    assert adapter.total_binary_frames_out == 0
 
 
 @pytest.mark.asyncio

@@ -1,0 +1,1596 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261126T001600Z",
+  "baseline_commit": "6273981e1684686ae85f9458b608764e85a4552c",
+  "records": {
+    "nav_items": [
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 49,
+        "label": "Görüşme"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 58,
+        "label": "Araç İçi DSP & Gürültü"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 67,
+        "label": "A/B Test & İnce Ayar"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 76,
+        "label": "Sözlük"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 85,
+        "label": "Otomotiv Ontolojisi"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 94,
+        "label": "Ses laboratuvarı"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 104,
+        "label": "Ekspertiz Raporları"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 112,
+        "label": "Randevular"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 120,
+        "label": "Sıra & Lift Durumu"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 128,
+        "label": "Araç Teşhis & OBD-II"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 136,
+        "label": "Araçlar ve fiyatlar"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 144,
+        "label": "Teknisyen Dikte"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 153,
+        "label": "Operatör (6002)"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 161,
+        "label": "Giden Çağrılar"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 169,
+        "label": "Geçmiş"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 177,
+        "label": "Bildirimler"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 186,
+        "label": "Supervisor Kalite"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 195,
+        "label": "Analitik & KPI"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 203,
+        "label": "Sistem"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 211,
+        "label": "M01–M11"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 219,
+        "label": "Kabul & Terim"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 231,
+        "label": "workshop"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 246,
+        "label": "telephony"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 258,
+        "label": "audio_ai"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 270,
+        "label": "governance"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 307,
+        "label": "operator"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 320,
+        "label": "manager"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 337,
+        "label": "engineer"
+      },
+      {
+        "path": "frontend/src/nav.ts",
+        "line": 359,
+        "label": "all"
+      }
+    ],
+    "api_call_sites": [
+      {
+        "ui_action_id": "UI-0001",
+        "component": "frontend/src/ABTestingPanel.tsx",
+        "line": 127,
+        "client": "api",
+        "expression": "ab/experiments",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/ab/experiments",
+          "/api/ab/experiments"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0002",
+        "component": "frontend/src/ABTestingPanel.tsx",
+        "line": 128,
+        "client": "api",
+        "expression": "ab/templates",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/ab/templates"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0003",
+        "component": "frontend/src/ABTestingPanel.tsx",
+        "line": 145,
+        "client": "api",
+        "expression": "ab/experiments/${expId}/report",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/ab/experiments/{id}/report"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0004",
+        "component": "frontend/src/ABTestingPanel.tsx",
+        "line": 165,
+        "client": "api",
+        "expression": "ab/experiments/${selectedExpId}/status",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/ab/experiments/{id}/status"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0005",
+        "component": "frontend/src/ABTestingPanel.tsx",
+        "line": 203,
+        "client": "api",
+        "expression": "ab/experiments",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/ab/experiments"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0006",
+        "component": "frontend/src/AcceptanceProtocolPanel.tsx",
+        "line": 121,
+        "client": "api",
+        "expression": "acceptance/prerequisites",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/acceptance/prerequisites"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0007",
+        "component": "frontend/src/AcceptanceProtocolPanel.tsx",
+        "line": 122,
+        "client": "api",
+        "expression": "acceptance/scenarios",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/acceptance/scenarios"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0008",
+        "component": "frontend/src/AcceptanceProtocolPanel.tsx",
+        "line": 123,
+        "client": "api",
+        "expression": "acceptance/runs",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/acceptance/runs"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0009",
+        "component": "frontend/src/AcceptanceProtocolPanel.tsx",
+        "line": 124,
+        "client": "api",
+        "expression": "acceptance/terminology/audit",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/acceptance/terminology/audit"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0010",
+        "component": "frontend/src/AcceptanceProtocolPanel.tsx",
+        "line": 135,
+        "client": "api",
+        "expression": "acceptance/runs/${targetId}?masked=${useMask}",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/acceptance/runs/{run_id}"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0011",
+        "component": "frontend/src/AcceptanceProtocolPanel.tsx",
+        "line": 155,
+        "client": "api",
+        "expression": "acceptance/prepare-fixtures",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/acceptance/prepare-fixtures"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0012",
+        "component": "frontend/src/AcceptanceProtocolPanel.tsx",
+        "line": 166,
+        "client": "api",
+        "expression": "acceptance/runs/start",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/acceptance/runs/start"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0013",
+        "component": "frontend/src/AcceptanceProtocolPanel.tsx",
+        "line": 187,
+        "client": "api",
+        "expression": "acceptance/runs/${runId}/verify",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/acceptance/runs/{run_id}/verify"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0014",
+        "component": "frontend/src/AcceptanceProtocolPanel.tsx",
+        "line": 205,
+        "client": "api",
+        "expression": "acceptance/runs/${selectedRun.run_id}?masked=${nextMask}",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/acceptance/runs/{run_id}"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0015",
+        "component": "frontend/src/AcceptanceProtocolPanel.tsx",
+        "line": 213,
+        "client": "api",
+        "expression": "acceptance/terminology/test",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/acceptance/terminology/test"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0016",
+        "component": "frontend/src/AcceptanceProtocolPanel.tsx",
+        "line": 633,
+        "client": "api",
+        "expression": "acceptance/runs/${r.run_id}?masked=${kvkkMasked}",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/acceptance/runs/{run_id}"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0017",
+        "component": "frontend/src/AnalysisQueuePanel.tsx",
+        "line": 46,
+        "client": "api",
+        "expression": "supervisor/fqici-queue",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/supervisor/fqici-queue"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0018",
+        "component": "frontend/src/AnalyticsPanel.tsx",
+        "line": 165,
+        "client": "api",
+        "expression": "analytics/overview",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/analytics/overview"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0019",
+        "component": "frontend/src/AnalyticsPanel.tsx",
+        "line": 166,
+        "client": "api",
+        "expression": "analytics/follow-ups?status=${statusFilter}",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/analytics/follow-ups"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0020",
+        "component": "frontend/src/AnalyticsPanel.tsx",
+        "line": 175,
+        "client": "api",
+        "expression": "reports/weekly/summary?days=7",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/reports/weekly/summary"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0021",
+        "component": "frontend/src/AnalyticsPanel.tsx",
+        "line": 194,
+        "client": "api",
+        "expression": "analytics/conversations/${resolvingId}/resolve",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/analytics/conversations/{id}/resolve"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0022",
+        "component": "frontend/src/AnalyticsPanel.tsx",
+        "line": 206,
+        "client": "api",
+        "expression": "analytics/conversations/${id}/reopen",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/analytics/conversations/{id}/reopen"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0023",
+        "component": "frontend/src/AnalyticsPanel.tsx",
+        "line": 216,
+        "client": "api",
+        "expression": "conversations/",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/conversations/{id}"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0024",
+        "component": "frontend/src/AppointmentMoveDialog.tsx",
+        "line": 47,
+        "client": "api",
+        "expression": "appointments/${appointment.id}/reschedule-preview?target_slot_id=${encodeURIComponent(target)}",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/appointments/{id}/reschedule-preview"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0025",
+        "component": "frontend/src/AppointmentMoveDialog.tsx",
+        "line": 73,
+        "client": "api",
+        "expression": "appointments/${appointment.id}/reschedule",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/appointments/{id}/reschedule"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0026",
+        "component": "frontend/src/CarDenoiserPanel.tsx",
+        "line": 79,
+        "client": "api",
+        "expression": "dsp/config",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/dsp/config",
+          "/api/dsp/config"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0027",
+        "component": "frontend/src/CarDenoiserPanel.tsx",
+        "line": 93,
+        "client": "api",
+        "expression": "dsp/config",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/dsp/config"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0028",
+        "component": "frontend/src/DatasetGeneratorPanel.tsx",
+        "line": 37,
+        "client": "api",
+        "expression": "dataset/generate",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/dataset/generate"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0029",
+        "component": "frontend/src/DatasetGeneratorPanel.tsx",
+        "line": 47,
+        "client": "fetch",
+        "expression": "/api/dataset/generate",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/dataset/generate"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0030",
+        "component": "frontend/src/DatasetGeneratorPanel.tsx",
+        "line": 76,
+        "client": "fetch",
+        "expression": "/api/dataset/export?format=${datasetFormat}&count=${datasetCount}&seed=42",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/dataset/export"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0031",
+        "component": "frontend/src/DiagnosticPanel.tsx",
+        "line": 73,
+        "client": "api",
+        "expression": "diagnostics",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/diagnostics"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0032",
+        "component": "frontend/src/DiagnosticPanel.tsx",
+        "line": 74,
+        "client": "api",
+        "expression": "vehicles",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/vehicles"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0033",
+        "component": "frontend/src/DiagnosticPanel.tsx",
+        "line": 75,
+        "client": "api",
+        "expression": "diagnostics/dtc-registry",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/diagnostics/dtc-registry"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0034",
+        "component": "frontend/src/DiagnosticPanel.tsx",
+        "line": 141,
+        "client": "api",
+        "expression": "vehicles/${selectedVehicleId}/diagnostics",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/vehicles/{id}/diagnostics"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0035",
+        "component": "frontend/src/DiagnosticPanel.tsx",
+        "line": 152,
+        "client": "api",
+        "expression": "diagnostics/${item.id}/call",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/diagnostics/{id}/call"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0036",
+        "component": "frontend/src/DiagnosticPanel.tsx",
+        "line": 165,
+        "client": "api",
+        "expression": "diagnostics/${item.id}/sms",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/diagnostics/{id}/sms"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0037",
+        "component": "frontend/src/DiagnosticPanel.tsx",
+        "line": 178,
+        "client": "api",
+        "expression": "diagnostics/${id}/resolve",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/diagnostics/{id}/resolve"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0038",
+        "component": "frontend/src/FirstAppointmentGuide.tsx",
+        "line": 56,
+        "client": "api",
+        "expression": "vehicles",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/vehicles"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0039",
+        "component": "frontend/src/FirstAppointmentGuide.tsx",
+        "line": 62,
+        "client": "api",
+        "expression": "quotes",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/quotes"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0040",
+        "component": "frontend/src/FirstAppointmentGuide.tsx",
+        "line": 84,
+        "client": "api",
+        "expression": "slots",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/slots"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0041",
+        "component": "frontend/src/FirstAppointmentGuide.tsx",
+        "line": 94,
+        "client": "api",
+        "expression": "models/load",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/models/load"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0042",
+        "component": "frontend/src/InspectionPanel.tsx",
+        "line": 139,
+        "client": "api",
+        "expression": "inspections/",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/inspections/{id}/signed-link"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0043",
+        "component": "frontend/src/InspectionPanel.tsx",
+        "line": 172,
+        "client": "api",
+        "expression": "inspections",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/inspections"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0044",
+        "component": "frontend/src/InspectionPanel.tsx",
+        "line": 173,
+        "client": "api",
+        "expression": "vehicles",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/vehicles"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0045",
+        "component": "frontend/src/InspectionPanel.tsx",
+        "line": 174,
+        "client": "api",
+        "expression": "appointments",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/appointments"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0046",
+        "component": "frontend/src/InspectionPanel.tsx",
+        "line": 214,
+        "client": "api",
+        "expression": "inspections/photos",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/inspections/photos"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0047",
+        "component": "frontend/src/InspectionPanel.tsx",
+        "line": 259,
+        "client": "api",
+        "expression": "vehicles/${vehicleId}/inspections",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/vehicles/{id}/inspections"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0048",
+        "component": "frontend/src/InspectionPanel.tsx",
+        "line": 276,
+        "client": "api",
+        "expression": "inspections/${reportId}/send-link",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/inspections/{id}/send-link"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0049",
+        "component": "frontend/src/LexiconPanel.tsx",
+        "line": 81,
+        "client": "api",
+        "expression": "lexicon",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/lexicon",
+          "/api/lexicon"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0050",
+        "component": "frontend/src/LexiconPanel.tsx",
+        "line": 138,
+        "client": "api",
+        "expression": "lexicon",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/lexicon"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0051",
+        "component": "frontend/src/LoginGate.tsx",
+        "line": 27,
+        "client": "api",
+        "expression": "readiness",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/readiness"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0052",
+        "component": "frontend/src/MilestonePanel.tsx",
+        "line": 22,
+        "client": "api",
+        "expression": "milestones/overview",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/milestones/overview"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0053",
+        "component": "frontend/src/MilestonePanel.tsx",
+        "line": 23,
+        "client": "api",
+        "expression": "milestones/pronunciation",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/milestones/pronunciation",
+          "/api/milestones/pronunciation"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0054",
+        "component": "frontend/src/MilestonePanel.tsx",
+        "line": 36,
+        "client": "api",
+        "expression": "milestones/inspect",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/milestones/inspect"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0055",
+        "component": "frontend/src/NotificationPanel.tsx",
+        "line": 95,
+        "client": "api",
+        "expression": "notifications",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/notifications"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0056",
+        "component": "frontend/src/NotificationPanel.tsx",
+        "line": 96,
+        "client": "api",
+        "expression": "whatsapp/messages",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/whatsapp/messages"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0057",
+        "component": "frontend/src/NotificationPanel.tsx",
+        "line": 97,
+        "client": "api",
+        "expression": "notifications/status",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/notifications/status"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0058",
+        "component": "frontend/src/NotificationPanel.tsx",
+        "line": 113,
+        "client": "api",
+        "expression": "notifications/dispatch",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/notifications/dispatch"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0059",
+        "component": "frontend/src/NotificationPanel.tsx",
+        "line": 123,
+        "client": "api",
+        "expression": "notifications/${item.id}/retry",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/notifications/{id}/retry"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0060",
+        "component": "frontend/src/NotificationPanel.tsx",
+        "line": 138,
+        "client": "api",
+        "expression": "notifications/reminders/scan",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/notifications/reminders/scan"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0061",
+        "component": "frontend/src/NotificationPanel.tsx",
+        "line": 156,
+        "client": "api",
+        "expression": "notifications/test-send",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/notifications/test-send"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0062",
+        "component": "frontend/src/NotificationPanel.tsx",
+        "line": 180,
+        "client": "api",
+        "expression": "whatsapp/inbound",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/whatsapp/inbound"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0063",
+        "component": "frontend/src/OntologyPanel.tsx",
+        "line": 73,
+        "client": "api",
+        "expression": "ontology/schema",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/ontology/schema"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0064",
+        "component": "frontend/src/OntologyPanel.tsx",
+        "line": 74,
+        "client": "api",
+        "expression": "ontology/packages",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/ontology/packages"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0065",
+        "component": "frontend/src/OntologyPanel.tsx",
+        "line": 75,
+        "client": "api",
+        "expression": "ontology/diagnostics",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/ontology/diagnostics"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0066",
+        "component": "frontend/src/OntologyPanel.tsx",
+        "line": 76,
+        "client": "api",
+        "expression": "ontology/mcp/tools",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/ontology/mcp/tools"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0067",
+        "component": "frontend/src/OntologyPanel.tsx",
+        "line": 93,
+        "client": "api",
+        "expression": "ontology/resolve-vehicle",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/ontology/resolve-vehicle"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0068",
+        "component": "frontend/src/OntologyPanel.tsx",
+        "line": 102,
+        "client": "api",
+        "expression": "ontology/diagnostics?query=${encodeURIComponent(symptomQuery)}",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/ontology/diagnostics"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0069",
+        "component": "frontend/src/OperatorPanel.tsx",
+        "line": 162,
+        "client": "api",
+        "expression": "transfers?limit=50",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/transfers"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0070",
+        "component": "frontend/src/OperatorPanel.tsx",
+        "line": 163,
+        "client": "api",
+        "expression": "outbound/ami-status",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/outbound/ami-status"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0071",
+        "component": "frontend/src/OperatorPanel.tsx",
+        "line": 177,
+        "client": "api",
+        "expression": "operator/live-sessions",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/operator/live-sessions"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0072",
+        "component": "frontend/src/OperatorPanel.tsx",
+        "line": 188,
+        "client": "api",
+        "expression": "conversations/unclear?limit=50",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/conversations/unclear"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0073",
+        "component": "frontend/src/OperatorPanel.tsx",
+        "line": 209,
+        "client": "api",
+        "expression": "conversations/${selectedUnclearCall.id}/feedback-lexicon",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/conversations/{id}/feedback-lexicon"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0074",
+        "component": "frontend/src/OperatorPanel.tsx",
+        "line": 228,
+        "client": "api",
+        "expression": "kvkk/transcript-retention-audit",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/kvkk/transcript-retention-audit"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0075",
+        "component": "frontend/src/OperatorPanel.tsx",
+        "line": 240,
+        "client": "api",
+        "expression": "kvkk/erasure-requests?limit=50",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/kvkk/erasure-requests",
+          "/api/kvkk/erasure-requests"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0076",
+        "component": "frontend/src/OperatorPanel.tsx",
+        "line": 253,
+        "client": "api",
+        "expression": "kvkk/transcript-retention-purge",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/kvkk/transcript-retention-purge"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0077",
+        "component": "frontend/src/OperatorPanel.tsx",
+        "line": 276,
+        "client": "api",
+        "expression": "kvkk/erasure-requests",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/kvkk/erasure-requests"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0078",
+        "component": "frontend/src/OperatorPanel.tsx",
+        "line": 302,
+        "client": "api",
+        "expression": "kvkk/erasure-requests/${requestId}/execute",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/kvkk/erasure-requests/{request_id}/execute"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0079",
+        "component": "frontend/src/OperatorPanel.tsx",
+        "line": 315,
+        "client": "api",
+        "expression": "kvkk/erasure-requests/${requestId}/certificate?format=json",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/kvkk/erasure-requests/{request_id}/certificate"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0080",
+        "component": "frontend/src/OperatorPanel.tsx",
+        "line": 347,
+        "client": "api",
+        "expression": "transfers/${transferId}/accept",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/transfers/{id}/accept"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0081",
+        "component": "frontend/src/OperatorPanel.tsx",
+        "line": 359,
+        "client": "api",
+        "expression": "transfers/${transferId}/decline",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/transfers/{id}/decline"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0082",
+        "component": "frontend/src/OperatorPanel.tsx",
+        "line": 372,
+        "client": "api",
+        "expression": "transfers/initiate",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/transfers/initiate"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0083",
+        "component": "frontend/src/OperatorPanel.tsx",
+        "line": 392,
+        "client": "api",
+        "expression": "operator/register-call",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/operator/register-call"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0084",
+        "component": "frontend/src/OperatorPanel.tsx",
+        "line": 412,
+        "client": "api",
+        "expression": "operator/takeover",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/operator/takeover"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0085",
+        "component": "frontend/src/OperatorPanel.tsx",
+        "line": 429,
+        "client": "api",
+        "expression": "operator/whisper",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/operator/whisper"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0086",
+        "component": "frontend/src/OperatorPanel.tsx",
+        "line": 446,
+        "client": "api",
+        "expression": "operator/release",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/operator/release"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0087",
+        "component": "frontend/src/OperatorPanel.tsx",
+        "line": 462,
+        "client": "api",
+        "expression": "qa/evaluate-variants",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/qa/evaluate-variants"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0088",
+        "component": "frontend/src/OperatorPanel.tsx",
+        "line": 464,
+        "client": "api",
+        "expression": "qa/m11-status",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/qa/m11-status"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0089",
+        "component": "frontend/src/OperatorPanel.tsx",
+        "line": 477,
+        "client": "api",
+        "expression": "qa/telemetry/${telemetryTurnId.trim()}",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/qa/telemetry/{turn_id}"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0090",
+        "component": "frontend/src/OperatorPanel.tsx",
+        "line": 628,
+        "client": "api",
+        "expression": "transfers/${id}",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/transfers/{id}"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0091",
+        "component": "frontend/src/OperatorPanel.tsx",
+        "line": 1423,
+        "client": "api",
+        "expression": "qa/m11-status",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/qa/m11-status"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0092",
+        "component": "frontend/src/OperatorToday.tsx",
+        "line": 60,
+        "client": "api",
+        "expression": "operator/today?${params}",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/operator/today"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0093",
+        "component": "frontend/src/OutboundPanel.tsx",
+        "line": 54,
+        "client": "api",
+        "expression": "outbound/calls",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/outbound/calls"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0094",
+        "component": "frontend/src/OutboundPanel.tsx",
+        "line": 55,
+        "client": "api",
+        "expression": "appointments",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/appointments"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0095",
+        "component": "frontend/src/OutboundPanel.tsx",
+        "line": 56,
+        "client": "api",
+        "expression": "slots",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/slots"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0096",
+        "component": "frontend/src/OutboundPanel.tsx",
+        "line": 57,
+        "client": "api",
+        "expression": "outbound/ami-status",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/outbound/ami-status"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0097",
+        "component": "frontend/src/OutboundPanel.tsx",
+        "line": 76,
+        "client": "api",
+        "expression": "outbound/call",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/outbound/call"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0098",
+        "component": "frontend/src/OutboundPanel.tsx",
+        "line": 95,
+        "client": "api",
+        "expression": "outbound/calls/${callId}/complete",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/outbound/calls/{id}/complete"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0099",
+        "component": "frontend/src/OutboundPanel.tsx",
+        "line": 110,
+        "client": "api",
+        "expression": "outbound/calls/${callId}/cancel",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/outbound/calls/{id}/cancel"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0100",
+        "component": "frontend/src/QueueLiftPanel.tsx",
+        "line": 92,
+        "client": "api",
+        "expression": "lifts",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/lifts",
+          "/api/lifts"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0101",
+        "component": "frontend/src/QueueLiftPanel.tsx",
+        "line": 93,
+        "client": "api",
+        "expression": "queue",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/queue",
+          "/api/queue"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0102",
+        "component": "frontend/src/QueueLiftPanel.tsx",
+        "line": 94,
+        "client": "api",
+        "expression": "lifts/capacity",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/lifts/capacity"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0103",
+        "component": "frontend/src/QueueLiftPanel.tsx",
+        "line": 95,
+        "client": "api",
+        "expression": "packages",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/packages"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0104",
+        "component": "frontend/src/QueueLiftPanel.tsx",
+        "line": 117,
+        "client": "api",
+        "expression": "queue",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/queue"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0105",
+        "component": "frontend/src/QueueLiftPanel.tsx",
+        "line": 145,
+        "client": "api",
+        "expression": "lifts",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/lifts"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0106",
+        "component": "frontend/src/QueueLiftPanel.tsx",
+        "line": 168,
+        "client": "api",
+        "expression": "lifts/${liftId}/call-next",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/lifts/{id}/call-next"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0107",
+        "component": "frontend/src/QueueLiftPanel.tsx",
+        "line": 189,
+        "client": "api",
+        "expression": "lifts/${liftId}/release",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/lifts/{id}/release"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0108",
+        "component": "frontend/src/QueueLiftPanel.tsx",
+        "line": 205,
+        "client": "api",
+        "expression": "lifts/${lift.id}/status",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/lifts/{id}/status"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0109",
+        "component": "frontend/src/QueueLiftPanel.tsx",
+        "line": 232,
+        "client": "api",
+        "expression": "lifts/${assigningLiftId}/assign",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/lifts/{id}/assign"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0110",
+        "component": "frontend/src/QueueLiftPanel.tsx",
+        "line": 252,
+        "client": "api",
+        "expression": "queue/${qId}/cancel",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/queue/{id}/cancel"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0111",
+        "component": "frontend/src/QueueLiftPanel.tsx",
+        "line": 801,
+        "client": "api",
+        "expression": "packages/",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/packages/{key}"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0112",
+        "component": "frontend/src/QueueLiftPanel.tsx",
+        "line": 816,
+        "client": "api",
+        "expression": "packages/",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/packages/{key}"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0113",
+        "component": "frontend/src/SupervisorPanel.tsx",
+        "line": 77,
+        "client": "api",
+        "expression": "supervisor/quality?${params}",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/supervisor/quality"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0114",
+        "component": "frontend/src/SupervisorPanel.tsx",
+        "line": 114,
+        "client": "api",
+        "expression": "supervisor/review/${selected.trace_id}",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/supervisor/review/{trace_id}"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0115",
+        "component": "frontend/src/tabs/AppointmentsTab.tsx",
+        "line": 169,
+        "client": "api",
+        "expression": "slots",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/slots"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0116",
+        "component": "frontend/src/tabs/AppointmentsTab.tsx",
+        "line": 311,
+        "client": "api",
+        "expression": "appointments/${appt.id}/cancel",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/appointments/{id}/cancel"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0117",
+        "component": "frontend/src/tabs/AppointmentsTab.tsx",
+        "line": 367,
+        "client": "api",
+        "expression": "appointments/${a.id}/cancel",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/appointments/{id}/cancel"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0118",
+        "component": "frontend/src/tabs/HistoryTab.tsx",
+        "line": 24,
+        "client": "api",
+        "expression": "supervisor/conversations/${selectedId}/detail",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/supervisor/conversations/{conversation_id}/detail"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0119",
+        "component": "frontend/src/tabs/HistoryTab.tsx",
+        "line": 55,
+        "client": "api",
+        "expression": "conversations/",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/conversations/{id}"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0120",
+        "component": "frontend/src/tabs/LabTab.tsx",
+        "line": 100,
+        "client": "api",
+        "expression": "normalize",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/normalize"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0121",
+        "component": "frontend/src/tabs/SystemTab.tsx",
+        "line": 46,
+        "client": "api",
+        "expression": "models/load",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/models/load"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0122",
+        "component": "frontend/src/tabs/VehiclesTab.tsx",
+        "line": 25,
+        "client": "api",
+        "expression": "vehicles",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/vehicles"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0123",
+        "component": "frontend/src/tabs/VehiclesTab.tsx",
+        "line": 56,
+        "client": "api",
+        "expression": "quotes",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/quotes"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0124",
+        "component": "frontend/src/tabs/VoiceTab.tsx",
+        "line": 336,
+        "client": "api",
+        "expression": "voice/chat-turn",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/voice/chat-turn"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0125",
+        "component": "frontend/src/TechnicianDictationPanel.tsx",
+        "line": 79,
+        "client": "api",
+        "expression": "vehicles",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/vehicles"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0126",
+        "component": "frontend/src/TechnicianDictationPanel.tsx",
+        "line": 80,
+        "client": "api",
+        "expression": "inspections",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/inspections"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0127",
+        "component": "frontend/src/TechnicianDictationPanel.tsx",
+        "line": 163,
+        "client": "api",
+        "expression": "technician/dictate-text",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/technician/dictate-text"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0128",
+        "component": "frontend/src/TechnicianDictationPanel.tsx",
+        "line": 195,
+        "client": "api",
+        "expression": "technician/dictate-text",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/technician/dictate-text"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0129",
+        "component": "frontend/src/TechnicianDictationPanel.tsx",
+        "line": 229,
+        "client": "api",
+        "expression": "technician/dictate-audio",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/technician/dictate-audio"
+        ]
+      },
+      {
+        "ui_action_id": "UI-0130",
+        "component": "frontend/src/TechnicianDictationPanel.tsx",
+        "line": 484,
+        "client": "api",
+        "expression": "inspections/",
+        "binding_type": "API",
+        "matched_paths": [
+          "/api/inspections/{id}/signed-link"
+        ]
+      }
+    ]
+  },
+  "limitations": [
+    "Static TSX analysis + navigation registry; full browser interaction tested separately in G3/Playwright."
+  ]
+}

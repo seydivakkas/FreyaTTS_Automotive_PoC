@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261126T001600Z",
+  "baseline_commit": "6273981e1684686ae85f9458b608764e85a4552c",
+  "records": [
+    {
+      "workflow_id": "WF-0001",
+      "name": "Web Voice & Text Session",
+      "entrypoint": "backend/main.py:voice -> backend/session.py:VoiceSession",
+      "auth": "Single-use ticket (/api/session-ticket) + HTTPBasic",
+      "side_effects": "Conversation/Turn/FQICI DB writes, booking via Dialogue"
+    },
+    {
+      "workflow_id": "WF-0002",
+      "name": "AudioSocket Telephony Session",
+      "entrypoint": "backend/audiosocket_server.py:AudioSocketOrchestrator -> VoiceSession",
+      "auth": "PBX IP allowlist (pbx_allowed_ips)",
+      "side_effects": "Conversation/Turn DB writes, DTMF, transfer, booking"
+    },
+    {
+      "workflow_id": "WF-0003",
+      "name": "Chan WebSocket Transport",
+      "entrypoint": "backend/websocket_adapter.py:chan_ws_adapter",
+      "auth": "Local host bind + PBX config",
+      "side_effects": "Streaming media session (P2 optional)"
+    },
+    {
+      "workflow_id": "WF-0004",
+      "name": "Appointment Create / Reschedule / Cancel",
+      "entrypoint": "backend/dialogue.py & backend/routers/crm.py & backend/appointment_reschedule.py",
+      "auth": "HTTPBasic (REST) / Explicit Turkish confirmation (Voice)",
+      "side_effects": "BEGIN IMMEDIATE SQLite write, idempotency_key, notifications outbox"
+    },
+    {
+      "workflow_id": "WF-0005",
+      "name": "Supervisor OFF / SHADOW / GUARDED Routing",
+      "entrypoint": "backend/supervisor/runtime.py:WebSupervisor & backend/supervisor/gateway.py:ToolGateway",
+      "auth": "ConfirmedWrite + SupervisorWriteReceipt",
+      "side_effects": "SupervisorTrace write; guarded read_availability / execute_write"
+    },
+    {
+      "workflow_id": "WF-0006",
+      "name": "Automotive Domain Dispatch (Lift, OBD, Dictation, Valuation, WhatsApp)",
+      "entrypoint": "backend/automotive_dispatch.py & backend/queue_lift.py",
+      "auth": "Session-scoped / HTTPBasic",
+      "side_effects": "Lift/Queue & Diagnostic & WhatsApp outbox"
+    },
+    {
+      "workflow_id": "WF-0007",
+      "name": "Outbound Dialer & Operator Transfer",
+      "entrypoint": "backend/outbound_dialer.py, backend/transfer.py, backend/ami.py",
+      "auth": "HTTPBasic / MockAMIClient unless real AMI configured",
+      "side_effects": "Callback request, mock AMI transfer"
+    },
+    {
+      "workflow_id": "WF-0008",
+      "name": "KVKK Erasure & Audio Archive Compliance",
+      "entrypoint": "backend/kvkk_compliance.py, backend/audio_archive_compliance.py",
+      "auth": "HTTPBasic + AUDIO_ARCHIVE_MASTER_KEY HMAC",
+      "side_effects": "Transcript/audio purge & HMAC-sealed archive"
+    }
+  ],
+  "limitations": [
+    "Real AMI/SIP/SMS/WhatsApp providers are mock unless explicitly configured."
+  ]
+}

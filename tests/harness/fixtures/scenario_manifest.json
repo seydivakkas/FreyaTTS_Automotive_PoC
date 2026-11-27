@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "fixture_group": "golden_scenarios",
+  "privacy_class": "SYNTHETIC_NO_PII",
+  "scenarios": [
+    {"scenario_id": "GS01", "title": "Generic greeting", "owner_package": "M02", "executable_now": true},
+    {"scenario_id": "GS02", "title": "Appointment booking with confirmation", "owner_package": "F3", "executable_now": false},
+    {"scenario_id": "GS03", "title": "Changed slot after approval invalidation", "owner_package": "M07", "executable_now": true},
+    {"scenario_id": "GS04", "title": "Ambiguous vehicle candidate", "owner_package": "M05", "executable_now": true},
+    {"scenario_id": "GS05", "title": "No available slot", "owner_package": "F3", "executable_now": false},
+    {"scenario_id": "GS06", "title": "Authorized cancel/reschedule", "owner_package": "M07", "executable_now": true},
+    {"scenario_id": "GS07", "title": "Unauthorized history request denied", "owner_package": "M07", "executable_now": true},
+    {"scenario_id": "GS08", "title": "Partial transcript affirmative word held", "owner_package": "M07", "executable_now": true},
+    {"scenario_id": "GS09", "title": "Duplicate idempotent request", "owner_package": "M07", "executable_now": true},
+    {"scenario_id": "GS10", "title": "Provider timeout / unknown reconciliation", "owner_package": "M07", "executable_now": true},
+    {"scenario_id": "GS11", "title": "Prompt injection tool escalation denied", "owner_package": "M07", "executable_now": true},
+    {"scenario_id": "GS12", "title": "DTMF duplicate suppression", "owner_package": "F0", "executable_now": true},
+    {"scenario_id": "GS13", "title": "Operator transfer mock", "owner_package": "F6", "executable_now": false},
+    {"scenario_id": "GS14", "title": "Soft pause / backchannel resume", "owner_package": "M02", "executable_now": true},
+    {"scenario_id": "GS15", "title": "Hard cancel with late TTS fence", "owner_package": "M02", "executable_now": true},
+    {"scenario_id": "GS16", "title": "Two-session isolation", "owner_package": "M02", "executable_now": true},
+    {"scenario_id": "GS17", "title": "Missing config/model capability", "owner_package": "M03", "executable_now": true},
+    {"scenario_id": "GS18", "title": "Overload and transport disconnect", "owner_package": "M06", "executable_now": true}
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261125T182221Z",
+  "baseline_commit": "6273981e1684686ae85f9458b608764e85a4552c",
+  "records": [
+    "frontend/package-lock.json",
+    "frontend/package.json",
+    "pyproject.toml",
+    "uv.lock"
+  ],
+  "limitations": []
+}

@@ -449,7 +449,7 @@ async def voice_chat_turn_endpoint(body: VoiceChatTurnIn):
         "pipeline_events": pipeline_events,
         "metrics": {
             "llm_total_ms": llm_ms,
-            "first_token_ms": llm_metrics.get("llm_first_token_ms", 120),
+            "first_token_ms": round(llm_metrics.get("llm_first_token_ms", llm_ms), 1),
             "e2e_ms": total_ms,
         },
     }

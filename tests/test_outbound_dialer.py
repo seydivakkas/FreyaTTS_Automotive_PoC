@@ -21,7 +21,9 @@ YAZARIN AÇIK YAZILI İZNİ OLMAKSIZIN HİÇBİR KULLANIM HAKKI TANINMAZ.
 """
 
 import base64
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
+import random
 from unittest.mock import AsyncMock, patch
 import numpy as np
 import pytest
@@ -53,7 +55,8 @@ def sample_appointment():
     with Session() as db:
         v = Vehicle(plate=f"34 AMD {uid()[:4]}", description="Audi A3 1.5 TSI")
         db.add(v)
-        slot = Slot(starts_at=f"2099-11-05T{uid()}Z")
+        dt = datetime(2099, 1, 1, 10, 0, 0, tzinfo=timezone.utc) + timedelta(seconds=random.randint(1, 100_000_000))
+        slot = Slot(starts_at=dt.strftime("%Y-%m-%dT%H:%M:%SZ"))
         db.add(slot)
         db.flush()
         app_rec = Appointment(

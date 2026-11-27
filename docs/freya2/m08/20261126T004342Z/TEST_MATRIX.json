@@ -1,0 +1,418 @@
+{
+  "schema_version": "1.0",
+  "package_id": "M08",
+  "run_id": "20261126T004342Z",
+  "baseline_run_id": "20261126T001600Z",
+  "head_sha": "6273981e1684686ae85f9458b608764e85a4552c",
+  "branch": "master",
+  "source_scope_hash": "bddb7ac19267e378dcdbbddb4abc45e9674d8aefa39d31adc4ee831eb701a254",
+  "scope": "T0_T1_STRUCTURAL_OFFLINE_WINDOWS",
+  "limitations": [
+    "Product T2/T3/T4-stress/T5-human-SIP benchmarks remain NOT_RUN.",
+    "M01-M07 verified via live workspace packages and executable foundation pytest suites; separate historical docs/freya2/m01..m07 folders were not pre-emitted.",
+    "4 pre-existing baseline failures in legacy tests/test_madde3_customer_experience.py and tests/test_voice_path_honesty.py remain documented in M00 RISK_REGISTER.md."
+  ],
+  "logical_cases_count": 80,
+  "cases": [
+    {
+      "test_id": "TH01",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th01_missing_accepted_m00_blocks_with_hold",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH02",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th02_reject_pass_claim_with_missing_gate",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH03",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th03_conflicting_run_candidates_no_timestamp_guess",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH04",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th04_approved_lineage_vs_unexplained_drift",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH05",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th05_optional_seam_absent_keeps_core_hold",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH06",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th06_passive_harness_imports",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH07",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th07_existing_runner_discovery_preserved",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH08",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th08_unknown_suite_and_shell_injection_denied",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH09",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th09_empty_selection_or_mismatch_never_pass",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH10",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th10_bounded_watchdog_terminates_hung_work",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH11",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th11_existing_working_tree_preserved",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH12",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th12_isolated_db_never_opens_production_db",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH13",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th13_outbound_provider_attempt_denied",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH14",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th14_unallowlisted_loopback_denied",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH15",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th15_path_traversal_and_escape_rejected",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH16",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th16_owned_resource_cleanup",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH17",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th17_fake_clock_progression_and_wakeup",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH18",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th18_backward_or_invalid_fake_clock_rejected",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH19",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th19_cross_clock_comparison_rejected",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH20",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th20_barrier_controlled_cancellation_interleaving",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH21",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th21_local_rng_reproducibility_without_mutating_global",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH22",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th22_two_independent_sessions_isolated",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH23",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th23_fixture_hash_mismatch_rejected",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH24",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th24_fixture_generation_cap_exceeded",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH25",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th25_calibration_heldout_overlap_detected",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH26",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th26_8k_pcm16_20ms",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH27",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th27_16k_pcm16_20ms",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH28",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th28_48k_float32_20ms_and_variable_chunk",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH29",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th29_16k_vad_window_vs_20ms_frame",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH30",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th30_analytic_signals_deterministic_finite",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH31",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th31_clipped_and_low_level_analytic_signals",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH32",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th32_invalid_audio_payloads_rejected",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH33",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th33_gap_overlap_and_final_padding_metadata",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH34",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th34_synthetic_speech_label_never_human",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH35",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th35_fake_vad_scripted_offsets",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH36",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th36_fake_asr_partial_then_final_variants",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH37",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th37_fake_asr_late_result_rejected_by_m02_fence",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH38",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th38_fake_asr_unknown_confidence_stays_null",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH39",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th39_fake_llm_malformed_response_safe",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH40",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th40_fake_llm_admin_claim_and_tool_injection_untrusted",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH41",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th41_fake_tts_generated_chunk_metadata",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH42",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th42_fake_tts_invalid_or_reordered_chunk_rejected",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH43",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th43_delayed_fake_tts_after_revoke_rejected",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH44",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th44_fake_gpu_stale_and_missing_probe",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH45",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th45_fake_gpu_async_completion_holds_lease_until_finish",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH46",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th46_fake_gpu_oom_and_quarantine",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH47",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th47_fake_provider_invocation_recording_no_pii",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH48",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th48_temp_db_fixture_schema_and_provenance",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH49",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th49_two_db_connections_concurrent_claim",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH50",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th50_reopen_temp_db_verifies_persistence",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH51",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th51_fake_principal_outside_resource_scope",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH52",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th52_expired_or_modified_confirmation_denied",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH53",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th53_unknown_provider_result_requires_reconcile",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH54",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th54_audit_failure_blocks_protected_effect",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH55",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th55_tcp_fragmented_header_and_body",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH56",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th56_tcp_coalesced_frames",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH57",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th57_disconnect_partial_write_and_backpressure",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH58",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th58_dtmf_duplicate_fixture",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH59",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th59_playback_flush_submit_ack_distinct",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH60",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th60_rtp_reordering_and_loss_separate_from_tcp",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH61",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th61_golden_greeting_replay",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH62",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th62_golden_booking_deferred_and_slot_change_replay",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH63",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th63_golden_ambiguous_vehicle_and_no_slot",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH64",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th64_golden_two_session_isolation",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH65",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th65_replay_same_revision_twice_idempotent",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH66",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th66_fault_plan_targets_occurrence_and_not_production",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH67",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th67_observer_failure_does_not_corrupt_core_control",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH68",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th68_m00_feature_join_detects_missing_or_duplicate",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH69",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th69_feature_mapped_but_no_executable_test_visible",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH70",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th70_historical_failure_preserved_new_regression_blocks",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH71",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th71_api_compatibility_snapshot_checked",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH72",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th72_ui_compatibility_static_scope_retained",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH73",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th73_db_config_seed_compatibility_checked",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH74",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th74_foundation_test_id_registration_no_duplicates",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH75",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th75_evidence_tampered_sha_rejected",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH76",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th76_mandatory_gate_aggregation_truth_table",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH77",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th77_skip_xpass_inconsistent_counts_rejected",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH78",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th78_synthetic_evidence_mislabeled_endpoint_rejected",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH79",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th79_secret_pii_canary_rejected",
+      "mandatory": true
+    },
+    {
+      "test_id": "TH80",
+      "actual_selector": "tests/harness_tests/test_m08_harness.py::test_th80_core_gate_missing_package_blocks_even_when_m08_pass",
+      "mandatory": true
+    }
+  ]
+}

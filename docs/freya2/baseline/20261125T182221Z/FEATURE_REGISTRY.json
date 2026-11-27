@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261125T182221Z",
+  "baseline_commit": "6273981e1684686ae85f9458b608764e85a4552c",
+  "records": [
+    {
+      "feature_id": "F0",
+      "name": "Input DSP",
+      "paths": [
+        "backend/car_denoiser.py",
+        "backend/dsp.py"
+      ]
+    },
+    {
+      "feature_id": "F1",
+      "name": "VAD and interruption",
+      "paths": [
+        "backend/audio.py",
+        "backend/session.py",
+        "backend/semantic_turn_detector.py"
+      ]
+    },
+    {
+      "feature_id": "F2",
+      "name": "ASR and terminology",
+      "paths": [
+        "backend/models.py",
+        "backend/automotive_terminology.py",
+        "backend/turkish_plate.py"
+      ]
+    },
+    {
+      "feature_id": "F3",
+      "name": "Dialogue and workflows",
+      "paths": [
+        "backend/dialogue.py",
+        "backend/appointment_reschedule.py",
+        "backend/automotive_dispatch.py",
+        "backend/queue_lift.py",
+        "backend/caller_memory.py",
+        "backend/transfer.py",
+        "backend/dtmf.py"
+      ]
+    },
+    {
+      "feature_id": "F4",
+      "name": "Text normalization",
+      "paths": [
+        "backend/text.py",
+        "backend/normalizer_rules.py",
+        "backend/automotive_frontend.py"
+      ]
+    },
+    {
+      "feature_id": "F5",
+      "name": "Synthesis",
+      "paths": [
+        "backend/models.py",
+        "backend/batched_ode.py"
+      ]
+    },
+    {
+      "feature_id": "F6",
+      "name": "Media transport",
+      "paths": [
+        "backend/main.py",
+        "backend/audiosocket_server.py",
+        "backend/telephony.py",
+        "backend/websocket_adapter.py"
+      ]
+    }
+  ],
+  "limitations": [
+    "Layer-level mapping. Route and action lineage pending."
+  ]
+}

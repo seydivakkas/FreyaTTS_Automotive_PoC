@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "fixture_group": "transport_cases",
+  "privacy_class": "SYNTHETIC_NO_PII",
+  "audiosocket_kinds": {
+    "hangup": 0,
+    "uuid": 1,
+    "dtmf": 3,
+    "audio": 16,
+    "error": 255
+  },
+  "profiles": {
+    "AUDIOSOCKET_8K_PCM16": {"sample_rate_hz": 8000, "frame_ms": 20, "samples": 160, "bytes": 320},
+    "WEB_16K_PCM16": {"sample_rate_hz": 16000, "frame_ms": 20, "samples": 320, "bytes": 640}
+  }
+}

@@ -1,0 +1,9 @@
+package_id,family,planned_ids_count,test_selector,observed_passed,status
+M01,CT,36,tests/contracts/test_m01_contracts.py,14,PASS
+M02,RT,48,tests/runtime/test_m02_runtime.py,8,PASS
+M03,CR,48,tests/configuration/test_m03_config_registry.py,11,PASS
+M04,OB,56,tests/observability/test_m04_observability.py,10,PASS
+M05,LX,56,tests/lexicon/test_m05_lexicon.py,11,PASS
+M06,GPU,64,tests/runtime_resources/test_m06_scheduler.py,11,PASS
+M07,SEC,72,tests/security/test_m07_security.py,14,PASS
+M08,TH,80,tests/harness_tests/test_m08_harness.py,80,PASS

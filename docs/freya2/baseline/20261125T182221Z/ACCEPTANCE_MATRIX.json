@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261125T182221Z",
+  "baseline_commit": "6273981e1684686ae85f9458b608764e85a4552c",
+  "records": {
+    "overall": "HOLD",
+    "m01_ready": false,
+    "checks": {
+      "archive": "PASS",
+      "integrity": "PASS",
+      "api_ui_coverage": "HOLD",
+      "model_runtime": "NOT_RUN",
+      "physical": "NOT_RUN",
+      "runtime_route_registration": "PASS",
+      "discovered_direct_ui_route_bindings": "PASS",
+      "api_ui_action_and_permission_coverage": "HOLD",
+      "data_business_trace": "HOLD",
+      "pipeline_boundaries": "HOLD",
+      "model_references": "PASS",
+      "effective_model_identity": "NOT_RUN",
+      "preservation_registry_coverage": "HOLD"
+    }
+  },
+  "limitations": []
+}

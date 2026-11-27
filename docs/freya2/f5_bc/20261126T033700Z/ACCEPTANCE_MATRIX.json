@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "package_id": "F5_BC",
+  "run_id": "20261126T033700Z",
+  "w2_integration_run_id": "20261126T032114Z",
+  "f5_a_run_id": "20261126T005606Z",
+  "core_integration_run_id": "20261126T004342Z",
+  "baseline_run_id": "20261126T001600Z",
+  "head_sha": "6273981e1684686ae85f9458b608764e85a4552c",
+  "branch": "master",
+  "source_scope_hash": "bddb7ac19267e378dcdbbddb4abc45e9674d8aefa39d31adc4ee831eb701a254",
+  "scope": "T0_T1_STRUCTURAL_OFFLINE_WINDOWS",
+  "limitations": [
+    "Hardware/CUDA/VRAM/RTF benchmarks remain NOT_RUN.",
+    "Human MOS/ABX, ECAPA/pYIN real-audio calibration, and SIP/PBX tests remain NOT_RUN (fake DiT/VAE + M06 used in structural tests)."
+  ],
+  "overall": "PASS",
+  "f5_b_ready": true,
+  "f5_c_ready": true,
+  "synthetic_product_acceptance_status": "NOT_RUN",
+  "hardware_acceptance_status": "NOT_RUN",
+  "human_sip_status": "NOT_RUN",
+  "mos_status": "NOT_RUN",
+  "gates": {
+    "F5B_RNG_ISOLATION": "PASS",
+    "F5B_TRUE_LENGTH_LAYOUT_UNPADDING": "PASS",
+    "F5B_VERSIONED_CACHE_PRIVACY": "PASS",
+    "F5B_QUALITY_GUARD": "PASS",
+    "F5B_SAME_SEED_RECOVERY": "PASS",
+    "F5C_ADAPTIVE_SOLVER_PROFILES": "PASS",
+    "F5C_DEADLINE_BATCH_BUCKETING": "PASS",
+    "F5C_SPEAKER_PITCH_SEAM": "PASS",
+    "F5A_REGRESSION_PRESERVED": "PASS",
+    "PASSIVE_IMPORTS": "PASS",
+    "HARDWARE_AND_MOS": "NOT_RUN"
+  },
+  "gate_reasons": {
+    "F5B_RNG_ISOLATION": "Request-local IsolatedRngAdapter + ItemRngSpec draws true-shape initial noise without global RNG mutation",
+    "F5B_TRUE_LENGTH_LAYOUT_UNPADDING": "BatchLayoutBuilder stacks true-length latents with deterministic 0.0 pad and TRUE_IS_VALID frame_mask; DecoderAdapter.decode_batch_unpadded decodes per-item unpadded latents",
+    "F5B_VERSIONED_CACHE_PRIVACY": "VersionedCacheStore + CanonicalCacheDescriptor enforce default BYPASS, PII BYPASS, allowlisted public templates, session-confined private cache, monotonic TTL, and retired_bytes borrower accounting",
+    "F5B_QUALITY_GUARD": "QualityGuard enforces structural/collapse/silence/DC/duration checks with rms_dbfs=None on zero energy and QualityStatus.UNKNOWN unless calibrated",
+    "F5B_SAME_SEED_RECOVERY": "SameSeedRecoveryPolicy defaults disabled; when enabled retries at most once with unchanged seed/plan and blocks on uncertain/quarantined/cancelled/expired state",
+    "F5C_ADAPTIVE_SOLVER_PROFILES": "AdaptiveProfileSelector preserves Euler32 baseline by default, supports SHADOW metadata comparison, protects critical speech from downgrade, and maps F4-C speed controls cleanly",
+    "F5C_DEADLINE_BATCH_BUCKETING": "DeadlineBatchFormer under M06 enforces P2/P4/P7 isolation, zero wait for urgent P2, length bucketing with max_padding_fraction<=0.25, and MemoryBudget admission",
+    "F5C_SPEAKER_PITCH_SEAM": "SpeakerIntelligenceEvaluator provides isolated CPU-safe cosine similarity and autocorrelation F0 seam, rejecting unconsented/non-lab manifests with identity_verified=False",
+    "F5A_REGRESSION_PRESERVED": "All 80 F5-A tests + 9 F5-B/C tests passed (89 passed, 0 failed, 0 skipped)",
+    "PASSIVE_IMPORTS": "Clean passive import of backend.neural_synthesis verified in isolated subprocess without torch/cuda/librosa/backend.models",
+    "HARDWARE_AND_MOS": "Real GPU/CUDA inference, ECAPA/pYIN calibration, and human MOS remain NOT_RUN"
+  },
+  "blocking_reasons": []
+}

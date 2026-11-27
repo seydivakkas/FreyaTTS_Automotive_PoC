@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "package_id": "F5_BC",
+  "run_id": "20261126T033700Z",
+  "w2_integration_run_id": "20261126T032114Z",
+  "f5_a_run_id": "20261126T005606Z",
+  "head_sha": "6273981e1684686ae85f9458b608764e85a4552c",
+  "branch": "master",
+  "scope": "T0_T1_STRUCTURAL_OFFLINE_WINDOWS",
+  "command": [
+    ".venv/Scripts/python.exe",
+    "-m",
+    "pytest",
+    "tests/neural_synthesis/test_f5_a_neural_synthesis.py",
+    "tests/neural_synthesis/test_f5_bc_cache_ode.py",
+    "--basetemp=data/temp_pytest_w34_f5",
+    "-q"
+  ],
+  "exit_code": 0,
+  "collected": 89,
+  "passed": 89,
+  "failed": 0,
+  "skipped": 0,
+  "owned_backend_files": [
+    "backend/neural_synthesis/__init__.py",
+    "backend/neural_synthesis/cache_adapter.py",
+    "backend/neural_synthesis/decoder_adapter.py",
+    "backend/neural_synthesis/pipeline.py",
+    "backend/neural_synthesis/solver_adapter.py",
+    "backend/neural_synthesis/f5_bc/__init__.py",
+    "backend/neural_synthesis/f5_bc/adaptive_profiles.py",
+    "backend/neural_synthesis/f5_bc/batch_layout.py",
+    "backend/neural_synthesis/f5_bc/batch_policy.py",
+    "backend/neural_synthesis/f5_bc/cache_store.py",
+    "backend/neural_synthesis/f5_bc/quality_guard.py",
+    "backend/neural_synthesis/f5_bc/recovery_policy.py",
+    "backend/neural_synthesis/f5_bc/rng_adapter.py",
+    "backend/neural_synthesis/f5_bc/speaker_intelligence.py"
+  ],
+  "owned_test_files": [
+    "tests/neural_synthesis/test_f5_a_neural_synthesis.py",
+    "tests/neural_synthesis/test_f5_bc_cache_ode.py"
+  ],
+  "report_dir": "docs/freya2/f5_bc/20261126T033700Z",
+  "evidence_dir": "evidence/f5_bc/20261126T033700Z"
+}

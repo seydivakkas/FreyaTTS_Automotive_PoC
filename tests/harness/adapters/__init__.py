@@ -1,0 +1,51 @@
+"""
+ÖZEL LİSANS — TÜM HAKLAR SAKLIDIR
+
+Telif Hakkı (c) 2026 Seydi Eryılmaz (@seydivakkas)
+
+Bu yazılım ve ilgili tüm dosyalar ("Yazılım") yalnızca görüntüleme ve eğitim
+amaçlı olarak paylaşılmıştır.
+
+YASAKLAR:
+  1. Kopyalanamaz, çoğaltılamaz, dağıtılamaz veya yeniden yayınlanamaz.
+  2. Ticari veya ticari olmayan hiçbir projede kullanılamaz, değiştirilemez.
+  3. Alt lisanslanamaz, satılamaz veya devredilemez.
+  4. Tersine mühendislik yapılamaz.
+
+İZİN VERİLEN KULLANIM:
+  - GitHub üzerinde görüntüleme ve okuma.
+  - Kişisel öğrenim amacıyla kodu inceleme (kopyalamadan).
+
+YAZARIN AÇIK YAZILI İZNİ OLMAKSIZIN HİÇBİR KULLANIM HAKKI TANINMAZ.
+İzin talepleri için: GitHub @seydivakkas
+"""
+from __future__ import annotations
+
+from tests.harness.adapters.fake_asr import FakeASRAdapter
+from tests.harness.adapters.fake_business_provider import FakeBusinessProvider, IsolatedCRMSchemaFixture
+from tests.harness.adapters.fake_gpu import FakeGPUProbeAdapter
+from tests.harness.adapters.fake_identity import FakeIdentityProvider
+from tests.harness.adapters.fake_llm import FakeLLMAdapter
+from tests.harness.adapters.fake_transport import (
+    FakeAudioSocketTransport,
+    FakeDTMFInjector,
+    FakePlaybackEndpoint,
+    FakeRTPDatagramChannel,
+)
+from tests.harness.adapters.fake_tts import FakeTTSAdapter
+from tests.harness.adapters.fake_vad import FakeVADAdapter
+
+__all__ = [
+    "FakeASRAdapter",
+    "FakeAudioSocketTransport",
+    "FakeBusinessProvider",
+    "FakeDTMFInjector",
+    "FakeGPUProbeAdapter",
+    "FakeIdentityProvider",
+    "FakeLLMAdapter",
+    "FakePlaybackEndpoint",
+    "FakeRTPDatagramChannel",
+    "FakeTTSAdapter",
+    "FakeVADAdapter",
+    "IsolatedCRMSchemaFixture",
+]

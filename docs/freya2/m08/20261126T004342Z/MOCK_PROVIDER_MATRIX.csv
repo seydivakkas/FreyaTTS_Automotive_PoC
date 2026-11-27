@@ -1,0 +1,9 @@
+adapter,owner_boundary,source_class,limitations
+FakeVADAdapter,F1_VAD,MOCK_RUNTIME,Scripted sample offsets only; no acoustic VAD.
+FakeASRAdapter,F2_ASR,MOCK_RUNTIME,Scripted transcripts; no WER/CER.
+FakeLLMAdapter,F3_LLM,MOCK_RUNTIME,Untrusted proposals only; zero authority.
+FakeTTSAdapter,F5_TTS,SYNTHETIC_FIXTURE,Analytic sine chunks; never production fallback.
+FakeGPUProbeAdapter,M06_GPU,MOCK_RUNTIME,Scripted MemoryProbe; no real NVML/CUDA.
+FakeAudioSocketTransport,F6_TRANSPORT,MOCK_RUNTIME,In-memory stream; no real PBX/SIP.
+FakeIdentityProvider,M07_AUTH,MOCK_RUNTIME,Opaque synthetic principals only.
+FakeBusinessProvider,F3_CRM,MOCK_RUNTIME,Isolated synthetic SQLite CRM fixture.

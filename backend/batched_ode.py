@@ -290,6 +290,7 @@ class BatchedODEEngine:
     async def _process_queue_now(self) -> None:
         """Kuyruktaki en fazla batch_size elemanı çeker ve GPU Euler ODE çözücüsüne verir."""
         async with self._queue_lock:
+            self._queue = [item for item in self._queue if not item.future.done()]
             if not self._queue:
                 return
             batch = self._queue[: self.batch_size]
@@ -318,6 +319,8 @@ class BatchedODEEngine:
                     batch[0].future.set_exception(batch_error)
                 return
             for item in batch:
+                if item.future.done():
+                    continue
                 try:
                     solve_start = time.monotonic()
                     single = await asyncio.to_thread(self._solve_ode_batch, [item])
@@ -379,10 +382,10 @@ class BatchedODEEngine:
             # Seslilik kontrolü
             v_score = check_voicedness(w, SAMPLE_RATE)
             if v_score < 0.06:
-                # Fısıltı çökmesi tespit edildi -> Leyla 9 ile hazırla ve yeniden sentezle
+                # Metni yeniden hazırla ve görüşmenin ses kimliğiyle tekrar sentezle.
                 self.whisper_collapses_prevented += 1
                 if self.synth_fallback_fn is not None:
-                    w = self.synth_fallback_fn(prepare_tts_clause(item.text), seed=LEYLA_SEED)
+                    w = self.synth_fallback_fn(prepare_tts_clause(item.text), seed=item.seed)
 
             w_clean = apply_fade_and_comfort_noise(w)
             results.append(w_clean)

@@ -1,0 +1,17 @@
+{
+  "backend/audio_frontend/__init__.py": "4b380c7958758657d650331c3b9260a0cb1c9da7cbe86c291c92adf86c1b8849",
+  "backend/audio_frontend/config_adapter.py": "ef7d5673dea9bfc7f76633f516cd9b0025f84d7e4d218830d22775215890404a",
+  "backend/audio_frontend/stream_state.py": "be4e87ce84ad3593f80a9dc02c88fe19051a9fc9184a7219d54b0a660a091492",
+  "backend/audio_frontend/pipeline.py": "01feb7e04042e33c5e9abd04863d0180d4ac7a5f3ecc88aca76047dcb4d2ddcb",
+  "backend/audio_frontend/f0_b/__init__.py": "6dc94176d4fd23d01fdb2fbaa7c287850adbf5dc4022d64c5159dd71d93e7402",
+  "backend/audio_frontend/f0_b/profiles.py": "d88a721d4daffa95536d2c60ef16a9446cf1d8f2b36e68f05d60e9a54ebc7468",
+  "backend/audio_frontend/f0_b/reference_adapter.py": "c23b255228349607cf2a2d1a7aceea529680a8e4f4fbcf087ea3a2e5a2362803",
+  "backend/audio_frontend/f0_b/delay_estimator.py": "a057d05c88b1f8cff96ab81ab203fbfa90bb082f314c4cd10fc2f2b72275535a",
+  "backend/audio_frontend/f0_b/double_talk.py": "72d0082f5b50baa86f3bf18a5923ccfbdad97cf37f8fffefc604d38a46b81d65",
+  "backend/audio_frontend/f0_b/aec_adapter.py": "d6f103eccea5c87116c71f0e55adc5bdcfb752a15326ddbc2684918ca7c0ec83",
+  "backend/audio_frontend/f0_b/adaptive_denoiser.py": "c90ad6433179eedebd6b7b37fe8174864757db2ae4da7dd1a98f4d72206deef0",
+  "backend/audio_frontend/f0_b/rnnoise_adapter.py": "e698ddbaccfee81f6003890409d1ccdeb555920677087900a5fd6482b097c135",
+  "backend/audio_frontend/f0_b/acoustic_evidence.py": "61cabbce57aa14745afc029f518336ad4ba2d3e7e5a5972a649f0b077fc91c49",
+  "backend/audio_frontend/f0_b/adaptive_chain.py": "57d623a5aaf502b64e94254ce05a479481f421b6cb94f35bd29c40d1787d1e55",
+  "tests/audio_frontend/test_f0_b_adaptive_dsp.py": "5e311565d83171d02f52c5ad66d2390297884cbdb2941df56fb1c12c0b5d3394"
+}

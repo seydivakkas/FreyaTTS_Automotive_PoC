@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "package_id": "F3_A",
+  "run_id": "20261126T015730Z",
+  "baseline_run_id": "20261126T001600Z",
+  "core_integration_run_id": "20261126T004342Z",
+  "f2_a_run_id": "20261126T005553Z",
+  "head_sha": "6273981e1684686ae85f9458b608764e85a4552c",
+  "branch": "master",
+  "scope": "T0_T1_STRUCTURAL_OFFLINE_WINDOWS",
+  "exit_code": 0,
+  "collected": 80,
+  "passed": 80,
+  "failed": 0,
+  "report_dir": "docs/freya2/f3_a/20261126T015730Z",
+  "evidence_dir": "evidence/f3_a/20261126T015730Z",
+  "logs": [
+    "evidence/f3_a/20261126T015730Z/logs/pytest_f3_a.log"
+  ]
+}

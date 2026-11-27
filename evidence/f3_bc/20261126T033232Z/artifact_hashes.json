@@ -1,0 +1,11 @@
+{
+  "backend/supervisor/intent_router.py": "c01b55275bf9bbffcf81d8164206ea31332754451abf4daffdb0f28222c8075c",
+  "backend/supervisor/specialist_registry.py": "35203ebf170d7a2c2333f78446b0511b79d38d1c232163df09c3f6f801646f9e",
+  "backend/supervisor/rag_retriever.py": "398edd5963861f190e364a7a39946664a7393026ce4e5234b643ee9b62e17fdf",
+  "backend/supervisor/workflow_dag.py": "fad2be65815d86bbb4f6500dbccf0258e2e0f4362dcfae7ae693330c3b728934",
+  "backend/supervisor/workflow_adapter.py": "8351bceebe5a367a1030082f89ead40b97b1595735b9d9ea9c0817b829e24535",
+  "backend/supervisor/dialogue_facade.py": "5c1687efcf010161f36871a7d7fa82304a34c222df082b2582529837a61820db",
+  "tests/dialogue_foundation/test_f3_bc_routing_rag.py": "b22d7a73947747a9f2ae0790c96944f94c20d9e0c08b66697f4632924bafa130",
+  "docs/freya2/f3_bc/20261126T033232Z/ACCEPTANCE_MATRIX.json": "2fe709965b119031ea4b797dd4cb9a8258ba38ce2ff3b3a2fcc4334aa05450a0",
+  "evidence/f3_bc/20261126T033232Z/manifest.json": "348f1f26314bb943d632cf661be0e65828491a305a173000b657519dc4c852a4"
+}

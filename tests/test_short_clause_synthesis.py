@@ -1,7 +1,7 @@
 """Kısa ifadelerde süre şişmesi ve virgülde bölünme regresyonları."""
 
 from backend.batched_ode import clause_frame_count
-from backend.text import clauses
+from backend.text import clauses, normalize
 
 
 def _parts(text):
@@ -27,6 +27,14 @@ def test_long_comma_clause_still_splits():
 
 def test_sentence_boundary_is_not_merged():
     assert _parts("Evet. Onaylıyorum.") == ["Evet.", "Onaylıyorum."]
+
+
+def test_spoken_option_ordinals_stay_with_their_clause():
+    result = normalize("1. seçenek 25 Kasım saat 10:00. 24. seçenek saat 14:30.")
+    assert _parts(result["normalized"]) == [
+        "birinci seçenek yirmi beş Kasım saat on.",
+        "yirmi dördüncü seçenek saat on dört otuz.",
+    ]
 
 
 def test_trailing_short_comma_clause_is_not_lost():

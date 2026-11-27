@@ -1,0 +1,23 @@
+{
+  "backend/audio_frontend/__init__.py": "41b18b73cbd618d9648162302d8fbe18a9e487ce061a5c2c27496463eb3246dc",
+  "backend/audio_frontend/config_adapter.py": "9b54b905a0f1c47d3ba3ebd83b23688941798be05ee4b58a7d70516ae04a0cc9",
+  "backend/audio_frontend/dispatcher.py": "023915c688e175659c0e4284de239a9fb9463359262839edeb606052420d7321",
+  "backend/audio_frontend/format_validator.py": "b4701156264e45d1b6d6dfed9cdf56c898fad2e5e653af1f627777333ab67e67",
+  "backend/audio_frontend/input_adapter.py": "d947b8f4f856a3e866bd4909ff1f51730f6ac3bae3e9c0a0b1d0de188081440d",
+  "backend/audio_frontend/legacy_adapter.py": "2c7f2201f96079c8cf554a5918c4766892d9ee380fd9960d6743d9ae51b69e6a",
+  "backend/audio_frontend/legacy_dsp_adapter.py": "80253ac10a30b58c4794bac7d4aaf054117798bc6b74601a751f9bb9daf6a22d",
+  "backend/audio_frontend/lifecycle.py": "6e6b293ea5b32670f968cef2d9374cd79d1ea4f0559e7a507f7bd4dcc8c6f464",
+  "backend/audio_frontend/pcm_conversion.py": "9f726b53a4314650966f2cb8b6abfefe8a6d3912a96823d1b4eea30149d906fd",
+  "backend/audio_frontend/pipeline.py": "10880e195eb73236ec543765f84627186d77dbaca18b78f1cd672aefa8679e74",
+  "backend/audio_frontend/quality_analyzer.py": "d4338e7158b8d5ff98a6378477630996bed69210d727a6b7d67a4d8db9347300",
+  "backend/audio_frontend/raw_dtmf_bridge.py": "58efeeaa508b01a59846c3da05e55f2cc5c62a592af64572f8ce5230ecf2caba",
+  "backend/audio_frontend/resampler.py": "358d0702974ff9413fe8fa39053d9bb54ef0a677b64e3901d7ec66b8451792aa",
+  "backend/audio_frontend/sample_accounting.py": "58e845d99df23ed1a9204c6695a79fe6c0b9c363b371187332743843ef173cd6",
+  "backend/audio_frontend/stream_state.py": "736485d4e8c397a54de7b71f82c067112866694d04bf5a4a3946058472df2541",
+  "backend/audio_frontend/telemetry.py": "61d96fe4347f72ebde365f053a9868192292813cecd1b2f1c8904e23cb9efccc",
+  "docs/freya2/f0_a/20261126T015537Z/ACCEPTANCE_MATRIX.json": "d17be60e64cd866c04af56664df6d5d2330d727afce6adbbe37b0b8ffad6ec31",
+  "docs/freya2/f0_a/20261126T015537Z/F0_A_REPORT.md": "c801e7e71ffc6cbc8b59cf9da1477773ae016e31ed76c39dc59189ff87c547fe",
+  "evidence/f0_a/20261126T015537Z/logs/pytest_f0_a.log": "7ba7be444964faaa2f2ff2e8c53a530e44912c4e72a07b2d8b96778972ea11f5",
+  "evidence/f0_a/20261126T015537Z/manifest.json": "8ac46bb00b5cca8e5c13254147abaf6a9f3c62faddaa5f1f8bfeae30d29e66aa",
+  "tests/audio_frontend/test_f0_a_audio_frontend.py": "3b9c3c98e0a3927fecb91d7bf9d49ec3d896a375858c137e49a3b6be7a5b4339"
+}

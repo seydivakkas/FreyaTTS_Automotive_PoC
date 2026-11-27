@@ -15,7 +15,15 @@ export type StageStatus =
   | "skipped"
   | "bypassed";
 
-export const LIVE_MEASURED_STAGES: readonly StageId[] = ["F2", "F3", "F4", "F5"];
+export const LIVE_MEASURED_STAGES: readonly StageId[] = [
+  "F0",
+  "F1",
+  "F2",
+  "F3",
+  "F4",
+  "F5",
+  "F6",
+];
 
 export type TelemetrySource = "live" | "demo" | "replay";
 

@@ -1,0 +1,9 @@
+package_id,authoritative_path,seam_verified
+M01,backend/core/contracts/,TRUE
+M02,backend/core/runtime/,TRUE
+M03,backend/core/configuration/ + backend/core/model_registry/,TRUE
+M04,backend/observability/,TRUE
+M05,backend/shared_lexicon/,TRUE
+M06,backend/runtime_resources/,TRUE
+M07,backend/security/,TRUE
+M08,tests/harness/,TRUE

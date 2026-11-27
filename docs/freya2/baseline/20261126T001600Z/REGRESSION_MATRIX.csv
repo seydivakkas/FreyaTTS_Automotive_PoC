@@ -1,0 +1,19 @@
+feature_id,target_owner,preserve_behavior,existing_tests,baseline_status
+FT-CORE-0001,CORE,"Preserve /api/health, /api/readiness, /api/models/load, /api/session-ticket and /ws/voice",tests/test_api.py;tests/test_core.py,PASS
+FT-CORE-0002,CORE,Preserve automotive_voice.core compatibility and M01-M11 durable session bridge,tests/milestones/test_m01.py;tests/milestones/test_m02.py,PASS
+FT-CORE-0003,CORE,"Preserve all 77 Settings keys, env aliases, defaults and demo isolation",tests/test_core.py;tests/test_security_hardening.py,PASS
+FT-CORE-0004,CORE,Preserve Schema v3.0 pipeline events and FQICI durability,tests/test_pipeline_telemetry.py;tests/test_fqici_queue.py,PASS
+FT-F0-0001,F0,"Preserve 120Hz 4th-order Butterworth HPF, overlap-add denoiser, soft AGC and API preview",tests/test_car_denoiser.py,PASS
+FT-F0-0002,F0,Preserve 8/16/24/44.1/48 kHz mono input validation and raw pre-DSP DTMF tap,tests/test_dtmf.py;tests/test_dtmf_false_positive.py,PASS
+FT-F1-0001,F1,Preserve models.new_vad() per-session CPU deepcopy isolation and 512-sample 16kHz windowing,tests/test_session.py;tests/test_voice_path_honesty.py,PASS
+FT-F1-0002,F1,"Preserve SemanticTurnDetector endpoints, LookbackBuffer and TwoStageBargeInController",tests/test_semantic_turn_detector.py;tests/test_audiosocket_server.py,PASS
+FT-F2-0001,F2,"Preserve Turkish beam=1 transcription, catalog+custom hotwords, and RMS/logprob guards",tests/test_session.py;tests/test_p5_latency.py,PASS
+FT-F2-0002,F2,"Preserve canonicalize_asr_text, TurkishPlateParser and match_catalog_vehicle",tests/test_automotive_terminology.py;tests/test_poc_spoken_plate_and_intent.py,PASS
+FT-F3-0001,F3,"Preserve Turkish dialogue state machine, explicit confirmation, reschedule/cancel and caller memory",tests/test_workflow.py;tests/test_madde3_customer_experience.py,FAIL
+FT-F3-0002,F3,"Preserve OFF/SHADOW/GUARDED modes, ConfirmedWrite idempotency and SupervisorTrace review",tests/test_supervisor.py;tests/test_supervisor_views.py,PASS
+FT-F3-0003,F3,Preserve all automotive domain routers and dispatchers,tests/test_automotive_dispatch.py;tests/test_queue_lift.py;tests/test_automotive_ontology.py,PASS
+FT-F3-0004,F3,"Preserve BEGIN IMMEDIATE CRM transactions, outbound campaigns and KVKK/HMAC archive",tests/test_madde5_kvkk_compliance.py;tests/test_outbound_dialer.py;tests/test_audio_archive_compliance.py,PASS
+FT-F4-0001,F4,"Preserve single normalization semantics, 92-char Freya vocab guard and lexicon API",tests/test_automotive_frontend.py;tests/test_morphological_pre_checker.py;experimental/tests/test_tts_normalization.py,PASS
+FT-F5-0001,F5,"Preserve LEYLA_SEED=9, 32-step Euler baseline, voicedness collapse guard and A/B seeds",tests/test_batched_ode.py;tests/test_ab_testing.py;tests/test_sft_leyla.py,PASS
+FT-F6-0001,F6,"Preserve 10ms cosine fade, 120Hz+3.2kHz EQ, 20ms pacing, AudioSocket BE framing and ChanWS",tests/test_telephony_codec_and_pjsip_honesty.py;tests/test_chan_websocket.py;tests/test_transfer.py,PASS
+FT-UI-0001,UI,"Preserve all 29 nav items, 4 cockpit areas, honest metric display and demo banner",frontend/tests/operator_today.spec.ts;frontend/tests/supervisor.spec.ts,PASS

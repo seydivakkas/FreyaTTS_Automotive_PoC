@@ -1,0 +1,117 @@
+"""
+ÖZEL LİSANS — TÜM HAKLAR SAKLIDIR
+
+Telif Hakkı (c) 2026 Seydi Eryılmaz (@seydivakkas)
+"""
+from backend.core.contracts.audio import AudioEncoding, AudioFormat, AudioFrame
+from backend.core.contracts.common import (
+    CONTRACT_SCHEMA_VERSION,
+    CapabilityDescriptor,
+    CapabilityState,
+    CancellationReference,
+    ContractVersion,
+    ErrorCategory,
+    ErrorInfo,
+    EventEnvelope,
+    GenerationRef,
+    MetricSample,
+    MetricStatus,
+    Retryability,
+    SessionIdentity,
+    StreamDirection,
+    StreamRef,
+    TurnRef,
+)
+from backend.core.contracts.dialogue import (
+    ConfirmationReference,
+    DialogueOutcome,
+    DialogueResponse,
+    ProviderMode,
+    ToolReceipt,
+    ToolReceiptStatus,
+    VerifiedFactRef,
+)
+from backend.core.contracts.playback import (
+    ObservationScope,
+    PlaybackEvent,
+    PlaybackEventKind,
+    PlaybackProfile,
+    RenderedFrame,
+)
+from backend.core.contracts.recognition import (
+    ASROutcome,
+    ASRResult,
+    ASRStatus,
+    CatalogStatus,
+    ConfidenceEstimate,
+    ConfirmationStatus,
+    EntityCandidate,
+    UnicodeSpan,
+)
+from backend.core.contracts.serialization import metadata_to_json, safe_telemetry_projection
+from backend.core.contracts.speech import SpeechEvent, SpeechEventKind, Utterance
+from backend.core.contracts.synthesis import (
+    AudioChunk,
+    CacheStatus,
+    ChunkPlan,
+    PlanValidationStatus,
+    QualityStatus,
+    SynthesisPlan,
+    validate_plan_chunk_consistency,
+)
+from backend.core.contracts.validation import ConversionResult
+
+__all__ = [
+    "ASROutcome",
+    "ASRResult",
+    "ASRStatus",
+    "AudioChunk",
+    "AudioEncoding",
+    "AudioFormat",
+    "AudioFrame",
+    "CONTRACT_SCHEMA_VERSION",
+    "CacheStatus",
+    "CancellationReference",
+    "CapabilityDescriptor",
+    "CapabilityState",
+    "CatalogStatus",
+    "ChunkPlan",
+    "ConfidenceEstimate",
+    "ConfirmationReference",
+    "ConfirmationStatus",
+    "ContractVersion",
+    "ConversionResult",
+    "DialogueOutcome",
+    "DialogueResponse",
+    "EntityCandidate",
+    "ErrorCategory",
+    "ErrorInfo",
+    "EventEnvelope",
+    "GenerationRef",
+    "MetricSample",
+    "MetricStatus",
+    "ObservationScope",
+    "PlanValidationStatus",
+    "PlaybackEvent",
+    "PlaybackEventKind",
+    "PlaybackProfile",
+    "ProviderMode",
+    "QualityStatus",
+    "RenderedFrame",
+    "Retryability",
+    "SessionIdentity",
+    "SpeechEvent",
+    "SpeechEventKind",
+    "StreamDirection",
+    "StreamRef",
+    "SynthesisPlan",
+    "ToolReceipt",
+    "ToolReceiptStatus",
+    "TurnRef",
+    "UnicodeSpan",
+    "Utterance",
+    "VerifiedFactRef",
+    "metadata_to_json",
+    "safe_telemetry_projection",
+    "validate_plan_chunk_consistency",
+]

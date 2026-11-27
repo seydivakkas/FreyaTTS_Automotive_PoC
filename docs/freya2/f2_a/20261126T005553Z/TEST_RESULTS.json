@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "package_id": "F2_A",
+  "run_id": "20261126T005553Z",
+  "scope": "T0_T1_STRUCTURAL_OFFLINE_WINDOWS",
+  "exit_code": 0,
+  "collected": 72,
+  "passed": 72,
+  "failed": 0,
+  "skipped": 0,
+  "summary_line": "72 passed in 2.46s",
+  "log_ref": "evidence/f2_a/20261126T005553Z/logs/pytest_f2_a.log"
+}

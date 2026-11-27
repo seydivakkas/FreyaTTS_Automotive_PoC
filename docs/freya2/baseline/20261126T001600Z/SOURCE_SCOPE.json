@@ -1,0 +1,4672 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261126T001600Z",
+  "baseline_commit": "6273981e1684686ae85f9458b608764e85a4552c",
+  "records": [
+    {
+      "path": ".agents/skills/baseline-ui/SKILL.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 3531
+    },
+    {
+      "path": ".agents/skills/web-design-reviewer/references/framework-fixes.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 7437
+    },
+    {
+      "path": ".agents/skills/web-design-reviewer/references/visual-checklist.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 5989
+    },
+    {
+      "path": ".agents/skills/web-design-reviewer/SKILL.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 10657
+    },
+    {
+      "path": ".env",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".env.example",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 1532
+    },
+    {
+      "path": ".FullName/test_tier1_f1_normalize_automo0/test_client_a667bdb6.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier1_f1_session_ticket_l0/test_client_981066a0.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier1_f1_synthesize_endpo0/test_client_bc1cfda2.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier1_f1_voice_chat_turn_0/test_client_f3fb9f6c.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier1_f1_voice_session_te0/test_e2e_fc7c9c26.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier1_f1_websocket_handsh0/test_client_453ae9af.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier1_f2_lift_status_and_0/test_e2e_b386f4a5.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier1_f3_caller_profile_c0/test_e2e_0ad3469a.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier1_f3_caller_profile_l0/test_e2e_b6a2b36d.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier1_f3_format_caller_me0/test_e2e_c06ff764.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier1_f3_past_maintenance0/test_e2e_ff071c3d.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier1_f3_warranty_inquiry0/test_e2e_6b4c0831.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier1_f3_warranty_inquiry1/test_e2e_ed679af7.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier1_f4_export_dataset_f0/dataset_export.jsonl",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 2178
+    },
+    {
+      "path": ".FullName/test_tier1_f5_appointment_book0/test_client_6ddcc006.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier1_f5_appointment_canc0/test_client_355c0954.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier1_f5_health_check_end0/test_client_b9d488aa.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier1_f5_ontology_schema_0/test_client_a3ecfcd8.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier1_f5_vehicle_and_quot0/test_client_8e7b0adb.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier2_f1_concurrent_voice0/test_client_3df9ced3.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier2_f1_empty_text_input0/test_client_77e26f40.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier2_f1_expired_session_0/test_client_fe9b278e.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier2_f1_oversized_audio_0/test_client_58616889.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier2_f1_unsupported_audi0/test_client_82849abc.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier2_f3_boundary_warrant0/test_e2e_43eea2a5.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier2_f3_corrupted_mainte0/test_e2e_e3fae877.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier2_f3_nonexistent_prof0/test_e2e_aa03eea8.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier2_f4_export_creates_m0/deep/nested/folder/dataset.jsonl",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 644
+    },
+    {
+      "path": ".FullName/test_tier2_f5_duplicate_slot_b0/test_client_db594ddd.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier2_f5_invalid_credenti0/test_client_7b717e36.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier2_f5_missing_appointm0/test_client_d9aca5f0.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier2_f5_negative_quote_a0/test_client_85b91b6e.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier2_f5_unauthenticated_0/test_client_39594c73.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier3_cross_caller_memory0/test_e2e_dc1f1878.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier3_cross_caller_profil0/test_client_d64cffdb.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier3_cross_caller_profil0/test_e2e_659f11c2.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier3_cross_obd_dtc_safet0/test_e2e_2ca74cdb.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier3_cross_technician_di0/test_e2e_272680a5.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier4_scenario1_customer_0/test_client_34b6bdf9.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier4_scenario1_customer_0/test_e2e_48e225f3.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier4_scenario2_returning0/test_e2e_955124c5.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier4_scenario3_urgent_ob0/test_e2e_37f94652.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".FullName/test_tier4_scenario4_reception0/finetune_alpaca.jsonl",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 6516
+    },
+    {
+      "path": ".FullName/test_tier4_scenario4_reception0/finetune_sharegpt.jsonl",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 7626
+    },
+    {
+      "path": ".FullName/test_tier4_scenario5_master_te0/test_e2e_637bb58c.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".gitattributes",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 163
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 2659
+    },
+    {
+      "path": ".gitignore",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 508
+    },
+    {
+      "path": ".playwright-mcp/console-2026-11-10T02-58-01-286Z.log",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 314
+    },
+    {
+      "path": ".playwright-mcp/console-2026-11-10T06-17-04-986Z.log",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 314
+    },
+    {
+      "path": ".playwright-mcp/console-2026-11-10T12-23-19-383Z.log",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 314
+    },
+    {
+      "path": ".playwright-mcp/console-2026-11-10T12-36-25-985Z.log",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 314
+    },
+    {
+      "path": ".playwright-mcp/console-2026-11-12T22-31-52-227Z.log",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 314
+    },
+    {
+      "path": ".playwright-mcp/console-2026-11-12T22-55-35-524Z.log",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 314
+    },
+    {
+      "path": ".playwright-mcp/console-2026-11-13T02-44-36-047Z.log",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 314
+    },
+    {
+      "path": ".playwright-mcp/console-2026-11-13T03-07-11-317Z.log",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 822
+    },
+    {
+      "path": ".playwright-mcp/console-2026-11-13T03-08-48-924Z.log",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 176
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-10T02-58-01-514Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 416
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-10T02-58-29-632Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 3012
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-10T02-58-38-720Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 6472
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-10T02-58-47-692Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 10823
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-10T02-59-13-912Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 9498
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-10T02-59-21-651Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 8260
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-10T02-59-31-874Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 5583
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-10T02-59-48-742Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 4397
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-10T02-59-56-309Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 7358
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-10T03-09-33-693Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 3032
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-10T03-09-38-183Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 3023
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-10T03-11-10-688Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 3023
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-10T06-17-05-416Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 416
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-10T06-18-27-856Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 3306
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-10T06-19-10-572Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 3737
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-10T06-20-12-892Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 6201
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-10T12-23-20-267Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 416
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-10T12-23-52-680Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 12255
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-10T12-24-42-632Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 13882
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-10T12-25-14-222Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 12312
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-10T12-25-40-954Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 12348
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-10T12-26-09-163Z.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-10T12-26-36-601Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 12392
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-10T12-36-26-139Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 416
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-10T12-36-40-550Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 12670
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-10T12-36-45-927Z.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-12T22-31-52-468Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 416
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-12T22-32-04-370Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 11118
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-12T22-32-22-738Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 12540
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-12T22-32-27-729Z.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-12T22-33-05-785Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 15063
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-12T22-33-11-605Z.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-12T22-55-35-637Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 416
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-12T22-56-08-632Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 13630
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-12T22-56-13-347Z.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-12T22-56-26-843Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 23756
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-12T22-56-30-954Z.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-12T22-56-39-436Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 12861
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-12T22-56-43-881Z.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-12T22-56-50-929Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 16390
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-12T22-56-55-254Z.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-12T22-57-08-210Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 13741
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-12T22-57-13-436Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 16221
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-12T22-57-17-827Z.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-13T02-44-36-182Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 416
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-13T02-44-59-637Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 16371
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-13T02-45-21-406Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 17184
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-13T03-07-11-807Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 416
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-13T03-07-26-583Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 16693
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-13T03-07-48-285Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 17521
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-13T03-08-49-029Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 434
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-13T03-09-10-483Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 17315
+    },
+    {
+      "path": ".playwright-mcp/page-2026-11-13T03-09-39-797Z.yml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 18257
+    },
+    {
+      "path": "alembic.ini",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 86
+    },
+    {
+      "path": "archive/automotive_freya_poc.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 19966
+    },
+    {
+      "path": "archive/FreyaTTS Çoklu Ajan Mimari Tasarımı.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 418171
+    },
+    {
+      "path": "archive/patch_sft_tools.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2266
+    },
+    {
+      "path": "archive/poc_test_1_48khz.wav",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "archive/poc_test_1_8khz_telephony.wav",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "archive/poc_test_2_48khz.wav",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "archive/poc_test_2_8khz_telephony.wav",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "archive/poc_test_3_48khz.wav",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "archive/poc_test_3_8khz_telephony.wav",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "archive/poc_test_4_48khz.wav",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "archive/poc_test_4_8khz_telephony.wav",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "archive/run_poc.bat",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 114
+    },
+    {
+      "path": "archive/summarize_agents.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 762
+    },
+    {
+      "path": "archive/test_output.txt",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 3176
+    },
+    {
+      "path": "asterisk/extensions.conf",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 2813
+    },
+    {
+      "path": "automotive_voice/__init__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 72
+    },
+    {
+      "path": "automotive_voice/adapters/__init__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 0
+    },
+    {
+      "path": "automotive_voice/adapters/fake.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 922
+    },
+    {
+      "path": "automotive_voice/adapters/lifecycle/__init__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 829
+    },
+    {
+      "path": "automotive_voice/adapters/lifecycle/breaker.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1506
+    },
+    {
+      "path": "automotive_voice/adapters/lifecycle/clock.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 645
+    },
+    {
+      "path": "automotive_voice/adapters/lifecycle/contracts.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 5669
+    },
+    {
+      "path": "automotive_voice/adapters/lifecycle/runtime.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 11001
+    },
+    {
+      "path": "automotive_voice/adapters/lifecycle/streaming.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 5834
+    },
+    {
+      "path": "automotive_voice/adapters/lifecycle/supervisor.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 3999
+    },
+    {
+      "path": "automotive_voice/audio/__init__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 386
+    },
+    {
+      "path": "automotive_voice/audio/contracts.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 5556
+    },
+    {
+      "path": "automotive_voice/audio/coordinator.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 4523
+    },
+    {
+      "path": "automotive_voice/audio/ports.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 554
+    },
+    {
+      "path": "automotive_voice/audio/queue.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 6194
+    },
+    {
+      "path": "automotive_voice/conversation/__init__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 375
+    },
+    {
+      "path": "automotive_voice/conversation/effects.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1185
+    },
+    {
+      "path": "automotive_voice/conversation/reducer.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 17787
+    },
+    {
+      "path": "automotive_voice/conversation/signals.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 3689
+    },
+    {
+      "path": "automotive_voice/core/__init__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 0
+    },
+    {
+      "path": "automotive_voice/core/audio.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2710
+    },
+    {
+      "path": "automotive_voice/core/cancellation.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2250
+    },
+    {
+      "path": "automotive_voice/core/event_bus.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 3670
+    },
+    {
+      "path": "automotive_voice/core/events.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 5400
+    },
+    {
+      "path": "automotive_voice/core/identifiers.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1064
+    },
+    {
+      "path": "automotive_voice/core/session.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1949
+    },
+    {
+      "path": "automotive_voice/core/session_manager.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 12557
+    },
+    {
+      "path": "automotive_voice/dialogue/__init__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 542
+    },
+    {
+      "path": "automotive_voice/dialogue/booking_state.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1894
+    },
+    {
+      "path": "automotive_voice/dialogue/coordinator.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 3628
+    },
+    {
+      "path": "automotive_voice/dialogue/models.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 4564
+    },
+    {
+      "path": "automotive_voice/dialogue/policy.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 14265
+    },
+    {
+      "path": "automotive_voice/dialogue/ports.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 4281
+    },
+    {
+      "path": "automotive_voice/dialogue/storage.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 3230
+    },
+    {
+      "path": "automotive_voice/domain/__init__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 0
+    },
+    {
+      "path": "automotive_voice/domain/booking.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 363
+    },
+    {
+      "path": "automotive_voice/e2e/__init__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 159
+    },
+    {
+      "path": "automotive_voice/e2e/runner.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 23916
+    },
+    {
+      "path": "automotive_voice/m01_demo.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1534
+    },
+    {
+      "path": "automotive_voice/m02_demo.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1997
+    },
+    {
+      "path": "automotive_voice/m03_demo.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2453
+    },
+    {
+      "path": "automotive_voice/m04_report.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 3006
+    },
+    {
+      "path": "automotive_voice/m05_demo.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1670
+    },
+    {
+      "path": "automotive_voice/m05_report.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 3058
+    },
+    {
+      "path": "automotive_voice/m06_demo.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2159
+    },
+    {
+      "path": "automotive_voice/m07_demo.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 4039
+    },
+    {
+      "path": "automotive_voice/m09_demo.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 365
+    },
+    {
+      "path": "automotive_voice/m10_demo.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2857
+    },
+    {
+      "path": "automotive_voice/m11/__init__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 87
+    },
+    {
+      "path": "automotive_voice/m11/__main__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 22524
+    },
+    {
+      "path": "automotive_voice/m11/acceptance.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 9874
+    },
+    {
+      "path": "automotive_voice/m11/html_report.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2475
+    },
+    {
+      "path": "automotive_voice/mock_demo.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 931
+    },
+    {
+      "path": "automotive_voice/nlp/__init__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 628
+    },
+    {
+      "path": "automotive_voice/nlp/a01yt_adapter.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 3559
+    },
+    {
+      "path": "automotive_voice/nlp/bridge.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1091
+    },
+    {
+      "path": "automotive_voice/nlp/lexicon.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 6436
+    },
+    {
+      "path": "automotive_voice/nlp/nlu.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 9317
+    },
+    {
+      "path": "automotive_voice/nlp/normalizer.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 8694
+    },
+    {
+      "path": "automotive_voice/operator/__init__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 84
+    },
+    {
+      "path": "automotive_voice/operator/__main__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1053
+    },
+    {
+      "path": "automotive_voice/operator/review_store.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 7694
+    },
+    {
+      "path": "automotive_voice/operator/runtime.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 11603
+    },
+    {
+      "path": "automotive_voice/operator/server.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 7115
+    },
+    {
+      "path": "automotive_voice/operator/static/app.css",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 13766
+    },
+    {
+      "path": "automotive_voice/operator/static/app.js",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 14496
+    },
+    {
+      "path": "automotive_voice/operator/static/index.html",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 11839
+    },
+    {
+      "path": "automotive_voice/ports/__init__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 0
+    },
+    {
+      "path": "automotive_voice/ports/contracts.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 591
+    },
+    {
+      "path": "automotive_voice/prosody/__init__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 522
+    },
+    {
+      "path": "automotive_voice/prosody/contracts.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 5748
+    },
+    {
+      "path": "automotive_voice/prosody/coordinator.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2833
+    },
+    {
+      "path": "automotive_voice/prosody/mock_tts.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 4171
+    },
+    {
+      "path": "automotive_voice/prosody/planner.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 10966
+    },
+    {
+      "path": "automotive_voice/readiness/__init__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 52
+    },
+    {
+      "path": "automotive_voice/readiness/contracts.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 4380
+    },
+    {
+      "path": "automotive_voice/readiness/presentation.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2596
+    },
+    {
+      "path": "automotive_voice/resilience/__init__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 68
+    },
+    {
+      "path": "automotive_voice/resilience/durable.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 14346
+    },
+    {
+      "path": "automotive_voice/telephony/__init__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 184
+    },
+    {
+      "path": "automotive_voice/telephony/transport.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 4408
+    },
+    {
+      "path": "backend/__init__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 0
+    },
+    {
+      "path": "backend/ab_testing.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 22376
+    },
+    {
+      "path": "backend/acceptance_protocol.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 32326
+    },
+    {
+      "path": "backend/acoustic_evaluation.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 8721
+    },
+    {
+      "path": "backend/ami.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 14659
+    },
+    {
+      "path": "backend/analytics.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 14742
+    },
+    {
+      "path": "backend/appointment_reschedule.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 4632
+    },
+    {
+      "path": "backend/audio.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2423
+    },
+    {
+      "path": "backend/audio_archive_compliance.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 21535
+    },
+    {
+      "path": "backend/audiosocket_server.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 24480
+    },
+    {
+      "path": "backend/automotive_dispatch.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 14175
+    },
+    {
+      "path": "backend/automotive_frontend.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 22437
+    },
+    {
+      "path": "backend/automotive_terminology.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 34247
+    },
+    {
+      "path": "backend/batched_ode.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 20937
+    },
+    {
+      "path": "backend/caller_memory.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 14534
+    },
+    {
+      "path": "backend/car_denoiser.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 29339
+    },
+    {
+      "path": "backend/config.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 4515
+    },
+    {
+      "path": "backend/dataset_generator.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 5953
+    },
+    {
+      "path": "backend/db.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 43632
+    },
+    {
+      "path": "backend/deps.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1413
+    },
+    {
+      "path": "backend/diagnostics.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 13158
+    },
+    {
+      "path": "backend/dialogue.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 99612
+    },
+    {
+      "path": "backend/dsp.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2206
+    },
+    {
+      "path": "backend/dtmf.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 8089
+    },
+    {
+      "path": "backend/dynamic_valuation_calculator.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 20129
+    },
+    {
+      "path": "backend/emotion_prosody_adapter.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 14544
+    },
+    {
+      "path": "backend/fqici/__init__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 42
+    },
+    {
+      "path": "backend/fqici/events.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 3441
+    },
+    {
+      "path": "backend/fqici/journal.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 3642
+    },
+    {
+      "path": "backend/fqici/queue.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 7081
+    },
+    {
+      "path": "backend/gpu_health_circuit_breaker.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 20568
+    },
+    {
+      "path": "backend/kvkk_compliance.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 24241
+    },
+    {
+      "path": "backend/lift_bay_capacity_scheduler.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 29322
+    },
+    {
+      "path": "backend/main.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 11524
+    },
+    {
+      "path": "backend/milestones.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 5591
+    },
+    {
+      "path": "backend/models.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 16723
+    },
+    {
+      "path": "backend/morphological_pre_checker.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 7467
+    },
+    {
+      "path": "backend/morphology/__init__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1315
+    },
+    {
+      "path": "backend/morphology/clitics.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 3435
+    },
+    {
+      "path": "backend/morphology/contracts.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 4195
+    },
+    {
+      "path": "backend/morphology/inflected_matcher.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 6215
+    },
+    {
+      "path": "backend/morphology/lexicon.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 7508
+    },
+    {
+      "path": "backend/morphology/stress_engine.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 6535
+    },
+    {
+      "path": "backend/morphology/syllabifier.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 3720
+    },
+    {
+      "path": "backend/morphology/text_utils.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2576
+    },
+    {
+      "path": "backend/normalizer_rules.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 21486
+    },
+    {
+      "path": "backend/notifications.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 22447
+    },
+    {
+      "path": "backend/ontology/__init__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1263
+    },
+    {
+      "path": "backend/ontology/grounding.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 19593
+    },
+    {
+      "path": "backend/ontology/introspector.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 6404
+    },
+    {
+      "path": "backend/ontology/mcp_server.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 5832
+    },
+    {
+      "path": "backend/ontology/models.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2926
+    },
+    {
+      "path": "backend/ontology/router.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 4041
+    },
+    {
+      "path": "backend/operator_inbox.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 4462
+    },
+    {
+      "path": "backend/outbound.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 6504
+    },
+    {
+      "path": "backend/outbound_dialer.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 24597
+    },
+    {
+      "path": "backend/pause_breath_cleaner.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 18804
+    },
+    {
+      "path": "backend/pipeline_telemetry.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1554
+    },
+    {
+      "path": "backend/post_call_analytics.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 24165
+    },
+    {
+      "path": "backend/qa_telemetry_operator.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 30513
+    },
+    {
+      "path": "backend/queue_lift.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 17505
+    },
+    {
+      "path": "backend/realtime_dashboard_metrics.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 23814
+    },
+    {
+      "path": "backend/redaction_kvkk_guard.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 21437
+    },
+    {
+      "path": "backend/report_generator.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 40187
+    },
+    {
+      "path": "backend/routers/__init__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 87
+    },
+    {
+      "path": "backend/routers/acceptance.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 6223
+    },
+    {
+      "path": "backend/routers/audio_dsp.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 17396
+    },
+    {
+      "path": "backend/routers/compliance.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 16092
+    },
+    {
+      "path": "backend/routers/core_system.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 4051
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 47688
+    },
+    {
+      "path": "backend/routers/dataset.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2755
+    },
+    {
+      "path": "backend/routers/generic_resources.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2120
+    },
+    {
+      "path": "backend/routers/observability.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 9871
+    },
+    {
+      "path": "backend/routers/operator_qa.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 4696
+    },
+    {
+      "path": "backend/routers/scheduling.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 8173
+    },
+    {
+      "path": "backend/routers/supervisor.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 6062
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 27971
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 15887
+    },
+    {
+      "path": "backend/schemas.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 20003
+    },
+    {
+      "path": "backend/security_utils.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2379
+    },
+    {
+      "path": "backend/semantic_turn_detector.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 20020
+    },
+    {
+      "path": "backend/session.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 50232
+    },
+    {
+      "path": "backend/sft_leyla.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 32306
+    },
+    {
+      "path": "backend/sip_trunk_failover.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 21516
+    },
+    {
+      "path": "backend/supervisor/__init__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 61
+    },
+    {
+      "path": "backend/supervisor/catalogue.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 5073
+    },
+    {
+      "path": "backend/supervisor/contracts.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 4873
+    },
+    {
+      "path": "backend/supervisor/dataset.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2899
+    },
+    {
+      "path": "backend/supervisor/gateway.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 4927
+    },
+    {
+      "path": "backend/supervisor/orchestrator.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 6788
+    },
+    {
+      "path": "backend/supervisor/policy.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 10492
+    },
+    {
+      "path": "backend/supervisor/quality.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 7660
+    },
+    {
+      "path": "backend/supervisor/runtime.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 7799
+    },
+    {
+      "path": "backend/supervisor/synthetic.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 5495
+    },
+    {
+      "path": "backend/supervisor/train.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 9067
+    },
+    {
+      "path": "backend/supervisor/views.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 6622
+    },
+    {
+      "path": "backend/technician_dictation.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 29496
+    },
+    {
+      "path": "backend/telephony.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2364
+    },
+    {
+      "path": "backend/text.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 10609
+    },
+    {
+      "path": "backend/transfer.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 14720
+    },
+    {
+      "path": "backend/turkish_plate.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 23642
+    },
+    {
+      "path": "backend/unified_server.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 12247
+    },
+    {
+      "path": "backend/vin.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2150
+    },
+    {
+      "path": "backend/vin_ruhsat_decoder.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 17360
+    },
+    {
+      "path": "backend/websocket_adapter.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 20260
+    },
+    {
+      "path": "backend/whatsapp_webhook.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 19372
+    },
+    {
+      "path": "BASLAT.bat",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 2806
+    },
+    {
+      "path": "BASLAT_HEPSI.bat",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 2982
+    },
+    {
+      "path": "cockpit_v3_overhaul.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "config/automotive_compiled_lexicon.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 2605945
+    },
+    {
+      "path": "config/automotive_flat_lexicon.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 111686
+    },
+    {
+      "path": "config/automotive_foreign_lexicon.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 2692
+    },
+    {
+      "path": "config/development.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 470
+    },
+    {
+      "path": "config/freya_vocab.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 845
+    },
+    {
+      "path": "config/freyatts_automotive_lexicon.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 2605945
+    },
+    {
+      "path": "config/lexicon.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 28
+    },
+    {
+      "path": "config/lexicon_categories.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 26
+    },
+    {
+      "path": "config/m10_adapter_dryrun.example.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 623
+    },
+    {
+      "path": "config/milestones/development.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 470
+    },
+    {
+      "path": "config/milestones/m10_adapter_dryrun.example.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 623
+    },
+    {
+      "path": "config/stress_exceptions.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 154
+    },
+    {
+      "path": "contracts/access_context.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 433
+    },
+    {
+      "path": "contracts/approved_lexicon_rule.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 871
+    },
+    {
+      "path": "contracts/audio_frame.metadata.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 1650
+    },
+    {
+      "path": "contracts/booking_receipt.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 611
+    },
+    {
+      "path": "contracts/clause_plan_diagnostics.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 784
+    },
+    {
+      "path": "contracts/conversation_effect.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 922
+    },
+    {
+      "path": "contracts/conversation_signal.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 1876
+    },
+    {
+      "path": "contracts/dialogue_input.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 1567
+    },
+    {
+      "path": "contracts/event.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 1263
+    },
+    {
+      "path": "contracts/m06_audio_chunk_metadata.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 1301
+    },
+    {
+      "path": "contracts/m06_flush_ack.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 988
+    },
+    {
+      "path": "contracts/m06_flush_request.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 650
+    },
+    {
+      "path": "contracts/m06_media_format.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 730
+    },
+    {
+      "path": "contracts/m06_transport_control.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 446
+    },
+    {
+      "path": "contracts/m07_health_snapshot.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 1526
+    },
+    {
+      "path": "contracts/m07_retry_policy.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 554
+    },
+    {
+      "path": "contracts/m07_stream_receipt.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 607
+    },
+    {
+      "path": "contracts/m07_synthetic_command.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 1361
+    },
+    {
+      "path": "contracts/m07_synthetic_result.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 1481
+    },
+    {
+      "path": "contracts/m08_operator_action.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 724
+    },
+    {
+      "path": "contracts/m08_operator_snapshot.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 1776
+    },
+    {
+      "path": "contracts/m08_review_audit.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 570
+    },
+    {
+      "path": "contracts/m09_scenario_result.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 1671
+    },
+    {
+      "path": "contracts/m10_adapter_readiness.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 923
+    },
+    {
+      "path": "contracts/m10_durable_snapshot.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 380
+    },
+    {
+      "path": "contracts/nlu_diagnostics.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 837
+    },
+    {
+      "path": "contracts/normalization_result.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 737
+    },
+    {
+      "path": "contracts/phrase_boundary.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 563
+    },
+    {
+      "path": "contracts/policy_decision.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 711
+    },
+    {
+      "path": "contracts/session_snapshot.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 748
+    },
+    {
+      "path": "contracts/tts_input.schema.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 1047
+    },
+    {
+      "path": "docs/ARCHITECTURE.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 8380
+    },
+    {
+      "path": "docs/benchmark-results.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 4104
+    },
+    {
+      "path": "docs/fqici/00_repo_evidence_audit.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 5003
+    },
+    {
+      "path": "docs/fqici/02_durable_queue.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 3272
+    },
+    {
+      "path": "docs/fqici/archive/FREYA_Self_Evaluation_v1_deprecated.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1943
+    },
+    {
+      "path": "docs/fqici/event_evidence_matrix.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 13703
+    },
+    {
+      "path": "docs/fqici/FQICI_V2_SPECIFICATION_PLAN.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 18616
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/ACCEPTANCE_MATRIX.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 762
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/API_INVENTORY.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 72306
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/ARCHITECTURE_BASELINE.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 193
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/BASELINE_MANIFEST.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 317
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/CONFIG_MODEL_INVENTORY.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 7265
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/DATABASE_INVENTORY.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 62647
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/DEPENDENCIES.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 279
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/EXPERIMENT_INVENTORY.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 6866
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/FEATURE_INVENTORY.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1307
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/FEATURE_REGISTRY.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 1816
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/FOLLOWUP_INTEGRITY.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 69
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/INTEGRITY_AFTER.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 2668
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/INTEGRITY_BEFORE.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 64823
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/M00_FOLLOWUP.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 3419
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/M00_REPORT.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 464
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/M01_HANDOFF.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 149
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/METRIC_BASELINE.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 446
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/MODEL_REFERENCES.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 466
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/PIPELINE_TRACE.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1417
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/REGRESSION_MATRIX.csv",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 744
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/RISK_REGISTER.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 131
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/ROLLBACK_REFERENCE.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 144
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/SOURCE_SCOPE.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 80171
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/TEST_INVENTORY.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 159077
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/UI_API_BINDINGS.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 74024
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/UI_INVENTORY.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 3289
+    },
+    {
+      "path": "docs/freya2/baseline/20261125T182221Z/WORKFLOW_INVENTORY.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 455
+    },
+    {
+      "path": "docs/freya2/decisions/ADR-F1-01-vad-isolation.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 921
+    },
+    {
+      "path": "docs/FREYA_POC_URUN_VE_TEKNIK_MIMARI_RAPORU.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 25969
+    },
+    {
+      "path": "docs/FREYA_POC_URUN_VE_TEKNIK_MIMARI_RAPORU_v2.docx",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/FreyaTTS_Otomotiv_Asistani_Yonetici_Sunumu.docx",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/FreyaTTS_Otomotiv_Asistani_Yonetici_Sunumu_3.docx",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/local-llm-results.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 968
+    },
+    {
+      "path": "docs/measured-latency.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 1171
+    },
+    {
+      "path": "docs/milestones/archive-audit.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 12857
+    },
+    {
+      "path": "docs/milestones/current-acceptance.html",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2272
+    },
+    {
+      "path": "docs/milestones/current-acceptance.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 2873
+    },
+    {
+      "path": "docs/milestones/import-manifest.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 61895
+    },
+    {
+      "path": "docs/milestones/INTEGRATION.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 7175
+    },
+    {
+      "path": "docs/milestones/live-voice-results.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 6339
+    },
+    {
+      "path": "docs/milestones/reference/docs/01_MIMARI_MASTER.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 11214
+    },
+    {
+      "path": "docs/milestones/reference/docs/02_IS_PAKETLERI.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 3370
+    },
+    {
+      "path": "docs/milestones/reference/docs/03_KABUL_MATRISI.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 2404
+    },
+    {
+      "path": "docs/milestones/reference/docs/04_AGENT_UYGULAMA_TALIMATI.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 2380
+    },
+    {
+      "path": "docs/milestones/reference/docs/05_REPO_YAPISI.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 2096
+    },
+    {
+      "path": "docs/milestones/reference/docs/06_CARI_DURUM.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 909
+    },
+    {
+      "path": "docs/milestones/reference/docs/07_M01_SOZLESMELER.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 7256
+    },
+    {
+      "path": "docs/milestones/reference/docs/08_M01_KABUL_VE_M02_DEVIR.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 2095
+    },
+    {
+      "path": "docs/milestones/reference/docs/09_M02_KODLAMA_GOREVI.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 2014
+    },
+    {
+      "path": "docs/milestones/reference/docs/10_M01_DOGRULAMA_RAPORU.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1351
+    },
+    {
+      "path": "docs/milestones/reference/docs/11_M02_SOZLESME_VE_DURUM_MAKINESI.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 6405
+    },
+    {
+      "path": "docs/milestones/reference/docs/12_M02_KABUL_VE_M03_DEVIR.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1681
+    },
+    {
+      "path": "docs/milestones/reference/docs/13_M03_AI_AGENT_PROMPT.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1395
+    },
+    {
+      "path": "docs/milestones/reference/docs/14_M02_DOGRULAMA_RAPORU.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1809
+    },
+    {
+      "path": "docs/milestones/reference/docs/15_M03_SOZLESME_VE_IS_KURALLARI.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 5914
+    },
+    {
+      "path": "docs/milestones/reference/docs/16_M03_KABUL_VE_M04_DEVIR.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 2329
+    },
+    {
+      "path": "docs/milestones/reference/docs/17_M04_AI_AGENT_GOREVI.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1594
+    },
+    {
+      "path": "docs/milestones/reference/docs/18_M03_DOGRULAMA_RAPORU.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 2662
+    },
+    {
+      "path": "docs/milestones/reference/docs/19_M04_SOZLESMELER_VE_KURALLAR.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 4213
+    },
+    {
+      "path": "docs/milestones/reference/docs/20_M04_KABUL_VE_M05_DEVIR.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 2063
+    },
+    {
+      "path": "docs/milestones/reference/docs/21_M05_AGENT_GOREVI.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1245
+    },
+    {
+      "path": "docs/milestones/reference/docs/22_M04_DOGRULAMA_RAPORU.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 2037
+    },
+    {
+      "path": "docs/milestones/reference/docs/23_M05_SOZLESMELER_VE_PROZODI_PLANI.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 4649
+    },
+    {
+      "path": "docs/milestones/reference/docs/24_M05_KABUL_VE_M06_DEVIR.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1888
+    },
+    {
+      "path": "docs/milestones/reference/docs/25_M06_AI_AGENT_GOREVI.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1409
+    },
+    {
+      "path": "docs/milestones/reference/docs/26_M05_DOGRULAMA_RAPORU.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 995
+    },
+    {
+      "path": "docs/milestones/reference/docs/27_M06_SES_KUYRUGU_TASIMA_VE_CODEC_SOZLESMELERI.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 5784
+    },
+    {
+      "path": "docs/milestones/reference/docs/28_M06_KABUL_VE_M07_DEVIR.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1831
+    },
+    {
+      "path": "docs/milestones/reference/docs/29_M07_AI_AGENT_GOREVI.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1146
+    },
+    {
+      "path": "docs/milestones/reference/docs/30_M06_DOGRULAMA_RAPORU.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 2545
+    },
+    {
+      "path": "docs/milestones/reference/docs/31_M07_LIFECYCLE_VE_FAULT_ISOLATION.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 6255
+    },
+    {
+      "path": "docs/milestones/reference/docs/32_M07_KABUL_VE_M08_DEVIR.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1868
+    },
+    {
+      "path": "docs/milestones/reference/docs/33_M08_AI_AGENT_GOREVI.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1657
+    },
+    {
+      "path": "docs/milestones/reference/docs/34_M07_DOGRULAMA_RAPORU.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 2145
+    },
+    {
+      "path": "docs/milestones/reference/docs/35_M07_ADR.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1000
+    },
+    {
+      "path": "docs/milestones/reference/docs/35_M08_OPERATOR_CONSOLE_MIMARISI.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 3725
+    },
+    {
+      "path": "docs/milestones/reference/docs/36_M08_KABUL_VE_M09_DEVIR.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1684
+    },
+    {
+      "path": "docs/milestones/reference/docs/37_M09_AI_AGENT_GOREVI.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1418
+    },
+    {
+      "path": "docs/milestones/reference/docs/38_M08_DOGRULAMA_RAPORU.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 2476
+    },
+    {
+      "path": "docs/milestones/reference/docs/39_M09_E2E_MIMARISI.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 3675
+    },
+    {
+      "path": "docs/milestones/reference/docs/40_M09_KABUL_VE_M10_DEVIR.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1850
+    },
+    {
+      "path": "docs/milestones/reference/docs/41_M10_AGENT_GOREVI.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1340
+    },
+    {
+      "path": "docs/milestones/reference/docs/42_M09_KALAN_RISKLER.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1082
+    },
+    {
+      "path": "docs/milestones/reference/docs/43_M09_DOGRULAMA_RAPORU.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 3081
+    },
+    {
+      "path": "docs/milestones/reference/docs/44_M10_DURABLE_OUTBOX_VE_RECOVERY.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 3245
+    },
+    {
+      "path": "docs/milestones/reference/docs/45_M10_TEXT_PRESENTATION_AND_ADAPTERS.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 2756
+    },
+    {
+      "path": "docs/milestones/reference/docs/46_M10_GUVENLIK_RISK_VE_HOLD.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1725
+    },
+    {
+      "path": "docs/milestones/reference/docs/47_M10_M11_DEVIR_VE_AGENT_GOREVI.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1741
+    },
+    {
+      "path": "docs/milestones/reference/docs/48_M11_FIZIKSEL_KABUL_PLANI.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 5229
+    },
+    {
+      "path": "docs/milestones/reference/docs/49_M11_WINDOWS_ADIM_ADIM.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 6779
+    },
+    {
+      "path": "docs/milestones/reference/docs/50_M11_FIZIKSEL_KABUL_SONUC_MATRISI.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 2953
+    },
+    {
+      "path": "docs/milestones/reference/docs/51_M11_M12_DEVIR_VE_AGENT_GOREVI.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 947
+    },
+    {
+      "path": "docs/milestones/reference/docs/adr/0001-moduler-monolit.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 467
+    },
+    {
+      "path": "docs/milestones/reference/docs/adr/0002-ses-testleri-final.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 579
+    },
+    {
+      "path": "docs/milestones/reference/docs/adr/0003-telephony-protocol.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 628
+    },
+    {
+      "path": "docs/milestones/reference/docs/adr/0004-lexicon-approval.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 427
+    },
+    {
+      "path": "docs/milestones/reference/docs/adr/0005-M01-core-events.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1251
+    },
+    {
+      "path": "docs/milestones/reference/docs/adr/0006-M02-conversation-reducer.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1234
+    },
+    {
+      "path": "docs/milestones/reference/docs/adr/0007-M03-deterministic-business-policy.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 800
+    },
+    {
+      "path": "docs/milestones/reference/docs/adr/0008-M04-evidence-gated-nlp.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 539
+    },
+    {
+      "path": "docs/milestones/reference/docs/adr/0009-M05-evidence-gated-clause-planning.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 871
+    },
+    {
+      "path": "docs/milestones/reference/docs/M09_ACCEPTANCE_REPORT.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 3081
+    },
+    {
+      "path": "docs/milestones/reference/docs/ui/01_overview_mock.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/milestones/reference/docs/ui/02_session_mock.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/milestones/reference/docs/ui/03_pronunciation_mock.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/milestones/test-results.txt",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 646
+    },
+    {
+      "path": "docs/onceki_surum/FreyaTTS_Otomotiv_Asistani_Yonetici_Sunumu.docx",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/onceki_surum/FreyaTTS_Otomotiv_Asistani_Yonetici_Sunumu_3.docx",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/POC_CANLI_SES_VE_NIYET_PLANI.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 10753
+    },
+    {
+      "path": "docs/POC_SOHBET_512.jsonl",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 482704
+    },
+    {
+      "path": "docs/POC_SOHBET_AGACLARI.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 23922
+    },
+    {
+      "path": "docs/screenshots/00_giris_ekrani.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/screenshots/01_gorusme.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/screenshots/02_operator_6002.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/screenshots/02_operator_6002_quality_gate.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/screenshots/02_operator_6002_takeover.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/screenshots/03_arac_ici_dsp_ve_gurultu.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/screenshots/04_randevular.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/screenshots/05_sira_ve_lift_durumu.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/screenshots/06_ab_test_ve_ince_ayar.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/screenshots/06_ab_test_ve_ince_ayar_ses_lab.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/screenshots/07_analitik_ve_kpi.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/screenshots/08_ekspertiz_raporlari.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/screenshots/09_teknisyen_dikte.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/screenshots/10_arac_teshis_ve_obd-ii.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/screenshots/11_araclar_ve_fiyatlar.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/screenshots/12_sozluk.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/screenshots/13_bildirimler.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/screenshots/14_giden_cagrilar.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/screenshots/15_gecmis.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/screenshots/16_ses_laboratuvari.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/screenshots/17_sistem.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/screenshots/18_m01-m11.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/screenshots/18_m01_m11.png",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "docs/supervisor/SUPERVISOR_INTENT_ROUTER_SPECIFICATION.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 9348
+    },
+    {
+      "path": "docs/SUPERVISOR.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 6813
+    },
+    {
+      "path": "docs/UZMAN_INCELEME_PLANI.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 27207
+    },
+    {
+      "path": "docs/VERIFICATION.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 3313
+    },
+    {
+      "path": "evidence/m00/20261125T182221Z/BASELINE_TEST_RESULTS.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 545
+    },
+    {
+      "path": "evidence/m00/20261125T182221Z/RUNTIME_API_SCHEMA.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 428523
+    },
+    {
+      "path": "evidence/m00/20261125T182221Z/SESSION_CODEC_REGRESSION.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 407
+    },
+    {
+      "path": "experimental/__init__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 0
+    },
+    {
+      "path": "experimental/asr_mapper.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 8999
+    },
+    {
+      "path": "experimental/five_cuts_bargein_controller.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 25373
+    },
+    {
+      "path": "experimental/legacy_src/asr_mapper.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 909
+    },
+    {
+      "path": "experimental/legacy_src/audio_archive_compliance.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1551
+    },
+    {
+      "path": "experimental/legacy_src/audiosocket_orchestrator.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1705
+    },
+    {
+      "path": "experimental/legacy_src/automotive_frontend.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1346
+    },
+    {
+      "path": "experimental/legacy_src/batched_ode_engine.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1108
+    },
+    {
+      "path": "experimental/legacy_src/chan_websocket_adapter.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1596
+    },
+    {
+      "path": "experimental/legacy_src/dynamic_valuation_calculator.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1563
+    },
+    {
+      "path": "experimental/legacy_src/emotion_prosody_adapter.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1494
+    },
+    {
+      "path": "experimental/legacy_src/five_cuts_bargein_controller.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2383
+    },
+    {
+      "path": "experimental/legacy_src/gpu_health_circuit_breaker.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1205
+    },
+    {
+      "path": "experimental/legacy_src/inbound_car_denoiser.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1069
+    },
+    {
+      "path": "experimental/legacy_src/lift_bay_capacity_scheduler.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2024
+    },
+    {
+      "path": "experimental/legacy_src/main_unified_server.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1149
+    },
+    {
+      "path": "experimental/legacy_src/morphological_pre_checker.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1543
+    },
+    {
+      "path": "experimental/legacy_src/normalizer.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1075
+    },
+    {
+      "path": "experimental/legacy_src/outbound_campaign_dialer.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1540
+    },
+    {
+      "path": "experimental/legacy_src/pause_breath_cleaner.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1431
+    },
+    {
+      "path": "experimental/legacy_src/post_call_analytics.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1438
+    },
+    {
+      "path": "experimental/legacy_src/prosody_wsola_streamer.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1617
+    },
+    {
+      "path": "experimental/legacy_src/qa_telemetry_operator.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1542
+    },
+    {
+      "path": "experimental/legacy_src/realtime_dashboard_metrics.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1201
+    },
+    {
+      "path": "experimental/legacy_src/redaction_kvkk_guard.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1467
+    },
+    {
+      "path": "experimental/legacy_src/semantic_turn_detector.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1699
+    },
+    {
+      "path": "experimental/legacy_src/sft_automotive_leyla.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1502
+    },
+    {
+      "path": "experimental/legacy_src/sip_trunk_failover.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1239
+    },
+    {
+      "path": "experimental/legacy_src/streaming_chunker_guard.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1338
+    },
+    {
+      "path": "experimental/legacy_src/vin_ruhsat_ocr_decoder.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1215
+    },
+    {
+      "path": "experimental/normalizer.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 32144
+    },
+    {
+      "path": "experimental/prosody_wsola_streamer.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 30146
+    },
+    {
+      "path": "experimental/README.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1811
+    },
+    {
+      "path": "experimental/streaming_chunker_guard.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 14354
+    },
+    {
+      "path": "experimental/tests/test_five_cuts_bargein_controller.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 12187
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 14512
+    },
+    {
+      "path": "experimental/tests/test_streaming_chunker_guard.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 11601
+    },
+    {
+      "path": "experimental/tests/test_tts_normalization.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 11553
+    },
+    {
+      "path": "freya.db",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "freyatts_automotive_lexicon.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 2605945
+    },
+    {
+      "path": "FreyaTTS_Automotive_PoC_Mimari_ve_Arayuz_Sunumu.docx",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "FreyaTTS_Automotive_PoC_Mimari_ve_Arayuz_Sunumu2.docx",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "FreyaTTS_Automotive_PoC_Urun_ve_Teknik_Mimari_Raporu_v2.docx",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "FreyaTTS_Otomotiv_Turkce_Telaffuz_Sezer_ve_Test_Cumleleri.xlsx",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "FreyaTTS_Otomotiv_Turkce_Telaffuz_Sozlugu_2026.xlsx",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "frontend/index.html",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 270
+    },
+    {
+      "path": "frontend/package-lock.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 41980
+    },
+    {
+      "path": "frontend/package.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 402
+    },
+    {
+      "path": "frontend/playwright.config.ts",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 173
+    },
+    {
+      "path": "frontend/public/capture.js",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 387
+    },
+    {
+      "path": "frontend/src/ABTestingPanel.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 49662
+    },
+    {
+      "path": "frontend/src/AcceptanceProtocolPanel.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 55495
+    },
+    {
+      "path": "frontend/src/AnalysisQueuePanel.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 4708
+    },
+    {
+      "path": "frontend/src/AnalyticsPanel.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 44503
+    },
+    {
+      "path": "frontend/src/api.ts",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 4813
+    },
+    {
+      "path": "frontend/src/AppointmentMoveDialog.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 5686
+    },
+    {
+      "path": "frontend/src/AudioPipelineInspector.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 15458
+    },
+    {
+      "path": "frontend/src/AudioPipelineStepper.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 4690
+    },
+    {
+      "path": "frontend/src/AudioVisualizer.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 28173
+    },
+    {
+      "path": "frontend/src/CarDenoiserPanel.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 24563
+    },
+    {
+      "path": "frontend/src/CockpitHeader.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 5767
+    },
+    {
+      "path": "frontend/src/DatasetGeneratorPanel.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 9853
+    },
+    {
+      "path": "frontend/src/DiagnosticPanel.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 22170
+    },
+    {
+      "path": "frontend/src/FirstAppointmentGuide.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 15697
+    },
+    {
+      "path": "frontend/src/InspectionPanel.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 44028
+    },
+    {
+      "path": "frontend/src/lazyPanels.ts",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1767
+    },
+    {
+      "path": "frontend/src/LexiconPanel.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 31525
+    },
+    {
+      "path": "frontend/src/LoginGate.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1306
+    },
+    {
+      "path": "frontend/src/main.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 12116
+    },
+    {
+      "path": "frontend/src/MilestonePanel.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 12549
+    },
+    {
+      "path": "frontend/src/nav.ts",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 11573
+    },
+    {
+      "path": "frontend/src/NotificationPanel.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 37616
+    },
+    {
+      "path": "frontend/src/OntologyPanel.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 18728
+    },
+    {
+      "path": "frontend/src/OperatorPanel.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 108394
+    },
+    {
+      "path": "frontend/src/OperatorToday.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 6414
+    },
+    {
+      "path": "frontend/src/OutboundPanel.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 16992
+    },
+    {
+      "path": "frontend/src/pipeline/demoFixtures.ts",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 7739
+    },
+    {
+      "path": "frontend/src/pipeline/f2Hotwords.ts",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 4371
+    },
+    {
+      "path": "frontend/src/pipeline/f4Engine.ts",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 13708
+    },
+    {
+      "path": "frontend/src/pipeline/safetyLocks.ts",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 3398
+    },
+    {
+      "path": "frontend/src/pipeline/types.ts",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 5766
+    },
+    {
+      "path": "frontend/src/QueueLiftPanel.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 35635
+    },
+    {
+      "path": "frontend/src/SidebarNav.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 8877
+    },
+    {
+      "path": "frontend/src/style.css",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 52621
+    },
+    {
+      "path": "frontend/src/SupervisorPanel.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 11906
+    },
+    {
+      "path": "frontend/src/tabs/AppointmentsTab.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 17448
+    },
+    {
+      "path": "frontend/src/tabs/HistoryTab.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 6641
+    },
+    {
+      "path": "frontend/src/tabs/LabTab.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 21303
+    },
+    {
+      "path": "frontend/src/tabs/SystemTab.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1756
+    },
+    {
+      "path": "frontend/src/tabs/VehiclesTab.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2962
+    },
+    {
+      "path": "frontend/src/tabs/VoiceTab.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 53864
+    },
+    {
+      "path": "frontend/src/TechnicianDictationPanel.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 26619
+    },
+    {
+      "path": "frontend/src/ui.ts",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2862
+    },
+    {
+      "path": "frontend/src/useVoiceSession.ts",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 17986
+    },
+    {
+      "path": "frontend/src/VoiceWaveformBar.tsx",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 5665
+    },
+    {
+      "path": "frontend/test-results/.last-run.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 45
+    },
+    {
+      "path": "frontend/tests/operator_today.spec.ts",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 3244
+    },
+    {
+      "path": "frontend/tests/supervisor.spec.ts",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 8251
+    },
+    {
+      "path": "frontend/tests/ui.spec.ts",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 5754
+    },
+    {
+      "path": "frontend/tests/voice.spec.ts",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 3911
+    },
+    {
+      "path": "frontend/tsconfig.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 194
+    },
+    {
+      "path": "frontend/vite.config.ts",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 302
+    },
+    {
+      "path": "generate_doc.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 58029
+    },
+    {
+      "path": "generate_doc2.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 37060
+    },
+    {
+      "path": "LICENSE",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 754
+    },
+    {
+      "path": "M0-M11/FreyaTTS_M00-M11_Detayli_Teknik_Gelisim_ve_Akis_Semalari.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 104766
+    },
+    {
+      "path": "M0-M11/FreyaTTS_M11_Physical_Acceptance_v1.zip",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    },
+    {
+      "path": "migrations/env.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 285
+    },
+    {
+      "path": "migrations/script.py.mako",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 356
+    },
+    {
+      "path": "migrations/versions/001_initial.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2474
+    },
+    {
+      "path": "migrations/versions/002_quote_unique.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 394
+    },
+    {
+      "path": "migrations/versions/003_slot_duration.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 471
+    },
+    {
+      "path": "migrations/versions/004_vin_and_inspections.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1047
+    },
+    {
+      "path": "migrations/versions/005_corporate_accounts.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2686
+    },
+    {
+      "path": "migrations/versions/006_notifications_outbox.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1734
+    },
+    {
+      "path": "migrations/versions/007_outbound_calls.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2086
+    },
+    {
+      "path": "migrations/versions/008_inspection_templates_and_digital_delivery.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2351
+    },
+    {
+      "path": "migrations/versions/009_analytics_and_conversation_resolution.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1160
+    },
+    {
+      "path": "migrations/versions/010_proactive_diagnostics_and_telemetry.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2969
+    },
+    {
+      "path": "migrations/versions/011_lift_and_queue_management.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 4636
+    },
+    {
+      "path": "migrations/versions/012_ab_testing_infrastructure.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 3554
+    },
+    {
+      "path": "migrations/versions/013_operator_transfers.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2262
+    },
+    {
+      "path": "migrations/versions/014_whatsapp_inbound.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2379
+    },
+    {
+      "path": "migrations/versions/015_call_analytics_and_ruhsat.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 4876
+    },
+    {
+      "path": "migrations/versions/016_vehicle_valuations.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 3259
+    },
+    {
+      "path": "migrations/versions/017_lift_bay_capacity_scheduler.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 4275
+    },
+    {
+      "path": "migrations/versions/018_audio_archives.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 3248
+    },
+    {
+      "path": "migrations/versions/019_latency_indexes.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 803
+    },
+    {
+      "path": "migrations/versions/020_appointment_customer_phone.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1117
+    },
+    {
+      "path": "migrations/versions/021_kvkk_erasure_requests.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2519
+    },
+    {
+      "path": "migrations/versions/022_supervisor_quality.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1921
+    },
+    {
+      "path": "migrations/versions/023_fqici_queue.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2537
+    },
+    {
+      "path": "migrations/versions/024_operator_follow_up.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 465
+    },
+    {
+      "path": "pyproject.toml",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 1392
+    },
+    {
+      "path": "README.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 9215
+    },
+    {
+      "path": "requirements.txt",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 13387
+    },
+    {
+      "path": "scripts/acceptance_snapshot.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 6282
+    },
+    {
+      "path": "scripts/acoustic_benchmark.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 6370
+    },
+    {
+      "path": "scripts/audit_milestones.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2016
+    },
+    {
+      "path": "scripts/benchmark.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2287
+    },
+    {
+      "path": "scripts/build_lexicon.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 27137
+    },
+    {
+      "path": "scripts/capture_screenshots.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 9461
+    },
+    {
+      "path": "scripts/check_demo_db.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2142
+    },
+    {
+      "path": "scripts/check_ui_routes.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 6183
+    },
+    {
+      "path": "scripts/diagnose.ps1",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 341
+    },
+    {
+      "path": "scripts/ensure_ollama.ps1",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1103
+    },
+    {
+      "path": "scripts/export_requirements.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 591
+    },
+    {
+      "path": "scripts/generate_automotive_dataset.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1654
+    },
+    {
+      "path": "scripts/generate_docx_report.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 27518
+    },
+    {
+      "path": "scripts/generate_executive_docx.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 31198
+    },
+    {
+      "path": "scripts/prepare_models.ps1",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 388
+    },
+    {
+      "path": "scripts/seed_demo_db.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 4995
+    },
+    {
+      "path": "scripts/seed_demo_telemetry.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 30611
+    },
+    {
+      "path": "scripts/setup.ps1",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1809
+    },
+    {
+      "path": "scripts/smoke_dialogue.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1913
+    },
+    {
+      "path": "scripts/start.ps1",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 295
+    },
+    {
+      "path": "scripts/start_demo.ps1",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 226
+    },
+    {
+      "path": "scripts/voice_acceptance.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2309
+    },
+    {
+      "path": "scripts/voice_acceptance_protocol.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 4404
+    },
+    {
+      "path": "skills-lock.json",
+      "category": "config",
+      "in_hash_scope": true,
+      "size_bytes": 557
+    },
+    {
+      "path": "start.bat",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 296
+    },
+    {
+      "path": "tests/conftest.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2302
+    },
+    {
+      "path": "tests/milestones/__init__.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 82
+    },
+    {
+      "path": "tests/milestones/test_core.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2529
+    },
+    {
+      "path": "tests/milestones/test_m01.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 13136
+    },
+    {
+      "path": "tests/milestones/test_m02.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 20374
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 27055
+    },
+    {
+      "path": "tests/milestones/test_m03_contracts.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2237
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 14376
+    },
+    {
+      "path": "tests/milestones/test_m04_adapter.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2461
+    },
+    {
+      "path": "tests/milestones/test_m04_contracts.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1261
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 15496
+    },
+    {
+      "path": "tests/milestones/test_m05_contracts.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2139
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 16119
+    },
+    {
+      "path": "tests/milestones/test_m06_contracts.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2789
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 21437
+    },
+    {
+      "path": "tests/milestones/test_m07_contracts.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2636
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 13526
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 11395
+    },
+    {
+      "path": "tests/milestones/test_m10.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 13240
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 6740
+    },
+    {
+      "path": "tests/test_ab_testing.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 14158
+    },
+    {
+      "path": "tests/test_acoustic_evaluation.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 6311
+    },
+    {
+      "path": "tests/test_analytics.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 8517
+    },
+    {
+      "path": "tests/test_api.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 24225
+    },
+    {
+      "path": "tests/test_appointment_reschedule_preview.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 7040
+    },
+    {
+      "path": "tests/test_audio_archive_compliance.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 9603
+    },
+    {
+      "path": "tests/test_audiosocket_server.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 13805
+    },
+    {
+      "path": "tests/test_automotive_dispatch.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 8014
+    },
+    {
+      "path": "tests/test_automotive_frontend.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 11652
+    },
+    {
+      "path": "tests/test_automotive_ontology.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 8475
+    },
+    {
+      "path": "tests/test_automotive_terminology.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 8262
+    },
+    {
+      "path": "tests/test_batched_ode.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 13203
+    },
+    {
+      "path": "tests/test_caller_memory.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 10264
+    },
+    {
+      "path": "tests/test_car_denoiser.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 16268
+    },
+    {
+      "path": "tests/test_chan_websocket.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 10462
+    },
+    {
+      "path": "tests/test_core.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 6291
+    },
+    {
+      "path": "tests/test_demo_separation.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 4661
+    },
+    {
+      "path": "tests/test_diagnostics.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 7079
+    },
+    {
+      "path": "tests/test_dtmf.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 9056
+    },
+    {
+      "path": "tests/test_dtmf_false_positive.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1614
+    },
+    {
+      "path": "tests/test_dynamic_valuation.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 9950
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 51214
+    },
+    {
+      "path": "tests/test_emotion_prosody_adapter.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 7024
+    },
+    {
+      "path": "tests/test_executive_docx.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2478
+    },
+    {
+      "path": "tests/test_fqici_queue.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 10311
+    },
+    {
+      "path": "tests/test_gpu_health_circuit_breaker.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 8049
+    },
+    {
+      "path": "tests/test_inspections.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 9951
+    },
+    {
+      "path": "tests/test_isolation.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1911
+    },
+    {
+      "path": "tests/test_lift_bay_capacity_scheduler.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 13193
+    },
+    {
+      "path": "tests/test_live_mic_acceptance_protocol.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 13426
+    },
+    {
+      "path": "tests/test_madde2_real_world_integration.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 10797
+    },
+    {
+      "path": "tests/test_madde3_customer_experience.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 18537
+    },
+    {
+      "path": "tests/test_madde4_operation_panel.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 16176
+    },
+    {
+      "path": "tests/test_madde5_kvkk_compliance.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 20552
+    },
+    {
+      "path": "tests/test_milestone_integration.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2803
+    },
+    {
+      "path": "tests/test_morphological_pre_checker.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 14066
+    },
+    {
+      "path": "tests/test_notifications.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 9382
+    },
+    {
+      "path": "tests/test_operator_inbox.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 5777
+    },
+    {
+      "path": "tests/test_option_selection.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 3453
+    },
+    {
+      "path": "tests/test_outbound.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 8918
+    },
+    {
+      "path": "tests/test_outbound_dialer.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 15409
+    },
+    {
+      "path": "tests/test_p5_latency.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 10110
+    },
+    {
+      "path": "tests/test_pause_breath_cleaner.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 7867
+    },
+    {
+      "path": "tests/test_pipeline_telemetry.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 1319
+    },
+    {
+      "path": "tests/test_poc_spoken_plate_and_intent.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 15258
+    },
+    {
+      "path": "tests/test_post_call_analytics.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 8976
+    },
+    {
+      "path": "tests/test_qa_telemetry_operator.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 15876
+    },
+    {
+      "path": "tests/test_queue_lift.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 12574
+    },
+    {
+      "path": "tests/test_realtime_dashboard_metrics.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 9039
+    },
+    {
+      "path": "tests/test_redaction_kvkk_guard.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 9383
+    },
+    {
+      "path": "tests/test_security_hardening.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 10933
+    },
+    {
+      "path": "tests/test_semantic_turn_detector.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 8624
+    },
+    {
+      "path": "tests/test_session.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 15750
+    },
+    {
+      "path": "tests/test_sft_leyla.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 17048
+    },
+    {
+      "path": "tests/test_short_clause_synthesis.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 2097
+    },
+    {
+      "path": "tests/test_sip_trunk_failover.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 11824
+    },
+    {
+      "path": "tests/test_supervisor.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 15635
+    },
+    {
+      "path": "tests/test_supervisor_views.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 5880
+    },
+    {
+      "path": "tests/test_t02_f0_f6_telemetry_honest.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 7877
+    },
+    {
+      "path": "tests/test_technician_dictation.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 12426
+    },
+    {
+      "path": "tests/test_telephony_codec_and_pjsip_honesty.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 8777
+    },
+    {
+      "path": "tests/test_transfer.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 13758
+    },
+    {
+      "path": "tests/test_unified_server.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 5857
+    },
+    {
+      "path": "tests/test_vin_ruhsat_decoder.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 7772
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 25358
+    },
+    {
+      "path": "tests/test_whatsapp_webhook.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 11557
+    },
+    {
+      "path": "tests/test_workflow.py",
+      "category": "code",
+      "in_hash_scope": true,
+      "size_bytes": 12033
+    },
+    {
+      "path": "uv.lock",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 374015
+    },
+    {
+      "path": "YENIDEN_KODLAMA/00-BASLA.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 5909
+    },
+    {
+      "path": "YENIDEN_KODLAMA/01-Urun.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 14184
+    },
+    {
+      "path": "YENIDEN_KODLAMA/02-Mimari.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 399647
+    },
+    {
+      "path": "YENIDEN_KODLAMA/03-Diyalog.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 210941
+    },
+    {
+      "path": "YENIDEN_KODLAMA/04-HTTP.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 276476
+    },
+    {
+      "path": "YENIDEN_KODLAMA/05-Veri.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 126008
+    },
+    {
+      "path": "YENIDEN_KODLAMA/06-Ayarlar.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 444885
+    },
+    {
+      "path": "YENIDEN_KODLAMA/07-Arayuz.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 87983
+    },
+    {
+      "path": "YENIDEN_KODLAMA/08-Ekranlar.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 718426
+    },
+    {
+      "path": "YENIDEN_KODLAMA/09-Sozlesmeler.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 33475
+    },
+    {
+      "path": "YENIDEN_KODLAMA/10-Sozluk.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 2724600
+    },
+    {
+      "path": "YENIDEN_KODLAMA/11-Dogrulama.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 171386
+    },
+    {
+      "path": "YENIDEN_KODLAMA/12-Test-katalogu.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 71445
+    },
+    {
+      "path": "YENIDEN_KODLAMA/13-Alan-servisleri.md",
+      "category": "doc_or_other",
+      "in_hash_scope": true,
+      "size_bytes": 1152708
+    },
+    {
+      "path": "~$eyaTTS_Automotive_PoC_Mimari_ve_Arayuz_Sunumu2.docx",
+      "category": "excluded_binary_or_secret",
+      "in_hash_scope": false,
+      "reason": "secret_db_weight_or_binary"
+    }
+  ],
+  "limitations": [
+    "Excluded .env, SQLite DBs, binary media/weights/archives, .venv, node_modules, dist, vendor, and prior build caches."
+  ]
+}

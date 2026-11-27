@@ -561,6 +561,8 @@ async def accept_transfer_endpoint(id: str, body: TransferAcceptIn = None):
             return row(t)
         except ValueError as e:
             raise HTTPException(404, str(e))
+        except RuntimeError as e:
+            raise HTTPException(502, str(e))
 
 
 @router.post("/api/transfers/{id}/decline", dependencies=[Depends(auth)])

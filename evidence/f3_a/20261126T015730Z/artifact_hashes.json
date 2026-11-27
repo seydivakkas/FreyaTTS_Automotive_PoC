@@ -1,0 +1,22 @@
+{
+  "backend/supervisor/context_manager.py": "8e150c5aa9d6353f99175d94fe126fb41ea4d94598284d1c4dc1059f7d820eef",
+  "backend/supervisor/dialogue_facade.py": "dc2108a3a362dc975238cc80538392317f790ec6fbd54fc138a0893c8967e1e1",
+  "backend/supervisor/input_admission.py": "48569a798fdad83b2b315fa61c0fa318ec32a51e34a937ef27d1c57a02073b94",
+  "backend/supervisor/legacy_adapter.py": "e5fef2d55a4eef36e2f75a17e50c47afbe26e642a66dd48aa79062721c2c1e84",
+  "backend/supervisor/llm_adapter.py": "73488f59bc8f6aa0bef7bd4d122cf8ffec72198119443cf1e7ac683683812884",
+  "backend/supervisor/response_composer.py": "7b5a5de1e023f0164624a2f8b582bc47a114fa6609a8987d54a0883e92c55810",
+  "backend/supervisor/response_validator.py": "5f00cac63c944a9f462a929efc56ac0cf1a21ea1c8589b880ef4b54fc38fe24b",
+  "backend/supervisor/slot_manager.py": "7f5934592d42c76136a7e3096e23703722b9a11fe3553e38cce8d8bd70602f86",
+  "backend/supervisor/state_adapter.py": "c264d85e8c64b0a9c8ba9f03e0baf1d3ba3228f31f6a602fff6ec24293c3720f",
+  "backend/supervisor/telemetry.py": "78bf16ea3759c77cd918a5e0ddf2b84cf36f3888b02a75b87b342e5b078449c9",
+  "backend/supervisor/workflow_adapter.py": "4fd141cca41603a3633ddb0e842c9fb16bf206d60ba2e81a153e3d9b94f3ab0f",
+  "docs/freya2/f3_a/20261126T015730Z/ACCEPTANCE_MATRIX.json": "fd6b7bf5b56659afb1e15ef677d480a4782560542525799b513a5d914cd0d7b7",
+  "docs/freya2/f3_a/20261126T015730Z/DOWNSTREAM_HANDOFF.md": "09517fc3d5f3f934dfa77ac6a0983698b5e909f0b3fc69d8f76d057184bb907a",
+  "docs/freya2/f3_a/20261126T015730Z/F3_A_PREFLIGHT.json": "2162638b2a5d191e21c65e2268edd7d790830c4108e6008ef31a6add399fdd84",
+  "docs/freya2/f3_a/20261126T015730Z/F3_A_REPORT.md": "cfd2a4e2cdad037b3c1815c398a52a8dc3d89b46f55437abc43accf93c8cd5e1",
+  "docs/freya2/f3_a/20261126T015730Z/TEST_MATRIX.json": "a8ef4bd597e42b959c7999fa7e0045969ebd484aa024dbdffe28c32051125882",
+  "docs/freya2/f3_a/20261126T015730Z/TEST_RESULTS.json": "e600125521f0bc78712d0e990e8f8077fb28de5841b0294fc6f9f15acbe7a89a",
+  "evidence/f3_a/20261126T015730Z/logs/pytest_f3_a.log": "a377d8ba73250ca7981e3fb3104ded40a67f42246ec6d0cb5bfa55ea9aa63a45",
+  "evidence/f3_a/20261126T015730Z/manifest.json": "f3423a0d2ec484819f5c727bbaa9223d2d0eda95ad589d291b14394630ba5c19",
+  "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py": "4171bbbf08bd802b815350814c4138a3c0bf789ef4358bb1491567f690d70ff1"
+}

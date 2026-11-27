@@ -1,0 +1,10 @@
+package_id,status,observed_passed,test_path,verification_mode
+M00,PASS,0,docs/freya2/baseline/20261126T001600Z,AUDIT_HASH_VERIFIED
+M01,PASS,14,tests/contracts/test_m01_contracts.py,LIVE_PYTEST_OBSERVED
+M02,PASS,8,tests/runtime/test_m02_runtime.py,LIVE_PYTEST_OBSERVED
+M03,PASS,11,tests/configuration/test_m03_config_registry.py,LIVE_PYTEST_OBSERVED
+M04,PASS,10,tests/observability/test_m04_observability.py,LIVE_PYTEST_OBSERVED
+M05,PASS,11,tests/lexicon/test_m05_lexicon.py,LIVE_PYTEST_OBSERVED
+M06,PASS,11,tests/runtime_resources/test_m06_scheduler.py,LIVE_PYTEST_OBSERVED
+M07,PASS,14,tests/security/test_m07_security.py,LIVE_PYTEST_OBSERVED
+M08,PASS,80,tests/harness_tests/test_m08_harness.py,LIVE_PYTEST_OBSERVED

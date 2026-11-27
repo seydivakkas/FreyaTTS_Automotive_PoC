@@ -245,6 +245,58 @@ async def test_audiosocket_protocol_packets():
 
 
 @pytest.mark.asyncio
+async def test_blocked_audiosocket_drain_aborts_transport(monkeypatch):
+    from backend.config import settings
+
+    monkeypatch.setattr(settings, "media_write_timeout_sec", 0.02)
+    orch = AudioSocketOrchestrator(allowed_ips=["127.0.0.1"])
+    reader = asyncio.StreamReader()
+    reader.feed_data(build_packet(AUDIOSOCKET_UUID, uuid.uuid4().bytes))
+    ended = []
+
+    class BlockedWriter:
+        def get_extra_info(self, name):
+            return ("127.0.0.1", 50000) if name == "peername" else None
+
+        @property
+        def transport(self):
+            return self
+
+        def write(self, packet):
+            pass
+
+        async def drain(self):
+            await asyncio.Future()
+
+        def abort(self):
+            ended.append("aborted")
+            reader.feed_eof()
+
+        def close(self):
+            pass
+
+        async def wait_closed(self):
+            pass
+
+    class FakeVoiceSession:
+        def __init__(self, *, send_audio, **kwargs):
+            self.send_audio = send_audio
+
+        async def start(self):
+            await self.send_audio(bytes(320))
+
+        async def close(self):
+            ended.append(self.fqici_close_reason)
+
+    monkeypatch.setattr("backend.audiosocket_server.VoiceSession", FakeVoiceSession)
+    await asyncio.wait_for(orch.handle_connection(reader, BlockedWriter()), timeout=1)
+    assert ended == ["aborted", "transport_error"]
+    assert not orch.active_sessions
+    assert not active.locked()
+    assert orch.total_audio_frames_out == 0
+
+
+@pytest.mark.asyncio
 async def test_audiosocket_orchestrator_ip_and_concurrency_rejection():
     """İzin verilmeyen IP ve dolu oturum durumunda çağrının fail-closed reddedildiğini doğrular."""
     orch = AudioSocketOrchestrator(allowed_ips=["127.0.0.1"])

@@ -4,7 +4,7 @@ import "./style.css";
 import { errorMessage } from "./ui";
 import { createApi } from "./api";
 import type { Appointment, Conversation, Health, Quote, Slot, Vehicle } from "./api";
-import { MAIN_DATA_TABS, TABS, TabName } from "./nav";
+import { MAIN_DATA_TABS, TABS, TabName, RolePerspective, ROLE_PERSPECTIVES } from "./nav";
 import { SidebarNav } from "./SidebarNav";
 import { CockpitHeader } from "./CockpitHeader";
 import { FirstAppointmentGuide } from "./FirstAppointmentGuide";
@@ -31,6 +31,7 @@ import {
   SupervisorPanel,
   TechnicianDictationPanel,
   OntologyPanel,
+  AcceptanceProtocolPanel,
 } from "./lazyPanels";
 
 function App() {
@@ -47,6 +48,26 @@ function App() {
     [calls, setCalls] = useState<Conversation[]>([]),
     [historyId, setHistoryId] = useState<string | null>(null),
     [refreshTick, setRefreshTick] = useState(0);
+  const [perspective, setPerspective] = useState<RolePerspective>(() => {
+    try {
+      const saved = localStorage.getItem("freya_role_perspective") as RolePerspective;
+      if (saved && saved in ROLE_PERSPECTIVES) return saved;
+    } catch {}
+    return "operator";
+  });
+  const handleSelectPerspective = (newPerspective: RolePerspective) => {
+    setPerspective(newPerspective);
+    try {
+      localStorage.setItem("freya_role_perspective", newPerspective);
+    } catch {}
+    const meta = ROLE_PERSPECTIVES[newPerspective];
+    if (meta && !meta.tabs.includes(tab)) {
+      setTab(meta.defaultTab);
+      setError("");
+      setRefreshTick((t) => t + 1);
+      if (MAIN_DATA_TABS.includes(meta.defaultTab)) action(refresh);
+    }
+  };
   const [qualityConversationId, setQualityConversationId] = useState<string>();
   const [text, setText] = useState(
       "Volkswagen Passat 1.5 TSI aracınızın tahmini değeri 1.250.000 TL.",
@@ -133,6 +154,8 @@ function App() {
     <div className="cockpit-layout">
       <SidebarNav
         activeTab={tab}
+        perspective={perspective}
+        onSelectPerspective={handleSelectPerspective}
         onSelectTab={(t) => {
           setTab(t);
           if (t === "Supervisor Kalite") setQualityConversationId(undefined);
@@ -149,6 +172,7 @@ function App() {
       <main className="cockpit-main-workspace">
         <CockpitHeader
           activeTabTitle={tab}
+          perspective={perspective}
           health={health}
           busy={busy}
           onRefresh={() => {
@@ -209,6 +233,7 @@ function App() {
             <VoiceTab
               busy={busy}
               health={health}
+              perspective={perspective}
               appointments={appointments}
               vehicles={vehicles}
               slots={slots}
@@ -288,6 +313,13 @@ function App() {
             {tab === "Bildirimler" && <NotificationPanel api={api} rawApi={rawApi} />}
             {tab === "Giden Çağrılar" && <OutboundPanel api={api} />}
             {tab === "M01–M11" && <MilestonePanel api={api} />}
+            {tab === "Kabul & Terim" && (
+              <AcceptanceProtocolPanel
+                api={api}
+                onNavigateToTab={(t: TabName) => setTab(t)}
+                onRefreshMain={refresh}
+              />
+            )}
           </Suspense>
           {tab === "Sistem" && (
             <SystemTab

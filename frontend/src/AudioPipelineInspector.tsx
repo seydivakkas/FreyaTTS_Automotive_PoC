@@ -167,6 +167,17 @@ export function AudioPipelineInspector({
               <h4>Çıktı Sözleşmesi</h4>
               <p className="code-font">{def.outputDescription}</p>
             </div>
+
+            {(selectedStage === "F3" || selectedStage === "F4" || selectedStage === "F5") && (
+              <div className="info-block">
+                <h4>W3–W4 Hattı &amp; Prosodi Özeti (Salt Okunur)</h4>
+                <p className="code-font">
+                  {selectedStage === "F3" && "Hiyerarşik Niyet Yönlendirici (31 niyet) → M07 onaylı yazma kapısı"}
+                  {selectedStage === "F4" && "Intent → Style → Prosody (31 niyet tablosu, tek-geçiş normalizasyon, kaynak-hizalı span)"}
+                  {selectedStage === "F5" && "Leyla Seed #9 · Euler32 · Donanım / İnsan MOS: Ölçülmedi (NOT_RUN)"}
+                </p>
+              </div>
+            )}
           </div>
         )}
 

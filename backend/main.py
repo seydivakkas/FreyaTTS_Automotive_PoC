@@ -42,6 +42,7 @@ from backend.routers import (
     core_system,
     text_speech,
     operator_qa,
+    acceptance,
     telephony,
     crm,
     scheduling,
@@ -85,11 +86,12 @@ async def lifespan(app):
             {"status": "follow_up"}
         )
         seed_default_experiment(db)
-        try:
-            from backend.caller_memory import seed_default_profiles
-            seed_default_profiles(db)
-        except Exception:
-            logger.warning("Caller memory default profile seeding failed", exc_info=True)
+        if settings.demo_mode:
+            try:
+                from backend.caller_memory import seed_default_profiles
+                seed_default_profiles(db)
+            except Exception:
+                logger.warning("Caller memory default profile seeding failed", exc_info=True)
         db.commit()
     server = await asyncio.start_server(
         connection, settings.audiosocket_host, settings.audiosocket_port
@@ -169,6 +171,7 @@ app = FastAPI(title="Freya Otomotiv Asistanı", lifespan=lifespan)
 app.include_router(core_system.router)
 app.include_router(text_speech.router)
 app.include_router(operator_qa.router)
+app.include_router(acceptance.router)
 app.include_router(telephony.router)
 app.include_router(crm.router)
 app.include_router(scheduling.router)
@@ -206,6 +209,8 @@ async def voice(ws: WebSocket):
     await active.acquire()
     session = None
     greeting = None
+    connection_task = asyncio.current_task()
+    write_timed_out = False
     try:
         await ws.accept()
         hello = await asyncio.wait_for(ws.receive_json(), 5)
@@ -218,13 +223,30 @@ async def voice(ws: WebSocket):
             raise ValueError("Ses biçimi desteklenmiyor")
         lock = asyncio.Lock()
 
+        async def send(message, sender):
+            nonlocal write_timed_out
+            if write_timed_out:
+                return
+            try:
+                async with asyncio.timeout(settings.media_write_timeout_sec):
+                    async with lock:
+                        if not write_timed_out:
+                            await sender(message)
+            except TimeoutError:
+                if not write_timed_out:
+                    write_timed_out = True
+                    logger.warning("Web voice write timed out")
+                    if session:
+                        session.fqici_close_reason = "transport_error"
+                    if connection_task is not asyncio.current_task():
+                        connection_task.cancel()
+                raise
+
         async def emit(event):
-            async with lock:
-                await ws.send_json(event)
+            await send(event, ws.send_json)
 
         async def audio(frame):
-            async with lock:
-                await ws.send_bytes(frame)
+            await send(frame, ws.send_bytes)
 
         if settings.auto_load_models and not models.ollama_ready:
             await emit({"type": "status", "value": "Modeller hazırlanıyor..."})
@@ -259,16 +281,21 @@ async def voice(ws: WebSocket):
                 if len(data) > 192000:
                     raise ValueError("Ses paketi çok büyük")
                 await session.input(data, rate)
+    except asyncio.CancelledError:
+        if not write_timed_out:
+            raise
     except WebSocketDisconnect:
-        if session:
+        if session and not write_timed_out:
             session.fqici_close_reason = "disconnect"
     except Exception as e:
         if session:
             session.fqici_close_reason = "transport_error"
-        try:
-            await ws.send_json({"type": "error", "message": str(e)})
-        except Exception:
-            pass
+        if not write_timed_out:
+            try:
+                async with asyncio.timeout(settings.media_write_timeout_sec):
+                    await ws.send_json({"type": "error", "message": str(e)})
+            except Exception:
+                pass
     finally:
         if greeting:
             greeting.cancel()
@@ -279,7 +306,8 @@ async def voice(ws: WebSocket):
         finally:
             active.release()
             try:
-                await ws.close()
+                async with asyncio.timeout(settings.media_write_timeout_sec):
+                    await ws.close(code=1011 if write_timed_out else 1000)
             except Exception:
                 pass
 

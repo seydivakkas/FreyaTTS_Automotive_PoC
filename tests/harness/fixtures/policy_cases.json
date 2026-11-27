@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "fixture_group": "policy_cases",
+  "privacy_class": "SYNTHETIC_NO_PII",
+  "cases": [
+    {"case_id": "POL-01", "principal_kind": "ANONYMOUS", "tool_id": "vehicle.read_specs", "expected_verdict": "ALLOW"},
+    {"case_id": "POL-02", "principal_kind": "ANONYMOUS", "tool_id": "booking.read_status", "expected_verdict": "CHALLENGE"},
+    {"case_id": "POL-03", "principal_kind": "UNTRUSTED_HINT", "tool_id": "booking.create", "expected_verdict": "DENY"},
+    {"case_id": "POL-04", "principal_kind": "CUSTOMER_CHANNEL_VERIFIED", "tool_id": "booking.cancel", "expected_verdict": "CHALLENGE"},
+    {"case_id": "POL-05", "principal_kind": "CUSTOMER_STRONG_VERIFIED", "tool_id": "booking.cancel", "asr_status": "PARTIAL", "expected_verdict": "HOLD"},
+    {"case_id": "POL-06", "principal_kind": "CUSTOMER_STRONG_VERIFIED", "tool_id": "booking.create", "confirmation_approved": true, "expected_verdict": "ALLOW"}
+  ]
+}

@@ -3,6 +3,7 @@
 Telif Hakkı (c) 2026 Seydi Eryılmaz (@seydivakkas) - Tüm Hakları Saklıdır.
 """
 
+import json
 import math
 import numpy as np
 import pytest
@@ -368,7 +369,12 @@ async def test_voice_session_ab_integration(tmp_path, monkeypatch):
     monkeypatch.setattr(session_mod.models, "vad", MockVad())
 
     with sm() as db:
-        seed_default_experiment(db)
+        experiment = seed_default_experiment(db)
+        variants = json.loads(experiment.variants_json)
+        variants[1]["tts_seed"] = 42
+        experiment.variants_json = json.dumps(variants)
+        db.commit()
+    monkeypatch.setattr("backend.ab_testing.random.choices", lambda variants, **_: [variants[1]])
 
     events = []
     frames = []
@@ -381,9 +387,9 @@ async def test_voice_session_ab_integration(tmp_path, monkeypatch):
 
     sess = session_mod.VoiceSession("test_chan", emit, send)
     assert sess.ab_experiment_id is not None
-    assert sess.ab_variant_id in ("control", "variant_b")
-    assert sess.tts_seed in (9, 42)
-    assert sess.prompt_template in ("standard", "friendly")
+    assert sess.ab_variant_id == "variant_b"
+    assert sess.tts_seed == 42
+    assert sess.prompt_template == "friendly"
 
     await sess.close()
 

@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "gate_id": "F2_BC_ENTITY_STREAMING",
+  "run_id": "20261126T033700Z",
+  "head_sha": "6273981e1684686ae85f9458b608764e85a4552c",
+  "w2_integration_run_id": "20261126T032114Z",
+  "scope": "T0_T1_STRUCTURAL_OFFLINE_WINDOWS",
+  "overall": "PASS",
+  "f2_b_ready": true,
+  "f2_c_ready": true,
+  "wer_benchmark_status": "NOT_RUN",
+  "hardware_acceptance_status": "NOT_RUN",
+  "human_sip_status": "NOT_RUN",
+  "tests": {
+    "command": "pytest tests/speech_recognition/test_f2_a_speech_recognition.py tests/speech_recognition/test_f2_bc_entity_streaming.py --basetemp=data/temp_pytest_w34_f2",
+    "passed": 80,
+    "failed": 0,
+    "skipped": 0
+  },
+  "deliverables": {
+    "f2_b": [
+      "hotword_planner.py",
+      "protected_spans.py",
+      "entity_resolver.py",
+      "decode_policy.py",
+      "pipeline.py"
+    ],
+    "f2_c": [
+      "partial_contracts.py",
+      "streaming_controller.py"
+    ]
+  }
+}

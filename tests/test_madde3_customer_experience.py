@@ -364,7 +364,8 @@ def test_two_stage_bargein_real_interrupt_commits():
 # =====================================================================
 
 @pytest.mark.asyncio
-async def test_multi_vehicle_preplanned_booking(env, monkeypatch):
+@pytest.mark.parametrize("second_via_dtmf", [False, True])
+async def test_multi_vehicle_preplanned_booking(env, monkeypatch, second_via_dtmf):
     monkeypatch.setattr(settings, "multi_vehicle_booking_enabled", True)
     """Müşteri başta iki araç belirttiğinde, 1. araç onayından sonra otomatik olarak 2. araca geçer."""
     phone = "05325556677"
@@ -400,6 +401,29 @@ async def test_multi_vehicle_preplanned_booking(env, monkeypatch):
     assert d.customer == "Kemal Sunal"
     assert d.customer_phone == phone
     assert d.vehicle is None  # İkinci araç için sıfırlandı
+    await d.answer("Evet, onaylıyorum.")
+    with env() as db:
+        assert len(db.scalars(select(Appointment)).all()) == 1
+
+    await d.answer("İkinci aracım Renault Megane.")
+    await d.answer("Birinci seçenek olsun.")
+    assert d.awaiting
+    if second_via_dtmf:
+        with env() as db:
+            await d.handle_dtmf("1", db)
+    else:
+        await d.answer("Evet, onaylıyorum.")
+    repeated = await d.answer("Evet, onaylıyorum.")
+    assert d.done and d.confirmed
+    with env() as db:
+        bookings = db.scalars(select(Appointment)).all()
+        vehicles = db.scalars(select(Vehicle)).all()
+        assert len(bookings) == 2
+        assert {row.vehicle_id for row in bookings} == {vehicle.id for vehicle in vehicles}
+        assert len({row.slot_id for row in bookings}) == 2
+        assert len({row.idempotency_key for row in bookings}) == 2
+        latest = next(row for row in bookings if row.id == d.appointment_id)
+        assert f"FRY-{latest.id[:6].upper()}" in repeated
 
 
 @pytest.mark.asyncio

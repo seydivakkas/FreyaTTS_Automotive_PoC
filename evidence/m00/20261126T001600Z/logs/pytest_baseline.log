@@ -1,0 +1,69 @@
+................................................ [  3%]
+........................................................................ [  7%]
+........................................................................ [ 12%]
+........................................................................ [ 16%]
+........................................................................ [ 21%]
+........................................................................ [ 25%]
+.................................................... [ 28%]
+........................................................................ [ 33%]
+........................................................................ [ 37%]
+........................................................................ [ 42%]
+........................................................................ [ 46%]
+........................................................................ [ 51%]
+........................................................................ [ 55%]
+...............FF....................................................... [ 60%]
+........................................................................ [ 64%]
+........................................................................ [ 69%]
+........................................................................ [ 73%]
+........................................................................ [ 78%]
+..FF.................................................................... [ 82%]
+........................................................................ [ 87%]
+........................................................................ [ 91%]
+........................................................................ [ 96%]
+..........................................................               [100%]
+================================== FAILURES ===================================
+________________ test_multi_vehicle_preplanned_booking[False] _________________
+tests\test_madde3_customer_experience.py:410: in test_multi_vehicle_preplanned_booking
+    assert d.awaiting
+E   assert False
+E    +  where False = <backend.dialogue.Dialogue object at 0x0000029D6D7AFC90>.awaiting
+_________________ test_multi_vehicle_preplanned_booking[True] _________________
+tests\test_madde3_customer_experience.py:410: in test_multi_vehicle_preplanned_booking
+    assert d.awaiting
+E   assert False
+E    +  where False = <backend.dialogue.Dialogue object at 0x0000029DD37A6E90>.awaiting
+_________________ test_vehicle_match_ignores_empty_candidate __________________
+tests\test_voice_path_honesty.py:655: in test_vehicle_match_ignores_empty_candidate
+    ans = await d.answer("Ali Veli, Toyota Corolla")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\dialogue.py:1851: in answer
+    return self._apply_extract(info, text)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\dialogue.py:1974: in _apply_extract
+    matched_ids = [v.id for v in self._match_vehicles(db, needle)]
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\dialogue.py:1917: in _match_vehicles
+    candidate = normalize(vehicle.description)["normalized"]
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\text.py:192: in normalize
+    raise ValueError("Seslendirilebilir metin bulunamadı")
+E   ValueError: Seslendirilebilir metin bulunamadı
+_______________ test_vehicle_match_empty_needle_matches_nothing _______________
+tests\test_voice_path_honesty.py:671: in test_vehicle_match_empty_needle_matches_nothing
+    ans = await d.answer("Ali Veli")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\dialogue.py:1851: in answer
+    return self._apply_extract(info, text)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\dialogue.py:1970: in _apply_extract
+    normalize(info.vehicle_description)["normalized"]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\text.py:192: in normalize
+    raise ValueError("Seslendirilebilir metin bulunamadı")
+E   ValueError: Seslendirilebilir metin bulunamadı
+=========================== short test summary info ===========================
+FAILED tests/test_madde3_customer_experience.py::test_multi_vehicle_preplanned_booking[False]
+FAILED tests/test_madde3_customer_experience.py::test_multi_vehicle_preplanned_booking[True]
+FAILED tests/test_voice_path_honesty.py::test_vehicle_match_ignores_empty_candidate
+FAILED tests/test_voice_path_honesty.py::test_vehicle_match_empty_needle_matches_nothing
+4 failed, 1594 passed, 44 subtests passed in 229.44s (0:03:49)

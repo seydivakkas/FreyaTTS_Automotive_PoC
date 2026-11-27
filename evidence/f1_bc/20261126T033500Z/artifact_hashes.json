@@ -1,0 +1,14 @@
+{
+  "backend/voice_activity/__init__.py": "2da57bed1b0906a3eb4e87e5dd4ad17aa2e03bf4a0e70b2fd94bb3f3b230ffd9",
+  "backend/voice_activity/continuation_rules.py": "ef9fd298541d98f498c147ec14c9d0a95852376eef6a758e8e5d21e527124da5",
+  "backend/voice_activity/endpointing.py": "8015d0ee9165de5c0ba5065a08e6a1e56801f87b8ff03eb35680b42579b7f51d",
+  "backend/voice_activity/interruption_contracts.py": "cdb457e3cd3886163785471237ae0b6aaa52db6046c6e3a703575ad8d6ebf891",
+  "backend/voice_activity/interruption_controller.py": "dedbb198e394ecd4222b9ed4a7c2526e9791af19136310795fa828788a9354b3",
+  "backend/voice_activity/pause_bridge.py": "a0370cc094c241ad1d988532167d67c5981d4e9ac6644f5c4dfd3842e2547ebd",
+  "backend/voice_activity/pipeline.py": "92d5b02dd4db5de08b992c82e2c76248b33557328e0714972313c1b26b3f06e9",
+  "backend/voice_activity/semantic_contracts.py": "f4b686806d0ff4fd1968225d7ba4b2e79981317d801776da55432cf487282d30",
+  "backend/voice_activity/semantic_endpoint_policy.py": "525dbd66acc8cd17e1b50e79ae50bbb8c87063b6c086455e58ca6b0d08c546b9",
+  "tests/voice_activity/test_f1_bc_barge_semantic.py": "f94dfd380129036c7173d524c1297b6f37aa928b34eaf3476194eae1faa39392",
+  "docs\\freya2\\f1_bc\\20261126T033500Z\\ACCEPTANCE_MATRIX.json": "7602eeb3ab3bb22aedb79e86829716812acf4b3a231ca9a7e727042079c33371",
+  "evidence\\f1_bc\\20261126T033500Z\\manifest.json": "58f07d522034be254f2992b24aaeb756c1e0517d0dca28f2fe2910505d91d7e0"
+}

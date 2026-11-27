@@ -1,0 +1,390 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261125T182221Z",
+  "baseline_commit": "6273981e1684686ae85f9458b608764e85a4552c",
+  "records": [
+    {
+      "name": "admin_password",
+      "type": "str",
+      "line": 14
+    },
+    {
+      "name": "database_url",
+      "type": "str",
+      "line": 15
+    },
+    {
+      "name": "data_dir",
+      "type": "Path",
+      "line": 17
+    },
+    {
+      "name": "demo_mode",
+      "type": "bool",
+      "line": 19
+    },
+    {
+      "name": "ollama_url",
+      "type": "str",
+      "line": 20
+    },
+    {
+      "name": "ollama_model",
+      "type": "str",
+      "line": 21
+    },
+    {
+      "name": "llm_timeout_sec",
+      "type": "int",
+      "line": 22
+    },
+    {
+      "name": "ollama_gpu_layers",
+      "type": "int",
+      "line": 23
+    },
+    {
+      "name": "freya_path",
+      "type": "str",
+      "line": 24
+    },
+    {
+      "name": "tts_device",
+      "type": "str",
+      "line": 25
+    },
+    {
+      "name": "auto_load_models",
+      "type": "bool",
+      "line": 26
+    },
+    {
+      "name": "stt_catalog_hotwords",
+      "type": "bool",
+      "line": 27
+    },
+    {
+      "name": "stt_min_rms",
+      "type": "float",
+      "line": 28
+    },
+    {
+      "name": "stt_model",
+      "type": "str",
+      "line": 29
+    },
+    {
+      "name": "stt_device",
+      "type": "str",
+      "line": 30
+    },
+    {
+      "name": "stt_compute_type",
+      "type": "str",
+      "line": 31
+    },
+    {
+      "name": "audiosocket_host",
+      "type": "str",
+      "line": 32
+    },
+    {
+      "name": "audiosocket_port",
+      "type": "int",
+      "line": 33
+    },
+    {
+      "name": "pbx_metadata_secret",
+      "type": "str",
+      "line": 34
+    },
+    {
+      "name": "kvkk_erasure_enabled",
+      "type": "bool",
+      "line": 35
+    },
+    {
+      "name": "multi_vehicle_booking_enabled",
+      "type": "bool",
+      "line": 36
+    },
+    {
+      "name": "twilio_enabled",
+      "type": "bool",
+      "line": 37
+    },
+    {
+      "name": "auto_purge_transcripts",
+      "type": "bool",
+      "line": 38
+    },
+    {
+      "name": "pbx_allowed_ips",
+      "type": "list[str]",
+      "line": 39
+    },
+    {
+      "name": "record_audio",
+      "type": "bool",
+      "line": 40
+    },
+    {
+      "name": "retention_days",
+      "type": "int",
+      "line": 41
+    },
+    {
+      "name": "transcript_retention_days",
+      "type": "int",
+      "line": 43
+    },
+    {
+      "name": "ami_host",
+      "type": "str",
+      "line": 44
+    },
+    {
+      "name": "ami_port",
+      "type": "int",
+      "line": 45
+    },
+    {
+      "name": "ami_username",
+      "type": "str",
+      "line": 46
+    },
+    {
+      "name": "ami_secret",
+      "type": "str",
+      "line": 47
+    },
+    {
+      "name": "ami_enabled",
+      "type": "bool",
+      "line": 48
+    },
+    {
+      "name": "ami_channel_prefix",
+      "type": "str",
+      "line": 49
+    },
+    {
+      "name": "ami_trunk",
+      "type": "str",
+      "line": 50
+    },
+    {
+      "name": "ami_context",
+      "type": "str",
+      "line": 51
+    },
+    {
+      "name": "ami_exten",
+      "type": "str",
+      "line": 52
+    },
+    {
+      "name": "ami_callerid",
+      "type": "str",
+      "line": 53
+    },
+    {
+      "name": "operator_extension",
+      "type": "str",
+      "line": 54
+    },
+    {
+      "name": "operator_context",
+      "type": "str",
+      "line": 55
+    },
+    {
+      "name": "operator_whisper_timeout_sec",
+      "type": "int",
+      "line": 56
+    },
+    {
+      "name": "branch_name",
+      "type": "str",
+      "line": 57
+    },
+    {
+      "name": "branch_address",
+      "type": "str",
+      "line": 58
+    },
+    {
+      "name": "branch_latitude",
+      "type": "float",
+      "line": 59
+    },
+    {
+      "name": "branch_longitude",
+      "type": "float",
+      "line": 60
+    },
+    {
+      "name": "branch_maps_url",
+      "type": "str",
+      "line": 61
+    },
+    {
+      "name": "whatsapp_webhook_token",
+      "type": "str",
+      "line": 62
+    },
+    {
+      "name": "notification_provider",
+      "type": "str",
+      "line": 64
+    },
+    {
+      "name": "twilio_account_sid",
+      "type": "str",
+      "line": 65
+    },
+    {
+      "name": "twilio_auth_token",
+      "type": "str",
+      "line": 66
+    },
+    {
+      "name": "twilio_from_number",
+      "type": "str",
+      "line": 67
+    },
+    {
+      "name": "twilio_whatsapp_from",
+      "type": "str",
+      "line": 68
+    },
+    {
+      "name": "audio_archive_master_key",
+      "type": "str",
+      "line": 70
+    },
+    {
+      "name": "link_signing_key",
+      "type": "str",
+      "line": 72
+    },
+    {
+      "name": "car_denoiser_enabled",
+      "type": "bool",
+      "line": 73
+    },
+    {
+      "name": "car_denoiser_hpf_cutoff",
+      "type": "float",
+      "line": 74
+    },
+    {
+      "name": "car_denoiser_suppression_db",
+      "type": "float",
+      "line": 75
+    },
+    {
+      "name": "car_denoiser_target_dbfs",
+      "type": "float",
+      "line": 76
+    },
+    {
+      "name": "car_denoiser_noise_gate_dbfs",
+      "type": "float",
+      "line": 77
+    },
+    {
+      "name": "car_denoiser_max_boost_db",
+      "type": "float",
+      "line": 78
+    },
+    {
+      "name": "car_denoiser_gate_attenuation_db",
+      "type": "float",
+      "line": 79
+    },
+    {
+      "name": "max_concurrent_calls",
+      "type": "int",
+      "line": 80
+    },
+    {
+      "name": "batched_ode_enabled",
+      "type": "bool",
+      "line": 81
+    },
+    {
+      "name": "batched_ode_batch_size",
+      "type": "int",
+      "line": 82
+    },
+    {
+      "name": "batched_ode_micro_window_ms",
+      "type": "float",
+      "line": 83
+    },
+    {
+      "name": "batched_ode_steps",
+      "type": "int",
+      "line": 84
+    },
+    {
+      "name": "batched_ode_default_seed",
+      "type": "int",
+      "line": 85
+    },
+    {
+      "name": "chan_websocket_host",
+      "type": "str",
+      "line": 86
+    },
+    {
+      "name": "chan_websocket_port",
+      "type": "int",
+      "line": 87
+    },
+    {
+      "name": "chan_websocket_enabled",
+      "type": "bool",
+      "line": 88
+    },
+    {
+      "name": "morph_precheck_enabled",
+      "type": "bool",
+      "line": 89
+    },
+    {
+      "name": "morph_precheck_pause_ms",
+      "type": "int",
+      "line": 90
+    },
+    {
+      "name": "supervisor_mode",
+      "type": "Literal['off', 'shadow', 'guarded']",
+      "line": 91
+    },
+    {
+      "name": "fqici_enabled",
+      "type": "bool",
+      "line": 92
+    },
+    {
+      "name": "supervisor_model_path",
+      "type": "Path | None",
+      "line": 93
+    },
+    {
+      "name": "supervisor_model_sha256",
+      "type": "str",
+      "line": 94
+    },
+    {
+      "name": "supervisor_llm_fallback",
+      "type": "bool",
+      "line": 95
+    }
+  ],
+  "limitations": [
+    "Effective values, model provenance and capability mapping pending."
+  ]
+}

@@ -138,15 +138,14 @@ async def test_independent_seeds_preserve_f0():
 
 @pytest.mark.asyncio
 async def test_whisper_collapse_prevention():
-    """Fısıltı çökmesi durumunda tohum perturbasyonu ile otomatik telafi yapıldığını test eder."""
-    attempts = 0
+    """Fısıltı telafisi seçili ses kimliğini korur."""
+    attempts = []
 
     def mock_synth(text, seed):
-        nonlocal attempts
-        attempts += 1
+        attempts.append(seed)
         # İlk denemede unvoiced gürültü döndür (fısıltı çökmesi simülasyonu)
-        if attempts == 1:
-            return (np.random.randn(int(SAMPLE_RATE * 0.2)) * 0.01).astype(np.float32)
+        if len(attempts) == 1:
+            return np.zeros(int(SAMPLE_RATE * 0.2), dtype=np.float32)
         # İkinci denemede sesli sinyal döndür
         t = np.linspace(0, 0.2, int(SAMPLE_RATE * 0.2), endpoint=False)
         return (0.3 * np.sin(2 * np.pi * 220 * t)).astype(np.float32)
@@ -158,9 +157,30 @@ async def test_whisper_collapse_prevention():
         enabled=True,
     )
 
-    wave = await engine.enqueue_clause("Fısıltı testi", seed=9)
+    wave = await engine.enqueue_clause("Fısıltı testi", seed=77)
     assert len(wave) > 0
     assert engine.whisper_collapses_prevented >= 1
+    assert attempts == [77, 77]
+
+
+@pytest.mark.asyncio
+async def test_cancelled_queue_entry_never_reaches_solver(monkeypatch):
+    engine = BatchedODEEngine(batch_size=2, micro_window_ms=100)
+    synthesized = []
+
+    def solve(batch):
+        synthesized.extend(item.text for item in batch)
+        return [np.ones(16, dtype=np.float32) for item in batch]
+
+    monkeypatch.setattr(engine, "_solve_ode_batch", solve)
+    stale = asyncio.create_task(engine.enqueue_clause("Eski parça"))
+    await asyncio.sleep(0)
+    stale.cancel()
+    with pytest.raises(asyncio.CancelledError):
+        await stale
+
+    await asyncio.wait_for(engine.enqueue_clause("Geçerli parça"), timeout=1)
+    assert synthesized == ["Geçerli parça."]
 
 
 def test_default_engine_and_controller_params():

@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261125T182221Z",
+  "baseline_commit": "6273981e1684686ae85f9458b608764e85a4552c",
+  "records": [
+    {
+      "path": "experimental/asr_mapper.py",
+      "line": 220,
+      "symbol": "canonicalize_asr_text"
+    },
+    {
+      "path": "experimental/normalizer.py",
+      "line": 69,
+      "symbol": "tr_capitalize"
+    },
+    {
+      "path": "experimental/normalizer.py",
+      "line": 78,
+      "symbol": "int_to_turkish"
+    },
+    {
+      "path": "experimental/normalizer.py",
+      "line": 83,
+      "symbol": "decimal_to_turkish"
+    },
+    {
+      "path": "experimental/normalizer.py",
+      "line": 775,
+      "symbol": "normalize_text_for_tts"
+    },
+    {
+      "path": "experimental/tests/test_five_cuts_bargein_controller.py",
+      "line": 56,
+      "symbol": "test_pre_onset_ring_buffer_capacity_and_fifo"
+    },
+    {
+      "path": "experimental/tests/test_five_cuts_bargein_controller.py",
+      "line": 80,
+      "symbol": "test_pre_onset_preroll_masking_for_asr"
+    },
+    {
+      "path": "experimental/tests/test_five_cuts_bargein_controller.py",
+      "line": 94,
+      "symbol": "test_backchannel_echo_filter"
+    },
+    {
+      "path": "experimental/tests/test_five_cuts_bargein_controller.py",
+      "line": 123,
+      "symbol": "test_asterisk_media_bridge_tcp_nodelay_and_control"
+    },
+    {
+      "path": "experimental/tests/test_five_cuts_bargein_controller.py",
+      "line": 171,
+      "symbol": "test_asterisk_media_bridge_backpressure_xoff_xon"
+    },
+    {
+      "path": "experimental/tests/test_five_cuts_bargein_controller.py",
+      "line": 210,
+      "symbol": "test_dialogue_history_pruner"
+    },
+    {
+      "path": "experimental/tests/test_five_cuts_bargein_controller.py",
+      "line": 249,
+      "symbol": "test_five_cuts_controller_execution_and_sla"
+    },
+    {
+      "path": "experimental/tests/test_five_cuts_bargein_controller.py",
+      "line": 297,
+      "symbol": "test_five_cuts_voice_activity_evaluation"
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "line": 47,
+      "symbol": "_generate_synthetic_vowel"
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "line": 64,
+      "symbol": "_measure_fundamental_frequency"
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "line": 80,
+      "symbol": "test_wsola_speed_ratio_and_length"
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "line": 99,
+      "symbol": "test_wsola_exact_pitch_preservation"
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "line": 117,
+      "symbol": "test_wsola_edge_cases_and_bypass"
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "line": 140,
+      "symbol": "test_prosody_planner_intent_tag_extraction"
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "line": 159,
+      "symbol": "test_prosody_planner_keyword_fallback"
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "line": 170,
+      "symbol": "test_prosody_planner_clause_splitting_atomic_entities"
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "line": 182,
+      "symbol": "test_duration_floor_guard"
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "line": 199,
+      "symbol": "test_audio_voicing_checker"
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "line": 227,
+      "symbol": "test_model_hash_and_seed_guard"
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "line": 250,
+      "symbol": "test_overlapping_clause_streamer_pipelined_flow"
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "line": 290,
+      "symbol": "test_overlapping_clause_streamer_barge_in_cancellation"
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "line": 318,
+      "symbol": "test_overlapping_clause_streamer_voicing_retry"
+    },
+    {
+      "path": "experimental/tests/test_streaming_chunker_guard.py",
+      "line": 40,
+      "symbol": "test_stream_sanitizer_markdown_and_bullets"
+    },
+    {
+      "path": "experimental/tests/test_streaming_chunker_guard.py",
+      "line": 58,
+      "symbol": "test_stream_sanitizer_intent_tag_extraction"
+    },
+    {
+      "path": "experimental/tests/test_streaming_chunker_guard.py",
+      "line": 70,
+      "symbol": "test_atomic_chunker_first_clause_speed"
+    },
+    {
+      "path": "experimental/tests/test_streaming_chunker_guard.py",
+      "line": 89,
+      "symbol": "test_atomic_chunker_non_splitting_automotive_entities"
+    },
+    {
+      "path": "experimental/tests/test_streaming_chunker_guard.py",
+      "line": 109,
+      "symbol": "test_atomic_chunker_comma_decimal_isolation"
+    },
+    {
+      "path": "experimental/tests/test_streaming_chunker_guard.py",
+      "line": 125,
+      "symbol": "test_atomic_chunker_async_streaming"
+    },
+    {
+      "path": "experimental/tests/test_streaming_chunker_guard.py",
+      "line": 149,
+      "symbol": "test_anti_double_guard_combining_dots_stripping"
+    },
+    {
+      "path": "experimental/tests/test_streaming_chunker_guard.py",
+      "line": 167,
+      "symbol": "test_anti_double_guard_vocab_validation"
+    },
+    {
+      "path": "experimental/tests/test_streaming_chunker_guard.py",
+      "line": 184,
+      "symbol": "test_anti_double_guard_double_normalization_safe_check"
+    },
+    {
+      "path": "experimental/tests/test_streaming_chunker_guard.py",
+      "line": 202,
+      "symbol": "test_200_automotive_sentences_guard_regression"
+    },
+    {
+      "path": "experimental/tests/test_tts_normalization.py",
+      "line": 42,
+      "symbol": "normalizer"
+    },
+    {
+      "path": "experimental/tests/test_tts_normalization.py",
+      "line": 47,
+      "symbol": "asr"
+    },
+    {
+      "path": "experimental/tests/test_tts_normalization.py",
+      "line": 52,
+      "symbol": "freya_vocab"
+    },
+    {
+      "path": "experimental/tests/test_tts_normalization.py",
+      "line": 139,
+      "symbol": "load_07_test_cases"
+    },
+    {
+      "path": "experimental/tests/test_tts_normalization.py",
+      "line": 180,
+      "symbol": "load_sezer_norm_cases"
+    },
+    {
+      "path": "experimental/tests/test_tts_normalization.py",
+      "line": 196,
+      "symbol": "load_sezer_kose_cases"
+    }
+  ],
+  "limitations": [
+    "Static symbol candidates. Activation unverified."
+  ]
+}

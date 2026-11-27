@@ -1,0 +1,5680 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261125T182221Z",
+  "baseline_commit": "6273981e1684686ae85f9458b608764e85a4552c",
+  "records": [
+    {
+      "path": "experimental/tests/test_five_cuts_bargein_controller.py",
+      "line": 56,
+      "symbol": "test_pre_onset_ring_buffer_capacity_and_fifo"
+    },
+    {
+      "path": "experimental/tests/test_five_cuts_bargein_controller.py",
+      "line": 80,
+      "symbol": "test_pre_onset_preroll_masking_for_asr"
+    },
+    {
+      "path": "experimental/tests/test_five_cuts_bargein_controller.py",
+      "line": 94,
+      "symbol": "test_backchannel_echo_filter"
+    },
+    {
+      "path": "experimental/tests/test_five_cuts_bargein_controller.py",
+      "line": 123,
+      "symbol": "test_asterisk_media_bridge_tcp_nodelay_and_control"
+    },
+    {
+      "path": "experimental/tests/test_five_cuts_bargein_controller.py",
+      "line": 171,
+      "symbol": "test_asterisk_media_bridge_backpressure_xoff_xon"
+    },
+    {
+      "path": "experimental/tests/test_five_cuts_bargein_controller.py",
+      "line": 210,
+      "symbol": "test_dialogue_history_pruner"
+    },
+    {
+      "path": "experimental/tests/test_five_cuts_bargein_controller.py",
+      "line": 249,
+      "symbol": "test_five_cuts_controller_execution_and_sla"
+    },
+    {
+      "path": "experimental/tests/test_five_cuts_bargein_controller.py",
+      "line": 297,
+      "symbol": "test_five_cuts_voice_activity_evaluation"
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "line": 80,
+      "symbol": "test_wsola_speed_ratio_and_length"
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "line": 99,
+      "symbol": "test_wsola_exact_pitch_preservation"
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "line": 117,
+      "symbol": "test_wsola_edge_cases_and_bypass"
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "line": 140,
+      "symbol": "test_prosody_planner_intent_tag_extraction"
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "line": 159,
+      "symbol": "test_prosody_planner_keyword_fallback"
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "line": 170,
+      "symbol": "test_prosody_planner_clause_splitting_atomic_entities"
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "line": 182,
+      "symbol": "test_duration_floor_guard"
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "line": 199,
+      "symbol": "test_audio_voicing_checker"
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "line": 227,
+      "symbol": "test_model_hash_and_seed_guard"
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "line": 250,
+      "symbol": "test_overlapping_clause_streamer_pipelined_flow"
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "line": 290,
+      "symbol": "test_overlapping_clause_streamer_barge_in_cancellation"
+    },
+    {
+      "path": "experimental/tests/test_prosody_wsola_streamer.py",
+      "line": 318,
+      "symbol": "test_overlapping_clause_streamer_voicing_retry"
+    },
+    {
+      "path": "experimental/tests/test_streaming_chunker_guard.py",
+      "line": 40,
+      "symbol": "test_stream_sanitizer_markdown_and_bullets"
+    },
+    {
+      "path": "experimental/tests/test_streaming_chunker_guard.py",
+      "line": 58,
+      "symbol": "test_stream_sanitizer_intent_tag_extraction"
+    },
+    {
+      "path": "experimental/tests/test_streaming_chunker_guard.py",
+      "line": 70,
+      "symbol": "test_atomic_chunker_first_clause_speed"
+    },
+    {
+      "path": "experimental/tests/test_streaming_chunker_guard.py",
+      "line": 89,
+      "symbol": "test_atomic_chunker_non_splitting_automotive_entities"
+    },
+    {
+      "path": "experimental/tests/test_streaming_chunker_guard.py",
+      "line": 109,
+      "symbol": "test_atomic_chunker_comma_decimal_isolation"
+    },
+    {
+      "path": "experimental/tests/test_streaming_chunker_guard.py",
+      "line": 125,
+      "symbol": "test_atomic_chunker_async_streaming"
+    },
+    {
+      "path": "experimental/tests/test_streaming_chunker_guard.py",
+      "line": 149,
+      "symbol": "test_anti_double_guard_combining_dots_stripping"
+    },
+    {
+      "path": "experimental/tests/test_streaming_chunker_guard.py",
+      "line": 167,
+      "symbol": "test_anti_double_guard_vocab_validation"
+    },
+    {
+      "path": "experimental/tests/test_streaming_chunker_guard.py",
+      "line": 184,
+      "symbol": "test_anti_double_guard_double_normalization_safe_check"
+    },
+    {
+      "path": "experimental/tests/test_streaming_chunker_guard.py",
+      "line": 202,
+      "symbol": "test_200_automotive_sentences_guard_regression"
+    },
+    {
+      "path": "experimental/tests/test_tts_normalization.py",
+      "line": 77,
+      "symbol": "test_int_to_turkish"
+    },
+    {
+      "path": "experimental/tests/test_tts_normalization.py",
+      "line": 91,
+      "symbol": "test_decimal_to_turkish"
+    },
+    {
+      "path": "experimental/tests/test_tts_normalization.py",
+      "line": 111,
+      "symbol": "test_asr_mapping_canonical_vehicles"
+    },
+    {
+      "path": "experimental/tests/test_tts_normalization.py",
+      "line": 119,
+      "symbol": "test_canonical_brand_lookup"
+    },
+    {
+      "path": "experimental/tests/test_tts_normalization.py",
+      "line": 125,
+      "symbol": "test_canonicalize_asr_text_structure"
+    },
+    {
+      "path": "experimental/tests/test_tts_normalization.py",
+      "line": 165,
+      "symbol": "test_all_81_gold_standard_sentences"
+    },
+    {
+      "path": "experimental/tests/test_tts_normalization.py",
+      "line": 219,
+      "symbol": "test_all_72_sezer_normalizations"
+    },
+    {
+      "path": "experimental/tests/test_tts_normalization.py",
+      "line": 234,
+      "symbol": "test_all_32_sezer_kose_cases"
+    },
+    {
+      "path": "experimental/tests/test_tts_normalization.py",
+      "line": 252,
+      "symbol": "test_a3_never_replaces_inside_astra"
+    },
+    {
+      "path": "experimental/tests/test_tts_normalization.py",
+      "line": 259,
+      "symbol": "test_ev_never_replaces_inside_ev3"
+    },
+    {
+      "path": "experimental/tests/test_tts_normalization.py",
+      "line": 265,
+      "symbol": "test_suv_never_replaces_inside_c_suv"
+    },
+    {
+      "path": "experimental/tests/test_tts_normalization.py",
+      "line": 270,
+      "symbol": "test_sezer_uppercase_stress_trap"
+    },
+    {
+      "path": "experimental/tests/test_tts_normalization.py",
+      "line": 287,
+      "symbol": "test_vocab_characters_in_normalized_text"
+    },
+    {
+      "path": "tests/milestones/test_core.py",
+      "line": 11,
+      "symbol": "test_nominal_transition"
+    },
+    {
+      "path": "tests/milestones/test_core.py",
+      "line": 16,
+      "symbol": "test_bad_transition_rejected"
+    },
+    {
+      "path": "tests/milestones/test_core.py",
+      "line": 19,
+      "symbol": "test_interrupt_rejects_late_output"
+    },
+    {
+      "path": "tests/milestones/test_core.py",
+      "line": 23,
+      "symbol": "test_booking_requires_confirmed_and_ref"
+    },
+    {
+      "path": "tests/milestones/test_core.py",
+      "line": 28,
+      "symbol": "test_format_mismatch_rejected"
+    },
+    {
+      "path": "tests/milestones/test_core.py",
+      "line": 31,
+      "symbol": "test_legacy_cases_preserved"
+    },
+    {
+      "path": "tests/milestones/test_core.py",
+      "line": 37,
+      "symbol": "test_fake_output_flush"
+    },
+    {
+      "path": "tests/milestones/test_m01.py",
+      "line": 23,
+      "symbol": "test_session_id_validity"
+    },
+    {
+      "path": "tests/milestones/test_m01.py",
+      "line": 29,
+      "symbol": "test_monotonic_identifiers_guard_bool_negative_float"
+    },
+    {
+      "path": "tests/milestones/test_m01.py",
+      "line": 35,
+      "symbol": "test_round_trip_schema_and_utc"
+    },
+    {
+      "path": "tests/milestones/test_m01.py",
+      "line": 44,
+      "symbol": "test_strict_wire_validation"
+    },
+    {
+      "path": "tests/milestones/test_m01.py",
+      "line": 52,
+      "symbol": "test_payload_immutable_and_consumer_isolated"
+    },
+    {
+      "path": "tests/milestones/test_m01.py",
+      "line": 63,
+      "symbol": "test_20ms_8khz_pcm16"
+    },
+    {
+      "path": "tests/milestones/test_m01.py",
+      "line": 70,
+      "symbol": "test_g711_frame_size_and_rate"
+    },
+    {
+      "path": "tests/milestones/test_m01.py",
+      "line": 76,
+      "symbol": "test_explicit_format_conversion_required"
+    },
+    {
+      "path": "tests/milestones/test_m01.py",
+      "line": 86,
+      "symbol": "test_bus_atomic_backpressure_and_retry"
+    },
+    {
+      "path": "tests/milestones/test_m01.py",
+      "line": 99,
+      "symbol": "test_bus_rejects_duplicates_order_errors_and_closed"
+    },
+    {
+      "path": "tests/milestones/test_m01.py",
+      "line": 110,
+      "symbol": "test_session_lifecycle_and_event_order"
+    },
+    {
+      "path": "tests/milestones/test_m01.py",
+      "line": 133,
+      "symbol": "test_prevent_invalid_transition_without_mutation"
+    },
+    {
+      "path": "tests/milestones/test_m01.py",
+      "line": 142,
+      "symbol": "test_outbox_full_rollback_then_recover"
+    },
+    {
+      "path": "tests/milestones/test_m01.py",
+      "line": 158,
+      "symbol": "test_parallel_sessions_no_crosstalk"
+    },
+    {
+      "path": "tests/milestones/test_m01.py",
+      "line": 172,
+      "symbol": "test_cancellation_of_registered_task"
+    },
+    {
+      "path": "tests/milestones/test_m01.py",
+      "line": 187,
+      "symbol": "test_cancellation_token_wait"
+    },
+    {
+      "path": "tests/milestones/test_m01.py",
+      "line": 198,
+      "symbol": "test_handoff_and_terminal_behavior"
+    },
+    {
+      "path": "tests/milestones/test_m01.py",
+      "line": 207,
+      "symbol": "test_failure_is_terminal_and_cancels"
+    },
+    {
+      "path": "tests/milestones/test_m01.py",
+      "line": 216,
+      "symbol": "test_stale_chunk_rejection_survives_next_turn"
+    },
+    {
+      "path": "tests/milestones/test_m01.py",
+      "line": 225,
+      "symbol": "test_unsubscribe_removes_fanout"
+    },
+    {
+      "path": "tests/milestones/test_m01.py",
+      "line": 235,
+      "symbol": "test_many_concurrent_same_session_turns_only_one_wins"
+    },
+    {
+      "path": "tests/milestones/test_m02.py",
+      "line": 39,
+      "symbol": "test_nominal_flow_effects"
+    },
+    {
+      "path": "tests/milestones/test_m02.py",
+      "line": 54,
+      "symbol": "test_barge_in_flush_ack_gate_and_stale_audio"
+    },
+    {
+      "path": "tests/milestones/test_m02.py",
+      "line": 72,
+      "symbol": "test_deferred_transcript_is_atomic_on_flush_ack"
+    },
+    {
+      "path": "tests/milestones/test_m02.py",
+      "line": 85,
+      "symbol": "test_handoff_during_speaking_flushes_before_transfer"
+    },
+    {
+      "path": "tests/milestones/test_m02.py",
+      "line": 96,
+      "symbol": "test_handoff_overrides_deferred_transcript"
+    },
+    {
+      "path": "tests/milestones/test_m02.py",
+      "line": 105,
+      "symbol": "test_timeout_never_allows_listening"
+    },
+    {
+      "path": "tests/milestones/test_m02.py",
+      "line": 113,
+      "symbol": "test_vad_in_thinking_cancels_old_llm_generation"
+    },
+    {
+      "path": "tests/milestones/test_m02.py",
+      "line": 126,
+      "symbol": "test_replay_gap_duplicate_event_id"
+    },
+    {
+      "path": "tests/milestones/test_m02.py",
+      "line": 140,
+      "symbol": "test_old_generation_and_wrong_ack_not_applied"
+    },
+    {
+      "path": "tests/milestones/test_m02.py",
+      "line": 149,
+      "symbol": "test_idempotent_hangup"
+    },
+    {
+      "path": "tests/milestones/test_m02.py",
+      "line": 158,
+      "symbol": "test_handoff_thinking_cancels_llm"
+    },
+    {
+      "path": "tests/milestones/test_m02.py",
+      "line": 166,
+      "symbol": "test_effect_backpressure_rejects_without_state_mutation"
+    },
+    {
+      "path": "tests/milestones/test_m02.py",
+      "line": 180,
+      "symbol": "test_outbox_backpressure_rollbacks_input"
+    },
+    {
+      "path": "tests/milestones/test_m02.py",
+      "line": 192,
+      "symbol": "test_ack_followup_is_transactional_when_outbox_short"
+    },
+    {
+      "path": "tests/milestones/test_m02.py",
+      "line": 209,
+      "symbol": "test_unmatched_timeout_is_not_fatal"
+    },
+    {
+      "path": "tests/milestones/test_m02.py",
+      "line": 216,
+      "symbol": "test_invalid_signals_and_clock_regression"
+    },
+    {
+      "path": "tests/milestones/test_m02.py",
+      "line": 228,
+      "symbol": "test_multi_session_isolation_and_effect_determinism"
+    },
+    {
+      "path": "tests/milestones/test_m02.py",
+      "line": 236,
+      "symbol": "test_concurrent_repeated_signal_sequence_only_one_commits"
+    },
+    {
+      "path": "tests/milestones/test_m02.py",
+      "line": 244,
+      "symbol": "test_audit_has_no_transcripts"
+    },
+    {
+      "path": "tests/milestones/test_m02.py",
+      "line": 253,
+      "symbol": "test_bus_reordering_avoided_by_m01_outbox"
+    },
+    {
+      "path": "tests/milestones/test_m02.py",
+      "line": 274,
+      "symbol": "test_poll_timeout_after_deadline"
+    },
+    {
+      "path": "tests/milestones/test_m02.py",
+      "line": 294,
+      "symbol": "test_timeout_does_not_trigger_after_ack"
+    },
+    {
+      "path": "tests/milestones/test_m02.py",
+      "line": 313,
+      "symbol": "test_hangup_when_m01_outbox_full_is_fail_closed"
+    },
+    {
+      "path": "tests/milestones/test_m02.py",
+      "line": 329,
+      "symbol": "test_timeout_full_outbox_safely_fails"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 40,
+      "symbol": "test_hello_without_authentication"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 44,
+      "symbol": "test_identity_gate_prevents_crm_and_booking"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 52,
+      "symbol": "test_consent_gate_prevents_crm_and_booking"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 60,
+      "symbol": "test_marketing_optin_does_not_grant_crm_access"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 64,
+      "symbol": "test_verified_vehicle"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 69,
+      "symbol": "test_missing_vehicle_or_unverified"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 76,
+      "symbol": "test_verified_price_not_a_sale_commitment"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 82,
+      "symbol": "test_missing_or_expired_or_mismatched_quote_no_price"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 91,
+      "symbol": "test_future_slot_and_timezone_required"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 100,
+      "symbol": "test_offer_is_not_confirmation"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 105,
+      "symbol": "test_confirmation_after_explicit_yes_and_receipt"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 112,
+      "symbol": "test_duplicate_confirm_no_duplicate_booking"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 120,
+      "symbol": "test_idempotency_of_fake_server"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 128,
+      "symbol": "test_confirm_without_offer_never_books"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 133,
+      "symbol": "test_decline_ends_pending_offer"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 141,
+      "symbol": "test_availability_unavailable_unknown_never_books"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 151,
+      "symbol": "test_availability_changed_at_commit"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 159,
+      "symbol": "test_unknown_availability_at_commit"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 166,
+      "symbol": "test_commit_exception_no_success"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 177,
+      "symbol": "test_stale_precommit_does_not_create_booking"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 184,
+      "symbol": "test_unverified_vehicle_no_offer"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 189,
+      "symbol": "test_unknown_twice_handoff"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 197,
+      "symbol": "test_direct_handoff"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 202,
+      "symbol": "test_per_session_isolation"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 208,
+      "symbol": "test_store_does_not_cross_sessions"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 219,
+      "symbol": "test_invalid_price_object_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 227,
+      "symbol": "test_booking_result_recheck_after_expiry"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 234,
+      "symbol": "test_confirmation_key_reused_on_retry_with_same_mock_port"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 243,
+      "symbol": "test_lookup_prices_for_another_session_no_leak"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 273,
+      "symbol": "test_m02_integration_safe_ref_only"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 282,
+      "symbol": "test_handoff_runs_m02_transition"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 288,
+      "symbol": "test_missing_input_ref_does_not_make_response"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 294,
+      "symbol": "test_old_generation_response_blocked"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 301,
+      "symbol": "test_hangup_blocks_response"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 308,
+      "symbol": "test_input_ref_not_in_external_event_audit"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 315,
+      "symbol": "test_no_unauthorized_booking_from_thinking"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 321,
+      "symbol": "test_wrong_effect_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 328,
+      "symbol": "test_duplicate_request_effect_becomes_stale"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 335,
+      "symbol": "test_reference_does_not_include_transcript_text"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 353,
+      "symbol": "test_raw_transcript_only_in_session_secure_store"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 362,
+      "symbol": "test_transcript_bound_size"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 368,
+      "symbol": "test_capacity_eviction"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 374,
+      "symbol": "test_idempotency_key_reuse_for_other_slot_fails"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 380,
+      "symbol": "test_uncertain_commit_blocks_new_offer"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 389,
+      "symbol": "test_recheck_finds_confirmed_receipt_after_uncertainty"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 400,
+      "symbol": "test_recheck_without_key_fails_safe"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 404,
+      "symbol": "test_prevent_second_booking_while_confirmed"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 412,
+      "symbol": "test_cancel_offer_after_handoff_requires_new_review"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 420,
+      "symbol": "test_cancellation_before_postavailability_mutation"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 430,
+      "symbol": "test_invalid_reference_key_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 444,
+      "symbol": "test_explicit_crm_case_created_once"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 450,
+      "symbol": "test_case_requires_authorization"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 454,
+      "symbol": "test_case_requires_consent"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 458,
+      "symbol": "test_case_requires_known_vehicle"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 462,
+      "symbol": "test_case_kind_must_be_whitelisted"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 465,
+      "symbol": "test_case_exception_no_success"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 480,
+      "symbol": "test_crm_price_unavailable_under_exception"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 485,
+      "symbol": "test_crm_vehicle_lookup_fails_closed"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 490,
+      "symbol": "test_booking_availability_exception_unknown"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 497,
+      "symbol": "test_invalid_direct_confirmation"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 501,
+      "symbol": "test_handoff_terminal"
+    },
+    {
+      "path": "tests/milestones/test_m03.py",
+      "line": 505,
+      "symbol": "test_valid_offer_to_confirm_path"
+    },
+    {
+      "path": "tests/milestones/test_m03_contracts.py",
+      "line": 11,
+      "symbol": "test_json_contracts_load"
+    },
+    {
+      "path": "tests/milestones/test_m03_contracts.py",
+      "line": 16,
+      "symbol": "test_schema_validator_examples"
+    },
+    {
+      "path": "tests/milestones/test_m03_contracts.py",
+      "line": 31,
+      "symbol": "test_input_schema_sample"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 25,
+      "symbol": "test_int_to_tr_zero"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 26,
+      "symbol": "test_int_to_tr_1000"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 27,
+      "symbol": "test_int_to_tr_million"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 28,
+      "symbol": "test_int_to_tr_large"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 29,
+      "symbol": "test_int_to_tr_out_of_range"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 31,
+      "symbol": "test_int_to_tr_negative"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 33,
+      "symbol": "test_int_to_tr_float"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 35,
+      "symbol": "test_money_thousands"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 39,
+      "symbol": "test_money_decimal"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 42,
+      "symbol": "test_money_one_cent"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 45,
+      "symbol": "test_iso_date"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 47,
+      "symbol": "test_tr_date"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 49,
+      "symbol": "test_invalid_date"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 53,
+      "symbol": "test_ambiguous_date"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 56,
+      "symbol": "test_time"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 58,
+      "symbol": "test_time_suffix"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 60,
+      "symbol": "test_time_0900_suffix"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 62,
+      "symbol": "test_invalid_time"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 65,
+      "symbol": "test_kilometres"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 67,
+      "symbol": "test_engine"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 69,
+      "symbol": "test_model_year"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 71,
+      "symbol": "test_identity_brand_preserved"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 75,
+      "symbol": "test_strict_brand_reject"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 77,
+      "symbol": "test_no_guessed_form"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 79,
+      "symbol": "test_display_unchanged"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 82,
+      "symbol": "test_bidi_fails_closed"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 85,
+      "symbol": "test_empty_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 87,
+      "symbol": "test_long_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 89,
+      "symbol": "test_unknown_number_flag"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 93,
+      "symbol": "test_no_phone_rewrite"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 98,
+      "symbol": "test_a01_empty"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 101,
+      "symbol": "test_unapproved_not_applied"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 106,
+      "symbol": "test_missing_proof_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 108,
+      "symbol": "test_approved_rewrite"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 112,
+      "symbol": "test_suffix_fails_closed"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 116,
+      "symbol": "test_approved_suffix"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 119,
+      "symbol": "test_do_not_partially_replace"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 122,
+      "symbol": "test_single_pass"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 127,
+      "symbol": "test_conflicting_alias"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 130,
+      "symbol": "test_conflicts_export_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 135,
+      "symbol": "test_unsupported_proposed_reading"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 143,
+      "symbol": "test_greeting"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 145,
+      "symbol": "test_handoff"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 147,
+      "symbol": "test_handoff_priority"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 149,
+      "symbol": "test_price_no_guess"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 154,
+      "symbol": "test_resolved_vehicle"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 157,
+      "symbol": "test_two_intents"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 160,
+      "symbol": "test_confirmation_needs_offer"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 162,
+      "symbol": "test_confirmation_with_offer"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 165,
+      "symbol": "test_decline_with_offer"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 168,
+      "symbol": "test_booking_complete"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 174,
+      "symbol": "test_relative_tomorrow"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 177,
+      "symbol": "test_relative_without_clock"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 182,
+      "symbol": "test_absolute_without_timezone"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 187,
+      "symbol": "test_absolute_with_explicit_offset"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 191,
+      "symbol": "test_missing_location"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 194,
+      "symbol": "test_invalid_calendar"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 198,
+      "symbol": "test_invalid_time"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 201,
+      "symbol": "test_case_callback"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 205,
+      "symbol": "test_diagnostics_no_transcript"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 208,
+      "symbol": "test_invalid_anchor"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 210,
+      "symbol": "test_invalid_utc_offset"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 212,
+      "symbol": "test_empty_text"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 223,
+      "symbol": "test_multiple_dates_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 227,
+      "symbol": "test_multiple_times_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 231,
+      "symbol": "test_relative_and_absolute_conflict"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 235,
+      "symbol": "test_conflicting_offset_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 238,
+      "symbol": "test_bridge_is_reference_only"
+    },
+    {
+      "path": "tests/milestones/test_m04.py",
+      "line": 248,
+      "symbol": "test_bridge_reject_empty_session"
+    },
+    {
+      "path": "tests/milestones/test_m04_adapter.py",
+      "line": 13,
+      "symbol": "test_real_snapshot_empty_rules"
+    },
+    {
+      "path": "tests/milestones/test_m04_adapter.py",
+      "line": 16,
+      "symbol": "test_missing_file"
+    },
+    {
+      "path": "tests/milestones/test_m04_adapter.py",
+      "line": 18,
+      "symbol": "test_synthetic_review_requires_media_and_proof"
+    },
+    {
+      "path": "tests/milestones/test_m04_adapter.py",
+      "line": 43,
+      "symbol": "test_legacy_320_hash_kept"
+    },
+    {
+      "path": "tests/milestones/test_m04_contracts.py",
+      "line": 19,
+      "symbol": "test_normalization_schema"
+    },
+    {
+      "path": "tests/milestones/test_m04_contracts.py",
+      "line": 21,
+      "symbol": "test_nlu_schema"
+    },
+    {
+      "path": "tests/milestones/test_m04_contracts.py",
+      "line": 24,
+      "symbol": "test_approved_schema"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 28,
+      "symbol": "test_money_protected"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 35,
+      "symbol": "test_decimal_money_cents_kept"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 40,
+      "symbol": "test_date_time_protected"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 47,
+      "symbol": "test_engine_protected_acronyms"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 51,
+      "symbol": "test_unapproved_qashqai_blocks_tts"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 58,
+      "symbol": "test_skoda_blocks_unverified_reading"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 61,
+      "symbol": "test_digits_unexpanded_review"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 66,
+      "symbol": "test_approved_example_without_real_claim"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 75,
+      "symbol": "test_parentheses_protected"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 79,
+      "symbol": "test_question_hint"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 84,
+      "symbol": "test_determinism"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 89,
+      "symbol": "test_no_lost_text"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 93,
+      "symbol": "test_long_money_not_split_even_with_tight_limit"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 100,
+      "symbol": "test_unsupported_control_blocks"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 103,
+      "symbol": "test_markup_not_synthesized"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 106,
+      "symbol": "test_manual_ready_with_warnings_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 111,
+      "symbol": "test_invalid_ids_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 115,
+      "symbol": "test_tts_integrity_hash"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 123,
+      "symbol": "test_empty_limits_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 126,
+      "symbol": "test_clause_limit_guard"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 130,
+      "symbol": "test_m04_review_cannot_bypass"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 153,
+      "symbol": "test_enqueue_pop_mock"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 162,
+      "symbol": "test_barge_in_invalidates_pending_text"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 169,
+      "symbol": "test_reject_review"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 175,
+      "symbol": "test_wrong_generation_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 180,
+      "symbol": "test_terminal_invalidates"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 186,
+      "symbol": "test_wrong_state_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 190,
+      "symbol": "test_backpressure_atomic"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 195,
+      "symbol": "test_new_generation_old_plan_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 202,
+      "symbol": "test_discard_preserves_fresh"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 208,
+      "symbol": "test_queue_receipt_no_text"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 237,
+      "symbol": "test_cross_session_reference_not_accessible"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 243,
+      "symbol": "test_response_ready_as_ref"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 250,
+      "symbol": "test_unsupported_freya_text_blocked"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 256,
+      "symbol": "test_stale_response_rejected_without_store_lookup"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 262,
+      "symbol": "test_wrong_effect_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 280,
+      "symbol": "test_replayed_plan_only_queued_once"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 285,
+      "symbol": "test_conflicting_plan_same_identity_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 292,
+      "symbol": "test_replay_after_pop_still_ignored"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 307,
+      "symbol": "test_bare_clock"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 310,
+      "symbol": "test_distance"
+    },
+    {
+      "path": "tests/milestones/test_m05.py",
+      "line": 312,
+      "symbol": "test_model_year"
+    },
+    {
+      "path": "tests/milestones/test_m05_contracts.py",
+      "line": 11,
+      "symbol": "test_new_draft_2020_schemas"
+    },
+    {
+      "path": "tests/milestones/test_m05_contracts.py",
+      "line": 33,
+      "symbol": "test_exact_legacy_320_hash"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 16,
+      "symbol": "test_pcm8"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 19,
+      "symbol": "test_pcm16"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 21,
+      "symbol": "test_pcm48"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 23,
+      "symbol": "test_alaw"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 25,
+      "symbol": "test_mulaw"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 27,
+      "symbol": "test_g711_rate_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 30,
+      "symbol": "test_g722_metadata_clock"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 34,
+      "symbol": "test_g722_clock_must_be_distinct"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 36,
+      "symbol": "test_reject_stereo_or_unknown_rate"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 39,
+      "symbol": "test_reject_bad_type"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 42,
+      "symbol": "test_chunk_duration_invariant"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 47,
+      "symbol": "test_chunk_ids_and_private_metadata"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 52,
+      "symbol": "test_asterisk_json_dry_run"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 56,
+      "symbol": "test_ack_is_never_real_proof"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 71,
+      "symbol": "test_enqueue_pop"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 75,
+      "symbol": "test_duplicate_ignored"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 80,
+      "symbol": "test_conflicting_duplicate"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 83,
+      "symbol": "test_gap_no_poison"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 87,
+      "symbol": "test_capacity_transactional"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 92,
+      "symbol": "test_duration_limit"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 96,
+      "symbol": "test_independent_sessions"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 100,
+      "symbol": "test_interruption_stales_old_generation"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 105,
+      "symbol": "test_interrupt_flush_discards_and_blocks"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 112,
+      "symbol": "test_discard_stale"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 116,
+      "symbol": "test_terminal_rejects"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 119,
+      "symbol": "test_atomic_concurrent_sequence_race"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 123,
+      "symbol": "test_local_flush_no_pbx_proof"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 126,
+      "symbol": "test_close_is_fail_closed"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 150,
+      "symbol": "test_send_nominal"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 154,
+      "symbol": "test_xoff_backpressure_preserves_buffer"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 161,
+      "symbol": "test_transport_capacity_preserves_buffer"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 168,
+      "symbol": "test_flush_two_stage_with_explicit_fake_ack"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 182,
+      "symbol": "test_forged_ack_without_transport_confirmation_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 189,
+      "symbol": "test_xoff_survives_flush_ack"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 198,
+      "symbol": "test_transport_reject_after_pop_restores_chunk"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 209,
+      "symbol": "test_wrong_ack_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 214,
+      "symbol": "test_adapter_mismatch_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 218,
+      "symbol": "test_ack_replayed_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 223,
+      "symbol": "test_ack_requires_confirmed"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 227,
+      "symbol": "test_flush_idempotent"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 230,
+      "symbol": "test_no_flush_from_wrong_state"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 235,
+      "symbol": "test_timeout_then_no_ack"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 242,
+      "symbol": "test_hangup_in_flight"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 247,
+      "symbol": "test_deferred_transcript_survives_ack"
+    },
+    {
+      "path": "tests/milestones/test_m06.py",
+      "line": 253,
+      "symbol": "test_invalid_sequence_ack_not_applied"
+    },
+    {
+      "path": "tests/milestones/test_m06_contracts.py",
+      "line": 22,
+      "symbol": "test_all_schemas_valid"
+    },
+    {
+      "path": "tests/milestones/test_m06_contracts.py",
+      "line": 24,
+      "symbol": "test_chunk_metadata_safe"
+    },
+    {
+      "path": "tests/milestones/test_m06_contracts.py",
+      "line": 29,
+      "symbol": "test_bad_chunk_rejected_by_schema"
+    },
+    {
+      "path": "tests/milestones/test_m06_contracts.py",
+      "line": 34,
+      "symbol": "test_asterisk_control_schema"
+    },
+    {
+      "path": "tests/milestones/test_m06_contracts.py",
+      "line": 41,
+      "symbol": "test_no_unverified_extra_ack_fields"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 20,
+      "symbol": "test_clock"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 25,
+      "symbol": "test_retry"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 30,
+      "symbol": "test_deadline"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 33,
+      "symbol": "test_command_no_raw_text"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 40,
+      "symbol": "test_breaker_probe"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 59,
+      "symbol": "test_start_stop_health"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 63,
+      "symbol": "test_ok_virtual_completion"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 72,
+      "symbol": "test_replay_and_conflict"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 78,
+      "symbol": "test_sequence_gap_no_poison"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 83,
+      "symbol": "test_capacity"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 87,
+      "symbol": "test_timeout_before_start"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 90,
+      "symbol": "test_deadline_inflight"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 94,
+      "symbol": "test_retry_and_recovery"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 100,
+      "symbol": "test_nonidempotent_never_retry"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 104,
+      "symbol": "test_permanent_never_retry"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 108,
+      "symbol": "test_disconnect_and_reconnect"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 115,
+      "symbol": "test_reconnect_invalid"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 117,
+      "symbol": "test_stale_generation"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 121,
+      "symbol": "test_cancel_session_independent"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 128,
+      "symbol": "test_fault_isolation_other_adapter"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 138,
+      "symbol": "test_circuit_open_and_half_open"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 149,
+      "symbol": "test_stop_cancels_inflight"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 154,
+      "symbol": "test_bounded_replay_window"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 171,
+      "symbol": "test_health_four_adapters"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 174,
+      "symbol": "test_bad_effect_reference"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 177,
+      "symbol": "test_effect_idempotency_and_cancel"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 185,
+      "symbol": "test_cancel_effect"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 191,
+      "symbol": "test_no_fabricated_pbx_ack"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 194,
+      "symbol": "test_clause_to_synthetic_media"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 207,
+      "symbol": "test_stale_completion_blocked_by_m06"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 219,
+      "symbol": "test_media_backpressure_does_not_advance_chunk_seq"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 234,
+      "symbol": "test_independent_tts_telephony_failures"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 253,
+      "symbol": "test_flush_is_not_auto_acked"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 272,
+      "symbol": "test_flush_requires_valid_m02_state"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 275,
+      "symbol": "test_separate_stt_llm_commands"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 287,
+      "symbol": "test_bridge_holds_clause_on_adapter_backpressure"
+    },
+    {
+      "path": "tests/milestones/test_m07.py",
+      "line": 302,
+      "symbol": "test_adapter_session_isolation_with_stale_callback"
+    },
+    {
+      "path": "tests/milestones/test_m07_contracts.py",
+      "line": 23,
+      "symbol": "test_all_five_schemas"
+    },
+    {
+      "path": "tests/milestones/test_m07_contracts.py",
+      "line": 27,
+      "symbol": "test_command"
+    },
+    {
+      "path": "tests/milestones/test_m07_contracts.py",
+      "line": 29,
+      "symbol": "test_command_reject_raw_text"
+    },
+    {
+      "path": "tests/milestones/test_m07_contracts.py",
+      "line": 32,
+      "symbol": "test_result"
+    },
+    {
+      "path": "tests/milestones/test_m07_contracts.py",
+      "line": 36,
+      "symbol": "test_health"
+    },
+    {
+      "path": "tests/milestones/test_m07_contracts.py",
+      "line": 40,
+      "symbol": "test_retry"
+    },
+    {
+      "path": "tests/milestones/test_m07_contracts.py",
+      "line": 42,
+      "symbol": "test_stream"
+    },
+    {
+      "path": "tests/milestones/test_m07_contracts.py",
+      "line": 44,
+      "symbol": "test_schema_reject_unexpected"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 30,
+      "symbol": "test_initial_dashboard"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 38,
+      "symbol": "test_open_and_turn"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 44,
+      "symbol": "test_signal_guards_invalid_order"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 49,
+      "symbol": "test_barge_in_requires_fake_ack"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 61,
+      "symbol": "test_no_ack_when_not_pending"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 65,
+      "symbol": "test_flush_timeout_safe_failure"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 73,
+      "symbol": "test_xoff_xon"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 79,
+      "symbol": "test_multiple_sessions_separate"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 86,
+      "symbol": "test_hangup_prevents_operations"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 91,
+      "symbol": "test_unknown_session_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 94,
+      "symbol": "test_bad_clock_delta"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 97,
+      "symbol": "test_review_empty_and_cannot_invent"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 102,
+      "symbol": "test_timeline_no_raw_transcript"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 125,
+      "symbol": "test_cannot_approve_without_real_evidence"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 128,
+      "symbol": "test_rejection_audited_but_source_untouched"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 133,
+      "symbol": "test_approval_requires_valid_checksum_and_transcript"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 145,
+      "symbol": "test_checksum_mismatch_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 150,
+      "symbol": "test_invalid_wav_bytes_refused_even_with_matching_checksum"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 157,
+      "symbol": "test_path_traversal_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 162,
+      "symbol": "test_invalid_reviewer_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 165,
+      "symbol": "test_unknown_annotation_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 189,
+      "symbol": "test_serves_actual_ui_assets"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 196,
+      "symbol": "test_csp_no_external_scripts"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 200,
+      "symbol": "test_snapshot_no_audio_and_source_records"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 206,
+      "symbol": "test_post_without_csrf_forbidden"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 209,
+      "symbol": "test_origin_rejected_even_with_csrf"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 213,
+      "symbol": "test_host_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 216,
+      "symbol": "test_post_open_valid_token"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 221,
+      "symbol": "test_invalid_payload_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m08.py",
+      "line": 225,
+      "symbol": "test_reject_remote_bind"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 23,
+      "symbol": "test_whole_catalog"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 30,
+      "symbol": "test_scenario_names_restricted"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 33,
+      "symbol": "test_e2e_not_physical_audio"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 40,
+      "symbol": "test_price_m04_review_must_not_fake_audio"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 45,
+      "symbol": "test_valid_safe_response_generates_fake_metadata"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 50,
+      "symbol": "test_no_automatic_flush_ack"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 62,
+      "symbol": "test_same_response_idempotency_across_resubmission"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 65,
+      "symbol": "test_wrong_answer_cannot_be_resolved_to_booking"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 71,
+      "symbol": "test_text_not_in_safe_e2e_trace"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 77,
+      "symbol": "test_cross_session_no_booking_leak"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 82,
+      "symbol": "test_generation_monotonic_on_interrupt"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 91,
+      "symbol": "test_hangup_does_not_resume"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 95,
+      "symbol": "test_handoff_turkish_suffix"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 98,
+      "symbol": "test_m09_does_not_mutate_golden"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 102,
+      "symbol": "test_no_pending_flush_when_normal_price"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 105,
+      "symbol": "test_adapter_disconnect_recover_isolated"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 109,
+      "symbol": "test_call_timeout_terminal"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 113,
+      "symbol": "test_no_speech_file_artifacts_created_by_catalog"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 136,
+      "symbol": "test_20_scenarios_visible_in_read_model"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 140,
+      "symbol": "test_scenario_action_restricts_names"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 143,
+      "symbol": "test_scenario_exposed_to_m08_ui"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 151,
+      "symbol": "test_reports_bounded"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 155,
+      "symbol": "test_trace_privacy"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 160,
+      "symbol": "test_old_console_actions_still_work"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 186,
+      "symbol": "test_ui_has_scenario_tab"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 192,
+      "symbol": "test_csrf_required_for_scenario"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 195,
+      "symbol": "test_scenario_valid_post"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 200,
+      "symbol": "test_scenario_bad_post"
+    },
+    {
+      "path": "tests/milestones/test_m09.py",
+      "line": 203,
+      "symbol": "test_invalid_host_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m10.py",
+      "line": 21,
+      "symbol": "test_dryrun_has_no_activation"
+    },
+    {
+      "path": "tests/milestones/test_m10.py",
+      "line": 30,
+      "symbol": "test_remote_insecure_and_userinfo_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m10.py",
+      "line": 36,
+      "symbol": "test_no_secrets_in_diagnostic"
+    },
+    {
+      "path": "tests/milestones/test_m10.py",
+      "line": 41,
+      "symbol": "test_codec_contract"
+    },
+    {
+      "path": "tests/milestones/test_m10.py",
+      "line": 44,
+      "symbol": "test_bad_config"
+    },
+    {
+      "path": "tests/milestones/test_m10.py",
+      "line": 52,
+      "symbol": "test_price_speech_distinct_from_display"
+    },
+    {
+      "path": "tests/milestones/test_m10.py",
+      "line": 57,
+      "symbol": "test_offer_iso_convert"
+    },
+    {
+      "path": "tests/milestones/test_m10.py",
+      "line": 63,
+      "symbol": "test_unknown_location_fails_closed"
+    },
+    {
+      "path": "tests/milestones/test_m10.py",
+      "line": 67,
+      "symbol": "test_reference_masked_in_speech"
+    },
+    {
+      "path": "tests/milestones/test_m10.py",
+      "line": 71,
+      "symbol": "test_brand_not_transliterated"
+    },
+    {
+      "path": "tests/milestones/test_m10.py",
+      "line": 74,
+      "symbol": "test_unrecognized_reference_blocks"
+    },
+    {
+      "path": "tests/milestones/test_m10.py",
+      "line": 86,
+      "symbol": "test_create_start_atomic_and_sequence"
+    },
+    {
+      "path": "tests/milestones/test_m10.py",
+      "line": 91,
+      "symbol": "test_crash_recovery_is_failclosed_and_does_not_replay_effects"
+    },
+    {
+      "path": "tests/milestones/test_m10.py",
+      "line": 110,
+      "symbol": "test_restart_after_delivered_event_preserves_cursor"
+    },
+    {
+      "path": "tests/milestones/test_m10.py",
+      "line": 124,
+      "symbol": "test_bus_backpressure_leaves_durable_pending"
+    },
+    {
+      "path": "tests/milestones/test_m10.py",
+      "line": 133,
+      "symbol": "test_failed_transaction_keeps_memory_unchanged"
+    },
+    {
+      "path": "tests/milestones/test_m10.py",
+      "line": 144,
+      "symbol": "test_recovery_is_idempotent"
+    },
+    {
+      "path": "tests/milestones/test_m10.py",
+      "line": 153,
+      "symbol": "test_handoff_requires_reconciliation_after_restart"
+    },
+    {
+      "path": "tests/milestones/test_m10.py",
+      "line": 164,
+      "symbol": "test_terminal_not_recovered_as_new_call"
+    },
+    {
+      "path": "tests/milestones/test_m10.py",
+      "line": 172,
+      "symbol": "test_no_out_of_order_durable_ack"
+    },
+    {
+      "path": "tests/milestones/test_m10.py",
+      "line": 179,
+      "symbol": "test_pii_payload_refused"
+    },
+    {
+      "path": "tests/milestones/test_m10.py",
+      "line": 187,
+      "symbol": "test_duplicate_session_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m10.py",
+      "line": 192,
+      "symbol": "test_all_business_scenarios_with_durable_persistence_and_speech_presentation"
+    },
+    {
+      "path": "tests/milestones/test_m10.py",
+      "line": 204,
+      "symbol": "test_readiness_dashboard_is_offline"
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "line": 25,
+      "symbol": "test_missing_all_hold"
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "line": 29,
+      "symbol": "test_strict_gate_names"
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "line": 32,
+      "symbol": "test_physical_pass_not_accepted_from_mock"
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "line": 35,
+      "symbol": "test_real_pass_requires_evidence"
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "line": 38,
+      "symbol": "test_regression_can_pass_without_physical"
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "line": 43,
+      "symbol": "test_evidence_tampering_rejects_pass"
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "line": 50,
+      "symbol": "test_renamed_gate_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "line": 58,
+      "symbol": "test_invalid_pass_without_physical_on_disk_fails"
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "line": 65,
+      "symbol": "test_pbx_fake_cannot_pass"
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "line": 79,
+      "symbol": "test_pbx_ordered_real_trace_fields"
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "line": 83,
+      "symbol": "test_pbx_order_error"
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "line": 87,
+      "symbol": "test_pbx_mismatched_channel"
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "line": 91,
+      "symbol": "test_pbx_duplicate_mono"
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "line": 95,
+      "symbol": "test_pbx_stale_flush_ack_not_sufficient"
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "line": 99,
+      "symbol": "test_pbx_slow_acoustic_stop_fails_latency"
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "line": 103,
+      "symbol": "test_empty_stt_reference_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "line": 106,
+      "symbol": "test_wer_cer_exact"
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "line": 110,
+      "symbol": "test_wer_one_substitution"
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "line": 115,
+      "symbol": "test_unicode_casefold"
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "line": 118,
+      "symbol": "test_wav_metadata"
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "line": 124,
+      "symbol": "test_stereo_wav_rejected"
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "line": 130,
+      "symbol": "test_voice_review_rejects_partial_corpus"
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "line": 134,
+      "symbol": "test_voice_review_rejects_missing_human_review"
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "line": 138,
+      "symbol": "test_voice_review_rejects_bad_wav_hash"
+    },
+    {
+      "path": "tests/milestones/test_m11.py",
+      "line": 146,
+      "symbol": "test_hash_file"
+    },
+    {
+      "path": "tests/test_ab_testing.py",
+      "line": 57,
+      "symbol": "test_templates_and_presets_catalog"
+    },
+    {
+      "path": "tests/test_ab_testing.py",
+      "line": 86,
+      "symbol": "test_experiment_crud_and_status"
+    },
+    {
+      "path": "tests/test_ab_testing.py",
+      "line": 130,
+      "symbol": "test_conversation_variant_assignment_and_metrics"
+    },
+    {
+      "path": "tests/test_ab_testing.py",
+      "line": 186,
+      "symbol": "test_statistical_z_test_and_report_generation"
+    },
+    {
+      "path": "tests/test_ab_testing.py",
+      "line": 261,
+      "symbol": "test_dialogue_prompt_template_variants"
+    },
+    {
+      "path": "tests/test_ab_testing.py",
+      "line": 281,
+      "symbol": "test_api_ab_endpoints"
+    },
+    {
+      "path": "tests/test_ab_testing.py",
+      "line": 356,
+      "symbol": "test_voice_session_ab_integration"
+    },
+    {
+      "path": "tests/test_acoustic_evaluation.py",
+      "line": 38,
+      "symbol": "test_canonical_handles_turkish_case_and_punctuation"
+    },
+    {
+      "path": "tests/test_acoustic_evaluation.py",
+      "line": 42,
+      "symbol": "test_find_terms_prefers_longest_and_counts_occurrences"
+    },
+    {
+      "path": "tests/test_acoustic_evaluation.py",
+      "line": 50,
+      "symbol": "test_perfect_transcript_has_no_errors"
+    },
+    {
+      "path": "tests/test_acoustic_evaluation.py",
+      "line": 67,
+      "symbol": "test_uppercase_and_glued_codes_count_as_correct"
+    },
+    {
+      "path": "tests/test_acoustic_evaluation.py",
+      "line": 73,
+      "symbol": "test_digit_transcript_matches_spoken_reference"
+    },
+    {
+      "path": "tests/test_acoustic_evaluation.py",
+      "line": 78,
+      "symbol": "test_wrong_transcript_is_measured_as_error"
+    },
+    {
+      "path": "tests/test_acoustic_evaluation.py",
+      "line": 90,
+      "symbol": "test_measure_f0_detects_pitch_and_silence"
+    },
+    {
+      "path": "tests/test_acoustic_evaluation.py",
+      "line": 98,
+      "symbol": "test_f0_drift_requires_baseline_and_uses_same_sentence"
+    },
+    {
+      "path": "tests/test_acoustic_evaluation.py",
+      "line": 106,
+      "symbol": "test_report_counts_failed_synthesis_as_full_error"
+    },
+    {
+      "path": "tests/test_acoustic_evaluation.py",
+      "line": 119,
+      "symbol": "test_build_baseline_skips_missing_f0"
+    },
+    {
+      "path": "tests/test_acoustic_evaluation.py",
+      "line": 124,
+      "symbol": "test_select_cases_is_stratified"
+    },
+    {
+      "path": "tests/test_acoustic_evaluation.py",
+      "line": 130,
+      "symbol": "test_gate_uses_audio_report_but_never_passes_without_abx"
+    },
+    {
+      "path": "tests/test_acoustic_evaluation.py",
+      "line": 144,
+      "symbol": "test_gate_fails_on_bad_audio_measurement"
+    },
+    {
+      "path": "tests/test_acoustic_evaluation.py",
+      "line": 151,
+      "symbol": "test_api_reads_report_from_data_dir"
+    },
+    {
+      "path": "tests/test_analytics.py",
+      "line": 51,
+      "symbol": "test_percentile_calculation"
+    },
+    {
+      "path": "tests/test_analytics.py",
+      "line": 67,
+      "symbol": "test_analytics_kpi_computation_and_endpoint"
+    },
+    {
+      "path": "tests/test_analytics.py",
+      "line": 182,
+      "symbol": "test_follow_up_resolution_workflow"
+    },
+    {
+      "path": "tests/test_api.py",
+      "line": 26,
+      "symbol": "test_auth_required"
+    },
+    {
+      "path": "tests/test_api.py",
+      "line": 32,
+      "symbol": "test_rendezvous_routes"
+    },
+    {
+      "path": "tests/test_api.py",
+      "line": 73,
+      "symbol": "test_ws_ticket_and_invalid_format"
+    },
+    {
+      "path": "tests/test_api.py",
+      "line": 94,
+      "symbol": "test_ws_busy_line_has_distinct_close_code"
+    },
+    {
+      "path": "tests/test_api.py",
+      "line": 109,
+      "symbol": "test_teardown_failure_releases_single_call_capacity"
+    },
+    {
+      "path": "tests/test_api.py",
+      "line": 132,
+      "symbol": "test_vehicle_crud"
+    },
+    {
+      "path": "tests/test_api.py",
+      "line": 191,
+      "symbol": "test_slot_duration_and_overlap"
+    },
+    {
+      "path": "tests/test_api.py",
+      "line": 223,
+      "symbol": "test_conversation_export"
+    },
+    {
+      "path": "tests/test_api.py",
+      "line": 269,
+      "symbol": "test_hotwords_management"
+    },
+    {
+      "path": "tests/test_api.py",
+      "line": 292,
+      "symbol": "test_corporate_accounts_crud_and_limits"
+    },
+    {
+      "path": "tests/test_api.py",
+      "line": 409,
+      "symbol": "test_vin_validation_and_inspection_reports"
+    },
+    {
+      "path": "tests/test_api.py",
+      "line": 475,
+      "symbol": "test_lexicon_management"
+    },
+    {
+      "path": "tests/test_api.py",
+      "line": 565,
+      "symbol": "test_voice_chat_turn_endpoint"
+    },
+    {
+      "path": "tests/test_api.py",
+      "line": 585,
+      "symbol": "test_ws_voice_text_input_lifecycle"
+    },
+    {
+      "path": "tests/test_appointment_reschedule_preview.py",
+      "line": 44,
+      "symbol": "test_preview_is_read_only_and_conflict_offers_current_alternative"
+    },
+    {
+      "path": "tests/test_appointment_reschedule_preview.py",
+      "line": 70,
+      "symbol": "test_confirm_rechecks_capacity_and_rejects_a_stale_source"
+    },
+    {
+      "path": "tests/test_appointment_reschedule_preview.py",
+      "line": 96,
+      "symbol": "test_active_station_assignment_prevents_detaching_appointment"
+    },
+    {
+      "path": "tests/test_appointment_reschedule_preview.py",
+      "line": 119,
+      "symbol": "test_concurrent_confirmations_admit_one_move"
+    },
+    {
+      "path": "tests/test_audio_archive_compliance.py",
+      "line": 37,
+      "symbol": "test_engine"
+    },
+    {
+      "path": "tests/test_audio_archive_compliance.py",
+      "line": 44,
+      "symbol": "test_compress_decompress_opus"
+    },
+    {
+      "path": "tests/test_audio_archive_compliance.py",
+      "line": 62,
+      "symbol": "test_compress_decompress_gsm610"
+    },
+    {
+      "path": "tests/test_audio_archive_compliance.py",
+      "line": 76,
+      "symbol": "test_stereo_alignment_and_compression"
+    },
+    {
+      "path": "tests/test_audio_archive_compliance.py",
+      "line": 95,
+      "symbol": "test_archive_call_session_and_database"
+    },
+    {
+      "path": "tests/test_audio_archive_compliance.py",
+      "line": 128,
+      "symbol": "test_verify_integrity_valid_and_tampered"
+    },
+    {
+      "path": "tests/test_audio_archive_compliance.py",
+      "line": 158,
+      "symbol": "test_retention_audit_and_purge"
+    },
+    {
+      "path": "tests/test_audio_archive_compliance.py",
+      "line": 207,
+      "symbol": "test_rest_api_archive_endpoints"
+    },
+    {
+      "path": "tests/test_audiosocket_server.py",
+      "line": 54,
+      "symbol": "test_audio_pacer_timing_and_reclamation"
+    },
+    {
+      "path": "tests/test_audiosocket_server.py",
+      "line": 88,
+      "symbol": "test_audio_pacer_cancellation_honored"
+    },
+    {
+      "path": "tests/test_audiosocket_server.py",
+      "line": 115,
+      "symbol": "test_lookback_buffer_fifo_and_samples"
+    },
+    {
+      "path": "tests/test_audiosocket_server.py",
+      "line": 147,
+      "symbol": "test_two_stage_barge_in_backchannel_rollback"
+    },
+    {
+      "path": "tests/test_audiosocket_server.py",
+      "line": 170,
+      "symbol": "test_two_stage_barge_in_command_commit"
+    },
+    {
+      "path": "tests/test_audiosocket_server.py",
+      "line": 193,
+      "symbol": "test_two_stage_barge_in_pause_timeout"
+    },
+    {
+      "path": "tests/test_audiosocket_server.py",
+      "line": 208,
+      "symbol": "test_audiosocket_protocol_packets"
+    },
+    {
+      "path": "tests/test_audiosocket_server.py",
+      "line": 248,
+      "symbol": "test_audiosocket_orchestrator_ip_and_concurrency_rejection"
+    },
+    {
+      "path": "tests/test_audiosocket_server.py",
+      "line": 290,
+      "symbol": "test_default_components_and_backchannel_words"
+    },
+    {
+      "path": "tests/test_audiosocket_server.py",
+      "line": 303,
+      "symbol": "test_audiosocket_rest_endpoints"
+    },
+    {
+      "path": "tests/test_audiosocket_server.py",
+      "line": 343,
+      "symbol": "test_pacer_totals_are_null_not_zero"
+    },
+    {
+      "path": "tests/test_automotive_dispatch.py",
+      "line": 56,
+      "symbol": "test_emergency_override_guardrail"
+    },
+    {
+      "path": "tests/test_automotive_dispatch.py",
+      "line": 75,
+      "symbol": "test_lift_status_dispatch"
+    },
+    {
+      "path": "tests/test_automotive_dispatch.py",
+      "line": 91,
+      "symbol": "test_obd_dtc_dispatch"
+    },
+    {
+      "path": "tests/test_automotive_dispatch.py",
+      "line": 108,
+      "symbol": "test_technician_dictation_dispatch"
+    },
+    {
+      "path": "tests/test_automotive_dispatch.py",
+      "line": 119,
+      "symbol": "test_whatsapp_report_dispatch"
+    },
+    {
+      "path": "tests/test_automotive_dispatch.py",
+      "line": 137,
+      "symbol": "test_valuation_vs_pricing_dispatch"
+    },
+    {
+      "path": "tests/test_automotive_dispatch.py",
+      "line": 158,
+      "symbol": "test_caller_profile_and_reference_resolution"
+    },
+    {
+      "path": "tests/test_automotive_frontend.py",
+      "line": 42,
+      "symbol": "test_client"
+    },
+    {
+      "path": "tests/test_automotive_frontend.py",
+      "line": 48,
+      "symbol": "test_automotive_brand_normalization_and_suffixes"
+    },
+    {
+      "path": "tests/test_automotive_frontend.py",
+      "line": 76,
+      "symbol": "test_engine_displacement_normalization"
+    },
+    {
+      "path": "tests/test_automotive_frontend.py",
+      "line": 92,
+      "symbol": "test_currency_and_price_without_dots"
+    },
+    {
+      "path": "tests/test_automotive_frontend.py",
+      "line": 109,
+      "symbol": "test_time_expressions_and_suffixes"
+    },
+    {
+      "path": "tests/test_automotive_frontend.py",
+      "line": 120,
+      "symbol": "test_unk_security_net"
+    },
+    {
+      "path": "tests/test_automotive_frontend.py",
+      "line": 146,
+      "symbol": "test_prosodic_clauses_and_dynamic_pauses"
+    },
+    {
+      "path": "tests/test_automotive_frontend.py",
+      "line": 175,
+      "symbol": "test_dsp_cosine_fade"
+    },
+    {
+      "path": "tests/test_automotive_frontend.py",
+      "line": 192,
+      "symbol": "test_dsp_de_esser"
+    },
+    {
+      "path": "tests/test_automotive_frontend.py",
+      "line": 214,
+      "symbol": "test_dsp_comfort_noise"
+    },
+    {
+      "path": "tests/test_automotive_frontend.py",
+      "line": 233,
+      "symbol": "test_dsp_full_chain_48k_to_8k"
+    },
+    {
+      "path": "tests/test_automotive_frontend.py",
+      "line": 249,
+      "symbol": "test_rest_api_frontend_endpoints"
+    },
+    {
+      "path": "tests/test_automotive_ontology.py",
+      "line": 29,
+      "symbol": "test_introspect_schema"
+    },
+    {
+      "path": "tests/test_automotive_ontology.py",
+      "line": 49,
+      "symbol": "test_service_packages_single_source_of_truth"
+    },
+    {
+      "path": "tests/test_automotive_ontology.py",
+      "line": 76,
+      "symbol": "test_vehicle_concept_resolution"
+    },
+    {
+      "path": "tests/test_automotive_ontology.py",
+      "line": 94,
+      "symbol": "test_diagnostic_fault_ontology"
+    },
+    {
+      "path": "tests/test_automotive_ontology.py",
+      "line": 110,
+      "symbol": "test_action_validation_guardrails"
+    },
+    {
+      "path": "tests/test_automotive_ontology.py",
+      "line": 151,
+      "symbol": "test_mcp_adapter_tools"
+    },
+    {
+      "path": "tests/test_automotive_ontology.py",
+      "line": 173,
+      "symbol": "test_ontology_rest_endpoints"
+    },
+    {
+      "path": "tests/test_automotive_terminology.py",
+      "line": 40,
+      "symbol": "test_canonicalize_asr_text_recovers_phonetic_brands_models_and_codes"
+    },
+    {
+      "path": "tests/test_automotive_terminology.py",
+      "line": 63,
+      "symbol": "test_canonicalize_asr_text_protects_dates_and_plain_turkish_words"
+    },
+    {
+      "path": "tests/test_automotive_terminology.py",
+      "line": 75,
+      "symbol": "test_match_catalog_vehicle_blocks_false_positive_numbers_and_detects_brand_only"
+    },
+    {
+      "path": "tests/test_automotive_terminology.py",
+      "line": 105,
+      "symbol": "test_turkish_plate_parser_handles_whisper_variants_and_de_trap"
+    },
+    {
+      "path": "tests/test_automotive_terminology.py",
+      "line": 128,
+      "symbol": "test_acoustic_layer_attribution_stays_honest_about_strict_vs_recovered"
+    },
+    {
+      "path": "tests/test_automotive_terminology.py",
+      "line": 176,
+      "symbol": "test_terminology_verification_suite_with_isolated_db"
+    },
+    {
+      "path": "tests/test_batched_ode.py",
+      "line": 42,
+      "symbol": "test_concurrent_call_controller"
+    },
+    {
+      "path": "tests/test_batched_ode.py",
+      "line": 71,
+      "symbol": "test_check_voicedness"
+    },
+    {
+      "path": "tests/test_batched_ode.py",
+      "line": 86,
+      "symbol": "test_batched_ode_micro_batching"
+    },
+    {
+      "path": "tests/test_batched_ode.py",
+      "line": 125,
+      "symbol": "test_independent_seeds_preserve_f0"
+    },
+    {
+      "path": "tests/test_batched_ode.py",
+      "line": 140,
+      "symbol": "test_whisper_collapse_prevention"
+    },
+    {
+      "path": "tests/test_batched_ode.py",
+      "line": 166,
+      "symbol": "test_default_engine_and_controller_params"
+    },
+    {
+      "path": "tests/test_batched_ode.py",
+      "line": 175,
+      "symbol": "test_batched_ode_rest_api_endpoints"
+    },
+    {
+      "path": "tests/test_batched_ode.py",
+      "line": 238,
+      "symbol": "test_models_synth_integration_with_batched_ode"
+    },
+    {
+      "path": "tests/test_batched_ode.py",
+      "line": 258,
+      "symbol": "test_sinus_yedek_bayrak_olmadan_hata_verir"
+    },
+    {
+      "path": "tests/test_batched_ode.py",
+      "line": 266,
+      "symbol": "test_yedek_fonksiyon_seed_anahtar_sozcukle_verilir"
+    },
+    {
+      "path": "tests/test_batched_ode.py",
+      "line": 282,
+      "symbol": "test_bozuk_oge_yigindaki_digerlerini_dusurmez"
+    },
+    {
+      "path": "tests/test_batched_ode.py",
+      "line": 304,
+      "symbol": "test_models_synth_batched_yol_devre_kesiciden_gecer"
+    },
+    {
+      "path": "tests/test_caller_memory.py",
+      "line": 39,
+      "symbol": "test_phone_and_plate_normalization"
+    },
+    {
+      "path": "tests/test_caller_memory.py",
+      "line": 50,
+      "symbol": "test_caller_profile_crud_and_persistence"
+    },
+    {
+      "path": "tests/test_caller_memory.py",
+      "line": 79,
+      "symbol": "test_get_or_create_caller_profile"
+    },
+    {
+      "path": "tests/test_caller_memory.py",
+      "line": 100,
+      "symbol": "test_format_caller_memory_context"
+    },
+    {
+      "path": "tests/test_caller_memory.py",
+      "line": 121,
+      "symbol": "test_resolve_warranty_inquiry"
+    },
+    {
+      "path": "tests/test_caller_memory.py",
+      "line": 156,
+      "symbol": "test_resolve_past_maintenance"
+    },
+    {
+      "path": "tests/test_caller_memory.py",
+      "line": 188,
+      "symbol": "test_add_maintenance_record"
+    },
+    {
+      "path": "tests/test_caller_memory.py",
+      "line": 198,
+      "symbol": "test_seed_default_profiles"
+    },
+    {
+      "path": "tests/test_caller_memory.py",
+      "line": 210,
+      "symbol": "test_dialogue_state_message_contains_memory_context"
+    },
+    {
+      "path": "tests/test_caller_memory.py",
+      "line": 237,
+      "symbol": "test_dialogue_multi_turn_warranty_resolution"
+    },
+    {
+      "path": "tests/test_caller_memory.py",
+      "line": 257,
+      "symbol": "test_dialogue_multi_turn_past_brake_pad_resolution"
+    },
+    {
+      "path": "tests/test_car_denoiser.py",
+      "line": 46,
+      "symbol": "test_hpf_frequency_response"
+    },
+    {
+      "path": "tests/test_car_denoiser.py",
+      "line": 76,
+      "symbol": "test_hpf_frame_boundary_continuity"
+    },
+    {
+      "path": "tests/test_car_denoiser.py",
+      "line": 101,
+      "symbol": "test_spectral_noise_suppression_floor"
+    },
+    {
+      "path": "tests/test_car_denoiser.py",
+      "line": 130,
+      "symbol": "test_soft_agc_gain_and_noise_gate"
+    },
+    {
+      "path": "tests/test_car_denoiser.py",
+      "line": 159,
+      "symbol": "test_soft_limiter_prevents_clipping"
+    },
+    {
+      "path": "tests/test_car_denoiser.py",
+      "line": 168,
+      "symbol": "test_inbound_car_denoiser_barge_in_prevention"
+    },
+    {
+      "path": "tests/test_car_denoiser.py",
+      "line": 193,
+      "symbol": "test_process_bytes_slin16"
+    },
+    {
+      "path": "tests/test_car_denoiser.py",
+      "line": 205,
+      "symbol": "test_denoiser_and_filter_constructor_params"
+    },
+    {
+      "path": "tests/test_car_denoiser.py",
+      "line": 213,
+      "symbol": "test_process_audio_stream_helper"
+    },
+    {
+      "path": "tests/test_car_denoiser.py",
+      "line": 225,
+      "symbol": "test_dsp_rest_endpoints"
+    },
+    {
+      "path": "tests/test_car_denoiser.py",
+      "line": 280,
+      "symbol": "test_session_denoiser_integration"
+    },
+    {
+      "path": "tests/test_car_denoiser.py",
+      "line": 319,
+      "symbol": "test_soft_agc_downward_expander_attenuates_noise"
+    },
+    {
+      "path": "tests/test_car_denoiser.py",
+      "line": 348,
+      "symbol": "test_inbound_car_denoiser_ambient_calibration"
+    },
+    {
+      "path": "tests/test_car_denoiser.py",
+      "line": 375,
+      "symbol": "test_stt_confidence_and_configurable_energy_gate"
+    },
+    {
+      "path": "tests/test_chan_websocket.py",
+      "line": 50,
+      "symbol": "test_build_command_and_parse_event"
+    },
+    {
+      "path": "tests/test_chan_websocket.py",
+      "line": 67,
+      "symbol": "test_chan_websocket_session_flush_and_controls"
+    },
+    {
+      "path": "tests/test_chan_websocket.py",
+      "line": 114,
+      "symbol": "test_chan_websocket_barge_in_event_flushing"
+    },
+    {
+      "path": "tests/test_chan_websocket.py",
+      "line": 151,
+      "symbol": "test_fastapi_websocket_connection_and_audio_flow"
+    },
+    {
+      "path": "tests/test_chan_websocket.py",
+      "line": 201,
+      "symbol": "test_fastapi_websocket_concurrency_rejection"
+    },
+    {
+      "path": "tests/test_chan_websocket.py",
+      "line": 213,
+      "symbol": "test_standalone_server_lifecycle"
+    },
+    {
+      "path": "tests/test_chan_websocket.py",
+      "line": 225,
+      "symbol": "test_default_adapter_port_and_flush_command"
+    },
+    {
+      "path": "tests/test_chan_websocket.py",
+      "line": 233,
+      "symbol": "test_chan_websocket_rest_endpoints"
+    },
+    {
+      "path": "tests/test_core.py",
+      "line": 52,
+      "symbol": "test_normalization"
+    },
+    {
+      "path": "tests/test_core.py",
+      "line": 56,
+      "symbol": "test_unknown_visible"
+    },
+    {
+      "path": "tests/test_core.py",
+      "line": 71,
+      "symbol": "test_money_suffixes"
+    },
+    {
+      "path": "tests/test_core.py",
+      "line": 75,
+      "symbol": "test_phrase_not_split"
+    },
+    {
+      "path": "tests/test_core.py",
+      "line": 80,
+      "symbol": "test_long_automotive_sentence_preserves_number_groups"
+    },
+    {
+      "path": "tests/test_core.py",
+      "line": 92,
+      "symbol": "test_audio"
+    },
+    {
+      "path": "tests/test_core.py",
+      "line": 102,
+      "symbol": "test_packets_fragmented"
+    },
+    {
+      "path": "tests/test_core.py",
+      "line": 116,
+      "symbol": "test_packet_disconnect"
+    },
+    {
+      "path": "tests/test_core.py",
+      "line": 124,
+      "symbol": "test_pacing_cancel_and_no_burst"
+    },
+    {
+      "path": "tests/test_core.py",
+      "line": 143,
+      "symbol": "test_atomic_booking"
+    },
+    {
+      "path": "tests/test_demo_separation.py",
+      "line": 22,
+      "symbol": "test_demo_mode_is_off_by_default"
+    },
+    {
+      "path": "tests/test_demo_separation.py",
+      "line": 28,
+      "symbol": "test_demo_mode_overrides_operational_paths"
+    },
+    {
+      "path": "tests/test_demo_separation.py",
+      "line": 39,
+      "symbol": "test_readiness_reports_real_state_without_loaded_models"
+    },
+    {
+      "path": "tests/test_demo_separation.py",
+      "line": 57,
+      "symbol": "test_analytics_declares_data_source"
+    },
+    {
+      "path": "tests/test_demo_separation.py",
+      "line": 69,
+      "symbol": "test_analytics_returns_null_without_measurements"
+    },
+    {
+      "path": "tests/test_demo_separation.py",
+      "line": 87,
+      "symbol": "test_analytics_has_no_special_case_for_demo_conversation_count"
+    },
+    {
+      "path": "tests/test_demo_separation.py",
+      "line": 105,
+      "symbol": "test_seed_script_writes_only_to_demo_database"
+    },
+    {
+      "path": "tests/test_diagnostics.py",
+      "line": 60,
+      "symbol": "test_lookup_dtc"
+    },
+    {
+      "path": "tests/test_diagnostics.py",
+      "line": 80,
+      "symbol": "test_maintenance_schedule_calculation"
+    },
+    {
+      "path": "tests/test_diagnostics.py",
+      "line": 96,
+      "symbol": "test_telemetry_ingestion_api"
+    },
+    {
+      "path": "tests/test_diagnostics.py",
+      "line": 139,
+      "symbol": "test_proactive_outbound_call_and_sms"
+    },
+    {
+      "path": "tests/test_diagnostics.py",
+      "line": 197,
+      "symbol": "test_proactive_voice_dialogue_flow"
+    },
+    {
+      "path": "tests/test_dtmf.py",
+      "line": 50,
+      "symbol": "test_goertzel_detector_all_16_digits"
+    },
+    {
+      "path": "tests/test_dtmf.py",
+      "line": 66,
+      "symbol": "test_goertzel_noise_and_silence_rejection"
+    },
+    {
+      "path": "tests/test_dtmf.py",
+      "line": 88,
+      "symbol": "test_dtmf_audio_notch_suppression"
+    },
+    {
+      "path": "tests/test_dtmf.py",
+      "line": 105,
+      "symbol": "test_dialogue_dtmf_awaiting_confirmation"
+    },
+    {
+      "path": "tests/test_dtmf.py",
+      "line": 159,
+      "symbol": "test_dialogue_dtmf_slot_selection"
+    },
+    {
+      "path": "tests/test_dtmf.py",
+      "line": 179,
+      "symbol": "test_dialogue_dtmf_outbound_reminder"
+    },
+    {
+      "path": "tests/test_dtmf.py",
+      "line": 203,
+      "symbol": "test_stt_fallback_prompt_on_consecutive_errors"
+    },
+    {
+      "path": "tests/test_dtmf.py",
+      "line": 219,
+      "symbol": "test_voice_session_dtmf_handling"
+    },
+    {
+      "path": "tests/test_dtmf.py",
+      "line": 266,
+      "symbol": "test_dtmf_generate_tone_api"
+    },
+    {
+      "path": "tests/test_dtmf_false_positive.py",
+      "line": 24,
+      "symbol": "test_recorded_speech_produces_no_digits"
+    },
+    {
+      "path": "tests/test_dtmf_false_positive.py",
+      "line": 32,
+      "symbol": "test_harmonic_voice_like_signal_produces_no_digits"
+    },
+    {
+      "path": "tests/test_dtmf_false_positive.py",
+      "line": 41,
+      "symbol": "test_real_tones_are_still_detected"
+    },
+    {
+      "path": "tests/test_dynamic_valuation.py",
+      "line": 60,
+      "symbol": "test_get_base_benchmark_price"
+    },
+    {
+      "path": "tests/test_dynamic_valuation.py",
+      "line": 79,
+      "symbol": "test_calculate_km_adjustment"
+    },
+    {
+      "path": "tests/test_dynamic_valuation.py",
+      "line": 93,
+      "symbol": "test_calculate_body_condition_deductions"
+    },
+    {
+      "path": "tests/test_dynamic_valuation.py",
+      "line": 113,
+      "symbol": "test_calculate_tramer_deduction"
+    },
+    {
+      "path": "tests/test_dynamic_valuation.py",
+      "line": 129,
+      "symbol": "test_calculate_dynamic_valuation"
+    },
+    {
+      "path": "tests/test_dynamic_valuation.py",
+      "line": 159,
+      "symbol": "test_parse_spoken_valuation_query"
+    },
+    {
+      "path": "tests/test_dynamic_valuation.py",
+      "line": 181,
+      "symbol": "test_calculate_and_save_valuation_db"
+    },
+    {
+      "path": "tests/test_dynamic_valuation.py",
+      "line": 214,
+      "symbol": "test_valuation_api_endpoints"
+    },
+    {
+      "path": "tests/test_dynamic_valuation.py",
+      "line": 265,
+      "symbol": "test_parse_spoken_missing_fields_not_defaulted"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 155,
+      "symbol": "test_tier1_f1_voice_chat_turn_basic_text_reply"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 171,
+      "symbol": "test_tier1_f1_voice_session_text_input_pipeline_events"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 198,
+      "symbol": "test_tier1_f1_synthesize_endpoint_valid_audio"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 209,
+      "symbol": "test_tier1_f1_normalize_automotive_prosody"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 218,
+      "symbol": "test_tier1_f1_session_ticket_lifecycle"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 226,
+      "symbol": "test_tier1_f1_websocket_handshake_and_json_text_flow"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 274,
+      "symbol": "test_tier1_f2_intent_classification_appointment_create"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 281,
+      "symbol": "test_tier1_f2_intent_classification_service_price_estimate"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 288,
+      "symbol": "test_tier1_f2_safety_gate_roadside_emergency_dispatch"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 298,
+      "symbol": "test_tier1_f2_technician_dictation_actionable_parsing"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 307,
+      "symbol": "test_tier1_f2_lift_status_and_queue_allocation"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 335,
+      "symbol": "test_tier1_f2_obd_dtc_fault_analysis_grounding"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 347,
+      "symbol": "test_tier1_f3_caller_profile_creation_and_persistence"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 364,
+      "symbol": "test_tier1_f3_caller_profile_lookup_by_phone_or_plate"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 376,
+      "symbol": "test_tier1_f3_warranty_inquiry_active_status"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 391,
+      "symbol": "test_tier1_f3_warranty_inquiry_expired_status"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 406,
+      "symbol": "test_tier1_f3_past_maintenance_resolution_keyword"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 418,
+      "symbol": "test_tier1_f3_format_caller_memory_context_string"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 435,
+      "symbol": "test_tier1_f4_generate_alpaca_dataset_structure"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 448,
+      "symbol": "test_tier1_f4_generate_sharegpt_dataset_structure"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 462,
+      "symbol": "test_tier1_f4_export_dataset_file_jsonl"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 476,
+      "symbol": "test_tier1_f4_dataset_contains_automotive_ontology_terms"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 484,
+      "symbol": "test_tier1_f4_dataset_cli_generation_callable"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 510,
+      "symbol": "test_tier1_f5_health_check_endpoint"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 517,
+      "symbol": "test_tier1_f5_vehicle_and_quote_creation_flow"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 536,
+      "symbol": "test_tier1_f5_appointment_booking_and_idempotency"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 558,
+      "symbol": "test_tier1_f5_appointment_cancellation"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 575,
+      "symbol": "test_tier1_f5_ontology_schema_introspect_endpoint"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 590,
+      "symbol": "test_tier2_f1_empty_text_input_handled_gracefully"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 598,
+      "symbol": "test_tier2_f1_oversized_audio_packet_rejection"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 609,
+      "symbol": "test_tier2_f1_unsupported_audio_sample_rate"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 619,
+      "symbol": "test_tier2_f1_concurrent_voice_session_line_busy"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 636,
+      "symbol": "test_tier2_f1_expired_session_ticket_rejected"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 648,
+      "symbol": "test_tier2_f2_conflicting_multi_intent_denial_precedence"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 656,
+      "symbol": "test_tier2_f2_zero_slot_intent_handling"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 665,
+      "symbol": "test_tier2_f2_out_of_domain_query_handling"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 673,
+      "symbol": "test_tier2_f2_malformed_dtc_fault_code"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 679,
+      "symbol": "test_tier2_f2_emergency_overrides_routine_booking"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 688,
+      "symbol": "test_tier2_f3_empty_and_null_phone_normalization"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 697,
+      "symbol": "test_tier2_f3_irregular_plate_spacing_and_lowercase"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 706,
+      "symbol": "test_tier2_f3_boundary_warranty_exact_today_and_leap_year"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 760,
+      "symbol": "test_tier2_f3_corrupted_maintenance_history_json"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 770,
+      "symbol": "test_tier2_f3_nonexistent_profile_lookup_creates_or_returns_none"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 780,
+      "symbol": "test_tier2_f4_zero_count_dataset_generation"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 786,
+      "symbol": "test_tier2_f4_negative_count_dataset_rejection"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 792,
+      "symbol": "test_tier2_f4_unsupported_dataset_format_rejection"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 798,
+      "symbol": "test_tier2_f4_export_creates_missing_parent_directories"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 806,
+      "symbol": "test_tier2_f4_deterministic_seed_reproducibility"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 817,
+      "symbol": "test_tier2_f5_unauthenticated_request_rejected"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 823,
+      "symbol": "test_tier2_f5_invalid_credentials_rejected"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 829,
+      "symbol": "test_tier2_f5_missing_appointment_idempotency_key"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 839,
+      "symbol": "test_tier2_f5_duplicate_slot_booking_conflict"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 849,
+      "symbol": "test_tier2_f5_negative_quote_amount_validation"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 872,
+      "symbol": "test_tier3_cross_caller_profile_appointment_booking"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 896,
+      "symbol": "test_tier3_cross_text_input_pipeline_telemetry_intent"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 915,
+      "symbol": "test_tier3_cross_obd_dtc_safety_gate_caller_vehicle"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 949,
+      "symbol": "test_tier3_cross_dataset_generator_ontology_lexicon"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 962,
+      "symbol": "test_tier3_cross_caller_memory_maintenance_dialogue"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 976,
+      "symbol": "test_tier3_cross_technician_dictation_inspection_report"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 1007,
+      "symbol": "test_tier4_scenario1_customer_scheduled_service_and_warranty"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 1039,
+      "symbol": "test_tier4_scenario2_returning_customer_brake_pad_inquiry"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 1058,
+      "symbol": "test_tier4_scenario3_urgent_obd_dtc_alert_p0300_safety"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 1079,
+      "symbol": "test_tier4_scenario4_receptionist_dataset_generation_export"
+    },
+    {
+      "path": "tests/test_e2e_automotive_cockpit.py",
+      "line": 1116,
+      "symbol": "test_tier4_scenario5_master_technician_dictation_appraisal"
+    },
+    {
+      "path": "tests/test_emotion_prosody_adapter.py",
+      "line": 54,
+      "symbol": "test_syllable_counter_and_rms"
+    },
+    {
+      "path": "tests/test_emotion_prosody_adapter.py",
+      "line": 67,
+      "symbol": "test_analyze_caller_emotion_price_objection"
+    },
+    {
+      "path": "tests/test_emotion_prosody_adapter.py",
+      "line": 79,
+      "symbol": "test_analyze_caller_emotion_time_objection"
+    },
+    {
+      "path": "tests/test_emotion_prosody_adapter.py",
+      "line": 90,
+      "symbol": "test_analyze_caller_emotion_hesitant"
+    },
+    {
+      "path": "tests/test_emotion_prosody_adapter.py",
+      "line": 101,
+      "symbol": "test_analyze_caller_emotion_hurried_with_audio"
+    },
+    {
+      "path": "tests/test_emotion_prosody_adapter.py",
+      "line": 124,
+      "symbol": "test_adapt_prosody_hesitant_stretches_pauses"
+    },
+    {
+      "path": "tests/test_emotion_prosody_adapter.py",
+      "line": 144,
+      "symbol": "test_adapt_prosody_hurried_quickens_tempo"
+    },
+    {
+      "path": "tests/test_emotion_prosody_adapter.py",
+      "line": 163,
+      "symbol": "test_emotion_prosody_api_endpoints"
+    },
+    {
+      "path": "tests/test_executive_docx.py",
+      "line": 54,
+      "symbol": "test_missing_sources_are_reported_not_invented"
+    },
+    {
+      "path": "tests/test_fqici_queue.py",
+      "line": 51,
+      "symbol": "test_duplicate_close_and_concurrent_consumers_fence_stale_worker"
+    },
+    {
+      "path": "tests/test_fqici_queue.py",
+      "line": 72,
+      "symbol": "test_real_journal_replay_after_fresh_processes"
+    },
+    {
+      "path": "tests/test_fqici_queue.py",
+      "line": 104,
+      "symbol": "test_startup_recovers_abandoned_session_and_missing_journal"
+    },
+    {
+      "path": "tests/test_fqici_queue.py",
+      "line": 125,
+      "symbol": "test_full_queue_deferred_and_late_tool_evidence_replayed"
+    },
+    {
+      "path": "tests/test_fqici_queue.py",
+      "line": 160,
+      "symbol": "test_privacy_clock_and_conflicting_replay"
+    },
+    {
+      "path": "tests/test_fqici_queue.py",
+      "line": 175,
+      "symbol": "test_event_and_run_rollback_together_and_purge_cascades"
+    },
+    {
+      "path": "tests/test_fqici_queue.py",
+      "line": 201,
+      "symbol": "test_web_session_and_synthetic_audiosocket_transport"
+    },
+    {
+      "path": "tests/test_gpu_health_circuit_breaker.py",
+      "line": 34,
+      "symbol": "test_breaker"
+    },
+    {
+      "path": "tests/test_gpu_health_circuit_breaker.py",
+      "line": 46,
+      "symbol": "test_telemetry_probe"
+    },
+    {
+      "path": "tests/test_gpu_health_circuit_breaker.py",
+      "line": 57,
+      "symbol": "test_record_inference_latency"
+    },
+    {
+      "path": "tests/test_gpu_health_circuit_breaker.py",
+      "line": 64,
+      "symbol": "test_no_invented_defaults_without_measurement"
+    },
+    {
+      "path": "tests/test_gpu_health_circuit_breaker.py",
+      "line": 76,
+      "symbol": "test_trip_on_consecutive_vram_failures"
+    },
+    {
+      "path": "tests/test_gpu_health_circuit_breaker.py",
+      "line": 94,
+      "symbol": "test_trip_on_consecutive_temperature_failures"
+    },
+    {
+      "path": "tests/test_gpu_health_circuit_breaker.py",
+      "line": 105,
+      "symbol": "test_trip_on_latency_ema"
+    },
+    {
+      "path": "tests/test_gpu_health_circuit_breaker.py",
+      "line": 116,
+      "symbol": "test_instant_trip_on_cuda_oom"
+    },
+    {
+      "path": "tests/test_gpu_health_circuit_breaker.py",
+      "line": 124,
+      "symbol": "test_cooldown_and_half_open_recovery"
+    },
+    {
+      "path": "tests/test_gpu_health_circuit_breaker.py",
+      "line": 147,
+      "symbol": "test_failover_action_modes"
+    },
+    {
+      "path": "tests/test_gpu_health_circuit_breaker.py",
+      "line": 166,
+      "symbol": "test_rest_api_gpu_health_endpoints"
+    },
+    {
+      "path": "tests/test_inspections.py",
+      "line": 33,
+      "symbol": "test_setup"
+    },
+    {
+      "path": "tests/test_inspections.py",
+      "line": 52,
+      "symbol": "test_create_inspection_with_findings_and_pdf"
+    },
+    {
+      "path": "tests/test_inspections.py",
+      "line": 127,
+      "symbol": "test_photo_upload_and_preview"
+    },
+    {
+      "path": "tests/test_inspections.py",
+      "line": 150,
+      "symbol": "test_digital_delivery_send_link"
+    },
+    {
+      "path": "tests/test_inspections.py",
+      "line": 238,
+      "symbol": "test_list_and_get_inspections"
+    },
+    {
+      "path": "tests/test_inspections.py",
+      "line": 276,
+      "symbol": "test_inspection_score_is_required"
+    },
+    {
+      "path": "tests/test_isolation.py",
+      "line": 22,
+      "symbol": "test_database_engine_is_outside_project_data"
+    },
+    {
+      "path": "tests/test_isolation.py",
+      "line": 28,
+      "symbol": "test_runtime_file_defaults_are_outside_project_data"
+    },
+    {
+      "path": "tests/test_isolation.py",
+      "line": 43,
+      "symbol": "test_session_journal_root_is_outside_project_data"
+    },
+    {
+      "path": "tests/test_isolation.py",
+      "line": 49,
+      "symbol": "test_guard_passes_when_isolated"
+    },
+    {
+      "path": "tests/test_isolation.py",
+      "line": 53,
+      "symbol": "test_guard_rejects_real_database"
+    },
+    {
+      "path": "tests/test_isolation.py",
+      "line": 60,
+      "symbol": "test_guard_rejects_real_data_dir"
+    },
+    {
+      "path": "tests/test_lift_bay_capacity_scheduler.py",
+      "line": 96,
+      "symbol": "test_seed_default_bays_and_technicians"
+    },
+    {
+      "path": "tests/test_lift_bay_capacity_scheduler.py",
+      "line": 114,
+      "symbol": "test_capacity_check_clean_window"
+    },
+    {
+      "path": "tests/test_lift_bay_capacity_scheduler.py",
+      "line": 140,
+      "symbol": "test_capacity_check_dyno_bottleneck_and_next_available"
+    },
+    {
+      "path": "tests/test_lift_bay_capacity_scheduler.py",
+      "line": 191,
+      "symbol": "test_schedule_multi_stage_appointment_success"
+    },
+    {
+      "path": "tests/test_lift_bay_capacity_scheduler.py",
+      "line": 221,
+      "symbol": "test_schedule_multi_stage_conflict_raises_error"
+    },
+    {
+      "path": "tests/test_lift_bay_capacity_scheduler.py",
+      "line": 249,
+      "symbol": "test_cancel_appointment_schedules"
+    },
+    {
+      "path": "tests/test_lift_bay_capacity_scheduler.py",
+      "line": 275,
+      "symbol": "test_get_bay_station_analytics"
+    },
+    {
+      "path": "tests/test_lift_bay_capacity_scheduler.py",
+      "line": 289,
+      "symbol": "test_bay_scheduler_api_endpoints"
+    },
+    {
+      "path": "tests/test_live_mic_acceptance_protocol.py",
+      "line": 115,
+      "symbol": "test_prepare_poc_acceptance_fixtures_is_idempotent"
+    },
+    {
+      "path": "tests/test_live_mic_acceptance_protocol.py",
+      "line": 137,
+      "symbol": "test_run_1_plate_correction_pass_end_to_end"
+    },
+    {
+      "path": "tests/test_live_mic_acceptance_protocol.py",
+      "line": 186,
+      "symbol": "test_run_2_early_confirm_and_abort_creates_zero_appointments"
+    },
+    {
+      "path": "tests/test_live_mic_acceptance_protocol.py",
+      "line": 220,
+      "symbol": "test_run_3_natural_idempotency_double_confirm_single_booking"
+    },
+    {
+      "path": "tests/test_live_mic_acceptance_protocol.py",
+      "line": 252,
+      "symbol": "test_incomplete_and_fail_layer_diagnostics_and_kvkk_masking"
+    },
+    {
+      "path": "tests/test_live_mic_acceptance_protocol.py",
+      "line": 290,
+      "symbol": "test_acceptance_fastapi_endpoints_and_auth"
+    },
+    {
+      "path": "tests/test_live_mic_acceptance_protocol.py",
+      "line": 338,
+      "symbol": "test_cli_voice_acceptance_protocol_smoke"
+    },
+    {
+      "path": "tests/test_madde2_real_world_integration.py",
+      "line": 46,
+      "symbol": "test_env"
+    },
+    {
+      "path": "tests/test_madde2_real_world_integration.py",
+      "line": 72,
+      "symbol": "test_format_phone_e164"
+    },
+    {
+      "path": "tests/test_madde2_real_world_integration.py",
+      "line": 84,
+      "symbol": "test_extract_phone_number"
+    },
+    {
+      "path": "tests/test_madde2_real_world_integration.py",
+      "line": 98,
+      "symbol": "test_twilio_provider_sms_and_whatsapp"
+    },
+    {
+      "path": "tests/test_madde2_real_world_integration.py",
+      "line": 150,
+      "symbol": "test_twilio_provider_fallback_when_unconfigured"
+    },
+    {
+      "path": "tests/test_madde2_real_world_integration.py",
+      "line": 167,
+      "symbol": "test_appointment_persists_customer_phone"
+    },
+    {
+      "path": "tests/test_madde2_real_world_integration.py",
+      "line": 198,
+      "symbol": "test_inbound_metadata_webhook_and_retrieval"
+    },
+    {
+      "path": "tests/test_madde2_real_world_integration.py",
+      "line": 235,
+      "symbol": "test_dialogue_unclear_triggers_operator_transfer"
+    },
+    {
+      "path": "tests/test_madde2_real_world_integration.py",
+      "line": 266,
+      "symbol": "test_dialogue_unclear_fallback_when_ami_offline"
+    },
+    {
+      "path": "tests/test_madde2_real_world_integration.py",
+      "line": 278,
+      "symbol": "test_twilio_disabled_even_with_credentials"
+    },
+    {
+      "path": "tests/test_madde3_customer_experience.py",
+      "line": 81,
+      "symbol": "test_inbound_cancel_by_phone_match"
+    },
+    {
+      "path": "tests/test_madde3_customer_experience.py",
+      "line": 128,
+      "symbol": "test_inbound_cancel_abort"
+    },
+    {
+      "path": "tests/test_madde3_customer_experience.py",
+      "line": 162,
+      "symbol": "test_inbound_reschedule_flow"
+    },
+    {
+      "path": "tests/test_madde3_customer_experience.py",
+      "line": 202,
+      "symbol": "test_name_and_plate_cannot_replace_registered_phone"
+    },
+    {
+      "path": "tests/test_madde3_customer_experience.py",
+      "line": 222,
+      "symbol": "test_inbound_cancel_dtmf"
+    },
+    {
+      "path": "tests/test_madde3_customer_experience.py",
+      "line": 255,
+      "symbol": "test_scan_and_queue_appointment_reminders"
+    },
+    {
+      "path": "tests/test_madde3_customer_experience.py",
+      "line": 303,
+      "symbol": "test_general_price_and_package_inquiry"
+    },
+    {
+      "path": "tests/test_madde3_customer_experience.py",
+      "line": 315,
+      "symbol": "test_specific_package_inquiry"
+    },
+    {
+      "path": "tests/test_madde3_customer_experience.py",
+      "line": 330,
+      "symbol": "test_two_stage_bargein_backchannel_tuning"
+    },
+    {
+      "path": "tests/test_madde3_customer_experience.py",
+      "line": 350,
+      "symbol": "test_two_stage_bargein_real_interrupt_commits"
+    },
+    {
+      "path": "tests/test_madde3_customer_experience.py",
+      "line": 367,
+      "symbol": "test_multi_vehicle_preplanned_booking"
+    },
+    {
+      "path": "tests/test_madde3_customer_experience.py",
+      "line": 406,
+      "symbol": "test_multi_vehicle_sequential_inquiry"
+    },
+    {
+      "path": "tests/test_madde3_customer_experience.py",
+      "line": 432,
+      "symbol": "test_multi_vehicle_disabled_preserves_current_booking"
+    },
+    {
+      "path": "tests/test_madde4_operation_panel.py",
+      "line": 46,
+      "symbol": "test_db_session"
+    },
+    {
+      "path": "tests/test_madde4_operation_panel.py",
+      "line": 78,
+      "symbol": "test_reschedule_appointment_to_target_slot"
+    },
+    {
+      "path": "tests/test_madde4_operation_panel.py",
+      "line": 124,
+      "symbol": "test_reschedule_appointment_conflict"
+    },
+    {
+      "path": "tests/test_madde4_operation_panel.py",
+      "line": 165,
+      "symbol": "test_get_calendar_events_endpoint"
+    },
+    {
+      "path": "tests/test_madde4_operation_panel.py",
+      "line": 212,
+      "symbol": "test_unclear_conversations_detection_and_feedback"
+    },
+    {
+      "path": "tests/test_madde4_operation_panel.py",
+      "line": 255,
+      "symbol": "test_conversation_audio_endpoint_returns_404_when_missing"
+    },
+    {
+      "path": "tests/test_madde4_operation_panel.py",
+      "line": 265,
+      "symbol": "test_real_kpis_cancellation_and_conversion_rates"
+    },
+    {
+      "path": "tests/test_madde4_operation_panel.py",
+      "line": 311,
+      "symbol": "test_real_latency_percentiles_calculation"
+    },
+    {
+      "path": "tests/test_madde4_operation_panel.py",
+      "line": 338,
+      "symbol": "test_generate_weekly_summary_report"
+    },
+    {
+      "path": "tests/test_madde4_operation_panel.py",
+      "line": 367,
+      "symbol": "test_generate_weekly_excel_report_valid_xlsx"
+    },
+    {
+      "path": "tests/test_madde4_operation_panel.py",
+      "line": 416,
+      "symbol": "test_weekly_report_api_endpoints"
+    },
+    {
+      "path": "tests/test_madde5_kvkk_compliance.py",
+      "line": 57,
+      "symbol": "test_db_session"
+    },
+    {
+      "path": "tests/test_madde5_kvkk_compliance.py",
+      "line": 88,
+      "symbol": "test_transcript_retention_audit_calculation"
+    },
+    {
+      "path": "tests/test_madde5_kvkk_compliance.py",
+      "line": 136,
+      "symbol": "test_transcript_retention_purge_dry_run_and_execution"
+    },
+    {
+      "path": "tests/test_madde5_kvkk_compliance.py",
+      "line": 185,
+      "symbol": "test_scan_erasure_impact_phone_identifier"
+    },
+    {
+      "path": "tests/test_madde5_kvkk_compliance.py",
+      "line": 279,
+      "symbol": "test_create_erasure_request"
+    },
+    {
+      "path": "tests/test_madde5_kvkk_compliance.py",
+      "line": 303,
+      "symbol": "test_execute_erasure_workflow_and_certificate"
+    },
+    {
+      "path": "tests/test_madde5_kvkk_compliance.py",
+      "line": 385,
+      "symbol": "test_execute_erasure_idempotency_raises"
+    },
+    {
+      "path": "tests/test_madde5_kvkk_compliance.py",
+      "line": 402,
+      "symbol": "test_api_transcript_retention_endpoints"
+    },
+    {
+      "path": "tests/test_madde5_kvkk_compliance.py",
+      "line": 429,
+      "symbol": "test_api_erasure_request_full_lifecycle"
+    },
+    {
+      "path": "tests/test_madde5_kvkk_compliance.py",
+      "line": 492,
+      "symbol": "test_erasure_rejects_partial_and_wildcard_identity"
+    },
+    {
+      "path": "tests/test_madde5_kvkk_compliance.py",
+      "line": 499,
+      "symbol": "test_erasure_phone_covers_web_transcript_and_recording"
+    },
+    {
+      "path": "tests/test_madde5_kvkk_compliance.py",
+      "line": 523,
+      "symbol": "test_kvkk_mutations_disabled_with_preview_available"
+    },
+    {
+      "path": "tests/test_milestone_integration.py",
+      "line": 10,
+      "symbol": "test_live_state_and_durable_events"
+    },
+    {
+      "path": "tests/test_milestone_integration.py",
+      "line": 28,
+      "symbol": "test_unclean_restart_fails_closed"
+    },
+    {
+      "path": "tests/test_milestone_integration.py",
+      "line": 39,
+      "symbol": "test_text_contract_does_not_fake_audio"
+    },
+    {
+      "path": "tests/test_milestone_integration.py",
+      "line": 46,
+      "symbol": "test_pronunciation_source_is_read_only"
+    },
+    {
+      "path": "tests/test_milestone_integration.py",
+      "line": 59,
+      "symbol": "test_real_adapter_bridge_has_bounded_failure_budget"
+    },
+    {
+      "path": "tests/test_morphological_pre_checker.py",
+      "line": 49,
+      "symbol": "test_f1_unicode_text_utils"
+    },
+    {
+      "path": "tests/test_morphological_pre_checker.py",
+      "line": 73,
+      "symbol": "test_f2_turkish_syllabifier"
+    },
+    {
+      "path": "tests/test_morphological_pre_checker.py",
+      "line": 95,
+      "symbol": "test_f3_f4_inflected_matcher_and_liaison"
+    },
+    {
+      "path": "tests/test_morphological_pre_checker.py",
+      "line": 132,
+      "symbol": "test_f5_f6_morphological_stress_engine"
+    },
+    {
+      "path": "tests/test_morphological_pre_checker.py",
+      "line": 200,
+      "symbol": "test_f7_clitics_and_pause_injection"
+    },
+    {
+      "path": "tests/test_morphological_pre_checker.py",
+      "line": 225,
+      "symbol": "test_immutable_chunk_text_and_vocab_safety"
+    },
+    {
+      "path": "tests/test_morphological_pre_checker.py",
+      "line": 262,
+      "symbol": "test_performance_micro_benchmark"
+    },
+    {
+      "path": "tests/test_morphological_pre_checker.py",
+      "line": 292,
+      "symbol": "test_feature_flag_disabled"
+    },
+    {
+      "path": "tests/test_morphological_pre_checker.py",
+      "line": 308,
+      "symbol": "test_api_morphological_check"
+    },
+    {
+      "path": "tests/test_notifications.py",
+      "line": 44,
+      "symbol": "test_customer_appointment_notification"
+    },
+    {
+      "path": "tests/test_notifications.py",
+      "line": 85,
+      "symbol": "test_corporate_dealership_notification"
+    },
+    {
+      "path": "tests/test_notifications.py",
+      "line": 147,
+      "symbol": "test_notification_delivery_and_retry"
+    },
+    {
+      "path": "tests/test_notifications.py",
+      "line": 188,
+      "symbol": "test_notifications_api_endpoints"
+    },
+    {
+      "path": "tests/test_notifications.py",
+      "line": 242,
+      "symbol": "test_no_phone_does_not_queue_name_as_recipient"
+    },
+    {
+      "path": "tests/test_operator_inbox.py",
+      "line": 23,
+      "symbol": "test_today_list_uses_recorded_states_and_istanbul_day_boundary"
+    },
+    {
+      "path": "tests/test_operator_inbox.py",
+      "line": 63,
+      "symbol": "test_today_endpoint_requires_auth_and_valid_filters"
+    },
+    {
+      "path": "tests/test_operator_inbox.py",
+      "line": 76,
+      "symbol": "test_voice_close_records_booking_and_callback_without_reopening_terminal_status"
+    },
+    {
+      "path": "tests/test_option_selection.py",
+      "line": 32,
+      "symbol": "test_explicit_choices_are_parsed"
+    },
+    {
+      "path": "tests/test_option_selection.py",
+      "line": 52,
+      "symbol": "test_ambiguous_text_goes_to_llm"
+    },
+    {
+      "path": "tests/test_option_selection.py",
+      "line": 78,
+      "symbol": "test_selection_skips_llm_and_still_requires_confirmation"
+    },
+    {
+      "path": "tests/test_option_selection.py",
+      "line": 96,
+      "symbol": "test_out_of_range_choice_is_rejected"
+    },
+    {
+      "path": "tests/test_option_selection.py",
+      "line": 106,
+      "symbol": "test_selection_before_options_goes_to_llm"
+    },
+    {
+      "path": "tests/test_outbound.py",
+      "line": 41,
+      "symbol": "test_initiate_outbound_call_via_ami"
+    },
+    {
+      "path": "tests/test_outbound.py",
+      "line": 93,
+      "symbol": "test_outbound_dialogue_customer_confirms"
+    },
+    {
+      "path": "tests/test_outbound.py",
+      "line": 145,
+      "symbol": "test_outbound_dialogue_customer_cancels"
+    },
+    {
+      "path": "tests/test_outbound.py",
+      "line": 198,
+      "symbol": "test_outbound_api_endpoints"
+    },
+    {
+      "path": "tests/test_outbound_dialer.py",
+      "line": 46,
+      "symbol": "test_client"
+    },
+    {
+      "path": "tests/test_outbound_dialer.py",
+      "line": 76,
+      "symbol": "test_generate_call_file_content"
+    },
+    {
+      "path": "tests/test_outbound_dialer.py",
+      "line": 106,
+      "symbol": "test_write_atomic_call_file"
+    },
+    {
+      "path": "tests/test_outbound_dialer.py",
+      "line": 129,
+      "symbol": "test_detect_voicemail_beep"
+    },
+    {
+      "path": "tests/test_outbound_dialer.py",
+      "line": 147,
+      "symbol": "test_detect_turkish_amd_human"
+    },
+    {
+      "path": "tests/test_outbound_dialer.py",
+      "line": 167,
+      "symbol": "test_detect_turkish_amd_machine_long_greeting"
+    },
+    {
+      "path": "tests/test_outbound_dialer.py",
+      "line": 182,
+      "symbol": "test_detect_turkish_amd_machine_beep"
+    },
+    {
+      "path": "tests/test_outbound_dialer.py",
+      "line": 200,
+      "symbol": "test_detect_turkish_amd_edge_cases"
+    },
+    {
+      "path": "tests/test_outbound_dialer.py",
+      "line": 214,
+      "symbol": "test_originate_call_ami"
+    },
+    {
+      "path": "tests/test_outbound_dialer.py",
+      "line": 246,
+      "symbol": "test_originate_call_ami_mock_is_simulated"
+    },
+    {
+      "path": "tests/test_outbound_dialer.py",
+      "line": 264,
+      "symbol": "test_originate_call_file"
+    },
+    {
+      "path": "tests/test_outbound_dialer.py",
+      "line": 285,
+      "symbol": "test_process_amd_result"
+    },
+    {
+      "path": "tests/test_outbound_dialer.py",
+      "line": 331,
+      "symbol": "test_schedule_auto_retry_and_process_queue"
+    },
+    {
+      "path": "tests/test_outbound_dialer.py",
+      "line": 368,
+      "symbol": "test_rest_api_outbound_endpoints"
+    },
+    {
+      "path": "tests/test_p5_latency.py",
+      "line": 54,
+      "symbol": "test_prompt_is_constant_and_state_precedes_last_user"
+    },
+    {
+      "path": "tests/test_p5_latency.py",
+      "line": 81,
+      "symbol": "test_no_state_message_when_nothing_known"
+    },
+    {
+      "path": "tests/test_p5_latency.py",
+      "line": 91,
+      "symbol": "test_name_rule_and_catalog_skip_llm"
+    },
+    {
+      "path": "tests/test_p5_latency.py",
+      "line": 100,
+      "symbol": "test_name_only_and_vehicle_only_skip_llm"
+    },
+    {
+      "path": "tests/test_p5_latency.py",
+      "line": 109,
+      "symbol": "test_vehicle_only_asks_name_without_llm"
+    },
+    {
+      "path": "tests/test_p5_latency.py",
+      "line": 116,
+      "symbol": "test_name_with_unread_words_goes_to_llm"
+    },
+    {
+      "path": "tests/test_p5_latency.py",
+      "line": 127,
+      "symbol": "test_ambiguous_or_missing_vehicle_goes_to_llm"
+    },
+    {
+      "path": "tests/test_p5_latency.py",
+      "line": 139,
+      "symbol": "test_name_with_catalog_word_goes_to_llm"
+    },
+    {
+      "path": "tests/test_p5_latency.py",
+      "line": 146,
+      "symbol": "test_rule_vehicle_correction_resets_slot"
+    },
+    {
+      "path": "tests/test_p5_latency.py",
+      "line": 157,
+      "symbol": "test_rule_corporate_name_routes_through_extract"
+    },
+    {
+      "path": "tests/test_p5_latency.py",
+      "line": 167,
+      "symbol": "test_selection_text_with_vehicle_goes_to_llm"
+    },
+    {
+      "path": "tests/test_p5_latency.py",
+      "line": 190,
+      "symbol": "test_synth_cache_hit_miss_copy_and_seed_default"
+    },
+    {
+      "path": "tests/test_p5_latency.py",
+      "line": 204,
+      "symbol": "test_synth_cache_is_bounded"
+    },
+    {
+      "path": "tests/test_p5_latency.py",
+      "line": 212,
+      "symbol": "test_prewarm_fills_cache_and_failure_is_not_fatal"
+    },
+    {
+      "path": "tests/test_p5_latency.py",
+      "line": 234,
+      "symbol": "test_hotwords_cached_ttl_and_invalidate"
+    },
+    {
+      "path": "tests/test_pause_breath_cleaner.py",
+      "line": 22,
+      "symbol": "test_cleaner"
+    },
+    {
+      "path": "tests/test_pause_breath_cleaner.py",
+      "line": 43,
+      "symbol": "test_clean_waveform_edges_normal"
+    },
+    {
+      "path": "tests/test_pause_breath_cleaner.py",
+      "line": 62,
+      "symbol": "test_clean_waveform_edges_short_and_empty"
+    },
+    {
+      "path": "tests/test_pause_breath_cleaner.py",
+      "line": 72,
+      "symbol": "test_splice_clauses_with_clean_pause"
+    },
+    {
+      "path": "tests/test_pause_breath_cleaner.py",
+      "line": 91,
+      "symbol": "test_splice_clauses_empty_and_single"
+    },
+    {
+      "path": "tests/test_pause_breath_cleaner.py",
+      "line": 100,
+      "symbol": "test_telephony_audio_cache_pool"
+    },
+    {
+      "path": "tests/test_pause_breath_cleaner.py",
+      "line": 141,
+      "symbol": "test_api_clean_audio_endpoint"
+    },
+    {
+      "path": "tests/test_pause_breath_cleaner.py",
+      "line": 162,
+      "symbol": "test_api_clean_audio_invalid"
+    },
+    {
+      "path": "tests/test_pause_breath_cleaner.py",
+      "line": 171,
+      "symbol": "test_api_audio_cache_endpoints"
+    },
+    {
+      "path": "tests/test_pipeline_telemetry.py",
+      "line": 11,
+      "symbol": "test_pipeline_event_schema_v3"
+    },
+    {
+      "path": "tests/test_pipeline_telemetry.py",
+      "line": 35,
+      "symbol": "test_all_f0_to_f6_stages_valid"
+    },
+    {
+      "path": "tests/test_poc_spoken_plate_and_intent.py",
+      "line": 99,
+      "symbol": "test_spoken_plate_extraction"
+    },
+    {
+      "path": "tests/test_poc_spoken_plate_and_intent.py",
+      "line": 122,
+      "symbol": "test_targeted_plate_letter_correction"
+    },
+    {
+      "path": "tests/test_poc_spoken_plate_and_intent.py",
+      "line": 161,
+      "symbol": "test_poc_core_demo_flow"
+    },
+    {
+      "path": "tests/test_poc_spoken_plate_and_intent.py",
+      "line": 238,
+      "symbol": "test_family_plate_direct_correction"
+    },
+    {
+      "path": "tests/test_poc_spoken_plate_and_intent.py",
+      "line": 262,
+      "symbol": "test_family_price_direct"
+    },
+    {
+      "path": "tests/test_poc_spoken_plate_and_intent.py",
+      "line": 282,
+      "symbol": "test_family_full_direct"
+    },
+    {
+      "path": "tests/test_poc_spoken_plate_and_intent.py",
+      "line": 302,
+      "symbol": "test_family_car_direct"
+    },
+    {
+      "path": "tests/test_poc_spoken_plate_and_intent.py",
+      "line": 318,
+      "symbol": "test_family_info_direct"
+    },
+    {
+      "path": "tests/test_poc_spoken_plate_and_intent.py",
+      "line": 334,
+      "symbol": "test_family_cancel_direct"
+    },
+    {
+      "path": "tests/test_poc_spoken_plate_and_intent.py",
+      "line": 357,
+      "symbol": "test_turn_trace_layered_attribution"
+    },
+    {
+      "path": "tests/test_post_call_analytics.py",
+      "line": 61,
+      "symbol": "test_transcript_parsing"
+    },
+    {
+      "path": "tests/test_post_call_analytics.py",
+      "line": 75,
+      "symbol": "test_detect_call_intent"
+    },
+    {
+      "path": "tests/test_post_call_analytics.py",
+      "line": 102,
+      "symbol": "test_sentiment_and_csat"
+    },
+    {
+      "path": "tests/test_post_call_analytics.py",
+      "line": 125,
+      "symbol": "test_objections_and_lead_scoring"
+    },
+    {
+      "path": "tests/test_post_call_analytics.py",
+      "line": 160,
+      "symbol": "test_executive_summary_and_action"
+    },
+    {
+      "path": "tests/test_post_call_analytics.py",
+      "line": 174,
+      "symbol": "test_evaluate_and_save_call_analytics_db"
+    },
+    {
+      "path": "tests/test_post_call_analytics.py",
+      "line": 206,
+      "symbol": "test_analytics_api_endpoints"
+    },
+    {
+      "path": "tests/test_qa_telemetry_operator.py",
+      "line": 48,
+      "symbol": "test_realtime_metrics_fake_zero_prohibition"
+    },
+    {
+      "path": "tests/test_qa_telemetry_operator.py",
+      "line": 79,
+      "symbol": "test_turn_collector_lifecycle_and_opentelemetry_span"
+    },
+    {
+      "path": "tests/test_qa_telemetry_operator.py",
+      "line": 135,
+      "symbol": "test_operator_takeover_whisper_release_lifecycle"
+    },
+    {
+      "path": "tests/test_qa_telemetry_operator.py",
+      "line": 181,
+      "symbol": "test_abc_triple_variant_wer_cer_mos_evaluation"
+    },
+    {
+      "path": "tests/test_qa_telemetry_operator.py",
+      "line": 228,
+      "symbol": "test_abc_suite_holds_without_acoustic_measurements"
+    },
+    {
+      "path": "tests/test_qa_telemetry_operator.py",
+      "line": 256,
+      "symbol": "test_abc_suite_results_depend_on_input"
+    },
+    {
+      "path": "tests/test_qa_telemetry_operator.py",
+      "line": 267,
+      "symbol": "test_variant_b_measures_the_live_normalizer"
+    },
+    {
+      "path": "tests/test_qa_telemetry_operator.py",
+      "line": 277,
+      "symbol": "test_abc_suite_handles_no_samples"
+    },
+    {
+      "path": "tests/test_qa_telemetry_operator.py",
+      "line": 283,
+      "symbol": "test_quality_gate_passes_only_when_every_criterion_is_measured"
+    },
+    {
+      "path": "tests/test_qa_telemetry_operator.py",
+      "line": 302,
+      "symbol": "test_m11_hardware_acceptance_hold_enforcement"
+    },
+    {
+      "path": "tests/test_qa_telemetry_operator.py",
+      "line": 333,
+      "symbol": "test_rest_api_operator_and_qa_endpoints"
+    },
+    {
+      "path": "tests/test_queue_lift.py",
+      "line": 59,
+      "symbol": "test_package_definitions_and_matching"
+    },
+    {
+      "path": "tests/test_queue_lift.py",
+      "line": 80,
+      "symbol": "test_lift_management_lifecycle"
+    },
+    {
+      "path": "tests/test_queue_lift.py",
+      "line": 118,
+      "symbol": "test_queue_enqueue_and_call_next"
+    },
+    {
+      "path": "tests/test_queue_lift.py",
+      "line": 166,
+      "symbol": "test_lift_capacity_and_speech_announcement"
+    },
+    {
+      "path": "tests/test_queue_lift.py",
+      "line": 194,
+      "symbol": "test_dialogue_speech_assistant_lift_announcement"
+    },
+    {
+      "path": "tests/test_queue_lift.py",
+      "line": 232,
+      "symbol": "test_slot_lift_capacity_constraint"
+    },
+    {
+      "path": "tests/test_queue_lift.py",
+      "line": 265,
+      "symbol": "test_api_lifts_and_queue"
+    },
+    {
+      "path": "tests/test_queue_lift.py",
+      "line": 323,
+      "symbol": "test_capacity_wait_is_null_when_no_active_lifts"
+    },
+    {
+      "path": "tests/test_queue_lift.py",
+      "line": 336,
+      "symbol": "test_capacity_wait_computed_from_real_durations"
+    },
+    {
+      "path": "tests/test_realtime_dashboard_metrics.py",
+      "line": 33,
+      "symbol": "test_collector"
+    },
+    {
+      "path": "tests/test_realtime_dashboard_metrics.py",
+      "line": 46,
+      "symbol": "test_itu_mos_calculation"
+    },
+    {
+      "path": "tests/test_realtime_dashboard_metrics.py",
+      "line": 57,
+      "symbol": "test_record_call_and_percentiles"
+    },
+    {
+      "path": "tests/test_realtime_dashboard_metrics.py",
+      "line": 90,
+      "symbol": "test_evaluate_sla_status"
+    },
+    {
+      "path": "tests/test_realtime_dashboard_metrics.py",
+      "line": 117,
+      "symbol": "test_generate_prometheus_metrics_text"
+    },
+    {
+      "path": "tests/test_realtime_dashboard_metrics.py",
+      "line": 151,
+      "symbol": "test_get_live_dashboard_summary"
+    },
+    {
+      "path": "tests/test_realtime_dashboard_metrics.py",
+      "line": 173,
+      "symbol": "test_rest_api_metrics_endpoints"
+    },
+    {
+      "path": "tests/test_redaction_kvkk_guard.py",
+      "line": 63,
+      "symbol": "test_is_valid_tckn"
+    },
+    {
+      "path": "tests/test_redaction_kvkk_guard.py",
+      "line": 78,
+      "symbol": "test_is_valid_luhn"
+    },
+    {
+      "path": "tests/test_redaction_kvkk_guard.py",
+      "line": 92,
+      "symbol": "test_is_valid_tr_iban"
+    },
+    {
+      "path": "tests/test_redaction_kvkk_guard.py",
+      "line": 106,
+      "symbol": "test_masking_functions"
+    },
+    {
+      "path": "tests/test_redaction_kvkk_guard.py",
+      "line": 127,
+      "symbol": "test_redact_text_comprehensive"
+    },
+    {
+      "path": "tests/test_redaction_kvkk_guard.py",
+      "line": 159,
+      "symbol": "test_redact_spoken_numbers"
+    },
+    {
+      "path": "tests/test_redaction_kvkk_guard.py",
+      "line": 168,
+      "symbol": "test_redact_audio"
+    },
+    {
+      "path": "tests/test_redaction_kvkk_guard.py",
+      "line": 192,
+      "symbol": "test_redact_dialogue_turns"
+    },
+    {
+      "path": "tests/test_redaction_kvkk_guard.py",
+      "line": 206,
+      "symbol": "test_kvkk_api_endpoints"
+    },
+    {
+      "path": "tests/test_security_hardening.py",
+      "line": 57,
+      "symbol": "test_webhook_anonymous_rejected"
+    },
+    {
+      "path": "tests/test_security_hardening.py",
+      "line": 61,
+      "symbol": "test_webhook_wrong_token_rejected"
+    },
+    {
+      "path": "tests/test_security_hardening.py",
+      "line": 68,
+      "symbol": "test_webhook_correct_token_accepted"
+    },
+    {
+      "path": "tests/test_security_hardening.py",
+      "line": 77,
+      "symbol": "test_webhook_unset_token_returns_503"
+    },
+    {
+      "path": "tests/test_security_hardening.py",
+      "line": 86,
+      "symbol": "test_metrics_requires_auth"
+    },
+    {
+      "path": "tests/test_security_hardening.py",
+      "line": 91,
+      "symbol": "test_pdf_anonymous_rejected"
+    },
+    {
+      "path": "tests/test_security_hardening.py",
+      "line": 95,
+      "symbol": "test_pdf_with_basic_auth"
+    },
+    {
+      "path": "tests/test_security_hardening.py",
+      "line": 99,
+      "symbol": "test_signed_link_endpoint_and_access"
+    },
+    {
+      "path": "tests/test_security_hardening.py",
+      "line": 110,
+      "symbol": "test_signed_link_expired_and_tampered"
+    },
+    {
+      "path": "tests/test_security_hardening.py",
+      "line": 124,
+      "symbol": "test_signed_access_disabled_when_key_empty"
+    },
+    {
+      "path": "tests/test_security_hardening.py",
+      "line": 130,
+      "symbol": "test_send_link_returns_signed_url"
+    },
+    {
+      "path": "tests/test_security_hardening.py",
+      "line": 139,
+      "symbol": "test_generic_listing_limit_offset_and_cap"
+    },
+    {
+      "path": "tests/test_security_hardening.py",
+      "line": 158,
+      "symbol": "test_photo_upload_over_cap_returns_413"
+    },
+    {
+      "path": "tests/test_security_hardening.py",
+      "line": 168,
+      "symbol": "test_photo_upload_within_cap_ok"
+    },
+    {
+      "path": "tests/test_security_hardening.py",
+      "line": 177,
+      "symbol": "test_base64_audio_field_over_cap_rejected"
+    },
+    {
+      "path": "tests/test_security_hardening.py",
+      "line": 195,
+      "symbol": "test_archive_without_key_fails_closed"
+    },
+    {
+      "path": "tests/test_security_hardening.py",
+      "line": 208,
+      "symbol": "test_verify_never_succeeds_without_stored_hmac"
+    },
+    {
+      "path": "tests/test_security_hardening.py",
+      "line": 228,
+      "symbol": "test_purge_future_target_date_rejected"
+    },
+    {
+      "path": "tests/test_security_hardening.py",
+      "line": 238,
+      "symbol": "test_purge_engine_clamps_future_date"
+    },
+    {
+      "path": "tests/test_security_hardening.py",
+      "line": 249,
+      "symbol": "test_purge_failed_unlink_not_marked_purged"
+    },
+    {
+      "path": "tests/test_security_hardening.py",
+      "line": 283,
+      "symbol": "test_diagnostic_without_phone_does_not_call"
+    },
+    {
+      "path": "tests/test_semantic_turn_detector.py",
+      "line": 53,
+      "symbol": "test_analyze_semantic_completeness_finished_sentences"
+    },
+    {
+      "path": "tests/test_semantic_turn_detector.py",
+      "line": 82,
+      "symbol": "test_analyze_semantic_completeness_unfinished_discourse_markers"
+    },
+    {
+      "path": "tests/test_semantic_turn_detector.py",
+      "line": 111,
+      "symbol": "test_analyze_semantic_completeness_unfinished_postpositions"
+    },
+    {
+      "path": "tests/test_semantic_turn_detector.py",
+      "line": 122,
+      "symbol": "test_turn_decision_wait_vs_commit"
+    },
+    {
+      "path": "tests/test_semantic_turn_detector.py",
+      "line": 151,
+      "symbol": "test_acoustic_resample_and_pitch_slope"
+    },
+    {
+      "path": "tests/test_semantic_turn_detector.py",
+      "line": 168,
+      "symbol": "test_smart_turn_audiosocket_adapter"
+    },
+    {
+      "path": "tests/test_semantic_turn_detector.py",
+      "line": 206,
+      "symbol": "test_turn_detector_api_endpoints"
+    },
+    {
+      "path": "tests/test_session.py",
+      "line": 9,
+      "symbol": "test_stale_synthesis_cannot_play"
+    },
+    {
+      "path": "tests/test_session.py",
+      "line": 47,
+      "symbol": "test_next_clause_prefetched_during_playback"
+    },
+    {
+      "path": "tests/test_session.py",
+      "line": 84,
+      "symbol": "test_call_and_tts_events_feed_dashboard_metrics"
+    },
+    {
+      "path": "tests/test_session.py",
+      "line": 130,
+      "symbol": "test_handle_text_input_emits_bypassed_and_f3_pipeline_events"
+    },
+    {
+      "path": "tests/test_session.py",
+      "line": 179,
+      "symbol": "test_handle_text_input_barge_in_and_task_cancellation"
+    },
+    {
+      "path": "tests/test_session.py",
+      "line": 219,
+      "symbol": "test_dialogue_state_event_emitted_for_cockpit_card"
+    },
+    {
+      "path": "tests/test_sft_leyla.py",
+      "line": 46,
+      "symbol": "test_client"
+    },
+    {
+      "path": "tests/test_sft_leyla.py",
+      "line": 52,
+      "symbol": "test_leyla_sft_config_defaults"
+    },
+    {
+      "path": "tests/test_sft_leyla.py",
+      "line": 67,
+      "symbol": "test_freeze_for_conservative_sft"
+    },
+    {
+      "path": "tests/test_sft_leyla.py",
+      "line": 105,
+      "symbol": "test_identity_drift_guard"
+    },
+    {
+      "path": "tests/test_sft_leyla.py",
+      "line": 128,
+      "symbol": "test_automotive_corpus_builder"
+    },
+    {
+      "path": "tests/test_sft_leyla.py",
+      "line": 151,
+      "symbol": "test_conservative_sft_trainer_steps"
+    },
+    {
+      "path": "tests/test_sft_leyla.py",
+      "line": 174,
+      "symbol": "test_early_stopping_on_drift"
+    },
+    {
+      "path": "tests/test_sft_leyla.py",
+      "line": 186,
+      "symbol": "test_verify_leyla_identity"
+    },
+    {
+      "path": "tests/test_sft_leyla.py",
+      "line": 209,
+      "symbol": "test_rest_api_sft_endpoints"
+    },
+    {
+      "path": "tests/test_sft_leyla.py",
+      "line": 256,
+      "symbol": "test_sft_stage1_yaml_dimensions_patch"
+    },
+    {
+      "path": "tests/test_sft_leyla.py",
+      "line": 277,
+      "symbol": "test_sft_base_checkpoint_missing_fails_early"
+    },
+    {
+      "path": "tests/test_sft_leyla.py",
+      "line": 294,
+      "symbol": "test_precompute_latents_out_alias"
+    },
+    {
+      "path": "tests/test_sft_leyla.py",
+      "line": 311,
+      "symbol": "test_cross_attention_lora_trainable_isolation"
+    },
+    {
+      "path": "tests/test_sft_leyla.py",
+      "line": 344,
+      "symbol": "test_lora_adapter_save_and_load"
+    },
+    {
+      "path": "tests/test_sft_leyla.py",
+      "line": 367,
+      "symbol": "test_rtx4070_hardware_benchmark_and_vram_estimation"
+    },
+    {
+      "path": "tests/test_sft_leyla.py",
+      "line": 388,
+      "symbol": "test_audio_manifest_validator"
+    },
+    {
+      "path": "tests/test_sft_leyla.py",
+      "line": 416,
+      "symbol": "test_rest_api_lora_endpoints"
+    },
+    {
+      "path": "tests/test_short_clause_synthesis.py",
+      "line": 11,
+      "symbol": "test_short_comma_prefix_merges_with_next_clause"
+    },
+    {
+      "path": "tests/test_short_clause_synthesis.py",
+      "line": 16,
+      "symbol": "test_short_comma_prefixes_chain"
+    },
+    {
+      "path": "tests/test_short_clause_synthesis.py",
+      "line": 20,
+      "symbol": "test_long_comma_clause_still_splits"
+    },
+    {
+      "path": "tests/test_short_clause_synthesis.py",
+      "line": 28,
+      "symbol": "test_sentence_boundary_is_not_merged"
+    },
+    {
+      "path": "tests/test_short_clause_synthesis.py",
+      "line": 32,
+      "symbol": "test_trailing_short_comma_clause_is_not_lost"
+    },
+    {
+      "path": "tests/test_short_clause_synthesis.py",
+      "line": 36,
+      "symbol": "test_merged_clause_pause_comes_from_final_punctuation"
+    },
+    {
+      "path": "tests/test_short_clause_synthesis.py",
+      "line": 40,
+      "symbol": "test_short_clause_frames_are_capped"
+    },
+    {
+      "path": "tests/test_short_clause_synthesis.py",
+      "line": 46,
+      "symbol": "test_short_clause_keeps_lower_prediction"
+    },
+    {
+      "path": "tests/test_short_clause_synthesis.py",
+      "line": 50,
+      "symbol": "test_short_clause_keeps_minimum_frames"
+    },
+    {
+      "path": "tests/test_short_clause_synthesis.py",
+      "line": 54,
+      "symbol": "test_longer_clause_prediction_is_untouched"
+    },
+    {
+      "path": "tests/test_sip_trunk_failover.py",
+      "line": 34,
+      "symbol": "test_manager"
+    },
+    {
+      "path": "tests/test_sip_trunk_failover.py",
+      "line": 58,
+      "symbol": "test_default_trunk_is_configured_but_unverified"
+    },
+    {
+      "path": "tests/test_sip_trunk_failover.py",
+      "line": 76,
+      "symbol": "test_injected_trunks_loaded"
+    },
+    {
+      "path": "tests/test_sip_trunk_failover.py",
+      "line": 97,
+      "symbol": "test_build_and_parse_sip_options"
+    },
+    {
+      "path": "tests/test_sip_trunk_failover.py",
+      "line": 120,
+      "symbol": "test_wrr_trunk_selection_priority1"
+    },
+    {
+      "path": "tests/test_sip_trunk_failover.py",
+      "line": 136,
+      "symbol": "test_automatic_subsecond_failover_to_priority2"
+    },
+    {
+      "path": "tests/test_sip_trunk_failover.py",
+      "line": 153,
+      "symbol": "test_active_call_capacity_limit_and_spillover"
+    },
+    {
+      "path": "tests/test_sip_trunk_failover.py",
+      "line": 164,
+      "symbol": "test_failover_reroute_on_originate_error"
+    },
+    {
+      "path": "tests/test_sip_trunk_failover.py",
+      "line": 174,
+      "symbol": "test_ping_trunk_state_machine"
+    },
+    {
+      "path": "tests/test_sip_trunk_failover.py",
+      "line": 200,
+      "symbol": "test_maintenance_drain_mode"
+    },
+    {
+      "path": "tests/test_sip_trunk_failover.py",
+      "line": 212,
+      "symbol": "test_rest_api_sip_trunk_endpoints"
+    },
+    {
+      "path": "tests/test_supervisor.py",
+      "line": 26,
+      "symbol": "test_catalogue_is_exact_and_versioned"
+    },
+    {
+      "path": "tests/test_supervisor.py",
+      "line": 36,
+      "symbol": "test_decision_roundtrip_and_validation"
+    },
+    {
+      "path": "tests/test_supervisor.py",
+      "line": 49,
+      "symbol": "test_unconfirmed_slots_and_invalid_dependencies_are_rejected"
+    },
+    {
+      "path": "tests/test_supervisor.py",
+      "line": 74,
+      "symbol": "test_rule_decisions"
+    },
+    {
+      "path": "tests/test_supervisor.py",
+      "line": 78,
+      "symbol": "test_emergency_dominates_and_technical_precedes_booking"
+    },
+    {
+      "path": "tests/test_supervisor.py",
+      "line": 93,
+      "symbol": "test_unknown_out_of_scope_and_uncertain_safety_are_distinct"
+    },
+    {
+      "path": "tests/test_supervisor.py",
+      "line": 101,
+      "symbol": "test_relative_date_uses_istanbul_clock_and_context_is_isolated"
+    },
+    {
+      "path": "tests/test_supervisor.py",
+      "line": 125,
+      "symbol": "test_orchestrator_multilabel_vehicle_and_partial_guard"
+    },
+    {
+      "path": "tests/test_supervisor.py",
+      "line": 144,
+      "symbol": "test_context_only_resolves_short_date_for_pending_booking"
+    },
+    {
+      "path": "tests/test_supervisor.py",
+      "line": 155,
+      "symbol": "test_llm_cannot_suggest_writes_safety_or_handoff_and_timeout_abstains"
+    },
+    {
+      "path": "tests/test_supervisor.py",
+      "line": 171,
+      "symbol": "test_gateway_denies_unconfirmed_or_changed_write_and_deduplicates"
+    },
+    {
+      "path": "tests/test_supervisor.py",
+      "line": 201,
+      "symbol": "test_redacted_trace_and_review_gate"
+    },
+    {
+      "path": "tests/test_supervisor.py",
+      "line": 239,
+      "symbol": "test_group_split_rejects_leakage_and_missing_label_coverage"
+    },
+    {
+      "path": "tests/test_supervisor.py",
+      "line": 250,
+      "symbol": "test_web_modes_use_real_read_only_tool_and_no_live_write"
+    },
+    {
+      "path": "tests/test_supervisor.py",
+      "line": 269,
+      "symbol": "test_quality_api_requires_operator_auth_and_review_is_not_automatic"
+    },
+    {
+      "path": "tests/test_supervisor.py",
+      "line": 294,
+      "symbol": "test_read_only_availability_uses_actual_slot_instants"
+    },
+    {
+      "path": "tests/test_supervisor_views.py",
+      "line": 32,
+      "symbol": "test_conversation_detail_uses_exact_links_and_masks_purged_rows"
+    },
+    {
+      "path": "tests/test_supervisor_views.py",
+      "line": 78,
+      "symbol": "test_fqici_queue_includes_deferred_and_expired_work_without_evidence"
+    },
+    {
+      "path": "tests/test_t02_f0_f6_telemetry_honest.py",
+      "line": 43,
+      "symbol": "test_voice_session_feed_generates_real_f0_and_f1_events"
+    },
+    {
+      "path": "tests/test_t02_f0_f6_telemetry_honest.py",
+      "line": 90,
+      "symbol": "test_voice_session_process_generates_real_f2_and_f3_events"
+    },
+    {
+      "path": "tests/test_t02_f0_f6_telemetry_honest.py",
+      "line": 141,
+      "symbol": "test_voice_session_reply_generates_real_f4_f5_f6_events"
+    },
+    {
+      "path": "tests/test_t02_f0_f6_telemetry_honest.py",
+      "line": 185,
+      "symbol": "test_handle_text_input_honesty_no_fake_defaults"
+    },
+    {
+      "path": "tests/test_technician_dictation.py",
+      "line": 41,
+      "symbol": "test_parse_body_parts_and_microns"
+    },
+    {
+      "path": "tests/test_technician_dictation.py",
+      "line": 59,
+      "symbol": "test_parse_mechanical_chassis_and_safety"
+    },
+    {
+      "path": "tests/test_technician_dictation.py",
+      "line": 82,
+      "symbol": "test_parse_group_parts_and_heavy_defects"
+    },
+    {
+      "path": "tests/test_technician_dictation.py",
+      "line": 108,
+      "symbol": "test_parse_blanket_hatasiz"
+    },
+    {
+      "path": "tests/test_technician_dictation.py",
+      "line": 120,
+      "symbol": "test_apply_dictation_to_report"
+    },
+    {
+      "path": "tests/test_technician_dictation.py",
+      "line": 172,
+      "symbol": "test_dictate_text_api_preview_and_apply"
+    },
+    {
+      "path": "tests/test_technician_dictation.py",
+      "line": 233,
+      "symbol": "test_dictate_audio_api"
+    },
+    {
+      "path": "tests/test_technician_dictation.py",
+      "line": 285,
+      "symbol": "test_empty_dictation_is_not_a_clean_report"
+    },
+    {
+      "path": "tests/test_technician_dictation.py",
+      "line": 294,
+      "symbol": "test_mentioned_only_component_is_not_asserted_ok"
+    },
+    {
+      "path": "tests/test_technician_dictation.py",
+      "line": 300,
+      "symbol": "test_report_pdf_unstated_parts_render_not_stated"
+    },
+    {
+      "path": "tests/test_telephony_codec_and_pjsip_honesty.py",
+      "line": 51,
+      "symbol": "test_readiness_and_ami_status_honestly_report_simulation"
+    },
+    {
+      "path": "tests/test_telephony_codec_and_pjsip_honesty.py",
+      "line": 82,
+      "symbol": "test_apply_telephony_eq_and_downsample_8k_shapes_and_framing"
+    },
+    {
+      "path": "tests/test_telephony_codec_and_pjsip_honesty.py",
+      "line": 110,
+      "symbol": "test_apply_telephony_eq_frequency_attenuation_and_presence"
+    },
+    {
+      "path": "tests/test_telephony_codec_and_pjsip_honesty.py",
+      "line": 151,
+      "symbol": "test_media_format_and_codec_contracts"
+    },
+    {
+      "path": "tests/test_telephony_codec_and_pjsip_honesty.py",
+      "line": 204,
+      "symbol": "test_audiosocket_packet_framing_and_lookback"
+    },
+    {
+      "path": "tests/test_transfer.py",
+      "line": 58,
+      "symbol": "test_generate_screen_pop_headers"
+    },
+    {
+      "path": "tests/test_transfer.py",
+      "line": 74,
+      "symbol": "test_generate_whisper_text"
+    },
+    {
+      "path": "tests/test_transfer.py",
+      "line": 90,
+      "symbol": "test_initiate_operator_transfer_with_mock_ami"
+    },
+    {
+      "path": "tests/test_transfer.py",
+      "line": 127,
+      "symbol": "test_accept_operator_transfer_bridge"
+    },
+    {
+      "path": "tests/test_transfer.py",
+      "line": 166,
+      "symbol": "test_accept_operator_transfer_ami_failure"
+    },
+    {
+      "path": "tests/test_transfer.py",
+      "line": 203,
+      "symbol": "test_decline_operator_transfer_and_fallback"
+    },
+    {
+      "path": "tests/test_transfer.py",
+      "line": 238,
+      "symbol": "test_handle_operator_dtmf"
+    },
+    {
+      "path": "tests/test_transfer.py",
+      "line": 260,
+      "symbol": "test_check_transfer_timeouts"
+    },
+    {
+      "path": "tests/test_transfer.py",
+      "line": 283,
+      "symbol": "test_dialogue_dtmf_0_operator_trigger"
+    },
+    {
+      "path": "tests/test_transfer.py",
+      "line": 294,
+      "symbol": "test_dialogue_speech_operator_trigger"
+    },
+    {
+      "path": "tests/test_transfer.py",
+      "line": 302,
+      "symbol": "test_transfer_rest_api_endpoints"
+    },
+    {
+      "path": "tests/test_transfer.py",
+      "line": 351,
+      "symbol": "test_voice_session_operator_transfer_flow"
+    },
+    {
+      "path": "tests/test_unified_server.py",
+      "line": 38,
+      "symbol": "test_unified_server_initial_state"
+    },
+    {
+      "path": "tests/test_unified_server.py",
+      "line": 49,
+      "symbol": "test_unified_server_start_and_stop_lifecycle"
+    },
+    {
+      "path": "tests/test_unified_server.py",
+      "line": 76,
+      "symbol": "test_unified_server_health_status_structure"
+    },
+    {
+      "path": "tests/test_unified_server.py",
+      "line": 96,
+      "symbol": "test_unified_server_signal_handlers"
+    },
+    {
+      "path": "tests/test_unified_server.py",
+      "line": 103,
+      "symbol": "test_graceful_shutdown_cleans_sessions"
+    },
+    {
+      "path": "tests/test_unified_server.py",
+      "line": 130,
+      "symbol": "test_default_ports"
+    },
+    {
+      "path": "tests/test_unified_server.py",
+      "line": 136,
+      "symbol": "test_unified_system_status_rest_endpoint"
+    },
+    {
+      "path": "tests/test_unified_server.py",
+      "line": 154,
+      "symbol": "test_health_reflects_lifespan_listeners"
+    },
+    {
+      "path": "tests/test_vin_ruhsat_decoder.py",
+      "line": 57,
+      "symbol": "test_parse_spoken_number"
+    },
+    {
+      "path": "tests/test_vin_ruhsat_decoder.py",
+      "line": 71,
+      "symbol": "test_decode_phonetic_spelling"
+    },
+    {
+      "path": "tests/test_vin_ruhsat_decoder.py",
+      "line": 87,
+      "symbol": "test_decode_ruhsat_text"
+    },
+    {
+      "path": "tests/test_vin_ruhsat_decoder.py",
+      "line": 110,
+      "symbol": "test_process_inbound_ruhsat_image_db"
+    },
+    {
+      "path": "tests/test_vin_ruhsat_decoder.py",
+      "line": 148,
+      "symbol": "test_ruhsat_api_endpoints"
+    },
+    {
+      "path": "tests/test_vin_ruhsat_decoder.py",
+      "line": 211,
+      "symbol": "test_whatsapp_inbound_image"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 104,
+      "symbol": "test_outbound_diagnostic_start_with_appointment_id"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 197,
+      "symbol": "test_reminder_negative_wins_over_confirm"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 209,
+      "symbol": "test_reminder_positive_still_confirms"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 218,
+      "symbol": "test_reminder_persist_failure_not_reported_as_success"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 235,
+      "symbol": "test_reminder_without_call_id_persists_on_appointment"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 245,
+      "symbol": "test_reminder_without_any_id_says_so"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 253,
+      "symbol": "test_can_send_real_notifications_follows_provider"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 260,
+      "symbol": "test_voice_booking_without_provider_makes_no_sms_claim"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 269,
+      "symbol": "test_voice_booking_real_provider_needs_phone"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 277,
+      "symbol": "test_voice_booking_real_provider_and_phone_mentions_sms"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 286,
+      "symbol": "test_dtmf_booking_without_provider_makes_no_sms_claim"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 295,
+      "symbol": "test_corporate_voice_booking_without_provider_makes_no_sms_claim"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 311,
+      "symbol": "test_mock_provider_marks_outbox_simulated_real_marks_sent"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 332,
+      "symbol": "test_mock_ami_is_not_real_and_flag_is_honored"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 345,
+      "symbol": "test_dtmf_zero_with_mock_ami_does_not_claim_transfer"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 365,
+      "symbol": "test_speech_transfer_with_mock_ami_does_not_claim_transfer"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 377,
+      "symbol": "test_failed_ami_marks_transfer_failed"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 390,
+      "symbol": "test_outbound_originate_with_mock_ami_is_simulated"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 405,
+      "symbol": "test_ami_status_endpoint_reports_simulated"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 418,
+      "symbol": "test_outbound_session_context_lookup"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 447,
+      "symbol": "test_cancel_reverses_corporate_charge_once"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 467,
+      "symbol": "test_outbound_cancel_and_dialogue_cancel_use_reversal"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 481,
+      "symbol": "test_cancel_api_reverses_corporate_charge"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 496,
+      "symbol": "test_dtmf_tasks_keep_reference_log_errors_and_serialize"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 532,
+      "symbol": "test_llm_timeout_returns_unclear_answer"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 546,
+      "symbol": "test_turn_emits_stt_and_llm_metrics"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 588,
+      "symbol": "test_models_load_blocked_by_active_session_not_only_full_capacity"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 601,
+      "symbol": "test_vehicle_match_ignores_empty_candidate"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 618,
+      "symbol": "test_vehicle_match_empty_needle_matches_nothing"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 634,
+      "symbol": "test_operator_register_call_defaults_are_none"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 645,
+      "symbol": "test_single_clause_plays_once"
+    },
+    {
+      "path": "tests/test_voice_path_honesty.py",
+      "line": 672,
+      "symbol": "test_stt_preserves_customer_words_in_quiet_audio"
+    },
+    {
+      "path": "tests/test_whatsapp_webhook.py",
+      "line": 85,
+      "symbol": "test_extract_intent_and_time"
+    },
+    {
+      "path": "tests/test_whatsapp_webhook.py",
+      "line": 108,
+      "symbol": "test_branch_location_pin_in_notifications"
+    },
+    {
+      "path": "tests/test_whatsapp_webhook.py",
+      "line": 146,
+      "symbol": "test_whatsapp_inbound_time_change_and_call_cancellation"
+    },
+    {
+      "path": "tests/test_whatsapp_webhook.py",
+      "line": 209,
+      "symbol": "test_whatsapp_inbound_cancellation"
+    },
+    {
+      "path": "tests/test_whatsapp_webhook.py",
+      "line": 248,
+      "symbol": "test_whatsapp_inbound_voice_transcription"
+    },
+    {
+      "path": "tests/test_whatsapp_webhook.py",
+      "line": 298,
+      "symbol": "test_whatsapp_rest_api_endpoints"
+    },
+    {
+      "path": "tests/test_workflow.py",
+      "line": 27,
+      "symbol": "test_confirmed_workflow_and_unknown_price"
+    },
+    {
+      "path": "tests/test_workflow.py",
+      "line": 52,
+      "symbol": "test_negative_confirmation_and_retries"
+    },
+    {
+      "path": "tests/test_workflow.py",
+      "line": 63,
+      "symbol": "test_unknown_booking_result_never_claims_confirmation"
+    },
+    {
+      "path": "tests/test_workflow.py",
+      "line": 82,
+      "symbol": "test_synthesis_bounded_and_cancellation"
+    },
+    {
+      "path": "tests/test_workflow.py",
+      "line": 113,
+      "symbol": "test_multi_turn_sliding_window_and_entity_memory"
+    },
+    {
+      "path": "tests/test_workflow.py",
+      "line": 188,
+      "symbol": "test_multi_turn_vehicle_correction"
+    },
+    {
+      "path": "tests/test_workflow.py",
+      "line": 228,
+      "symbol": "test_dialogue_history_bounded"
+    },
+    {
+      "path": "tests/test_workflow.py",
+      "line": 238,
+      "symbol": "test_corporate_voice_dialogue_booking"
+    },
+    {
+      "path": "tests/test_workflow.py",
+      "line": 312,
+      "symbol": "test_vehicle_inspection_history_dialogue"
+    }
+  ],
+  "limitations": [
+    "Static test candidates. Only one module exercised."
+  ]
+}

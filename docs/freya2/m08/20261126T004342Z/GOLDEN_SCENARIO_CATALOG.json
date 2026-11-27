@@ -1,0 +1,161 @@
+{
+  "schema_version": "1.0",
+  "package_id": "M08",
+  "run_id": "20261126T004342Z",
+  "baseline_run_id": "20261126T001600Z",
+  "head_sha": "6273981e1684686ae85f9458b608764e85a4552c",
+  "branch": "master",
+  "source_scope_hash": "bddb7ac19267e378dcdbbddb4abc45e9674d8aefa39d31adc4ee831eb701a254",
+  "scope": "T0_T1_STRUCTURAL_OFFLINE_WINDOWS",
+  "limitations": [
+    "Product T2/T3/T4-stress/T5-human-SIP benchmarks remain NOT_RUN.",
+    "M01-M07 verified via live workspace packages and executable foundation pytest suites; separate historical docs/freya2/m01..m07 folders were not pre-emitted.",
+    "4 pre-existing baseline failures in legacy tests/test_madde3_customer_experience.py and tests/test_voice_path_honesty.py remain documented in M00 RISK_REGISTER.md."
+  ],
+  "scenarios": [
+    {
+      "scenario_id": "GS01",
+      "title": "Generic greeting",
+      "owner_package": "M02",
+      "executable_now": true,
+      "pending_future_owner": null,
+      "proves_live_f0_f6": false
+    },
+    {
+      "scenario_id": "GS02",
+      "title": "Appointment booking with required confirmation",
+      "owner_package": "F3",
+      "executable_now": false,
+      "pending_future_owner": "F3",
+      "proves_live_f0_f6": false
+    },
+    {
+      "scenario_id": "GS03",
+      "title": "Changed slot after approval invalidation",
+      "owner_package": "M07",
+      "executable_now": true,
+      "pending_future_owner": null,
+      "proves_live_f0_f6": false
+    },
+    {
+      "scenario_id": "GS04",
+      "title": "Ambiguous vehicle candidate",
+      "owner_package": "M05",
+      "executable_now": true,
+      "pending_future_owner": null,
+      "proves_live_f0_f6": false
+    },
+    {
+      "scenario_id": "GS05",
+      "title": "No available slot",
+      "owner_package": "F3",
+      "executable_now": false,
+      "pending_future_owner": "F3",
+      "proves_live_f0_f6": false
+    },
+    {
+      "scenario_id": "GS06",
+      "title": "Authorized cancel/reschedule",
+      "owner_package": "M07",
+      "executable_now": true,
+      "pending_future_owner": null,
+      "proves_live_f0_f6": false
+    },
+    {
+      "scenario_id": "GS07",
+      "title": "Unauthorized history request denied",
+      "owner_package": "M07",
+      "executable_now": true,
+      "pending_future_owner": null,
+      "proves_live_f0_f6": false
+    },
+    {
+      "scenario_id": "GS08",
+      "title": "Partial transcript containing affirmative word held",
+      "owner_package": "M07",
+      "executable_now": true,
+      "pending_future_owner": null,
+      "proves_live_f0_f6": false
+    },
+    {
+      "scenario_id": "GS09",
+      "title": "Duplicate request idempotency",
+      "owner_package": "M07",
+      "executable_now": true,
+      "pending_future_owner": null,
+      "proves_live_f0_f6": false
+    },
+    {
+      "scenario_id": "GS10",
+      "title": "Provider timeout / unknown reconciliation",
+      "owner_package": "M07",
+      "executable_now": true,
+      "pending_future_owner": null,
+      "proves_live_f0_f6": false
+    },
+    {
+      "scenario_id": "GS11",
+      "title": "Prompt injection claiming administrator",
+      "owner_package": "M07",
+      "executable_now": true,
+      "pending_future_owner": null,
+      "proves_live_f0_f6": false
+    },
+    {
+      "scenario_id": "GS12",
+      "title": "DTMF duplicate suppression",
+      "owner_package": "F0",
+      "executable_now": true,
+      "pending_future_owner": null,
+      "proves_live_f0_f6": false
+    },
+    {
+      "scenario_id": "GS13",
+      "title": "Operator transfer mock",
+      "owner_package": "F6",
+      "executable_now": false,
+      "pending_future_owner": "F6",
+      "proves_live_f0_f6": false
+    },
+    {
+      "scenario_id": "GS14",
+      "title": "Soft pause / backchannel resume",
+      "owner_package": "M02",
+      "executable_now": true,
+      "pending_future_owner": null,
+      "proves_live_f0_f6": false
+    },
+    {
+      "scenario_id": "GS15",
+      "title": "Hard cancel with late TTS fence",
+      "owner_package": "M02",
+      "executable_now": true,
+      "pending_future_owner": null,
+      "proves_live_f0_f6": false
+    },
+    {
+      "scenario_id": "GS16",
+      "title": "Two-session isolation",
+      "owner_package": "M02",
+      "executable_now": true,
+      "pending_future_owner": null,
+      "proves_live_f0_f6": false
+    },
+    {
+      "scenario_id": "GS17",
+      "title": "Missing config/model capability",
+      "owner_package": "M03",
+      "executable_now": true,
+      "pending_future_owner": null,
+      "proves_live_f0_f6": false
+    },
+    {
+      "scenario_id": "GS18",
+      "title": "Overload and transport disconnect",
+      "owner_package": "M06",
+      "executable_now": true,
+      "pending_future_owner": null,
+      "proves_live_f0_f6": false
+    }
+  ]
+}

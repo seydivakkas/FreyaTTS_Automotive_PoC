@@ -107,6 +107,10 @@ class LookbackBuffer:
         self._buffer: deque[bytes] = deque(maxlen=capacity_frames)
         self.total_frames_pushed = 0
 
+    def __len__(self) -> int:
+        """Halka tamponundaki mevcut çerçeve sayısını döndürür."""
+        return len(self._buffer)
+
     def push(self, frame: bytes) -> None:
         """Yeni bir 8 kHz ses çerçevesini (varsayılan 320 byte) halka tampona ekler."""
         if len(frame) != self.frame_bytes:
@@ -453,7 +457,16 @@ class AudioSocketOrchestrator:
                 """AudioSocket 0x10 ses paketi gönderir."""
                 packet = build_packet(AUDIOSOCKET_AUDIO, frame)
                 writer.write(packet)
-                await writer.drain()
+                try:
+                    async with asyncio.timeout(settings.media_write_timeout_sec):
+                        await writer.drain()
+                except TimeoutError:
+                    logger.warning("AudioSocket media write timed out")
+                    if session:
+                        session.fqici_close_reason = "transport_error"
+                    # Abort also wakes the blocked reader and discards queued PCM.
+                    writer.transport.abort()
+                    raise
                 self.total_audio_frames_out += 1
 
             # 5. VoiceSession Başlatma (8 kHz telefon formatı)
@@ -526,7 +539,7 @@ class AudioSocketOrchestrator:
                     raise ValueError(f"Desteklenmeyen AudioSocket mesaj türü: {kind}")
 
         except (asyncio.IncompleteReadError, ConnectionError, TimeoutError):
-            if synthetic and session:
+            if synthetic and session and session.fqici_close_reason != "transport_error":
                 session.fqici_close_reason = "disconnect"
         except Exception as e:
             if synthetic and session:
@@ -557,7 +570,8 @@ class AudioSocketOrchestrator:
 
                 try:
                     writer.close()
-                    await writer.wait_closed()
+                    async with asyncio.timeout(settings.media_write_timeout_sec):
+                        await writer.wait_closed()
                 except Exception:
                     pass
 

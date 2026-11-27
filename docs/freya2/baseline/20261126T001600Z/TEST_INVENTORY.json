@@ -1,0 +1,758 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261126T001600Z",
+  "baseline_commit": "6273981e1684686ae85f9458b608764e85a4552c",
+  "records": {
+    "pytest_collected_total": 1598,
+    "playwright_specs": 4,
+    "files": [
+      {
+        "test_id": "TEST-0001",
+        "path": "tests/milestones/test_core.py",
+        "framework": "pytest",
+        "category": "milestone_contract",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/milestones/test_core.py"
+      },
+      {
+        "test_id": "TEST-0002",
+        "path": "tests/milestones/test_m01.py",
+        "framework": "pytest",
+        "category": "milestone_contract",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/milestones/test_m01.py"
+      },
+      {
+        "test_id": "TEST-0003",
+        "path": "tests/milestones/test_m02.py",
+        "framework": "pytest",
+        "category": "milestone_contract",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/milestones/test_m02.py"
+      },
+      {
+        "test_id": "TEST-0004",
+        "path": "tests/milestones/test_m03.py",
+        "framework": "pytest",
+        "category": "milestone_contract",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/milestones/test_m03.py"
+      },
+      {
+        "test_id": "TEST-0005",
+        "path": "tests/milestones/test_m03_contracts.py",
+        "framework": "pytest",
+        "category": "milestone_contract",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/milestones/test_m03_contracts.py"
+      },
+      {
+        "test_id": "TEST-0006",
+        "path": "tests/milestones/test_m04.py",
+        "framework": "pytest",
+        "category": "milestone_contract",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/milestones/test_m04.py"
+      },
+      {
+        "test_id": "TEST-0007",
+        "path": "tests/milestones/test_m04_adapter.py",
+        "framework": "pytest",
+        "category": "milestone_contract",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/milestones/test_m04_adapter.py"
+      },
+      {
+        "test_id": "TEST-0008",
+        "path": "tests/milestones/test_m04_contracts.py",
+        "framework": "pytest",
+        "category": "milestone_contract",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/milestones/test_m04_contracts.py"
+      },
+      {
+        "test_id": "TEST-0009",
+        "path": "tests/milestones/test_m05.py",
+        "framework": "pytest",
+        "category": "milestone_contract",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/milestones/test_m05.py"
+      },
+      {
+        "test_id": "TEST-0010",
+        "path": "tests/milestones/test_m05_contracts.py",
+        "framework": "pytest",
+        "category": "milestone_contract",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/milestones/test_m05_contracts.py"
+      },
+      {
+        "test_id": "TEST-0011",
+        "path": "tests/milestones/test_m06.py",
+        "framework": "pytest",
+        "category": "milestone_contract",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/milestones/test_m06.py"
+      },
+      {
+        "test_id": "TEST-0012",
+        "path": "tests/milestones/test_m06_contracts.py",
+        "framework": "pytest",
+        "category": "milestone_contract",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/milestones/test_m06_contracts.py"
+      },
+      {
+        "test_id": "TEST-0013",
+        "path": "tests/milestones/test_m07.py",
+        "framework": "pytest",
+        "category": "milestone_contract",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/milestones/test_m07.py"
+      },
+      {
+        "test_id": "TEST-0014",
+        "path": "tests/milestones/test_m07_contracts.py",
+        "framework": "pytest",
+        "category": "milestone_contract",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/milestones/test_m07_contracts.py"
+      },
+      {
+        "test_id": "TEST-0015",
+        "path": "tests/milestones/test_m08.py",
+        "framework": "pytest",
+        "category": "milestone_contract",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/milestones/test_m08.py"
+      },
+      {
+        "test_id": "TEST-0016",
+        "path": "tests/milestones/test_m09.py",
+        "framework": "pytest",
+        "category": "milestone_contract",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/milestones/test_m09.py"
+      },
+      {
+        "test_id": "TEST-0017",
+        "path": "tests/milestones/test_m10.py",
+        "framework": "pytest",
+        "category": "milestone_contract",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/milestones/test_m10.py"
+      },
+      {
+        "test_id": "TEST-0018",
+        "path": "tests/milestones/test_m11.py",
+        "framework": "pytest",
+        "category": "milestone_contract",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/milestones/test_m11.py"
+      },
+      {
+        "test_id": "TEST-0019",
+        "path": "tests/test_ab_testing.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_ab_testing.py"
+      },
+      {
+        "test_id": "TEST-0020",
+        "path": "tests/test_acoustic_evaluation.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_acoustic_evaluation.py"
+      },
+      {
+        "test_id": "TEST-0021",
+        "path": "tests/test_analytics.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_analytics.py"
+      },
+      {
+        "test_id": "TEST-0022",
+        "path": "tests/test_api.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_api.py"
+      },
+      {
+        "test_id": "TEST-0023",
+        "path": "tests/test_appointment_reschedule_preview.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_appointment_reschedule_preview.py"
+      },
+      {
+        "test_id": "TEST-0024",
+        "path": "tests/test_audio_archive_compliance.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_audio_archive_compliance.py"
+      },
+      {
+        "test_id": "TEST-0025",
+        "path": "tests/test_audiosocket_server.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_audiosocket_server.py"
+      },
+      {
+        "test_id": "TEST-0026",
+        "path": "tests/test_automotive_dispatch.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_automotive_dispatch.py"
+      },
+      {
+        "test_id": "TEST-0027",
+        "path": "tests/test_automotive_frontend.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_automotive_frontend.py"
+      },
+      {
+        "test_id": "TEST-0028",
+        "path": "tests/test_automotive_ontology.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_automotive_ontology.py"
+      },
+      {
+        "test_id": "TEST-0029",
+        "path": "tests/test_automotive_terminology.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_automotive_terminology.py"
+      },
+      {
+        "test_id": "TEST-0030",
+        "path": "tests/test_batched_ode.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_batched_ode.py"
+      },
+      {
+        "test_id": "TEST-0031",
+        "path": "tests/test_caller_memory.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_caller_memory.py"
+      },
+      {
+        "test_id": "TEST-0032",
+        "path": "tests/test_car_denoiser.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_car_denoiser.py"
+      },
+      {
+        "test_id": "TEST-0033",
+        "path": "tests/test_chan_websocket.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_chan_websocket.py"
+      },
+      {
+        "test_id": "TEST-0034",
+        "path": "tests/test_core.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_core.py"
+      },
+      {
+        "test_id": "TEST-0035",
+        "path": "tests/test_demo_separation.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_demo_separation.py"
+      },
+      {
+        "test_id": "TEST-0036",
+        "path": "tests/test_diagnostics.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_diagnostics.py"
+      },
+      {
+        "test_id": "TEST-0037",
+        "path": "tests/test_dtmf.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_dtmf.py"
+      },
+      {
+        "test_id": "TEST-0038",
+        "path": "tests/test_dtmf_false_positive.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_dtmf_false_positive.py"
+      },
+      {
+        "test_id": "TEST-0039",
+        "path": "tests/test_dynamic_valuation.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_dynamic_valuation.py"
+      },
+      {
+        "test_id": "TEST-0040",
+        "path": "tests/test_e2e_automotive_cockpit.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_e2e_automotive_cockpit.py"
+      },
+      {
+        "test_id": "TEST-0041",
+        "path": "tests/test_emotion_prosody_adapter.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_emotion_prosody_adapter.py"
+      },
+      {
+        "test_id": "TEST-0042",
+        "path": "tests/test_executive_docx.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_executive_docx.py"
+      },
+      {
+        "test_id": "TEST-0043",
+        "path": "tests/test_fqici_queue.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_fqici_queue.py"
+      },
+      {
+        "test_id": "TEST-0044",
+        "path": "tests/test_gpu_health_circuit_breaker.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_gpu_health_circuit_breaker.py"
+      },
+      {
+        "test_id": "TEST-0045",
+        "path": "tests/test_inspections.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_inspections.py"
+      },
+      {
+        "test_id": "TEST-0046",
+        "path": "tests/test_isolation.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_isolation.py"
+      },
+      {
+        "test_id": "TEST-0047",
+        "path": "tests/test_lift_bay_capacity_scheduler.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_lift_bay_capacity_scheduler.py"
+      },
+      {
+        "test_id": "TEST-0048",
+        "path": "tests/test_live_mic_acceptance_protocol.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_live_mic_acceptance_protocol.py"
+      },
+      {
+        "test_id": "TEST-0049",
+        "path": "tests/test_madde2_real_world_integration.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_madde2_real_world_integration.py"
+      },
+      {
+        "test_id": "TEST-0050",
+        "path": "tests/test_madde3_customer_experience.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_madde3_customer_experience.py"
+      },
+      {
+        "test_id": "TEST-0051",
+        "path": "tests/test_madde4_operation_panel.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_madde4_operation_panel.py"
+      },
+      {
+        "test_id": "TEST-0052",
+        "path": "tests/test_madde5_kvkk_compliance.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_madde5_kvkk_compliance.py"
+      },
+      {
+        "test_id": "TEST-0053",
+        "path": "tests/test_milestone_integration.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_milestone_integration.py"
+      },
+      {
+        "test_id": "TEST-0054",
+        "path": "tests/test_morphological_pre_checker.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_morphological_pre_checker.py"
+      },
+      {
+        "test_id": "TEST-0055",
+        "path": "tests/test_notifications.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_notifications.py"
+      },
+      {
+        "test_id": "TEST-0056",
+        "path": "tests/test_operator_inbox.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_operator_inbox.py"
+      },
+      {
+        "test_id": "TEST-0057",
+        "path": "tests/test_option_selection.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_option_selection.py"
+      },
+      {
+        "test_id": "TEST-0058",
+        "path": "tests/test_outbound.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_outbound.py"
+      },
+      {
+        "test_id": "TEST-0059",
+        "path": "tests/test_outbound_dialer.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_outbound_dialer.py"
+      },
+      {
+        "test_id": "TEST-0060",
+        "path": "tests/test_p5_latency.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_p5_latency.py"
+      },
+      {
+        "test_id": "TEST-0061",
+        "path": "tests/test_pause_breath_cleaner.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_pause_breath_cleaner.py"
+      },
+      {
+        "test_id": "TEST-0062",
+        "path": "tests/test_pipeline_telemetry.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_pipeline_telemetry.py"
+      },
+      {
+        "test_id": "TEST-0063",
+        "path": "tests/test_poc_spoken_plate_and_intent.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_poc_spoken_plate_and_intent.py"
+      },
+      {
+        "test_id": "TEST-0064",
+        "path": "tests/test_post_call_analytics.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_post_call_analytics.py"
+      },
+      {
+        "test_id": "TEST-0065",
+        "path": "tests/test_qa_telemetry_operator.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_qa_telemetry_operator.py"
+      },
+      {
+        "test_id": "TEST-0066",
+        "path": "tests/test_queue_lift.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_queue_lift.py"
+      },
+      {
+        "test_id": "TEST-0067",
+        "path": "tests/test_realtime_dashboard_metrics.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_realtime_dashboard_metrics.py"
+      },
+      {
+        "test_id": "TEST-0068",
+        "path": "tests/test_redaction_kvkk_guard.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_redaction_kvkk_guard.py"
+      },
+      {
+        "test_id": "TEST-0069",
+        "path": "tests/test_security_hardening.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_security_hardening.py"
+      },
+      {
+        "test_id": "TEST-0070",
+        "path": "tests/test_semantic_turn_detector.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_semantic_turn_detector.py"
+      },
+      {
+        "test_id": "TEST-0071",
+        "path": "tests/test_session.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_session.py"
+      },
+      {
+        "test_id": "TEST-0072",
+        "path": "tests/test_sft_leyla.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_sft_leyla.py"
+      },
+      {
+        "test_id": "TEST-0073",
+        "path": "tests/test_short_clause_synthesis.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_short_clause_synthesis.py"
+      },
+      {
+        "test_id": "TEST-0074",
+        "path": "tests/test_sip_trunk_failover.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_sip_trunk_failover.py"
+      },
+      {
+        "test_id": "TEST-0075",
+        "path": "tests/test_supervisor.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_supervisor.py"
+      },
+      {
+        "test_id": "TEST-0076",
+        "path": "tests/test_supervisor_views.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_supervisor_views.py"
+      },
+      {
+        "test_id": "TEST-0077",
+        "path": "tests/test_t02_f0_f6_telemetry_honest.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_t02_f0_f6_telemetry_honest.py"
+      },
+      {
+        "test_id": "TEST-0078",
+        "path": "tests/test_technician_dictation.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_technician_dictation.py"
+      },
+      {
+        "test_id": "TEST-0079",
+        "path": "tests/test_telephony_codec_and_pjsip_honesty.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_telephony_codec_and_pjsip_honesty.py"
+      },
+      {
+        "test_id": "TEST-0080",
+        "path": "tests/test_transfer.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_transfer.py"
+      },
+      {
+        "test_id": "TEST-0081",
+        "path": "tests/test_unified_server.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_unified_server.py"
+      },
+      {
+        "test_id": "TEST-0082",
+        "path": "tests/test_vin_ruhsat_decoder.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_vin_ruhsat_decoder.py"
+      },
+      {
+        "test_id": "TEST-0083",
+        "path": "tests/test_voice_path_honesty.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_voice_path_honesty.py"
+      },
+      {
+        "test_id": "TEST-0084",
+        "path": "tests/test_whatsapp_webhook.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_whatsapp_webhook.py"
+      },
+      {
+        "test_id": "TEST-0085",
+        "path": "tests/test_workflow.py",
+        "framework": "pytest",
+        "category": "unit_integration",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q tests/test_workflow.py"
+      },
+      {
+        "test_id": "TEST-0086",
+        "path": "experimental/tests/test_five_cuts_bargein_controller.py",
+        "framework": "pytest",
+        "category": "experimental",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q experimental/tests/test_five_cuts_bargein_controller.py"
+      },
+      {
+        "test_id": "TEST-0087",
+        "path": "experimental/tests/test_prosody_wsola_streamer.py",
+        "framework": "pytest",
+        "category": "experimental",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q experimental/tests/test_prosody_wsola_streamer.py"
+      },
+      {
+        "test_id": "TEST-0088",
+        "path": "experimental/tests/test_streaming_chunker_guard.py",
+        "framework": "pytest",
+        "category": "experimental",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q experimental/tests/test_streaming_chunker_guard.py"
+      },
+      {
+        "test_id": "TEST-0089",
+        "path": "experimental/tests/test_tts_normalization.py",
+        "framework": "pytest",
+        "category": "experimental",
+        "safety_review": "SAFE_ISOLATED_CONFTEST",
+        "run_command": ".venv\\Scripts\\python.exe -m pytest -q experimental/tests/test_tts_normalization.py"
+      },
+      {
+        "test_id": "TEST-0090",
+        "path": "frontend/tests/operator_today.spec.ts",
+        "framework": "playwright",
+        "category": "ui_e2e",
+        "safety_review": "NOT_RUN_IN_M00",
+        "run_command": "npx playwright test frontend/tests/operator_today.spec.ts"
+      },
+      {
+        "test_id": "TEST-0091",
+        "path": "frontend/tests/supervisor.spec.ts",
+        "framework": "playwright",
+        "category": "ui_e2e",
+        "safety_review": "NOT_RUN_IN_M00",
+        "run_command": "npx playwright test frontend/tests/supervisor.spec.ts"
+      },
+      {
+        "test_id": "TEST-0092",
+        "path": "frontend/tests/ui.spec.ts",
+        "framework": "playwright",
+        "category": "ui_e2e",
+        "safety_review": "NOT_RUN_IN_M00",
+        "run_command": "npx playwright test frontend/tests/ui.spec.ts"
+      },
+      {
+        "test_id": "TEST-0093",
+        "path": "frontend/tests/voice.spec.ts",
+        "framework": "playwright",
+        "category": "ui_e2e",
+        "safety_review": "NOT_RUN_IN_M00",
+        "run_command": "npx playwright test frontend/tests/voice.spec.ts"
+      }
+    ]
+  },
+  "limitations": [
+    "Playwright browser suite not executed in M00; frontend tsc+vite build passed."
+  ]
+}

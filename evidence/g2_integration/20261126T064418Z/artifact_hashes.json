@@ -1,0 +1,7 @@
+{
+  "docs/freya2/g2_integration/20261126T064418Z/G2_ACCEPTANCE_MATRIX.json": "8e9771fc8b89186763f0778e2af2c44ac7dcc084cf3a7013243c3fb9ea99e813",
+  "docs/freya2/g2_integration/20261126T064418Z/G2_INTEGRATION_REPORT.md": "9493b929e74017372c98133c7dc2a2c353510caac009e0d67e1b58ffa98af133",
+  "evidence/g2_integration/20261126T064418Z/logs/pytest_g2.log": "8114383a4d3592ee8270c18bbe1845bd763cba515ebb7949b7a76519d9049423",
+  "evidence/g2_integration/20261126T064418Z/manifest.json": "fc3fc6cb569a545f49748d5873f555429c232f275c444bd5ebd434ff76c21114",
+  "tests/integration/test_g2_gate.py": "7934dc0469b1645dce225c48d0c2d3ba970fbf9209d47f4b8f4901048db6f0fd"
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "gate_id": "F1_BC_BARGE_IN_AND_SEMANTIC_ENDPOINT",
+  "run_id": "20261126T033500Z",
+  "w2_integration_run_id": "20261126T032114Z",
+  "head_sha": "6273981e1684686ae85f9458b608764e85a4552c",
+  "branch": "master",
+  "scope": "T0_T1_STRUCTURAL_OFFLINE_WINDOWS",
+  "overall": "PASS",
+  "f1_b_ready": true,
+  "f1_c_ready": true,
+  "hardware_acceptance_status": "NOT_RUN",
+  "real_audio_acceptance_status": "NOT_RUN",
+  "human_sip_status": "NOT_RUN",
+  "tests": {
+    "command": [
+      "pytest",
+      "tests/voice_activity",
+      "--basetemp=data/temp_pytest_w34_f1",
+      "-q"
+    ],
+    "exit_code": 0,
+    "collected": 82,
+    "passed": 82,
+    "failed": 0,
+    "skipped": 0
+  },
+  "invariants": {
+    "f1b_states": [
+      "IDLE",
+      "CANDIDATE_PENDING",
+      "PAUSE_REQUESTED",
+      "SOFT_PAUSED",
+      "RESUMED",
+      "COMMITTED",
+      "ABORTED",
+      "REJECTED"
+    ],
+    "m02_pause_controller_wired": true,
+    "in_flight_recall_claimed": false,
+    "f1c_optional_hints_only": true,
+    "forbidden_files_untouched": [
+      "backend/audio.py",
+      "backend/models.py",
+      "backend/session.py",
+      "backend/core/*"
+    ]
+  }
+}

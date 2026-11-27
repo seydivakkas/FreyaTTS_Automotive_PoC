@@ -1,0 +1,747 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261126T001600Z",
+  "baseline_commit": "6273981e1684686ae85f9458b608764e85a4552c",
+  "records": [
+    {
+      "config_id": "CFG-0001",
+      "kind": "SETTING",
+      "public_key": "ADMIN_PASSWORD",
+      "declared_default": null,
+      "type": "<class 'str'>",
+      "sensitivity": "SECRET_REF",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0002",
+      "kind": "SETTING",
+      "public_key": "DATABASE_URL",
+      "declared_default": "sqlite:///./data/assistant.db",
+      "type": "<class 'str'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0003",
+      "kind": "SETTING",
+      "public_key": "DATA_DIR",
+      "declared_default": "data",
+      "type": "<class 'pathlib.Path'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0004",
+      "kind": "FLAG",
+      "public_key": "DEMO_MODE",
+      "declared_default": false,
+      "type": "<class 'bool'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0005",
+      "kind": "SETTING",
+      "public_key": "OLLAMA_URL",
+      "declared_default": "http://127.0.0.1:11434",
+      "type": "<class 'str'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0006",
+      "kind": "SETTING",
+      "public_key": "OLLAMA_MODEL",
+      "declared_default": "qwen2.5:7b",
+      "type": "<class 'str'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0007",
+      "kind": "SETTING",
+      "public_key": "LLM_TIMEOUT_SEC",
+      "declared_default": 20,
+      "type": "<class 'int'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0008",
+      "kind": "SETTING",
+      "public_key": "MEDIA_WRITE_TIMEOUT_SEC",
+      "declared_default": 2.0,
+      "type": "<class 'float'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0009",
+      "kind": "SETTING",
+      "public_key": "OLLAMA_GPU_LAYERS",
+      "declared_default": 8,
+      "type": "<class 'int'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0010",
+      "kind": "SETTING",
+      "public_key": "FREYA_PATH",
+      "declared_default": "vendor/FreyaTTS",
+      "type": "<class 'str'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0011",
+      "kind": "SETTING",
+      "public_key": "TTS_DEVICE",
+      "declared_default": "cuda",
+      "type": "<class 'str'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0012",
+      "kind": "FLAG",
+      "public_key": "AUTO_LOAD_MODELS",
+      "declared_default": true,
+      "type": "<class 'bool'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0013",
+      "kind": "FLAG",
+      "public_key": "STT_CATALOG_HOTWORDS",
+      "declared_default": false,
+      "type": "<class 'bool'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0014",
+      "kind": "SETTING",
+      "public_key": "STT_MIN_RMS",
+      "declared_default": 0.0,
+      "type": "<class 'float'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0015",
+      "kind": "SETTING",
+      "public_key": "STT_MODEL",
+      "declared_default": "large-v3-turbo",
+      "type": "<class 'str'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0016",
+      "kind": "SETTING",
+      "public_key": "STT_DEVICE",
+      "declared_default": "cuda",
+      "type": "<class 'str'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0017",
+      "kind": "SETTING",
+      "public_key": "STT_COMPUTE_TYPE",
+      "declared_default": "float16",
+      "type": "<class 'str'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0018",
+      "kind": "SETTING",
+      "public_key": "AUDIOSOCKET_HOST",
+      "declared_default": "127.0.0.1",
+      "type": "<class 'str'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0019",
+      "kind": "SETTING",
+      "public_key": "AUDIOSOCKET_PORT",
+      "declared_default": 9092,
+      "type": "<class 'int'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0020",
+      "kind": "SETTING",
+      "public_key": "PBX_METADATA_SECRET",
+      "declared_default": null,
+      "type": "<class 'str'>",
+      "sensitivity": "SECRET_REF",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0021",
+      "kind": "FLAG",
+      "public_key": "KVKK_ERASURE_ENABLED",
+      "declared_default": false,
+      "type": "<class 'bool'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0022",
+      "kind": "FLAG",
+      "public_key": "MULTI_VEHICLE_BOOKING_ENABLED",
+      "declared_default": false,
+      "type": "<class 'bool'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0023",
+      "kind": "FLAG",
+      "public_key": "TWILIO_ENABLED",
+      "declared_default": false,
+      "type": "<class 'bool'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0024",
+      "kind": "FLAG",
+      "public_key": "AUTO_PURGE_TRANSCRIPTS",
+      "declared_default": false,
+      "type": "<class 'bool'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0025",
+      "kind": "SETTING",
+      "public_key": "PBX_ALLOWED_IPS",
+      "declared_default": [
+        "127.0.0.1",
+        "::1"
+      ],
+      "type": "list[str]",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0026",
+      "kind": "FLAG",
+      "public_key": "RECORD_AUDIO",
+      "declared_default": false,
+      "type": "<class 'bool'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0027",
+      "kind": "SETTING",
+      "public_key": "RETENTION_DAYS",
+      "declared_default": 7,
+      "type": "<class 'int'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0028",
+      "kind": "SETTING",
+      "public_key": "TRANSCRIPT_RETENTION_DAYS",
+      "declared_default": 30,
+      "type": "<class 'int'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0029",
+      "kind": "SETTING",
+      "public_key": "AMI_HOST",
+      "declared_default": "127.0.0.1",
+      "type": "<class 'str'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0030",
+      "kind": "SETTING",
+      "public_key": "AMI_PORT",
+      "declared_default": 5038,
+      "type": "<class 'int'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0031",
+      "kind": "SETTING",
+      "public_key": "AMI_USERNAME",
+      "declared_default": "freya",
+      "type": "<class 'str'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0032",
+      "kind": "SETTING",
+      "public_key": "AMI_SECRET",
+      "declared_default": null,
+      "type": "<class 'str'>",
+      "sensitivity": "SECRET_REF",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0033",
+      "kind": "FLAG",
+      "public_key": "AMI_ENABLED",
+      "declared_default": false,
+      "type": "<class 'bool'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0034",
+      "kind": "SETTING",
+      "public_key": "AMI_CHANNEL_PREFIX",
+      "declared_default": "PJSIP",
+      "type": "<class 'str'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0035",
+      "kind": "SETTING",
+      "public_key": "AMI_TRUNK",
+      "declared_default": "trunk",
+      "type": "<class 'str'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0036",
+      "kind": "SETTING",
+      "public_key": "AMI_CONTEXT",
+      "declared_default": "automotive-outbound",
+      "type": "<class 'str'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0037",
+      "kind": "SETTING",
+      "public_key": "AMI_EXTEN",
+      "declared_default": "9092",
+      "type": "<class 'str'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0038",
+      "kind": "SETTING",
+      "public_key": "AMI_CALLERID",
+      "declared_default": "Maslak Ekspertiz <02129998877>",
+      "type": "<class 'str'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0039",
+      "kind": "SETTING",
+      "public_key": "OPERATOR_EXTENSION",
+      "declared_default": "6002",
+      "type": "<class 'str'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0040",
+      "kind": "SETTING",
+      "public_key": "OPERATOR_CONTEXT",
+      "declared_default": "automotive-transfer",
+      "type": "<class 'str'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0041",
+      "kind": "SETTING",
+      "public_key": "OPERATOR_WHISPER_TIMEOUT_SEC",
+      "declared_default": 15,
+      "type": "<class 'int'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0042",
+      "kind": "SETTING",
+      "public_key": "BRANCH_NAME",
+      "declared_default": "Maslak Ekspertiz Merkezi",
+      "type": "<class 'str'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0043",
+      "kind": "SETTING",
+      "public_key": "BRANCH_ADDRESS",
+      "declared_default": "Maslak Mah. Atatürk Oto Sanayi Sitesi 2. Kısım No:12 Sarıyer/İstanbul",
+      "type": "<class 'str'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0044",
+      "kind": "SETTING",
+      "public_key": "BRANCH_LATITUDE",
+      "declared_default": 41.1118,
+      "type": "<class 'float'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0045",
+      "kind": "SETTING",
+      "public_key": "BRANCH_LONGITUDE",
+      "declared_default": 29.0225,
+      "type": "<class 'float'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0046",
+      "kind": "SETTING",
+      "public_key": "BRANCH_MAPS_URL",
+      "declared_default": "https://maps.google.com/?q=41.1118,29.0225",
+      "type": "<class 'str'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0047",
+      "kind": "SETTING",
+      "public_key": "WHATSAPP_WEBHOOK_TOKEN",
+      "declared_default": null,
+      "type": "<class 'str'>",
+      "sensitivity": "SECRET_REF",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0048",
+      "kind": "SETTING",
+      "public_key": "NOTIFICATION_PROVIDER",
+      "declared_default": "mock",
+      "type": "<class 'str'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0049",
+      "kind": "SETTING",
+      "public_key": "TWILIO_ACCOUNT_SID",
+      "declared_default": null,
+      "type": "<class 'str'>",
+      "sensitivity": "SECRET_REF",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0050",
+      "kind": "SETTING",
+      "public_key": "TWILIO_AUTH_TOKEN",
+      "declared_default": null,
+      "type": "<class 'str'>",
+      "sensitivity": "SECRET_REF",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0051",
+      "kind": "SETTING",
+      "public_key": "TWILIO_FROM_NUMBER",
+      "declared_default": "",
+      "type": "<class 'str'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0052",
+      "kind": "SETTING",
+      "public_key": "TWILIO_WHATSAPP_FROM",
+      "declared_default": "",
+      "type": "<class 'str'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0053",
+      "kind": "SETTING",
+      "public_key": "AUDIO_ARCHIVE_MASTER_KEY",
+      "declared_default": null,
+      "type": "<class 'str'>",
+      "sensitivity": "SECRET_REF",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0054",
+      "kind": "SETTING",
+      "public_key": "LINK_SIGNING_KEY",
+      "declared_default": null,
+      "type": "<class 'str'>",
+      "sensitivity": "SECRET_REF",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0055",
+      "kind": "FLAG",
+      "public_key": "CAR_DENOISER_ENABLED",
+      "declared_default": true,
+      "type": "<class 'bool'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0056",
+      "kind": "SETTING",
+      "public_key": "CAR_DENOISER_HPF_CUTOFF",
+      "declared_default": 120.0,
+      "type": "<class 'float'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0057",
+      "kind": "SETTING",
+      "public_key": "CAR_DENOISER_SUPPRESSION_DB",
+      "declared_default": 18.0,
+      "type": "<class 'float'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0058",
+      "kind": "SETTING",
+      "public_key": "CAR_DENOISER_TARGET_DBFS",
+      "declared_default": -16.0,
+      "type": "<class 'float'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0059",
+      "kind": "SETTING",
+      "public_key": "CAR_DENOISER_NOISE_GATE_DBFS",
+      "declared_default": -42.0,
+      "type": "<class 'float'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0060",
+      "kind": "SETTING",
+      "public_key": "CAR_DENOISER_MAX_BOOST_DB",
+      "declared_default": 12.0,
+      "type": "<class 'float'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0061",
+      "kind": "SETTING",
+      "public_key": "CAR_DENOISER_GATE_ATTENUATION_DB",
+      "declared_default": 30.0,
+      "type": "<class 'float'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0062",
+      "kind": "SETTING",
+      "public_key": "MAX_CONCURRENT_CALLS",
+      "declared_default": 50,
+      "type": "<class 'int'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0063",
+      "kind": "FLAG",
+      "public_key": "BATCHED_ODE_ENABLED",
+      "declared_default": true,
+      "type": "<class 'bool'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0064",
+      "kind": "SETTING",
+      "public_key": "BATCHED_ODE_BATCH_SIZE",
+      "declared_default": 8,
+      "type": "<class 'int'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0065",
+      "kind": "SETTING",
+      "public_key": "BATCHED_ODE_MICRO_WINDOW_MS",
+      "declared_default": 12.0,
+      "type": "<class 'float'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0066",
+      "kind": "SETTING",
+      "public_key": "BATCHED_ODE_STEPS",
+      "declared_default": 32,
+      "type": "<class 'int'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0067",
+      "kind": "SETTING",
+      "public_key": "BATCHED_ODE_DEFAULT_SEED",
+      "declared_default": 9,
+      "type": "<class 'int'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0068",
+      "kind": "SETTING",
+      "public_key": "CHAN_WEBSOCKET_HOST",
+      "declared_default": "127.0.0.1",
+      "type": "<class 'str'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0069",
+      "kind": "SETTING",
+      "public_key": "CHAN_WEBSOCKET_PORT",
+      "declared_default": 8088,
+      "type": "<class 'int'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0070",
+      "kind": "FLAG",
+      "public_key": "CHAN_WEBSOCKET_ENABLED",
+      "declared_default": true,
+      "type": "<class 'bool'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0071",
+      "kind": "FLAG",
+      "public_key": "MORPH_PRECHECK_ENABLED",
+      "declared_default": true,
+      "type": "<class 'bool'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0072",
+      "kind": "SETTING",
+      "public_key": "MORPH_PRECHECK_PAUSE_MS",
+      "declared_default": 35,
+      "type": "<class 'int'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0073",
+      "kind": "SETTING",
+      "public_key": "SUPERVISOR_MODE",
+      "declared_default": "off",
+      "type": "typing.Literal['off', 'shadow', 'guarded']",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0074",
+      "kind": "FLAG",
+      "public_key": "FQICI_ENABLED",
+      "declared_default": false,
+      "type": "<class 'bool'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0075",
+      "kind": "SETTING",
+      "public_key": "SUPERVISOR_MODEL_PATH",
+      "declared_default": null,
+      "type": "pathlib.Path | None",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0076",
+      "kind": "SETTING",
+      "public_key": "SUPERVISOR_MODEL_SHA256",
+      "declared_default": "",
+      "type": "<class 'str'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0077",
+      "kind": "FLAG",
+      "public_key": "SUPERVISOR_LLM_FALLBACK",
+      "declared_default": false,
+      "type": "<class 'bool'>",
+      "sensitivity": "PUBLIC",
+      "source_ref": "backend/config.py"
+    },
+    {
+      "config_id": "CFG-0078",
+      "kind": "MODEL",
+      "public_key": "VAD_SILERO",
+      "model_id": "silero_vad.jit",
+      "artifact_hash": "e1122837f4154c511485fe0b9c64455f7b929c96fbb8d79fbdb336383ebd3720",
+      "availability": "LOCAL_FILE_HASHED",
+      "device": "cpu",
+      "source_ref": "backend/models.py:218"
+    },
+    {
+      "config_id": "CFG-0079",
+      "kind": "MODEL",
+      "public_key": "STT_FASTER_WHISPER",
+      "model_id": "large-v3-turbo",
+      "artifact_hash": null,
+      "availability": "NOT_LOADED_IN_M00",
+      "device": "cuda",
+      "dtype": "float16",
+      "source_ref": "backend/models.py:211"
+    },
+    {
+      "config_id": "CFG-0080",
+      "kind": "MODEL",
+      "public_key": "LLM_OLLAMA",
+      "model_id": "qwen2.5:7b",
+      "artifact_hash": null,
+      "availability": "EXTERNAL_PROCESS_UNPROBED",
+      "device": "gpu_layers=8",
+      "source_ref": "backend/models.py:94"
+    },
+    {
+      "config_id": "CFG-0081",
+      "kind": "MODEL",
+      "public_key": "TTS_FREYATTS",
+      "model_id": "FreyaTTS (Leyla seed 9)",
+      "artifact_hash": null,
+      "availability": "NOT_LOADED_IN_M00",
+      "device": "cuda",
+      "source_ref": "backend/models.py:206"
+    }
+  ],
+  "limitations": [
+    "No model weights were loaded or downloaded; .env contents were never read or printed."
+  ]
+}

@@ -119,6 +119,8 @@ class ChanWebSocketSession:
         async with self.send_lock:
             try:
                 await self.send_text_fn(msg)
+            except TimeoutError:
+                raise
             except Exception as e:
                 logger.warning(f"Asterisk komut gönderme hatası ({command}): {e}")
 
@@ -162,6 +164,8 @@ class ChanWebSocketSession:
                 self.bytes_sent += len(frame)
                 self.adapter.total_binary_frames_out += 1
                 self.adapter.total_bytes_out += len(frame)
+            except TimeoutError:
+                raise
             except Exception as e:
                 logger.warning(f"Asterisk ses iletim hatası: {e}")
 
@@ -357,11 +361,30 @@ class ChanWebSocketAdapter:
 
         call_uuid_str = str(uuid.uuid4())
         channel_id = f"PJSIP/asterisk-{call_uuid_str[:8]}"
+        connection_task = asyncio.current_task()
+        write_timed_out = False
+
+        async def send(message, sender):
+            nonlocal write_timed_out
+            if write_timed_out:
+                raise TimeoutError("chan_websocket media transport already timed out")
+            try:
+                async with asyncio.timeout(settings.media_write_timeout_sec):
+                    await sender(message)
+            except TimeoutError:
+                write_timed_out = True
+                logger.warning("chan_websocket media write timed out")
+                if session.voice_session:
+                    session.voice_session.fqici_close_reason = "transport_error"
+                if connection_task is not asyncio.current_task():
+                    connection_task.cancel()
+                raise
+
         session = ChanWebSocketSession(
             session_id=call_uuid_str,
             channel_id=channel_id,
-            send_bytes_fn=send_bytes_fn,
-            send_text_fn=send_text_fn,
+            send_bytes_fn=lambda frame: send(frame, send_bytes_fn),
+            send_text_fn=lambda message: send(message, send_text_fn),
             adapter=self,
         )
         self.active_sessions[call_uuid_str] = session
@@ -432,7 +455,10 @@ class ChanWebSocketAdapter:
                     elif ev_name == EVENT_MEDIA_FLUSHED:
                         logger.debug(f"MEDIA_FLUSHED teyidi alındı: {session.channel_id}")
 
-        except (WebSocketDisconnect, ConnectionError, asyncio.IncompleteReadError):
+        except asyncio.CancelledError:
+            if not write_timed_out:
+                raise
+        except (WebSocketDisconnect, ConnectionError, asyncio.IncompleteReadError, TimeoutError):
             pass
         except Exception as e:
             logger.exception(f"chan_websocket oturum hatası ({channel_id}): {e}")
@@ -450,7 +476,11 @@ class ChanWebSocketAdapter:
                 if call_uuid_str in self.active_sessions:
                     del self.active_sessions[call_uuid_str]
 
-                await close_fn()
+                try:
+                    async with asyncio.timeout(settings.media_write_timeout_sec):
+                        await close_fn()
+                except TimeoutError:
+                    logger.warning("chan_websocket close timed out")
 
     def get_metrics(self) -> dict[str, Any]:
         """Tüm chan_websocket adaptör metriklerini döndürür."""

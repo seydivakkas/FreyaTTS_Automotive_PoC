@@ -792,6 +792,30 @@ export function QueueLiftPanel({ api }: Props) {
         <h3 style={{ margin: "0 0 10px 0", fontSize: "14px", color: "#334155" }}>
           ⏱️ Ekspertiz Paketleri ve Standart İşlem Süreleri
         </h3>
+        {[...packages, {key:"", name:"", description:"", duration_minutes:30, base_price_kurus:0}].map(pkg =>
+          <form key={pkg.key || "new"} onSubmit={async e => {
+            e.preventDefault();
+            const form = e.currentTarget;
+            const d = new FormData(form);
+            try {
+              await api("packages/" + (pkg.key || crypto.randomUUID()), "PUT", {
+                name: String(d.get("name")).trim(), description: String(d.get("description")),
+                duration_minutes: Number(d.get("duration")), base_price_kurus: Math.round(Number(d.get("price")) * 100)
+              });
+              if (!pkg.key) form.reset();
+              await loadData();
+            } catch (err) { setError(errorMessage(err)); }
+          }}>
+            <label>İş adı <input name="name" required defaultValue={pkg.name}/></label>
+            <label>İçerik <input name="description" defaultValue={pkg.description}/></label>
+            <label>Dakika <input name="duration" type="number" min="1" max="1440" required defaultValue={pkg.duration_minutes}/></label>
+            <label>Fiyat (TL) <input name="price" type="number" min="0" step="0.01" required defaultValue={pkg.base_price_kurus/100}/></label>
+            <button>{pkg.key ? "Güncelle" : "Ek iş ekle"}</button>
+            {pkg.key && pkg.key !== "standart_ekspertiz" && <button type="button" onClick={async () => {
+              if (!window.confirm(pkg.name + " silinsin mi?")) return;
+              try { await api("packages/" + pkg.key, "DELETE"); await loadData(); } catch (err) {setError(errorMessage(err));}
+            }}>Sil</button>}
+          </form>)}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "10px" }}>
           {packages.map((pkg) => (
             <div key={pkg.key} style={{ backgroundColor: "#FFFFFF", padding: "12px", borderRadius: "6px", border: "1px solid #E2E8F0" }}>

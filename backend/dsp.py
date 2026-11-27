@@ -23,14 +23,21 @@ def apply_fade_and_comfort_noise(
     return wav_48k
 
 
-def apply_telephony_eq_and_downsample_8k(wav_48k: np.ndarray) -> np.ndarray:
+def apply_telephony_eq_and_downsample_8k(
+    wav_48k: np.ndarray, hp_cutoff: float = 120.0
+) -> np.ndarray:
     """
     48 kHz FreyaTTS ciktisina Antalia-2 Mini tarzi ses berraklastirma EQ'su uygular
     ve anti-aliasing filtre ile Asterisk icin 8 kHz 16-bit PCM (slin16) dizisine indirger.
+
+    1. 120 Hz Yuksek Geciren Filtre (Sub-bass ugultu ve motor kabin rezonansi kesici)
+    2. 3.2 kHz Presence Boost (+2.8 dB telefon anlasilirlik artisi)
+    3. 48 kHz -> 8 kHz Polifaz (Anti-Aliasing) Asagi Ornekleme (oran 1 / 6)
+    4. Yumusak Tepe Sinirlayici (Soft Peak Limiter) ve int16 slin16 donusumu
     """
     sr_in = 48000
-    # 1. 80 Hz Yuksek Geciren Filtre (Sub-bass ugultu kesici)
-    sos_hp = signal.butter(2, 80.0 / (sr_in / 2), btype="highpass", output="sos")
+    # 1. Yuksek Geciren Filtre (Sub-bass ve motor ugultusu kesici)
+    sos_hp = signal.butter(2, hp_cutoff / (sr_in / 2), btype="highpass", output="sos")
     y = signal.sosfilt(sos_hp, wav_48k).astype(np.float32)
 
     # 2. 3.2 kHz Presence Boost (+2.8 dB telefon anlasilirlik artisi)

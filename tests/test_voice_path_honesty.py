@@ -45,6 +45,49 @@ from backend.outbound import (
 )
 
 
+@pytest.mark.asyncio
+async def test_web_voice_write_timeout_releases_connection(monkeypatch):
+    monkeypatch.setattr(settings, "auto_load_models", False)
+    monkeypatch.setattr(settings, "media_write_timeout_sec", 0.02)
+    monkeypatch.setitem(main.tickets, "timeout-test", float("inf"))
+    ended = []
+
+    class IdleWebSocket:
+        query_params = {"ticket": "timeout-test"}
+
+        async def accept(self):
+            pass
+
+        async def receive_json(self):
+            return {"sample_rate": 16000, "channels": 1, "encoding": "pcm_s16le"}
+
+        async def receive(self):
+            await asyncio.Future()
+
+        async def send_bytes(self, frame):
+            await asyncio.Future()
+
+        async def close(self, code=1000):
+            ended.append(code)
+
+    class FakeVoiceSession:
+        closed = False
+
+        def __init__(self, channel, emit, audio):
+            self.audio = audio
+
+        async def start(self):
+            await self.audio(bytes(640))
+
+        async def close(self):
+            ended.append(self.fqici_close_reason)
+
+    monkeypatch.setattr(main, "VoiceSession", FakeVoiceSession)
+    await asyncio.wait_for(main.voice(IdleWebSocket()), timeout=1)
+    assert ended == ["transport_error", 1011]
+    assert not main.active.locked()
+
+
 @pytest.fixture
 def env(tmp_path, monkeypatch):
     engine = create_engine(
@@ -263,7 +306,7 @@ async def test_voice_booking_without_provider_makes_no_sms_claim(env, provider_r
         d = _booking_dialogue(db)
     d.customer_phone = "05321112233"  # telefon bilinse bile sağlayıcı yok
     ans = await d.answer("Evet, onaylıyorum.")
-    assert ans == "Randevunuz oluşturuldu. İyi günler dilerim."
+    assert "Randevunuz oluşturuldu." in ans and "SMS" not in ans and ans.endswith("İyi günler dilerim.")
 
 
 async def test_voice_booking_real_provider_needs_phone(env, provider_restore):
@@ -659,7 +702,7 @@ async def test_single_clause_plays_once(env, monkeypatch):
 
     try:
         await session.reply("Merhaba.")
-        play.assert_awaited_once_with(wave, session.generation)
+        play.assert_awaited_once_with(wave, session.generation, source="live")
         assert sum(event["type"] == "metrics" for event in events) == 1
     finally:
         await session.close()

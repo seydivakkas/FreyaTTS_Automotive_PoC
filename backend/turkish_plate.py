@@ -317,6 +317,28 @@ class TurkishPlateParser:
                 if len(letters_list) == 3:
                     num_start_idx = j
                     break
+            elif (
+                w.isalpha()
+                and 2 <= len(w) <= 3
+                and len(letters_list) + len(w) <= 3
+                and w not in _DIGIT_WORDS
+                and w not in _TENS_WORDS
+                and w not in {"yüz", "bin", "tane", "çift", "var", "yok", "ve", "ile", "bu", "şu", "için", "son", "oldu", "olsun", "plaka", "araba", "araç"}
+                and j + 1 < len(remaining)
+                and (
+                    remaining[j + 1].isdigit()
+                    or remaining[j + 1] in _DIGIT_WORDS
+                    or remaining[j + 1] in _TENS_WORDS
+                    or remaining[j + 1] in {"yüz", "bin", "sıfır"}
+                    or remaining[j + 1] in _PHONETIC_CITY_MAP
+                    or (remaining[j + 1].isalpha() and len(remaining[j + 1]) == 1)
+                )
+            ):
+                letters_list.extend(list(w.upper()))
+                j += 1
+                if len(letters_list) == 3:
+                    num_start_idx = j
+                    break
             else:
                 # Harf olmayan bir kelimeye geldiysek sayı kısmına geçtik demektir
                 num_start_idx = j
@@ -404,10 +426,26 @@ class TurkishPlateParser:
         prov, letters, digits = parts[0], parts[1], parts[2]
         clean = _tr_clean(correction_text)
 
-        # 2. Harf Değiştirme / Düzeltme Örüntüsü ("X değil, Y'nin Z'si" / "X değil Y")
-        # Örn: "c değil denizli nin d si", "c değil d", "bursa değil bolu"
+        def _resolve_letter_token(tok: str) -> Optional[str]:
+            if tok in _PHONETIC_CITY_MAP:
+                return _PHONETIC_CITY_MAP[tok]
+            if len(tok) == 1 and tok.isalpha():
+                return {"i": "İ", "ı": "I"}.get(tok, tok.upper())
+            # Kesme işaretsiz ASR ekleri: "dsi", "dsı", "a'sı" -> "asi", "c'si" -> "csi"
+            m_let_suf = re.fullmatch(r"([a-zçğıöşü])(?:si|sı|su|sü|yi|yı|yu|yü)", tok)
+            if m_let_suf:
+                ch = m_let_suf.group(1)
+                return {"i": "İ", "ı": "I"}.get(ch, ch.upper())
+            # Kesme işaretsiz şehir iyelikleri: "denizlinin", "ankaranın", "bursanın", "ceyhanın"
+            m_city_suf = re.fullmatch(r"([a-zçğıöşü]+?)(?:nin|nın|nun|nün|in|ın|un|ün)", tok)
+            if m_city_suf and m_city_suf.group(1) in _PHONETIC_CITY_MAP:
+                return _PHONETIC_CITY_MAP[m_city_suf.group(1)]
+            return None
+
+        # 2. Harf Değiştirme / Düzeltme Örüntüsü ("X değil, Y'nin Z'si" / "X değil de Y'nin Z'si" / "X yerine Y")
+        # Örn: "c değil denizli nin d si", "c değil denizlinin dsi", "b değil de ankara nın a sı"
         replace_match = re.search(
-            r"([a-zçğıöşü]+)\s+değil\s+(?:,\s*)?([a-zçğıöşü]+(?:\s+(?:nin|nın|in|ın)\s+[a-zçğıöşü]+)?)",
+            r"([a-zçğıöşü]+)\s+(?:değil(?:\s+(?:de|da))?|yerine)\s+(?:,\s*)?([a-zçğıöşü]+(?:\s+[a-zçğıöşü]+){0,3})",
             clean,
         )
         if replace_match:
@@ -415,20 +453,16 @@ class TurkishPlateParser:
             new_token_phrase = replace_match.group(2).strip()
 
             # Eski harfi bul
-            old_char = None
-            if old_token in _PHONETIC_CITY_MAP:
-                old_char = _PHONETIC_CITY_MAP[old_token]
-            elif len(old_token) == 1:
-                old_char = old_token.upper()
+            old_char = _resolve_letter_token(old_token)
 
             # Yeni harfi bul
             new_char = None
             for w in reversed(new_token_phrase.split()):
-                if w in _PHONETIC_CITY_MAP:
-                    new_char = _PHONETIC_CITY_MAP[w]
-                    break
-                elif len(w) == 1 and w.isalpha():
-                    new_char = w.upper()
+                if w in ("si", "sı", "su", "sü", "nin", "nın", "in", "ın", "nun", "nün", "olacak", "olsun"):
+                    continue
+                resolved = _resolve_letter_token(w)
+                if resolved:
+                    new_char = resolved
                     break
 
             if old_char and new_char and old_char in letters:

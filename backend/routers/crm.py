@@ -64,7 +64,8 @@ from backend.vin_ruhsat_decoder import (
     decode_ruhsat_text,
     process_inbound_ruhsat_image,
 )
-from backend.queue_lift import PACKAGE_DEFINITIONS
+from backend import queue_lift
+from pydantic import BaseModel, Field
 from backend.notifications import (
     dispatch_pending_notifications,
     queue_inspection_delivery_notifications,
@@ -298,9 +299,33 @@ def resolve_diag(id: str):
             raise HTTPException(404, str(e))
 
 
+class PackageEdit(BaseModel):
+    name: str = Field(min_length=1, max_length=120)
+    description: str = Field(max_length=1000)
+    duration_minutes: int = Field(gt=0, le=1440)
+    base_price_kurus: int = Field(ge=0, le=1000000000)
+
+
+@router.put("/api/packages/{key}", dependencies=[Depends(auth)])
+def save_package(key: str, body: PackageEdit):
+    queue_lift.update_package(key, body.model_dump())
+    return {"ok": True}
+
+
+@router.delete("/api/packages/{key}", dependencies=[Depends(auth)])
+def delete_package(key: str):
+    try:
+        queue_lift.update_package(key, None)
+    except KeyError:
+        raise HTTPException(404, "Paket bulunamadı")
+    except ValueError as exc:
+        raise HTTPException(409, str(exc))
+    return {"ok": True}
+
+
 @router.get("/api/packages", dependencies=[Depends(auth)])
 def list_packages():
-    return list(PACKAGE_DEFINITIONS.values())
+    return list(queue_lift.PACKAGE_DEFINITIONS.values())
 
 
 @router.post("/api/ruhsat/decode-image", dependencies=[Depends(auth)])

@@ -5,10 +5,12 @@ import time
 import threading
 from collections import OrderedDict
 from contextvars import ContextVar
+from copy import deepcopy
 from pathlib import Path
 import numpy as np
 import httpx
 from backend.config import settings
+from backend.batched_ode import LEYLA_SEED
 from backend.text import normalize, clauses, prepare_tts_clause
 from backend.audio import apply_fade_and_comfort_noise
 from automotive_voice.adapters.lifecycle.breaker import CircuitBreaker
@@ -63,6 +65,14 @@ class Models:
     def last_llm_metrics(self, value):
         self._last_llm_metrics.set(value)
 
+    def new_vad(self):
+        """Create an independent CPU detector from the loaded Silero template."""
+        if self.vad is None:
+            raise RuntimeError("Modeller hazır değil")
+        detector = deepcopy(self.vad)
+        detector.reset_states()
+        return detector
+
     async def load(self):
         async with self.load_lock:
             return await self._load_once()
@@ -99,10 +109,10 @@ class Models:
             self.loading = False
 
     @staticmethod
-    def _cache_key(text, seed):
+    def _cache_key(text, seed: int):
         try:
             prepared = prepare_tts_clause(text)
-            return normalize(prepared)["normalized"], seed if seed is not None else 9
+            return normalize(prepared)["normalized"], seed
         except ValueError:
             return None
 
@@ -116,7 +126,7 @@ class Models:
         """Ön ısıtılacak (cümle, seed) çiftleri: sabit karşılamalar + sabit istemler."""
         from backend.ab_testing import GREETING_TEMPLATES
 
-        seeds = {9}
+        seeds = {LEYLA_SEED}
         pairs = [(t["text"], 9) for t in GREETING_TEMPLATES.values()]
         try:
             import json
@@ -127,7 +137,7 @@ class Models:
                     select(ABExperiment).where(ABExperiment.status == "active")
                 ).all():
                     for v in json.loads(exp.variants_json or "[]"):
-                        seed = int(v.get("tts_seed", 9))
+                        seed = int(v.get("tts_seed", LEYLA_SEED))
                         seeds.add(seed)
                         tpl = GREETING_TEMPLATES.get(v.get("greeting_template", "standard"))
                         if tpl:
@@ -191,7 +201,7 @@ class Models:
         sys.path.insert(0, str(root))
         from freyatts import FreyaTTS
         from faster_whisper import WhisperModel
-        from silero_vad import load_silero_vad
+        from importlib.resources import files
 
         if self.tts is None:
             self.tts = FreyaTTS.from_pretrained(
@@ -204,7 +214,9 @@ class Models:
                 compute_type=settings.stt_compute_type,
             )
         if self.vad is None:
-            self.vad = load_silero_vad()
+            # Python opens Unicode Windows paths before handing the stream to Torch.
+            with files("silero_vad.data").joinpath("silero_vad.jit").open("rb") as model:
+                self.vad = torch.jit.load(model, map_location="cpu").eval()
         if self.batched_ode_engine is None:
             from backend.batched_ode import BatchedODEEngine
 
@@ -222,6 +234,7 @@ class Models:
         self.error = None
 
     async def synth(self, text, seed: int | None = None):
+        seed = LEYLA_SEED if seed is None else seed
         text = prepare_tts_clause(text)
         key = self._cache_key(text, seed)
         hit = self._synth_cache.get(key) if key is not None else None
@@ -261,16 +274,13 @@ class Models:
         finally:
             self.pending -= 1
 
-    def _guarded_synth(self, text, seed: int | None = None):
+    def _guarded_synth(self, text, seed: int):
         with self.worker_lock:
             breaker = self.breakers["tts"]
             if not breaker.allow(time.monotonic_ns()):
                 raise RuntimeError("TTS geçici hata sonrasında beklemede")
             try:
-                try:
-                    result = self._synth(text, seed=seed)
-                except TypeError:
-                    result = self._synth(text)
+                result = self._synth(text, seed=seed)
             except ValueError:
                 breaker.abandon_probe()
                 raise
@@ -281,15 +291,14 @@ class Models:
             self.synth_count += 1
             return result
 
-    def _synth(self, text, seed: int | None = None):
+    def _synth(self, text, seed: int):
         t = normalize(text)["normalized"]
         parts = []
-        used_seed = seed if seed is not None else 9
         for part, pause in clauses(t):
             missing = set(part) - set(self.tts.char_to_id)
             if missing:
                 raise ValueError(f"Model sözlüğünde olmayan karakterler: {missing}")
-            w = self.tts._synth_one(part, steps=32, seed=used_seed)
+            w = self.tts._synth_one(part, steps=32, seed=seed)
             if not np.isfinite(w).all() or np.max(np.abs(w), initial=0) < 1e-5:
                 raise RuntimeError("Geçersiz veya sessiz model çıktısı")
             parts.extend(
@@ -310,13 +319,14 @@ class Models:
             raise RuntimeError("STT hazır değil")
 
         def run():
-            catalog = self._catalog_hotwords() if settings.stt_catalog_hotwords else []
+            catalog = list(self._catalog_hotwords()) if settings.stt_catalog_hotwords else []
+            combined_hotwords = list(dict.fromkeys([*catalog, *(self.custom_hotwords or [])]))
             with self.stt_lock:
                 segments, _ = self.stt.transcribe(
                     audio,
                     language="tr",
                     beam_size=1,
-                    hotwords=", ".join(catalog) or None,
+                    hotwords=", ".join(combined_hotwords) or None,
                     condition_on_previous_text=False,
                     no_speech_threshold=0.50,
                     log_prob_threshold=-0.80,

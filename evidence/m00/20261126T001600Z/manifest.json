@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "package_id": "M00",
+  "run_id": "20261126T001600Z",
+  "baseline_commit": "6273981e1684686ae85f9458b608764e85a4552c",
+  "source_class": "STATIC_CODE_AND_ISOLATED_TEST_BASELINE",
+  "report_dir": "docs/freya2/baseline/20261126T001600Z",
+  "evidence_dir": "evidence/m00/20261126T001600Z",
+  "logs": [
+    "logs/pytest_baseline.log",
+    "logs/frontend_build.log"
+  ]
+}

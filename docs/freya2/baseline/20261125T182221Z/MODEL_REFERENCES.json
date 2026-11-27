@@ -1,0 +1,20 @@
+{
+  "silero_vad_sha256": "e1122837f4154c511485fe0b9c64455f7b929c96fbb8d79fbdb336383ebd3720",
+  "tts": {
+    "reference": "freyavoice/freya-tts",
+    "local_checkpoint_sha256": null
+  },
+  "asr": {
+    "default": "large-v3-turbo",
+    "local_checkpoint_sha256": null
+  },
+  "llm": {
+    "default": "qwen2.5:7b",
+    "local_digest": null
+  },
+  "sources": [
+    "backend/models.py:183",
+    "backend/config.py:21",
+    "backend/config.py:29"
+  ]
+}

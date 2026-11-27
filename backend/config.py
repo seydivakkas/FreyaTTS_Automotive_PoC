@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     ollama_url: str = "http://127.0.0.1:11434"
     ollama_model: str = "qwen2.5:7b"
     llm_timeout_sec: int = 20
+    media_write_timeout_sec: float = Field(default=2.0, gt=0, allow_inf_nan=False)
     ollama_gpu_layers: int = 8
     freya_path: str = "vendor/FreyaTTS"
     tts_device: str = "cuda"

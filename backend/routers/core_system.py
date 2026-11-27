@@ -11,6 +11,7 @@ from backend.models import models
 from backend.session import active
 from backend.unified_server import unified_server
 from backend.deps import auth
+from backend.ami import get_ami_client, is_real_ami
 
 router = APIRouter()
 
@@ -46,6 +47,20 @@ async def readiness():
         "HALF_OPEN": "HALF_OPEN (Deneme)",
         "OPEN": "OPEN (Beklemede)",
     }
+
+    # Telefoni / Asterisk PBX durumu: MockAMIClient veya bağlantı yoksa açıkça 'SIMULATED' raporlanır.
+    ami = get_ami_client()
+    real_ami = is_real_ami()
+    ami_connected = (await ami.ping()) if real_ami else False
+    telephony = {
+        "status": "READY" if (real_ami and ami_connected) else "SIMULATED",
+        "connected": ami_connected,
+        "simulated": not real_ami,
+        "driver": "PJSIP / AudioSocket",
+        "ami_host": settings.ami_host,
+        "ami_port": settings.ami_port,
+    }
+
     return {
         "demo_mode": settings.demo_mode,
         "kvkk_erasure_enabled": settings.kvkk_erasure_enabled,
@@ -53,6 +68,7 @@ async def readiness():
         "tts": {"status": "READY" if models.tts else "BLOCKED", "device": settings.tts_device, "engine": "FreyaTTS"},
         "stt": {"status": "READY" if models.stt else "BLOCKED", "device": settings.stt_device, "engine": "Faster-Whisper " + settings.stt_model},
         "vad": {"status": "READY" if models.vad else "BLOCKED", "engine": "Silero VAD"},
+        "telephony": telephony,
         "ollama": ollama,
         "circuit_breaker": {"state": breaker_state, "status": breaker_labels[breaker_state]},
         "loading": models.loading,

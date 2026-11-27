@@ -180,7 +180,7 @@ async def test_tier1_f1_voice_session_text_input_pipeline_events(isolated_db, mo
     async def send_audio(frame):
         audio_frames.append(frame)
 
-    async def fake_synth(text):
+    async def fake_synth(text, *, seed=None):
         return np.ones(2400, np.float32) * 0.05
 
     monkeypatch.setattr(models, "synth", fake_synth)
@@ -898,7 +898,7 @@ async def test_tier3_cross_text_input_pipeline_telemetry_intent(monkeypatch):
     Doğrudan metin girişi F0-F2'yi atlar, telemetri yayar ve F3 aşamasında doğru niyeti tetikler.
     """
     monkeypatch.setattr(models, "vad", MockVad())
-    async def fake_synth(text):
+    async def fake_synth(text, *, seed=None):
         return np.zeros(2400, dtype=np.float32)
     monkeypatch.setattr(models, "synth", fake_synth)
     events = []

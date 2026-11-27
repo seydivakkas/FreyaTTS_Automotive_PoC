@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "fixture_group": "audio_synthetic",
+  "privacy_class": "SYNTHETIC_NO_PII",
+  "fixtures": [
+    {
+      "fixture_id": "fx-audio-8k-20ms-sine",
+      "revision": "1.0",
+      "source_class": "SYNTHETIC_FIXTURE",
+      "generator_version": "m08.audio.1",
+      "seed": 101,
+      "relative_files": [],
+      "sha256": {},
+      "split": "calibration",
+      "sample_rate_hz": 8000,
+      "channels": 1,
+      "encoding": "PCM_S16LE",
+      "sample_count": 160,
+      "labels": {"signal": "sine", "duration_ms": 20, "expected_bytes": 320, "is_human_speech": false},
+      "limitations": ["Analytic sine wave; not real telephony speech."]
+    },
+    {
+      "fixture_id": "fx-audio-16k-20ms-speech-env",
+      "revision": "1.0",
+      "source_class": "SYNTHETIC_FIXTURE",
+      "generator_version": "m08.audio.1",
+      "seed": 102,
+      "relative_files": [],
+      "sha256": {},
+      "split": "calibration",
+      "sample_rate_hz": 16000,
+      "channels": 1,
+      "encoding": "PCM_S16LE",
+      "sample_count": 320,
+      "labels": {"signal": "speech_envelope", "duration_ms": 20, "expected_bytes": 640, "is_human_speech": false},
+      "limitations": ["Amplitude-modulated tone; never valid for WER/MOS/real VAD generalization."]
+    },
+    {
+      "fixture_id": "fx-audio-48k-20ms-float32",
+      "revision": "1.0",
+      "source_class": "SYNTHETIC_FIXTURE",
+      "generator_version": "m08.audio.1",
+      "seed": 103,
+      "relative_files": [],
+      "sha256": {},
+      "split": "held_out",
+      "sample_rate_hz": 48000,
+      "channels": 1,
+      "encoding": "FLOAT32_LE",
+      "sample_count": 960,
+      "labels": {"signal": "chirp", "duration_ms": 20, "expected_bytes": 3840, "is_human_speech": false},
+      "limitations": ["Analytic chirp; variable chunk lengths also permitted by contract."]
+    },
+    {
+      "fixture_id": "fx-audio-16k-vad-512",
+      "revision": "1.0",
+      "source_class": "SYNTHETIC_FIXTURE",
+      "generator_version": "m08.audio.1",
+      "seed": 104,
+      "relative_files": [],
+      "sha256": {},
+      "split": "unit",
+      "sample_rate_hz": 16000,
+      "channels": 1,
+      "encoding": "FLOAT32_LE",
+      "sample_count": 512,
+      "labels": {"signal": "pink_noise", "duration_ms": 32, "expected_bytes": 2048, "is_human_speech": false},
+      "limitations": ["32 ms Silero VAD window; distinct from 20 ms media frame."]
+    }
+  ]
+}

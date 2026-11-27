@@ -99,6 +99,13 @@ export interface Health {
   tts?: ComponentStatus;
   stt?: ComponentStatus;
   vad?: ComponentStatus;
+  telephony?: ComponentStatus & {
+    connected?: boolean;
+    simulated?: boolean;
+    driver?: string;
+    ami_host?: string;
+    ami_port?: number;
+  };
   ollama?: ComponentStatus;
   circuit_breaker?: ComponentStatus & { state?: string };
   loading?: boolean;

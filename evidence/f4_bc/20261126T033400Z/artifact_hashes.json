@@ -1,0 +1,9 @@
+{
+  "backend/linguistic_frontend/__init__.py": "402e3aad1f231b71ee7af6eceeb2b0ef62f56a9b1b7b613021f11373faf1aebf",
+  "backend/linguistic_frontend/f4_b_morphology.py": "ae0163aa9124c6e67dd0aa9c3dd3502792bcd063d50a286aead9e939e88afb4b",
+  "backend/linguistic_frontend/f4_c_prosody.py": "24d9c7e40522257685b325183999bb62098f04f4accff1385d26f0bbe4cb758e",
+  "backend/linguistic_frontend/pipeline.py": "997785f628640b738fc3ad277a4ed653ae2b6a97322fb4fb8b4bf76112a1a0a1",
+  "tests/linguistic_frontend/test_f4_bc_morphology_prosody.py": "4ccbf3543bc3b95dc7d5abc6e509778c74fefaebf8477f1e2fd6e1ee84e7b68c",
+  "docs/freya2/f4_bc/20261126T033400Z/ACCEPTANCE_MATRIX.json": "e7380656ce0ac288900c8bd86b50b58ce80aaf75d1bfa7fa40cdf358fec0026e",
+  "evidence/f4_bc/20261126T033400Z/manifest.json": "6ac07dbc2bf734940fecd095bc2caa0dcde29f7d5efbd91efaf0ce446e3c50fc"
+}

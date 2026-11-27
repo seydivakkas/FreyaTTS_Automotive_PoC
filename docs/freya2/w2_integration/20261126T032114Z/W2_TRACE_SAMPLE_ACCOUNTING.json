@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "gate_id": "W2_VERTICAL_SLICE_INTEGRATION",
+  "run_id": "20261126T032114Z",
+  "source_class": "MOCK_RUNTIME",
+  "observation_scope": "SERVER",
+  "clock_domain": "w2.fake.clock",
+  "audio_payload_logged": false,
+  "measured_audible_ttfa_ms": null,
+  "profiles": {
+    "web_16k_pcm16": {
+      "channel": "web",
+      "input_rate_hz": 16000,
+      "f5_raw_rate_hz": 48000,
+      "f5_raw_encoding": "FLOAT32_LE",
+      "f5_raw_chunks": 1,
+      "f5_raw_samples": 84480,
+      "output_rate_hz": 16000,
+      "output_encoding": "PCM_S16LE",
+      "frame_samples": 320,
+      "frame_bytes": 640,
+      "submitted_frames": 104,
+      "submitted_bytes": 66560,
+      "observation_scope": "SERVER"
+    },
+    "audiosocket_8k_pcm16": {
+      "channel": "audiosocket",
+      "input_rate_hz": 8000,
+      "dtmf_events_detected": 1,
+      "f5_raw_rate_hz": 48000,
+      "f5_raw_encoding": "FLOAT32_LE",
+      "f5_raw_chunks": 1,
+      "f5_raw_samples": 84480,
+      "output_rate_hz": 8000,
+      "output_encoding": "PCM_S16LE",
+      "frame_samples": 160,
+      "frame_payload_bytes": 320,
+      "frame_wire_bytes": 323,
+      "submitted_frames": 104,
+      "captured_wire_bytes": 33592,
+      "observation_scope": "SERVER"
+    }
+  }
+}

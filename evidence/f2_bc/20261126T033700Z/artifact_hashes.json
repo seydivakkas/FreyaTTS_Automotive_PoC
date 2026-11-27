@@ -1,0 +1,13 @@
+{
+  "backend/speech_recognition/__init__.py": "f44f7d30efecb118a7e6f23c0f12a2558eb88b371a26ecc4dbe5fb64cb15de0c",
+  "backend/speech_recognition/pipeline.py": "573950b0f2ba2ee3ba3173ccca92d65309ad0fe605a50f2132dabc36ad441a39",
+  "backend/speech_recognition/hotword_planner.py": "bc6657bab3151dd4442d7b3e3a802b356d7fbbc59f2e8d19485491e72708a64d",
+  "backend/speech_recognition/protected_spans.py": "59fb1aa67be50af25a452651ed5fe989c5bc44106531f769ed541bcc36a82ae2",
+  "backend/speech_recognition/entity_resolver.py": "ae7ac29d25947a0ebb64f21d34fac96b64cfd3d64a2faed4745cf6a3e3909096",
+  "backend/speech_recognition/decode_policy.py": "0f29f3d2a041189ae8d0408a97a33572584ed0ac695c15325f5c2c37224d0ae5",
+  "backend/speech_recognition/partial_contracts.py": "87ecd9cb338e0ea5779abd78dc5d9cad392339cdfb421c8911b964c3ac27e98d",
+  "backend/speech_recognition/streaming_controller.py": "e3a2fe1b13b93e6eca769ecd15644fff001a846368aaa3accf38b7ef85df3cbf",
+  "tests/speech_recognition/test_f2_bc_entity_streaming.py": "3a4288b9676b2baa2076df82665817b8fe1a329e4afe6a3777893cb5d4f1f5c5",
+  "docs/freya2/f2_bc/20261126T033700Z/ACCEPTANCE_MATRIX.json": "48fb3720e4b0e4e6f70419134f3194fcef6a8406e54c6db013576cb576767e79",
+  "evidence/f2_bc/20261126T033700Z/manifest.json": "e519e40fefa31b0eb24d7522a55adf75f5b199a973f5d10aa5a63b0c7c0a8089"
+}

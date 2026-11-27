@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261126T033700Z",
+  "head_sha": "6273981e1684686ae85f9458b608764e85a4552c",
+  "worker": "w34-f2",
+  "packages": [
+    "F2-B",
+    "F2-C"
+  ],
+  "status": "PASS",
+  "files": [
+    "backend/speech_recognition/__init__.py",
+    "backend/speech_recognition/pipeline.py",
+    "backend/speech_recognition/hotword_planner.py",
+    "backend/speech_recognition/protected_spans.py",
+    "backend/speech_recognition/entity_resolver.py",
+    "backend/speech_recognition/decode_policy.py",
+    "backend/speech_recognition/partial_contracts.py",
+    "backend/speech_recognition/streaming_controller.py",
+    "tests/speech_recognition/test_f2_bc_entity_streaming.py"
+  ]
+}

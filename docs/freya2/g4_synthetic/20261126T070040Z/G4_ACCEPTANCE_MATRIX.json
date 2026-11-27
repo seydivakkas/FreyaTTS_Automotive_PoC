@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "gate_id": "G4_SYNTHETIC_PRODUCT_ACCEPTANCE",
+  "run_id": "20261126T070040Z",
+  "g2_run_id": "20261126T064418Z",
+  "g3_run_id": "20261126T064550Z",
+  "w2_integration_run_id": "20261126T032114Z",
+  "head_sha": "6273981e1684686ae85f9458b608764e85a4552c",
+  "branch": "master",
+  "scope": "T0_T1_T3_MOCK_T4_FAULT_OFFLINE_WINDOWS",
+  "overall_synthetic_lane_verdict": "PASS",
+  "lanes": {
+    "T0": "PASS",
+    "T1": "PASS",
+    "T3_mock": "PASS",
+    "T4_fault": "PASS",
+    "T2_native": "NOT_RUN",
+    "T3_native": "NOT_RUN",
+    "T4_load": "NOT_RUN",
+    "T4_PBX_lab": "NOT_RUN",
+    "T5_human_sip": "NOT_RUN",
+    "MOS_ABX": "NOT_RUN",
+    "F5_D_LoRA": "HOLD"
+  },
+  "lane_reasons": {
+    "T0": "8/8 deterministic contract & passive-import checks in tests/integration/test_g4_synthetic_acceptance.py passed (THREADS_DELTA=0, zero torch/librosa/backend.models loads in passive audit).",
+    "T1": "Deterministic unit & integration invariants verified across F0-F6, M01-M08, and 31-intent prosody table.",
+    "T3_mock": "End-to-end synthetic journeys verified across Web 16k (640B PCM16) and Phone AudioSocket 8k (0x10 320B PCM16), multi-turn slot correction + M07 challenge/receipt (MOCK, verified_result=False, idempotent replay), and two-stage barge-in soft-pause/resume/commit.",
+    "T4_fault": "Deterministic fault injection verified: M06 uncertain_device_state quarantine & zero active_count after wait_reclaims, F5 QualityGuard silent rejection & PII cache rejection, F0-B browser AEC BYPASS, F3-C RAG ACL isolation & CONFLICT abstention, F6-B BoundedPlaybackQueue capacity backpressure.",
+    "T2_native": "NOT_RUN: Offline synthetic acceptance grant only; no real GPU/native model weights loaded or benchmarked.",
+    "T3_native": "NOT_RUN: Offline synthetic acceptance grant only; native Whisper/Qwen/FreyaTTS E2E not executed.",
+    "T4_load": "NOT_RUN: Separate resource & bounded soak grant required; not executed.",
+    "T4_PBX_lab": "NOT_RUN: No isolated Asterisk/PBX lab endpoint authorized or started.",
+    "T5_human_sip": "NOT_RUN: G5 only; no real human callers, real SIP trunks, or public PSTN.",
+    "MOS_ABX": "NOT_RUN: G5 only; requires independent consented human listeners.",
+    "F5_D_LoRA": "HOLD: Not a G4 prerequisite; synthetic residuals cannot authorize LoRA training."
+  },
+  "full_repo_pytest": {
+    "command": ".venv\\Scripts\\python.exe -m pytest -q --basetemp=data/temp_pytest_g4",
+    "exit_code": 1,
+    "passed": 2523,
+    "failed": 2,
+    "skipped": 0,
+    "subtests_passed": 44,
+    "duration_seconds": 571.43,
+    "g4_suite_passed": 8,
+    "g4_suite_failed": 0,
+    "observed_existing_failures": [
+      {
+        "node_id": "tests/configuration/test_m03_config_registry.py::test_offline_preflight_read_only_without_loading_weights",
+        "reason": "AssertionError: assert 'torch' not in sys.modules (shared pytest process had torch imported by earlier legacy tests)"
+      },
+      {
+        "node_id": "tests/test_api.py::test_teardown_failure_releases_single_call_capacity",
+        "reason": "Failed: DID NOT RAISE RuntimeError in legacy tests/test_api.py"
+      }
+    ]
+  },
+  "independent_review": {
+    "reviewer": "verifier",
+    "status": "PENDING_VERIFIER_SIGN_OFF"
+  }
+}

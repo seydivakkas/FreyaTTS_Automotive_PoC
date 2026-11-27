@@ -47,15 +47,23 @@ from backend.telephony import read_packet
         ("Araç 4x4 sürüşlü", "Araç dört çeker sürüşlü"),
         ("Tip e-CVT oldu", "Tip i ce ve te oldu"),
         ("AWD çekiş var", "a ve de çekiş var"),
+        ("Dış sıcaklık −5 °C.", "eksi beş derece santigrat"),
+        ("Mégane Coupé", "Megaan Coupe"),
+        ("Town & Country", "Tovn ve Country"),
     ],
 )
 def test_normalization(source, expected):
     assert expected in normalize(source)["normalized"]
 
 
-def test_unknown_visible():
-    with pytest.raises(ValueError):
-        normalize("Araç 🚗")
+def test_unknown_character_is_reported_and_speech_survives(caplog):
+    result = normalize("Araç 🚗 servise hazır.")
+    assert result["source"] == "Araç 🚗 servise hazır."
+    assert result["normalized"] == "Araç servise hazır."
+    assert "U+1F697" in result["warnings"][-1]
+    assert "f4.char_dropped codepoints=U+1F697" in caplog.text
+    with pytest.raises(ValueError, match="Seslendirilebilir metin bulunamadı"):
+        normalize("🚗")
 
 
 @pytest.mark.parametrize(

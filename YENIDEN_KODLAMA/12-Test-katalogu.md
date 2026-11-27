@@ -1,0 +1,1932 @@
+# Davranış kabul kataloğu
+
+Her satır referans sürümde tanımlı bir test senaryosudur. Yeni uygulamada aynı durumları kurun. Bu katalog güncel çalıştırma sonucu bildirmez.
+
+## test_core
+
+- test_nominal_transition
+- test_bad_transition_rejected
+- test_interrupt_rejects_late_output
+- test_booking_requires_confirmed_and_ref
+- test_format_mismatch_rejected
+- test_legacy_cases_preserved
+- test_fake_output_flush
+
+## test_m01
+
+- test_session_id_validity
+- test_monotonic_identifiers_guard_bool_negative_float
+- test_round_trip_schema_and_utc
+- test_strict_wire_validation
+- test_payload_immutable_and_consumer_isolated
+- test_20ms_8khz_pcm16
+- test_g711_frame_size_and_rate
+- test_explicit_format_conversion_required
+- test_bus_atomic_backpressure_and_retry
+- test_bus_rejects_duplicates_order_errors_and_closed
+- test_session_lifecycle_and_event_order
+- test_prevent_invalid_transition_without_mutation
+- test_outbox_full_rollback_then_recover
+- test_parallel_sessions_no_crosstalk
+- test_cancellation_of_registered_task
+- test_cancellation_token_wait
+- test_handoff_and_terminal_behavior
+- test_failure_is_terminal_and_cancels
+- test_stale_chunk_rejection_survives_next_turn
+- test_unsubscribe_removes_fanout
+- test_many_concurrent_same_session_turns_only_one_wins
+
+## test_m02
+
+- test_nominal_flow_effects
+- test_barge_in_flush_ack_gate_and_stale_audio
+- test_deferred_transcript_is_atomic_on_flush_ack
+- test_handoff_during_speaking_flushes_before_transfer
+- test_handoff_overrides_deferred_transcript
+- test_timeout_never_allows_listening
+- test_vad_in_thinking_cancels_old_llm_generation
+- test_replay_gap_duplicate_event_id
+- test_old_generation_and_wrong_ack_not_applied
+- test_idempotent_hangup
+- test_handoff_thinking_cancels_llm
+- test_effect_backpressure_rejects_without_state_mutation
+- test_outbox_backpressure_rollbacks_input
+- test_ack_followup_is_transactional_when_outbox_short
+- test_unmatched_timeout_is_not_fatal
+- test_invalid_signals_and_clock_regression
+- test_multi_session_isolation_and_effect_determinism
+- test_concurrent_repeated_signal_sequence_only_one_commits
+- test_audit_has_no_transcripts
+- test_bus_reordering_avoided_by_m01_outbox
+- test_poll_timeout_after_deadline
+- test_timeout_does_not_trigger_after_ack
+- test_hangup_when_m01_outbox_full_is_fail_closed
+- test_timeout_full_outbox_safely_fails
+
+## test_m03
+
+- test_hello_without_authentication
+- test_identity_gate_prevents_crm_and_booking
+- test_consent_gate_prevents_crm_and_booking
+- test_marketing_optin_does_not_grant_crm_access
+- test_verified_vehicle
+- test_missing_vehicle_or_unverified
+- test_verified_price_not_a_sale_commitment
+- test_missing_or_expired_or_mismatched_quote_no_price
+- test_future_slot_and_timezone_required
+- test_offer_is_not_confirmation
+- test_confirmation_after_explicit_yes_and_receipt
+- test_duplicate_confirm_no_duplicate_booking
+- test_idempotency_of_fake_server
+- test_confirm_without_offer_never_books
+- test_decline_ends_pending_offer
+- test_availability_unavailable_unknown_never_books
+- test_availability_changed_at_commit
+- test_unknown_availability_at_commit
+- test_commit_exception_no_success
+- test_stale_precommit_does_not_create_booking
+- test_unverified_vehicle_no_offer
+- test_unknown_twice_handoff
+- test_direct_handoff
+- test_per_session_isolation
+- test_store_does_not_cross_sessions
+- test_invalid_price_object_rejected
+- test_booking_result_recheck_after_expiry
+- test_confirmation_key_reused_on_retry_with_same_mock_port
+- test_lookup_prices_for_another_session_no_leak
+- test_m02_integration_safe_ref_only
+- test_handoff_runs_m02_transition
+- test_missing_input_ref_does_not_make_response
+- test_old_generation_response_blocked
+- test_hangup_blocks_response
+- test_input_ref_not_in_external_event_audit
+- test_no_unauthorized_booking_from_thinking
+- test_wrong_effect_rejected
+- test_duplicate_request_effect_becomes_stale
+- test_reference_does_not_include_transcript_text
+- test_raw_transcript_only_in_session_secure_store
+- test_transcript_bound_size
+- test_capacity_eviction
+- test_idempotency_key_reuse_for_other_slot_fails
+- test_uncertain_commit_blocks_new_offer
+- test_recheck_finds_confirmed_receipt_after_uncertainty
+- test_recheck_without_key_fails_safe
+- test_prevent_second_booking_while_confirmed
+- test_cancel_offer_after_handoff_requires_new_review
+- test_cancellation_before_postavailability_mutation
+- test_invalid_reference_key_rejected
+- test_explicit_crm_case_created_once
+- test_case_requires_authorization
+- test_case_requires_consent
+- test_case_requires_known_vehicle
+- test_case_kind_must_be_whitelisted
+- test_case_exception_no_success
+- test_crm_price_unavailable_under_exception
+- test_crm_vehicle_lookup_fails_closed
+- test_booking_availability_exception_unknown
+- test_invalid_direct_confirmation
+- test_handoff_terminal
+- test_valid_offer_to_confirm_path
+
+## test_m03_contracts
+
+- test_json_contracts_load
+- test_schema_validator_examples
+- test_input_schema_sample
+
+## test_m04
+
+- test_int_to_tr_zero
+- test_int_to_tr_1000
+- test_int_to_tr_million
+- test_int_to_tr_large
+- test_int_to_tr_out_of_range
+- test_int_to_tr_negative
+- test_int_to_tr_float
+- test_money_thousands
+- test_money_decimal
+- test_money_one_cent
+- test_iso_date
+- test_tr_date
+- test_invalid_date
+- test_ambiguous_date
+- test_time
+- test_time_suffix
+- test_time_0900_suffix
+- test_invalid_time
+- test_kilometres
+- test_engine
+- test_model_year
+- test_identity_brand_preserved
+- test_strict_brand_reject
+- test_no_guessed_form
+- test_display_unchanged
+- test_bidi_fails_closed
+- test_empty_rejected
+- test_long_rejected
+- test_unknown_number_flag
+- test_no_phone_rewrite
+- test_a01_empty
+- test_unapproved_not_applied
+- test_missing_proof_rejected
+- test_approved_rewrite
+- test_suffix_fails_closed
+- test_approved_suffix
+- test_do_not_partially_replace
+- test_single_pass
+- test_conflicting_alias
+- test_conflicts_export_rejected
+- test_unsupported_proposed_reading
+- test_greeting
+- test_handoff
+- test_handoff_priority
+- test_price_no_guess
+- test_resolved_vehicle
+- test_two_intents
+- test_confirmation_needs_offer
+- test_confirmation_with_offer
+- test_decline_with_offer
+- test_booking_complete
+- test_relative_tomorrow
+- test_relative_without_clock
+- test_absolute_without_timezone
+- test_absolute_with_explicit_offset
+- test_missing_location
+- test_invalid_calendar
+- test_invalid_time
+- test_case_callback
+- test_diagnostics_no_transcript
+- test_invalid_anchor
+- test_invalid_utc_offset
+- test_empty_text
+- test_multiple_dates_rejected
+- test_multiple_times_rejected
+- test_relative_and_absolute_conflict
+- test_conflicting_offset_rejected
+- test_bridge_is_reference_only
+- test_bridge_reject_empty_session
+
+## test_m04_adapter
+
+- test_real_snapshot_empty_rules
+- test_missing_file
+- test_synthetic_review_requires_media_and_proof
+- test_legacy_320_hash_kept
+
+## test_m04_contracts
+
+- test_normalization_schema
+- test_nlu_schema
+- test_approved_schema
+
+## test_m05
+
+- test_money_protected
+- test_decimal_money_cents_kept
+- test_date_time_protected
+- test_engine_protected_acronyms
+- test_unapproved_qashqai_blocks_tts
+- test_skoda_blocks_unverified_reading
+- test_digits_unexpanded_review
+- test_approved_example_without_real_claim
+- test_parentheses_protected
+- test_question_hint
+- test_determinism
+- test_no_lost_text
+- test_long_money_not_split_even_with_tight_limit
+- test_unsupported_control_blocks
+- test_markup_not_synthesized
+- test_manual_ready_with_warnings_rejected
+- test_invalid_ids_rejected
+- test_tts_integrity_hash
+- test_empty_limits_rejected
+- test_clause_limit_guard
+- test_m04_review_cannot_bypass
+- test_enqueue_pop_mock
+- test_barge_in_invalidates_pending_text
+- test_reject_review
+- test_wrong_generation_rejected
+- test_terminal_invalidates
+- test_wrong_state_rejected
+- test_backpressure_atomic
+- test_new_generation_old_plan_rejected
+- test_discard_preserves_fresh
+- test_queue_receipt_no_text
+- test_cross_session_reference_not_accessible
+- test_response_ready_as_ref
+- test_unsupported_freya_text_blocked
+- test_stale_response_rejected_without_store_lookup
+- test_wrong_effect_rejected
+- test_replayed_plan_only_queued_once
+- test_conflicting_plan_same_identity_rejected
+- test_replay_after_pop_still_ignored
+- test_bare_clock
+- test_distance
+- test_model_year
+
+## test_m05_contracts
+
+- test_new_draft_2020_schemas
+- test_exact_legacy_320_hash
+
+## test_m06
+
+- test_pcm8
+- test_pcm16
+- test_pcm48
+- test_alaw
+- test_mulaw
+- test_g711_rate_rejected
+- test_g722_metadata_clock
+- test_g722_clock_must_be_distinct
+- test_reject_stereo_or_unknown_rate
+- test_reject_bad_type
+- test_chunk_duration_invariant
+- test_chunk_ids_and_private_metadata
+- test_asterisk_json_dry_run
+- test_ack_is_never_real_proof
+- test_enqueue_pop
+- test_duplicate_ignored
+- test_conflicting_duplicate
+- test_gap_no_poison
+- test_capacity_transactional
+- test_duration_limit
+- test_independent_sessions
+- test_interruption_stales_old_generation
+- test_interrupt_flush_discards_and_blocks
+- test_discard_stale
+- test_terminal_rejects
+- test_atomic_concurrent_sequence_race
+- test_local_flush_no_pbx_proof
+- test_close_is_fail_closed
+- test_send_nominal
+- test_xoff_backpressure_preserves_buffer
+- test_transport_capacity_preserves_buffer
+- test_flush_two_stage_with_explicit_fake_ack
+- test_forged_ack_without_transport_confirmation_rejected
+- test_xoff_survives_flush_ack
+- test_transport_reject_after_pop_restores_chunk
+- test_wrong_ack_rejected
+- test_adapter_mismatch_rejected
+- test_ack_replayed_rejected
+- test_ack_requires_confirmed
+- test_flush_idempotent
+- test_no_flush_from_wrong_state
+- test_timeout_then_no_ack
+- test_hangup_in_flight
+- test_deferred_transcript_survives_ack
+- test_invalid_sequence_ack_not_applied
+
+## test_m06_contracts
+
+- test_all_schemas_valid
+- test_chunk_metadata_safe
+- test_bad_chunk_rejected_by_schema
+- test_asterisk_control_schema
+- test_no_unverified_extra_ack_fields
+
+## test_m07
+
+- test_clock
+- test_retry
+- test_deadline
+- test_command_no_raw_text
+- test_breaker_probe
+- test_start_stop_health
+- test_ok_virtual_completion
+- test_replay_and_conflict
+- test_sequence_gap_no_poison
+- test_capacity
+- test_timeout_before_start
+- test_deadline_inflight
+- test_retry_and_recovery
+- test_nonidempotent_never_retry
+- test_permanent_never_retry
+- test_disconnect_and_reconnect
+- test_reconnect_invalid
+- test_stale_generation
+- test_cancel_session_independent
+- test_fault_isolation_other_adapter
+- test_circuit_open_and_half_open
+- test_stop_cancels_inflight
+- test_bounded_replay_window
+- test_health_four_adapters
+- test_bad_effect_reference
+- test_effect_idempotency_and_cancel
+- test_cancel_effect
+- test_no_fabricated_pbx_ack
+- test_clause_to_synthetic_media
+- test_stale_completion_blocked_by_m06
+- test_media_backpressure_does_not_advance_chunk_seq
+- test_independent_tts_telephony_failures
+- test_flush_is_not_auto_acked
+- test_flush_requires_valid_m02_state
+- test_separate_stt_llm_commands
+- test_bridge_holds_clause_on_adapter_backpressure
+- test_adapter_session_isolation_with_stale_callback
+
+## test_m07_contracts
+
+- test_all_five_schemas
+- test_command
+- test_command_reject_raw_text
+- test_result
+- test_health
+- test_retry
+- test_stream
+- test_schema_reject_unexpected
+
+## test_m08
+
+- test_initial_dashboard
+- test_open_and_turn
+- test_signal_guards_invalid_order
+- test_barge_in_requires_fake_ack
+- test_no_ack_when_not_pending
+- test_flush_timeout_safe_failure
+- test_xoff_xon
+- test_multiple_sessions_separate
+- test_hangup_prevents_operations
+- test_unknown_session_rejected
+- test_bad_clock_delta
+- test_review_empty_and_cannot_invent
+- test_timeline_no_raw_transcript
+- test_cannot_approve_without_real_evidence
+- test_rejection_audited_but_source_untouched
+- test_approval_requires_valid_checksum_and_transcript
+- test_checksum_mismatch_rejected
+- test_invalid_wav_bytes_refused_even_with_matching_checksum
+- test_path_traversal_rejected
+- test_invalid_reviewer_rejected
+- test_unknown_annotation_rejected
+- test_serves_actual_ui_assets
+- test_csp_no_external_scripts
+- test_snapshot_no_audio_and_source_records
+- test_post_without_csrf_forbidden
+- test_origin_rejected_even_with_csrf
+- test_host_rejected
+- test_post_open_valid_token
+- test_invalid_payload_rejected
+- test_reject_remote_bind
+
+## test_m09
+
+- test_whole_catalog
+- test_scenario_names_restricted
+- test_e2e_not_physical_audio
+- test_price_m04_review_must_not_fake_audio
+- test_valid_safe_response_generates_fake_metadata
+- test_no_automatic_flush_ack
+- test_same_response_idempotency_across_resubmission
+- test_wrong_answer_cannot_be_resolved_to_booking
+- test_text_not_in_safe_e2e_trace
+- test_cross_session_no_booking_leak
+- test_generation_monotonic_on_interrupt
+- test_hangup_does_not_resume
+- test_handoff_turkish_suffix
+- test_m09_does_not_mutate_golden
+- test_no_pending_flush_when_normal_price
+- test_adapter_disconnect_recover_isolated
+- test_call_timeout_terminal
+- test_no_speech_file_artifacts_created_by_catalog
+- test_20_scenarios_visible_in_read_model
+- test_scenario_action_restricts_names
+- test_scenario_exposed_to_m08_ui
+- test_reports_bounded
+- test_trace_privacy
+- test_old_console_actions_still_work
+- test_ui_has_scenario_tab
+- test_csrf_required_for_scenario
+- test_scenario_valid_post
+- test_scenario_bad_post
+- test_invalid_host_rejected
+
+## test_m10
+
+- test_dryrun_has_no_activation
+- test_remote_insecure_and_userinfo_rejected
+- test_no_secrets_in_diagnostic
+- test_codec_contract
+- test_bad_config
+- test_price_speech_distinct_from_display
+- test_offer_iso_convert
+- test_unknown_location_fails_closed
+- test_reference_masked_in_speech
+- test_brand_not_transliterated
+- test_unrecognized_reference_blocks
+- test_create_start_atomic_and_sequence
+- test_crash_recovery_is_failclosed_and_does_not_replay_effects
+- test_restart_after_delivered_event_preserves_cursor
+- test_bus_backpressure_leaves_durable_pending
+- test_failed_transaction_keeps_memory_unchanged
+- test_recovery_is_idempotent
+- test_handoff_requires_reconciliation_after_restart
+- test_terminal_not_recovered_as_new_call
+- test_no_out_of_order_durable_ack
+- test_pii_payload_refused
+- test_duplicate_session_rejected
+- test_all_business_scenarios_with_durable_persistence_and_speech_presentation
+- test_readiness_dashboard_is_offline
+
+## test_m11
+
+- test_missing_all_hold
+- test_strict_gate_names
+- test_physical_pass_not_accepted_from_mock
+- test_real_pass_requires_evidence
+- test_regression_can_pass_without_physical
+- test_evidence_tampering_rejects_pass
+- test_renamed_gate_rejected
+- test_invalid_pass_without_physical_on_disk_fails
+- test_pbx_fake_cannot_pass
+- test_pbx_ordered_real_trace_fields
+- test_pbx_order_error
+- test_pbx_mismatched_channel
+- test_pbx_duplicate_mono
+- test_pbx_stale_flush_ack_not_sufficient
+- test_pbx_slow_acoustic_stop_fails_latency
+- test_empty_stt_reference_rejected
+- test_wer_cer_exact
+- test_wer_one_substitution
+- test_unicode_casefold
+- test_wav_metadata
+- test_stereo_wav_rejected
+- test_voice_review_rejects_partial_corpus
+- test_voice_review_rejects_missing_human_review
+- test_voice_review_rejects_bad_wav_hash
+- test_hash_file
+
+## test_ab_testing
+
+- test_templates_and_presets_catalog
+- test_experiment_crud_and_status
+- test_conversation_variant_assignment_and_metrics
+- test_statistical_z_test_and_report_generation
+- test_dialogue_prompt_template_variants
+- test_api_ab_endpoints
+- test_voice_session_ab_integration
+
+## test_acoustic_evaluation
+
+- test_canonical_handles_turkish_case_and_punctuation
+- test_find_terms_prefers_longest_and_counts_occurrences
+- test_perfect_transcript_has_no_errors
+- test_uppercase_and_glued_codes_count_as_correct
+- test_digit_transcript_matches_spoken_reference
+- test_wrong_transcript_is_measured_as_error
+- test_measure_f0_detects_pitch_and_silence
+- test_f0_drift_requires_baseline_and_uses_same_sentence
+- test_report_counts_failed_synthesis_as_full_error
+- test_build_baseline_skips_missing_f0
+- test_select_cases_is_stratified
+- test_gate_uses_audio_report_but_never_passes_without_abx
+- test_gate_fails_on_bad_audio_measurement
+- test_api_reads_report_from_data_dir
+
+## test_analytics
+
+- test_percentile_calculation
+- test_analytics_kpi_computation_and_endpoint
+- test_follow_up_resolution_workflow
+
+## test_api
+
+- test_auth_required
+- test_rendezvous_routes
+- test_ws_ticket_and_invalid_format
+- test_ws_busy_line_has_distinct_close_code
+- test_teardown_failure_releases_single_call_capacity
+- test_vehicle_crud
+- test_slot_duration_and_overlap
+- test_conversation_export
+- test_hotwords_management
+- test_corporate_accounts_crud_and_limits
+- test_vin_validation_and_inspection_reports
+- test_lexicon_management
+- test_voice_chat_turn_endpoint
+- test_ws_voice_text_input_lifecycle
+
+## test_appointment_reschedule_preview
+
+- test_preview_is_read_only_and_conflict_offers_current_alternative
+- test_confirm_rechecks_capacity_and_rejects_a_stale_source
+- test_active_station_assignment_prevents_detaching_appointment
+- test_concurrent_confirmations_admit_one_move
+
+## test_audio_archive_compliance
+
+- test_engine
+- test_compress_decompress_opus
+- test_compress_decompress_gsm610
+- test_stereo_alignment_and_compression
+- test_archive_call_session_and_database
+- test_verify_integrity_valid_and_tampered
+- test_retention_audit_and_purge
+- test_rest_api_archive_endpoints
+
+## test_audiosocket_server
+
+- test_audio_pacer_timing_and_reclamation
+- test_audio_pacer_cancellation_honored
+- test_lookback_buffer_fifo_and_samples
+- test_two_stage_barge_in_backchannel_rollback
+- test_two_stage_barge_in_command_commit
+- test_two_stage_barge_in_pause_timeout
+- test_audiosocket_protocol_packets
+- test_audiosocket_orchestrator_ip_and_concurrency_rejection
+- test_default_components_and_backchannel_words
+- test_audiosocket_rest_endpoints
+- test_pacer_totals_are_null_not_zero
+
+## test_automotive_dispatch
+
+- test_emergency_override_guardrail
+- test_lift_status_dispatch
+- test_obd_dtc_dispatch
+- test_technician_dictation_dispatch
+- test_whatsapp_report_dispatch
+- test_valuation_vs_pricing_dispatch
+- test_caller_profile_and_reference_resolution
+
+## test_automotive_frontend
+
+- test_client
+- test_automotive_brand_normalization_and_suffixes
+- test_engine_displacement_normalization
+- test_currency_and_price_without_dots
+- test_time_expressions_and_suffixes
+- test_unk_security_net
+- test_prosodic_clauses_and_dynamic_pauses
+- test_dsp_cosine_fade
+- test_dsp_de_esser
+- test_dsp_comfort_noise
+- test_dsp_full_chain_48k_to_8k
+- test_rest_api_frontend_endpoints
+
+## test_automotive_ontology
+
+- test_introspect_schema
+- test_service_packages_single_source_of_truth
+- test_vehicle_concept_resolution
+- test_diagnostic_fault_ontology
+- test_action_validation_guardrails
+- test_mcp_adapter_tools
+- test_ontology_rest_endpoints
+
+## test_batched_ode
+
+- test_concurrent_call_controller
+- test_check_voicedness
+- test_batched_ode_micro_batching
+- test_independent_seeds_preserve_f0
+- test_whisper_collapse_prevention
+- test_default_engine_and_controller_params
+- test_batched_ode_rest_api_endpoints
+- test_models_synth_integration_with_batched_ode
+- test_sinus_yedek_bayrak_olmadan_hata_verir
+- test_yedek_fonksiyon_seed_anahtar_sozcukle_verilir
+- test_bozuk_oge_yigindaki_digerlerini_dusurmez
+- test_models_synth_batched_yol_devre_kesiciden_gecer
+
+## test_caller_memory
+
+- test_phone_and_plate_normalization
+- test_caller_profile_crud_and_persistence
+- test_get_or_create_caller_profile
+- test_format_caller_memory_context
+- test_resolve_warranty_inquiry
+- test_resolve_past_maintenance
+- test_add_maintenance_record
+- test_seed_default_profiles
+- test_dialogue_state_message_contains_memory_context
+- test_dialogue_multi_turn_warranty_resolution
+- test_dialogue_multi_turn_past_brake_pad_resolution
+
+## test_car_denoiser
+
+- test_hpf_frequency_response
+- test_hpf_frame_boundary_continuity
+- test_spectral_noise_suppression_floor
+- test_soft_agc_gain_and_noise_gate
+- test_soft_limiter_prevents_clipping
+- test_inbound_car_denoiser_barge_in_prevention
+- test_process_bytes_slin16
+- test_denoiser_and_filter_constructor_params
+- test_process_audio_stream_helper
+- test_dsp_rest_endpoints
+- test_session_denoiser_integration
+- test_soft_agc_downward_expander_attenuates_noise
+- test_inbound_car_denoiser_ambient_calibration
+- test_stt_confidence_and_configurable_energy_gate
+
+## test_chan_websocket
+
+- test_build_command_and_parse_event
+- test_chan_websocket_session_flush_and_controls
+- test_chan_websocket_barge_in_event_flushing
+- test_fastapi_websocket_connection_and_audio_flow
+- test_fastapi_websocket_concurrency_rejection
+- test_standalone_server_lifecycle
+- test_default_adapter_port_and_flush_command
+- test_chan_websocket_rest_endpoints
+
+## test_core
+
+- test_normalization
+- test_unknown_visible
+- test_money_suffixes
+- test_phrase_not_split
+- test_long_automotive_sentence_preserves_number_groups
+- test_audio
+- test_packets_fragmented
+- test_packet_disconnect
+- test_pacing_cancel_and_no_burst
+- test_atomic_booking
+
+## test_demo_separation
+
+- test_demo_mode_is_off_by_default
+- test_demo_mode_overrides_operational_paths
+- test_readiness_reports_real_state_without_loaded_models
+- test_analytics_declares_data_source
+- test_analytics_returns_null_without_measurements
+- test_analytics_has_no_special_case_for_demo_conversation_count
+- test_seed_script_writes_only_to_demo_database
+
+## test_diagnostics
+
+- test_lookup_dtc
+- test_maintenance_schedule_calculation
+- test_telemetry_ingestion_api
+- test_proactive_outbound_call_and_sms
+- test_proactive_voice_dialogue_flow
+
+## test_dtmf
+
+- test_goertzel_detector_all_16_digits
+- test_goertzel_noise_and_silence_rejection
+- test_dtmf_audio_notch_suppression
+- test_dialogue_dtmf_awaiting_confirmation
+- test_dialogue_dtmf_slot_selection
+- test_dialogue_dtmf_outbound_reminder
+- test_stt_fallback_prompt_on_consecutive_errors
+- test_voice_session_dtmf_handling
+- test_dtmf_generate_tone_api
+
+## test_dtmf_false_positive
+
+- test_recorded_speech_produces_no_digits
+- test_harmonic_voice_like_signal_produces_no_digits
+- test_real_tones_are_still_detected
+
+## test_dynamic_valuation
+
+- test_get_base_benchmark_price
+- test_calculate_km_adjustment
+- test_calculate_body_condition_deductions
+- test_calculate_tramer_deduction
+- test_calculate_dynamic_valuation
+- test_parse_spoken_valuation_query
+- test_calculate_and_save_valuation_db
+- test_valuation_api_endpoints
+- test_parse_spoken_missing_fields_not_defaulted
+
+## test_e2e_automotive_cockpit
+
+- test_tier1_f1_voice_chat_turn_basic_text_reply
+- test_tier1_f1_voice_session_text_input_pipeline_events
+- test_tier1_f1_synthesize_endpoint_valid_audio
+- test_tier1_f1_normalize_automotive_prosody
+- test_tier1_f1_session_ticket_lifecycle
+- test_tier1_f1_websocket_handshake_and_json_text_flow
+- test_tier1_f2_intent_classification_appointment_create
+- test_tier1_f2_intent_classification_service_price_estimate
+- test_tier1_f2_safety_gate_roadside_emergency_dispatch
+- test_tier1_f2_technician_dictation_actionable_parsing
+- test_tier1_f2_lift_status_and_queue_allocation
+- test_tier1_f2_obd_dtc_fault_analysis_grounding
+- test_tier1_f3_caller_profile_creation_and_persistence
+- test_tier1_f3_caller_profile_lookup_by_phone_or_plate
+- test_tier1_f3_warranty_inquiry_active_status
+- test_tier1_f3_warranty_inquiry_expired_status
+- test_tier1_f3_past_maintenance_resolution_keyword
+- test_tier1_f3_format_caller_memory_context_string
+- test_tier1_f4_generate_alpaca_dataset_structure
+- test_tier1_f4_generate_sharegpt_dataset_structure
+- test_tier1_f4_export_dataset_file_jsonl
+- test_tier1_f4_dataset_contains_automotive_ontology_terms
+- test_tier1_f4_dataset_cli_generation_callable
+- test_tier1_f5_health_check_endpoint
+- test_tier1_f5_vehicle_and_quote_creation_flow
+- test_tier1_f5_appointment_booking_and_idempotency
+- test_tier1_f5_appointment_cancellation
+- test_tier1_f5_ontology_schema_introspect_endpoint
+- test_tier2_f1_empty_text_input_handled_gracefully
+- test_tier2_f1_oversized_audio_packet_rejection
+- test_tier2_f1_unsupported_audio_sample_rate
+- test_tier2_f1_concurrent_voice_session_line_busy
+- test_tier2_f1_expired_session_ticket_rejected
+- test_tier2_f2_conflicting_multi_intent_denial_precedence
+- test_tier2_f2_zero_slot_intent_handling
+- test_tier2_f2_out_of_domain_query_handling
+- test_tier2_f2_malformed_dtc_fault_code
+- test_tier2_f2_emergency_overrides_routine_booking
+- test_tier2_f3_empty_and_null_phone_normalization
+- test_tier2_f3_irregular_plate_spacing_and_lowercase
+- test_tier2_f3_boundary_warranty_exact_today_and_leap_year
+- test_tier2_f3_corrupted_maintenance_history_json
+- test_tier2_f3_nonexistent_profile_lookup_creates_or_returns_none
+- test_tier2_f4_zero_count_dataset_generation
+- test_tier2_f4_negative_count_dataset_rejection
+- test_tier2_f4_unsupported_dataset_format_rejection
+- test_tier2_f4_export_creates_missing_parent_directories
+- test_tier2_f4_deterministic_seed_reproducibility
+- test_tier2_f5_unauthenticated_request_rejected
+- test_tier2_f5_invalid_credentials_rejected
+- test_tier2_f5_missing_appointment_idempotency_key
+- test_tier2_f5_duplicate_slot_booking_conflict
+- test_tier2_f5_negative_quote_amount_validation
+- test_tier3_cross_caller_profile_appointment_booking
+- test_tier3_cross_text_input_pipeline_telemetry_intent
+- test_tier3_cross_obd_dtc_safety_gate_caller_vehicle
+- test_tier3_cross_dataset_generator_ontology_lexicon
+- test_tier3_cross_caller_memory_maintenance_dialogue
+- test_tier3_cross_technician_dictation_inspection_report
+- test_tier4_scenario1_customer_scheduled_service_and_warranty
+- test_tier4_scenario2_returning_customer_brake_pad_inquiry
+- test_tier4_scenario3_urgent_obd_dtc_alert_p0300_safety
+- test_tier4_scenario4_receptionist_dataset_generation_export
+- test_tier4_scenario5_master_technician_dictation_appraisal
+
+## test_emotion_prosody_adapter
+
+- test_syllable_counter_and_rms
+- test_analyze_caller_emotion_price_objection
+- test_analyze_caller_emotion_time_objection
+- test_analyze_caller_emotion_hesitant
+- test_analyze_caller_emotion_hurried_with_audio
+- test_adapt_prosody_hesitant_stretches_pauses
+- test_adapt_prosody_hurried_quickens_tempo
+- test_emotion_prosody_api_endpoints
+
+## test_executive_docx
+
+- test_missing_sources_are_reported_not_invented
+
+## test_fqici_queue
+
+- test_duplicate_close_and_concurrent_consumers_fence_stale_worker
+- test_real_journal_replay_after_fresh_processes
+- test_startup_recovers_abandoned_session_and_missing_journal
+- test_full_queue_deferred_and_late_tool_evidence_replayed
+- test_privacy_clock_and_conflicting_replay
+- test_event_and_run_rollback_together_and_purge_cascades
+- test_web_session_and_synthetic_audiosocket_transport
+
+## test_gpu_health_circuit_breaker
+
+- test_breaker
+- test_telemetry_probe
+- test_record_inference_latency
+- test_no_invented_defaults_without_measurement
+- test_trip_on_consecutive_vram_failures
+- test_trip_on_consecutive_temperature_failures
+- test_trip_on_latency_ema
+- test_instant_trip_on_cuda_oom
+- test_cooldown_and_half_open_recovery
+- test_failover_action_modes
+- test_rest_api_gpu_health_endpoints
+
+## test_inspections
+
+- test_setup
+- test_create_inspection_with_findings_and_pdf
+- test_photo_upload_and_preview
+- test_digital_delivery_send_link
+- test_list_and_get_inspections
+- test_inspection_score_is_required
+
+## test_isolation
+
+- test_database_engine_is_outside_project_data
+- test_runtime_file_defaults_are_outside_project_data
+- test_session_journal_root_is_outside_project_data
+- test_guard_passes_when_isolated
+- test_guard_rejects_real_database
+- test_guard_rejects_real_data_dir
+
+## test_lift_bay_capacity_scheduler
+
+- test_seed_default_bays_and_technicians
+- test_capacity_check_clean_window
+- test_capacity_check_dyno_bottleneck_and_next_available
+- test_schedule_multi_stage_appointment_success
+- test_schedule_multi_stage_conflict_raises_error
+- test_cancel_appointment_schedules
+- test_get_bay_station_analytics
+- test_bay_scheduler_api_endpoints
+
+## test_madde2_real_world_integration
+
+- test_env
+- test_format_phone_e164
+- test_extract_phone_number
+- test_twilio_provider_sms_and_whatsapp
+- test_twilio_provider_fallback_when_unconfigured
+- test_appointment_persists_customer_phone
+- test_inbound_metadata_webhook_and_retrieval
+- test_dialogue_unclear_triggers_operator_transfer
+- test_dialogue_unclear_fallback_when_ami_offline
+- test_twilio_disabled_even_with_credentials
+
+## test_madde3_customer_experience
+
+- test_inbound_cancel_by_phone_match
+- test_inbound_cancel_abort
+- test_inbound_reschedule_flow
+- test_name_and_plate_cannot_replace_registered_phone
+- test_inbound_cancel_dtmf
+- test_scan_and_queue_appointment_reminders
+- test_general_price_and_package_inquiry
+- test_specific_package_inquiry
+- test_two_stage_bargein_backchannel_tuning
+- test_two_stage_bargein_real_interrupt_commits
+- test_multi_vehicle_preplanned_booking
+- test_multi_vehicle_sequential_inquiry
+- test_multi_vehicle_disabled_preserves_current_booking
+
+## test_madde4_operation_panel
+
+- test_db_session
+- test_reschedule_appointment_to_target_slot
+- test_reschedule_appointment_conflict
+- test_get_calendar_events_endpoint
+- test_unclear_conversations_detection_and_feedback
+- test_conversation_audio_endpoint_returns_404_when_missing
+- test_real_kpis_cancellation_and_conversion_rates
+- test_real_latency_percentiles_calculation
+- test_generate_weekly_summary_report
+- test_generate_weekly_excel_report_valid_xlsx
+- test_weekly_report_api_endpoints
+
+## test_madde5_kvkk_compliance
+
+- test_db_session
+- test_transcript_retention_audit_calculation
+- test_transcript_retention_purge_dry_run_and_execution
+- test_scan_erasure_impact_phone_identifier
+- test_create_erasure_request
+- test_execute_erasure_workflow_and_certificate
+- test_execute_erasure_idempotency_raises
+- test_api_transcript_retention_endpoints
+- test_api_erasure_request_full_lifecycle
+- test_erasure_rejects_partial_and_wildcard_identity
+- test_erasure_phone_covers_web_transcript_and_recording
+- test_kvkk_mutations_disabled_with_preview_available
+
+## test_milestone_integration
+
+- test_live_state_and_durable_events
+- test_unclean_restart_fails_closed
+- test_text_contract_does_not_fake_audio
+- test_pronunciation_source_is_read_only
+- test_real_adapter_bridge_has_bounded_failure_budget
+
+## test_morphological_pre_checker
+
+- test_f1_unicode_text_utils
+- test_f2_turkish_syllabifier
+- test_f3_f4_inflected_matcher_and_liaison
+- test_f5_f6_morphological_stress_engine
+- test_f7_clitics_and_pause_injection
+- test_immutable_chunk_text_and_vocab_safety
+- test_performance_micro_benchmark
+- test_feature_flag_disabled
+- test_api_morphological_check
+
+## test_notifications
+
+- test_customer_appointment_notification
+- test_corporate_dealership_notification
+- test_notification_delivery_and_retry
+- test_notifications_api_endpoints
+- test_no_phone_does_not_queue_name_as_recipient
+
+## test_operator_inbox
+
+- test_today_list_uses_recorded_states_and_istanbul_day_boundary
+- test_today_endpoint_requires_auth_and_valid_filters
+- test_voice_close_records_booking_and_callback_without_reopening_terminal_status
+
+## test_option_selection
+
+- test_explicit_choices_are_parsed
+- test_ambiguous_text_goes_to_llm
+- test_selection_skips_llm_and_still_requires_confirmation
+- test_out_of_range_choice_is_rejected
+- test_selection_before_options_goes_to_llm
+
+## test_outbound
+
+- test_initiate_outbound_call_via_ami
+- test_outbound_dialogue_customer_confirms
+- test_outbound_dialogue_customer_cancels
+- test_outbound_api_endpoints
+
+## test_outbound_dialer
+
+- test_client
+- test_generate_call_file_content
+- test_write_atomic_call_file
+- test_detect_voicemail_beep
+- test_detect_turkish_amd_human
+- test_detect_turkish_amd_machine_long_greeting
+- test_detect_turkish_amd_machine_beep
+- test_detect_turkish_amd_edge_cases
+- test_originate_call_ami
+- test_originate_call_ami_mock_is_simulated
+- test_originate_call_file
+- test_process_amd_result
+- test_schedule_auto_retry_and_process_queue
+- test_rest_api_outbound_endpoints
+
+## test_p5_latency
+
+- test_prompt_is_constant_and_state_precedes_last_user
+- test_no_state_message_when_nothing_known
+- test_name_rule_and_catalog_skip_llm
+- test_name_only_and_vehicle_only_skip_llm
+- test_vehicle_only_asks_name_without_llm
+- test_name_with_unread_words_goes_to_llm
+- test_ambiguous_or_missing_vehicle_goes_to_llm
+- test_name_with_catalog_word_goes_to_llm
+- test_rule_vehicle_correction_resets_slot
+- test_rule_corporate_name_routes_through_extract
+- test_selection_text_with_vehicle_goes_to_llm
+- test_synth_cache_hit_miss_copy_and_seed_default
+- test_synth_cache_is_bounded
+- test_prewarm_fills_cache_and_failure_is_not_fatal
+- test_hotwords_cached_ttl_and_invalidate
+
+## test_pause_breath_cleaner
+
+- test_cleaner
+- test_clean_waveform_edges_normal
+- test_clean_waveform_edges_short_and_empty
+- test_splice_clauses_with_clean_pause
+- test_splice_clauses_empty_and_single
+- test_telephony_audio_cache_pool
+- test_api_clean_audio_endpoint
+- test_api_clean_audio_invalid
+- test_api_audio_cache_endpoints
+
+## test_pipeline_telemetry
+
+- test_pipeline_event_schema_v3
+- test_all_f0_to_f6_stages_valid
+
+## test_poc_spoken_plate_and_intent
+
+- test_spoken_plate_extraction
+- test_targeted_plate_letter_correction
+- test_poc_core_demo_flow
+- test_family_plate_direct_correction
+- test_family_price_direct
+- test_family_full_direct
+- test_family_car_direct
+- test_family_info_direct
+- test_family_cancel_direct
+- test_turn_trace_layered_attribution
+
+## test_post_call_analytics
+
+- test_transcript_parsing
+- test_detect_call_intent
+- test_sentiment_and_csat
+- test_objections_and_lead_scoring
+- test_executive_summary_and_action
+- test_evaluate_and_save_call_analytics_db
+- test_analytics_api_endpoints
+
+## test_qa_telemetry_operator
+
+- test_realtime_metrics_fake_zero_prohibition
+- test_turn_collector_lifecycle_and_opentelemetry_span
+- test_operator_takeover_whisper_release_lifecycle
+- test_abc_triple_variant_wer_cer_mos_evaluation
+- test_abc_suite_holds_without_acoustic_measurements
+- test_abc_suite_results_depend_on_input
+- test_variant_b_measures_the_live_normalizer
+- test_abc_suite_handles_no_samples
+- test_quality_gate_passes_only_when_every_criterion_is_measured
+- test_m11_hardware_acceptance_hold_enforcement
+- test_rest_api_operator_and_qa_endpoints
+
+## test_queue_lift
+
+- test_package_definitions_and_matching
+- test_lift_management_lifecycle
+- test_queue_enqueue_and_call_next
+- test_lift_capacity_and_speech_announcement
+- test_dialogue_speech_assistant_lift_announcement
+- test_slot_lift_capacity_constraint
+- test_api_lifts_and_queue
+- test_capacity_wait_is_null_when_no_active_lifts
+- test_capacity_wait_computed_from_real_durations
+
+## test_realtime_dashboard_metrics
+
+- test_collector
+- test_itu_mos_calculation
+- test_record_call_and_percentiles
+- test_evaluate_sla_status
+- test_generate_prometheus_metrics_text
+- test_get_live_dashboard_summary
+- test_rest_api_metrics_endpoints
+
+## test_redaction_kvkk_guard
+
+- test_is_valid_tckn
+- test_is_valid_luhn
+- test_is_valid_tr_iban
+- test_masking_functions
+- test_redact_text_comprehensive
+- test_redact_spoken_numbers
+- test_redact_audio
+- test_redact_dialogue_turns
+- test_kvkk_api_endpoints
+
+## test_security_hardening
+
+- test_webhook_anonymous_rejected
+- test_webhook_wrong_token_rejected
+- test_webhook_correct_token_accepted
+- test_webhook_unset_token_returns_503
+- test_metrics_requires_auth
+- test_pdf_anonymous_rejected
+- test_pdf_with_basic_auth
+- test_signed_link_endpoint_and_access
+- test_signed_link_expired_and_tampered
+- test_signed_access_disabled_when_key_empty
+- test_send_link_returns_signed_url
+- test_generic_listing_limit_offset_and_cap
+- test_photo_upload_over_cap_returns_413
+- test_photo_upload_within_cap_ok
+- test_base64_audio_field_over_cap_rejected
+- test_archive_without_key_fails_closed
+- test_verify_never_succeeds_without_stored_hmac
+- test_purge_future_target_date_rejected
+- test_purge_engine_clamps_future_date
+- test_purge_failed_unlink_not_marked_purged
+- test_diagnostic_without_phone_does_not_call
+
+## test_semantic_turn_detector
+
+- test_analyze_semantic_completeness_finished_sentences
+- test_analyze_semantic_completeness_unfinished_discourse_markers
+- test_analyze_semantic_completeness_unfinished_postpositions
+- test_turn_decision_wait_vs_commit
+- test_acoustic_resample_and_pitch_slope
+- test_smart_turn_audiosocket_adapter
+- test_turn_detector_api_endpoints
+
+## test_session
+
+- test_stale_synthesis_cannot_play
+- test_next_clause_prefetched_during_playback
+- test_call_and_tts_events_feed_dashboard_metrics
+- test_handle_text_input_emits_bypassed_and_f3_pipeline_events
+- test_handle_text_input_barge_in_and_task_cancellation
+
+## test_sft_leyla
+
+- test_client
+- test_leyla_sft_config_defaults
+- test_freeze_for_conservative_sft
+- test_identity_drift_guard
+- test_automotive_corpus_builder
+- test_conservative_sft_trainer_steps
+- test_early_stopping_on_drift
+- test_verify_leyla_identity
+- test_rest_api_sft_endpoints
+- test_sft_stage1_yaml_dimensions_patch
+- test_sft_base_checkpoint_missing_fails_early
+- test_precompute_latents_out_alias
+- test_cross_attention_lora_trainable_isolation
+- test_lora_adapter_save_and_load
+- test_rtx4070_hardware_benchmark_and_vram_estimation
+- test_audio_manifest_validator
+- test_rest_api_lora_endpoints
+
+## test_short_clause_synthesis
+
+- test_short_comma_prefix_merges_with_next_clause
+- test_short_comma_prefixes_chain
+- test_long_comma_clause_still_splits
+- test_sentence_boundary_is_not_merged
+- test_trailing_short_comma_clause_is_not_lost
+- test_merged_clause_pause_comes_from_final_punctuation
+- test_short_clause_frames_are_capped
+- test_short_clause_keeps_lower_prediction
+- test_short_clause_keeps_minimum_frames
+- test_longer_clause_prediction_is_untouched
+
+## test_sip_trunk_failover
+
+- test_manager
+- test_default_trunk_is_configured_but_unverified
+- test_injected_trunks_loaded
+- test_build_and_parse_sip_options
+- test_wrr_trunk_selection_priority1
+- test_automatic_subsecond_failover_to_priority2
+- test_active_call_capacity_limit_and_spillover
+- test_failover_reroute_on_originate_error
+- test_ping_trunk_state_machine
+- test_maintenance_drain_mode
+- test_rest_api_sip_trunk_endpoints
+
+## test_supervisor
+
+- test_catalogue_is_exact_and_versioned
+- test_decision_roundtrip_and_validation
+- test_unconfirmed_slots_and_invalid_dependencies_are_rejected
+- test_rule_decisions
+- test_emergency_dominates_and_technical_precedes_booking
+- test_unknown_out_of_scope_and_uncertain_safety_are_distinct
+- test_relative_date_uses_istanbul_clock_and_context_is_isolated
+- test_orchestrator_multilabel_vehicle_and_partial_guard
+- test_context_only_resolves_short_date_for_pending_booking
+- test_llm_cannot_suggest_writes_safety_or_handoff_and_timeout_abstains
+- test_gateway_denies_unconfirmed_or_changed_write_and_deduplicates
+- test_redacted_trace_and_review_gate
+- test_group_split_rejects_leakage_and_missing_label_coverage
+- test_web_modes_use_real_read_only_tool_and_no_live_write
+- test_quality_api_requires_operator_auth_and_review_is_not_automatic
+- test_read_only_availability_uses_actual_slot_instants
+
+## test_supervisor_views
+
+- test_conversation_detail_uses_exact_links_and_masks_purged_rows
+- test_fqici_queue_includes_deferred_and_expired_work_without_evidence
+
+## test_technician_dictation
+
+- test_parse_body_parts_and_microns
+- test_parse_mechanical_chassis_and_safety
+- test_parse_group_parts_and_heavy_defects
+- test_parse_blanket_hatasiz
+- test_apply_dictation_to_report
+- test_dictate_text_api_preview_and_apply
+- test_dictate_audio_api
+- test_empty_dictation_is_not_a_clean_report
+- test_mentioned_only_component_is_not_asserted_ok
+- test_report_pdf_unstated_parts_render_not_stated
+
+## test_transfer
+
+- test_generate_screen_pop_headers
+- test_generate_whisper_text
+- test_initiate_operator_transfer_with_mock_ami
+- test_accept_operator_transfer_bridge
+- test_decline_operator_transfer_and_fallback
+- test_handle_operator_dtmf
+- test_check_transfer_timeouts
+- test_dialogue_dtmf_0_operator_trigger
+- test_dialogue_speech_operator_trigger
+- test_transfer_rest_api_endpoints
+- test_voice_session_operator_transfer_flow
+
+## test_unified_server
+
+- test_unified_server_initial_state
+- test_unified_server_start_and_stop_lifecycle
+- test_unified_server_health_status_structure
+- test_unified_server_signal_handlers
+- test_graceful_shutdown_cleans_sessions
+- test_default_ports
+- test_unified_system_status_rest_endpoint
+- test_health_reflects_lifespan_listeners
+
+## test_vin_ruhsat_decoder
+
+- test_parse_spoken_number
+- test_decode_phonetic_spelling
+- test_decode_ruhsat_text
+- test_process_inbound_ruhsat_image_db
+- test_ruhsat_api_endpoints
+- test_whatsapp_inbound_image
+
+## test_voice_path_honesty
+
+- test_outbound_diagnostic_start_with_appointment_id
+- test_reminder_negative_wins_over_confirm
+- test_reminder_positive_still_confirms
+- test_reminder_persist_failure_not_reported_as_success
+- test_reminder_without_call_id_persists_on_appointment
+- test_reminder_without_any_id_says_so
+- test_can_send_real_notifications_follows_provider
+- test_voice_booking_without_provider_makes_no_sms_claim
+- test_voice_booking_real_provider_needs_phone
+- test_voice_booking_real_provider_and_phone_mentions_sms
+- test_dtmf_booking_without_provider_makes_no_sms_claim
+- test_corporate_voice_booking_without_provider_makes_no_sms_claim
+- test_mock_provider_marks_outbox_simulated_real_marks_sent
+- test_mock_ami_is_not_real_and_flag_is_honored
+- test_dtmf_zero_with_mock_ami_does_not_claim_transfer
+- test_speech_transfer_with_mock_ami_does_not_claim_transfer
+- test_failed_ami_marks_transfer_failed
+- test_outbound_originate_with_mock_ami_is_simulated
+- test_ami_status_endpoint_reports_simulated
+- test_outbound_session_context_lookup
+- test_cancel_reverses_corporate_charge_once
+- test_outbound_cancel_and_dialogue_cancel_use_reversal
+- test_cancel_api_reverses_corporate_charge
+- test_dtmf_tasks_keep_reference_log_errors_and_serialize
+- test_llm_timeout_returns_unclear_answer
+- test_turn_emits_stt_and_llm_metrics
+- test_models_load_blocked_by_active_session_not_only_full_capacity
+- test_vehicle_match_ignores_empty_candidate
+- test_vehicle_match_empty_needle_matches_nothing
+- test_operator_register_call_defaults_are_none
+- test_single_clause_plays_once
+- test_stt_preserves_customer_words_in_quiet_audio
+
+## test_whatsapp_webhook
+
+- test_extract_intent_and_time
+- test_branch_location_pin_in_notifications
+- test_whatsapp_inbound_time_change_and_call_cancellation
+- test_whatsapp_inbound_cancellation
+- test_whatsapp_inbound_voice_transcription
+- test_whatsapp_rest_api_endpoints
+
+## test_workflow
+
+- test_confirmed_workflow_and_unknown_price
+- test_negative_confirmation_and_retries
+- test_unknown_booking_result_never_claims_confirmation
+- test_synthesis_bounded_and_cancellation
+- test_multi_turn_sliding_window_and_entity_memory
+- test_multi_turn_vehicle_correction
+- test_dialogue_history_bounded
+- test_corporate_voice_dialogue_booking
+- test_vehicle_inspection_history_dialogue
+
+
+## Tarayıcı senaryoları ve test izolasyonu
+
+Aşağıdaki senaryolarda önkoşulları, ağ taklitlerini, kullanıcı eylemlerini ve beklenen sonuçları birlikte okuyun. Tarayıcıda taklit edilen uç noktayı gerçek backend ile ayrıca sınayın. conftest.py test veritabanı ile işletim verisinin ayrılmasını tarif eder.
+
+### tests/conftest.py
+
+~~~~python
+"""Test süitini işletim verisinden yalıtır.
+
+Bu dosya tüm test modüllerinden önce yüklenir. Ortam değişkenleri `backend` içe
+aktarılmadan önce ayarlanmalıdır; çünkü veritabanı motoru ve varsayılan dizinler
+içe aktarma anında belirlenir. Yalıtım kurulamazsa testler hiç çalıştırılmaz.
+"""
+
+import os
+import shutil
+import tempfile
+from pathlib import Path
+
+import pytest
+
+TEST_ROOT = Path(tempfile.mkdtemp(prefix="freya-tests-")).resolve()
+TEST_DB = TEST_ROOT / "assistant.db"
+
+os.environ["DATABASE_URL"] = "sqlite:///" + TEST_DB.as_posix()
+os.environ["DATA_DIR"] = str(TEST_ROOT)
+os.environ["AUTO_LOAD_MODELS"] = "0"
+os.environ["DEMO_MODE"] = "0"
+# Yalnızca test amaçlı gizli değerler (kodda varsayılan gizli anahtar yoktur).
+os.environ["WHATSAPP_WEBHOOK_TOKEN"] = "test-webhook-token"
+os.environ["AMI_SECRET"] = "test-ami-secret"
+os.environ["AUDIO_ARCHIVE_MASTER_KEY"] = "test-archive-master-key"
+os.environ["LINK_SIGNING_KEY"] = "test-link-signing-key"
+
+from backend.config import settings  # noqa: E402
+from backend.db import Base, engine  # noqa: E402
+
+
+def isolation_errors() -> list[str]:
+    """Testlerin işletim verisine ulaşabileceği yolları döndürür."""
+    errors = []
+    database = Path(engine.url.database or "").resolve()
+    if not database.is_relative_to(TEST_ROOT):
+        errors.append(f"veritabanı geçici klasörde değil: {database}")
+    data_dir = Path(settings.data_dir).resolve()
+    if not data_dir.is_relative_to(TEST_ROOT):
+        errors.append(f"veri dizini geçici klasörde değil: {data_dir}")
+    return errors
+
+
+_errors = isolation_errors()
+if _errors:
+    pytest.exit("Test yalıtımı kurulamadı: " + "; ".join(_errors), returncode=3)
+
+Base.metadata.create_all(bind=engine)
+
+
+def pytest_unconfigure(config):
+    engine.dispose()
+    shutil.rmtree(TEST_ROOT, ignore_errors=True)
+
+
+@pytest.fixture
+def real_ami():
+    """Gerçek Asterisk'e bağlıymış gibi davranan sahte AMI (MockAMIClient varsayılanı 'gerçek değil')."""
+    from backend.ami import MockAMIClient, get_ami_client, set_ami_client
+
+    previous = get_ami_client()
+    fake = MockAMIClient()
+    fake.is_real = True
+    set_ami_client(fake)
+    yield fake
+    set_ami_client(previous)
+~~~~
+
+### frontend/playwright.config.ts
+
+~~~~typescript
+import { defineConfig } from "@playwright/test";
+export default defineConfig({
+  testDir: "tests",
+  workers: 1,
+  use: { browserName: "chromium" },
+  reporter: "list",
+});
+~~~~
+
+### frontend/tests/operator_today.spec.ts
+
+~~~~typescript
+import { expect, test } from "@playwright/test";
+
+const id = "42842cf0-81ca-444b-aea0-859ec445e381";
+const transferId = "70179a1b-cef8-4192-904e-49e0a588a120";
+const since = "2026-11-10T12:00:00+00:00";
+
+for (const width of [390, 1440]) {
+  test(`Operatör Bugün, devreden iş ve kayıt bağlantıları ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    const conversation = { id, channel: "web", status: "follow_up", created_at: since };
+    const callback = { id, conversation_id: id, kind: "callback", since, since_source: "follow_up",
+      period: "carryover", age_seconds: 90000 };
+    const transfer = { id: transferId, conversation_id: null, kind: "transfer", since, since_source: "transfer",
+      period: "today", age_seconds: 4 };
+    await page.route("**/api/**", async (route) => {
+      const url = new URL(route.request().url());
+      if (url.pathname === "/api/operator/today") {
+        const items = url.searchParams.get("period") === "carryover" ? [callback] : [transfer, callback];
+        await route.fulfill({ json: { local_date: "2026-11-11", counts: { transfer: 1, callback: 1 },
+          total: items.length, items } });
+      } else if (url.pathname === `/api/transfers/${transferId}`) {
+        await route.fulfill({ json: { id: transferId, status: "whispering", sip_headers: {},
+          caller_channel: "test", customer_name: "", vehicle_plate: "", whisper_text: "" } });
+      } else if (url.pathname === `/api/supervisor/conversations/${id}/detail`) {
+        await route.fulfill({ json: {
+          conversation, turns: [], traces: [], transfers: [], appointment: null,
+          fqici: { store: "READY", scope: null, runs: [] },
+        } });
+      } else {
+        await route.fulfill({ json: url.pathname === "/api/readiness" ? {} :
+          url.pathname === "/api/conversations" ? [conversation] : [] });
+      }
+    });
+    await page.goto(process.env.SUPERVISOR_UI_URL ?? "http://127.0.0.1:8000");
+    await page.getByLabel("Yönetici parolası").fill("isolated-test");
+    await page.getByRole("button", { name: "Panele giriş" }).click();
+    await page.getByRole("button", { name: "Operatör (6002)", exact: true }).click();
+    await expect(page.getByRole("heading", { name: "Bugün", exact: true })).toBeVisible();
+    await expect(page.getByText("Devreden · Bekleme 1 gün 1 sa", { exact: false })).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
+    await page.getByRole("button", { name: "Aktarımı aç", exact: true }).click();
+    await expect(page.getByText(`Aktarım Detayları: ${transferId}`, { exact: false })).toBeVisible();
+    await page.keyboard.press("Escape");
+    await page.getByRole("combobox", { name: "Dönem", exact: true }).selectOption("carryover");
+    await expect(page.getByRole("button", { name: "Aktarımı aç", exact: true })).toHaveCount(0);
+    await page.getByRole("button", { name: "Görüşmeyi aç", exact: true }).click();
+    await expect(page.getByRole("heading", { name: "Görüşme detayı" })).toBeVisible();
+    await expect(page.getByText(id, { exact: true })).toBeVisible();
+  });
+}
+~~~~
+
+### frontend/tests/supervisor.spec.ts
+
+~~~~typescript
+import { expect, test } from "@playwright/test";
+
+const traceId = "df601e89-4fa4-4031-a533-f8899d753c08";
+const conversationId = "a17094ba-0fce-4589-a99e-5df903c394f0";
+
+for (const width of [390, 1440]) {
+  test(`Supervisor inceleme paneli ${width}px`, async ({ page }) => {
+    let saved: unknown;
+    await page.setViewportSize({ width, height: 950 });
+    await page.route("**/api/**", async (route) => {
+      const path = new URL(route.request().url()).pathname;
+      if (path === "/api/supervisor/fqici-queue") {
+        await route.fulfill({ json: {
+          intake_enabled: false, worker_status: "NOT_CONNECTED", physical_sip_status: "HOLD", store: "READY",
+          counts: {}, deferred_count: 0, oldest_wait_ms: null, runs: [], deferred: [],
+        } });
+      } else if (path === "/api/supervisor/quality") {
+        await route.fulfill({ json: {
+          catalogue_version: "intent-v1", mode: "shadow", trace_store: "READY",
+          catalogue: [{ intent_id: "booking_status", domain: "service", description: "Randevu durumu", agent: "ServiceBooking" }],
+          registry: { approval_configured: false, fallback_enabled: false },
+          evaluation: { baseline: null, xgboost: null, comparable: false },
+          software_regression: { status: "NOT RUN" }, physical_regression: "NOT RUN",
+          traces: saved ? [] : [{
+            trace_id: traceId, conversation_id: conversationId, created_at: "2026-11-10T12:00:00+00:00",
+            review_status: "PENDING", review_labels: null, outcome: "legacy_delegated", qa_flags: ["needs_review"],
+            decision: {
+              route_state: "ROUTED", source: "rule",
+              candidates: [{ intent_id: "booking_status", score: null, evidence: "rule.booking_status" }],
+              reason_codes: [],
+            },
+            plan: { priority: "normal", requires_confirmation: false, model_version: "rules-v1",
+              policy_version: "policy-v1", steps: [{
+                step_id: "booking_status", agent: "ServiceBooking", action: "verify_identity_before_lookup", depends_on: [],
+              }] },
+          }],
+        } });
+      } else if (path === `/api/supervisor/review/${traceId}`) {
+        saved = route.request().postDataJSON();
+        await route.fulfill({ json: { review_status: "EDIT" } });
+      } else {
+        await route.fulfill({ json: path === "/api/readiness" ? {} : [] });
+      }
+    });
+    await page.goto(process.env.SUPERVISOR_UI_URL ?? "http://127.0.0.1:8000");
+    await page.getByLabel("Yönetici parolası").fill("isolated-test");
+    await page.getByRole("button", { name: "Panele giriş" }).click();
+    await page.getByRole("button", { name: "Supervisor Kalite", exact: true }).click();
+    await expect(page.locator("#supervisor-title")).toBeVisible();
+    await expect(page.getByText("XGBoost · NOT RUN")).toBeVisible();
+    await page.getByText("ROUTED · normal · PENDING").click();
+    await expect(page.getByText("ServiceBooking / verify_identity_before_lookup")).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
+    await page.getByRole("button", { name: "İncele", exact: true }).click();
+    await page.getByRole("combobox", { name: "Karar", exact: true }).selectOption("EDIT");
+    await page.getByRole("button", { name: "Kaydet", exact: true }).click();
+    await expect(page.getByText("Bu görünümde karar kaydı yok.")).toBeVisible();
+    expect(saved).toEqual({ verdict: "EDIT", labels: ["booking_status"] });
+  });
+}
+
+for (const width of [390, 1440]) {
+  test(`Analiz kuyruğu ile görüşme detayı bağlantısı ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 950 });
+    const start = "2026-11-10T12:00:00+00:00";
+    const conversation = { id: conversationId, channel: "asterisk", status: "completed", created_at: start };
+    const run = { id: "run", state: "QUEUED", rule_version: "rules-v1", created_at_ms: Date.parse(start),
+      attempts: 0, lease_expired: false };
+    const source = { transport: "AUDIOSOCKET", origin: "SYNTHETIC" };
+    const trace = {
+      trace_id: traceId, conversation_id: conversationId, created_at: start,
+      review_status: "OBSERVED", review_labels: null, outcome: "legacy_delegated", qa_flags: [],
+      decision: { route_state: "ROUTED", source: "rule", candidates: [], reason_codes: [] },
+      plan: { priority: "normal", requires_confirmation: false, model_version: "rules-v1",
+        policy_version: "policy-v1", steps: [] },
+    };
+    await page.route("**/api/**", async (route) => {
+      const url = new URL(route.request().url());
+      const { pathname } = url;
+      if (pathname === "/api/supervisor/fqici-queue") {
+        await route.fulfill({ json: {
+          intake_enabled: true, worker_status: "NOT_CONNECTED", physical_sip_status: "HOLD",
+          store: "READY", counts: { QUEUED: 1 },
+          deferred_count: 1, oldest_wait_ms: 91_000,
+          runs: [{ ...run, ...source, conversation_id: conversationId }],
+          deferred: [{ ...source, conversation_id: conversationId, ready_at_ms: Date.parse(start) }],
+        } });
+      } else if (pathname === "/api/supervisor/quality") {
+        await route.fulfill({ json: {
+          catalogue_version: "intent-v1", mode: "shadow", trace_store: "READY", catalogue: [],
+          registry: { approval_configured: false, fallback_enabled: false },
+          evaluation: { baseline: null, xgboost: null, comparable: false },
+          software_regression: { status: "NOT RUN" }, physical_regression: "NOT RUN",
+          traces: url.searchParams.get("conversation_id") === conversationId ? [trace] : [],
+        } });
+      } else if (pathname === `/api/supervisor/conversations/${conversationId}/detail`) {
+        await route.fulfill({ json: {
+          conversation,
+          turns: [{ id: "turn", conversation_id: conversationId, role: "metric",
+            text: "", metrics: '{"first_audio_ms":230}', created_at: start }],
+          traces: [{ id: traceId, created_at: start, review_status: "OBSERVED", route_state: "ROUTED",
+            outcome: "legacy_delegated", intents: ["booking_create"], reason_codes: ["intent.matched"] }],
+          transfers: [{ id: "transfer", status: "accepted", created_at: start, completed_at: null }],
+          appointment: { id: "appointment-linked", status: "confirmed", starts_at: start },
+          fqici: { store: "READY", scope: { ...source, terminal_seen: true, ready_at_ms: null }, runs: [run] },
+        } });
+      } else {
+        await route.fulfill({ json: pathname === "/api/readiness" ? {} :
+          pathname === "/api/conversations" ? [conversation] : [] });
+      }
+    });
+    await page.goto(process.env.SUPERVISOR_UI_URL ?? "http://127.0.0.1:8000");
+    await page.getByLabel("Yönetici parolası").fill("isolated-test");
+    await page.getByRole("button", { name: "Panele giriş" }).click();
+    await page.getByRole("button", { name: "Supervisor Kalite", exact: true }).click();
+    await expect(page.getByText("1 dk 31 sn")).toBeVisible();
+    await expect(page.getByText("bağlı değil", { exact: true })).toBeVisible();
+    await page.getByText("Analiz işlerini göster (2)").click();
+    await expect(page.getByText("Ertelendi", { exact: true })).toBeVisible();
+    await page.getByRole("button", { name: `Görüşmeyi aç ${conversationId}` }).first().click();
+    await expect(page.getByRole("heading", { name: "Görüşme detayı" })).toBeVisible();
+    await expect(page.getByText("appointment-linked")).toBeVisible();
+    await expect(page.getByText("accepted", { exact: false })).toBeVisible();
+    await expect(page.getByText("İlk ses (sunucuda hazır)", { exact: false })).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
+    await page.getByRole("button", { name: "Supervisor kararlarını aç" }).click();
+    await expect(page.getByRole("textbox", { name: "Görüşme kimliği" })).toHaveValue(conversationId);
+    await expect(page.getByText("ROUTED · normal · OBSERVED")).toBeVisible();
+  });
+}
+~~~~
+
+### frontend/tests/ui.spec.ts
+
+~~~~typescript
+import { test, expect } from "@playwright/test";
+import fs from "node:fs";
+const password = fs
+  .readFileSync("../.env", "utf8")
+  .match(/^ADMIN_PASSWORD=(.*)$/m)![1]
+  .trim();
+for (const width of [1440, 390]) {
+  test(`Yönetim ekranları ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto("http://127.0.0.1:8000");
+    await page.getByLabel("Yönetici parolası").fill(password);
+    await page.getByRole("button", { name: "Panele giriş" }).click();
+    await expect(
+      page.getByRole("heading", { name: "Görüşme", exact: true }),
+    ).toBeVisible();
+    await expect(page.getByText("Bir randevu ile başlayın.")).toBeVisible();
+    for (const title of [
+      "Randevular",
+      "Araçlar ve fiyatlar",
+      "Geçmiş",
+      "Ses laboratuvarı",
+      "Sistem",
+      "M01–M11",
+    ]) {
+      await page.getByRole("button", { name: title, exact: true }).click();
+      await expect(
+        page.getByRole("heading", { name: title, exact: true }),
+      ).toBeVisible();
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= innerWidth,
+        ),
+      ).toBeTruthy();
+    }
+    await page.getByRole("button", { name: "M01–M11", exact: true }).click();
+    await page.getByRole("button", { name: "Sözleşmeyi incele" }).click();
+    await expect(page.locator(".bubble")).toContainText(
+      "bir milyon iki yüz elli bin",
+    );
+    await page.screenshot({
+      path: `../data/milestones-ui-${width}.png`,
+      fullPage: true,
+    });
+    await page
+      .getByRole("button", { name: "Ses laboratuvarı", exact: true })
+      .click();
+    await page.getByRole("button", { name: "Normalizasyonu incele" }).click();
+    await expect(page.locator(".bubble")).toContainText(
+      "bir milyon iki yüz elli bin",
+    );
+    await page.screenshot({ path: `../data/ui-${width}.png`, fullPage: true });
+  });
+}
+
+const ALL_TABS = [
+  "Görüşme",
+  "Randevular",
+  "Sıra & Lift Durumu",
+  "Ekspertiz Raporları",
+  "Araçlar ve fiyatlar",
+  "Teknisyen Dikte",
+  "Araç Teşhis & OBD-II",
+  "Bildirimler",
+  "Geçmiş",
+  "Operatör (6002)",
+  "Giden Çağrılar",
+  "Araç İçi DSP & Gürültü",
+  "A/B Test & İnce Ayar",
+  "Sözlük",
+  "Otomotiv Ontolojisi",
+  "Ses laboratuvarı",
+  "Supervisor Kalite",
+  "Analitik & KPI",
+  "Sistem",
+  "M01–M11",
+];
+for (const width of [1440, 390]) {
+  test(`Tüm sekmeler yatay taşma yapmaz ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto("http://127.0.0.1:8000");
+    await page.getByLabel("Yönetici parolası").fill(password);
+    await page.getByRole("button", { name: "Panele giriş" }).click();
+    await expect(page.locator("header h1")).toHaveText("Görüşme");
+    for (const title of ALL_TABS) {
+      await page.getByRole("button", { name: title, exact: true }).click();
+      await expect(page.locator("header h1")).toHaveText(title);
+      // Tembel yüklenen panelin yerleşmesi için kısa bekleme.
+      await page.waitForLoadState("networkidle");
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= innerWidth,
+        ),
+        `${title} sekmesi ${width}px genişlikte yatay taşıyor`,
+      ).toBeTruthy();
+    }
+  });
+}
+
+test("Yanlış parola Türkçe hata gösterir", async ({ page }) => {
+  await page.goto("http://127.0.0.1:8000");
+  await page.getByLabel("Yönetici parolası").fill(password + "-yanlis");
+  await page.getByRole("button", { name: "Panele giriş" }).click();
+  await expect(page.getByRole("alert")).toContainText("Parola hatalı");
+  await expect(page.getByLabel("Yönetici parolası")).toBeVisible();
+});
+
+test("Çıkış giriş ekranına döner ve parolayı temizler", async ({ page }) => {
+  await page.goto("http://127.0.0.1:8000");
+  await page.getByLabel("Yönetici parolası").fill(password);
+  await page.getByRole("button", { name: "Panele giriş" }).click();
+  await expect(page.locator("header h1")).toHaveText("Görüşme");
+  await page.getByRole("button", { name: "Çıkış", exact: true }).click();
+  await expect(page.getByLabel("Yönetici parolası")).toBeVisible();
+  await expect(page.getByLabel("Yönetici parolası")).toHaveValue("");
+});
+
+test("İlk randevu rehberi panelden ilk randevuyu yönlendirir ve takvime bağlar", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto("http://127.0.0.1:8000");
+  await page.getByLabel("Yönetici parolası").fill(password);
+  await page.getByRole("button", { name: "Panele giriş" }).click();
+
+  // 1. İlk Randevu Kurulum Rehberinin 'Bir randevu ile başlayın' metniyle açıldığını doğrula
+  await expect(page.getByText("Bir randevu ile başlayın.")).toBeVisible();
+  await expect(page.getByText("İlk Randevu Kurulum Rehberi")).toBeVisible();
+
+  // 2. Beş aşamalı rehber adımları görünür
+  await expect(page.getByText("1. MODELLERİ HAZIRLA")).toBeVisible();
+  await expect(page.getByText("2. ARAÇ & FİYAT TANIMLA")).toBeVisible();
+  await expect(page.getByText("3. MÜSAİT SAAT EKLE")).toBeVisible();
+  await expect(page.getByText("4. GÖRÜŞMEYİ BAŞLAT")).toBeVisible();
+  await expect(page.getByText("5. RANDEVUYU AÇ")).toBeVisible();
+
+  // 3. Rehber üzerinden Randevular sekmesine geçiş
+  await page.getByRole("button", { name: "Randevular", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "Randevular", exact: true })).toBeVisible();
+  await expect(page.getByText("Randevu Takvimi & Planlama")).toBeVisible();
+});
+~~~~
+
+### frontend/tests/voice.spec.ts
+
+~~~~typescript
+import { test, expect } from "@playwright/test";
+import fs from "node:fs";
+test.use({
+  launchOptions: { args: ["--autoplay-policy=no-user-gesture-required"] },
+});
+
+test("Gerçek modellerle sanal mikrofon üzerinden randevu", async ({
+  page,
+  request,
+}) => {
+  test.skip(
+    process.env.REAL_MODELS !== "1",
+    "CUDA/STT/LLM ve ayrı kabul sunucusu gerektirir",
+  );
+  test.setTimeout(300000);
+  page.on("pageerror", (e) => console.log("Browser error:", e.message));
+  page.on("console", (m) => {
+    if (m.type() === "error") console.log("Browser console:", m.text());
+  });
+  const base = process.env.VOICE_TEST_URL || "http://127.0.0.1:8011";
+  const password = fs
+    .readFileSync("../.env", "utf8")
+    .match(/^ADMIN_PASSWORD=(.*)$/m)![1]
+    .trim();
+  const headers = {
+    Authorization:
+      "Basic " + Buffer.from("admin:" + password).toString("base64"),
+  };
+  const post = async (path: string, data: unknown) => {
+    const r = await request.post(base + "/api/" + path, {
+      headers,
+      data,
+      timeout: 180000,
+    });
+    expect(r.ok(), await r.text()).toBeTruthy();
+    return r;
+  };
+  await post("models/load", {});
+  await post("vehicles", {
+    description: "Renault Megane",
+    plate: "TEST-VOICE",
+  });
+  await post("slots", {
+    starts_at: new Date(Date.now() + 86400000 * 3).toISOString(),
+  });
+  const wavs = [];
+  for (const text of [
+    "Benim adım Ali Yılmaz.",
+    "Aracım Renault Megane.",
+    "Birinci seçenek.",
+    "Evet, onaylıyorum.",
+  ]) {
+    const r = await post("synthesize", { text });
+    wavs.push((await r.body()).toString("base64"));
+  }
+  await page.addInitScript(() => {
+    const w = window as any;
+    navigator.mediaDevices.getUserMedia = async () => {
+      const ac = new AudioContext();
+      await ac.resume();
+      const dest = ac.createMediaStreamDestination();
+      w.injectVoice = async (base64: string) => {
+        const bytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
+        const buffer = await ac.decodeAudioData(bytes.buffer);
+        const source = ac.createBufferSource();
+        source.buffer = buffer;
+        source.connect(dest);
+        source.start();
+        await new Promise<void>((resolve) => {
+          source.onended = () => resolve();
+        });
+      };
+      return dest.stream;
+    };
+  });
+  await page.goto(base);
+  await page.getByLabel("Yönetici parolası").fill(password);
+  await page.getByRole("button", { name: "Panele giriş" }).click();
+  await page.getByRole("button", { name: "Mikrofonla görüşme başlat" }).click();
+  await page.waitForFunction(
+    () =>
+      document.querySelector('[role="alert"]') ||
+      document.querySelector(".voice .pill")?.textContent === "Dinliyor",
+    {},
+    { timeout: 90000 },
+  );
+  expect(await page.getByRole("alert").allTextContents()).toEqual([]);
+  await expect(page.locator(".voice .pill")).toHaveText("Dinliyor", {
+    timeout: 90000,
+  });
+  for (let i = 0; i < wavs.length; i++) {
+    const before = await page.locator(".bubble.user").count();
+    await page.evaluate(async (wav) => {
+      await (window as any).injectVoice(wav);
+    }, wavs[i]);
+    await expect(page.locator(".bubble.user")).toHaveCount(before + 1, {
+      timeout: 90000,
+    });
+    if (i < wavs.length-1) {
+      await expect(page.locator(".voice .pill")).toHaveText("Konuşuyor", {
+        timeout: 90000,
+      });
+      await expect(page.locator(".voice .pill")).toHaveText("Dinliyor", {
+        timeout: 90000,
+      });
+    }
+  }
+  await expect(
+    page.getByText(/Randevunuz oluşturuldu\..*İyi günler dilerim\./),
+  ).toBeVisible({ timeout: 90000 });
+  const r = await request.get(base + "/api/appointments", { headers });
+  const records = await r.json();
+  expect(records.filter((x: any) => x.status === "confirmed")).toHaveLength(1);
+  await page.screenshot({
+    path: "../data/voice-acceptance.png",
+    fullPage: true,
+  });
+});
+~~~~
+
+## Deneysel modüllerin testleri
+
+`experimental/` altındaki modüller canlı yola bağlı değildir. Bu testler yalnız o modüller yeni sürüme alınırsa gerekir.
+
+## test_five_cuts_bargein_controller
+
+- test_pre_onset_ring_buffer_capacity_and_fifo
+- test_pre_onset_preroll_masking_for_asr
+- test_backchannel_echo_filter
+- test_asterisk_media_bridge_tcp_nodelay_and_control
+- test_asterisk_media_bridge_backpressure_xoff_xon
+- test_dialogue_history_pruner
+- test_five_cuts_controller_execution_and_sla
+- test_five_cuts_voice_activity_evaluation
+
+## test_prosody_wsola_streamer
+
+- test_wsola_speed_ratio_and_length
+- test_wsola_exact_pitch_preservation
+- test_wsola_edge_cases_and_bypass
+- test_prosody_planner_intent_tag_extraction
+- test_prosody_planner_keyword_fallback
+- test_prosody_planner_clause_splitting_atomic_entities
+- test_duration_floor_guard
+- test_audio_voicing_checker
+- test_model_hash_and_seed_guard
+- test_overlapping_clause_streamer_pipelined_flow
+- test_overlapping_clause_streamer_barge_in_cancellation
+- test_overlapping_clause_streamer_voicing_retry
+
+## test_streaming_chunker_guard
+
+- test_stream_sanitizer_markdown_and_bullets
+- test_stream_sanitizer_intent_tag_extraction
+- test_atomic_chunker_first_clause_speed
+- test_atomic_chunker_non_splitting_automotive_entities
+- test_atomic_chunker_comma_decimal_isolation
+- test_atomic_chunker_async_streaming
+- test_anti_double_guard_combining_dots_stripping
+- test_anti_double_guard_vocab_validation
+- test_anti_double_guard_double_normalization_safe_check
+- test_200_automotive_sentences_guard_regression
+
+## test_tts_normalization
+
+- test_int_to_turkish
+- test_decimal_to_turkish
+- test_asr_mapping_canonical_vehicles
+- test_canonical_brand_lookup
+- test_canonicalize_asr_text_structure
+- test_all_81_gold_standard_sentences
+- test_all_72_sezer_normalizations
+- test_all_32_sezer_kose_cases
+- test_a3_never_replaces_inside_astra
+- test_ev_never_replaces_inside_ev3
+- test_suv_never_replaces_inside_c_suv
+- test_sezer_uppercase_stress_trap
+- test_vocab_characters_in_normalized_text
+
+## Yeni sürüme eklenecek testler
+
+Referans sürümde bulunmayan, 01 belgesindeki kabul senaryolarından ve düzeltilecek davranışlardan çıkan testler:
+
+- test_unpriced_vehicle_does_not_invent_price (A3, K1)
+- test_offer_uses_real_local_date_not_tomorrow (A1, K2)
+- test_finished_conversation_does_not_repeat_booking_reference (A6, K3)
+- test_brand_only_asks_catalog_models_generically (K4)
+- test_three_numbered_options_offered (K5)
+- test_caller_profile_requires_verified_caller_id (K6)
+- test_kvkk_erasure_covers_caller_profile (K7)
+- test_each_clause_played_once
+- test_emergency_phrase_wins_over_hold_phrase (03 belgesi, öncelik 5)
+- test_inspection_photo_requires_auth_or_signed_link (04 belgesi)
+- test_demo_reference_never_in_live_call (TEST-001)

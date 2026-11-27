@@ -1,0 +1,2636 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261125T182221Z",
+  "baseline_commit": "6273981e1684686ae85f9458b608764e85a4552c",
+  "records": [
+    {
+      "path": "backend/main.py",
+      "line": 188,
+      "symbol": "ticket",
+      "method": "POST",
+      "declared_path": "'/api/session-ticket'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/main.py",
+      "line": 198,
+      "symbol": "voice",
+      "method": "WEBSOCKET",
+      "declared_path": "'/ws/voice'",
+      "main_registration": true,
+      "parameters": [
+        "ws: WebSocket"
+      ]
+    },
+    {
+      "path": "backend/ontology/router.py",
+      "line": 31,
+      "symbol": "get_ontology_schema",
+      "method": "GET",
+      "declared_path": "'/schema'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/ontology/router.py",
+      "line": 39,
+      "symbol": "get_certified_packages",
+      "method": "GET",
+      "declared_path": "'/packages'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/ontology/router.py",
+      "line": 47,
+      "symbol": "get_certified_diagnostics",
+      "method": "GET",
+      "declared_path": "'/diagnostics'",
+      "main_registration": true,
+      "parameters": [
+        "query: str"
+      ]
+    },
+    {
+      "path": "backend/ontology/router.py",
+      "line": 59,
+      "symbol": "get_certified_vehicles",
+      "method": "GET",
+      "declared_path": "'/vehicles'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/ontology/router.py",
+      "line": 67,
+      "symbol": "resolve_vehicle",
+      "method": "POST",
+      "declared_path": "'/resolve-vehicle'",
+      "main_registration": true,
+      "parameters": [
+        "body: Dict[str, str]"
+      ]
+    },
+    {
+      "path": "backend/ontology/router.py",
+      "line": 81,
+      "symbol": "validate_action",
+      "method": "POST",
+      "declared_path": "'/validate-action'",
+      "main_registration": true,
+      "parameters": [
+        "req: OntologyValidationRequest"
+      ]
+    },
+    {
+      "path": "backend/ontology/router.py",
+      "line": 89,
+      "symbol": "get_mcp_tools",
+      "method": "GET",
+      "declared_path": "'/mcp/tools'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/ontology/router.py",
+      "line": 97,
+      "symbol": "execute_mcp_tool",
+      "method": "POST",
+      "declared_path": "'/mcp/execute'",
+      "main_registration": true,
+      "parameters": [
+        "body: Dict[str, Any]"
+      ]
+    },
+    {
+      "path": "backend/routers/acceptance.py",
+      "line": 78,
+      "symbol": "acceptance_prerequisites",
+      "method": "GET",
+      "declared_path": "'/api/acceptance/prerequisites'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/acceptance.py",
+      "line": 84,
+      "symbol": "acceptance_prepare_fixtures",
+      "method": "POST",
+      "declared_path": "'/api/acceptance/prepare-fixtures'",
+      "main_registration": true,
+      "parameters": [
+        "body: AcceptancePrepareIn"
+      ]
+    },
+    {
+      "path": "backend/routers/acceptance.py",
+      "line": 90,
+      "symbol": "acceptance_scenarios",
+      "method": "GET",
+      "declared_path": "'/api/acceptance/scenarios'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/acceptance.py",
+      "line": 95,
+      "symbol": "acceptance_list_runs",
+      "method": "GET",
+      "declared_path": "'/api/acceptance/runs'",
+      "main_registration": true,
+      "parameters": [
+        "limit: int"
+      ]
+    },
+    {
+      "path": "backend/routers/acceptance.py",
+      "line": 100,
+      "symbol": "acceptance_start_run",
+      "method": "POST",
+      "declared_path": "'/api/acceptance/runs/start'",
+      "main_registration": true,
+      "parameters": [
+        "body: AcceptanceStartIn"
+      ]
+    },
+    {
+      "path": "backend/routers/acceptance.py",
+      "line": 116,
+      "symbol": "acceptance_verify_run",
+      "method": "POST",
+      "declared_path": "'/api/acceptance/runs/{run_id}/verify'",
+      "main_registration": true,
+      "parameters": [
+        "run_id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/acceptance.py",
+      "line": 125,
+      "symbol": "acceptance_get_run",
+      "method": "GET",
+      "declared_path": "'/api/acceptance/runs/{run_id}'",
+      "main_registration": true,
+      "parameters": [
+        "run_id: str",
+        "masked: bool"
+      ]
+    },
+    {
+      "path": "backend/routers/acceptance.py",
+      "line": 133,
+      "symbol": "acceptance_terminology_audit",
+      "method": "GET",
+      "declared_path": "'/api/acceptance/terminology/audit'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/acceptance.py",
+      "line": 139,
+      "symbol": "acceptance_terminology_test",
+      "method": "POST",
+      "declared_path": "'/api/acceptance/terminology/test'",
+      "main_registration": true,
+      "parameters": [
+        "body: TerminologyTestIn"
+      ]
+    },
+    {
+      "path": "backend/routers/audio_dsp.py",
+      "line": 58,
+      "symbol": "get_dtmf_tone_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/dtmf/generate-tone'",
+      "main_registration": true,
+      "parameters": [
+        "body: DTMFIn"
+      ]
+    },
+    {
+      "path": "backend/routers/audio_dsp.py",
+      "line": 74,
+      "symbol": "get_dsp_config",
+      "method": "GET",
+      "declared_path": "'/api/dsp/config'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/audio_dsp.py",
+      "line": 86,
+      "symbol": "update_dsp_config",
+      "method": "POST",
+      "declared_path": "'/api/dsp/config'",
+      "main_registration": true,
+      "parameters": [
+        "body: DSPConfigIn"
+      ]
+    },
+    {
+      "path": "backend/routers/audio_dsp.py",
+      "line": 100,
+      "symbol": "denoise_audio_preview",
+      "method": "POST",
+      "declared_path": "'/api/dsp/denoise-preview'",
+      "main_registration": true,
+      "parameters": [
+        "file: UploadFile",
+        "audio_file: UploadFile",
+        "hpf_cutoff: float",
+        "suppression_db: float",
+        "target_dbfs: float"
+      ]
+    },
+    {
+      "path": "backend/routers/audio_dsp.py",
+      "line": 158,
+      "symbol": "get_batched_ode_config_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/batched-ode/config'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/audio_dsp.py",
+      "line": 173,
+      "symbol": "update_batched_ode_config_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/batched-ode/config'",
+      "main_registration": true,
+      "parameters": [
+        "body: BatchedODEConfigIn"
+      ]
+    },
+    {
+      "path": "backend/routers/audio_dsp.py",
+      "line": 195,
+      "symbol": "get_batched_ode_metrics_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/batched-ode/metrics'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/audio_dsp.py",
+      "line": 217,
+      "symbol": "run_batched_ode_benchmark",
+      "method": "POST",
+      "declared_path": "'/api/batched-ode/benchmark'",
+      "main_registration": true,
+      "parameters": [
+        "body: BatchedBenchmarkIn"
+      ]
+    },
+    {
+      "path": "backend/routers/audio_dsp.py",
+      "line": 278,
+      "symbol": "turn_evaluate_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/turn-detector/evaluate'",
+      "main_registration": true,
+      "parameters": [
+        "body: TurnEvaluateIn"
+      ]
+    },
+    {
+      "path": "backend/routers/audio_dsp.py",
+      "line": 298,
+      "symbol": "turn_analyze_text_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/turn-detector/analyze-text'",
+      "main_registration": true,
+      "parameters": [
+        "body: TurnAnalyzeTextIn"
+      ]
+    },
+    {
+      "path": "backend/routers/audio_dsp.py",
+      "line": 304,
+      "symbol": "turn_config_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/turn-detector/config'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/audio_dsp.py",
+      "line": 321,
+      "symbol": "emotion_analyze_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/emotion-prosody/analyze'",
+      "main_registration": true,
+      "parameters": [
+        "body: EmotionAnalyzeIn"
+      ]
+    },
+    {
+      "path": "backend/routers/audio_dsp.py",
+      "line": 341,
+      "symbol": "emotion_adapt_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/emotion-prosody/adapt'",
+      "main_registration": true,
+      "parameters": [
+        "body: EmotionAdaptIn"
+      ]
+    },
+    {
+      "path": "backend/routers/audio_dsp.py",
+      "line": 361,
+      "symbol": "emotion_config_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/emotion-prosody/config'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/audio_dsp.py",
+      "line": 370,
+      "symbol": "clean_audio_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/pause-cleaner/clean-audio'",
+      "main_registration": true,
+      "parameters": [
+        "payload: PauseCleanIn"
+      ]
+    },
+    {
+      "path": "backend/routers/audio_dsp.py",
+      "line": 397,
+      "symbol": "audio_cache_metrics_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/audio-cache/metrics'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/audio_dsp.py",
+      "line": 402,
+      "symbol": "audio_cache_phrases_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/audio-cache/phrases'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/audio_dsp.py",
+      "line": 417,
+      "symbol": "audio_cache_lookup_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/audio-cache/lookup'",
+      "main_registration": true,
+      "parameters": [
+        "payload: AudioCacheLookupIn"
+      ]
+    },
+    {
+      "path": "backend/routers/audio_dsp.py",
+      "line": 439,
+      "symbol": "audio_cache_warmup_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/audio-cache/warmup'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/compliance.py",
+      "line": 70,
+      "symbol": "kvkk_redact_text_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/kvkk/redact-text'",
+      "main_registration": true,
+      "parameters": [
+        "body: KVKKRedactIn"
+      ]
+    },
+    {
+      "path": "backend/routers/compliance.py",
+      "line": 87,
+      "symbol": "kvkk_validate_tckn_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/kvkk/validate-tckn'",
+      "main_registration": true,
+      "parameters": [
+        "body: TCKNValidateIn"
+      ]
+    },
+    {
+      "path": "backend/routers/compliance.py",
+      "line": 98,
+      "symbol": "kvkk_validate_card_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/kvkk/validate-card'",
+      "main_registration": true,
+      "parameters": [
+        "body: CardValidateIn"
+      ]
+    },
+    {
+      "path": "backend/routers/compliance.py",
+      "line": 109,
+      "symbol": "kvkk_get_policy_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/kvkk/policy'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/compliance.py",
+      "line": 129,
+      "symbol": "kvkk_redact_audio_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/kvkk/redact-audio'",
+      "main_registration": true,
+      "parameters": [
+        "file: UploadFile",
+        "ranges_json: str",
+        "mode: str"
+      ]
+    },
+    {
+      "path": "backend/routers/compliance.py",
+      "line": 163,
+      "symbol": "archive_call_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/archive/call-session'",
+      "main_registration": true,
+      "parameters": [
+        "payload: ArchiveCallIn"
+      ]
+    },
+    {
+      "path": "backend/routers/compliance.py",
+      "line": 192,
+      "symbol": "retention_audit_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/archive/retention-audit'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/compliance.py",
+      "line": 198,
+      "symbol": "retention_purge_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/archive/retention-purge'",
+      "main_registration": true,
+      "parameters": [
+        "payload: ArchivePurgeIn"
+      ]
+    },
+    {
+      "path": "backend/routers/compliance.py",
+      "line": 220,
+      "symbol": "verify_archive_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/archive/{archive_id}/verify'",
+      "main_registration": true,
+      "parameters": [
+        "archive_id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/compliance.py",
+      "line": 232,
+      "symbol": "download_archive_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/archive/{archive_id}/download'",
+      "main_registration": true,
+      "parameters": [
+        "archive_id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/compliance.py",
+      "line": 260,
+      "symbol": "kvkk_transcript_retention_audit_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/kvkk/transcript-retention-audit'",
+      "main_registration": true,
+      "parameters": [
+        "retention_days: Optional[int]"
+      ]
+    },
+    {
+      "path": "backend/routers/compliance.py",
+      "line": 267,
+      "symbol": "kvkk_transcript_retention_purge_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/kvkk/transcript-retention-purge'",
+      "main_registration": true,
+      "parameters": [
+        "payload: TranscriptRetentionPurgeIn"
+      ]
+    },
+    {
+      "path": "backend/routers/compliance.py",
+      "line": 292,
+      "symbol": "kvkk_create_erasure_request_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/kvkk/erasure-requests'",
+      "main_registration": true,
+      "parameters": [
+        "payload: KVKKErasureRequestIn"
+      ]
+    },
+    {
+      "path": "backend/routers/compliance.py",
+      "line": 313,
+      "symbol": "kvkk_list_erasure_requests_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/kvkk/erasure-requests'",
+      "main_registration": true,
+      "parameters": [
+        "status: Optional[str]",
+        "limit: int"
+      ]
+    },
+    {
+      "path": "backend/routers/compliance.py",
+      "line": 350,
+      "symbol": "kvkk_get_erasure_request_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/kvkk/erasure-requests/{request_id}'",
+      "main_registration": true,
+      "parameters": [
+        "request_id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/compliance.py",
+      "line": 377,
+      "symbol": "kvkk_execute_erasure_request_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/kvkk/erasure-requests/{request_id}/execute'",
+      "main_registration": true,
+      "parameters": [
+        "request_id: str",
+        "payload: KVKKErasureExecuteIn"
+      ]
+    },
+    {
+      "path": "backend/routers/compliance.py",
+      "line": 401,
+      "symbol": "kvkk_get_certificate_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/kvkk/erasure-requests/{request_id}/certificate'",
+      "main_registration": true,
+      "parameters": [
+        "request_id: str",
+        "format: str"
+      ]
+    },
+    {
+      "path": "backend/routers/core_system.py",
+      "line": 21,
+      "symbol": "health",
+      "method": "GET",
+      "declared_path": "'/api/health'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/core_system.py",
+      "line": 21,
+      "symbol": "health",
+      "method": "GET",
+      "declared_path": "'/health'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/core_system.py",
+      "line": 26,
+      "symbol": "readiness",
+      "method": "GET",
+      "declared_path": "'/api/readiness'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/core_system.py",
+      "line": 83,
+      "symbol": "load",
+      "method": "POST",
+      "declared_path": "'/api/models/load'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/core_system.py",
+      "line": 99,
+      "symbol": "get_unified_system_status_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/system/unified-status'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 136,
+      "symbol": "get_vehicle",
+      "method": "GET",
+      "declared_path": "'/api/vehicles/{id}'",
+      "main_registration": true,
+      "parameters": [
+        "id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 145,
+      "symbol": "list_inspections",
+      "method": "GET",
+      "declared_path": "'/api/inspections'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 161,
+      "symbol": "get_inspection",
+      "method": "GET",
+      "declared_path": "'/api/inspections/{id}'",
+      "main_registration": true,
+      "parameters": [
+        "id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 173,
+      "symbol": "analytics_overview",
+      "method": "GET",
+      "declared_path": "'/api/analytics/overview'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 182,
+      "symbol": "list_follow_ups",
+      "method": "GET",
+      "declared_path": "'/api/analytics/follow-ups'",
+      "main_registration": true,
+      "parameters": [
+        "status: str",
+        "limit: int"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 188,
+      "symbol": "resolve_conv",
+      "method": "POST",
+      "declared_path": "'/api/analytics/conversations/{id}/resolve'",
+      "main_registration": true,
+      "parameters": [
+        "id: str",
+        "body: ConversationResolveIn"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 198,
+      "symbol": "reopen_conv",
+      "method": "POST",
+      "declared_path": "'/api/analytics/conversations/{id}/reopen'",
+      "main_registration": true,
+      "parameters": [
+        "id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 208,
+      "symbol": "get_dtc_registry",
+      "method": "GET",
+      "declared_path": "'/api/diagnostics/dtc-registry'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 213,
+      "symbol": "list_all_diagnostics",
+      "method": "GET",
+      "declared_path": "'/api/diagnostics'",
+      "main_registration": true,
+      "parameters": [
+        "is_resolved: bool | None"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 230,
+      "symbol": "list_vehicle_diagnostics",
+      "method": "GET",
+      "declared_path": "'/api/vehicles/{id}/diagnostics'",
+      "main_registration": true,
+      "parameters": [
+        "id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 243,
+      "symbol": "add_vehicle_telemetry",
+      "method": "POST",
+      "declared_path": "'/api/vehicles/{id}/diagnostics'",
+      "main_registration": true,
+      "parameters": [
+        "id: str",
+        "body: TelemetryIngestIn"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 261,
+      "symbol": "call_diagnostic_owner",
+      "method": "POST",
+      "declared_path": "'/api/diagnostics/{id}/call'",
+      "main_registration": true,
+      "parameters": [
+        "id: str",
+        "body: ProactiveActionIn"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 275,
+      "symbol": "sms_diagnostic_owner",
+      "method": "POST",
+      "declared_path": "'/api/diagnostics/{id}/sms'",
+      "main_registration": true,
+      "parameters": [
+        "id: str",
+        "body: ProactiveActionIn"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 293,
+      "symbol": "resolve_diag",
+      "method": "POST",
+      "declared_path": "'/api/diagnostics/{id}/resolve'",
+      "main_registration": true,
+      "parameters": [
+        "id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 310,
+      "symbol": "save_package",
+      "method": "PUT",
+      "declared_path": "'/api/packages/{key}'",
+      "main_registration": true,
+      "parameters": [
+        "key: str",
+        "body: PackageEdit"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 316,
+      "symbol": "delete_package",
+      "method": "DELETE",
+      "declared_path": "'/api/packages/{key}'",
+      "main_registration": true,
+      "parameters": [
+        "key: str"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 327,
+      "symbol": "list_packages",
+      "method": "GET",
+      "declared_path": "'/api/packages'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 332,
+      "symbol": "ruhsat_decode_image_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/ruhsat/decode-image'",
+      "main_registration": true,
+      "parameters": [
+        "file: UploadFile",
+        "from_phone: str",
+        "appointment_id: str | None"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 357,
+      "symbol": "ruhsat_decode_text_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/ruhsat/decode-text'",
+      "main_registration": true,
+      "parameters": [
+        "body: RuhsatTextDecodeIn"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 363,
+      "symbol": "ruhsat_decode_phonetic_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/ruhsat/decode-phonetic'",
+      "main_registration": true,
+      "parameters": [
+        "body: PhoneticDecodeIn"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 368,
+      "symbol": "ruhsat_apply_crm_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/ruhsat/apply-to-crm'",
+      "main_registration": true,
+      "parameters": [
+        "body: RuhsatApplyIn"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 413,
+      "symbol": "get_ruhsat_scans_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/ruhsat/scans'",
+      "main_registration": true,
+      "parameters": [
+        "limit: int"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 422,
+      "symbol": "valuation_calculate_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/valuation/calculate'",
+      "main_registration": true,
+      "parameters": [
+        "body: VehicleValuationIn"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 437,
+      "symbol": "valuation_save_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/valuation/save'",
+      "main_registration": true,
+      "parameters": [
+        "body: VehicleValuationIn"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 456,
+      "symbol": "valuation_parse_spoken_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/valuation/parse-spoken'",
+      "main_registration": true,
+      "parameters": [
+        "body: SpokenValuationIn"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 484,
+      "symbol": "valuation_list_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/valuation/valuations'",
+      "main_registration": true,
+      "parameters": [
+        "limit: int"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 491,
+      "symbol": "create_corporate_account",
+      "method": "POST",
+      "declared_path": "'/api/corporate-accounts'",
+      "main_registration": true,
+      "parameters": [
+        "body: CorporateAccountIn"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 505,
+      "symbol": "get_corporate_account",
+      "method": "GET",
+      "declared_path": "'/api/corporate-accounts/{id}'",
+      "main_registration": true,
+      "parameters": [
+        "id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 514,
+      "symbol": "update_corporate_account",
+      "method": "PUT",
+      "declared_path": "'/api/corporate-accounts/{id}'",
+      "main_registration": true,
+      "parameters": [
+        "id: str",
+        "body: CorporateAccountUpdateIn"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 526,
+      "symbol": "delete_corporate_account",
+      "method": "DELETE",
+      "declared_path": "'/api/corporate-accounts/{id}'",
+      "main_registration": true,
+      "parameters": [
+        "id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 544,
+      "symbol": "get_corporate_ledger",
+      "method": "GET",
+      "declared_path": "'/api/corporate-accounts/{id}/ledger'",
+      "main_registration": true,
+      "parameters": [
+        "id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 557,
+      "symbol": "add_corporate_payment",
+      "method": "POST",
+      "declared_path": "'/api/corporate-accounts/{id}/payments'",
+      "main_registration": true,
+      "parameters": [
+        "id: str",
+        "body: PaymentIn"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 572,
+      "symbol": "vehicle",
+      "method": "POST",
+      "declared_path": "'/api/vehicles'",
+      "main_registration": true,
+      "parameters": [
+        "body: VehicleIn"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 587,
+      "symbol": "update_vehicle",
+      "method": "PUT",
+      "declared_path": "'/api/vehicles/{id}'",
+      "main_registration": true,
+      "parameters": [
+        "id: str",
+        "body: VehicleUpdateIn"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 607,
+      "symbol": "delete_vehicle",
+      "method": "DELETE",
+      "declared_path": "'/api/vehicles/{id}'",
+      "main_registration": true,
+      "parameters": [
+        "id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 627,
+      "symbol": "get_vehicle_by_vin",
+      "method": "GET",
+      "declared_path": "'/api/vehicles/by-vin/{vin}'",
+      "main_registration": true,
+      "parameters": [
+        "vin: str"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 649,
+      "symbol": "get_vehicle_inspections",
+      "method": "GET",
+      "declared_path": "'/api/vehicles/{id}/inspections'",
+      "main_registration": true,
+      "parameters": [
+        "id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 662,
+      "symbol": "add_vehicle_inspection",
+      "method": "POST",
+      "declared_path": "'/api/vehicles/{id}/inspections'",
+      "main_registration": true,
+      "parameters": [
+        "id: str",
+        "body: InspectionReportIn"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 698,
+      "symbol": "get_inspection_pdf",
+      "method": "GET",
+      "declared_path": "'/api/inspections/{id}/pdf'",
+      "main_registration": true,
+      "parameters": [
+        "id: str",
+        "exp: str | None",
+        "sig: str | None",
+        "credentials: HTTPBasicCredentials | None"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 744,
+      "symbol": "get_inspection_signed_link",
+      "method": "GET",
+      "declared_path": "'/api/inspections/{id}/signed-link'",
+      "main_registration": true,
+      "parameters": [
+        "id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 752,
+      "symbol": "send_inspection_link",
+      "method": "POST",
+      "declared_path": "'/api/inspections/{id}/send-link'",
+      "main_registration": true,
+      "parameters": [
+        "id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 803,
+      "symbol": "upload_inspection_photo",
+      "method": "POST",
+      "declared_path": "'/api/inspections/photos'",
+      "main_registration": true,
+      "parameters": [
+        "file: UploadFile",
+        "caption: str",
+        "category: str"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 834,
+      "symbol": "get_inspection_photo",
+      "method": "GET",
+      "declared_path": "'/api/inspections/photos/{filename}'",
+      "main_registration": true,
+      "parameters": [
+        "filename: str"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 843,
+      "symbol": "technician_dictate_text",
+      "method": "POST",
+      "declared_path": "'/api/technician/dictate-text'",
+      "main_registration": true,
+      "parameters": [
+        "body: DictationTextIn"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 892,
+      "symbol": "technician_dictate_audio",
+      "method": "POST",
+      "declared_path": "'/api/technician/dictate-audio'",
+      "main_registration": true,
+      "parameters": [
+        "file: UploadFile",
+        "report_id: str | None",
+        "vehicle_id: str | None",
+        "technician_name: str | None"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 974,
+      "symbol": "quote",
+      "method": "POST",
+      "declared_path": "'/api/quotes'",
+      "main_registration": true,
+      "parameters": [
+        "body: QuoteIn"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 992,
+      "symbol": "slot",
+      "method": "POST",
+      "declared_path": "'/api/slots'",
+      "main_registration": true,
+      "parameters": [
+        "body: SlotIn"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 1026,
+      "symbol": "appointment",
+      "method": "POST",
+      "declared_path": "'/api/appointments'",
+      "main_registration": true,
+      "parameters": [
+        "body: BookingIn"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 1037,
+      "symbol": "cancel",
+      "method": "POST",
+      "declared_path": "'/api/appointments/{id}/cancel'",
+      "main_registration": true,
+      "parameters": [
+        "id: UUID"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 1048,
+      "symbol": "preview_appointment_reschedule",
+      "method": "GET",
+      "declared_path": "'/api/appointments/{id}/reschedule-preview'",
+      "main_registration": true,
+      "parameters": [
+        "id: UUID",
+        "response: Response",
+        "target_slot_id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 1073,
+      "symbol": "reschedule_appointment",
+      "method": "POST",
+      "declared_path": "'/api/appointments/{id}/reschedule'",
+      "main_registration": true,
+      "parameters": [
+        "id: UUID",
+        "body: RescheduleIn"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 1122,
+      "symbol": "get_calendar_events",
+      "method": "GET",
+      "declared_path": "'/api/appointments/calendar'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 1160,
+      "symbol": "list_unclear_conversations",
+      "method": "GET",
+      "declared_path": "'/api/conversations/unclear'",
+      "main_registration": true,
+      "parameters": [
+        "limit: int"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 1166,
+      "symbol": "detail",
+      "method": "GET",
+      "declared_path": "'/api/conversations/{id}'",
+      "main_registration": true,
+      "parameters": [
+        "id: UUID"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 1180,
+      "symbol": "delete",
+      "method": "DELETE",
+      "declared_path": "'/api/conversations/{id}'",
+      "main_registration": true,
+      "parameters": [
+        "id: UUID"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 1195,
+      "symbol": "export_conversation",
+      "method": "GET",
+      "declared_path": "'/api/conversations/{id}/export'",
+      "main_registration": true,
+      "parameters": [
+        "id: UUID",
+        "format: str"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 1268,
+      "symbol": "stream_conversation_audio",
+      "method": "GET",
+      "declared_path": "'/api/conversations/{id}/audio'",
+      "main_registration": true,
+      "parameters": [
+        "id: UUID"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 1281,
+      "symbol": "feedback_lexicon",
+      "method": "POST",
+      "declared_path": "'/api/conversations/{id}/feedback-lexicon'",
+      "main_registration": true,
+      "parameters": [
+        "id: UUID",
+        "body: FeedbackLexiconIn"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 1314,
+      "symbol": "get_weekly_summary_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/reports/weekly/summary'",
+      "main_registration": true,
+      "parameters": [
+        "days: int"
+      ]
+    },
+    {
+      "path": "backend/routers/crm.py",
+      "line": 1320,
+      "symbol": "get_weekly_excel_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/reports/weekly/excel'",
+      "main_registration": true,
+      "parameters": [
+        "days: int"
+      ]
+    },
+    {
+      "path": "backend/routers/dataset.py",
+      "line": 26,
+      "symbol": "api_generate_dataset",
+      "method": "POST",
+      "declared_path": "'/api/dataset/generate'",
+      "main_registration": true,
+      "parameters": [
+        "body: DatasetGenerateRequest"
+      ]
+    },
+    {
+      "path": "backend/routers/dataset.py",
+      "line": 48,
+      "symbol": "api_export_dataset",
+      "method": "GET",
+      "declared_path": "'/api/dataset/export'",
+      "main_registration": true,
+      "parameters": [
+        "format: str",
+        "count: int",
+        "seed: int"
+      ]
+    },
+    {
+      "path": "backend/routers/generic_resources.py",
+      "line": 42,
+      "symbol": "listing",
+      "method": "GET",
+      "declared_path": "'/api/{resource}'",
+      "main_registration": true,
+      "parameters": [
+        "resource: str",
+        "limit: int",
+        "offset: int"
+      ]
+    },
+    {
+      "path": "backend/routers/observability.py",
+      "line": 37,
+      "symbol": "gpu_telemetry_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/gpu-health/telemetry'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/observability.py",
+      "line": 43,
+      "symbol": "gpu_circuit_status_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/gpu-health/circuit-status'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/observability.py",
+      "line": 48,
+      "symbol": "gpu_configure_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/gpu-health/configure'",
+      "main_registration": true,
+      "parameters": [
+        "payload: GPUConfigureIn"
+      ]
+    },
+    {
+      "path": "backend/routers/observability.py",
+      "line": 61,
+      "symbol": "gpu_simulate_oom_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/gpu-health/simulate-oom'",
+      "main_registration": true,
+      "parameters": [
+        "payload: GPUSimulateIn"
+      ]
+    },
+    {
+      "path": "backend/routers/observability.py",
+      "line": 80,
+      "symbol": "gpu_reset_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/gpu-health/reset'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/observability.py",
+      "line": 89,
+      "symbol": "list_sip_trunks_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/sip-trunks'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/observability.py",
+      "line": 94,
+      "symbol": "ping_sip_trunk_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/sip-trunks/{trunk_id}/ping'",
+      "main_registration": true,
+      "parameters": [
+        "trunk_id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/observability.py",
+      "line": 103,
+      "symbol": "select_sip_trunk_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/sip-trunks/select'",
+      "main_registration": true,
+      "parameters": [
+        "payload: TrunkSelectIn"
+      ]
+    },
+    {
+      "path": "backend/routers/observability.py",
+      "line": 116,
+      "symbol": "simulate_trunk_outage_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/sip-trunks/simulate-outage'",
+      "main_registration": true,
+      "parameters": [
+        "payload: TrunkSimulateIn"
+      ]
+    },
+    {
+      "path": "backend/routers/observability.py",
+      "line": 125,
+      "symbol": "trunk_maintenance_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/sip-trunks/maintenance'",
+      "main_registration": true,
+      "parameters": [
+        "payload: TrunkMaintenanceIn"
+      ]
+    },
+    {
+      "path": "backend/routers/observability.py",
+      "line": 134,
+      "symbol": "configure_sip_trunk_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/sip-trunks/configure'",
+      "main_registration": true,
+      "parameters": [
+        "payload: TrunkConfigIn"
+      ]
+    },
+    {
+      "path": "backend/routers/observability.py",
+      "line": 150,
+      "symbol": "prometheus_metrics_endpoint",
+      "method": "GET",
+      "declared_path": "'/metrics'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/observability.py",
+      "line": 160,
+      "symbol": "sla_status_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/sla/status'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/observability.py",
+      "line": 167,
+      "symbol": "dashboard_live_summary_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/dashboard/live-summary'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/observability.py",
+      "line": 173,
+      "symbol": "record_call_metrics_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/metrics/record-call'",
+      "main_registration": true,
+      "parameters": [
+        "payload: SLARecordCallIn"
+      ]
+    },
+    {
+      "path": "backend/routers/observability.py",
+      "line": 188,
+      "symbol": "configure_sla_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/sla/configure'",
+      "main_registration": true,
+      "parameters": [
+        "payload: SLAConfigureIn"
+      ]
+    },
+    {
+      "path": "backend/routers/observability.py",
+      "line": 210,
+      "symbol": "milestone_overview",
+      "method": "GET",
+      "declared_path": "'/api/milestones/overview'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/observability.py",
+      "line": 237,
+      "symbol": "milestone_inspect",
+      "method": "POST",
+      "declared_path": "'/api/milestones/inspect'",
+      "main_registration": true,
+      "parameters": [
+        "body: TextIn"
+      ]
+    },
+    {
+      "path": "backend/routers/observability.py",
+      "line": 245,
+      "symbol": "pronunciation_items",
+      "method": "GET",
+      "declared_path": "'/api/milestones/pronunciation'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/observability.py",
+      "line": 250,
+      "symbol": "pronunciation_review",
+      "method": "POST",
+      "declared_path": "'/api/milestones/pronunciation'",
+      "main_registration": true,
+      "parameters": [
+        "body: ReviewIn"
+      ]
+    },
+    {
+      "path": "backend/routers/observability.py",
+      "line": 263,
+      "symbol": "milestone_timeline",
+      "method": "GET",
+      "declared_path": "'/api/milestones/timeline/{id}'",
+      "main_registration": true,
+      "parameters": [
+        "id: UUID"
+      ]
+    },
+    {
+      "path": "backend/routers/operator_qa.py",
+      "line": 35,
+      "symbol": "operator_today",
+      "method": "GET",
+      "declared_path": "'/api/operator/today'",
+      "main_registration": true,
+      "parameters": [
+        "response: Response",
+        "period: Literal['all', 'today', 'carryover']",
+        "category: Literal['all', 'transfer', 'callback', 'booking', 'follow_up']",
+        "limit: int",
+        "offset: int"
+      ]
+    },
+    {
+      "path": "backend/routers/operator_qa.py",
+      "line": 52,
+      "symbol": "operator_register_call",
+      "method": "POST",
+      "declared_path": "'/api/operator/register-call'",
+      "main_registration": true,
+      "parameters": [
+        "body: OperatorRegisterCallIn"
+      ]
+    },
+    {
+      "path": "backend/routers/operator_qa.py",
+      "line": 64,
+      "symbol": "operator_takeover",
+      "method": "POST",
+      "declared_path": "'/api/operator/takeover'",
+      "main_registration": true,
+      "parameters": [
+        "body: OperatorTakeoverIn"
+      ]
+    },
+    {
+      "path": "backend/routers/operator_qa.py",
+      "line": 76,
+      "symbol": "operator_whisper",
+      "method": "POST",
+      "declared_path": "'/api/operator/whisper'",
+      "main_registration": true,
+      "parameters": [
+        "body: OperatorWhisperIn"
+      ]
+    },
+    {
+      "path": "backend/routers/operator_qa.py",
+      "line": 88,
+      "symbol": "operator_release",
+      "method": "POST",
+      "declared_path": "'/api/operator/release'",
+      "main_registration": true,
+      "parameters": [
+        "body: OperatorReleaseIn"
+      ]
+    },
+    {
+      "path": "backend/routers/operator_qa.py",
+      "line": 99,
+      "symbol": "operator_live_sessions",
+      "method": "GET",
+      "declared_path": "'/api/operator/live-sessions'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/operator_qa.py",
+      "line": 104,
+      "symbol": "qa_evaluate_variants",
+      "method": "POST",
+      "declared_path": "'/api/qa/evaluate-variants'",
+      "main_registration": true,
+      "parameters": [
+        "body: QAEvaluateVariantsIn"
+      ]
+    },
+    {
+      "path": "backend/routers/operator_qa.py",
+      "line": 116,
+      "symbol": "qa_get_telemetry",
+      "method": "GET",
+      "declared_path": "'/api/qa/telemetry/{turn_id}'",
+      "main_registration": true,
+      "parameters": [
+        "turn_id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/operator_qa.py",
+      "line": 127,
+      "symbol": "qa_m11_status",
+      "method": "GET",
+      "declared_path": "'/api/qa/m11-status'",
+      "main_registration": true,
+      "parameters": [
+        "has_physical_pbx_trace: bool",
+        "has_hardware_trunk: bool"
+      ]
+    },
+    {
+      "path": "backend/routers/scheduling.py",
+      "line": 54,
+      "symbol": "list_lifts",
+      "method": "GET",
+      "declared_path": "'/api/lifts'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/scheduling.py",
+      "line": 61,
+      "symbol": "create_lift",
+      "method": "POST",
+      "declared_path": "'/api/lifts'",
+      "main_registration": true,
+      "parameters": [
+        "body: LiftIn"
+      ]
+    },
+    {
+      "path": "backend/routers/scheduling.py",
+      "line": 73,
+      "symbol": "lift_capacity",
+      "method": "GET",
+      "declared_path": "'/api/lifts/capacity'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/scheduling.py",
+      "line": 79,
+      "symbol": "update_lift_status",
+      "method": "POST",
+      "declared_path": "'/api/lifts/{id}/status'",
+      "main_registration": true,
+      "parameters": [
+        "id: str",
+        "body: LiftStatusIn"
+      ]
+    },
+    {
+      "path": "backend/routers/scheduling.py",
+      "line": 89,
+      "symbol": "assign_vehicle_to_lift",
+      "method": "POST",
+      "declared_path": "'/api/lifts/{id}/assign'",
+      "main_registration": true,
+      "parameters": [
+        "id: str",
+        "body: LiftAssignIn"
+      ]
+    },
+    {
+      "path": "backend/routers/scheduling.py",
+      "line": 106,
+      "symbol": "release_vehicle_from_lift",
+      "method": "POST",
+      "declared_path": "'/api/lifts/{id}/release'",
+      "main_registration": true,
+      "parameters": [
+        "id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/scheduling.py",
+      "line": 116,
+      "symbol": "call_next_for_lift",
+      "method": "POST",
+      "declared_path": "'/api/lifts/{id}/call-next'",
+      "main_registration": true,
+      "parameters": [
+        "id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/scheduling.py",
+      "line": 133,
+      "symbol": "list_queue",
+      "method": "GET",
+      "declared_path": "'/api/queue'",
+      "main_registration": true,
+      "parameters": [
+        "status: str | None"
+      ]
+    },
+    {
+      "path": "backend/routers/scheduling.py",
+      "line": 140,
+      "symbol": "add_to_queue",
+      "method": "POST",
+      "declared_path": "'/api/queue'",
+      "main_registration": true,
+      "parameters": [
+        "body: QueueEntryIn"
+      ]
+    },
+    {
+      "path": "backend/routers/scheduling.py",
+      "line": 154,
+      "symbol": "cancel_queue",
+      "method": "POST",
+      "declared_path": "'/api/queue/{id}/cancel'",
+      "main_registration": true,
+      "parameters": [
+        "id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/scheduling.py",
+      "line": 169,
+      "symbol": "bay_check_capacity_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/bay-scheduler/check-capacity'",
+      "main_registration": true,
+      "parameters": [
+        "body: BayCapacityCheckIn"
+      ]
+    },
+    {
+      "path": "backend/routers/scheduling.py",
+      "line": 181,
+      "symbol": "bay_book_stages_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/bay-scheduler/book-stages'",
+      "main_registration": true,
+      "parameters": [
+        "body: BayBookingIn"
+      ]
+    },
+    {
+      "path": "backend/routers/scheduling.py",
+      "line": 198,
+      "symbol": "bay_list_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/bay-scheduler/bays'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/scheduling.py",
+      "line": 205,
+      "symbol": "technician_list_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/bay-scheduler/technicians'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/scheduling.py",
+      "line": 212,
+      "symbol": "bay_schedules_list_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/bay-scheduler/schedules'",
+      "main_registration": true,
+      "parameters": [
+        "date: str | None",
+        "limit: int"
+      ]
+    },
+    {
+      "path": "backend/routers/scheduling.py",
+      "line": 219,
+      "symbol": "bay_analytics_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/bay-scheduler/analytics'",
+      "main_registration": true,
+      "parameters": [
+        "date: str | None"
+      ]
+    },
+    {
+      "path": "backend/routers/scheduling.py",
+      "line": 225,
+      "symbol": "bay_set_status_endpoint",
+      "method": "PUT",
+      "declared_path": "'/api/bay-scheduler/bays/{bay_id}/status'",
+      "main_registration": true,
+      "parameters": [
+        "bay_id: str",
+        "body: BayStatusIn"
+      ]
+    },
+    {
+      "path": "backend/routers/scheduling.py",
+      "line": 235,
+      "symbol": "technician_set_status_endpoint",
+      "method": "PUT",
+      "declared_path": "'/api/bay-scheduler/technicians/{technician_id}/status'",
+      "main_registration": true,
+      "parameters": [
+        "technician_id: str",
+        "body: TechnicianStatusIn"
+      ]
+    },
+    {
+      "path": "backend/routers/scheduling.py",
+      "line": 245,
+      "symbol": "cancel_appointment_schedules_endpoint",
+      "method": "DELETE",
+      "declared_path": "'/api/bay-scheduler/appointments/{appointment_id}'",
+      "main_registration": true,
+      "parameters": [
+        "appointment_id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/supervisor.py",
+      "line": 25,
+      "symbol": "fqici_queue",
+      "method": "GET",
+      "declared_path": "'/fqici-queue'",
+      "main_registration": true,
+      "parameters": [
+        "response: Response",
+        "limit: int"
+      ]
+    },
+    {
+      "path": "backend/routers/supervisor.py",
+      "line": 32,
+      "symbol": "conversation_detail",
+      "method": "GET",
+      "declared_path": "'/conversations/{conversation_id}/detail'",
+      "main_registration": true,
+      "parameters": [
+        "conversation_id: UUID",
+        "response: Response"
+      ]
+    },
+    {
+      "path": "backend/routers/supervisor.py",
+      "line": 69,
+      "symbol": "quality",
+      "method": "GET",
+      "declared_path": "'/quality'",
+      "main_registration": true,
+      "parameters": [
+        "queue: Literal['all', 'pending']",
+        "limit: int",
+        "conversation_id: UUID | None"
+      ]
+    },
+    {
+      "path": "backend/routers/supervisor.py",
+      "line": 113,
+      "symbol": "review",
+      "method": "POST",
+      "declared_path": "'/review/{trace_id}'",
+      "main_registration": true,
+      "parameters": [
+        "trace_id: UUID",
+        "data: dict"
+      ]
+    },
+    {
+      "path": "backend/routers/supervisor.py",
+      "line": 129,
+      "symbol": "export_dataset",
+      "method": "GET",
+      "declared_path": "'/dataset'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 107,
+      "symbol": "list_notifications",
+      "method": "GET",
+      "declared_path": "'/api/notifications'",
+      "main_registration": true,
+      "parameters": [
+        "status: str | None",
+        "appointment_id: str | None",
+        "recipient_type: str | None"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 127,
+      "symbol": "dispatch_notifications",
+      "method": "POST",
+      "declared_path": "'/api/notifications/dispatch'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 137,
+      "symbol": "retry_single_notification",
+      "method": "POST",
+      "declared_path": "'/api/notifications/{id}/retry'",
+      "main_registration": true,
+      "parameters": [
+        "id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 146,
+      "symbol": "notification_provider_status",
+      "method": "GET",
+      "declared_path": "'/api/notifications/status'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 165,
+      "symbol": "test_send_notification",
+      "method": "POST",
+      "declared_path": "'/api/notifications/test-send'",
+      "main_registration": true,
+      "parameters": [
+        "body: TestNotificationIn"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 179,
+      "symbol": "scan_appointment_reminders_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/notifications/reminders/scan'",
+      "main_registration": true,
+      "parameters": [
+        "hours_ahead_min: int",
+        "hours_ahead_max: int",
+        "trigger_voice_call: bool"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 200,
+      "symbol": "list_pending_reminders_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/notifications/reminders/pending'",
+      "main_registration": true,
+      "parameters": [
+        "hours_ahead_min: int",
+        "hours_ahead_max: int"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 255,
+      "symbol": "record_inbound_metadata_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/telephony/inbound-metadata'",
+      "main_registration": true,
+      "parameters": [
+        "request: Request"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 283,
+      "symbol": "create_outbound_call",
+      "method": "POST",
+      "declared_path": "'/api/outbound/call'",
+      "main_registration": true,
+      "parameters": [
+        "body: OutboundCallIn"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 300,
+      "symbol": "list_outbound_calls",
+      "method": "GET",
+      "declared_path": "'/api/outbound/calls'",
+      "main_registration": true,
+      "parameters": [
+        "appointment_id: str | None",
+        "status: str | None"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 315,
+      "symbol": "cancel_call",
+      "method": "POST",
+      "declared_path": "'/api/outbound/calls/{id}/cancel'",
+      "main_registration": true,
+      "parameters": [
+        "id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 324,
+      "symbol": "complete_call",
+      "method": "POST",
+      "declared_path": "'/api/outbound/calls/{id}/complete'",
+      "main_registration": true,
+      "parameters": [
+        "id: str",
+        "body: CallOutcomeIn"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 337,
+      "symbol": "get_ami_status",
+      "method": "GET",
+      "declared_path": "'/api/outbound/ami-status'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 354,
+      "symbol": "campaign_dial",
+      "method": "POST",
+      "declared_path": "'/api/outbound/campaign-dial'",
+      "main_registration": true,
+      "parameters": [
+        "body: CampaignDialIn"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 384,
+      "symbol": "amd_analyze",
+      "method": "POST",
+      "declared_path": "'/api/outbound/amd-analyze'",
+      "main_registration": true,
+      "parameters": [
+        "body: AMDAnalyzeIn"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 396,
+      "symbol": "amd_evaluate_call",
+      "method": "POST",
+      "declared_path": "'/api/outbound/amd-evaluate-call'",
+      "main_registration": true,
+      "parameters": [
+        "body: AMDEvaluateCallIn"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 414,
+      "symbol": "get_retry_queue",
+      "method": "GET",
+      "declared_path": "'/api/outbound/retry-queue'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 426,
+      "symbol": "trigger_retry_process",
+      "method": "POST",
+      "declared_path": "'/api/outbound/retry-process'",
+      "main_registration": true,
+      "parameters": [
+        "limit: int"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 436,
+      "symbol": "get_campaign_stats",
+      "method": "GET",
+      "declared_path": "'/api/outbound/campaign-stats'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 445,
+      "symbol": "get_audiosocket_stats_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/audiosocket/stats'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 451,
+      "symbol": "simulate_barge_in_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/audiosocket/simulate-bargein'",
+      "main_registration": true,
+      "parameters": [
+        "body: SimulateBargeInIn"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 476,
+      "symbol": "asterisk_chan_websocket_endpoint",
+      "method": "WEBSOCKET",
+      "declared_path": "'/ws/asterisk'",
+      "main_registration": true,
+      "parameters": [
+        "ws: WebSocket"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 482,
+      "symbol": "get_chan_websocket_stats_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/chan-websocket/stats'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 488,
+      "symbol": "trigger_chan_websocket_flush_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/chan-websocket/flush'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 499,
+      "symbol": "get_transfers_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/transfers'",
+      "main_registration": true,
+      "parameters": [
+        "status: str | None",
+        "limit: int"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 515,
+      "symbol": "get_transfer_detail_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/transfers/{id}'",
+      "main_registration": true,
+      "parameters": [
+        "id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 530,
+      "symbol": "initiate_transfer_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/transfers/initiate'",
+      "main_registration": true,
+      "parameters": [
+        "body: TransferInitiateIn"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 556,
+      "symbol": "accept_transfer_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/transfers/{id}/accept'",
+      "main_registration": true,
+      "parameters": [
+        "id: str",
+        "body: TransferAcceptIn"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 569,
+      "symbol": "decline_transfer_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/transfers/{id}/decline'",
+      "main_registration": true,
+      "parameters": [
+        "id: str",
+        "body: TransferDeclineIn"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 582,
+      "symbol": "transfer_dtmf_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/transfers/{id}/dtmf'",
+      "main_registration": true,
+      "parameters": [
+        "id: str",
+        "body: TransferDTMFIn"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 594,
+      "symbol": "get_whatsapp_messages_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/whatsapp/messages'",
+      "main_registration": true,
+      "parameters": [
+        "limit: int"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 601,
+      "symbol": "whatsapp_inbound_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/whatsapp/inbound'",
+      "main_registration": true,
+      "parameters": [
+        "body: WhatsAppInboundIn"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 617,
+      "symbol": "whatsapp_inbound_voice_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/whatsapp/inbound-voice'",
+      "main_registration": true,
+      "parameters": [
+        "file: UploadFile",
+        "audio_file: UploadFile",
+        "from_phone: str",
+        "phone: str",
+        "customer_name: str | None"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 658,
+      "symbol": "whatsapp_webhook_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/webhooks/whatsapp'",
+      "main_registration": true,
+      "parameters": [
+        "request: Request"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 718,
+      "symbol": "whatsapp_inbound_image_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/whatsapp/inbound-image'",
+      "main_registration": true,
+      "parameters": [
+        "file: UploadFile",
+        "image_file: UploadFile",
+        "from_phone: str",
+        "phone: str",
+        "customer_name: str | None"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 748,
+      "symbol": "evaluate_call_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/analytics/evaluate-call'",
+      "main_registration": true,
+      "parameters": [
+        "body: CallAnalyticsIn"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 766,
+      "symbol": "get_analytics_calls_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/analytics/calls'",
+      "main_registration": true,
+      "parameters": [
+        "limit: int",
+        "lead_tier: str | None"
+      ]
+    },
+    {
+      "path": "backend/routers/telephony.py",
+      "line": 776,
+      "symbol": "get_analytics_call_stats_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/analytics/call-stats'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 62,
+      "symbol": "normal",
+      "method": "POST",
+      "declared_path": "'/api/normalize'",
+      "main_registration": true,
+      "parameters": [
+        "body: TextIn"
+      ]
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 70,
+      "symbol": "frontend_normalize_prosody",
+      "method": "POST",
+      "declared_path": "'/api/frontend/normalize-prosody'",
+      "main_registration": true,
+      "parameters": [
+        "body: TextIn"
+      ]
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 78,
+      "symbol": "frontend_dsp_telephony",
+      "method": "POST",
+      "declared_path": "'/api/frontend/dsp-telephony'",
+      "main_registration": true,
+      "parameters": [
+        "body: DSPProcessIn"
+      ]
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 103,
+      "symbol": "frontend_status",
+      "method": "GET",
+      "declared_path": "'/api/frontend/status'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 108,
+      "symbol": "frontend_morphological_check",
+      "method": "POST",
+      "declared_path": "'/api/frontend/morphological-check'",
+      "main_registration": true,
+      "parameters": [
+        "body: MorphologicalCheckIn"
+      ]
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 137,
+      "symbol": "sft_prepare_corpus",
+      "method": "POST",
+      "declared_path": "'/api/sft/prepare-corpus'",
+      "main_registration": true,
+      "parameters": [
+        "body: SFTCorpusIn"
+      ]
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 148,
+      "symbol": "sft_configure",
+      "method": "POST",
+      "declared_path": "'/api/sft/configure'",
+      "main_registration": true,
+      "parameters": [
+        "body: SFTConfigureIn"
+      ]
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 162,
+      "symbol": "sft_train_step",
+      "method": "POST",
+      "declared_path": "'/api/sft/train-step'",
+      "main_registration": true,
+      "parameters": [
+        "body: SFTTrainIn"
+      ]
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 168,
+      "symbol": "sft_status",
+      "method": "GET",
+      "declared_path": "'/api/sft/status'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 173,
+      "symbol": "sft_verify_identity",
+      "method": "GET",
+      "declared_path": "'/api/sft/verify-identity'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 178,
+      "symbol": "sft_lora_configure",
+      "method": "POST",
+      "declared_path": "'/api/sft/lora/configure'",
+      "main_registration": true,
+      "parameters": [
+        "body: SFTLoRAConfigureIn"
+      ]
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 198,
+      "symbol": "sft_lora_status",
+      "method": "GET",
+      "declared_path": "'/api/sft/lora/status'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 207,
+      "symbol": "sft_lora_benchmark_step",
+      "method": "POST",
+      "declared_path": "'/api/sft/lora/benchmark-step'",
+      "main_registration": true,
+      "parameters": [
+        "body: SFTLoRABenchmarkIn"
+      ]
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 222,
+      "symbol": "synth",
+      "method": "POST",
+      "declared_path": "'/api/synthesize'",
+      "main_registration": true,
+      "parameters": [
+        "body: TextIn"
+      ]
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 236,
+      "symbol": "get_hotwords",
+      "method": "GET",
+      "declared_path": "'/api/hotwords'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 248,
+      "symbol": "update_hotwords",
+      "method": "POST",
+      "declared_path": "'/api/hotwords'",
+      "main_registration": true,
+      "parameters": [
+        "body: HotwordsIn"
+      ]
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 255,
+      "symbol": "get_lexicon",
+      "method": "GET",
+      "declared_path": "'/api/lexicon'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 260,
+      "symbol": "update_lexicon",
+      "method": "POST",
+      "declared_path": "'/api/lexicon'",
+      "main_registration": true,
+      "parameters": [
+        "body: LexiconTermIn"
+      ]
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 272,
+      "symbol": "reset_lexicon",
+      "method": "POST",
+      "declared_path": "'/api/lexicon/reset'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 277,
+      "symbol": "delete_lexicon",
+      "method": "DELETE",
+      "declared_path": "'/api/lexicon/{term:path}'",
+      "main_registration": true,
+      "parameters": [
+        "term: str"
+      ]
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 289,
+      "symbol": "get_ab_templates",
+      "method": "GET",
+      "declared_path": "'/api/ab/templates'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 298,
+      "symbol": "list_ab_experiments",
+      "method": "GET",
+      "declared_path": "'/api/ab/experiments'",
+      "main_registration": true,
+      "parameters": []
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 305,
+      "symbol": "create_ab_experiment_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/ab/experiments'",
+      "main_registration": true,
+      "parameters": [
+        "body: ABExperimentIn"
+      ]
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 321,
+      "symbol": "get_ab_experiment_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/ab/experiments/{id}'",
+      "main_registration": true,
+      "parameters": [
+        "id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 330,
+      "symbol": "update_ab_experiment_status_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/ab/experiments/{id}/status'",
+      "main_registration": true,
+      "parameters": [
+        "id: str",
+        "body: ABStatusIn"
+      ]
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 339,
+      "symbol": "get_ab_experiment_report_endpoint",
+      "method": "GET",
+      "declared_path": "'/api/ab/experiments/{id}/report'",
+      "main_registration": true,
+      "parameters": [
+        "id: str"
+      ]
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 348,
+      "symbol": "ab_preview_synth",
+      "method": "POST",
+      "declared_path": "'/api/ab/preview-synth'",
+      "main_registration": true,
+      "parameters": [
+        "body: ABPreviewSynthIn"
+      ]
+    },
+    {
+      "path": "backend/routers/text_speech.py",
+      "line": 365,
+      "symbol": "voice_chat_turn_endpoint",
+      "method": "POST",
+      "declared_path": "'/api/voice/chat-turn'",
+      "main_registration": true,
+      "parameters": [
+        "body: VoiceChatTurnIn"
+      ]
+    }
+  ],
+  "limitations": [
+    "Static decorators and direct main imports. Prefixes and runtime auth coverage pending."
+  ]
+}

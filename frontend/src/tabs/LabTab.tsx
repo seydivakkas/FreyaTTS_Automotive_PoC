@@ -84,14 +84,8 @@ export function LabTab({
   const [isSynthesizing, setIsSynthesizing] = useState<boolean>(false);
   const [isNormalizing, setIsNormalizing] = useState<boolean>(false);
 
-  // Canlı Sentez Metrikleri
-  const [telemetry, setTelemetry] = useState<TtsTelemetry | null>({
-    ttfb_ms: 184,
-    duration_sec: 4.12,
-    rtf: 0.18,
-    sample_rate_hz: 22050,
-    size_kb: 178,
-  });
+  // Canlı Sentez Metrikleri — ölçüm yapılmadan sahte değer gösterilmez
+  const [telemetry, setTelemetry] = useState<TtsTelemetry | null>(null);
 
   const handleNormalize = async () => {
     setIsNormalizing(true);
@@ -184,7 +178,7 @@ export function LabTab({
               background: "#34d399",
             }}
           />
-          Model: Piper TTS Turkish v1.2 (Ready)
+          Model: FreyaTTS / Piper ({telemetry ? "Ölçüldü" : "Ölçülmedi"})
         </div>
       </div>
 
@@ -482,7 +476,6 @@ export function LabTab({
                   controls
                   src={audioUrl}
                   style={{ width: "100%", height: 38, outline: "none" }}
-                  autoPlay
                 />
               </div>
             )}

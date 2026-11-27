@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261126T033338Z",
+  "worker": "w34-f6",
+  "packages": ["F6-B", "F6-C"],
+  "w2_baseline_run_id": "20261126T032114Z",
+  "commands": [
+    "pytest tests/audio_rendering/test_f6_bc_queue_dsp.py --basetemp=data/temp_pytest_w34_f6 -q",
+    "pytest tests/audio_rendering/ --basetemp=data/temp_pytest_w34_f6 -q"
+  ],
+  "f6_bc_passed": 15,
+  "f6_bc_failed": 0,
+  "hardware_acceptance_status": "NOT_RUN",
+  "human_sip_status": "NOT_RUN"
+}

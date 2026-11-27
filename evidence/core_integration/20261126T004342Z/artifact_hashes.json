@@ -1,0 +1,17 @@
+{
+  "docs/freya2/core_integration/20261126T004342Z/COMPATIBILITY_SUMMARY.json": "edc6a833c16b1fcffc822d91a95d082cd72795f3e2b2fe1d8d07abc5d50e7bc7",
+  "docs/freya2/core_integration/20261126T004342Z/CORE_ACCEPTANCE_MATRIX.json": "18c0a79938df0b17b7c66d9399c3b35b687410b7c54d46d8c703ede5c44c7ee1",
+  "docs/freya2/core_integration/20261126T004342Z/CORE_INTEGRATION_REPORT.md": "5fe3d6b68f3536ba70f077cb092a449ffb37eb1819b34ac73dba341bd5d69ed1",
+  "docs/freya2/core_integration/20261126T004342Z/CORE_PREFLIGHT.json": "e43bd045375451801dd8a3a9c0c3028eb9e9b7762df4010dfb7af2188004729a",
+  "docs/freya2/core_integration/20261126T004342Z/CORE_RISK_REGISTER.md": "f30ede329a4ec86b87b9ef6d15195fe0c91cff7ff0650416f08bcc5f80d74de6",
+  "docs/freya2/core_integration/20261126T004342Z/CORE_ROLLBACK_REFERENCE.md": "df5a82f2d5fffa9ab42d3868967cb115e5fcb18a6b833bc8179704d28ab5ecf9",
+  "docs/freya2/core_integration/20261126T004342Z/CROSS_PACKAGE_TEST_MATRIX.json": "8fe69294a785b2056fb3093d1e4910831b16557316cf733a47eca5f583d52eb1",
+  "docs/freya2/core_integration/20261126T004342Z/CROSS_PACKAGE_TEST_RESULTS.json": "e11c85c41a6634e8837cd97aee549936c16aafa19509a32b142e94da39fc6fd0",
+  "docs/freya2/core_integration/20261126T004342Z/F0_A_HANDOFF.md": "7320fd29ee506dccf1e97990199e97d25deb2a06bc246f418cb2e872ce4f0764",
+  "docs/freya2/core_integration/20261126T004342Z/FOUNDATION_TEST_RESULTS.json": "298d90a8e9e4c03d6b59fc71db189bce40cf2fe798e5a779ede535c9257a67fd",
+  "docs/freya2/core_integration/20261126T004342Z/INTEGRATED_SNAPSHOT.json": "d38d6fd97d84b69a48d56de132212c33c17489b84f60d60232b0a0acaa9619a6",
+  "docs/freya2/core_integration/20261126T004342Z/OWNERSHIP_SEAM_MATRIX.csv": "3853820cccccbaa1b2ee19937fc59e6eec0e8b0aecf5882a26971dbf19e8f002",
+  "docs/freya2/core_integration/20261126T004342Z/PACKAGE_ACCEPTANCE_MATRIX.csv": "910ac93774de3539577a047bebf526d8dd7c876b6868fbf7724981f0e1d01f5c",
+  "evidence/core_integration/20261126T004342Z/logs/pytest_core_gate.log": "53f3cbfa403c4790eb2bfa3988d060ca8095cad4bdcfbafaf12f25e77b858049",
+  "evidence/core_integration/20261126T004342Z/manifest.json": "03a8ea407c2474e739f39d9b978dbb47f780e1b2ea01da2a6a9b15f36b88bbf0"
+}

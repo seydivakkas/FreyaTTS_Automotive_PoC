@@ -5,6 +5,9 @@ Telif Hakkı (c) 2026 Seydi Eryılmaz (@seydivakkas) - Tüm Hakları Saklıdır.
 
 from __future__ import annotations
 
+import json
+from threading import Lock
+from backend.config import settings
 from datetime import datetime, timezone, timedelta
 from typing import Any, Optional
 from zoneinfo import ZoneInfo
@@ -55,6 +58,30 @@ PACKAGE_DEFINITIONS: dict[str, dict[str, Any]] = {
         "keywords": ["vip", "premium", "lüks", "endoskopi", "özel paket"],
     },
 }
+
+
+_catalog_path = settings.data_dir / "inspection_packages.json"
+_catalog_lock = Lock()
+if _catalog_path.exists():
+    PACKAGE_DEFINITIONS = json.loads(_catalog_path.read_text(encoding="utf-8"))
+
+
+def update_package(key, fields):
+    global PACKAGE_DEFINITIONS
+    with _catalog_lock:
+        catalog = dict(PACKAGE_DEFINITIONS)
+        if fields is None:
+            if key == "standart_ekspertiz":
+                raise ValueError("Varsayılan paket kullanımda.")
+            catalog.pop(key)
+        else:
+            keywords = catalog.get(key, {}).get("keywords", [])
+            catalog[key] = {**fields, "key": key, "keywords": list(dict.fromkeys([fields["name"].lower(), *keywords]))}
+        _catalog_path.parent.mkdir(parents=True, exist_ok=True)
+        tmp = _catalog_path.with_suffix(".tmp")
+        tmp.write_text(json.dumps(catalog, ensure_ascii=False), encoding="utf-8")
+        tmp.replace(_catalog_path)
+        PACKAGE_DEFINITIONS = catalog
 
 
 def match_package(text: str) -> dict[str, Any]:

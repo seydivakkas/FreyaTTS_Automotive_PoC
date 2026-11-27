@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261125T182221Z",
+  "baseline_commit": "6273981e1684686ae85f9458b608764e85a4552c",
+  "records": [
+    "backend/dialogue.py",
+    "backend/appointment_reschedule.py",
+    "backend/automotive_dispatch.py",
+    "backend/queue_lift.py",
+    "backend/caller_memory.py",
+    "backend/transfer.py",
+    "backend/dtmf.py"
+  ],
+  "limitations": [
+    "Transaction and permissions mapping pending."
+  ]
+}

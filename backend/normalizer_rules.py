@@ -33,6 +33,7 @@ BASE_AUTOMOTIVE_LEXICON: Dict[str, str] = {
     "t-roc": "Ti Rok",
     "tucson": "Tukson",
     "megane": "Megaan",
+    "mégane": "Megaan",
     "captur": "Kaptur",
     "kamiq": "Kamik",
     "octavia": "Oktavya",
@@ -111,6 +112,7 @@ BASE_CATEGORIES: Dict[str, str] = {
     "t-roc": "model",
     "tucson": "model",
     "megane": "model",
+    "mégane": "model",
     "captur": "model",
     "kamiq": "model",
     "octavia": "model",
@@ -400,6 +402,18 @@ MODEL_CODE_LETTERS = dict(
 )
 
 
+def spell_tr_ordinal(n: int) -> str:
+    """Sayısal sıra etiketini Türkçe okunuşuna çevirir."""
+    spoken = spell_tr_int(n)
+    if spoken.endswith("dört"):
+        return spoken[:-1] + "düncü"
+    vowel = next(ch for ch in reversed(spoken) if ch in VOWELS)
+    ending = dict(zip("aıeiouöü", "ııiiuuüü"))
+    harmonic = ending[vowel]
+    suffix = f"nc{harmonic}" if spoken[-1] in VOWELS else f"{harmonic}nc{harmonic}"
+    return spoken + suffix
+
+
 def harmonize_suffix(stem_spoken: str, raw_suffix: str) -> str:
     """
     Sayi, saat, para birimi veya yabanci marka okunusuna gelen Turkce ekleri
@@ -494,6 +508,13 @@ def normalize_automotive_turkish(text: str) -> str:
     FreyaTTS'in dahili normalize() fonksiyonundaki 5 temel kisiti giderir.
     """
     t = text.strip()
+    t = re.sub(
+        r"(?<![\w.])([0-9]{1,9})\.(?=[ \t]+"
+        r"(?!(?:ocak|şubat|mart|nisan|mayıs|haziran|temmuz|ağustos|eylül|ekim|kasım|aralık)\b)"
+        r"(?:(?i:seçenek|sıra|madde|kat)\b|[a-zçğıöşü]))",
+        lambda match: spell_tr_ordinal(int(match[1])),
+        t,
+    )
 
     # 1. Saat ifadeleri ve ekleri (orn. "14:30'da", "09.00'da", "15:00'e")
     def _replace_time(m: re.Match) -> str:

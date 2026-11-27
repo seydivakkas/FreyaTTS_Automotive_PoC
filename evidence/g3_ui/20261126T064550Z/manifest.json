@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "gate_id": "G3_UI_VERIFICATION",
+  "run_id": "20261126T064550Z",
+  "head_sha": "6273981e1684686ae85f9458b608764e85a4552c",
+  "branch": "master",
+  "scope": "T0_T1_FRONTEND_BUILD_AND_OFFLINE_VERIFICATION",
+  "commands": [
+    {
+      "cmd": "cd frontend && npm run build",
+      "exit_code": 0,
+      "summary": "tsc --noEmit && vite build passed in 4.70s (2137 modules transformed)"
+    },
+    {
+      "cmd": "cd frontend && npx playwright test --list",
+      "exit_code": 0,
+      "summary": "14 tests in 4 files (operator_today.spec.ts, supervisor.spec.ts, ui.spec.ts, voice.spec.ts)"
+    },
+    {
+      "cmd": "cd frontend && npx playwright test tests/operator_today.spec.ts tests/supervisor.spec.ts (against vite preview 127.0.0.1:4173)",
+      "exit_code": 1,
+      "summary": "0 passed, 6 failed (30s timeout on legacy button locators 'Operatör (6002)' / 'Supervisor Kalite')"
+    }
+  ],
+  "edited_files": [
+    "frontend/src/tabs/LabTab.tsx",
+    "frontend/src/AudioPipelineInspector.tsx"
+  ],
+  "report_dir": "docs/freya2/g3_ui/20261126T064550Z",
+  "evidence_dir": "evidence/g3_ui/20261126T064550Z"
+}

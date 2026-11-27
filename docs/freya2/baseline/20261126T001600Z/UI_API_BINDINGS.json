@@ -1,0 +1,2820 @@
+{
+  "records": [
+    {
+      "file": "frontend/src/ABTestingPanel.tsx",
+      "line": 127,
+      "client": "api",
+      "expression": "ab/experiments",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/ab/experiments",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.text_speech.list_ab_experiments",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        },
+        {
+          "path": "/api/ab/experiments",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.text_speech.create_ab_experiment_endpoint",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/ABTestingPanel.tsx",
+      "line": 128,
+      "client": "api",
+      "expression": "ab/templates",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/ab/templates",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.text_speech.get_ab_templates",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/ABTestingPanel.tsx",
+      "line": 145,
+      "client": "api",
+      "expression": "ab/experiments/${expId}/report",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/ab/experiments/{id}/report",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.text_speech.get_ab_experiment_report_endpoint",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/ABTestingPanel.tsx",
+      "line": 165,
+      "client": "api",
+      "expression": "ab/experiments/${selectedExpId}/status",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/ab/experiments/{id}/status",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.text_speech.update_ab_experiment_status_endpoint",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/ABTestingPanel.tsx",
+      "line": 203,
+      "client": "api",
+      "expression": "ab/experiments",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/ab/experiments",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.text_speech.create_ab_experiment_endpoint",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/AcceptanceProtocolPanel.tsx",
+      "line": 121,
+      "client": "api",
+      "expression": "acceptance/prerequisites",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/acceptance/prerequisites",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.acceptance.acceptance_prerequisites",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/AcceptanceProtocolPanel.tsx",
+      "line": 122,
+      "client": "api",
+      "expression": "acceptance/scenarios",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/acceptance/scenarios",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.acceptance.acceptance_scenarios",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/AcceptanceProtocolPanel.tsx",
+      "line": 123,
+      "client": "api",
+      "expression": "acceptance/runs",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/acceptance/runs",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.acceptance.acceptance_list_runs",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/AcceptanceProtocolPanel.tsx",
+      "line": 124,
+      "client": "api",
+      "expression": "acceptance/terminology/audit",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/acceptance/terminology/audit",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.acceptance.acceptance_terminology_audit",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/AcceptanceProtocolPanel.tsx",
+      "line": 135,
+      "client": "api",
+      "expression": "acceptance/runs/${targetId}?masked=${useMask}",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/acceptance/runs/{run_id}",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.acceptance.acceptance_get_run",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/AcceptanceProtocolPanel.tsx",
+      "line": 155,
+      "client": "api",
+      "expression": "acceptance/prepare-fixtures",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/acceptance/prepare-fixtures",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.acceptance.acceptance_prepare_fixtures",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/AcceptanceProtocolPanel.tsx",
+      "line": 166,
+      "client": "api",
+      "expression": "acceptance/runs/start",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/acceptance/runs/start",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.acceptance.acceptance_start_run",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/AcceptanceProtocolPanel.tsx",
+      "line": 187,
+      "client": "api",
+      "expression": "acceptance/runs/${runId}/verify",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/acceptance/runs/{run_id}/verify",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.acceptance.acceptance_verify_run",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/AcceptanceProtocolPanel.tsx",
+      "line": 205,
+      "client": "api",
+      "expression": "acceptance/runs/${selectedRun.run_id}?masked=${nextMask}",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/acceptance/runs/{run_id}",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.acceptance.acceptance_get_run",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/AcceptanceProtocolPanel.tsx",
+      "line": 213,
+      "client": "api",
+      "expression": "acceptance/terminology/test",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/acceptance/terminology/test",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.acceptance.acceptance_terminology_test",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/AcceptanceProtocolPanel.tsx",
+      "line": 633,
+      "client": "api",
+      "expression": "acceptance/runs/${r.run_id}?masked=${kvkkMasked}",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/acceptance/runs/{run_id}",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.acceptance.acceptance_get_run",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/AnalysisQueuePanel.tsx",
+      "line": 46,
+      "client": "api",
+      "expression": "supervisor/fqici-queue",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/supervisor/fqici-queue",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.supervisor.fqici_queue",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/AnalyticsPanel.tsx",
+      "line": 165,
+      "client": "api",
+      "expression": "analytics/overview",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/analytics/overview",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.crm.analytics_overview",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/AnalyticsPanel.tsx",
+      "line": 166,
+      "client": "api",
+      "expression": "analytics/follow-ups?status=${statusFilter}",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/analytics/follow-ups",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.crm.list_follow_ups",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/AnalyticsPanel.tsx",
+      "line": 175,
+      "client": "api",
+      "expression": "reports/weekly/summary?days=7",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/reports/weekly/summary",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.crm.get_weekly_summary_endpoint",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/AnalyticsPanel.tsx",
+      "line": 194,
+      "client": "api",
+      "expression": "analytics/conversations/${resolvingId}/resolve",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/analytics/conversations/{id}/resolve",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.resolve_conv",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/AnalyticsPanel.tsx",
+      "line": 206,
+      "client": "api",
+      "expression": "analytics/conversations/${id}/reopen",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/analytics/conversations/{id}/reopen",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.reopen_conv",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/AnalyticsPanel.tsx",
+      "line": 216,
+      "client": "api",
+      "expression": "conversations/",
+      "explicit_method": "GET",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/conversations/{id}",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.crm.detail",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ],
+      "match_evidence": "manual concatenation review"
+    },
+    {
+      "file": "frontend/src/AppointmentMoveDialog.tsx",
+      "line": 47,
+      "client": "api",
+      "expression": "appointments/${appointment.id}/reschedule-preview?target_slot_id=${encodeURIComponent(target)}",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/appointments/{id}/reschedule-preview",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.crm.preview_appointment_reschedule",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/AppointmentMoveDialog.tsx",
+      "line": 73,
+      "client": "api",
+      "expression": "appointments/${appointment.id}/reschedule",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/appointments/{id}/reschedule",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.reschedule_appointment",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/CarDenoiserPanel.tsx",
+      "line": 79,
+      "client": "api",
+      "expression": "dsp/config",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/dsp/config",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.audio_dsp.get_dsp_config",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        },
+        {
+          "path": "/api/dsp/config",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.audio_dsp.update_dsp_config",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/CarDenoiserPanel.tsx",
+      "line": 93,
+      "client": "api",
+      "expression": "dsp/config",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/dsp/config",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.audio_dsp.update_dsp_config",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/DatasetGeneratorPanel.tsx",
+      "line": 37,
+      "client": "api",
+      "expression": "dataset/generate",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/dataset/generate",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.dataset.api_generate_dataset",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/DatasetGeneratorPanel.tsx",
+      "line": 47,
+      "client": "fetch",
+      "expression": "/api/dataset/generate",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/dataset/generate",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.dataset.api_generate_dataset",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/DatasetGeneratorPanel.tsx",
+      "line": 76,
+      "client": "fetch",
+      "expression": "/api/dataset/export?format=${datasetFormat}&count=${datasetCount}&seed=42",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/dataset/export",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.dataset.api_export_dataset",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/DiagnosticPanel.tsx",
+      "line": 73,
+      "client": "api",
+      "expression": "diagnostics",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/diagnostics",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.crm.list_all_diagnostics",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/DiagnosticPanel.tsx",
+      "line": 74,
+      "client": "api",
+      "expression": "vehicles",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/vehicles",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.vehicle",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/DiagnosticPanel.tsx",
+      "line": 75,
+      "client": "api",
+      "expression": "diagnostics/dtc-registry",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/diagnostics/dtc-registry",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.crm.get_dtc_registry",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/DiagnosticPanel.tsx",
+      "line": 141,
+      "client": "api",
+      "expression": "vehicles/${selectedVehicleId}/diagnostics",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/vehicles/{id}/diagnostics",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.add_vehicle_telemetry",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/DiagnosticPanel.tsx",
+      "line": 152,
+      "client": "api",
+      "expression": "diagnostics/${item.id}/call",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/diagnostics/{id}/call",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.call_diagnostic_owner",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/DiagnosticPanel.tsx",
+      "line": 165,
+      "client": "api",
+      "expression": "diagnostics/${item.id}/sms",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/diagnostics/{id}/sms",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.sms_diagnostic_owner",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/DiagnosticPanel.tsx",
+      "line": 178,
+      "client": "api",
+      "expression": "diagnostics/${id}/resolve",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/diagnostics/{id}/resolve",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.resolve_diag",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/FirstAppointmentGuide.tsx",
+      "line": 56,
+      "client": "api",
+      "expression": "vehicles",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/vehicles",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.vehicle",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/FirstAppointmentGuide.tsx",
+      "line": 62,
+      "client": "api",
+      "expression": "quotes",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/quotes",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.quote",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/FirstAppointmentGuide.tsx",
+      "line": 84,
+      "client": "api",
+      "expression": "slots",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/slots",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.slot",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/FirstAppointmentGuide.tsx",
+      "line": 94,
+      "client": "api",
+      "expression": "models/load",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/models/load",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.core_system.load",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line": 139,
+      "client": "api",
+      "expression": "inspections/",
+      "explicit_method": "GET",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/inspections/{id}/signed-link",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.crm.get_inspection_signed_link",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ],
+      "match_evidence": "manual concatenation review"
+    },
+    {
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line": 172,
+      "client": "api",
+      "expression": "inspections",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/inspections",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.crm.list_inspections",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line": 173,
+      "client": "api",
+      "expression": "vehicles",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/vehicles",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.vehicle",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line": 174,
+      "client": "api",
+      "expression": "appointments",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/appointments",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.appointment",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line": 214,
+      "client": "api",
+      "expression": "inspections/photos",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/inspections/photos",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.upload_inspection_photo",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line": 259,
+      "client": "api",
+      "expression": "vehicles/${vehicleId}/inspections",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/vehicles/{id}/inspections",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.add_vehicle_inspection",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/InspectionPanel.tsx",
+      "line": 276,
+      "client": "api",
+      "expression": "inspections/${reportId}/send-link",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/inspections/{id}/send-link",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.send_inspection_link",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/LexiconPanel.tsx",
+      "line": 81,
+      "client": "api",
+      "expression": "lexicon",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/lexicon",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.text_speech.get_lexicon",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        },
+        {
+          "path": "/api/lexicon",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.text_speech.update_lexicon",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/LexiconPanel.tsx",
+      "line": 138,
+      "client": "api",
+      "expression": "lexicon",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/lexicon",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.text_speech.update_lexicon",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/LoginGate.tsx",
+      "line": 27,
+      "client": "api",
+      "expression": "readiness",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/readiness",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.core_system.readiness",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/MilestonePanel.tsx",
+      "line": 22,
+      "client": "api",
+      "expression": "milestones/overview",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/milestones/overview",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.observability.milestone_overview",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/MilestonePanel.tsx",
+      "line": 23,
+      "client": "api",
+      "expression": "milestones/pronunciation",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/milestones/pronunciation",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.observability.pronunciation_items",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        },
+        {
+          "path": "/api/milestones/pronunciation",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.observability.pronunciation_review",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/MilestonePanel.tsx",
+      "line": 36,
+      "client": "api",
+      "expression": "milestones/inspect",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/milestones/inspect",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.observability.milestone_inspect",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line": 95,
+      "client": "api",
+      "expression": "notifications",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/notifications",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.telephony.list_notifications",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line": 96,
+      "client": "api",
+      "expression": "whatsapp/messages",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/whatsapp/messages",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.telephony.get_whatsapp_messages_endpoint",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line": 97,
+      "client": "api",
+      "expression": "notifications/status",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/notifications/status",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.telephony.notification_provider_status",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line": 113,
+      "client": "api",
+      "expression": "notifications/dispatch",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/notifications/dispatch",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.telephony.dispatch_notifications",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line": 123,
+      "client": "api",
+      "expression": "notifications/${item.id}/retry",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/notifications/{id}/retry",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.telephony.retry_single_notification",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line": 138,
+      "client": "api",
+      "expression": "notifications/reminders/scan",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/notifications/reminders/scan",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.telephony.scan_appointment_reminders_endpoint",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line": 156,
+      "client": "api",
+      "expression": "notifications/test-send",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/notifications/test-send",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.telephony.test_send_notification",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/NotificationPanel.tsx",
+      "line": 180,
+      "client": "api",
+      "expression": "whatsapp/inbound",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/whatsapp/inbound",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.telephony.whatsapp_inbound_endpoint",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OntologyPanel.tsx",
+      "line": 73,
+      "client": "api",
+      "expression": "ontology/schema",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/ontology/schema",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.ontology.router.get_ontology_schema",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OntologyPanel.tsx",
+      "line": 74,
+      "client": "api",
+      "expression": "ontology/packages",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/ontology/packages",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.ontology.router.get_certified_packages",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OntologyPanel.tsx",
+      "line": 75,
+      "client": "api",
+      "expression": "ontology/diagnostics",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/ontology/diagnostics",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.ontology.router.get_certified_diagnostics",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OntologyPanel.tsx",
+      "line": 76,
+      "client": "api",
+      "expression": "ontology/mcp/tools",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/ontology/mcp/tools",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.ontology.router.get_mcp_tools",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OntologyPanel.tsx",
+      "line": 93,
+      "client": "api",
+      "expression": "ontology/resolve-vehicle",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/ontology/resolve-vehicle",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.ontology.router.resolve_vehicle",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OntologyPanel.tsx",
+      "line": 102,
+      "client": "api",
+      "expression": "ontology/diagnostics?query=${encodeURIComponent(symptomQuery)}",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/ontology/diagnostics",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.ontology.router.get_certified_diagnostics",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line": 162,
+      "client": "api",
+      "expression": "transfers?limit=50",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/transfers",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.telephony.get_transfers_endpoint",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line": 163,
+      "client": "api",
+      "expression": "outbound/ami-status",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/outbound/ami-status",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.telephony.get_ami_status",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line": 177,
+      "client": "api",
+      "expression": "operator/live-sessions",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/operator/live-sessions",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.operator_qa.operator_live_sessions",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line": 188,
+      "client": "api",
+      "expression": "conversations/unclear?limit=50",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/conversations/unclear",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.crm.list_unclear_conversations",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line": 209,
+      "client": "api",
+      "expression": "conversations/${selectedUnclearCall.id}/feedback-lexicon",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/conversations/{id}/feedback-lexicon",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.feedback_lexicon",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line": 228,
+      "client": "api",
+      "expression": "kvkk/transcript-retention-audit",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/kvkk/transcript-retention-audit",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.compliance.kvkk_transcript_retention_audit_endpoint",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line": 240,
+      "client": "api",
+      "expression": "kvkk/erasure-requests?limit=50",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/kvkk/erasure-requests",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.compliance.kvkk_create_erasure_request_endpoint",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        },
+        {
+          "path": "/api/kvkk/erasure-requests",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.compliance.kvkk_list_erasure_requests_endpoint",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line": 253,
+      "client": "api",
+      "expression": "kvkk/transcript-retention-purge",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/kvkk/transcript-retention-purge",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.compliance.kvkk_transcript_retention_purge_endpoint",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line": 276,
+      "client": "api",
+      "expression": "kvkk/erasure-requests",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/kvkk/erasure-requests",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.compliance.kvkk_create_erasure_request_endpoint",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line": 302,
+      "client": "api",
+      "expression": "kvkk/erasure-requests/${requestId}/execute",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/kvkk/erasure-requests/{request_id}/execute",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.compliance.kvkk_execute_erasure_request_endpoint",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line": 315,
+      "client": "api",
+      "expression": "kvkk/erasure-requests/${requestId}/certificate?format=json",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/kvkk/erasure-requests/{request_id}/certificate",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.compliance.kvkk_get_certificate_endpoint",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line": 347,
+      "client": "api",
+      "expression": "transfers/${transferId}/accept",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/transfers/{id}/accept",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.telephony.accept_transfer_endpoint",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line": 359,
+      "client": "api",
+      "expression": "transfers/${transferId}/decline",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/transfers/{id}/decline",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.telephony.decline_transfer_endpoint",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line": 372,
+      "client": "api",
+      "expression": "transfers/initiate",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/transfers/initiate",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.telephony.initiate_transfer_endpoint",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line": 392,
+      "client": "api",
+      "expression": "operator/register-call",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/operator/register-call",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.operator_qa.operator_register_call",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line": 412,
+      "client": "api",
+      "expression": "operator/takeover",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/operator/takeover",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.operator_qa.operator_takeover",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line": 429,
+      "client": "api",
+      "expression": "operator/whisper",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/operator/whisper",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.operator_qa.operator_whisper",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line": 446,
+      "client": "api",
+      "expression": "operator/release",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/operator/release",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.operator_qa.operator_release",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line": 462,
+      "client": "api",
+      "expression": "qa/evaluate-variants",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/qa/evaluate-variants",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.operator_qa.qa_evaluate_variants",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line": 464,
+      "client": "api",
+      "expression": "qa/m11-status",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/qa/m11-status",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.operator_qa.qa_m11_status",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line": 477,
+      "client": "api",
+      "expression": "qa/telemetry/${telemetryTurnId.trim()}",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/qa/telemetry/{turn_id}",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.operator_qa.qa_get_telemetry",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line": 628,
+      "client": "api",
+      "expression": "transfers/${id}",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/transfers/{id}",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.telephony.get_transfer_detail_endpoint",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OperatorPanel.tsx",
+      "line": 1423,
+      "client": "api",
+      "expression": "qa/m11-status",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/qa/m11-status",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.operator_qa.qa_m11_status",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OperatorToday.tsx",
+      "line": 60,
+      "client": "api",
+      "expression": "operator/today?${params}",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/operator/today",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.operator_qa.operator_today",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OutboundPanel.tsx",
+      "line": 54,
+      "client": "api",
+      "expression": "outbound/calls",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/outbound/calls",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.telephony.list_outbound_calls",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OutboundPanel.tsx",
+      "line": 55,
+      "client": "api",
+      "expression": "appointments",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/appointments",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.appointment",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OutboundPanel.tsx",
+      "line": 56,
+      "client": "api",
+      "expression": "slots",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/slots",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.slot",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OutboundPanel.tsx",
+      "line": 57,
+      "client": "api",
+      "expression": "outbound/ami-status",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/outbound/ami-status",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.telephony.get_ami_status",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OutboundPanel.tsx",
+      "line": 76,
+      "client": "api",
+      "expression": "outbound/call",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/outbound/call",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.telephony.create_outbound_call",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OutboundPanel.tsx",
+      "line": 95,
+      "client": "api",
+      "expression": "outbound/calls/${callId}/complete",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/outbound/calls/{id}/complete",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.telephony.complete_call",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/OutboundPanel.tsx",
+      "line": 110,
+      "client": "api",
+      "expression": "outbound/calls/${callId}/cancel",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/outbound/calls/{id}/cancel",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.telephony.cancel_call",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line": 92,
+      "client": "api",
+      "expression": "lifts",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/lifts",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.scheduling.list_lifts",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        },
+        {
+          "path": "/api/lifts",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.scheduling.create_lift",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line": 93,
+      "client": "api",
+      "expression": "queue",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/queue",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.scheduling.list_queue",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        },
+        {
+          "path": "/api/queue",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.scheduling.add_to_queue",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line": 94,
+      "client": "api",
+      "expression": "lifts/capacity",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/lifts/capacity",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.scheduling.lift_capacity",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line": 95,
+      "client": "api",
+      "expression": "packages",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/packages",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.crm.list_packages",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line": 117,
+      "client": "api",
+      "expression": "queue",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/queue",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.scheduling.add_to_queue",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line": 145,
+      "client": "api",
+      "expression": "lifts",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/lifts",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.scheduling.create_lift",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line": 168,
+      "client": "api",
+      "expression": "lifts/${liftId}/call-next",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/lifts/{id}/call-next",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.scheduling.call_next_for_lift",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line": 189,
+      "client": "api",
+      "expression": "lifts/${liftId}/release",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/lifts/{id}/release",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.scheduling.release_vehicle_from_lift",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line": 205,
+      "client": "api",
+      "expression": "lifts/${lift.id}/status",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/lifts/{id}/status",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.scheduling.update_lift_status",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line": 232,
+      "client": "api",
+      "expression": "lifts/${assigningLiftId}/assign",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/lifts/{id}/assign",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.scheduling.assign_vehicle_to_lift",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line": 252,
+      "client": "api",
+      "expression": "queue/${qId}/cancel",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/queue/{id}/cancel",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.scheduling.cancel_queue",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line": 801,
+      "client": "api",
+      "expression": "packages/",
+      "explicit_method": "PUT",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/packages/{key}",
+          "methods": [
+            "PUT"
+          ],
+          "handler": "backend.routers.crm.save_package",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ],
+      "match_evidence": "manual concatenation review"
+    },
+    {
+      "file": "frontend/src/QueueLiftPanel.tsx",
+      "line": 816,
+      "client": "api",
+      "expression": "packages/",
+      "explicit_method": "DELETE",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/packages/{key}",
+          "methods": [
+            "DELETE"
+          ],
+          "handler": "backend.routers.crm.delete_package",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ],
+      "match_evidence": "manual concatenation review"
+    },
+    {
+      "file": "frontend/src/SupervisorPanel.tsx",
+      "line": 77,
+      "client": "api",
+      "expression": "supervisor/quality?${params}",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/supervisor/quality",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.supervisor.quality",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/SupervisorPanel.tsx",
+      "line": 114,
+      "client": "api",
+      "expression": "supervisor/review/${selected.trace_id}",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/supervisor/review/{trace_id}",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.supervisor.review",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/tabs/AppointmentsTab.tsx",
+      "line": 169,
+      "client": "api",
+      "expression": "slots",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/slots",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.slot",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/tabs/AppointmentsTab.tsx",
+      "line": 311,
+      "client": "api",
+      "expression": "appointments/${appt.id}/cancel",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/appointments/{id}/cancel",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.cancel",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/tabs/AppointmentsTab.tsx",
+      "line": 367,
+      "client": "api",
+      "expression": "appointments/${a.id}/cancel",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/appointments/{id}/cancel",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.cancel",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/tabs/HistoryTab.tsx",
+      "line": 24,
+      "client": "api",
+      "expression": "supervisor/conversations/${selectedId}/detail",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/supervisor/conversations/{conversation_id}/detail",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.supervisor.conversation_detail",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/tabs/HistoryTab.tsx",
+      "line": 55,
+      "client": "api",
+      "expression": "conversations/",
+      "explicit_method": "DELETE",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/conversations/{id}",
+          "methods": [
+            "DELETE"
+          ],
+          "handler": "backend.routers.crm.delete",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ],
+      "match_evidence": "manual concatenation review"
+    },
+    {
+      "file": "frontend/src/tabs/LabTab.tsx",
+      "line": 100,
+      "client": "api",
+      "expression": "normalize",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/normalize",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.text_speech.normal",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/tabs/SystemTab.tsx",
+      "line": 46,
+      "client": "api",
+      "expression": "models/load",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/models/load",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.core_system.load",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/tabs/VehiclesTab.tsx",
+      "line": 25,
+      "client": "api",
+      "expression": "vehicles",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/vehicles",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.vehicle",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/tabs/VehiclesTab.tsx",
+      "line": 56,
+      "client": "api",
+      "expression": "quotes",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/quotes",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.quote",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/tabs/VoiceTab.tsx",
+      "line": 336,
+      "client": "api",
+      "expression": "voice/chat-turn",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/voice/chat-turn",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.text_speech.voice_chat_turn_endpoint",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/TechnicianDictationPanel.tsx",
+      "line": 79,
+      "client": "api",
+      "expression": "vehicles",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/vehicles",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.vehicle",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/TechnicianDictationPanel.tsx",
+      "line": 80,
+      "client": "api",
+      "expression": "inspections",
+      "explicit_method": null,
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/inspections",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.crm.list_inspections",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/TechnicianDictationPanel.tsx",
+      "line": 163,
+      "client": "api",
+      "expression": "technician/dictate-text",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/technician/dictate-text",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.technician_dictate_text",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/TechnicianDictationPanel.tsx",
+      "line": 195,
+      "client": "api",
+      "expression": "technician/dictate-text",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/technician/dictate-text",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.technician_dictate_text",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/TechnicianDictationPanel.tsx",
+      "line": 229,
+      "client": "api",
+      "expression": "technician/dictate-audio",
+      "explicit_method": "POST",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/technician/dictate-audio",
+          "methods": [
+            "POST"
+          ],
+          "handler": "backend.routers.crm.technician_dictate_audio",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/src/TechnicianDictationPanel.tsx",
+      "line": 484,
+      "client": "api",
+      "expression": "inspections/",
+      "explicit_method": "GET",
+      "match_status": "route_match",
+      "route_candidates": [
+        {
+          "path": "/api/inspections/{id}/signed-link",
+          "methods": [
+            "GET"
+          ],
+          "handler": "backend.routers.crm.get_inspection_signed_link",
+          "dependencies": [
+            "HTTPBasic",
+            "auth"
+          ]
+        }
+      ],
+      "match_evidence": "manual concatenation review"
+    }
+  ],
+  "limitations": [
+    "Static literal and template calls from TSX. Computed endpoints, delegated controls and role enforcement require reconciliation."
+  ]
+}

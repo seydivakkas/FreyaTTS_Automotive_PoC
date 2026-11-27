@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261125T182221Z",
+  "baseline_commit": "6273981e1684686ae85f9458b608764e85a4552c",
+  "records": {
+    "command": "python -m pytest -q --tb=short tests/test_automotive_terminology.py --basetemp <isolated-workspace>/scratch",
+    "exit_code": 0,
+    "passed": 6,
+    "elapsed_seconds": 3.8,
+    "initial_attempt": "Incomplete isolation copy omitted vocabulary and acoustic module. Corrected before rerun."
+  },
+  "limitations": [
+    "Terminology, plate and isolated DB cases only."
+  ]
+}

@@ -1123,6 +1123,7 @@ button.primary {
   border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
+.health-pill.simulated,
 .health-pill.breaker-half_open {
   background: rgba(245, 158, 11, 0.15);
   color: #fbbf24;
@@ -2769,3 +2770,9 @@ button.primary {
   border: 1px solid rgba(52, 211, 153, 0.3);
 }
 
+
+html, body { overflow-y: auto; }
+.cockpit-view-container { height: auto; overflow: visible; }
+
+html, body, #root, .cockpit-layout, .cockpit-main-workspace { height: auto; min-height: 100dvh; max-height: none; overflow-y: visible; }
+.cockpit-content-viewport { overflow: visible; }

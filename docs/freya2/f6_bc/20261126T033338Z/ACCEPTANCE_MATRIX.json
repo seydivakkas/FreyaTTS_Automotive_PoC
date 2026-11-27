@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "gate_id": "F6_BC_QUEUE_DSP",
+  "run_id": "20261126T033338Z",
+  "w2_baseline_run_id": "20261126T032114Z",
+  "scope": "T0_T1_STRUCTURAL_OFFLINE_WINDOWS",
+  "overall": "PASS",
+  "f6_b_ready": true,
+  "f6_c_ready": true,
+  "hardware_acceptance_status": "NOT_RUN",
+  "human_sip_status": "NOT_RUN",
+  "f6_bc_tests": {
+    "file": "tests/audio_rendering/test_f6_bc_queue_dsp.py",
+    "passed": 15,
+    "failed": 0,
+    "skipped": 0
+  },
+  "f6_a_tests_note": "84/85 passed; test_ar21 failed transiently due to parallel w34-f0 work in backend/audio_frontend/__init__.py (outside F6 ownership)",
+  "delivered_modules": [
+    "backend/audio_rendering/f6_bc/playback_queue.py",
+    "backend/audio_rendering/f6_bc/playback_reference.py",
+    "backend/audio_rendering/f6_bc/wsola_adapter.py",
+    "backend/audio_rendering/f6_bc/crossfade.py",
+    "backend/audio_rendering/f6_bc/pause_ledger.py",
+    "backend/audio_rendering/f6_bc/enhanced_dsp.py",
+    "backend/audio_rendering/f6_bc/codec_lab.py",
+    "backend/audio_rendering/pipeline.py",
+    "backend/audio_rendering/__init__.py"
+  ],
+  "independent_review": {
+    "reviewer": "verifier",
+    "status": "PENDING_VERIFIER_SIGN_OFF"
+  }
+}

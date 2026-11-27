@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "package_id": "F6_A",
+  "run_id": "20261126T020010Z",
+  "core_integration_run_id": "20261126T004342Z",
+  "f5_a_run_id": "20261126T005606Z",
+  "baseline_run_id": "20261126T001600Z",
+  "head_sha": "6273981e1684686ae85f9458b608764e85a4552c",
+  "branch": "master",
+  "source_scope_hash": "bddb7ac19267e378dcdbbddb4abc45e9674d8aefa39d31adc4ee831eb701a254",
+  "scope": "T0_T1_STRUCTURAL_OFFLINE_WINDOWS",
+  "command": [
+    ".venv/Scripts/python.exe",
+    "-m",
+    "pytest",
+    "-q",
+    "--basetemp=data/temp_pytest_f6a",
+    "tests/audio_rendering/test_f6_a_audio_rendering.py"
+  ],
+  "exit_code": 0,
+  "collected": 85,
+  "passed": 85,
+  "failed": 0,
+  "skipped": 0,
+  "passive_import_exports": 67,
+  "owned_backend_files_count": 19,
+  "owned_backend_files": [
+    "backend/audio_rendering/__init__.py",
+    "backend/audio_rendering/audiosocket_adapter.py",
+    "backend/audio_rendering/control_adapter.py",
+    "backend/audio_rendering/dsp_adapter.py",
+    "backend/audio_rendering/framer.py",
+    "backend/audio_rendering/input_validator.py",
+    "backend/audio_rendering/legacy_adapter.py",
+    "backend/audio_rendering/lifecycle.py",
+    "backend/audio_rendering/pacing.py",
+    "backend/audio_rendering/pipeline.py",
+    "backend/audio_rendering/playback_events.py",
+    "backend/audio_rendering/profile_adapter.py",
+    "backend/audio_rendering/quantizer.py",
+    "backend/audio_rendering/resampler.py",
+    "backend/audio_rendering/sample_accounting.py",
+    "backend/audio_rendering/stream_state.py",
+    "backend/audio_rendering/submission_fence.py",
+    "backend/audio_rendering/telemetry.py",
+    "backend/audio_rendering/web_adapter.py"
+  ],
+  "owned_test_files": [
+    "tests/audio_rendering/test_f6_a_audio_rendering.py"
+  ],
+  "report_dir": "docs/freya2/f6_a/20261126T020010Z",
+  "evidence_dir": "evidence/f6_a/20261126T020010Z",
+  "logs": [
+    "evidence/f6_a/20261126T020010Z/logs/pytest_f6_a.log"
+  ]
+}

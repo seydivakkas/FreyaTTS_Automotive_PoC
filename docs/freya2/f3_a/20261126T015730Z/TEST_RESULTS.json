@@ -1,0 +1,412 @@
+{
+  "schema_version": "1.0",
+  "package_id": "F3_A",
+  "run_id": "20261126T015730Z",
+  "exit_code": 0,
+  "passed": 80,
+  "failed": 0,
+  "skipped": 0,
+  "source_class": "MOCK_RUNTIME",
+  "records": [
+    {
+      "test_id": "DF01",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df01_missing_core_or_f2_manifest_holds_before_execution",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF02",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df02_tampered_acceptance_evidence_rejected_with_hash_mismatch",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF03",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df03_passive_imports_zero_threads_network_db_or_models",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF04",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df04_reuses_accepted_m01_m02_m07_contracts_without_duplication",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF05",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df05_valid_admitted_final_ok_routes_once_preserving_raw_ref",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF06",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df06_partial_affirmative_never_dispatches_or_mutates_protected_state",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF07",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df07_stable_prefix_blocked_by_final_only_boundary",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF08",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df08_final_no_speech_triggers_safe_reprompt_without_normal_effect",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF09",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df09_final_error_unknown_rejected_uses_non_ok_path",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF10",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df10_untrusted_json_claiming_admission_is_rejected",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF11",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df11_wrong_session_or_stale_turn_rejected_before_route",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF12",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df12_duplicate_final_admits_and_routes_at_most_once",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF13",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df13_same_utterance_identity_altered_content_is_conflict",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF14",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df14_dtmf_and_ui_use_separate_channel_contracts_without_fake_asr",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF15",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df15_two_sessions_same_caller_id_have_independent_context",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF16",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df16_reconnect_new_incarnation_starts_clean_without_approval_leak",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF17",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df17_snapshot_is_deeply_immutable_and_isolated",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF18",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df18_oversized_history_and_slots_bounded_preserving_protected_refs",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF19",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df19_concurrent_cas_slot_updates_at_most_one_succeeds",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF20",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df20_cancel_while_waiting_blocks_stale_mutation_safely",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF21",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df21_exact_repeated_slot_update_is_noop_without_revision_churn",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF22",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df22_close_and_repeated_cleanup_is_idempotent_preserving_durable_m07",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF23",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df23_unknown_slot_key_or_wrong_type_rejected_without_coercion",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF24",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df24_m05_alias_candidate_never_promotes_to_confirmed_identity",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF25",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df25_multiple_model_candidates_trigger_clarification",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF26",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df26_protected_plate_engine_code_year_preserved_raw",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF27",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df27_malformed_or_ambiguous_relative_date_handled_with_injected_clock",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF28",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df28_quote_amount_uses_exact_decimal_no_float_drift",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF29",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df29_customer_switch_invalidates_prior_scoped_private_slots_and_challenge",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF30",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df30_vehicle_or_service_change_invalidates_dependent_availability_quote_challenge",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF31",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df31_date_time_change_invalidates_old_m07_digest",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF32",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df32_late_correction_after_accepted_operation_is_distinct_request",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF33",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df33_greeting_uses_fast_rule_path_no_model_or_effect",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF34",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df34_missing_required_booking_slot_asks_question_no_effect",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF35",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df35_negated_write_flow_never_cancels_committed_booking",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF36",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df36_off_mode_routes_through_single_legacy_path",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF37",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df37_shadow_mode_zero_extra_effects_reads_approvals_or_llm",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF38",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df38_guarded_policy_or_audit_unavailable_denies_without_fallback",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF39",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df39_required_qwen_branch_executes_m06_p3_job",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF40",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df40_m06_admission_rejected_or_expired_never_bypasses_ollama",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF41",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df41_ollama_http_cancel_quarantines_lease_and_fences_stale_output",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF42",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df42_llm_invalid_json_and_oversized_output_rejected",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF43",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df43_llm_unknown_tool_or_arbitrary_sql_denied",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF44",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df44_prompt_injection_admin_or_bypass_never_grants_authority",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF45",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df45_caller_id_plate_and_name_cannot_authorize_protected_read",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF46",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df46_valid_scoped_customer_verification_allows_own_resource",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF47",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df47_cross_customer_request_denied_before_read_no_existence_leak",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF48",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df48_revoked_authority_after_snapshot_pinned_blocks_effect",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF49",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df49_verified_public_availability_returns_source_without_reserving",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF50",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df50_no_availability_or_missing_price_no_fabricated_slot_or_amount",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF51",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df51_ambiguous_yes_without_active_challenge_causes_no_approval_or_effect",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF52",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df52_partial_yes_or_unrelated_dtmf_does_not_consume_approval",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF53",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df53_active_presented_challenge_with_valid_final_yes_executes",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF54",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df54_missing_presentation_evidence_holds_never_assumes_hearing",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF55",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df55_expired_or_replayed_confirmation_denied_before_effect",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF56",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df56_user_declines_or_corrects_revokes_unused_confirmation",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF57",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df57_isolated_db_create_commits_one_row_and_receipt",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF58",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df58_isolated_db_reschedule_preserves_atomic_version_and_receipt",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF59",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df59_isolated_db_cancel_preserves_scoped_cancellation_and_receipt",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF60",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df60_concurrent_requests_for_final_slot_prevent_overbooking",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF61",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df61_same_key_and_digest_replay_reuses_prior_receipt",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF62",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df62_same_key_different_digest_is_conflict_no_extra_effect",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF63",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df63_provider_timeout_marks_unknown_and_reconciles_without_blind_retry",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF64",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df64_cancel_before_vs_commit_admission_before_barrier",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF65",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df65_required_audit_unavailable_blocks_protected_effect",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF66",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df66_corporate_multi_vehicle_scoped_selection_no_cross_customer_leak",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF67",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df67_dtmf_duplicate_event_executes_at_most_once",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF68",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df68_caller_memory_read_authorized_projection_only",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF69",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df69_transfer_submitted_distinguished_from_connected",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF70",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df70_notification_queued_distinguished_from_delivered",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF71",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df71_receipt_templates_distinguish_real_mock_unknown_and_legacy_true",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF72",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df72_response_validator_blocks_ungrounded_price_date_or_booking_ref",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF73",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df73_valid_semantic_response_preserves_m01_fields_without_f4_normalization",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF74",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df74_delayed_completion_after_turn_change_fenced_durable_receipt_reconciled",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF75",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df75_cancel_after_validation_before_enqueue_blocked_atomically",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF76",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df76_full_or_closed_consumer_and_duplicate_callback_no_tool_rerun",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF77",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df77_nested_pii_and_secrets_never_leak_in_m04_or_scanner",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF78",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df78_telemetry_subscriber_failure_never_breaks_control_or_audit",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF79",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df79_m00_preservation_and_protected_files_unmodified",
+      "status": "PASS"
+    },
+    {
+      "test_id": "DF80",
+      "node_id": "tests/dialogue_foundation/test_f3_a_dialogue_foundation.py::test_df80_integrated_f2_to_f3_to_f4_with_rollback_rehearsal",
+      "status": "PASS"
+    }
+  ]
+}

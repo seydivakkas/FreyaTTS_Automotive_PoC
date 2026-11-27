@@ -121,6 +121,7 @@ export function OperatorPanel({ api, onError, onOpenConversation, kvkkErasureEna
 
   // SIP Aktarımları State
   const [transfers, setTransfers] = useState<OperatorTransfer[]>([]);
+  const [amiStatus, setAmiStatus] = useState<{ connected: boolean; simulated: boolean; ami_host?: string; ami_port?: number } | null>(null);
   const [loading, setLoading] = useState(false);
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [statusFilter, setStatusFilter] = useState<string>("all");
@@ -157,8 +158,12 @@ export function OperatorPanel({ api, onError, onOpenConversation, kvkkErasureEna
   const loadTransfers = async (silent = false) => {
     try {
       if (!silent) setLoading(true);
-      const data: OperatorTransfer[] = await api("transfers?limit=50");
+      const [data, ami] = await Promise.all([
+        api("transfers?limit=50"),
+        api("outbound/ami-status").catch(() => null),
+      ]);
       setTransfers(data || []);
+      if (ami) setAmiStatus(ami);
       setPollError("");
     } catch (err: any) {
       setPollError(`Aktarım listesi alınamadı: ${err?.message || err}`);
@@ -632,6 +637,45 @@ export function OperatorPanel({ api, onError, onOpenConversation, kvkkErasureEna
       {/* ========================================================================= */}
       {activeTab === "sip_transfers" && (
         <>
+          {/* Asterisk PBX / AMI Bağlantı Dürüstlük Göstergesi */}
+          <div
+            style={{
+              background: amiStatus?.simulated ? "rgba(245, 158, 11, 0.08)" : amiStatus?.connected ? "rgba(16, 185, 129, 0.08)" : "rgba(239, 68, 68, 0.08)",
+              border: `1px solid ${amiStatus?.simulated ? "rgba(245, 158, 11, 0.3)" : amiStatus?.connected ? "rgba(16, 185, 129, 0.3)" : "rgba(239, 68, 68, 0.3)"}`,
+              borderRadius: "8px",
+              padding: "10px 14px",
+              marginBottom: "14px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              fontSize: "12px",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <span style={{ fontSize: "16px" }}>{amiStatus?.simulated ? "⚠️" : amiStatus?.connected ? "✅" : "❌"}</span>
+              <span style={{ color: amiStatus?.simulated ? "#fbbf24" : amiStatus?.connected ? "#34d399" : "#f87171" }}>
+                <b>PBX Durumu:</b>{" "}
+                {amiStatus?.simulated
+                  ? "Fiziksel Asterisk PBX / Telco SIP Trunk bağlı değil (Mock AMI simülasyonu devrede)."
+                  : amiStatus?.connected
+                    ? `Gerçek Asterisk PBX bağlı (${amiStatus.ami_host}:${amiStatus.ami_port}) - Canlı PJSIP Trunk Aktif.`
+                    : "Asterisk PBX bağlantısı kurulamadı (Çevrimdışı)."}
+              </span>
+            </div>
+            <span
+              style={{
+                fontSize: "10px",
+                fontWeight: 700,
+                padding: "2px 8px",
+                borderRadius: "4px",
+                background: amiStatus?.simulated ? "rgba(245, 158, 11, 0.2)" : amiStatus?.connected ? "rgba(16, 185, 129, 0.2)" : "rgba(239, 68, 68, 0.2)",
+                color: amiStatus?.simulated ? "#fbbf24" : amiStatus?.connected ? "#34d399" : "#f87171",
+                border: `1px solid ${amiStatus?.simulated ? "rgba(245, 158, 11, 0.4)" : amiStatus?.connected ? "rgba(16, 185, 129, 0.4)" : "rgba(239, 68, 68, 0.4)"}`,
+              }}
+            >
+              {amiStatus?.simulated ? "SİMÜLASYON (MOCK AMI)" : amiStatus?.connected ? "CANLI PBX" : "BAĞLANTI YOK"}
+            </span>
+          </div>
           {activeIncoming && (
             <section
               style={{

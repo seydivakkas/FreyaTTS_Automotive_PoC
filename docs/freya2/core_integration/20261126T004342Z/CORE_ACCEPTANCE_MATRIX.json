@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "package_id": "CORE_INTEGRATION",
+  "run_id": "20261126T004342Z",
+  "baseline_run_id": "20261126T001600Z",
+  "head_sha": "6273981e1684686ae85f9458b608764e85a4552c",
+  "branch": "master",
+  "source_scope_hash": "bddb7ac19267e378dcdbbddb4abc45e9674d8aefa39d31adc4ee831eb701a254",
+  "scope": "T0_T1_STRUCTURAL_OFFLINE_WINDOWS",
+  "limitations": [
+    "Product T2/T3/T4-stress/T5-human-SIP benchmarks remain NOT_RUN.",
+    "M01-M07 verified via live workspace packages and executable foundation pytest suites; separate historical docs/freya2/m01..m07 folders were not pre-emitted.",
+    "4 pre-existing baseline failures in legacy tests/test_madde3_customer_experience.py and tests/test_voice_path_honesty.py remain documented in M00 RISK_REGISTER.md."
+  ],
+  "m08_ready": true,
+  "m08_status": "PASS",
+  "core_integration_ready": true,
+  "core_integration_status": "PASS",
+  "vertical_slice_ready": true,
+  "owner_execution_authorized": false,
+  "synthetic_product_acceptance_status": "NOT_RUN",
+  "hardware_acceptance_status": "NOT_RUN",
+  "human_sip_status": "NOT_RUN",
+  "gates": {
+    "CG00": "PASS",
+    "CG01": "PASS",
+    "CG02": "PASS",
+    "CG03": "PASS",
+    "CG04": "PASS",
+    "CG05": "PASS",
+    "CG06": "PASS",
+    "CG07": "PASS",
+    "CG08": "PASS",
+    "CG09": "PASS",
+    "CG10": "PASS",
+    "CG11": "PASS"
+  },
+  "blocking_reasons": []
+}

@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "package_id": "F4_A",
+  "run_id": "20261126T010032Z",
+  "core_integration_run_id": "20261126T004342Z",
+  "baseline_run_id": "20261126T001600Z",
+  "head_sha": "6273981e1684686ae85f9458b608764e85a4552c",
+  "branch": "master",
+  "source_scope_hash": "bddb7ac19267e378dcdbbddb4abc45e9674d8aefa39d31adc4ee831eb701a254",
+  "scope": "T0_T1_STRUCTURAL_OFFLINE_WINDOWS",
+  "command": [
+    ".venv/Scripts/python.exe",
+    "-m",
+    "pytest",
+    "-q",
+    "--basetemp=data/temp_pytest_f4a",
+    "tests/linguistic_frontend/test_f4_a_linguistic_frontend.py"
+  ],
+  "exit_code": 0,
+  "collected": 82,
+  "passed": 82,
+  "failed": 0,
+  "skipped": 0,
+  "passive_import_exports": 51,
+  "owned_backend_files_count": 17,
+  "owned_backend_files": [
+    "backend/linguistic_frontend/__init__.py",
+    "backend/linguistic_frontend/chunking_adapter.py",
+    "backend/linguistic_frontend/config_adapter.py",
+    "backend/linguistic_frontend/freya_adapter.py",
+    "backend/linguistic_frontend/input_validator.py",
+    "backend/linguistic_frontend/legacy_adapter.py",
+    "backend/linguistic_frontend/lexicon_adapter.py",
+    "backend/linguistic_frontend/lifecycle.py",
+    "backend/linguistic_frontend/morphology_adapter.py",
+    "backend/linguistic_frontend/pipeline.py",
+    "backend/linguistic_frontend/plan_builder.py",
+    "backend/linguistic_frontend/protected_atoms.py",
+    "backend/linguistic_frontend/quality_gate.py",
+    "backend/linguistic_frontend/semantic_tokenizer.py",
+    "backend/linguistic_frontend/telemetry.py",
+    "backend/linguistic_frontend/text_mapping.py",
+    "backend/linguistic_frontend/text_normalizer.py"
+  ],
+  "owned_test_files": [
+    "tests/linguistic_frontend/test_f4_a_linguistic_frontend.py"
+  ],
+  "report_dir": "docs/freya2/f4_a/20261126T010032Z",
+  "evidence_dir": "evidence/f4_a/20261126T010032Z",
+  "logs": [
+    "evidence/f4_a/20261126T010032Z/logs/pytest_f4_a.log"
+  ]
+}

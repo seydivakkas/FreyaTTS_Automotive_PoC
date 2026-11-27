@@ -1,0 +1,368 @@
+{
+  "schema_version": "1.0",
+  "package_id": "F2_A",
+  "run_id": "20261126T005553Z",
+  "total_cases": 72,
+  "cases": [
+    {
+      "case_id": "AS01",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as01_missing_core_gate_holds",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS02",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as02_stale_dependency_manifest_holds",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS03",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as03_passive_cpu_only_import_no_models_or_threads",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS04",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as04_accepted_m01_contract_round_trip",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS05",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as05_valid_16k_float32_mono_utterance",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS06",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as06_valid_16k_pcm16_le_conversion",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS07",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as07_pcm16_extrema_no_clipping_wrap",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS08",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as08_nonfinal_utterance_and_speech_event_rejected",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS09",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as09_empty_audio_with_eos_metadata_is_no_speech",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS10",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as10_odd_pcm_bytes_and_frame_mismatch_rejected",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS11",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as11_nan_inf_and_unsupported_encoding_rejected",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS12",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as12_8k_48k_or_stereo_rejected_no_resampler",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS13",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as13_unapproved_discontinuity_rejected",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS14",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as14_pre_post_roll_preserved_without_second_trimming",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS15",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as15_oversized_duration_and_bytes_rejected",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS16",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as16_caller_buffer_mutation_after_materialization_isolated",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS17",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as17_wrong_session_stream_epoch_turn_rejected",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS18",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as18_duplicate_identical_utterance_single_claim",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS19",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as19_same_identity_changed_payload_is_conflict",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS20",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as20_simultaneous_claims_exactly_one_accepted",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS21",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as21_per_session_and_global_job_caps",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS22",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as22_two_sessions_same_local_utterance_id_isolated",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS23",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as23_late_duplicate_after_prior_final_no_second_dispatch",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS24",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as24_legacy_settings_mapped_to_m03_profile",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS25",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as25_config_swap_while_queued_preserves_pinned_snapshot",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS26",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as26_missing_or_unsupported_model_revision_fails_explicitly",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS27",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as27_legacy_hotword_list_cap_ttl_and_order",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS28",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as28_m05_snapshot_change_while_job_running",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS29",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as29_pii_blocked_from_hotwords",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS30",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as30_valid_final_job_request_to_m06",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS31",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as31_scheduler_waiting_vs_admitted",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS32",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as32_m06_rejected_expired_unavailable_no_bypass",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS33",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as33_two_requests_against_shared_existing_model",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS34",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as34_lazy_generator_retains_lease_through_iteration",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS35",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as35_generator_raises_after_first_segment_no_ok_final",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS36",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as36_iterator_exceeds_bounded_budget_stops_safely",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS37",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as37_cooperative_cancel_holds_borrowed_buffer_and_lease_until_safe",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS38",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as38_duplicate_terminal_callback_idempotent",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS39",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as39_uncertain_completion_quarantines_and_no_dialogue",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS40",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as40_provider_oom_handled_no_blind_retry",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS41",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as41_literal_raw_assembly_whitespace_and_punctuation",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS42",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as42_turkish_unicode_and_decomposed_preserved",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS43",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as43_legacy_strip_projection_separate_from_raw",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS44",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as44_repeated_words_and_misspellings_unchanged",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS45",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as45_valid_segment_timestamps_origin_and_bounds",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS46",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as46_invalid_timestamps_handled_safely",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS47",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as47_missing_words_timestamps_language_remain_null",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS48",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as48_negative_avg_logprob_preserved_raw",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS49",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as49_valid_no_speech_prob_and_malformed_nonfinite_score",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS50",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as50_no_calibrated_confidence_fabricated",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS51",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as51_empty_or_whitespace_result_is_no_speech",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS52",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as52_legacy_guards_reject_hallucination_to_no_speech",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS53",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as53_exact_approved_m05_entity_candidate_unverified",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS54",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as54_ambiguous_alias_bounded_no_silent_winner",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS55",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as55_unknown_vehicle_no_forced_correction",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS56",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as56_protected_plate_vin_year_price_untouched",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS57",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as57_unicode_span_offsets_exact_raw_substring",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS58",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as58_m05_unavailable_snapshot_policy",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS59",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as59_m01_final_asr_result_and_evet_requires_confirmation",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS60",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as60_caller_submitting_partial_as_final_rejected",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS61",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as61_cancel_before_admission_no_native_execution",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS62",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as62_cancel_queued_job_before_dispatch",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS63",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as63_turn_superseded_while_native_running_fenced",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS64",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as64_barrier_cancel_between_build_and_enqueue_atomic_reject",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS65",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as65_cancel_after_enqueue_before_consume_dropped",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS66",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as66_unrelated_playback_generation_cancel_does_not_revoke_asr",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS67",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as67_full_or_closed_downstream_queue_and_session_close",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS68",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as68_same_clock_and_cross_clock_timing_metadata",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS69",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as69_m04_queue_overflow_or_exception_isolated",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS70",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as70_pii_sentinel_zero_leak_in_telemetry_and_errors",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS71",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as71_legacy_vs_strict_route_single_dispatch_and_parity",
+      "status": "PASS"
+    },
+    {
+      "case_id": "AS72",
+      "node_id": "tests/speech_recognition/test_f2_a_speech_recognition.py::test_as72_integrated_f1_f2_f3_consumer_and_rollback_rehearsal",
+      "status": "PASS"
+    }
+  ]
+}
